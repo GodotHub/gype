@@ -21,11 +21,11 @@ example/dist
 .vscode/
 
 # Godot-specific files
-godot-cpp/
-godot-cpp/.sconsign.dblite
-godot-cpp/__pycache__/
-*.rsp
-/*log*
+# godot-cpp/
+# godot-cpp/.sconsign.dblite
+# godot-cpp/__pycache__/
+# *.rsp
+# /*log*
 
 # Python virtual environment and cache files
 .venv/

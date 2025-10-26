@@ -1,6 +1,6 @@
 #include "support/typescript_language.hpp"
-#include "utils/str_helper.hpp"
 #include "support/typescript.hpp"
+#include "utils/str_helper.hpp"
 #include <godot_cpp/classes/editor_interface.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/script_editor.hpp>
@@ -281,6 +281,10 @@ TypedArray<TypeScript> godot::TypeScriptLanguage::get_scripts() {
 		++it;
 	}
 	return r_arr;
+}
+
+String godot::TypeScriptLanguage::get_path_for_global_class(const StringName &p_class_name) const {
+	return global_class_to_path.has(p_class_name) ? global_class_to_path[p_class_name] : String();
 }
 
 TypeScriptLanguage::~TypeScriptLanguage() {

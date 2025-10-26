@@ -24,6 +24,7 @@ class TypeScriptLanguage : public ScriptLanguageExtension {
 
 	HashSet<Ref<TypeScript>> scripts;
 	TypedArray<Dictionary> templates;
+	HashMap<StringName, String> global_class_to_path;
 
 	friend class TypeScriptLoader;
 
@@ -89,6 +90,7 @@ public:
 	bool _handles_global_class_type(const String &p_type) const;
 	Dictionary _get_global_class_name(const String &p_path) const;
 	static TypedArray<TypeScript> get_scripts();
+	String get_path_for_global_class(const StringName &p_class_name) const;
 
 	~TypeScriptLanguage();
 

@@ -38,6 +38,11 @@ class TypeScript : public ScriptExtension {
 	mutable String base_class_name;
 	mutable bool is_tool = false;
 	mutable bool dirty = true;
+    mutable bool is_valid_cache = false; 
+	mutable HashMap<StringName, MethodInfo> methods;
+	mutable HashMap<StringName, MethodInfo> static_methods;
+	mutable HashMap<StringName, PropertyInfo> properties;
+	mutable HashMap<StringName, MethodInfo> signals;
 
 	HashSet<int64_t> instances;
 
@@ -59,7 +64,6 @@ public:
 	String _get_source_code() const;
 	void _set_source_code(const String &p_code);
 	Error _reload(bool p_keep_state);
-	void update_cur_class();
 	TypedArray<Dictionary> _get_documentation() const;
 	String _get_class_icon_path() const;
 	bool _has_method(const StringName &p_method) const;
@@ -97,8 +101,8 @@ private:
 	void remove_dist();
 	void remove_dist_internal(const String &path);
 	String get_dist_source_code() const;
-	void complie(bool force = false) const;
-	void analyze() const;
+	void compile(bool force = false);
+	void analyze();
 };
 
 } // namespace godot

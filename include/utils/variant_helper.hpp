@@ -1,10 +1,9 @@
-#ifndef __VARIANT_ADAPTER_H__
-#define __VARIANT_ADAPTER_H__
+#ifndef __VARIANT_HELPER_H__
+#define __VARIANT_HELPER_H__
 
 #include "utils/env.hpp"
 #include <quickjs.h>
 #include <godot_cpp/variant/variant.hpp>
-#include <quickjs.h>
 
 using namespace godot;
 
@@ -35,13 +34,13 @@ public:
 		return variant;
 	}
 
-    operator JSValue() const {
+	operator JSValue() const {
 		return variant_to_jsvalue(js_context(), variant);
-    }
+	}
 
 	Variant::Type get_type() const {
 		return variant.get_type();
 	}
 };
 
-#endif // __VARIANT_ADAPTER_H__
+#endif // __VARIANT_HELPER_H__

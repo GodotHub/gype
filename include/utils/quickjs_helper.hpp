@@ -14,6 +14,8 @@
 
 extern godot::HashMap<godot::StringName, JSClassID> classes;
 
+bool is_exception(JSContext *ctx, JSValue exp);
+
 template <typename T>
 inline std::enable_if_t<std::is_base_of_v<godot::Wrapped, T>, void>
 register_gd_class(JSClassID class_id) {

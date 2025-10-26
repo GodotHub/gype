@@ -1,7 +1,7 @@
 #ifndef __FUNC_UTILS_H__
 #define __FUNC_UTILS_H__
 
-#include "utils/variant_adapter.hpp"
+#include "utils/variant_helper.hpp"
 #include <quickjs.h>
 #include <godot_cpp/classes/ref.hpp>
 #include <godot_cpp/variant/builtin_types.hpp>

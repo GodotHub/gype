@@ -3,6 +3,7 @@
 #include "utils/str_helper.hpp"
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/core/error_macros.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace godot;
 
@@ -72,6 +73,30 @@ enum {
 
 	JS_CLASS_INIT_COUNT, /* last entry for predefined classes */
 };
+
+void print_exception(JSContext *ctx) {
+	JSValue exp = JS_GetException(ctx);
+	JSValue message = JS_GetPropertyStr(ctx, exp, "message");
+	JSValue stack = JS_GetPropertyStr(ctx, exp, "stack");
+	const char *mssage_str = JS_ToCString(ctx, message);
+	const char *stack_str = JS_ToCString(ctx, stack);
+	UtilityFunctions::print(mssage_str);
+	UtilityFunctions::print(stack_str);
+	JS_FreeValue(ctx, exp);
+	JS_FreeValue(ctx, message);
+	JS_FreeValue(ctx, stack);
+	JS_FreeCString(ctx, mssage_str);
+	JS_FreeCString(ctx, stack_str);
+}
+
+bool is_exception(JSContext *ctx, JSValue exp) {
+	if (JS_IsException(exp)) {
+		print_exception(ctx);
+		return true;
+	} else {
+		return false;
+	}
+}
 
 static inline int64_t to_int64(JSContext *ctx, JSValue val) {
 	int64_t i;

@@ -1,4 +1,5 @@
 #include "register/register_types.h"
+#include "register/builtin_classes/register_builtin_classes.hpp"
 #include "register/utility_functions/register_utility_functions.hpp"
 #include "support/module_loader.hpp"
 #include "support/typescript.hpp"
@@ -14,6 +15,7 @@ using namespace godot;
 
 void init_quickjs() {
 	register_utility_functions();
+	register_builtin_classes();
 }
 
 void init_ts_support() {

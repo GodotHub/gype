@@ -11,4 +11,3 @@ export class new_script extends Node {
 
 	}
 }
-	

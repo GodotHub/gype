@@ -72,13 +72,14 @@ struct FuncTraits<R (T::*)(P...)> {
 };
 
 template <typename T>
-std::enable_if_t<std::is_same_v<T, Variant>, T> convert(JSContext *ctx, JSValue v) {
+std::enable_if_t<std::is_same_v<T, Variant>, T>
+convert(JSContext *ctx, JSValue v) {
 	return VariantAdapter(v);
 }
 template <typename T>
 std::enable_if_t<std::is_same_v<T, Vector2> || std::is_same_v<T, Vector3>, T>
 convert(JSContext *ctx, JSValue v) {
-	return VariantAdapter(v);
+	return VariantAdapter(v).get<T>();
 }
 template <typename T>
 std::enable_if_t<std::is_fundamental_v<T>, T>
@@ -244,7 +245,7 @@ JSValue call_builtin_const_no_fixed_vararg_method_no_ret(void (T::*Func)(void *o
 }
 
 template <typename T, typename R, typename... P>
-JSValue call_builtin_free_opaque_no_fixed_vararg_method_ret_impl(R (*Func)(void *, std::vector<Variant>), JSContext *ctx, JSValueConst this_obj, int argc, JSValueConst *argv) {
+JSValue call_builtin_free_opaque_no_fixed_vararg_method_ret_impl(R (*Func)(void *, const std::vector<Variant> &), JSContext *ctx, JSValueConst this_obj, int argc, JSValueConst *argv) {
 	T *gd_val = static_cast<T *>(JS_GetOpaque(this_obj, JS_GetClassID(this_obj)));
 	GDExtensionTypePtr vopaque = gd_val->_native_ptr();
 	std::vector<Variant> variant_args;
@@ -256,12 +257,12 @@ JSValue call_builtin_free_opaque_no_fixed_vararg_method_ret_impl(R (*Func)(void 
 }
 
 template <typename T, typename R, typename... P>
-JSValue call_builtin_free_opaque_no_fixed_vararg_method_ret(R (*Func)(void *, std::vector<Variant>), JSContext *ctx, JSValueConst this_obj, int argc, JSValueConst *argv) {
-	return call_builtin_free_no_fixed_vararg_method_ret_impl(Func, ctx, std::forward<JSValue>(this_obj), argc, argv);
+JSValue call_builtin_free_opaque_no_fixed_vararg_method_ret(R (*Func)(void *, const std::vector<Variant> &), JSContext *ctx, JSValueConst this_obj, int argc, JSValueConst *argv) {
+	return call_builtin_free_opaque_no_fixed_vararg_method_ret_impl<T>(Func, ctx, std::forward<JSValue>(this_obj), argc, argv);
 }
 
 template <typename T, typename... P>
-JSValue call_builtin_free_opaque_no_fixed_vararg_method_no_ret_impl(void (*Func)(void *, std::vector<Variant>), JSContext *ctx, JSValueConst this_obj, int argc, JSValueConst *argv) {
+JSValue call_builtin_free_opaque_no_fixed_vararg_method_no_ret_impl(void (*Func)(void *, const std::vector<Variant> &), JSContext *ctx, JSValueConst this_obj, int argc, JSValueConst *argv) {
 	T *gd_val = static_cast<T *>(JS_GetOpaque(this_obj, JS_GetClassID(this_obj)));
 	void *vopaque = gd_val->_native_ptr();
 	std::vector<Variant> variant_args;
@@ -273,7 +274,7 @@ JSValue call_builtin_free_opaque_no_fixed_vararg_method_no_ret_impl(void (*Func)
 }
 
 template <typename T, typename... P>
-JSValue call_builtin_free_opaque_no_fixed_vararg_method_no_ret(void (*Func)(void *, std::vector<Variant>), JSContext *ctx, JSValueConst this_obj, int argc, JSValueConst *argv) {
+JSValue call_builtin_free_opaque_no_fixed_vararg_method_no_ret(void (*Func)(void *, const std::vector<Variant> &), JSContext *ctx, JSValueConst this_obj, int argc, JSValueConst *argv) {
 	return call_builtin_free_opaque_no_fixed_vararg_method_no_ret_impl<T>(Func, ctx, std::forward<JSValue>(this_obj), argc, argv);
 }
 

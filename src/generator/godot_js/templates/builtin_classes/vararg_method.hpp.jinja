@@ -1,0 +1,64 @@
+{#
+  Jinja2 template for generating vararg method wrappers for a Godot built-in class.
+  This file is auto-generated and should not be modified manually.
+  
+  VERSION ADAPTED FOR EXISTING PYTHON SCRIPT.
+#}
+{# FIX: Use 'cls' to match the variable passed from Python script ('cls=cls') #}
+#ifndef __GENERATED_BUILTIN_{{ cls.name | upper }}_VARARG_H__
+#define __GENERATED_BUILTIN_{{ cls.name | upper }}_VARARG_H__
+
+#include <godot_cpp/core/binder_common.hpp>
+#include <godot_cpp/variant/builtin_types.hpp>
+#include <godot_cpp/variant/variant.hpp>
+{% for dep in dependencies %}
+#include <godot_cpp/variant/{{ dep }}.hpp>
+{% endfor %}
+#include <vector>
+
+using namespace godot;
+
+{% macro return_type(ret) %}
+	{% if ret %}{{ ret }}{% else %}void{% endif %}
+{%- endmacro %}
+
+{%- set cls_name_snake = cls.name | camel_to_snake -%}
+
+{% for method in vararg_methods %}
+static {{ return_type(method.return_type) }} js_{{ method.name }}_internal(void *p_instance, const Variant **p_args, GDExtensionInt p_arg_count) {
+	static StringName method_name("{{ method.name }}");
+	static GDExtensionPtrBuiltInMethod method_ptr = internal::gdextension_interface_variant_get_ptr_builtin_method((GDExtensionVariantType)Variant::{{ cls.name | upper }}, method_name._native_ptr(), {{ method.hash }});
+
+	{% if method.return_type %}
+	{{ method.return_type }} return_value;
+	method_ptr(p_instance, reinterpret_cast<GDExtensionConstTypePtr *>(p_args), &return_value, p_arg_count);
+	return return_value;
+	{% else %}
+	method_ptr(p_instance, reinterpret_cast<GDExtensionConstTypePtr *>(p_args), nullptr, p_arg_count);
+	{% endif %}
+}
+
+{{ return_type(method.return_type) }} js_{{ method.name }}(void *p_instance, {{ connect_mutable_args(method.arguments) }}) {
+	std::vector<Variant> all_args;
+	all_args.reserve({{ method.arguments | length }} + p_args.size());
+	{% for arg in method.arguments %}
+	all_args.push_back(p_{{ arg.name }});
+	{% endfor %}
+	if (!p_args.empty()) {
+		all_args.insert(all_args.end(), p_args.begin(), p_args.end());
+	}
+	std::vector<const Variant *> arg_pointers;
+	arg_pointers.reserve(all_args.size());
+	for (const Variant &arg : all_args) {
+		arg_pointers.push_back(&arg);
+	}
+	{% if method.return_type %}
+	return js_{{ method.name }}_internal(p_instance, arg_pointers.data(), arg_pointers.size());
+	{% else %}
+	js_{{ method.name }}_internal(p_instance, arg_pointers.data(), arg_pointers.size());
+	{% endif %}
+}
+
+{% endfor %}
+
+#endif // __GENERATED_BUILTIN_{{ cls.name | upper }}_VARARG_H__

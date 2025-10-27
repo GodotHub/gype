@@ -1,0 +1,17 @@
+{#
+  Jinja2 template for the main header file that declares all
+  built-in class registration functions.
+  This file is auto-generated.
+#}
+#ifndef __REGISTER_BUILTIN_CLASSES_H__
+#define __REGISTER_BUILTIN_CLASSES_H__
+
+// Forward declarations for individual class registration functions
+{% for cls in classes %}
+void register_{{ cls.name | camel_to_snake }}();
+{% endfor %}
+
+// Main function to orchestrate the registration of all built-in classes
+void register_builtin_classes();
+
+#endif // __REGISTER_BUILTIN_CLASSES_H__

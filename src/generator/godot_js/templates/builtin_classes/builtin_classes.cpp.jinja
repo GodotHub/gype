@@ -1,0 +1,140 @@
+{#
+    Jinja2 Template for Godot Built-in Class QuickJS Bindings
+    - Logic has been extracted to Python helper functions.
+    - Whitespace control is enabled to prevent extra newlines.
+#}
+{%- set cls_name = cls.name %}
+{%- set cls_name_lower = cls_name | camel_to_snake %}
+#include "register/builtin_classes/register_builtin_classes.hpp"
+#include "utils/env.hpp"
+#include "utils/func_utils.hpp"
+#include "utils/quickjs_helper.hpp"
+#include "utils/str_helper.hpp"
+#include "utils/variant_helper.hpp"
+{% if has_vararg_methods %}
+#include "register/builtin_classes/builtin_{{ cls_name_lower }}_vararg.hpp"
+{% endif %}
+#include <quickjs.h>
+{{ include_path }}
+
+using namespace godot;
+
+static void {{ cls_name_lower }}_class_finalizer(JSRuntime *rt, JSValue val) {
+	JSClassID class_id = classes["{{ cls_name }}"];
+	{{ cls_name }} *opaque_ptr = static_cast<{{ cls_name }} *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr) {
+		memfree(opaque_ptr);
+	}
+}
+
+static JSClassDef {{ cls_name_lower }}_class_def = {
+	"{{ cls_name }}",
+	.finalizer = {{ cls_name_lower }}_class_finalizer
+};
+
+static JSValue {{ cls_name_lower }}_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
+	JSClassID class_id = classes["{{ cls_name }}"];
+	JSValue obj = JS_NewObjectClass(ctx, class_id);
+	if (JS_IsException(obj)) {
+		return obj;
+	}
+
+	{{ cls_name }} *instance = nullptr;
+
+{%- for ctor in cls.constructors %}
+	if (argc == {{ ctor.arguments | length if ctor.arguments else 0 }}{% if ctor.arguments %}{{ variant_type_cond(ctor.arguments) }}{% endif %}) {
+		{% if ctor.arguments %}
+			{% for arg in ctor.arguments %}
+		{{ arg.type }} v{{ loop.index0 }} = VariantAdapter(argv[{{ loop.index0 }}]).get<{{ arg.type }}>();
+			{% endfor %}
+		instance = memnew({{ cls_name }}({{ put_args(ctor.arguments) }}));
+		{% else %}
+		instance = memnew({{ cls_name }}());
+		{% endif %}
+	}
+{% endfor %}
+
+	if (!instance) {
+		JS_FreeValue(ctx, obj);
+		return JS_EXCEPTION;
+	}
+
+	JS_SetOpaque(obj, instance);
+	return obj;
+}
+{% if all_methods or cls.members %}
+{# Generate method wrappers #}
+{% for method in all_methods %}
+static JSValue {{cls_name_lower}}_class_{{method.name}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	{{ get_method_call_expression(method, cls_name) }}
+}
+{% endfor %}
+
+{# Generate property accessors #}
+{% for member in cls.members %}
+static JSValue {{ cls_name_lower }}_class_get_{{ member.name }}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	{{ cls_name }} &val = *reinterpret_cast<{{ cls_name }} *>(JS_GetOpaque(this_val, classes["{{ cls_name }}"]));
+	{{ get_property_accessor_expression(member, 'get') }}
+}
+static JSValue {{ cls_name_lower }}_class_set_{{ member.name }}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	{{ cls_name }} &val = *reinterpret_cast<{{ cls_name }} *>(JS_GetOpaque(this_val, classes["{{ cls_name }}"]));
+	{{ get_property_accessor_expression(member, 'set') }}
+	return JS_UNDEFINED;
+}
+{% endfor %}
+{% endif %}
+
+{% if all_methods %}
+static const JSCFunctionListEntry {{ cls_name_lower }}_class_proto_funcs[] = {
+{% for method in all_methods %}
+	JS_CFUNC_DEF("{{ method.name }}", {{ get_arg_count(method) }}, &{{ cls_name_lower }}_class_{{ method.name }}),
+{% endfor %}
+};
+{% endif %}
+
+{% if cls.members %}
+void define_{{ cls_name_lower }}_property(JSContext *ctx, JSValue obj) {
+{% for member in cls.members %}
+	JS_DefinePropertyGetSet(
+			ctx,
+			obj,
+			JS_NewAtom(ctx, "{{ member.name }}"),
+			JS_NewCFunction(ctx, {{ cls_name_lower }}_class_get_{{ member.name }}, "get_{{ member.name }}", 0),
+			JS_NewCFunction(ctx, {{ cls_name_lower }}_class_set_{{ member.name }}, "set_{{ member.name }}", 1),
+			JS_PROP_GETSET);
+{% endfor %}
+}
+{% endif %}
+
+static int js_{{ cls_name_lower }}_class_init(JSContext *ctx) {
+	classes["{{ cls_name }}"] = 0;
+	classes["{{ cls_name }}"] = JS_NewClassID(&classes["{{ cls_name }}"]);
+	JSClassID class_id = classes["{{ cls_name }}"];
+
+	JS_NewClass(JS_GetRuntime(ctx), class_id, &{{ cls_name_lower }}_class_def);
+
+	JSValue proto = JS_NewObject(ctx);
+	JS_SetClassProto(ctx, class_id, proto);
+{%- if cls.members %}
+	define_{{ cls_name_lower }}_property(ctx, proto);
+{%- endif %}
+{%- if all_methods %}
+	JS_SetPropertyFunctionList(ctx, proto, {{ cls_name_lower }}_class_proto_funcs, _countof({{ cls_name_lower }}_class_proto_funcs));
+{%- endif %}
+
+	JSValue ctor = JS_NewCFunction2(ctx, {{ cls_name_lower }}_class_constructor, "{{ cls_name }}", 0, JS_CFUNC_constructor, 0);
+	JS_SetConstructor(ctx, ctor, proto);
+
+	JSValue global = JS_GetGlobalObject(ctx);
+	JS_SetPropertyStr(ctx, global, "{{ cls_name }}", ctor);
+
+	return 0;
+}
+
+void js_init_{{ cls_name_lower }}_module(JSContext *ctx) {
+	js_{{ cls_name_lower }}_class_init(ctx);
+}
+
+void register_{{ cls_name_lower }}() {
+	js_init_{{ cls_name_lower }}_module(js_context());
+}

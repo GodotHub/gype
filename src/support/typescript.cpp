@@ -96,24 +96,22 @@ String TypeScript::get_dist_source_code() const {
 }
 
 void TypeScript::analyze() {
-	// 如果已经分析过且未变脏，则直接返回
 	if (is_valid_cache && !dirty) {
 		return;
 	}
 
-	// 清空旧的缓存数据
 	methods.clear();
 	static_methods.clear();
 	properties.clear();
 	signals.clear();
-	base_class_name = "Object"; // 默认基类
+	base_class_name = "Object";
 	global_class_name = "";
 	is_tool = false;
 
 	String path = get_path();
 	if (path.is_empty() || path.begins_with(dist_path)) {
 		is_valid_cache = true;
-		return; // 不分析编译后的JS文件
+		return;
 	}
 
 	String code = _get_source_code();
@@ -122,47 +120,37 @@ void TypeScript::analyze() {
 		return;
 	}
 
-	// --- Tree-sitter 解析 ---
-	std::string origin_string(code.utf8()); // 使用utf8以支持非ASCII字符
+	std::string origin_string(code.utf8());
 	const char *c_code = origin_string.c_str();
 
 	TSTree *tree = ts_parser_parse_string(parser, NULL, c_code, origin_string.length());
 
-	// 更强大的查询，用于捕获类、基类、属性、信号和方法
 	const char *query_string = R"xxx(
-        (export_statement
-            (decorator (call_expression (identifier) @decorator.class))
-            (class_declaration
-                name: (type_identifier) @class.name
-                (class_heritage (extends_clause (identifier) @base.name))?
-                body: (class_body
-                    [
-                        (
-                            (decorator (call_expression (identifier) @decorator.prop))
-                            (public_field_definition
-                                name: (property_identifier) @prop.name
-                                type: (type_annotation)? @prop.type
-                            )
-                        )
-                        (
-                            (decorator (call_expression (identifier) @decorator.signal))
-                            (public_field_definition
-                                name: (property_identifier) @signal.name
-                            )
-                        )
-                        (
-                            (method_definition
-                                (modifier)* @method.modifier  ;
-                                name: (property_identifier) @method.name
-                            )
-                        )
-                    ]
-                )
-            )
-            (#eq? @decorator.class "GodotClass")
+    (export_statement
+      (decorator (identifier) @decorator.class)
+      (class_declaration
+        name: (type_identifier) @class.name
+        (class_heritage (extends_clause (identifier) @base.name))?
+        body: (class_body
+          [
+            (public_field_definition
+              (decorator (call_expression (identifier) @decorator.member))
+              name: (property_identifier) @prop.name
+              type: (type_annotation)? @prop.type
+            ) @member.property
+            (method_definition
+              (accessibility_modifier)? @method.accessibility
+              "static"? @method.static
+              name: (property_identifier) @method.name
+              parameters: (formal_parameters) @method.parameters
+            ) @member.method
+          ]
         )
-        (comment) @comment.tool ; 用于检查 @tool
-	)xxx";
+      )
+    )
+    (#eq? @decorator.class "GodotClass")
+    (comment) @comment.tool
+    )xxx";
 
 	uint32_t error_offset;
 	TSQueryError error;
@@ -184,82 +172,70 @@ void TypeScript::analyze() {
 		return String::utf8(c_code + start, end - start);
 	};
 
+	// 循环处理每一个匹配 (一个匹配 = 一个成员，或者一个 @tool 注释)
 	while (ts_query_cursor_next_match(cursor, &match)) {
-		String current_prop_name, current_prop_decorator;
-		String current_signal_name, current_signal_decorator;
-
-		StringName method_name;
-		bool is_static = false;
-		uint32_t method_name_capture_index = -1;
-
+		// 核心改动：为每一个 match 创建一个临时的 captures map
+		// 这解决了捕获顺序问题，并让逻辑更清晰
+		HashMap<String, String> captures;
 		for (uint32_t i = 0; i < match.capture_count; i++) {
 			TSQueryCapture capture = match.captures[i];
-			TSNode node = capture.node;
 			uint32_t capture_id = capture.index;
-			String capture_name = ts_query_capture_name_for_id(query, capture_id, nullptr);
-			String content = get_node_text(node);
+			uint32_t capture_name_length;
+			String capture_name = ts_query_capture_name_for_id(query, capture_id, &capture_name_length);
+			String content = get_node_text(capture.node);
+			captures[capture_name] = content;
+		}
 
-			if (capture_name == "class.name") {
-				global_class_name = content;
-			} else if (capture_name == "base.name") {
-				base_class_name = content;
-			} else if (capture_name == "comment.tool" && content.contains("@tool")) {
-				is_tool = true;
-			} else if (capture_name == "prop.name") {
-				current_prop_name = content;
-			} else if (capture_name == "decorator.prop" && content == "export") {
-				// 捕获到一个 @export 属性
-				if (!current_prop_name.is_empty()) {
+		// --- 现在，基于收集到的 captures 来处理这个 match ---
+
+		// 1. 处理全局信息 (这些信息可能在多个 match 中重复出现，直接覆盖即可)
+		if (captures.has("class.name")) {
+			global_class_name = captures["class.name"];
+		}
+		if (captures.has("base.name")) {
+			base_class_name = captures["base.name"];
+		}
+		if (captures.has("comment.tool") && captures["comment.tool"].contains("@tool")) {
+			is_tool = true;
+		}
+
+		// 2. 判断 match 的类型并处理 (一个 match 只会是其中一种)
+		if (captures.has("prop.name")) {
+			// 这是一个属性成员的匹配
+			String prop_name = captures["prop.name"];
+			if (captures.has("decorator.member")) {
+				String decorator_name = captures["decorator.member"];
+
+				if (decorator_name == "Export") {
 					PropertyInfo pi;
-					pi.name = current_prop_name;
+					pi.name = prop_name;
 					pi.class_name = global_class_name;
-					pi.type = Variant::NIL; // 简化的类型，实际需要解析 @prop.type
+					// TODO: 从 captures["prop.type"] 解析实际类型
+					pi.type = Variant::NIL;
 					pi.usage = PROPERTY_USAGE_DEFAULT;
-					properties[current_prop_name] = pi;
-					current_prop_name = "";
-				}
-			} else if (capture_name == "signal.name") {
-				current_signal_name = content;
-			} else if (capture_name == "decorator.signal" && content == "signal") {
-				// 捕获到一个 @signal
-				if (!current_signal_name.is_empty()) {
+					properties[prop_name] = pi;
+
+				} else if (decorator_name == "Signal") {
 					MethodInfo mi;
-					mi.name = current_signal_name;
-					signals[current_signal_name] = mi;
-					current_signal_name = "";
-				}
-			} else if (capture_name == "method.name") {
-				// 捕获到一个方法
-				// 忽略构造函数
-				if (content != "constructor") {
-					method_name = content;
-					method_name_capture_index = i;
+					mi.name = prop_name;
+					// TODO: 解析信号的参数
+					signals[prop_name] = mi;
 				}
 			}
-			if (method_name_capture_index != -1) {
-				// 现在回头检查这个匹配中的所有修饰符
-				for (uint32_t i = 0; i < match.capture_count; i++) {
-					TSQueryCapture capture = match.captures[i];
-					uint32_t capture_id = capture.index;
-					String capture_name = ts_query_capture_name_for_id(query, capture_id, nullptr);
+		} else if (captures.has("method.name")) {
+			// 这是一个方法成员的匹配
+			StringName method_name = captures["method.name"];
 
-					if (capture_name == "method.modifier" && get_node_text(capture.node) == "static") {
-						is_static = true;
-						break; // 找到 static 就够了
-					}
-				}
+			if (method_name != StringName("constructor")) {
+				MethodInfo mi;
+				mi.name = method_name;
+				// TODO: 解析参数和返回值
 
-				// 根据是否是 static，存入不同的 map
-				if (!method_name.is_empty() && method_name != StringName("constructor")) {
-					MethodInfo mi;
-					mi.name = method_name;
-					// 实际应用中需要解析参数和返回值
-
-					if (is_static) {
-						static_methods[method_name] = mi;
-					} else {
-						methods[method_name] = mi;
-					}
+				if (captures.has("method.static")) {
+					// 存在 "method.static" 捕获，说明是静态方法
+					static_methods[method_name] = mi;
+				} else {
+					methods[method_name] = mi;
 				}
 			}
 		}

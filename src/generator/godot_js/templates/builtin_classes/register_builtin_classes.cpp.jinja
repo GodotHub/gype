@@ -1,0 +1,11 @@
+{#
+  Jinja2 template for the implementation of the main registration function.
+  This file is auto-generated.
+#}
+#include "register/builtin_classes/register_builtin_classes.hpp"
+
+void register_builtin_classes() {
+{%- for cls in classes %}
+	register_{{ cls.name | camel_to_snake }}();
+{%- endfor %}
+}

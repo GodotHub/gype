@@ -87,13 +87,4 @@ export declare class PackedByteArray {
     public encode_double(byte_offset: number, value: number): void;
     public encode_var(byte_offset: number, value: any, allow_objects: boolean): number;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-    public equals(right: PackedByteArray): boolean;
-    public not_equals(right: PackedByteArray): boolean;
-    public add(right: PackedByteArray): PackedByteArray;
-
 }

@@ -32,30 +32,6 @@ export declare class Vector4i {
     public distance_to(to: Vector4i): number;
     public distance_squared_to(to: Vector4i): number;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public negate(): Vector4i;
-    public positive(): Vector4i;
-    public op_not(): boolean;
-    public multiply(right: number): Vector4i;
-    public divide(right: number): Vector4i;
-    public module(right: number): Vector4i;
-    public multiply(right: number): Vector4;
-    public divide(right: number): Vector4;
-    public equals(right: Vector4i): boolean;
-    public not_equals(right: Vector4i): boolean;
-    public less(right: Vector4i): boolean;
-    public less_equal(right: Vector4i): boolean;
-    public greater(right: Vector4i): boolean;
-    public greater_equal(right: Vector4i): boolean;
-    public add(right: Vector4i): Vector4i;
-    public subtract(right: Vector4i): Vector4i;
-    public multiply(right: Vector4i): Vector4i;
-    public divide(right: Vector4i): Vector4i;
-    public module(right: Vector4i): Vector4i;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-
     public static readonly Axis: {
         AXIS_X: 0;
         AXIS_Y: 1;

@@ -50,30 +50,6 @@ export declare class Vector4 {
     public max(_with: Vector4): Vector4;
     public maxf(_with: number): Vector4;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public negate(): Vector4;
-    public positive(): Vector4;
-    public op_not(): boolean;
-    public multiply(right: number): Vector4;
-    public divide(right: number): Vector4;
-    public multiply(right: number): Vector4;
-    public divide(right: number): Vector4;
-    public equals(right: Vector4): boolean;
-    public not_equals(right: Vector4): boolean;
-    public less(right: Vector4): boolean;
-    public less_equal(right: Vector4): boolean;
-    public greater(right: Vector4): boolean;
-    public greater_equal(right: Vector4): boolean;
-    public add(right: Vector4): Vector4;
-    public subtract(right: Vector4): Vector4;
-    public multiply(right: Vector4): Vector4;
-    public divide(right: Vector4): Vector4;
-    public multiply(right: Projection): Vector4;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-    public in_op(right: PackedVector4Array): boolean;
-
     public static readonly Axis: {
         AXIS_X: 0;
         AXIS_Y: 1;

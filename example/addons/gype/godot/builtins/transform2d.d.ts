@@ -39,20 +39,4 @@ export declare class Transform2D {
     public is_finite(): boolean;
     public looking_at(target: Vector2): Transform2D;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public multiply(right: number): Transform2D;
-    public divide(right: number): Transform2D;
-    public multiply(right: number): Transform2D;
-    public divide(right: number): Transform2D;
-    public multiply(right: Vector2): Vector2;
-    public multiply(right: Rect2): Rect2;
-    public equals(right: Transform2D): boolean;
-    public not_equals(right: Transform2D): boolean;
-    public multiply(right: Transform2D): Transform2D;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-    public multiply(right: PackedVector2Array): PackedVector2Array;
-
 }

@@ -38,22 +38,4 @@ export declare class Quaternion {
     public get_axis(): Vector3;
     public get_angle(): number;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public negate(): Quaternion;
-    public positive(): Quaternion;
-    public op_not(): boolean;
-    public multiply(right: number): Quaternion;
-    public divide(right: number): Quaternion;
-    public multiply(right: number): Quaternion;
-    public divide(right: number): Quaternion;
-    public multiply(right: Vector3): Vector3;
-    public equals(right: Quaternion): boolean;
-    public not_equals(right: Quaternion): boolean;
-    public add(right: Quaternion): Quaternion;
-    public subtract(right: Quaternion): Quaternion;
-    public multiply(right: Quaternion): Quaternion;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-
 }

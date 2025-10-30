@@ -64,30 +64,6 @@ export declare class Vector2 {
     public maxf(_with: number): Vector2;
     public static from_angle(angle: number): Vector2;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public negate(): Vector2;
-    public positive(): Vector2;
-    public op_not(): boolean;
-    public multiply(right: number): Vector2;
-    public divide(right: number): Vector2;
-    public multiply(right: number): Vector2;
-    public divide(right: number): Vector2;
-    public equals(right: Vector2): boolean;
-    public not_equals(right: Vector2): boolean;
-    public less(right: Vector2): boolean;
-    public less_equal(right: Vector2): boolean;
-    public greater(right: Vector2): boolean;
-    public greater_equal(right: Vector2): boolean;
-    public add(right: Vector2): Vector2;
-    public subtract(right: Vector2): Vector2;
-    public multiply(right: Vector2): Vector2;
-    public divide(right: Vector2): Vector2;
-    public multiply(right: Transform2D): Vector2;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-    public in_op(right: PackedVector2Array): boolean;
-
     public static readonly Axis: {
         AXIS_X: 0;
         AXIS_Y: 1;

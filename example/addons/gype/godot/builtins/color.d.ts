@@ -55,23 +55,4 @@ export declare class Color {
     public static from_rgbe9995(rgbe: number): Color;
     public static from_rgba8(r8: number, g8: number, b8: number, a8: number): Color;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public negate(): Color;
-    public positive(): Color;
-    public op_not(): boolean;
-    public multiply(right: number): Color;
-    public divide(right: number): Color;
-    public multiply(right: number): Color;
-    public divide(right: number): Color;
-    public equals(right: Color): boolean;
-    public not_equals(right: Color): boolean;
-    public add(right: Color): Color;
-    public subtract(right: Color): Color;
-    public multiply(right: Color): Color;
-    public divide(right: Color): Color;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-    public in_op(right: PackedColorArray): boolean;
-
 }

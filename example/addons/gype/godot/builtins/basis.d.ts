@@ -37,18 +37,4 @@ export declare class Basis {
     public static from_scale(scale: Vector3): Basis;
     public static from_euler(euler: Vector3, order: number): Basis;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public multiply(right: number): Basis;
-    public divide(right: number): Basis;
-    public multiply(right: number): Basis;
-    public divide(right: number): Basis;
-    public multiply(right: Vector3): Vector3;
-    public equals(right: Basis): boolean;
-    public not_equals(right: Basis): boolean;
-    public multiply(right: Basis): Basis;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-
 }

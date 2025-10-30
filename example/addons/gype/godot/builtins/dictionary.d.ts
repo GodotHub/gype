@@ -45,12 +45,4 @@ export declare class Dictionary {
     public is_read_only(): boolean;
     public recursive_equal(dictionary: Dictionary, recursion_count: number): boolean;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public equals(right: Dictionary): boolean;
-    public not_equals(right: Dictionary): boolean;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-
 }

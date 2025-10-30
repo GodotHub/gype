@@ -36,14 +36,4 @@ export declare class PackedVector2Array {
     public count(value: Vector2): number;
     public erase(value: Vector2): boolean;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public multiply(right: Transform2D): PackedVector2Array;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-    public equals(right: PackedVector2Array): boolean;
-    public not_equals(right: PackedVector2Array): boolean;
-    public add(right: PackedVector2Array): PackedVector2Array;
-
 }

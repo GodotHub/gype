@@ -35,13 +35,4 @@ export declare class PackedVector4Array {
     public count(value: Vector4): number;
     public erase(value: Vector4): boolean;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-    public equals(right: PackedVector4Array): boolean;
-    public not_equals(right: PackedVector4Array): boolean;
-    public add(right: PackedVector4Array): PackedVector4Array;
-
 }

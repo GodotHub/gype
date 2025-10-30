@@ -68,32 +68,6 @@ export declare class Vector3 {
     public maxf(_with: number): Vector3;
     public static octahedron_decode(uv: Vector2): Vector3;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public negate(): Vector3;
-    public positive(): Vector3;
-    public op_not(): boolean;
-    public multiply(right: number): Vector3;
-    public divide(right: number): Vector3;
-    public multiply(right: number): Vector3;
-    public divide(right: number): Vector3;
-    public equals(right: Vector3): boolean;
-    public not_equals(right: Vector3): boolean;
-    public less(right: Vector3): boolean;
-    public less_equal(right: Vector3): boolean;
-    public greater(right: Vector3): boolean;
-    public greater_equal(right: Vector3): boolean;
-    public add(right: Vector3): Vector3;
-    public subtract(right: Vector3): Vector3;
-    public multiply(right: Vector3): Vector3;
-    public divide(right: Vector3): Vector3;
-    public multiply(right: Quaternion): Vector3;
-    public multiply(right: Basis): Vector3;
-    public multiply(right: Transform3D): Vector3;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-    public in_op(right: PackedVector3Array): boolean;
-
     public static readonly Axis: {
         AXIS_X: 0;
         AXIS_Y: 1;

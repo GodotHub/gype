@@ -23,12 +23,4 @@ export declare class Signal {
     public has_connections(): boolean;
     public emit(...args: any[]): void;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public equals(right: Signal): boolean;
-    public not_equals(right: Signal): boolean;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-
 }

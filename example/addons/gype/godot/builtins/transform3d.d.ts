@@ -33,21 +33,4 @@ export declare class Transform3D {
     public is_equal_approx(xform: Transform3D): boolean;
     public is_finite(): boolean;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public multiply(right: number): Transform3D;
-    public divide(right: number): Transform3D;
-    public multiply(right: number): Transform3D;
-    public divide(right: number): Transform3D;
-    public multiply(right: Vector3): Vector3;
-    public multiply(right: Plane): Plane;
-    public multiply(right: AABB): AABB;
-    public equals(right: Transform3D): boolean;
-    public not_equals(right: Transform3D): boolean;
-    public multiply(right: Transform3D): Transform3D;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-    public multiply(right: PackedVector3Array): PackedVector3Array;
-
 }

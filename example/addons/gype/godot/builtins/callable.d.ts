@@ -33,12 +33,4 @@ export declare class Callable {
     public rpc_id(peer_id: number, ...args: any[]): void;
     public bind(...args: any[]): Callable;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public equals(right: Callable): boolean;
-    public not_equals(right: Callable): boolean;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-
 }

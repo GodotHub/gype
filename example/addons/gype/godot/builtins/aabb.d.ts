@@ -41,13 +41,4 @@ export declare class AABB {
     public intersects_segment(_from: Vector3, to: Vector3): any;
     public intersects_ray(_from: Vector3, dir: Vector3): any;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public equals(right: AABB): boolean;
-    public not_equals(right: AABB): boolean;
-    public multiply(right: Transform3D): AABB;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-
 }

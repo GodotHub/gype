@@ -34,13 +34,4 @@ export declare class PackedFloat32Array {
     public count(value: number): number;
     public erase(value: number): boolean;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-    public equals(right: PackedFloat32Array): boolean;
-    public not_equals(right: PackedFloat32Array): boolean;
-    public add(right: PackedFloat32Array): PackedFloat32Array;
-
 }

@@ -83,17 +83,4 @@ export declare class GDArray {
     public make_read_only(): void;
     public is_read_only(): boolean;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public in_op(right: Dictionary): boolean;
-    public equals(right: GDArray): boolean;
-    public not_equals(right: GDArray): boolean;
-    public less(right: GDArray): boolean;
-    public less_equal(right: GDArray): boolean;
-    public greater(right: GDArray): boolean;
-    public greater_equal(right: GDArray): boolean;
-    public add(right: GDArray): GDArray;
-    public in_op(right: GDArray): boolean;
-
 }

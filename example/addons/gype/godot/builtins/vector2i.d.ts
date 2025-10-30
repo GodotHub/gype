@@ -31,30 +31,6 @@ export declare class Vector2i {
     public max(_with: Vector2i): Vector2i;
     public maxi(_with: number): Vector2i;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public negate(): Vector2i;
-    public positive(): Vector2i;
-    public op_not(): boolean;
-    public multiply(right: number): Vector2i;
-    public divide(right: number): Vector2i;
-    public module(right: number): Vector2i;
-    public multiply(right: number): Vector2;
-    public divide(right: number): Vector2;
-    public equals(right: Vector2i): boolean;
-    public not_equals(right: Vector2i): boolean;
-    public less(right: Vector2i): boolean;
-    public less_equal(right: Vector2i): boolean;
-    public greater(right: Vector2i): boolean;
-    public greater_equal(right: Vector2i): boolean;
-    public add(right: Vector2i): Vector2i;
-    public subtract(right: Vector2i): Vector2i;
-    public multiply(right: Vector2i): Vector2i;
-    public divide(right: Vector2i): Vector2i;
-    public module(right: Vector2i): Vector2i;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-
     public static readonly Axis: {
         AXIS_X: 0;
         AXIS_Y: 1;

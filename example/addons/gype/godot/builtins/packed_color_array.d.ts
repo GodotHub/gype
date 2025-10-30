@@ -35,13 +35,4 @@ export declare class PackedColorArray {
     public count(value: Color): number;
     public erase(value: Color): boolean;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-    public equals(right: PackedColorArray): boolean;
-    public not_equals(right: PackedColorArray): boolean;
-    public add(right: PackedColorArray): PackedColorArray;
-
 }

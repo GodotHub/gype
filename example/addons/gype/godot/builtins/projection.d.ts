@@ -47,16 +47,6 @@ export declare class Projection {
     public get_pixels_per_meter(for_pixel_width: number): number;
     public get_lod_multiplier(): number;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public multiply(right: Vector4): Vector4;
-    public equals(right: Projection): boolean;
-    public not_equals(right: Projection): boolean;
-    public multiply(right: Projection): Projection;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-
     public static readonly Planes: {
         PLANE_NEAR: 0;
         PLANE_FAR: 1;

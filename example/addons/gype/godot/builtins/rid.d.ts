@@ -11,16 +11,4 @@ export declare class RID {
     public is_valid(): boolean;
     public get_id(): number;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public equals(right: RID): boolean;
-    public not_equals(right: RID): boolean;
-    public less(right: RID): boolean;
-    public less_equal(right: RID): boolean;
-    public greater(right: RID): boolean;
-    public greater_equal(right: RID): boolean;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-
 }

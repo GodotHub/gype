@@ -23,12 +23,4 @@ export declare class NodePath {
     public get_as_property_path(): NodePath;
     public is_empty(): boolean;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public equals(right: NodePath): boolean;
-    public not_equals(right: NodePath): boolean;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-
 }

@@ -32,15 +32,4 @@ export declare class Plane {
     public intersects_ray(_from: Vector3, dir: Vector3): any;
     public intersects_segment(_from: Vector3, to: Vector3): any;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public negate(): Plane;
-    public positive(): Plane;
-    public op_not(): boolean;
-    public equals(right: Plane): boolean;
-    public not_equals(right: Plane): boolean;
-    public multiply(right: Transform3D): Plane;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-
 }

@@ -34,13 +34,4 @@ export declare class PackedStringArray {
     public count(value: GDString | StringName | string): number;
     public erase(value: GDString | StringName | string): boolean;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-    public equals(right: PackedStringArray): boolean;
-    public not_equals(right: PackedStringArray): boolean;
-    public add(right: PackedStringArray): PackedStringArray;
-
 }

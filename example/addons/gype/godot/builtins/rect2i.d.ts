@@ -30,12 +30,4 @@ export declare class Rect2i {
     public grow_individual(left: number, top: number, right: number, bottom: number): Rect2i;
     public abs(): Rect2i;
 
-    public equals(right: any): boolean;
-    public not_equals(right: any): boolean;
-    public op_not(): boolean;
-    public equals(right: Rect2i): boolean;
-    public not_equals(right: Rect2i): boolean;
-    public in_op(right: Dictionary): boolean;
-    public in_op(right: GDArray): boolean;
-
 }

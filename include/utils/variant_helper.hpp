@@ -2,44 +2,45 @@
 #define __VARIANT_HELPER_H__
 
 #include "utils/env.hpp"
+#include "utils/quickjs_helper.hpp"
 #include <quickjs.h>
 #include <godot_cpp/variant/variant.hpp>
 
-using namespace godot;
-
-Variant jsvalue_to_variant(JSContext *ctx, const JSValue &p_jsvalue);
-JSValue variant_to_jsvalue(JSContext *ctx, const Variant &p_variant);
-
 class VariantAdapter {
-	Variant variant;
+	godot::Variant m_internal_storage;
+	const godot::Variant *m_active_variant;
 
 public:
-	// 默认构造
 	VariantAdapter() :
-			variant() {}
+			m_active_variant(&m_internal_storage) {}
 
-	VariantAdapter(const Variant &p_other) :
-			variant(p_other) {}
+	VariantAdapter(const godot::Variant &p_other) :
+			m_active_variant(&p_other) {}
 
-	VariantAdapter(const JSValue &p_jsvalue) {
-		variant = jsvalue_to_variant(js_context(), p_jsvalue);
+	VariantAdapter(const JSValue &p_jsvalue) :
+			m_internal_storage(jsvalue_to_variant(p_jsvalue)),
+			m_active_variant(&m_internal_storage) {
 	}
 
 	template <typename T>
 	T get() const {
-		return (T)variant;
+		if constexpr (std::is_same_v<T, char32_t>) {
+			return static_cast<godot::String>(*m_active_variant).ptrw();
+		} else {
+			return static_cast<T>(*m_active_variant);
+		}
 	}
 
-	operator Variant() const {
-		return variant;
+	operator godot::Variant() const {
+		return *m_active_variant;
 	}
 
 	operator JSValue() const {
-		return variant_to_jsvalue(js_context(), variant);
+		return variant_to_jsvalue(*m_active_variant);
 	}
 
-	Variant::Type get_type() const {
-		return variant.get_type();
+	godot::Variant::Type get_type() const {
+		return m_active_variant->get_type();
 	}
 };
 

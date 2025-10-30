@@ -5,7 +5,11 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/projection.hpp>
+#include <godot_cpp/variant/aabb.hpp>
+#include <godot_cpp/variant/plane.hpp>
+#include <godot_cpp/variant/rect2.hpp>
+#include <godot_cpp/variant/vector2.hpp>
+#include <godot_cpp/variant/vector4.hpp>
 
 using namespace godot;
 
@@ -137,38 +141,38 @@ static JSValue projection_class_get_lod_multiplier(JSContext *ctx, JSValueConst 
 
 static JSValue projection_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	return VariantAdapter(val.x);
+	return VariantAdapter(val.columns[0].x);
 }
 static JSValue projection_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	val.x = VariantAdapter(*argv).get<Vector4>();
+	val.columns[0].x = VariantAdapter(*argv).get<float>();
 	return JS_UNDEFINED;
 }
 static JSValue projection_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	return VariantAdapter(val.y);
+	return VariantAdapter(val.columns[1].y);
 }
 static JSValue projection_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	val.y = VariantAdapter(*argv).get<Vector4>();
+	val.columns[1].y = VariantAdapter(*argv).get<float>();
 	return JS_UNDEFINED;
 }
 static JSValue projection_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	return VariantAdapter(val.z);
+	return VariantAdapter(val.columns[2].z);
 }
 static JSValue projection_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	val.z = VariantAdapter(*argv).get<Vector4>();
+	val.columns[2].z = VariantAdapter(*argv).get<float>();
 	return JS_UNDEFINED;
 }
 static JSValue projection_class_get_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	return VariantAdapter(val.w);
+	return VariantAdapter(val.columns[3].w);
 }
 static JSValue projection_class_set_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	val.w = VariantAdapter(*argv).get<Vector4>();
+	val.columns[3].w = VariantAdapter(*argv).get<float>();
 	return JS_UNDEFINED;
 }
 
@@ -233,7 +237,6 @@ void define_projection_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_projection_class_init(JSContext *ctx) {
-	classes["Projection"] = 0;
 	classes["Projection"] = JS_NewClassID(&classes["Projection"]);
 	JSClassID class_id = classes["Projection"];
 

@@ -8,7 +8,7 @@
 
 // Forward declarations for individual class registration functions
 {% for cls in classes %}
-void register_{{ cls.name | camel_to_snake }}();
+void register_{{ camel_to_snake(cls.name) }}();
 {% endfor %}
 
 // Main function to orchestrate the registration of all built-in classes

@@ -5,7 +5,7 @@
 #include "register/builtin_classes/register_builtin_classes.hpp"
 
 void register_builtin_classes() {
-{%- for cls in classes %}
-	register_{{ cls.name | camel_to_snake }}();
-{%- endfor %}
+{% for cls in classes %}
+	register_{{ camel_to_snake(cls.name) }}();
+{% endfor %}
 }

@@ -48,15 +48,24 @@ bool TypeScriptLanguage::_is_control_flow_keyword(const String &p_keyword) const
 }
 
 PackedStringArray TypeScriptLanguage::_get_comment_delimiters() const {
-	return PackedStringArray();
+	PackedStringArray delimiters;
+	delimiters.push_back("//");
+	delimiters.push_back("/* */");
+	return delimiters;
 }
 
 PackedStringArray TypeScriptLanguage::_get_doc_comment_delimiters() const {
-	return PackedStringArray();
+	PackedStringArray delimiters;
+	delimiters.push_back("/** */");
+	return delimiters;
 }
 
 PackedStringArray TypeScriptLanguage::_get_string_delimiters() const {
-	return PackedStringArray();
+	PackedStringArray delimiters;
+	delimiters.push_back("' '");
+	delimiters.push_back("\" \"");
+	delimiters.push_back("` `");
+	return delimiters;
 }
 
 Ref<Script> TypeScriptLanguage::_make_template(const String &p_template, const String &p_class_name, const String &p_base_class_name) const {
@@ -220,6 +229,11 @@ TypedArray<Dictionary> TypeScriptLanguage::_debug_get_current_stack_info() {
 }
 
 void TypeScriptLanguage::_reload_all_scripts() {
+	for (const Ref<TypeScript> &script : scripts) {
+		if (script.is_valid()) {
+			script->reload(false);
+		}
+	}
 }
 
 void TypeScriptLanguage::_reload_tool_script(const Ref<Script> &p_script, bool p_soft_reload) {

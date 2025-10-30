@@ -5,7 +5,8 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/packed_vector3_array.hpp>
+#include <godot_cpp/variant/packed_byte_array.hpp>
+#include <godot_cpp/variant/vector3.hpp>
 
 using namespace godot;
 
@@ -155,7 +156,6 @@ static const JSCFunctionListEntry packed_vector3_array_class_proto_funcs[] = {
 
 
 static int js_packed_vector3_array_class_init(JSContext *ctx) {
-	classes["PackedVector3Array"] = 0;
 	classes["PackedVector3Array"] = JS_NewClassID(&classes["PackedVector3Array"]);
 	JSClassID class_id = classes["PackedVector3Array"];
 

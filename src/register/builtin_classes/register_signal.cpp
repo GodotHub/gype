@@ -6,7 +6,9 @@
 #include "utils/variant_helper.hpp"
 #include "register/builtin_classes/builtin_signal_vararg.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/signal.hpp>
+#include <godot_cpp/variant/array.hpp>
+#include <godot_cpp/variant/callable.hpp>
+#include <godot_cpp/variant/string_name.hpp>
 
 using namespace godot;
 
@@ -38,7 +40,7 @@ static JSValue signal_class_constructor(JSContext *ctx, JSValueConst new_target,
 		instance = memnew(Signal(v0));
 	}
 	if (argc == 2&&VariantAdapter(argv[0]).get_type() == Variant::Type::OBJECT&&VariantAdapter(argv[1]).get_type() == Variant::Type::STRING_NAME) {
-		Object v0 = VariantAdapter(argv[0]).get<Object>();
+		Object *v0 = VariantAdapter(argv[0]).get<Object*>();
 		StringName v1 = VariantAdapter(argv[1]).get<StringName>();
 		instance = memnew(Signal(v0, v1));
 	}
@@ -99,7 +101,6 @@ static const JSCFunctionListEntry signal_class_proto_funcs[] = {
 
 
 static int js_signal_class_init(JSContext *ctx) {
-	classes["Signal"] = 0;
 	classes["Signal"] = JS_NewClassID(&classes["Signal"]);
 	JSClassID class_id = classes["Signal"];
 

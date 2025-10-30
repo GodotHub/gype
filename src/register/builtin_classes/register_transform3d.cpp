@@ -5,7 +5,8 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/transform3d.hpp>
+#include <godot_cpp/variant/basis.hpp>
+#include <godot_cpp/variant/vector3.hpp>
 
 using namespace godot;
 
@@ -154,7 +155,6 @@ void define_transform3d_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_transform3d_class_init(JSContext *ctx) {
-	classes["Transform3D"] = 0;
 	classes["Transform3D"] = JS_NewClassID(&classes["Transform3D"]);
 	JSClassID class_id = classes["Transform3D"];
 

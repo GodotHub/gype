@@ -5,7 +5,7 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/color.hpp>
+#include <godot_cpp/variant/string.hpp>
 
 using namespace godot;
 
@@ -141,9 +141,9 @@ static JSValue color_class_from_string(JSContext *ctx, JSValueConst this_val, in
 static JSValue color_class_from_hsv(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::from_hsv, ctx, this_val, argc, argv);
 }
-static JSValue color_class_from_ok_hsl(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	return call_builtin_static_method_ret(&Color::from_ok_hsl, ctx, this_val, argc, argv);
-}
+// static JSValue color_class_from_ok_hsl(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	return call_builtin_static_method_ret(&Color::from_ok_hsl, ctx, this_val, argc, argv);
+// }
 static JSValue color_class_from_rgbe9995(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::from_rgbe9995, ctx, this_val, argc, argv);
 }
@@ -189,94 +189,94 @@ static JSValue color_class_set_a(JSContext *ctx, JSValueConst this_val, int argc
 }
 static JSValue color_class_get_r8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	return VariantAdapter(val.r8);
+	return VariantAdapter(val.get_r8());
 }
 static JSValue color_class_set_r8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	val.r8 = VariantAdapter(*argv).get<int>();
+	val.set_r8(VariantAdapter(*argv).get<int>());
 	return JS_UNDEFINED;
 }
 static JSValue color_class_get_g8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	return VariantAdapter(val.g8);
+	return VariantAdapter(val.get_g8());
 }
 static JSValue color_class_set_g8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	val.g8 = VariantAdapter(*argv).get<int>();
+	val.set_g8(VariantAdapter(*argv).get<int>());
 	return JS_UNDEFINED;
 }
 static JSValue color_class_get_b8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	return VariantAdapter(val.b8);
+	return VariantAdapter(val.get_b8());
 }
 static JSValue color_class_set_b8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	val.b8 = VariantAdapter(*argv).get<int>();
+	val.set_b8(VariantAdapter(*argv).get<int>());
 	return JS_UNDEFINED;
 }
 static JSValue color_class_get_a8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	return VariantAdapter(val.a8);
+	return VariantAdapter(val.get_a8());
 }
 static JSValue color_class_set_a8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	val.a8 = VariantAdapter(*argv).get<int>();
+	val.set_a8(VariantAdapter(*argv).get<int>());
 	return JS_UNDEFINED;
 }
 static JSValue color_class_get_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	return VariantAdapter(val.h);
+	return VariantAdapter(val.get_h());
 }
 static JSValue color_class_set_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	val.h = VariantAdapter(*argv).get<float>();
+	val.set_h(VariantAdapter(*argv).get<float>());
 	return JS_UNDEFINED;
 }
 static JSValue color_class_get_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	return VariantAdapter(val.s);
+	return VariantAdapter(val.get_s());
 }
 static JSValue color_class_set_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	val.s = VariantAdapter(*argv).get<float>();
+	val.set_s(VariantAdapter(*argv).get<float>());
 	return JS_UNDEFINED;
 }
 static JSValue color_class_get_v(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	return VariantAdapter(val.v);
+	return VariantAdapter(val.get_v());
 }
 static JSValue color_class_set_v(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	val.v = VariantAdapter(*argv).get<float>();
+	val.set_v(VariantAdapter(*argv).get<float>());
 	return JS_UNDEFINED;
 }
-static JSValue color_class_get_ok_hsl_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	return VariantAdapter(val.ok_hsl_h);
-}
-static JSValue color_class_set_ok_hsl_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	val.ok_hsl_h = VariantAdapter(*argv).get<float>();
-	return JS_UNDEFINED;
-}
-static JSValue color_class_get_ok_hsl_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	return VariantAdapter(val.ok_hsl_s);
-}
-static JSValue color_class_set_ok_hsl_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	val.ok_hsl_s = VariantAdapter(*argv).get<float>();
-	return JS_UNDEFINED;
-}
-static JSValue color_class_get_ok_hsl_l(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	return VariantAdapter(val.ok_hsl_l);
-}
-static JSValue color_class_set_ok_hsl_l(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
-	val.ok_hsl_l = VariantAdapter(*argv).get<float>();
-	return JS_UNDEFINED;
-}
+// static JSValue color_class_get_ok_hsl_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
+// 	return VariantAdapter(val.ok_hsl_h);
+// }
+// static JSValue color_class_set_ok_hsl_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
+// 	val.ok_hsl_h = VariantAdapter(*argv).get<float>();
+// 	return JS_UNDEFINED;
+// }
+// static JSValue color_class_get_ok_hsl_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
+// 	return VariantAdapter(val.ok_hsl_s);
+// }
+// static JSValue color_class_set_ok_hsl_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
+// 	val.ok_hsl_s = VariantAdapter(*argv).get<float>();
+// 	return JS_UNDEFINED;
+// }
+// static JSValue color_class_get_ok_hsl_l(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
+// 	return VariantAdapter(val.ok_hsl_l);
+// }
+// static JSValue color_class_set_ok_hsl_l(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	Color &val = *reinterpret_cast<Color *>(JS_GetOpaque(this_val, classes["Color"]));
+// 	val.ok_hsl_l = VariantAdapter(*argv).get<float>();
+// 	return JS_UNDEFINED;
+// }
 
 static const JSCFunctionListEntry color_class_proto_funcs[] = {
 	JS_CFUNC_DEF("to_argb32", 0, &color_class_to_argb32),
@@ -302,7 +302,7 @@ static const JSCFunctionListEntry color_class_proto_funcs[] = {
 	JS_CFUNC_DEF("html_is_valid", 1, &color_class_html_is_valid),
 	JS_CFUNC_DEF("from_string", 2, &color_class_from_string),
 	JS_CFUNC_DEF("from_hsv", 4, &color_class_from_hsv),
-	JS_CFUNC_DEF("from_ok_hsl", 4, &color_class_from_ok_hsl),
+	// JS_CFUNC_DEF("from_ok_hsl", 4, &color_class_from_ok_hsl),
 	JS_CFUNC_DEF("from_rgbe9995", 1, &color_class_from_rgbe9995),
 	JS_CFUNC_DEF("from_rgba8", 4, &color_class_from_rgba8),
 };
@@ -385,31 +385,30 @@ void define_color_property(JSContext *ctx, JSValue obj) {
 			JS_NewCFunction(ctx, color_class_get_v, "get_v", 0),
 			JS_NewCFunction(ctx, color_class_set_v, "set_v", 1),
 			JS_PROP_GETSET);
-	JS_DefinePropertyGetSet(
-			ctx,
-			obj,
-			JS_NewAtom(ctx, "ok_hsl_h"),
-			JS_NewCFunction(ctx, color_class_get_ok_hsl_h, "get_ok_hsl_h", 0),
-			JS_NewCFunction(ctx, color_class_set_ok_hsl_h, "set_ok_hsl_h", 1),
-			JS_PROP_GETSET);
-	JS_DefinePropertyGetSet(
-			ctx,
-			obj,
-			JS_NewAtom(ctx, "ok_hsl_s"),
-			JS_NewCFunction(ctx, color_class_get_ok_hsl_s, "get_ok_hsl_s", 0),
-			JS_NewCFunction(ctx, color_class_set_ok_hsl_s, "set_ok_hsl_s", 1),
-			JS_PROP_GETSET);
-	JS_DefinePropertyGetSet(
-			ctx,
-			obj,
-			JS_NewAtom(ctx, "ok_hsl_l"),
-			JS_NewCFunction(ctx, color_class_get_ok_hsl_l, "get_ok_hsl_l", 0),
-			JS_NewCFunction(ctx, color_class_set_ok_hsl_l, "set_ok_hsl_l", 1),
-			JS_PROP_GETSET);
+	// JS_DefinePropertyGetSet(
+	// 		ctx,
+	// 		obj,
+	// 		JS_NewAtom(ctx, "ok_hsl_h"),
+	// 		JS_NewCFunction(ctx, color_class_get_ok_hsl_h, "get_ok_hsl_h", 0),
+	// 		JS_NewCFunction(ctx, color_class_set_ok_hsl_h, "set_ok_hsl_h", 1),
+	// 		JS_PROP_GETSET);
+	// JS_DefinePropertyGetSet(
+	// 		ctx,
+	// 		obj,
+	// 		JS_NewAtom(ctx, "ok_hsl_s"),
+	// 		JS_NewCFunction(ctx, color_class_get_ok_hsl_s, "get_ok_hsl_s", 0),
+	// 		JS_NewCFunction(ctx, color_class_set_ok_hsl_s, "set_ok_hsl_s", 1),
+	// 		JS_PROP_GETSET);
+	// JS_DefinePropertyGetSet(
+	// 		ctx,
+	// 		obj,
+	// 		JS_NewAtom(ctx, "ok_hsl_l"),
+	// 		JS_NewCFunction(ctx, color_class_get_ok_hsl_l, "get_ok_hsl_l", 0),
+	// 		JS_NewCFunction(ctx, color_class_set_ok_hsl_l, "set_ok_hsl_l", 1),
+	// 		JS_PROP_GETSET);
 }
 
 static int js_color_class_init(JSContext *ctx) {
-	classes["Color"] = 0;
 	classes["Color"] = JS_NewClassID(&classes["Color"]);
 	JSClassID class_id = classes["Color"];
 

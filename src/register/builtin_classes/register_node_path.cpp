@@ -5,7 +5,7 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/node_path.hpp>
+#include <godot_cpp/variant/string_name.hpp>
 
 using namespace godot;
 
@@ -100,7 +100,6 @@ static const JSCFunctionListEntry node_path_class_proto_funcs[] = {
 
 
 static int js_node_path_class_init(JSContext *ctx) {
-	classes["NodePath"] = 0;
 	classes["NodePath"] = JS_NewClassID(&classes["NodePath"]);
 	JSClassID class_id = classes["NodePath"];
 

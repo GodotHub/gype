@@ -1,0 +1,21 @@
+{# templates/dts/utility.d.ts.jinja #}
+declare global {
+    /**
+     * A global object providing access to Godot's utility functions.
+     */
+    interface UtilityFunctions {
+        {% for func in utility_functions %}
+        {{ func.name }}({{ connect_args(func.arguments) + process_vararg(func.is_vararg, func.arguments) }}){{- set_return(func.return_type if 'return_type' in func else None) }};
+        {% endfor %}
+    }
+
+    /**
+     * A global object providing access to Godot's utility functions.
+     * Use `GD.sin(value)` instead of `sin(value)`.
+     */
+    const GD: UtilityFunctions;
+}
+
+// This file is global and does not export anything, but 'export {}'
+// is required to make it a module and merge the global declaration.
+export {};

@@ -5,7 +5,7 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/quaternion.hpp>
+#include <godot_cpp/variant/vector3.hpp>
 
 using namespace godot;
 
@@ -215,7 +215,6 @@ void define_quaternion_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_quaternion_class_init(JSContext *ctx) {
-	classes["Quaternion"] = 0;
 	classes["Quaternion"] = JS_NewClassID(&classes["Quaternion"]);
 	JSClassID class_id = classes["Quaternion"];
 

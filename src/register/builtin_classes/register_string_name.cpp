@@ -5,7 +5,10 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/string_name.hpp>
+#include <godot_cpp/variant/packed_byte_array.hpp>
+#include <godot_cpp/variant/packed_float64_array.hpp>
+#include <godot_cpp/variant/packed_string_array.hpp>
+#include <godot_cpp/variant/string.hpp>
 
 using namespace godot;
 
@@ -496,7 +499,6 @@ static const JSCFunctionListEntry string_name_class_proto_funcs[] = {
 
 
 static int js_string_name_class_init(JSContext *ctx) {
-	classes["StringName"] = 0;
 	classes["StringName"] = JS_NewClassID(&classes["StringName"]);
 	JSClassID class_id = classes["StringName"];
 

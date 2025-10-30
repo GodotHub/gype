@@ -5,7 +5,8 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/packed_color_array.hpp>
+#include <godot_cpp/variant/color.hpp>
+#include <godot_cpp/variant/packed_byte_array.hpp>
 
 using namespace godot;
 
@@ -155,7 +156,6 @@ static const JSCFunctionListEntry packed_color_array_class_proto_funcs[] = {
 
 
 static int js_packed_color_array_class_init(JSContext *ctx) {
-	classes["PackedColorArray"] = 0;
 	classes["PackedColorArray"] = JS_NewClassID(&classes["PackedColorArray"]);
 	JSClassID class_id = classes["PackedColorArray"];
 

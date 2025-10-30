@@ -5,7 +5,8 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/dictionary.hpp>
+#include <godot_cpp/variant/array.hpp>
+#include <godot_cpp/variant/string_name.hpp>
 
 using namespace godot;
 
@@ -36,7 +37,7 @@ static JSValue dictionary_class_constructor(JSContext *ctx, JSValueConst new_tar
 		Dictionary v0 = VariantAdapter(argv[0]).get<Dictionary>();
 		instance = memnew(Dictionary(v0));
 	}
-	if (argc == 7&&VariantAdapter(argv[0]).get_type() == Variant::Type::DICTIONARY&&VariantAdapter(argv[1]).get_type() == Variant::Type::INT&&VariantAdapter(argv[2]).get_type() == Variant::Type::STRING_NAME&&VariantAdapter(argv[3]).get_type() == Variant::Type::VARIANT&&VariantAdapter(argv[4]).get_type() == Variant::Type::INT&&VariantAdapter(argv[5]).get_type() == Variant::Type::STRING_NAME&&VariantAdapter(argv[6]).get_type() == Variant::Type::VARIANT) {
+	if (argc == 7&&VariantAdapter(argv[0]).get_type() == Variant::Type::DICTIONARY&&VariantAdapter(argv[1]).get_type() == Variant::Type::INT&&VariantAdapter(argv[2]).get_type() == Variant::Type::STRING_NAME&&VariantAdapter(argv[3]).get_type() != Variant::Type::VARIANT_MAX&&VariantAdapter(argv[4]).get_type() == Variant::Type::INT&&VariantAdapter(argv[5]).get_type() == Variant::Type::STRING_NAME&&VariantAdapter(argv[6]).get_type() != Variant::Type::VARIANT_MAX) {
 		Dictionary v0 = VariantAdapter(argv[0]).get<Dictionary>();
 		int v1 = VariantAdapter(argv[1]).get<int>();
 		StringName v2 = VariantAdapter(argv[2]).get<StringName>();
@@ -203,7 +204,6 @@ static const JSCFunctionListEntry dictionary_class_proto_funcs[] = {
 
 
 static int js_dictionary_class_init(JSContext *ctx) {
-	classes["Dictionary"] = 0;
 	classes["Dictionary"] = JS_NewClassID(&classes["Dictionary"]);
 	JSClassID class_id = classes["Dictionary"];
 

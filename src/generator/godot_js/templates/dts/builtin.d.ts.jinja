@@ -1,0 +1,57 @@
+{#- 
+    模板：builtin.d.ts.jinja
+    用于生成 Godot 内置类型的 TypeScript 声明。
+-#}
+{% set renames = {'String': 'GDString', 'Array': 'GDArray'} %}
+{% set class_name = renames.get(cls.name, cls.name) %}
+{% set inherits = cls.inherits %}
+
+{# --- [修改 1] 移除 './' 以支持路径别名 --- #}
+{% for dep in dependency %}
+    {% if dep != class_name %}
+import type { {{ dep }} } from '{{ get_import_path(dep) }}';
+    {% endif %}
+{% endfor %}
+
+{% macro extends_clause(inherits_name) %}
+{% if inherits_name %} extends {{ inherits_name }}{% endif %}
+{% endmacro %}
+
+export declare class {{ class_name }}{{ extends_clause(inherits) }} {
+    {# 构造函数 (参数已由 connect_args 自动处理) #}
+    {% for ctr in cls.constructors %}
+    constructor({{ connect_args(ctr.arguments) }});
+    {% endfor %}
+
+    {# --- [修改 2] 对成员变量应用驼峰转换 --- #}
+    {% for member in cls.members %}
+    public {{ member.name }}: {{ set_type(member.type) }};
+    {% endfor %}
+
+    {# --- [修改 3] 对方法名应用驼峰转换 --- #}
+    {% for method in cls.methods %}
+    public{{ ' static' if method.is_static }} {{ method.name }}({{ connect_args(method.arguments) + process_vararg(method.is_vararg, method.arguments) }}){{- set_return(method.return_type) -}};
+    {% endfor %}
+
+    {# ----- 操作符 (无需修改) ----- #}
+    {# get_operator_name 已经生成了 'add', 'subtract' 等驼峰友好的名称 #}
+    {% for op in cls.operators %}
+        {% set op_name = get_operator_name(op.name) %}
+        {% if op.right_type %}
+            {# 二元操作符，例如 a + b #}
+    public {{ op_name }}(right: {{ set_type(op.right_type) }}){{ set_return(op.return_type) }};
+        {% else %}
+            {# 一元操作符，例如 -a #}
+    public {{ op_name }}(){{ set_return(op.return_type) }};
+        {% endif %}
+    {% endfor %}
+
+    {# 枚举 (无需修改，保持 UPPER_CASE) #}
+    {% for enum in cls.enums %}
+    public static readonly {{ enum.name }}: {
+        {% for value in enum['values'] %}
+        {{ value.name }}: {{ value.value }};
+        {% endfor %}
+    };
+    {% endfor %}
+}

@@ -5,7 +5,7 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/rid.hpp>
+
 
 using namespace godot;
 
@@ -60,7 +60,6 @@ static const JSCFunctionListEntry rid_class_proto_funcs[] = {
 
 
 static int js_rid_class_init(JSContext *ctx) {
-	classes["RID"] = 0;
 	classes["RID"] = JS_NewClassID(&classes["RID"]);
 	JSClassID class_id = classes["RID"];
 

@@ -5,7 +5,7 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/packed_int64_array.hpp>
+#include <godot_cpp/variant/packed_byte_array.hpp>
 
 using namespace godot;
 
@@ -155,7 +155,6 @@ static const JSCFunctionListEntry packed_int64_array_class_proto_funcs[] = {
 
 
 static int js_packed_int64_array_class_init(JSContext *ctx) {
-	classes["PackedInt64Array"] = 0;
 	classes["PackedInt64Array"] = JS_NewClassID(&classes["PackedInt64Array"]);
 	JSClassID class_id = classes["PackedInt64Array"];
 

@@ -6,7 +6,8 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/callable.hpp>
+#include <godot_cpp/variant/array.hpp>
+#include <godot_cpp/variant/string_name.hpp>
 
 using namespace godot;
 
@@ -141,7 +142,6 @@ static const JSCFunctionListEntry callable_class_proto_funcs[] = {
 };
 
 static int js_callable_class_init(JSContext *ctx) {
-	classes["Callable"] = 0;
 	classes["Callable"] = JS_NewClassID(&classes["Callable"]);
 	JSClassID class_id = classes["Callable"];
 

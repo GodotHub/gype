@@ -4,7 +4,8 @@
 #include <godot_cpp/core/binder_common.hpp>
 #include <godot_cpp/variant/builtin_types.hpp>
 #include <godot_cpp/variant/variant.hpp>
-#include <godot_cpp/variant/variant.hpp>
+#include <godot_cpp/variant/array.hpp>
+#include <godot_cpp/variant/string_name.hpp>
 #include <vector>
 
 using namespace godot;
@@ -12,7 +13,7 @@ using namespace godot;
 static Variant js_call_internal(void *p_instance, const Variant **p_args, GDExtensionInt p_arg_count) {
 	static StringName method_name("call");
 	static GDExtensionPtrBuiltInMethod method_ptr = internal::gdextension_interface_variant_get_ptr_builtin_method((GDExtensionVariantType)Variant::CALLABLE, method_name._native_ptr(), 3643564216);
-
+	CHECK_METHOD_BIND_RET(method_ptr, Variant());
 	Variant return_value;
 	method_ptr(p_instance, reinterpret_cast<GDExtensionConstTypePtr *>(p_args), &return_value, p_arg_count);
 	return return_value;
@@ -35,7 +36,7 @@ Variant js_call(void *p_instance, const std::vector<Variant>& p_args) {
 static void js_call_deferred_internal(void *p_instance, const Variant **p_args, GDExtensionInt p_arg_count) {
 	static StringName method_name("call_deferred");
 	static GDExtensionPtrBuiltInMethod method_ptr = internal::gdextension_interface_variant_get_ptr_builtin_method((GDExtensionVariantType)Variant::CALLABLE, method_name._native_ptr(), 3286317445);
-
+	CHECK_METHOD_BIND(method_ptr);
 	method_ptr(p_instance, reinterpret_cast<GDExtensionConstTypePtr *>(p_args), nullptr, p_arg_count);
 }
 
@@ -56,7 +57,7 @@ void js_call_deferred(void *p_instance, const std::vector<Variant>& p_args) {
 static void js_rpc_internal(void *p_instance, const Variant **p_args, GDExtensionInt p_arg_count) {
 	static StringName method_name("rpc");
 	static GDExtensionPtrBuiltInMethod method_ptr = internal::gdextension_interface_variant_get_ptr_builtin_method((GDExtensionVariantType)Variant::CALLABLE, method_name._native_ptr(), 3286317445);
-
+	CHECK_METHOD_BIND(method_ptr);
 	method_ptr(p_instance, reinterpret_cast<GDExtensionConstTypePtr *>(p_args), nullptr, p_arg_count);
 }
 
@@ -77,7 +78,7 @@ void js_rpc(void *p_instance, const std::vector<Variant>& p_args) {
 static void js_rpc_id_internal(void *p_instance, const Variant **p_args, GDExtensionInt p_arg_count) {
 	static StringName method_name("rpc_id");
 	static GDExtensionPtrBuiltInMethod method_ptr = internal::gdextension_interface_variant_get_ptr_builtin_method((GDExtensionVariantType)Variant::CALLABLE, method_name._native_ptr(), 2270047679);
-
+	CHECK_METHOD_BIND(method_ptr);
 	method_ptr(p_instance, reinterpret_cast<GDExtensionConstTypePtr *>(p_args), nullptr, p_arg_count);
 }
 
@@ -99,7 +100,7 @@ void js_rpc_id(void *p_instance, int p_peer_id, const std::vector<Variant>& p_ar
 static Callable js_bind_internal(void *p_instance, const Variant **p_args, GDExtensionInt p_arg_count) {
 	static StringName method_name("bind");
 	static GDExtensionPtrBuiltInMethod method_ptr = internal::gdextension_interface_variant_get_ptr_builtin_method((GDExtensionVariantType)Variant::CALLABLE, method_name._native_ptr(), 3224143119);
-
+	CHECK_METHOD_BIND_RET(method_ptr, Callable());
 	Callable return_value;
 	method_ptr(p_instance, reinterpret_cast<GDExtensionConstTypePtr *>(p_args), &return_value, p_arg_count);
 	return return_value;

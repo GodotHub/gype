@@ -5,7 +5,7 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/vector3i.hpp>
+
 
 using namespace godot;
 
@@ -176,7 +176,6 @@ void define_vector3i_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_vector3i_class_init(JSContext *ctx) {
-	classes["Vector3i"] = 0;
 	classes["Vector3i"] = JS_NewClassID(&classes["Vector3i"]);
 	JSClassID class_id = classes["Vector3i"];
 

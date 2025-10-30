@@ -22,13 +22,17 @@ using namespace godot;
 	{% if ret %}{{ ret }}{% else %}void{% endif %}
 {%- endmacro %}
 
-{%- set cls_name_snake = cls.name | camel_to_snake -%}
+{%- set cls_name_snake = camel_to_snake(cls.name) -%}
 
 {% for method in vararg_methods %}
 static {{ return_type(method.return_type) }} js_{{ method.name }}_internal(void *p_instance, const Variant **p_args, GDExtensionInt p_arg_count) {
 	static StringName method_name("{{ method.name }}");
 	static GDExtensionPtrBuiltInMethod method_ptr = internal::gdextension_interface_variant_get_ptr_builtin_method((GDExtensionVariantType)Variant::{{ cls.name | upper }}, method_name._native_ptr(), {{ method.hash }});
-
+	{% if method.return_type %}
+	CHECK_METHOD_BIND_RET(method_ptr, {{ method.return_type }}());
+	{% else %}
+	CHECK_METHOD_BIND(method_ptr);
+	{% endif %}
 	{% if method.return_type %}
 	{{ method.return_type }} return_value;
 	method_ptr(p_instance, reinterpret_cast<GDExtensionConstTypePtr *>(p_args), &return_value, p_arg_count);
@@ -38,7 +42,7 @@ static {{ return_type(method.return_type) }} js_{{ method.name }}_internal(void 
 	{% endif %}
 }
 
-{{ return_type(method.return_type) }} js_{{ method.name }}(void *p_instance, {{ connect_mutable_args(method.arguments) }}) {
+{{ return_type(method.return_type) }} js_{{ method.name }}(void *p_instance, {{ connect_mutable_args(method.arguments, all_class_names) }}) {
 	std::vector<Variant> all_args;
 	all_args.reserve({{ method.arguments | length }} + p_args.size());
 	{% for arg in method.arguments %}

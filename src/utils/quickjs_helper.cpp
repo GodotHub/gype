@@ -75,18 +75,38 @@ enum {
 };
 
 void print_exception(JSContext *ctx) {
-	JSValue exp = JS_GetException(ctx);
-	JSValue message = JS_GetPropertyStr(ctx, exp, "message");
-	JSValue stack = JS_GetPropertyStr(ctx, exp, "stack");
-	const char *mssage_str = JS_ToCString(ctx, message);
-	const char *stack_str = JS_ToCString(ctx, stack);
-	UtilityFunctions::print(mssage_str);
-	UtilityFunctions::print(stack_str);
-	JS_FreeValue(ctx, exp);
-	JS_FreeValue(ctx, message);
-	JS_FreeValue(ctx, stack);
-	JS_FreeCString(ctx, mssage_str);
-	JS_FreeCString(ctx, stack_str);
+    JSValue exception_val, val;
+    const char *stack;
+
+    // 1. 从 context 中获取异常对象
+    exception_val = JS_GetException(ctx);
+
+    // 2. 尝试获取 'stack' 属性，它包含最详细的信息
+    val = JS_GetPropertyStr(ctx, exception_val, "stack");
+    if (!JS_IsUndefined(val)) {
+        stack = JS_ToCString(ctx, val);
+        if (stack) {
+            UtilityFunctions::print("Caught Exception: ", stack);
+            JS_FreeCString(ctx, stack);
+        }
+    }
+    JS_FreeValue(ctx, val); // 释放 'stack' 属性的 JSValue
+
+    // 3. 如果没有 'stack'，就直接打印异常本身
+    //    JS_ToCString 会自动调用 error.toString()
+    if (JS_IsError(ctx, exception_val)) {
+        const char *err_str = JS_ToCString(ctx, exception_val);
+        if (err_str) {
+            // 如果上面已经打印了 stack，这里就不用重复打印了
+            // 但作为备用方案，这很有用
+            // printf("Error: %s\n", err_str);
+			UtilityFunctions::print(err_str);
+            JS_FreeCString(ctx, err_str);
+        }
+    }
+
+    // 4. 释放异常对象本身
+    JS_FreeValue(ctx, exception_val);
 }
 
 bool is_exception(JSContext *ctx, JSValue exp) {
@@ -221,7 +241,7 @@ JSValue variant_to_jsvalue(const Variant &val) {
 		case Variant::Type::PACKED_VECTOR2_ARRAY:
 		case Variant::Type::PACKED_VECTOR3_ARRAY:
 		case Variant::Type::PACKED_VECTOR4_ARRAY: {
-			void *gd_obj_copy = create_heap_copy_from_variant(val);
+			void *gd_obj_copy = const_cast<Variant *>(&val);
 			if (!gd_obj_copy) {
 				return JS_UNDEFINED;
 			}
@@ -305,7 +325,7 @@ static inline Variant js_obj_to_variant(JSValue val) {
 	}
 }
 
-static inline Variant jsvalue_to_variant(JSValue val) {
+Variant jsvalue_to_variant(JSValue val) {
 	int tag = JS_VALUE_GET_TAG(val);
 	switch (tag) {
 		case JS_TAG_INT: {

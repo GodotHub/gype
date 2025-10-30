@@ -4,7 +4,7 @@
     - Whitespace control is enabled to prevent extra newlines.
 #}
 {%- set cls_name = cls.name %}
-{%- set cls_name_lower = cls_name | camel_to_snake %}
+{%- set cls_name_lower = camel_to_snake(cls_name) %}
 #include "register/builtin_classes/register_builtin_classes.hpp"
 #include "utils/env.hpp"
 #include "utils/func_utils.hpp"
@@ -107,7 +107,6 @@ void define_{{ cls_name_lower }}_property(JSContext *ctx, JSValue obj) {
 {% endif %}
 
 static int js_{{ cls_name_lower }}_class_init(JSContext *ctx) {
-	classes["{{ cls_name }}"] = 0;
 	classes["{{ cls_name }}"] = JS_NewClassID(&classes["{{ cls_name }}"]);
 	JSClassID class_id = classes["{{ cls_name }}"];
 

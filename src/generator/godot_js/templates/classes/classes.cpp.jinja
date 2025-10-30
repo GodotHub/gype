@@ -1,0 +1,237 @@
+{% set class_name = cls.name %}
+{% set snake_name = camel_to_snake(class_name) %}
+{% set instance_methods = cls.methods | selectattr('is_vararg', 'equalto', false) | selectattr('is_virtual', 'equalto', false) | selectattr('is_static', 'equalto', false) | list %}
+{% set static_methods = cls.methods | selectattr('is_vararg', 'equalto', false) | selectattr('is_virtual', 'equalto', false) | selectattr('is_static', 'equalto', true) | list %}
+{% set vararg_methods = cls.methods | selectattr('is_vararg', 'equalto', true) | list %}
+#include "register/classes/register_classes.hpp"
+#include "utils/env.hpp"
+#include "utils/func_utils.hpp"
+#include "utils/variant_helper.hpp"
+#include "utils/quickjs_helper.hpp"
+{% if has_vararg_methods %}
+#include "register/classes/class_{{ snake_name }}_vararg.hpp"
+{% endif %}
+#include <quickjs.h>
+{% for den in dependency %}
+#include <godot_cpp/classes/{{ den }}.hpp>
+{% endfor %}
+#include <godot_cpp/variant/builtin_types.hpp>
+#include <godot_cpp/classes/{{ snake_name }}.hpp>
+{% macro get_const(method) %}{{ '_const' if method.is_const else '' }}{% endmacro %}
+using namespace godot;
+
+static void {{ snake_name }}_class_finalizer(JSRuntime *rt, JSValue val) {
+    {{ class_name }} *instance = reinterpret_cast<{{ class_name }} *>(JS_GetOpaque(val, classes["{{ class_name }}"]));
+    if (instance) {
+        internal::gdextension_interface_object_free_instance_binding(instance->_owner, internal::token);
+    }
+}
+
+static JSClassDef {{ snake_name }}_class_def = {
+    "{{ class_name }}",
+    .finalizer = {{ snake_name }}_class_finalizer
+};
+
+static JSValue {{ snake_name }}_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
+    JSClassID class_id = classes["{{ class_name }}"];
+    JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
+    JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
+    if (JS_IsException(obj)) {
+        return obj;
+    }
+
+    {{ class_name }} *instance;
+    // Allow constructing from an existing native pointer
+    if (argc == 1 && VariantAdapter(argv[0]).get_type() == Variant::OBJECT) {
+        instance = static_cast<{{ class_name }} *>(VariantAdapter(*argv).get<Object *>());
+    } else {
+        instance = memnew({{ class_name }});
+    }
+
+    if (!instance) {
+        JS_FreeValue(js_context(), obj);
+        return JS_EXCEPTION;
+    }
+    JS_SetOpaque(obj, instance);
+    return obj;
+}
+
+{% for method in instance_methods %}
+	{% if class_name == 'FileAccess' and method['name'] == 'get_buffer' %}
+static JSValue {{snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	return call_builtin_const_method_ret(static_cast<PackedByteArray(FileAccess::*)(int64_t) const>(&FileAccess::get_buffer), js_context(), this_val, argc, argv);
+};
+	{% elif class_name == 'FileAccess' and method['name'] == 'store_buffer' %}
+static JSValue {{snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	return call_builtin_method_ret(static_cast<bool(FileAccess::*)(const PackedByteArray &)>(&FileAccess::store_buffer), js_context(), this_val, argc, argv);
+};
+	{% else %}
+static JSValue {{snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	CHECK_INSTANCE_VALID_V(this_val);
+		{% if method['return_value'] %}
+			{% if class_name == 'Node' and method['name'] == 'get_node' %}
+	return call_builtin_const_method_ret(&Node::get_node_internal, js_context(), this_val, argc, argv);
+			{% else %}
+	return call_builtin{{get_const(method)}}_method_ret(&{{class_name}}::{{method['name']}}, js_context(), this_val, argc, argv);
+			{% endif %}
+		{% else %}
+    return call_builtin{{get_const(method)}}_method_no_ret(&{{class_name}}::{{method['name']}}, js_context(), this_val, argc, argv);
+		{% endif %}
+};
+	{% endif %}
+{% endfor %}
+{% for method in static_methods %}
+static JSValue {{snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+    {% if method['return_value'] %}
+	return call_builtin_static{{get_const(method)}}_method_ret(&{{class_name}}::{{method['name']}}, js_context(), this_val, argc, argv);
+    {% else %}
+    return call_builtin_static{{get_const(method)}}_method_no_ret(&{{class_name}}::{{method['name']}}, js_context(), this_val, argc, argv);
+    {% endif %}
+};
+{% endfor %}
+{% for method in vararg_methods %}
+static JSValue {{snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	CHECK_INSTANCE_VALID_V(this_val);
+    {% if method['return_value'] %}
+	return call_builtin_free_owner_vararg_method_ret(&js_{{method['name']}}, js_context(), this_val, argc, argv);
+    {% else %}
+    return call_builtin_free_owner_vararg_method_no_ret(&js_{{method['name']}}, js_context(), this_val, argc, argv);
+    {% endif %}
+}
+{% endfor %}
+
+{% if instance_methods or vararg_methods %}
+static const JSCFunctionListEntry {{snake_name}}_class_proto_funcs[] = {
+	{% for method in instance_methods + vararg_methods %}
+	JS_CFUNC_DEF("{{ method['name'] }}", {{method['arguments'] | length}}, &{{snake_name}}_class_{{method['name']}}),
+	{% endfor %}
+};
+{% endif %}
+
+{% if static_methods %}
+static const JSCFunctionListEntry {{snake_name}}_class_static_funcs[] = {
+	{% for method in static_methods %}
+	JS_CFUNC_DEF("{{ method['name'] }}", {{method['arguments'] | length}}, &{{snake_name}}_class_{{method['name']}}),
+	{% endfor %}
+};
+{% endif %}
+
+{% for signal in cls['signals'] %}
+static JSValue {{snake_name}}_class_get_{{signal['name']}}_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	{{cls['name']}} *opaque = reinterpret_cast<{{cls['name']}} *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)));
+	JSValue js_signal = JS_GetPropertyStr(js_context(), this_val, "{{signal['name']}}_signal");
+	if (JS_IsUndefined(js_signal)) {
+		js_signal = VariantAdapter(Signal(opaque, "{{signal['name']}}"));
+		JS_DefinePropertyValueStr(js_context(), this_val, "{{signal['name']}}_signal", js_signal, JS_PROP_HAS_VALUE);
+	}
+	return js_signal;
+}
+{% endfor %}
+
+{% macro getset(gs,method,type) %}
+	{%  if (gs in cls['methods'] | map(attribute='name')) and type == 'getter' %}
+	JS_NewCFunction(js_context(), {{snake_name}}_class_{{gs}}, "{{gs}}", 0)
+	{% elif (gs in cls['methods'] | map(attribute='name')) and type == 'setter' %}
+	JS_NewCFunction(js_context(), {{snake_name}}_class_{{gs}}, "{{gs}}", 1)
+	{% else %}
+	JS_UNDEFINED
+	{% endif %}
+{% endmacro %}
+
+static void define_{{snake_name}}_property(JSContext *ctx, JSValue proto) {
+	{% for prop in cls['properties'] %}
+		{% if prop['getter'] in cls['methods'] | map(attribute='name') or prop['setter'] in cls['methods'] | map(attribute='name') %}
+    JS_DefinePropertyGetSet(
+        js_context(),
+        proto,
+        JS_NewAtom(js_context(), "{{prop['name']}}"),
+        {{ getset(prop['getter'], cls['methods'], 'getter') }},
+        {{ getset(prop['setter'], cls['methods'], 'setter') }},
+        JS_PROP_GETSET
+    );
+		{% endif %}
+	{% endfor %}
+	{% for signal in cls['signals'] %}
+	JS_DefinePropertyGetSet(
+		js_context(),
+		proto,
+		JS_NewAtom(js_context(), "{{signal['name']}}"),
+		JS_NewCFunction(js_context(), {{snake_name}}_class_get_{{signal['name']}}_signal, "get_{{signal['name']}}_signal", 0),
+		JS_UNDEFINED,
+		JS_PROP_GETSET);
+	{% endfor %}
+}
+
+static void define_{{snake_name}}_enum(JSContext *ctx, JSValue proto) {
+	{% for enum in cls['enums'] %}
+	JSValue {{enum['name']}}_obj = JS_NewObject(js_context());
+		{% for value in enum['values'] %}
+	JS_SetPropertyStr(js_context(), {{enum['name']}}_obj, "{{value['name']}}", JS_NewInt64(js_context(), {{value['value']}}));
+		{% endfor %}
+	JS_SetPropertyStr(js_context(), proto, "{{enum['name']}}", {{enum['name']}}_obj);
+	{% endfor %}
+}
+
+static int js_{{snake_name}}_class_init(JSContext *ctx, JSModuleDef *m) {
+	classes["{{class_name}}"] = JS_NewClassID(&classes["{{class_name}}"]);
+	JSClassID class_id = classes["{{class_name}}"];
+	JS_NewClass(JS_GetRuntime(js_context()), class_id, &{{snake_name}}_class_def);
+
+	JSValue proto = JS_NewObjectClass(js_context(), class_id);
+	{% if cls['inherits'] %}
+	JSValue base_class = JS_GetClassProto(js_context(), classes["{{cls['inherits']}}"]);
+	JS_SetPrototype(js_context(), proto, base_class);
+	{% endif %}
+	JS_SetClassProto(js_context(), class_id, proto);
+
+	define_{{snake_name}}_property(js_context(), proto);
+	define_{{snake_name}}_enum(js_context(), proto);
+		{% if instance_methods or vararg_methods %}
+	JS_SetPropertyFunctionList(js_context(), proto, {{snake_name}}_class_proto_funcs, _countof({{snake_name}}_class_proto_funcs));
+		{% endif %}
+	JSValue ctor = JS_NewCFunction2(js_context(), {{snake_name}}_class_constructor, "{{class_name}}", 0, JS_CFUNC_constructor, 0);
+	{% if static_methods %}
+	JS_SetPropertyFunctionList(js_context(), ctor, {{snake_name}}_class_static_funcs, _countof({{snake_name}}_class_static_funcs));
+	{% endif %}
+	JS_SetConstructor(js_context(), ctor, proto);
+	JS_SetModuleExport(js_context(), m, "{{class_name}}", ctor);
+
+	return 0;
+}
+
+{% set inherits = cls['inherits'] %}
+{% if cls['inherits'] == 'Object' %}
+{% set inherits = 'GodotObject' %}
+{% endif %}
+
+JSModuleDef *_js_init_{{ snake_name }}_module(JSContext *ctx, const char *module_name) {
+	// 需要提前完成import依赖
+	{% if inherits %}
+		{% if inherits not in singletons | map(attribute='type') | list %}
+	const char *code = "import * as _ from '@godot/classes/{{camel_to_snake(inherits)}}';";
+	JSValue module = JS_Eval(js_context(), code, strlen(code), "<eval>", JS_EVAL_TYPE_MODULE);
+	if (JS_IsException(module))
+		return NULL;
+		{% endif %}
+	{% endif %}
+	JSModuleDef *m = JS_NewCModule(js_context(), module_name, js_{{snake_name}}_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(js_context(), m, "{{class_name}}");
+	return m;
+}
+
+JSModuleDef *js_init_{{ snake_name }}_module(JSContext *ctx) {
+	{% set class_name = cls['name'] %}
+	{% if cls['name'] == 'Object' %}
+	{% set class_name = 'GodotObject' %}
+	{% endif %}
+	return _js_init_{{ snake_name }}_module(js_context(), "@godot/classes/{{camel_to_snake(class_name)}}");
+}
+
+void register_{{ snake_name }}() {
+	js_init_{{ snake_name }}_module(js_context());
+}

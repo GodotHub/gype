@@ -1,5 +1,6 @@
 #include "register/register_types.h"
 #include "register/builtin_classes/register_builtin_classes.hpp"
+#include "register/classes/register_classes.hpp"
 #include "register/utility_functions/register_utility_functions.hpp"
 #include "support/module_loader.hpp"
 #include "support/typescript.hpp"
@@ -7,6 +8,7 @@
 #include "support/typescript_loader.hpp"
 #include "support/typescript_saver.hpp"
 #include "utils/env.hpp"
+#include "utils/event_loop.hpp"
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/resource_saver.hpp>
@@ -16,6 +18,9 @@ using namespace godot;
 void init_quickjs() {
 	register_utility_functions();
 	register_builtin_classes();
+	register_classes();
+	JS_SetModuleLoaderFunc(js_runtime(), NULL, module_loader, NULL);
+	create_event_loop(js_runtime());
 }
 
 void init_ts_support() {
@@ -34,6 +39,8 @@ void initialize_gype_types(ModuleInitializationLevel p_level) {
 	}
 	if (p_level == ModuleInitializationLevel::MODULE_INITIALIZATION_LEVEL_SCENE) {
 		init_ts_support();
+		const char *code = "GD.print(\"123456\")";
+		JS_Eval(js_context(), code, strlen(code), "<eval>", JS_EVAL_TYPE_MODULE);
 	}
 }
 

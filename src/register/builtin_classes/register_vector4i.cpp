@@ -5,7 +5,7 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/vector4i.hpp>
+
 
 using namespace godot;
 
@@ -193,7 +193,6 @@ void define_vector4i_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_vector4i_class_init(JSContext *ctx) {
-	classes["Vector4i"] = 0;
 	classes["Vector4i"] = JS_NewClassID(&classes["Vector4i"]);
 	JSClassID class_id = classes["Vector4i"];
 

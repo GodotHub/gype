@@ -70,9 +70,7 @@ StringName TypeScript::_get_instance_base_type() const {
 }
 
 void *TypeScript::_instance_create(Object *p_for_object) const {
-	String path = get_path().replace("res://", dist_path).replace(".ts", ".js");
-	Ref<TypeScript> script = ResourceLoader::get_singleton()->load(path);
-	return internal::gdextension_interface_script_instance_create3(&InstanceInfo, memnew(TypeScriptInstance(p_for_object, script.ptr(), false)));
+	return internal::gdextension_interface_script_instance_create3(&InstanceInfo, memnew(TypeScriptInstance(p_for_object, const_cast<TypeScript *>(this), false)));
 }
 
 void *TypeScript::_placeholder_instance_create(Object *p_for_object) const {
@@ -92,7 +90,9 @@ String TypeScript::_get_source_code() const {
 }
 
 String TypeScript::get_dist_source_code() const {
-	return dist_source_code;
+	String path = get_path().replace("res://", dist_path).replace(".ts", ".js");
+	Ref<FileAccess> file = FileAccess::open(path, FileAccess::ModeFlags::READ);
+	return file->get_as_text();
 }
 
 void TypeScript::analyze() {
@@ -214,7 +214,6 @@ void TypeScript::analyze() {
 					pi.type = Variant::NIL;
 					pi.usage = PROPERTY_USAGE_DEFAULT;
 					properties[prop_name] = pi;
-
 				} else if (decorator_name == "Signal") {
 					MethodInfo mi;
 					mi.name = prop_name;
@@ -312,7 +311,7 @@ bool TypeScript::_has_static_method(const StringName &p_method) const {
 }
 
 Variant TypeScript::_get_script_method_argument_count(const StringName &p_method) const {
-	return Variant();
+	return methods[p_method].arguments.size();
 }
 
 Dictionary TypeScript::_get_method_info(const StringName &p_method) const {
@@ -392,14 +391,14 @@ Dictionary TypeScript::_get_constants() const {
 }
 
 TypedArray<StringName> TypeScript::_get_members() const {
-    const_cast<TypeScript*>(this)->analyze();
-    TypedArray<StringName> members;
-    for (const KeyValue<StringName, PropertyInfo> &E : properties) {
-        members.push_back(E.key);
-    }
-    for (const KeyValue<StringName, MethodInfo> &E : methods) {
-        members.push_back(E.key);
-    }
+	const_cast<TypeScript *>(this)->analyze();
+	TypedArray<StringName> members;
+	for (const KeyValue<StringName, PropertyInfo> &E : properties) {
+		members.push_back(E.key);
+	}
+	for (const KeyValue<StringName, MethodInfo> &E : methods) {
+		members.push_back(E.key);
+	}
 	return members;
 }
 

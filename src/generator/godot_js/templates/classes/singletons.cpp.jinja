@@ -1,0 +1,148 @@
+{% set clazz_name = cls['name'] %}
+{% set norm_name = cls['name'] %}
+{% set snake_norm_name = camel_to_snake(norm_name) %}
+{% set snake_name = camel_to_snake(clazz_name) %}
+{% set instance_methods = cls['methods'] | selectattr('is_vararg', 'equalto', false) | selectattr('is_virtual', 'equalto', false) | selectattr('is_static', 'equalto', false) | list %}
+{% set static_methods = cls['methods'] | selectattr('is_vararg', 'equalto', false) | selectattr('is_virtual', 'equalto', false) | selectattr('is_static', 'equalto', true) | list%}
+{% set vararg_methods = cls['methods'] | selectattr('is_vararg', 'equalto', true) | list %}
+{% if clazz_name in (singletons | map(attribute='type') | list)  %}
+	{% if clazz_name == 'ClassDB' %}
+		{% set norm_name = 'ClassDBSingleton' %}
+		{% set snake_norm_name = camel_to_snake(norm_name) %}
+	{% endif %}
+{% endif %}
+#include "register/classes/register_classes.hpp"
+#include "utils/env.hpp"
+#include "utils/func_utils.hpp"
+#include "utils/str_helper.hpp"
+#include "utils/quickjs_helper.hpp"
+{% if vararg_methods | length > 0 %}
+#include "register/classes/class_{{snake_name}}_vararg.hpp"
+{% endif %}
+#include <quickjs.h>
+{% for den in dependency %}
+	{% if den == 'class_db' %}
+#include <godot_cpp/classes/class_db_singleton.hpp>
+	{% else %}
+#include <godot_cpp/classes/{{den}}.hpp>
+	{% endif %}
+{% endfor %}
+#include <godot_cpp/variant/builtin_types.hpp>
+#include <godot_cpp/classes/{{snake_norm_name}}.hpp>
+
+{% set class_id = norm_name + '::__class_id' %}
+
+using namespace godot;
+
+static void {{snake_name}}_class_finalizer(JSRuntime *rt, JSValue val) {
+	{# {{norm_name}} *{{snake_name}} = static_cast<{{norm_name}} *>(JS_GetOpaque(val, {{class_id}}));
+	if ({{snake_name}})
+		memdelete({{snake_name}}); #}
+}
+
+static JSClassDef {{snake_name}}_class_def = {
+	"_{{clazz_name}}",
+	.finalizer = {{snake_name}}_class_finalizer
+};
+
+static JSValue {{snake_name}}_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
+	JSClassID class_id = classes["{{clazz_name}}"];
+	JSValue obj = JS_NewObjectClass(ctx, class_id);
+	if (JS_IsException(obj))
+		return obj;
+
+	{% if clazz_name in (singletons | map(attribute='type') | list) %}
+	{{norm_name}} *{{snake_name}}_class = {{norm_name}}::get_singleton();
+	{% else%}
+	{{norm_name}} *{{snake_name}}_class = memnew({{clazz_name}});
+	{% endif %}
+	if (!{{snake_name}}_class) {
+		JS_FreeValue(ctx, obj);
+		return JS_EXCEPTION;
+	}
+
+	JS_SetOpaque(obj, {{snake_name}}_class);
+	return obj;
+}
+{% macro get_const(method) %}
+{{-'_const' if method['is_const'] else ''-}}
+{% endmacro %}
+
+{% for method in instance_methods %}
+static JSValue {{snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+    {% if method['return_value'] %}
+	return call_builtin{{get_const(method)}}_method_ret(&{{norm_name}}::{{method['name']}}, ctx, this_val, argc, argv);
+    {% else %}
+    call_builtin{{get_const(method)}}_method_no_ret(&{{norm_name}}::{{method['name']}}, ctx, this_val, argc, argv);
+	return JS_UNDEFINED;
+    {% endif %}
+};
+{% endfor %}
+{% for method in  static_methods %}
+static JSValue {{snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+    {% if method['return_value'] %}
+	return call_builtin_static_method_ret(&{{norm_name}}::{{method['name']}}, ctx, this_val, argc, argv);
+    {% else %}
+    call_builtin_static_method_no_ret(&{{norm_name}}::{{method['name']}}, ctx, this_val, argc, argv);
+	return JS_UNDEFINED;
+    {% endif %}
+};
+{% endfor %}
+{% for method in vararg_methods %}
+static JSValue {{snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+    {% if method['return_value'] %}
+	return call_builtin_free_owner_vararg_method_ret(&js_{{method['name']}}, ctx, this_val, argc, argv);
+    {% else %}
+    return call_builtin_free_owner_vararg_method_no_ret(&js_{{method['name']}}, ctx, this_val, argc, argv);
+    {% endif %}
+}
+{% endfor %}
+
+{% if instance_methods or vararg_methods %}
+static const JSCFunctionListEntry {{snake_name}}_class_proto_funcs[] = {
+	{% for method in instance_methods + vararg_methods %}
+	JS_CFUNC_DEF("{{ method['name'] }}", {{method['arguments'] | length}}, &{{snake_name}}_class_{{method['name']}}),
+	{% endfor %}
+};
+{% endif %}
+
+{% if static_methods %}
+static const JSCFunctionListEntry {{snake_name}}_class_static_funcs[] = {
+	{% for method in static_methods %}
+	JS_CFUNC_DEF("{{ method['name'] }}", {{method['arguments'] | length}}, &{{snake_name}}_class_{{method['name']}}),
+	{% endfor %}
+};
+{% endif %}
+
+static int js_{{snake_name}}_class_init(JSContext *ctx) {
+	classes["{{clazz_name}}"] = JS_NewClassID(&classes["{{clazz_name}}"]);
+	JSClassID class_id = classes["{{clazz_name}}"];
+	JS_NewClass(JS_GetRuntime(ctx), class_id, &{{snake_name}}_class_def);
+
+	JSValue proto = JS_NewObject(ctx);
+	{% if cls['inherits'] %}
+	JSValue base_class = JS_GetClassProto(ctx, classes["{{cls['inherits']}}"]);
+	JS_SetPrototype(ctx, proto, base_class);
+	{% endif %}
+	JS_SetClassProto(ctx, class_id, proto);
+
+	{% if instance_methods or vararg_methods %}
+	JS_SetPropertyFunctionList(ctx, proto, {{snake_name}}_class_proto_funcs, _countof({{snake_name}}_class_proto_funcs));
+	{% endif %}
+
+	JSValue ctor = JS_NewCFunction2(ctx, {{snake_name}}_class_constructor, "_{{clazz_name}}", 0, JS_CFUNC_constructor, 0);
+	JS_SetConstructor(ctx, ctor, proto);
+
+	{% if static_methods %}
+	JS_SetPropertyFunctionList(ctx, ctor, {{snake_name}}_class_static_funcs, _countof({{snake_name}}_class_static_funcs));
+	{% endif %}
+
+	JSValue global = JS_GetGlobalObject(ctx);
+	JS_SetPropertyStr(ctx, global, "_{{clazz_name}}", ctor);
+	JS_FreeValue(ctx, global);
+	return 0;
+}
+
+void register_{{ snake_name }}() {
+	js_{{snake_name}}_class_init(js_context());
+}

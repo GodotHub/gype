@@ -5,7 +5,7 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/transform2d.hpp>
+#include <godot_cpp/variant/vector2.hpp>
 
 using namespace godot;
 
@@ -129,29 +129,29 @@ static JSValue transform2d_class_looking_at(JSContext *ctx, JSValueConst this_va
 
 static JSValue transform2d_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes["Transform2D"]));
-	return VariantAdapter(val.x);
+	return VariantAdapter(val.columns[0].x);
 }
 static JSValue transform2d_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes["Transform2D"]));
-	val.x = VariantAdapter(*argv).get<Vector2>();
+	val.columns[0].x = VariantAdapter(*argv).get<float>();
 	return JS_UNDEFINED;
 }
 static JSValue transform2d_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes["Transform2D"]));
-	return VariantAdapter(val.y);
+	return VariantAdapter(val.columns[1].y);
 }
 static JSValue transform2d_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes["Transform2D"]));
-	val.y = VariantAdapter(*argv).get<Vector2>();
+	val.columns[1].y = VariantAdapter(*argv).get<float>();
 	return JS_UNDEFINED;
 }
-static JSValue transform2d_class_get_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes["Transform2D"]));
-	return VariantAdapter(val.origin);
-}
+// static JSValue transform2d_class_get_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes["Transform2D"]));
+// 	return VariantAdapter(val.get_origin());
+// }
 static JSValue transform2d_class_set_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes["Transform2D"]));
-	val.origin = VariantAdapter(*argv).get<Vector2>();
+	val.set_origin(VariantAdapter(*argv).get<Vector2>());
 	return JS_UNDEFINED;
 }
 
@@ -204,7 +204,6 @@ void define_transform2d_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_transform2d_class_init(JSContext *ctx) {
-	classes["Transform2D"] = 0;
 	classes["Transform2D"] = JS_NewClassID(&classes["Transform2D"]);
 	JSClassID class_id = classes["Transform2D"];
 

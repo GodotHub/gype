@@ -1,0 +1,14 @@
+// This file is auto-generated. Do not edit.
+
+// Globals
+import './globals';
+
+// Built-in types
+{% for b_cls in builtin_classes %}
+export * from './builtins/{{ camel_to_snake(b_cls.name) }}';
+{%- endfor %}
+
+// Engine classes
+{% for cls in classes %}
+export * from './classes/{{ camel_to_snake(cls.name) }}';
+{%- endfor %}

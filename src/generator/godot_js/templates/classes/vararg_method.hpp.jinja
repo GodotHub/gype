@@ -1,0 +1,91 @@
+{#
+  Jinja2 template for generating vararg method wrappers for a Godot ENGINE class.
+  This file is auto-generated.
+#}
+#ifndef __GENERATED_CLASS_{{ cls.name | upper }}_VARARG_H__
+#define __GENERATED_CLASS_{{ cls.name | upper }}_VARARG_H__
+
+#include <godot_cpp/classes/object.hpp>
+#include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/variant/variant.hpp>
+#include <vector>
+{# Include dependencies for argument/return types #}
+{% for dep in variant_deps %}
+#include <godot_cpp/variant/{{ dep }}.hpp>
+{% endfor %}
+{% for dep in class_deps %}
+#include <godot_cpp/classes/{{ dep }}.hpp>
+{% endfor %}
+
+using namespace godot;
+
+{%- macro actual_class_name(name) -%}
+	{%- if name == 'ClassDB' -%}
+		ClassDBSingleton
+	{%- else -%}
+		{{name}}
+	{%- endif -%}
+{%- endmacro %}
+
+{%- macro return_type(method) -%}
+	{%- if method.get('return_value') -%}
+		{% set r_type = method.return_value.type %}
+		{%- if r_type.startswith('enum::') -%}
+			{{ r_type | replace('enum::', '') }}
+		{%- else -%}
+			{{ r_type }}
+		{%- endif -%}
+	{%- else -%}
+		void
+	{%- endif -%}
+{%- endmacro %}
+
+{% for method in vararg_methods %}
+// Internal wrapper for {{ cls.name }}::{{ method.name }}
+static {{ return_type(method) }} js_{{ method.name }}_internal(GDExtensionObjectPtr p_instance, const GDExtensionConstVariantPtr *p_args, GDExtensionInt p_arg_count) {
+	static GDExtensionMethodBindPtr gde_method_bind = internal::gdextension_interface_classdb_get_method_bind(
+        StringName("{{ actual_class_name(cls.name) }}")._native_ptr(),
+        StringName("{{ method.name }}")._native_ptr(),
+        {{ method.hash }}
+    );
+	{% if method.get('return_value') %}
+	CHECK_METHOD_BIND_RET(gde_method_bind, {{ return_type(method) }}());
+	{% else %}
+	CHECK_METHOD_BIND(gde_method_bind);
+	{% endif %}
+	GDExtensionCallError error;
+	Variant ret;
+	internal::gdextension_interface_object_method_bind_call(gde_method_bind, p_instance, p_args, p_arg_count, &ret, &error);
+	{% if method.get('return_value') %}
+	return VariantCaster<{{ method.return_value.type }}>::cast(ret);
+	{% endif %}
+}
+
+// Public-facing wrapper for JS binding
+static {{ return_type(method) }} js_{{ method.name }}(GodotObject *p_instance, {{ connect_mutable_args(method.arguments, all_class_names) }}) {
+	std::vector<Variant> all_args_variant;
+	// Reserve space for both fixed and vararg arguments
+	all_args_variant.reserve({{ method.arguments | length }} + p_args.size());
+	{% for arg in method.arguments %}
+	all_args_variant.push_back(p_{{ arg.name }});
+	{% endfor %}
+	// Append vararg arguments
+	if (!p_args.empty()) {
+		all_args_variant.insert(all_args_variant.end(), p_args.begin(), p_args.end());
+	}
+	// Prepare array of pointers for the GDExtension call
+	std::vector<const Variant *> arg_pointers;
+	arg_pointers.reserve(all_args_variant.size());
+	for (const auto &arg : all_args_variant) {
+		arg_pointers.push_back(&arg);
+	}
+
+	{% if method.get('return_value') %}
+	return js_{{ method.name }}_internal(p_instance, reinterpret_cast<GDExtensionConstVariantPtr *>(arg_pointers.data()), arg_pointers.size());
+	{% else %}
+	js_{{ method.name }}_internal(p_instance, reinterpret_cast<GDExtensionConstVariantPtr *>(arg_pointers.data()), arg_pointers.size());
+	{% endif %}
+}
+{% endfor %}
+
+#endif // __GENERATED_CLASS_{{ cls.name | upper }}_VARARG_H__

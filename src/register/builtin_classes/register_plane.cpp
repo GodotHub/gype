@@ -5,7 +5,7 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/plane.hpp>
+#include <godot_cpp/variant/vector3.hpp>
 
 using namespace godot;
 
@@ -108,29 +108,29 @@ static JSValue plane_class_intersects_segment(JSContext *ctx, JSValueConst this_
 
 static JSValue plane_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Plane &val = *reinterpret_cast<Plane *>(JS_GetOpaque(this_val, classes["Plane"]));
-	return VariantAdapter(val.x);
+	return VariantAdapter(val.normal.x);
 }
 static JSValue plane_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Plane &val = *reinterpret_cast<Plane *>(JS_GetOpaque(this_val, classes["Plane"]));
-	val.x = VariantAdapter(*argv).get<float>();
+	val.normal.x = VariantAdapter(*argv).get<float>();
 	return JS_UNDEFINED;
 }
 static JSValue plane_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Plane &val = *reinterpret_cast<Plane *>(JS_GetOpaque(this_val, classes["Plane"]));
-	return VariantAdapter(val.y);
+	return VariantAdapter(val.normal.y);
 }
 static JSValue plane_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Plane &val = *reinterpret_cast<Plane *>(JS_GetOpaque(this_val, classes["Plane"]));
-	val.y = VariantAdapter(*argv).get<float>();
+	val.normal.y = VariantAdapter(*argv).get<float>();
 	return JS_UNDEFINED;
 }
 static JSValue plane_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Plane &val = *reinterpret_cast<Plane *>(JS_GetOpaque(this_val, classes["Plane"]));
-	return VariantAdapter(val.z);
+	return VariantAdapter(val.normal.z);
 }
 static JSValue plane_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Plane &val = *reinterpret_cast<Plane *>(JS_GetOpaque(this_val, classes["Plane"]));
-	val.z = VariantAdapter(*argv).get<float>();
+	val.normal.z = VariantAdapter(*argv).get<float>();
 	return JS_UNDEFINED;
 }
 static JSValue plane_class_get_d(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -205,7 +205,6 @@ void define_plane_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_plane_class_init(JSContext *ctx) {
-	classes["Plane"] = 0;
 	classes["Plane"] = JS_NewClassID(&classes["Plane"]);
 	JSClassID class_id = classes["Plane"];
 

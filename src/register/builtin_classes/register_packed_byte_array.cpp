@@ -5,7 +5,15 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/packed_byte_array.hpp>
+#include <godot_cpp/variant/packed_color_array.hpp>
+#include <godot_cpp/variant/packed_float32_array.hpp>
+#include <godot_cpp/variant/packed_float64_array.hpp>
+#include <godot_cpp/variant/packed_int32_array.hpp>
+#include <godot_cpp/variant/packed_int64_array.hpp>
+#include <godot_cpp/variant/packed_vector2_array.hpp>
+#include <godot_cpp/variant/packed_vector3_array.hpp>
+#include <godot_cpp/variant/packed_vector4_array.hpp>
+#include <godot_cpp/variant/string.hpp>
 
 using namespace godot;
 
@@ -353,7 +361,6 @@ static const JSCFunctionListEntry packed_byte_array_class_proto_funcs[] = {
 
 
 static int js_packed_byte_array_class_init(JSContext *ctx) {
-	classes["PackedByteArray"] = 0;
 	classes["PackedByteArray"] = JS_NewClassID(&classes["PackedByteArray"]);
 	JSClassID class_id = classes["PackedByteArray"];
 

@@ -5,7 +5,8 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/aabb.hpp>
+#include <godot_cpp/variant/plane.hpp>
+#include <godot_cpp/variant/vector3.hpp>
 
 using namespace godot;
 
@@ -146,11 +147,11 @@ static JSValue aabb_class_set_size(JSContext *ctx, JSValueConst this_val, int ar
 }
 static JSValue aabb_class_get_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	AABB &val = *reinterpret_cast<AABB *>(JS_GetOpaque(this_val, classes["AABB"]));
-	return VariantAdapter(val.end);
+	return VariantAdapter(val.get_end());
 }
 static JSValue aabb_class_set_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	AABB &val = *reinterpret_cast<AABB *>(JS_GetOpaque(this_val, classes["AABB"]));
-	val.end = VariantAdapter(*argv).get<Vector3>();
+	val.set_end(VariantAdapter(*argv).get<Vector3>());
 	return JS_UNDEFINED;
 }
 
@@ -207,7 +208,6 @@ void define_aabb_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_aabb_class_init(JSContext *ctx) {
-	classes["AABB"] = 0;
 	classes["AABB"] = JS_NewClassID(&classes["AABB"]);
 	JSClassID class_id = classes["AABB"];
 

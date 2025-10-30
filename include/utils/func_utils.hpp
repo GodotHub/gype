@@ -84,7 +84,11 @@ convert(JSContext *ctx, JSValue v) {
 template <typename T>
 std::enable_if_t<std::is_fundamental_v<T>, T>
 convert(JSContext *ctx, JSValue v) {
-	return VariantAdapter(v).get<T>();
+	if constexpr (std::is_same_v<T, char32_t>) {
+		return *(VariantAdapter(v).get<String>()).ptrw();
+	} else {
+		return VariantAdapter(v).get<T>();
+	}
 }
 template <typename T>
 std::enable_if_t<std::is_enum_v<T> && !std::is_fundamental_v<T>, T>

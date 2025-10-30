@@ -5,7 +5,8 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/basis.hpp>
+#include <godot_cpp/variant/quaternion.hpp>
+#include <godot_cpp/variant/vector3.hpp>
 
 using namespace godot;
 
@@ -124,29 +125,29 @@ static JSValue basis_class_from_euler(JSContext *ctx, JSValueConst this_val, int
 
 static JSValue basis_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes["Basis"]));
-	return VariantAdapter(val.x);
+	return VariantAdapter(val.rows[0]);
 }
 static JSValue basis_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes["Basis"]));
-	val.x = VariantAdapter(*argv).get<Vector3>();
+	val.rows[0] = VariantAdapter(*argv).get<Vector3>();
 	return JS_UNDEFINED;
 }
 static JSValue basis_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes["Basis"]));
-	return VariantAdapter(val.y);
+	return VariantAdapter(val.rows[1]);
 }
 static JSValue basis_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes["Basis"]));
-	val.y = VariantAdapter(*argv).get<Vector3>();
+	val.rows[1] = VariantAdapter(*argv).get<Vector3>();
 	return JS_UNDEFINED;
 }
 static JSValue basis_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes["Basis"]));
-	return VariantAdapter(val.z);
+	return VariantAdapter(val.rows[2]);
 }
 static JSValue basis_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes["Basis"]));
-	val.z = VariantAdapter(*argv).get<Vector3>();
+	val.rows[2] = VariantAdapter(*argv).get<Vector3>();
 	return JS_UNDEFINED;
 }
 
@@ -198,7 +199,6 @@ void define_basis_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_basis_class_init(JSContext *ctx) {
-	classes["Basis"] = 0;
 	classes["Basis"] = JS_NewClassID(&classes["Basis"]);
 	JSClassID class_id = classes["Basis"];
 

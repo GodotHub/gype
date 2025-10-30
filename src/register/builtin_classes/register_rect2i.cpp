@@ -5,7 +5,7 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/rect2i.hpp>
+#include <godot_cpp/variant/vector2i.hpp>
 
 using namespace godot;
 
@@ -121,11 +121,11 @@ static JSValue rect2i_class_set_size(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue rect2i_class_get_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Rect2i &val = *reinterpret_cast<Rect2i *>(JS_GetOpaque(this_val, classes["Rect2i"]));
-	return VariantAdapter(val.end);
+	return VariantAdapter(val.get_end());
 }
 static JSValue rect2i_class_set_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Rect2i &val = *reinterpret_cast<Rect2i *>(JS_GetOpaque(this_val, classes["Rect2i"]));
-	val.end = VariantAdapter(*argv).get<Vector2i>();
+	val.set_end(VariantAdapter(*argv).get<Vector2i>());
 	return JS_UNDEFINED;
 }
 
@@ -170,7 +170,6 @@ void define_rect2i_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_rect2i_class_init(JSContext *ctx) {
-	classes["Rect2i"] = 0;
 	classes["Rect2i"] = JS_NewClassID(&classes["Rect2i"]);
 	JSClassID class_id = classes["Rect2i"];
 

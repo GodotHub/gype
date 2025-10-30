@@ -1,0 +1,27 @@
+#ifndef __REGISTER_CLASSES_H__
+#define __REGISTER_CLASSES_H__
+
+#include <godot_cpp/variant/utility_functions.hpp>
+#include <unordered_map>
+
+#define CHECK_INSTANCE_VALID(val)                                                          \
+	{                                                                                      \
+		void *opaque = JS_GetOpaque(val, JS_GetClassID(val));                              \
+		Object *object = reinterpret_cast<Object *>(opaque);                               \
+		intptr_t ptr = (intptr_t)object->_owner;                                           \
+		ERR_FAIL_COND(!UtilityFunctions::is_instance_id_valid(object->get_instance_id())); \
+	}
+
+#define CHECK_INSTANCE_VALID_V(val)                                                                     \
+	{                                                                                                   \
+		JSValue undefined = JS_UNDEFINED;                                                               \
+		void *opaque = JS_GetOpaque(val, JS_GetClassID(val));                                           \
+		Object *object = reinterpret_cast<Object *>(opaque);                                            \
+		ERR_FAIL_COND_V(!UtilityFunctions::is_instance_id_valid(object->get_instance_id()), undefined); \
+	}
+	
+{% for class in classes %}
+void register_{{ camel_to_snake(class['name']) }}();
+{% endfor %}
+void register_classes();
+#endif // __REGISTER_CLASSES_H__

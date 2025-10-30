@@ -5,7 +5,8 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/packed_string_array.hpp>
+#include <godot_cpp/variant/packed_byte_array.hpp>
+#include <godot_cpp/variant/string.hpp>
 
 using namespace godot;
 
@@ -155,7 +156,6 @@ static const JSCFunctionListEntry packed_string_array_class_proto_funcs[] = {
 
 
 static int js_packed_string_array_class_init(JSContext *ctx) {
-	classes["PackedStringArray"] = 0;
 	classes["PackedStringArray"] = JS_NewClassID(&classes["PackedStringArray"]);
 	JSClassID class_id = classes["PackedStringArray"];
 

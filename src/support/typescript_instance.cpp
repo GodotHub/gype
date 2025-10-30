@@ -8,6 +8,8 @@
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/core/error_macros.hpp>
+#include <godot_cpp/templates/hash_map.hpp>
+#include <godot_cpp/templates/list.hpp>
 #include <godot_cpp/variant/string_name.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/variant/variant_size.hpp>
@@ -31,9 +33,11 @@ const char *TypeScriptInstance::symbol_mask = "_GodotClass";
 
 TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, TypeScript *script, bool is_placeholder) {
 	this->script = script;
-	String code = script->_get_source_code();
+	gd_binding = internal::get_object_instance_binding(p_godot_object->_owner);
+	String code = script->get_dist_source_code();
 	std::string code_str = std::string(code.utf8().get_data());
 	JSValue ret = JS_Eval(js_context(), code_str.c_str(), code_str.size(), "<eval>", JS_EVAL_TYPE_MODULE | JS_EVAL_FLAG_COMPILE_ONLY);
+	ERR_FAIL_COND(is_exception(js_context(), ret));
 	JSModuleDef *md = (JSModuleDef *)JS_VALUE_GET_PTR(ret);
 	ret = JS_EvalFunction(js_context(), ret);
 	ERR_FAIL_COND(is_exception(js_context(), ret));
@@ -56,7 +60,6 @@ TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, TypeScript *scrip
 				const char *symbol_name = JS_AtomToCString(js_context(), symbol);
 				ret = JS_GetProperty(js_context(), ret, symbol);
 				if (strcmp(symbol_mask, symbol_name) == 0) {
-					gd_binding = internal::get_object_instance_binding(p_godot_object->_owner);
 					JSValue vbinding = VariantAdapter(gd_binding);
 					js_binding = JS_CallConstructor(js_context(), clazz, 1, &vbinding);
 					ERR_FAIL_COND(is_exception(js_context(), js_binding));
@@ -129,9 +132,17 @@ GDExtensionBool TypeScriptInstance::get(GDExtensionConstStringNamePtr p_name, GD
 	return false;
 }
 
-// const GDExtensionPropertyInfo *JavaScriptInstance::get_property_list(uint32_t *r_count) {
-// 	return nullptr;
-// }
+const GDExtensionPropertyInfo *TypeScriptInstance::get_property_list(uint32_t *r_count) {
+	properties.clear();
+	HashMap<StringName, PropertyInfo>::Iterator it = script->properties.begin();
+	while (it != script->properties.end()) {
+		const PropertyInfo &prop_info = it->value;
+		properties.push_back(prop_info._to_gdextension());
+		++it;
+	}
+	*r_count = script->properties.size();
+	return properties.data();
+}
 
 // GDExtensionBool JavaScriptInstance::property_can_revert(GDExtensionConstStringNamePtr p_name) {
 // 	return false;
@@ -144,21 +155,14 @@ GDExtensionBool TypeScriptInstance::get(GDExtensionConstStringNamePtr p_name, GD
 // }
 
 GDExtensionBool TypeScriptInstance::has_method(GDExtensionConstStringNamePtr p_name) {
-	BINDING_VALID_V(gd_binding, false);
 	StringName method = *reinterpret_cast<const StringName *>(p_name);
-	const char *name = to_chars(method);
-	JSValue js_method = JS_GetPropertyStr(js_context(), js_binding, name);
-	return JS_IsFunction(js_context(), js_method);
+	return script->_has_method(method);
 }
 
 GDExtensionInt TypeScriptInstance::get_method_argument_count(GDExtensionConstStringNamePtr p_name, GDExtensionBool *r_is_valid) {
-	BINDING_VALID_V(gd_binding, 0);
 	const char *name = to_chars(*reinterpret_cast<const StringName *>(p_name));
-	JSValue js_method = JS_GetPropertyStr(js_context(), js_binding, name);
-	JSValue js_len = JS_GetPropertyStr(js_context(), js_method, "length");
-	int64_t len;
-	*r_is_valid = !JS_ToInt64(js_context(), &len, js_len);
-	return len;
+	*r_is_valid = script->_has_method(name);
+	return script->_get_script_method_argument_count(name);
 }
 
 void TypeScriptInstance::call(GDExtensionConstStringNamePtr p_method, const GDExtensionConstVariantPtr *p_args, GDExtensionInt p_argument_count, GDExtensionVariantPtr r_return, GDExtensionCallError *r_error) {
@@ -247,7 +251,7 @@ GDExtensionScriptLanguagePtr TypeScriptInstance::get_language() {
 }
 
 Object *TypeScriptInstance::get_binding() {
-	return internal::get_object_instance_binding(gd_binding->_owner);
+	return gd_binding ? internal::get_object_instance_binding(gd_binding->_owner) : nullptr;
 }
 
 static void notification_bind(JSValue instance, JSValue prototype, int32_t p_what, GDExtensionBool p_reversed) {

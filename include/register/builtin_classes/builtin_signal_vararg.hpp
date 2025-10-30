@@ -4,6 +4,9 @@
 #include <godot_cpp/core/binder_common.hpp>
 #include <godot_cpp/variant/builtin_types.hpp>
 #include <godot_cpp/variant/variant.hpp>
+#include <godot_cpp/variant/array.hpp>
+#include <godot_cpp/variant/callable.hpp>
+#include <godot_cpp/variant/string_name.hpp>
 #include <vector>
 
 using namespace godot;
@@ -11,7 +14,7 @@ using namespace godot;
 static void js_emit_internal(void *p_instance, const Variant **p_args, GDExtensionInt p_arg_count) {
 	static StringName method_name("emit");
 	static GDExtensionPtrBuiltInMethod method_ptr = internal::gdextension_interface_variant_get_ptr_builtin_method((GDExtensionVariantType)Variant::SIGNAL, method_name._native_ptr(), 3286317445);
-
+	CHECK_METHOD_BIND(method_ptr);
 	method_ptr(p_instance, reinterpret_cast<GDExtensionConstTypePtr *>(p_args), nullptr, p_arg_count);
 }
 

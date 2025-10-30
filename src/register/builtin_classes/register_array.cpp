@@ -5,7 +5,8 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/array.hpp>
+#include <godot_cpp/variant/callable.hpp>
+#include <godot_cpp/variant/string_name.hpp>
 
 using namespace godot;
 
@@ -36,7 +37,7 @@ static JSValue array_class_constructor(JSContext *ctx, JSValueConst new_target, 
 		Array v0 = VariantAdapter(argv[0]).get<Array>();
 		instance = memnew(Array(v0));
 	}
-	if (argc == 4&&VariantAdapter(argv[0]).get_type() == Variant::Type::ARRAY&&VariantAdapter(argv[1]).get_type() == Variant::Type::INT&&VariantAdapter(argv[2]).get_type() == Variant::Type::STRING_NAME&&VariantAdapter(argv[3]).get_type() == Variant::Type::VARIANT) {
+	if (argc == 4&&VariantAdapter(argv[0]).get_type() == Variant::Type::ARRAY&&VariantAdapter(argv[1]).get_type() == Variant::Type::INT&&VariantAdapter(argv[2]).get_type() == Variant::Type::STRING_NAME&&VariantAdapter(argv[3]).get_type() != Variant::Type::VARIANT_MAX) {
 		Array v0 = VariantAdapter(argv[0]).get<Array>();
 		int v1 = VariantAdapter(argv[1]).get<int>();
 		StringName v2 = VariantAdapter(argv[2]).get<StringName>();
@@ -318,7 +319,6 @@ static const JSCFunctionListEntry array_class_proto_funcs[] = {
 
 
 static int js_array_class_init(JSContext *ctx) {
-	classes["Array"] = 0;
 	classes["Array"] = JS_NewClassID(&classes["Array"]);
 	JSClassID class_id = classes["Array"];
 

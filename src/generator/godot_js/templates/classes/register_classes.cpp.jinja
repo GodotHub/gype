@@ -1,0 +1,8 @@
+#include "register/classes/register_classes.hpp"
+#include <cstdint>
+
+void register_classes() {
+{% for cls in classes %}
+	register_{{ camel_to_snake(cls.name) }}();
+{% endfor %}
+}

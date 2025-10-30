@@ -1,0 +1,75 @@
+{#- 
+    模板：class.d.ts.jinja
+    用于生成 Godot 引擎类的 TypeScript 声明。
+-#}
+{% set class_name = cls.name -%}
+{% set inherits = get_class_name(cls.inherits) if cls.inherits else None -%}
+{% set is_singleton = cls.name in singletons | map(attribute='name') | list %}
+
+{# 依赖导入 #}
+{% for dep in dependency %}
+    {% if dep != class_name %}
+import type { {{ dep }} } from '{{ get_import_path(dep) }}';
+    {% endif %}
+{% endfor %}
+
+{# 全局声明，用于类型检查 #}
+{# declare global {
+    class {{ class_name }}{% if inherits %} extends {{ inherits }}{% endif %} {
+        // This class is declared globally for type checking purposes.
+        // It should not be instantiated directly, except for certain cases.
+    }
+} #}
+
+{# 导出类声明 #}
+export declare class {{ class_name }}{% if inherits %} extends {{ inherits }}{% endif %} {
+
+    {# 属性 (Properties) #}
+    {%- for prop in cls.properties %}
+    
+    {# --- [FINAL FIX] --- #}
+    {# Use the new helper to get the reliable type from the setter. #}
+    {# The hint_string is still used for JSDoc comments. #}
+    /**
+        {%- if prop.hint_string and prop.hint_string.strip() %}
+     * Resource type hint: {{ prop.hint_string.replace('\n', ' ') }}
+        {%- else %}
+     * The raw type is '{{ prop.type }}'
+        {%- endif %}
+     */
+    public {{ prop.name }}: {{ set_type(get_property_type(prop, cls)) }};
+    {%- endfor %}
+
+    {# 方法 (Methods) #}
+    {% for method in cls.methods %}
+    public{{ ' static' if method.is_static }} {{ method.name }}({{ connect_args(method.arguments) + process_vararg(method.is_vararg, method.arguments) }}){{- set_return(method.return_value if 'return_value' in method else None) -}};
+    {% endfor %}
+
+    {# 信号 (Signals) #}
+    {% if cls.signals %}
+    
+    {# ----- Signals ----- #}
+    {% for signal in cls.signals %}
+    public readonly {{  signal.name }}: Signal<({{ connect_args(signal.arguments) }}) => void>;
+    {% endfor %}
+    {% endif %}
+
+    {# 枚举 (Enums) #}
+    {% for enum in cls.enums %}
+    public static readonly {{ enum.name }}: {
+        {% for value in enum['values'] %}
+        {{ value.name }}: {{ value.value }};
+        {% endfor %}
+    };
+    {% endfor %}
+}
+
+{# 如果是单例，则导出其实例 #}
+{% if is_singleton %}
+
+/**
+ * A singleton instance of {{ class_name }}.
+ * This is a global variable, available from anywhere.
+ */
+export const {{ class_name }}: {{ class_name }};
+{% endif %}

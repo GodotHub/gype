@@ -10,10 +10,10 @@
 using namespace godot;
 
 static void transform2d_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["Transform2D"];
-	Transform2D *opaque_ptr = static_cast<Transform2D *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(Transform2D)];
+	GDVariantAdapter<Transform2D> *opaque_ptr = static_cast<GDVariantAdapter<Transform2D> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<Transform2D *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -23,44 +23,52 @@ static JSClassDef transform2d_class_def = {
 };
 
 static JSValue transform2d_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["Transform2D"];
+	JSClassID class_id = classes[typeid(Transform2D)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
 
-	Transform2D *instance = nullptr;	if (argc == 0) {
-		instance = memnew(Transform2D());
+	Transform2D *instance = nullptr;
+	GDVariantAdapter<Transform2D> *adapter = reinterpret_cast<GDVariantAdapter<Transform2D> *>(memalloc(sizeof(GDVariantAdapter<Transform2D>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<Transform2D *>(memalloc(sizeof(Transform2D)));
+		instance = new (instance) Transform2D();
 	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::TRANSFORM2D) {
-		Transform2D v0 = VariantAdapter(argv[0]).get<Transform2D>();
-		instance = memnew(Transform2D(v0));
+	if (argc == 1 && (JSValueAdapter<Transform2D>::can_cast(argv[0]))) {
+		Transform2D v0 = *JSValueAdapter<Transform2D>(argv[0]).get();
+		instance = reinterpret_cast<Transform2D *>(memalloc(sizeof(Transform2D)));
+		instance = new (instance) Transform2D(v0);
 	}
-	if (argc == 2&&(VariantAdapter(argv[0]).get_type() == Variant::Type::FLOAT || VariantAdapter(argv[0]).get_type() == Variant::Type::INT)&&VariantAdapter(argv[1]).get_type() == Variant::Type::VECTOR2) {
-		float v0 = VariantAdapter(argv[0]).get<float>();
-		Vector2 v1 = VariantAdapter(argv[1]).get<Vector2>();
-		instance = memnew(Transform2D(v0, v1));
+	if (argc == 2 && (JSValueAdapter<float>::can_cast(argv[0])) && (JSValueAdapter<Vector2>::can_cast(argv[1]))) {
+		float v0 = *JSValueAdapter<float>(argv[0]).get();
+		Vector2 v1 = *JSValueAdapter<Vector2>(argv[1]).get();
+		instance = reinterpret_cast<Transform2D *>(memalloc(sizeof(Transform2D)));
+		instance = new (instance) Transform2D(v0, v1);
 	}
-	if (argc == 4&&(VariantAdapter(argv[0]).get_type() == Variant::Type::FLOAT || VariantAdapter(argv[0]).get_type() == Variant::Type::INT)&&VariantAdapter(argv[1]).get_type() == Variant::Type::VECTOR2&&(VariantAdapter(argv[2]).get_type() == Variant::Type::FLOAT || VariantAdapter(argv[2]).get_type() == Variant::Type::INT)&&VariantAdapter(argv[3]).get_type() == Variant::Type::VECTOR2) {
-		float v0 = VariantAdapter(argv[0]).get<float>();
-		Vector2 v1 = VariantAdapter(argv[1]).get<Vector2>();
-		float v2 = VariantAdapter(argv[2]).get<float>();
-		Vector2 v3 = VariantAdapter(argv[3]).get<Vector2>();
-		instance = memnew(Transform2D(v0, v1, v2, v3));
+	if (argc == 4 && (JSValueAdapter<float>::can_cast(argv[0])) && (JSValueAdapter<Vector2>::can_cast(argv[1])) && (JSValueAdapter<float>::can_cast(argv[2])) && (JSValueAdapter<Vector2>::can_cast(argv[3]))) {
+		float v0 = *JSValueAdapter<float>(argv[0]).get();
+		Vector2 v1 = *JSValueAdapter<Vector2>(argv[1]).get();
+		float v2 = *JSValueAdapter<float>(argv[2]).get();
+		Vector2 v3 = *JSValueAdapter<Vector2>(argv[3]).get();
+		instance = reinterpret_cast<Transform2D *>(memalloc(sizeof(Transform2D)));
+		instance = new (instance) Transform2D(v0, v1, v2, v3);
 	}
-	if (argc == 3&&VariantAdapter(argv[0]).get_type() == Variant::Type::VECTOR2&&VariantAdapter(argv[1]).get_type() == Variant::Type::VECTOR2&&VariantAdapter(argv[2]).get_type() == Variant::Type::VECTOR2) {
-		Vector2 v0 = VariantAdapter(argv[0]).get<Vector2>();
-		Vector2 v1 = VariantAdapter(argv[1]).get<Vector2>();
-		Vector2 v2 = VariantAdapter(argv[2]).get<Vector2>();
-		instance = memnew(Transform2D(v0, v1, v2));
+	if (argc == 3 && (JSValueAdapter<Vector2>::can_cast(argv[0])) && (JSValueAdapter<Vector2>::can_cast(argv[1])) && (JSValueAdapter<Vector2>::can_cast(argv[2]))) {
+		Vector2 v0 = *JSValueAdapter<Vector2>(argv[0]).get();
+		Vector2 v1 = *JSValueAdapter<Vector2>(argv[1]).get();
+		Vector2 v2 = *JSValueAdapter<Vector2>(argv[2]).get();
+		instance = reinterpret_cast<Transform2D *>(memalloc(sizeof(Transform2D)));
+		instance = new (instance) Transform2D(v0, v1, v2);
 	}
+	adapter = new (adapter) GDVariantAdapter<Transform2D>(*instance, true);
 
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue transform2d_class_inverse(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -128,30 +136,30 @@ static JSValue transform2d_class_looking_at(JSContext *ctx, JSValueConst this_va
 }
 
 static JSValue transform2d_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes["Transform2D"]));
-	return VariantAdapter(val.columns[0].x);
+	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes[typeid(Transform2D)]));
+	return GDVariantAdapter<Vector2>(val.columns[0]);
 }
 static JSValue transform2d_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes["Transform2D"]));
-	val.columns[0].x = VariantAdapter(*argv).get<float>();
+	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes[typeid(Transform2D)]));
+	val.columns[0] = *JSValueAdapter<Vector2>(*argv).get();
 	return JS_UNDEFINED;
 }
 static JSValue transform2d_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes["Transform2D"]));
-	return VariantAdapter(val.columns[1].y);
+	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes[typeid(Transform2D)]));
+	return GDVariantAdapter<Vector2>(val.columns[1]);
 }
 static JSValue transform2d_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes["Transform2D"]));
-	val.columns[1].y = VariantAdapter(*argv).get<float>();
+	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes[typeid(Transform2D)]));
+	val.columns[1] = *JSValueAdapter<Vector2>(*argv).get();
 	return JS_UNDEFINED;
 }
 // static JSValue transform2d_class_get_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-// 	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes["Transform2D"]));
-// 	return VariantAdapter(val.get_origin());
+// 	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes[typeid(Transform2D)]));
+// 	return GDVariantAdapter<Vector2>(val.get_origin());
 // }
 static JSValue transform2d_class_set_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes["Transform2D"]));
-	val.set_origin(VariantAdapter(*argv).get<Vector2>());
+	Transform2D &val = *reinterpret_cast<Transform2D *>(JS_GetOpaque(this_val, classes[typeid(Transform2D)]));
+	val.set_origin(*JSValueAdapter<Vector2>(*argv).get());
 	return JS_UNDEFINED;
 }
 
@@ -204,13 +212,14 @@ void define_transform2d_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_transform2d_class_init(JSContext *ctx) {
-	classes["Transform2D"] = JS_NewClassID(&classes["Transform2D"]);
-	JSClassID class_id = classes["Transform2D"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(Transform2D)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &transform2d_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	define_transform2d_property(ctx, proto);	JS_SetPropertyFunctionList(ctx, proto, transform2d_class_proto_funcs, _countof(transform2d_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);
+	define_transform2d_property(ctx, proto);
+	JS_SetPropertyFunctionList(ctx, proto, transform2d_class_proto_funcs, _countof(transform2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, transform2d_class_constructor, "Transform2D", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
 

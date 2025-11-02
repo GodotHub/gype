@@ -76,7 +76,6 @@ BUILTIN_TYPES_TO_SKIP = {
     'bool',   # 映射到 boolean
     'int',    # 映射到 number
     'float',  # 映射到 number
-    'String', # 映射到 string
 }
 
 OPERATOR_NAME_MAP = {
@@ -260,7 +259,7 @@ def collect_ts_dependencies(cls: dict, all_classes: list, all_builtin_classes: l
     for signal in cls.get('signals', []):
         deps.add('Signal')
         for arg in signal.get('arguments', []): add_dep(arg['type'])
-
+    deps = filter(lambda dep: dep not in all_builtin_names, deps)
     return sorted(list(deps))
 
 

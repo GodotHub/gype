@@ -11,10 +11,10 @@
 using namespace godot;
 
 static void packed_string_array_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["PackedStringArray"];
-	PackedStringArray *opaque_ptr = static_cast<PackedStringArray *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(PackedStringArray)];
+	GDVariantAdapter<PackedStringArray> *opaque_ptr = static_cast<GDVariantAdapter<PackedStringArray> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<PackedStringArray *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -24,30 +24,36 @@ static JSClassDef packed_string_array_class_def = {
 };
 
 static JSValue packed_string_array_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["PackedStringArray"];
+	JSClassID class_id = classes[typeid(PackedStringArray)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
+	
+	PackedStringArray *instance = nullptr;
+	GDVariantAdapter<PackedStringArray> *adapter = reinterpret_cast<GDVariantAdapter<PackedStringArray> *>(memalloc(sizeof(GDVariantAdapter<PackedStringArray>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<PackedStringArray *>(memalloc(sizeof(PackedStringArray)));
+		instance = new (instance) PackedStringArray();
+	}
+	if (argc == 1&&(JSValueAdapter<PackedStringArray>::can_cast(argv[0]))) {
+		PackedStringArray v0 = *JSValueAdapter<PackedStringArray>(argv[0]).get();
+		instance = reinterpret_cast<PackedStringArray *>(memalloc(sizeof(PackedStringArray)));
+		instance = new (instance) PackedStringArray(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<Array>::can_cast(argv[0]))) {
+		Array v0 = *JSValueAdapter<Array>(argv[0]).get();
+		instance = reinterpret_cast<PackedStringArray *>(memalloc(sizeof(PackedStringArray)));
+		instance = new (instance) PackedStringArray(v0);
+	}
+	adapter = new (adapter) GDVariantAdapter<PackedStringArray>(*instance, true);
 
-	PackedStringArray *instance = nullptr;	if (argc == 0) {
-		instance = memnew(PackedStringArray());
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_STRING_ARRAY) {
-		PackedStringArray v0 = VariantAdapter(argv[0]).get<PackedStringArray>();
-		instance = memnew(PackedStringArray(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::ARRAY) {
-		Array v0 = VariantAdapter(argv[0]).get<Array>();
-		instance = memnew(PackedStringArray(v0));
-	}
-
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue packed_string_array_class_get(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -156,8 +162,7 @@ static const JSCFunctionListEntry packed_string_array_class_proto_funcs[] = {
 
 
 static int js_packed_string_array_class_init(JSContext *ctx) {
-	classes["PackedStringArray"] = JS_NewClassID(&classes["PackedStringArray"]);
-	JSClassID class_id = classes["PackedStringArray"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(PackedStringArray)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &packed_string_array_class_def);
 

@@ -1,13 +1,12 @@
 #include "utils/quickjs_helper.hpp"
 #include "utils/env.hpp"
-#include "utils/str_helper.hpp"
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/core/error_macros.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace godot;
 
-HashMap<StringName, JSClassID> classes;
+std::unordered_map<std::type_index, JSClassID> classes;
 
 enum {
 	/* classid tag        */ /* union usage   | properties */
@@ -75,38 +74,38 @@ enum {
 };
 
 void print_exception(JSContext *ctx) {
-    JSValue exception_val, val;
-    const char *stack;
+	JSValue exception_val, val;
+	const char *stack;
 
-    // 1. 从 context 中获取异常对象
-    exception_val = JS_GetException(ctx);
+	// 1. 从 context 中获取异常对象
+	exception_val = JS_GetException(ctx);
 
-    // 2. 尝试获取 'stack' 属性，它包含最详细的信息
-    val = JS_GetPropertyStr(ctx, exception_val, "stack");
-    if (!JS_IsUndefined(val)) {
-        stack = JS_ToCString(ctx, val);
-        if (stack) {
-            UtilityFunctions::print("Caught Exception: ", stack);
-            JS_FreeCString(ctx, stack);
-        }
-    }
-    JS_FreeValue(ctx, val); // 释放 'stack' 属性的 JSValue
+	// 2. 尝试获取 'stack' 属性，它包含最详细的信息
+	val = JS_GetPropertyStr(ctx, exception_val, "stack");
+	if (!JS_IsUndefined(val)) {
+		stack = JS_ToCString(ctx, val);
+		if (stack) {
+			UtilityFunctions::print("Caught Exception: ", stack);
+			JS_FreeCString(ctx, stack);
+		}
+	}
+	JS_FreeValue(ctx, val); // 释放 'stack' 属性的 JSValue
 
-    // 3. 如果没有 'stack'，就直接打印异常本身
-    //    JS_ToCString 会自动调用 error.toString()
-    if (JS_IsError(ctx, exception_val)) {
-        const char *err_str = JS_ToCString(ctx, exception_val);
-        if (err_str) {
-            // 如果上面已经打印了 stack，这里就不用重复打印了
-            // 但作为备用方案，这很有用
-            // printf("Error: %s\n", err_str);
+	// 3. 如果没有 'stack'，就直接打印异常本身
+	//    JS_ToCString 会自动调用 error.toString()
+	if (JS_IsError(ctx, exception_val)) {
+		const char *err_str = JS_ToCString(ctx, exception_val);
+		if (err_str) {
+			// 如果上面已经打印了 stack，这里就不用重复打印了
+			// 但作为备用方案，这很有用
+			// printf("Error: %s\n", err_str);
 			UtilityFunctions::print(err_str);
-            JS_FreeCString(ctx, err_str);
-        }
-    }
+			JS_FreeCString(ctx, err_str);
+		}
+	}
 
-    // 4. 释放异常对象本身
-    JS_FreeValue(ctx, exception_val);
+	// 4. 释放异常对象本身
+	JS_FreeValue(ctx, exception_val);
 }
 
 bool is_exception(JSContext *ctx, JSValue exp) {
@@ -124,165 +123,172 @@ static inline int64_t to_int64(JSContext *ctx, JSValue val) {
 	return i;
 }
 
-void *create_heap_copy_from_variant(const Variant &p_variant) {
+void *create_heap_copy_from_variant(const Variant &p_variant, std::type_index &type_index) {
+#define RETURN_VARIANT_FROM_HEAP(type)                                    \
+	{                                                                     \
+		type *raw_mem = reinterpret_cast<type *>(memalloc(sizeof(type))); \
+		type_index = typeid(type);                                        \
+		return new (raw_mem) type(p_variant);                             \
+	}
+
 	switch (p_variant.get_type()) {
 		case Variant::VECTOR2:
-			return memnew(Vector2(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Vector2);
 		case Variant::VECTOR2I:
-			return memnew(Vector2i(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Vector2i);
 		case Variant::VECTOR3:
-			return memnew(Vector3(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Vector3);
 		case Variant::VECTOR3I:
-			return memnew(Vector3i(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Vector3i);
 		case Variant::VECTOR4:
-			return memnew(Vector4(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Vector4);
 		case Variant::VECTOR4I:
-			return memnew(Vector4i(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Vector4i);
 		case Variant::AABB:
-			return memnew(AABB(p_variant));
+			RETURN_VARIANT_FROM_HEAP(AABB);
 		case Variant::BASIS:
-			return memnew(Basis(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Basis);
 		case Variant::CALLABLE:
-			return memnew(Callable(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Callable);
 		case Variant::COLOR:
-			return memnew(Color(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Color);
 		case Variant::DICTIONARY:
-			return memnew(Dictionary(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Dictionary);
 		case Variant::NODE_PATH:
-			return memnew(NodePath(p_variant));
+			RETURN_VARIANT_FROM_HEAP(NodePath);
 		case Variant::PLANE:
-			return memnew(Plane(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Plane);
 		case Variant::PROJECTION:
-			return memnew(Projection(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Projection);
 		case Variant::QUATERNION:
-			return memnew(Quaternion(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Quaternion);
 		case Variant::RECT2:
-			return memnew(Rect2(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Rect2);
 		case Variant::RECT2I:
-			return memnew(Rect2i(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Rect2i);
 		case Variant::RID:
-			return memnew(RID(p_variant));
+			RETURN_VARIANT_FROM_HEAP(RID);
 		case Variant::SIGNAL:
-			return memnew(Signal(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Signal);
 		case Variant::TRANSFORM2D:
-			return memnew(Transform2D(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Transform2D);
 		case Variant::TRANSFORM3D:
-			return memnew(Transform3D(p_variant));
+			RETURN_VARIANT_FROM_HEAP(Transform3D);
 		case Variant::PACKED_BYTE_ARRAY:
-			return memnew(PackedByteArray(p_variant));
+			RETURN_VARIANT_FROM_HEAP(PackedByteArray);
 		case Variant::PACKED_COLOR_ARRAY:
-			return memnew(PackedColorArray(p_variant));
+			RETURN_VARIANT_FROM_HEAP(PackedColorArray);
 		case Variant::PACKED_FLOAT32_ARRAY:
-			return memnew(PackedFloat32Array(p_variant));
+			RETURN_VARIANT_FROM_HEAP(PackedFloat32Array);
 		case Variant::PACKED_FLOAT64_ARRAY:
-			return memnew(PackedFloat64Array(p_variant));
+			RETURN_VARIANT_FROM_HEAP(PackedFloat64Array);
 		case Variant::PACKED_INT32_ARRAY:
-			return memnew(PackedInt32Array(p_variant));
+			RETURN_VARIANT_FROM_HEAP(PackedInt32Array);
 		case Variant::PACKED_INT64_ARRAY:
-			return memnew(PackedInt64Array(p_variant));
+			RETURN_VARIANT_FROM_HEAP(PackedInt64Array);
 		case Variant::PACKED_STRING_ARRAY:
-			return memnew(PackedStringArray(p_variant));
+			RETURN_VARIANT_FROM_HEAP(PackedStringArray);
 		case Variant::PACKED_VECTOR2_ARRAY:
-			return memnew(PackedVector2Array(p_variant));
+			RETURN_VARIANT_FROM_HEAP(PackedVector2Array);
 		case Variant::PACKED_VECTOR3_ARRAY:
-			return memnew(PackedVector3Array(p_variant));
+			RETURN_VARIANT_FROM_HEAP(PackedVector3Array);
 		case Variant::PACKED_VECTOR4_ARRAY:
-			return memnew(PackedVector4Array(p_variant));
+			RETURN_VARIANT_FROM_HEAP(PackedVector4Array);
 		default:
-			// 对于不支持的类型，返回 nullptr
-			return nullptr;
+			RETURN_VARIANT_FROM_HEAP(Variant)
 	}
 }
 
-JSValue variant_to_jsvalue(const Variant &val) {
-	Variant::Type type = val.get_type();
-	String type_name = Variant::get_type_name(type);
-	switch (type) {
-		case Variant::Type::NIL:
-			return JS_UNDEFINED;
-		case Variant::Type::INT:
-			return JS_NewInt64(js_context(), val);
-		case Variant::Type::FLOAT:
-			return JS_NewFloat64(js_context(), val);
-		case Variant::Type::BOOL:
-			return JS_NewBool(js_context(), val);
-		case Variant::Type::STRING:
-			return JS_NewString(js_context(), to_chars(String(val)));
-		case Variant::Type::STRING_NAME:
-			return JS_NewString(js_context(), to_chars(StringName(val)));
-		case Variant::Type::VECTOR2:
-		case Variant::Type::VECTOR2I:
-		case Variant::Type::VECTOR3:
-		case Variant::Type::VECTOR3I:
-		case Variant::Type::VECTOR4:
-		case Variant::Type::VECTOR4I:
-		case Variant::Type::AABB:
-		case Variant::Type::BASIS:
-		case Variant::Type::CALLABLE:
-		case Variant::Type::COLOR:
-		case Variant::Type::DICTIONARY:
-		case Variant::Type::NODE_PATH:
-		case Variant::Type::PLANE:
-		case Variant::Type::PROJECTION:
-		case Variant::Type::QUATERNION:
-		case Variant::Type::RECT2:
-		case Variant::Type::RECT2I:
-		case Variant::Type::RID:
-		case Variant::Type::SIGNAL:
-		case Variant::Type::TRANSFORM2D:
-		case Variant::Type::TRANSFORM3D:
-		case Variant::Type::PACKED_BYTE_ARRAY:
-		case Variant::Type::PACKED_COLOR_ARRAY:
-		case Variant::Type::PACKED_FLOAT32_ARRAY:
-		case Variant::Type::PACKED_FLOAT64_ARRAY:
-		case Variant::Type::PACKED_INT32_ARRAY:
-		case Variant::Type::PACKED_INT64_ARRAY:
-		case Variant::Type::PACKED_STRING_ARRAY:
-		case Variant::Type::PACKED_VECTOR2_ARRAY:
-		case Variant::Type::PACKED_VECTOR3_ARRAY:
-		case Variant::Type::PACKED_VECTOR4_ARRAY: {
-			void *gd_obj_copy = const_cast<Variant *>(&val);
-			if (!gd_obj_copy) {
-				return JS_UNDEFINED;
-			}
-			String type_name = Variant::get_type_name(type);
-			JSClassID class_id = classes[type_name];
-			JSValue js_obj = JS_NewObjectClass(js_context(), class_id);
-			JS_SetOpaque(js_obj, gd_obj_copy);
-			return js_obj;
-		}
-		case Variant::Type::ARRAY: {
-			Array arr = val;
-			JSValue js_arr = JS_NewArray(js_context());
-			for (int i = 0; i < arr.size(); i++) {
-				JS_SetPropertyUint32(js_context(), js_arr, i, variant_to_jsvalue(arr[i]));
-			}
-			return js_arr;
-		}
-		case Variant::Type::OBJECT: {
-			Object *obj = val;
-			if (obj) {
-				const char *class_name = to_chars(obj->get_class());
-				char code[1024];
-				sprintf(code, "import { %s } from \"@godot/classes/%s\";", class_name, camelToSnake(class_name).c_str());
-				JS_Eval(js_context(), code, strlen(code), "<eval>", JS_EVAL_TYPE_MODULE);
-				JSClassID class_id = classes[class_name];
-				JSValue js_obj = JS_NewObjectClass(js_context(), class_id);
-				JS_SetOpaque(js_obj, obj);
-				return js_obj;
-			}
-			return JS_UNDEFINED;
-		}
-		default: {
-			return JS_UNDEFINED;
-		}
-	}
-}
+// JSValue variant_to_jsvalue(const Variant &val) {
+// 	Variant::Type type = val.get_type();
+// 	String type_name = Variant::get_type_name(type);
+// 	switch (type) {
+// 		case Variant::Type::NIL:
+// 			return JS_UNDEFINED;
+// 		case Variant::Type::INT:
+// 			return JS_NewInt64(js_context(), val);
+// 		case Variant::Type::FLOAT:
+// 			return JS_NewFloat64(js_context(), val);
+// 		case Variant::Type::BOOL:
+// 			return JS_NewBool(js_context(), val);
+// 		case Variant::Type::STRING:
+// 			return JS_NewString(js_context(), to_chars(String(val)));
+// 		case Variant::Type::STRING_NAME:
+// 			return JS_NewString(js_context(), to_chars(StringName(val)));
+// 		case Variant::Type::VECTOR2:
+// 		case Variant::Type::VECTOR2I:
+// 		case Variant::Type::VECTOR3:
+// 		case Variant::Type::VECTOR3I:
+// 		case Variant::Type::VECTOR4:
+// 		case Variant::Type::VECTOR4I:
+// 		case Variant::Type::AABB:
+// 		case Variant::Type::BASIS:
+// 		case Variant::Type::CALLABLE:
+// 		case Variant::Type::COLOR:
+// 		case Variant::Type::DICTIONARY:
+// 		case Variant::Type::NODE_PATH:
+// 		case Variant::Type::PLANE:
+// 		case Variant::Type::PROJECTION:
+// 		case Variant::Type::QUATERNION:
+// 		case Variant::Type::RECT2:
+// 		case Variant::Type::RECT2I:
+// 		case Variant::Type::RID:
+// 		case Variant::Type::SIGNAL:
+// 		case Variant::Type::TRANSFORM2D:
+// 		case Variant::Type::TRANSFORM3D:
+// 		case Variant::Type::PACKED_BYTE_ARRAY:
+// 		case Variant::Type::PACKED_COLOR_ARRAY:
+// 		case Variant::Type::PACKED_FLOAT32_ARRAY:
+// 		case Variant::Type::PACKED_FLOAT64_ARRAY:
+// 		case Variant::Type::PACKED_INT32_ARRAY:
+// 		case Variant::Type::PACKED_INT64_ARRAY:
+// 		case Variant::Type::PACKED_STRING_ARRAY:
+// 		case Variant::Type::PACKED_VECTOR2_ARRAY:
+// 		case Variant::Type::PACKED_VECTOR3_ARRAY:
+// 		case Variant::Type::PACKED_VECTOR4_ARRAY: {
+// 			std::type_index created_type(typeid(void));
+// 			void *gd_obj = create_heap_copy_from_variant(val, created_type);
+// 			if (!gd_obj) {
+// 				return JS_UNDEFINED;
+// 			}
+// 			String type_name = Variant::get_type_name(type);
+// 			JSClassID class_id = classes[created_type];
+// 			JSValue js_obj = JS_NewObjectClass(js_context(), class_id);
+// 			JS_SetOpaque(js_obj, gd_obj);
+// 			return js_obj;
+// 		}
+// 		case Variant::Type::ARRAY: {
+// 			Array arr = val;
+// 			JSValue js_arr = JS_NewArray(js_context());
+// 			for (int i = 0; i < arr.size(); i++) {
+// 				JS_SetPropertyUint32(js_context(), js_arr, i, variant_to_jsvalue(arr[i]));
+// 			}
+// 			return js_arr;
+// 		}
+// 		case Variant::Type::OBJECT: {
+// 			Object *obj = val;
+// 			if (obj) {
+// 				const char *class_name = to_chars(obj->get_class());
+// 				char code[1024];
+// 				sprintf(code, "import { %s } from \"@godot/classes/%s\";", class_name, camelToSnake(class_name).c_str());
+// 				JS_Eval(js_context(), code, strlen(code), "<eval>", JS_EVAL_TYPE_MODULE);
+// 				JSClassID class_id = classes[typeid(*obj)];
+// 				JSValue js_obj = JS_NewObjectClass(js_context(), class_id);
+// 				JS_SetOpaque(js_obj, obj);
+// 				return js_obj;
+// 			}
+// 			return JS_UNDEFINED;
+// 		}
+// 		default: {
+// 			return JS_UNDEFINED;
+// 		}
+// 	}
+// }
 
 static inline Variant js_obj_to_variant(JSValue val) {
-#define CASE_TO_VARIANT_CASE(type)                                     \
-	else if (class_id == classes[#type]) {                             \
-		return *reinterpret_cast<type *>(JS_GetOpaque(val, class_id)); \
+#define OBJ_TO_VARIANT_CASE(type)                                                                 \
+	else if (class_id == classes[typeid(type)]) {                                                 \
+		return *(reinterpret_cast<GDVariantAdapter<type> *>(JS_GetOpaque(val, class_id))->get()); \
 	}
 
 	JSClassID class_id = JS_GetClassID(val);
@@ -292,38 +298,83 @@ static inline Variant js_obj_to_variant(JSValue val) {
 		int64_t len = to_int64(js_context(), js_len);
 		for (int64_t i = 0; i < len; i++) {
 			JSValue el = JS_GetPropertyUint32(js_context(), val, i);
-			gd_arr.append(js_obj_to_variant(el));
+			gd_arr.append(jsvalue_to_variant(el));
 		}
 		JS_FreeValue(js_context(), js_len);
 		return gd_arr;
 	}
-	CASE_TO_VARIANT_CASE(Vector2)
-	CASE_TO_VARIANT_CASE(Vector2i)
-	CASE_TO_VARIANT_CASE(Vector3)
-	CASE_TO_VARIANT_CASE(Vector3i)
-	CASE_TO_VARIANT_CASE(Vector4)
-	CASE_TO_VARIANT_CASE(Vector4i)
-	CASE_TO_VARIANT_CASE(AABB)
-	CASE_TO_VARIANT_CASE(Callable)
-	CASE_TO_VARIANT_CASE(Basis)
-	CASE_TO_VARIANT_CASE(Dictionary)
-	CASE_TO_VARIANT_CASE(Color)
-	CASE_TO_VARIANT_CASE(NodePath)
-	CASE_TO_VARIANT_CASE(Plane)
-	CASE_TO_VARIANT_CASE(Projection)
-	CASE_TO_VARIANT_CASE(Quaternion)
-	CASE_TO_VARIANT_CASE(Rect2)
-	CASE_TO_VARIANT_CASE(Rect2i)
-	CASE_TO_VARIANT_CASE(RID)
-	CASE_TO_VARIANT_CASE(Signal)
-	CASE_TO_VARIANT_CASE(Transform2D)
-	CASE_TO_VARIANT_CASE(Transform3D)
-	CASE_TO_VARIANT_CASE(String)
-	CASE_TO_VARIANT_CASE(StringName)
+	OBJ_TO_VARIANT_CASE(Vector2)
+	OBJ_TO_VARIANT_CASE(Vector2i)
+	OBJ_TO_VARIANT_CASE(Vector3)
+	OBJ_TO_VARIANT_CASE(Vector3i)
+	OBJ_TO_VARIANT_CASE(Vector4)
+	OBJ_TO_VARIANT_CASE(Vector4i)
+	OBJ_TO_VARIANT_CASE(AABB)
+	OBJ_TO_VARIANT_CASE(Basis)
+	OBJ_TO_VARIANT_CASE(Callable)
+	OBJ_TO_VARIANT_CASE(Color)
+	OBJ_TO_VARIANT_CASE(Dictionary)
+	OBJ_TO_VARIANT_CASE(NodePath)
+	OBJ_TO_VARIANT_CASE(Projection)
+	OBJ_TO_VARIANT_CASE(Quaternion)
+	OBJ_TO_VARIANT_CASE(Rect2)
+	OBJ_TO_VARIANT_CASE(Rect2i)
+	OBJ_TO_VARIANT_CASE(RID)
+	OBJ_TO_VARIANT_CASE(Signal)
+	OBJ_TO_VARIANT_CASE(Transform2D)
+	OBJ_TO_VARIANT_CASE(Transform3D)
+	OBJ_TO_VARIANT_CASE(PackedByteArray)
+	OBJ_TO_VARIANT_CASE(PackedInt32Array)
+	OBJ_TO_VARIANT_CASE(PackedInt64Array)
+	OBJ_TO_VARIANT_CASE(PackedFloat32Array)
+	OBJ_TO_VARIANT_CASE(PackedFloat64Array)
+	OBJ_TO_VARIANT_CASE(PackedStringArray)
+	OBJ_TO_VARIANT_CASE(PackedVector2Array)
+	OBJ_TO_VARIANT_CASE(PackedVector3Array)
+	OBJ_TO_VARIANT_CASE(PackedVector4Array)
+	OBJ_TO_VARIANT_CASE(PackedColorArray)
+	OBJ_TO_VARIANT_CASE(PackedStringArray)
 	else {
-		return Variant(reinterpret_cast<Object *>(JS_GetOpaque(val, class_id)));
+		return reinterpret_cast<GDObjectAdapter<Object> *>(JS_GetOpaque(val, class_id))->get();
 	}
 }
+
+// template <typename T, typename = void>
+// static inline T js_obj_to_variant(JSValue val) {
+// 	JSClassID class_id = JS_GetClassID(val);
+// 	if (JS_IsArray(js_context(), val)) {
+// 		Array gd_arr;
+// 		JSValue js_len = JS_GetPropertyStr(js_context(), val, "length");
+// 		int64_t len = to_int64(js_context(), js_len);
+// 		for (int64_t i = 0; i < len; i++) {
+// 			JSValue el = JS_GetPropertyUint32(js_context(), val, i);
+// 			gd_arr.append(js_obj_to_variant<Variant>(el));
+// 		}
+// 		JS_FreeValue(js_context(), js_len);
+// 		return gd_arr;
+// 	} else {
+// 		return *reinterpret_cast<T *>(JS_GetOpaque(val, class_id));
+// 	}
+// }
+
+// template <typename T, std::enable_if_t<std::is_base_of_v<godot::Object, T>>>
+// static inline T *js_obj_to_variant(JSValue val) {
+// 	JSClassID class_id = JS_GetClassID(val);
+// 	if (JS_IsArray(js_context(), val)) {
+// 		Array *gd_arr = memalloc(sizeof(Array));
+// 		memnew_placement(gd_arr, Array());
+// 		JSValue js_len = JS_GetPropertyStr(js_context(), val, "length");
+// 		int64_t len = to_int64(js_context(), js_len);
+// 		for (int64_t i = 0; i < len; i++) {
+// 			JSValue el = JS_GetPropertyUint32(js_context(), val, i);
+// 			gd_arr->append(js_obj_to_variant<Variant>(el));
+// 		}
+// 		JS_FreeValue(js_context(), js_len);
+// 		return gd_arr;
+// 	} else {
+// 		return reinterpret_cast<T *>(JS_GetOpaque(val, class_id));
+// 	}
+// }
 
 Variant jsvalue_to_variant(JSValue val) {
 	int tag = JS_VALUE_GET_TAG(val);
@@ -348,7 +399,14 @@ Variant jsvalue_to_variant(JSValue val) {
 		case JS_TAG_NULL:
 		case JS_TAG_UNINITIALIZED:
 			return Variant();
-		default:
+		default: {
+			print_exception(js_context());
 			ERR_FAIL_V(Variant());
+		}
 	}
 }
+
+// template <typename T, std::enable_if_t<std::is_base_of_v<godot::Object, T>>>
+// T jsvalue_to_variant(JSValue val) {
+// 	return js_obj_to_variant(val);
+// }

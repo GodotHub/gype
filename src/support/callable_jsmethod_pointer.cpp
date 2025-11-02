@@ -58,7 +58,6 @@ Callable *create_custom_javascript_callable(JSValue instance, JSValue function) 
 	return ::internal::create_callable_ptr_from_ccmp(ccmp);
 }
 
-
 int CallableJSMethodPointer::get_argument_count(bool &r_is_valid) const {
 	JSValue js_count = JS_GetPropertyStr(js_context(), instance, "length");
 	int32_t count;
@@ -69,12 +68,13 @@ int CallableJSMethodPointer::get_argument_count(bool &r_is_valid) const {
 void CallableJSMethodPointer::call(const Variant **p_arguments, int p_argcount, Variant &r_return_value, GDExtensionCallError &r_call_error) const {
 	std::vector<JSValue> args;
 	for (int i = 0; i < p_argcount; i++) {
-		args.push_back(VariantAdapter((*p_arguments)[i]));
+		args.push_back(GDVariantAdapter<Variant>((*p_arguments)[i]));
 	}
 	JSValue ret = JS_Call(js_context(), function, instance, p_argcount, args.data());
-	if (is_exception(js_context(), ret))
+	if (is_exception(js_context(), ret)) {
 		r_call_error.error = GDExtensionCallErrorType::GDEXTENSION_CALL_ERROR_INVALID_METHOD;
-	r_return_value = VariantAdapter(ret);
+	}
+	r_return_value = *JSValueAdapter<Variant>(ret).get();
 	r_call_error.error = GDExtensionCallErrorType::GDEXTENSION_CALL_OK;
 }
 
@@ -101,7 +101,7 @@ Callable *create_callable_ptr_from_ccmp(CallableCustomMethodPointerBase *p_calla
 	Callable *callable = memnew(Callable);
 	::godot::internal::gdextension_interface_callable_custom_create2(callable->_native_ptr(), &info);
 	return callable;
-};
+}
 } // namespace internal
 
 } //namespace godot

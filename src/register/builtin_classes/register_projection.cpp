@@ -14,10 +14,10 @@
 using namespace godot;
 
 static void projection_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["Projection"];
-	Projection *opaque_ptr = static_cast<Projection *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(Projection)];
+	GDVariantAdapter<Projection> *opaque_ptr = static_cast<GDVariantAdapter<Projection> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<Projection *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -27,37 +27,44 @@ static JSClassDef projection_class_def = {
 };
 
 static JSValue projection_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["Projection"];
+	JSClassID class_id = classes[typeid(Projection)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
+	
+	Projection *instance = nullptr;
+	GDVariantAdapter<Projection> *adapter = reinterpret_cast<GDVariantAdapter<Projection> *>(memalloc(sizeof(GDVariantAdapter<Projection>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<Projection *>(memalloc(sizeof(Projection)));
+		instance = new (instance) Projection();
+	}
+	if (argc == 1&&(JSValueAdapter<Projection>::can_cast(argv[0]))) {
+		Projection v0 = *JSValueAdapter<Projection>(argv[0]).get();
+		instance = reinterpret_cast<Projection *>(memalloc(sizeof(Projection)));
+		instance = new (instance) Projection(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<Transform3D>::can_cast(argv[0]))) {
+		Transform3D v0 = *JSValueAdapter<Transform3D>(argv[0]).get();
+		instance = reinterpret_cast<Projection *>(memalloc(sizeof(Projection)));
+		instance = new (instance) Projection(v0);
+	}
+	if (argc == 4&&(JSValueAdapter<Vector4>::can_cast(argv[0]))&&(JSValueAdapter<Vector4>::can_cast(argv[1]))&&(JSValueAdapter<Vector4>::can_cast(argv[2]))&&(JSValueAdapter<Vector4>::can_cast(argv[3]))) {
+		Vector4 v0 = *JSValueAdapter<Vector4>(argv[0]).get();
+		Vector4 v1 = *JSValueAdapter<Vector4>(argv[1]).get();
+		Vector4 v2 = *JSValueAdapter<Vector4>(argv[2]).get();
+		Vector4 v3 = *JSValueAdapter<Vector4>(argv[3]).get();
+		instance = reinterpret_cast<Projection *>(memalloc(sizeof(Projection)));
+		instance = new (instance) Projection(v0, v1, v2, v3);
+	}
+	adapter = new (adapter) GDVariantAdapter<Projection>(*instance, true);
 
-	Projection *instance = nullptr;	if (argc == 0) {
-		instance = memnew(Projection());
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PROJECTION) {
-		Projection v0 = VariantAdapter(argv[0]).get<Projection>();
-		instance = memnew(Projection(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::TRANSFORM3D) {
-		Transform3D v0 = VariantAdapter(argv[0]).get<Transform3D>();
-		instance = memnew(Projection(v0));
-	}
-	if (argc == 4&&VariantAdapter(argv[0]).get_type() == Variant::Type::VECTOR4&&VariantAdapter(argv[1]).get_type() == Variant::Type::VECTOR4&&VariantAdapter(argv[2]).get_type() == Variant::Type::VECTOR4&&VariantAdapter(argv[3]).get_type() == Variant::Type::VECTOR4) {
-		Vector4 v0 = VariantAdapter(argv[0]).get<Vector4>();
-		Vector4 v1 = VariantAdapter(argv[1]).get<Vector4>();
-		Vector4 v2 = VariantAdapter(argv[2]).get<Vector4>();
-		Vector4 v3 = VariantAdapter(argv[3]).get<Vector4>();
-		instance = memnew(Projection(v0, v1, v2, v3));
-	}
-
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue projection_class_create_depth_correction(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -140,39 +147,39 @@ static JSValue projection_class_get_lod_multiplier(JSContext *ctx, JSValueConst 
 }
 
 static JSValue projection_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	return VariantAdapter(val.columns[0].x);
+	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes[typeid(Projection)]));
+	return GDVariantAdapter<Vector4>(val.columns[0]);
 }
 static JSValue projection_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	val.columns[0].x = VariantAdapter(*argv).get<float>();
+	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes[typeid(Projection)]));
+	val.columns[0] = *JSValueAdapter<Vector4>(*argv).get();
 	return JS_UNDEFINED;
 }
 static JSValue projection_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	return VariantAdapter(val.columns[1].y);
+	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes[typeid(Projection)]));
+	return GDVariantAdapter<Vector4>(val.columns[1]);
 }
 static JSValue projection_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	val.columns[1].y = VariantAdapter(*argv).get<float>();
+	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes[typeid(Projection)]));
+	val.columns[1] = *JSValueAdapter<Vector4>(*argv).get();
 	return JS_UNDEFINED;
 }
 static JSValue projection_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	return VariantAdapter(val.columns[2].z);
+	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes[typeid(Projection)]));
+	return GDVariantAdapter<Vector4>(val.columns[2]);
 }
 static JSValue projection_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	val.columns[2].z = VariantAdapter(*argv).get<float>();
+	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes[typeid(Projection)]));
+	val.columns[2] = *JSValueAdapter<Vector4>(*argv).get();
 	return JS_UNDEFINED;
 }
 static JSValue projection_class_get_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	return VariantAdapter(val.columns[3].w);
+	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes[typeid(Projection)]));
+	return GDVariantAdapter<Vector4>(val.columns[3]);
 }
 static JSValue projection_class_set_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes["Projection"]));
-	val.columns[3].w = VariantAdapter(*argv).get<float>();
+	Projection &val = *reinterpret_cast<Projection *>(JS_GetOpaque(this_val, classes[typeid(Projection)]));
+	val.columns[3] = *JSValueAdapter<Vector4>(*argv).get();
 	return JS_UNDEFINED;
 }
 
@@ -237,8 +244,7 @@ void define_projection_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_projection_class_init(JSContext *ctx) {
-	classes["Projection"] = JS_NewClassID(&classes["Projection"]);
-	JSClassID class_id = classes["Projection"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(Projection)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &projection_class_def);
 

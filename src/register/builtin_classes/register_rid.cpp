@@ -10,10 +10,10 @@
 using namespace godot;
 
 static void rid_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["RID"];
-	RID *opaque_ptr = static_cast<RID *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(RID)];
+	GDVariantAdapter<RID> *opaque_ptr = static_cast<GDVariantAdapter<RID> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<RID *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -23,26 +23,31 @@ static JSClassDef rid_class_def = {
 };
 
 static JSValue rid_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["RID"];
+	JSClassID class_id = classes[typeid(RID)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
-
-	RID *instance = nullptr;	if (argc == 0) {
-		instance = memnew(RID());
+	
+	RID *instance = nullptr;
+	GDVariantAdapter<RID> *adapter = reinterpret_cast<GDVariantAdapter<RID> *>(memalloc(sizeof(GDVariantAdapter<RID>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<RID *>(memalloc(sizeof(RID)));
+		instance = new (instance) RID();
 	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::RID) {
-		RID v0 = VariantAdapter(argv[0]).get<RID>();
-		instance = memnew(RID(v0));
+	if (argc == 1&&(JSValueAdapter<RID>::can_cast(argv[0]))) {
+		RID v0 = *JSValueAdapter<RID>(argv[0]).get();
+		instance = reinterpret_cast<RID *>(memalloc(sizeof(RID)));
+		instance = new (instance) RID(v0);
 	}
+	adapter = new (adapter) GDVariantAdapter<RID>(*instance, true);
 
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue rid_class_is_valid(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -60,8 +65,7 @@ static const JSCFunctionListEntry rid_class_proto_funcs[] = {
 
 
 static int js_rid_class_init(JSContext *ctx) {
-	classes["RID"] = JS_NewClassID(&classes["RID"]);
-	JSClassID class_id = classes["RID"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(RID)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &rid_class_def);
 

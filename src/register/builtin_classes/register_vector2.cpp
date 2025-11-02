@@ -6,14 +6,13 @@
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
 
-
 using namespace godot;
 
 static void vector2_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["Vector2"];
-	Vector2 *opaque_ptr = static_cast<Vector2 *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(Vector2)];
+	GDVariantAdapter<Vector2> *opaque_ptr = static_cast<GDVariantAdapter<Vector2> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<Vector2 *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -23,35 +22,42 @@ static JSClassDef vector2_class_def = {
 };
 
 static JSValue vector2_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["Vector2"];
+	JSClassID class_id = classes[typeid(Vector2)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
 
-	Vector2 *instance = nullptr;	if (argc == 0) {
-		instance = memnew(Vector2());
+	Vector2 *instance = nullptr;
+	GDVariantAdapter<Vector2> *adapter = reinterpret_cast<GDVariantAdapter<Vector2> *>(memalloc(sizeof(GDVariantAdapter<Vector2>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<Vector2 *>(memalloc(sizeof(Vector2)));
+		instance = new (instance) Vector2();
 	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::VECTOR2) {
-		Vector2 v0 = VariantAdapter(argv[0]).get<Vector2>();
-		instance = memnew(Vector2(v0));
+	if (argc == 1 && (JSValueAdapter<Vector2>::can_cast(argv[0]))) {
+		Vector2 v0 = *JSValueAdapter<Vector2>(argv[0]).get();
+		instance = reinterpret_cast<Vector2 *>(memalloc(sizeof(Vector2)));
+		instance = new (instance) Vector2(v0);
 	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::VECTOR2I) {
-		Vector2i v0 = VariantAdapter(argv[0]).get<Vector2i>();
-		instance = memnew(Vector2(v0));
+	if (argc == 1 && (JSValueAdapter<Vector2i>::can_cast(argv[0]))) {
+		Vector2i v0 = *JSValueAdapter<Vector2i>(argv[0]).get();
+		instance = reinterpret_cast<Vector2 *>(memalloc(sizeof(Vector2)));
+		instance = new (instance) Vector2(v0);
 	}
-	if (argc == 2&&(VariantAdapter(argv[0]).get_type() == Variant::Type::FLOAT || VariantAdapter(argv[0]).get_type() == Variant::Type::INT)&&(VariantAdapter(argv[1]).get_type() == Variant::Type::FLOAT || VariantAdapter(argv[1]).get_type() == Variant::Type::INT)) {
-		float v0 = VariantAdapter(argv[0]).get<float>();
-		float v1 = VariantAdapter(argv[1]).get<float>();
-		instance = memnew(Vector2(v0, v1));
+	if (argc == 2 && (JSValueAdapter<float>::can_cast(argv[0])) && (JSValueAdapter<float>::can_cast(argv[1]))) {
+		float v0 = *JSValueAdapter<float>(argv[0]).get();
+		float v1 = *JSValueAdapter<float>(argv[1]).get();
+		instance = reinterpret_cast<Vector2 *>(memalloc(sizeof(Vector2)));
+		instance = new (instance) Vector2(v0, v1);
 	}
+	adapter = new (adapter) GDVariantAdapter<Vector2>(*instance, true);
 
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue vector2_class_angle(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -200,21 +206,21 @@ static JSValue vector2_class_from_angle(JSContext *ctx, JSValueConst this_val, i
 }
 
 static JSValue vector2_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector2 &val = *reinterpret_cast<Vector2 *>(JS_GetOpaque(this_val, classes["Vector2"]));
-	return VariantAdapter(val.x);
+	Vector2 &val = *reinterpret_cast<Vector2 *>(JS_GetOpaque(this_val, classes[typeid(Vector2)]));
+	return GDVariantAdapter<float>(val.x);
 }
 static JSValue vector2_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector2 &val = *reinterpret_cast<Vector2 *>(JS_GetOpaque(this_val, classes["Vector2"]));
-	val.x = VariantAdapter(*argv).get<float>();
+	Vector2 &val = *reinterpret_cast<Vector2 *>(JS_GetOpaque(this_val, classes[typeid(Vector2)]));
+	val.x = *JSValueAdapter<float>(*argv).get();
 	return JS_UNDEFINED;
 }
 static JSValue vector2_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector2 &val = *reinterpret_cast<Vector2 *>(JS_GetOpaque(this_val, classes["Vector2"]));
-	return VariantAdapter(val.y);
+	Vector2 &val = *reinterpret_cast<Vector2 *>(JS_GetOpaque(this_val, classes[typeid(Vector2)]));
+	return GDVariantAdapter<float>(val.y);
 }
 static JSValue vector2_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector2 &val = *reinterpret_cast<Vector2 *>(JS_GetOpaque(this_val, classes["Vector2"]));
-	val.y = VariantAdapter(*argv).get<float>();
+	Vector2 &val = *reinterpret_cast<Vector2 *>(JS_GetOpaque(this_val, classes[typeid(Vector2)]));
+	val.y = *JSValueAdapter<float>(*argv).get();
 	return JS_UNDEFINED;
 }
 
@@ -287,13 +293,16 @@ void define_vector2_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_vector2_class_init(JSContext *ctx) {
-	classes["Vector2"] = JS_NewClassID(&classes["Vector2"]);
-	JSClassID class_id = classes["Vector2"];
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(&class_id);
+	classes[typeid(Vector2)] = class_id;
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &vector2_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	define_vector2_property(ctx, proto);	JS_SetPropertyFunctionList(ctx, proto, vector2_class_proto_funcs, _countof(vector2_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);
+	define_vector2_property(ctx, proto);
+	JS_SetPropertyFunctionList(ctx, proto, vector2_class_proto_funcs, _countof(vector2_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, vector2_class_constructor, "Vector2", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
 

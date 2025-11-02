@@ -11,10 +11,10 @@
 using namespace godot;
 
 static void array_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["Array"];
-	Array *opaque_ptr = static_cast<Array *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(Array)];
+	GDVariantAdapter<Array> *opaque_ptr = static_cast<GDVariantAdapter<Array> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<Array *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -24,73 +24,89 @@ static JSClassDef array_class_def = {
 };
 
 static JSValue array_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["Array"];
+	JSClassID class_id = classes[typeid(Array)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
+	
+	Array *instance = nullptr;
+	GDVariantAdapter<Array> *adapter = reinterpret_cast<GDVariantAdapter<Array> *>(memalloc(sizeof(GDVariantAdapter<Array>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<Array *>(memalloc(sizeof(Array)));
+		instance = new (instance) Array();
+	}
+	if (argc == 1&&(JSValueAdapter<Array>::can_cast(argv[0]))) {
+		Array v0 = *JSValueAdapter<Array>(argv[0]).get();
+		instance = reinterpret_cast<Array *>(memalloc(sizeof(Array)));
+		instance = new (instance) Array(v0);
+	}
+	if (argc == 4&&(JSValueAdapter<Array>::can_cast(argv[0]))&&(JSValueAdapter<int>::can_cast(argv[1]))&&(JSValueAdapter<StringName>::can_cast(argv[2]))&&(JSValueAdapter<Variant>::can_cast(argv[3]))) {
+		Array v0 = *JSValueAdapter<Array>(argv[0]).get();
+		int v1 = *JSValueAdapter<int>(argv[1]).get();
+		StringName v2 = *JSValueAdapter<StringName>(argv[2]).get();
+		Variant v3 = *JSValueAdapter<Variant>(argv[3]).get();
+		instance = reinterpret_cast<Array *>(memalloc(sizeof(Array)));
+		instance = new (instance) Array(v0, v1, v2, v3);
+	}
+	if (argc == 1&&(JSValueAdapter<PackedByteArray>::can_cast(argv[0]))) {
+		PackedByteArray v0 = *JSValueAdapter<PackedByteArray>(argv[0]).get();
+		instance = reinterpret_cast<Array *>(memalloc(sizeof(Array)));
+		instance = new (instance) Array(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<PackedInt32Array>::can_cast(argv[0]))) {
+		PackedInt32Array v0 = *JSValueAdapter<PackedInt32Array>(argv[0]).get();
+		instance = reinterpret_cast<Array *>(memalloc(sizeof(Array)));
+		instance = new (instance) Array(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<PackedInt64Array>::can_cast(argv[0]))) {
+		PackedInt64Array v0 = *JSValueAdapter<PackedInt64Array>(argv[0]).get();
+		instance = reinterpret_cast<Array *>(memalloc(sizeof(Array)));
+		instance = new (instance) Array(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<PackedFloat32Array>::can_cast(argv[0]))) {
+		PackedFloat32Array v0 = *JSValueAdapter<PackedFloat32Array>(argv[0]).get();
+		instance = reinterpret_cast<Array *>(memalloc(sizeof(Array)));
+		instance = new (instance) Array(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<PackedFloat64Array>::can_cast(argv[0]))) {
+		PackedFloat64Array v0 = *JSValueAdapter<PackedFloat64Array>(argv[0]).get();
+		instance = reinterpret_cast<Array *>(memalloc(sizeof(Array)));
+		instance = new (instance) Array(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<PackedStringArray>::can_cast(argv[0]))) {
+		PackedStringArray v0 = *JSValueAdapter<PackedStringArray>(argv[0]).get();
+		instance = reinterpret_cast<Array *>(memalloc(sizeof(Array)));
+		instance = new (instance) Array(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<PackedVector2Array>::can_cast(argv[0]))) {
+		PackedVector2Array v0 = *JSValueAdapter<PackedVector2Array>(argv[0]).get();
+		instance = reinterpret_cast<Array *>(memalloc(sizeof(Array)));
+		instance = new (instance) Array(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<PackedVector3Array>::can_cast(argv[0]))) {
+		PackedVector3Array v0 = *JSValueAdapter<PackedVector3Array>(argv[0]).get();
+		instance = reinterpret_cast<Array *>(memalloc(sizeof(Array)));
+		instance = new (instance) Array(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<PackedColorArray>::can_cast(argv[0]))) {
+		PackedColorArray v0 = *JSValueAdapter<PackedColorArray>(argv[0]).get();
+		instance = reinterpret_cast<Array *>(memalloc(sizeof(Array)));
+		instance = new (instance) Array(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<PackedVector4Array>::can_cast(argv[0]))) {
+		PackedVector4Array v0 = *JSValueAdapter<PackedVector4Array>(argv[0]).get();
+		instance = reinterpret_cast<Array *>(memalloc(sizeof(Array)));
+		instance = new (instance) Array(v0);
+	}
+	adapter = new (adapter) GDVariantAdapter<Array>(*instance, true);
 
-	Array *instance = nullptr;	if (argc == 0) {
-		instance = memnew(Array());
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::ARRAY) {
-		Array v0 = VariantAdapter(argv[0]).get<Array>();
-		instance = memnew(Array(v0));
-	}
-	if (argc == 4&&VariantAdapter(argv[0]).get_type() == Variant::Type::ARRAY&&VariantAdapter(argv[1]).get_type() == Variant::Type::INT&&VariantAdapter(argv[2]).get_type() == Variant::Type::STRING_NAME&&VariantAdapter(argv[3]).get_type() != Variant::Type::VARIANT_MAX) {
-		Array v0 = VariantAdapter(argv[0]).get<Array>();
-		int v1 = VariantAdapter(argv[1]).get<int>();
-		StringName v2 = VariantAdapter(argv[2]).get<StringName>();
-		Variant v3 = VariantAdapter(argv[3]).get<Variant>();
-		instance = memnew(Array(v0, v1, v2, v3));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_BYTE_ARRAY) {
-		PackedByteArray v0 = VariantAdapter(argv[0]).get<PackedByteArray>();
-		instance = memnew(Array(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_INT32_ARRAY) {
-		PackedInt32Array v0 = VariantAdapter(argv[0]).get<PackedInt32Array>();
-		instance = memnew(Array(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_INT64_ARRAY) {
-		PackedInt64Array v0 = VariantAdapter(argv[0]).get<PackedInt64Array>();
-		instance = memnew(Array(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_FLOAT32_ARRAY) {
-		PackedFloat32Array v0 = VariantAdapter(argv[0]).get<PackedFloat32Array>();
-		instance = memnew(Array(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_FLOAT64_ARRAY) {
-		PackedFloat64Array v0 = VariantAdapter(argv[0]).get<PackedFloat64Array>();
-		instance = memnew(Array(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_STRING_ARRAY) {
-		PackedStringArray v0 = VariantAdapter(argv[0]).get<PackedStringArray>();
-		instance = memnew(Array(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_VECTOR2_ARRAY) {
-		PackedVector2Array v0 = VariantAdapter(argv[0]).get<PackedVector2Array>();
-		instance = memnew(Array(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_VECTOR3_ARRAY) {
-		PackedVector3Array v0 = VariantAdapter(argv[0]).get<PackedVector3Array>();
-		instance = memnew(Array(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_COLOR_ARRAY) {
-		PackedColorArray v0 = VariantAdapter(argv[0]).get<PackedColorArray>();
-		instance = memnew(Array(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_VECTOR4_ARRAY) {
-		PackedVector4Array v0 = VariantAdapter(argv[0]).get<PackedVector4Array>();
-		instance = memnew(Array(v0));
-	}
-
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue array_class_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -319,8 +335,9 @@ static const JSCFunctionListEntry array_class_proto_funcs[] = {
 
 
 static int js_array_class_init(JSContext *ctx) {
-	classes["Array"] = JS_NewClassID(&classes["Array"]);
-	JSClassID class_id = classes["Array"];
+	JSClassID class_id;
+	class_id = JS_NewClassID(&class_id);
+	classes[typeid(Array)] = class_id;
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &array_class_def);
 

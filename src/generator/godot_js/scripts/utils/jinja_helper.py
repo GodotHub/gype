@@ -39,39 +39,6 @@ def put_args(arguments):
     
     return ", ".join(arg_names)
 
-def variant_type_cond(arguments):
-    """
-    【已实现】
-    为构造函数重载生成C++的类型检查条件字符串。
-    这用于在多个构造函数中根据传入的JS参数类型选择正确的C++构造函数。
-    
-    例如，对于 (Vector3, Vector3) 构造函数，它会生成:
-    "&&VariantAdapter(argv[0]).get_type() == Variant::Type::VECTOR3&&VariantAdapter(argv[1]).get_type() == Variant::Type::VECTOR3"
-    
-    特别处理：当期望类型为 float 时，也允许传入 int。
-    
-    :param arguments: 来自 extension_api.json 的参数列表。
-    :return: C++ 'if' 条件检查字符串，如果无参数则返回空字符串。
-    """
-    if not arguments:
-        return ''
-
-    conditions = []
-    for i, arg in enumerate(arguments):
-        # 将 JSON 中的类型名 (如 "Vector3i") 转换为 Variant.Type 枚举名 (如 "VECTOR3I")
-        vtype = camel_to_snake(arg['type']).upper()
-        
-        # 特殊处理：如果C++需要float，我们可以接受JS的number（可能是int或float）
-        if vtype == 'FLOAT':
-            condition = f'(VariantAdapter(argv[{i}]).get_type() == Variant::Type::FLOAT || VariantAdapter(argv[{i}]).get_type() == Variant::Type::INT)'
-        else:
-            condition = f'VariantAdapter(argv[{i}]).get_type() == Variant::Type::{vtype}'
-        conditions.append(condition)
-    
-    # 将所有条件用 '&&' 连接，并在开头加上 '&&' 以简化模板中的if语句
-    return '&&' + '&&'.join(conditions)
-
-
 def connect_mutable_args(arguments: list, all_class_names: set) -> str:
     """
     【已修正】
@@ -130,32 +97,14 @@ def put_args(arguments):
     return ", ".join(arg_names)
 
 def variant_type_cond(arguments):
-    """
-    【已实现】
-    为构造函数重载生成C++的类型检查条件字符串。
-    这用于在多个构造函数中根据传入的JS参数类型选择正确的C++构造函数。
-    
-    例如，对于 (Vector3, Vector3) 构造函数，它会生成:
-    "&&VariantAdapter(argv[0]).get_type() == Variant::Type::VECTOR3&&VariantAdapter(argv[1]).get_type() == Variant::Type::VECTOR3"
-    
-    特别处理：当期望类型为 float 时，也允许传入 int。
-    
-    :param arguments: 来自 extension_api.json 的参数列表。
-    :return: C++ 'if' 条件检查字符串，如果无参数则返回空字符串。
-    """
     if not arguments:
         return ''
 
     conditions = []
     for i, arg in enumerate(arguments):
-        # 将 JSON 中的类型名 (如 "Vector3i") 转换为 Variant.Type 枚举名 (如 "VECTOR3I")
-        vtype = camel_to_snake(arg['type']).upper()
+        ltype = arg['type']
         
-        # 特殊处理：如果C++需要float，我们可以接受JS的number（可能是int或float）
-        if vtype == 'FLOAT':
-            condition = f'(VariantAdapter(argv[{i}]).get_type() == Variant::Type::FLOAT || VariantAdapter(argv[{i}]).get_type() == Variant::Type::INT)'
-        else:
-            condition = f'VariantAdapter(argv[{i}]).get_type() == Variant::Type::{vtype}'
+        condition = f'(JSValueAdapter<{ltype}>::can_cast(argv[{i}]))'
         conditions.append(condition)
     
     # 将所有条件用 '&&' 连接，并在开头加上 '&&' 以简化模板中的if语句
@@ -276,18 +225,19 @@ def get_property_accessor_expression(member, access_type):
     
     if access_type == 'get':
         getter = member.get('getter_name')
+        member_type = member['type']
         if getter:
-            return f'return VariantAdapter(val.{getter}());'
+            return f'return GDVariantAdapter<{member_type}>(val.{getter}());'
         else:
-            return f'return VariantAdapter(val.{member_name});'
+            return f'return GDVariantAdapter<{member_type}>(val.{member_name});'
     
     elif access_type == 'set':
         setter = member.get('setter_name')
         member_type = member['type']
         if setter:
-            return f'val.{setter}(VariantAdapter(*argv).get<{member_type}>());'
+            return f'val.{setter}(*JSValueAdapter<{member_type}>(*argv)).get();'
         else:
-            return f'val.{member_name} = VariantAdapter(*argv).get<{member_type}>();'
+            return f'val.{member_name} = *JSValueAdapter<{member_type}>(*argv).get();'
     
     return "// Invalid access type"
 

@@ -20,10 +20,10 @@
 using namespace godot;
 
 static void {{ cls_name_lower }}_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["{{ cls_name }}"];
-	{{ cls_name }} *opaque_ptr = static_cast<{{ cls_name }} *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid({{ cls_name }})];
+	GDVariantAdapter<{{cls_name}}> *opaque_ptr = static_cast<GDVariantAdapter<{{cls_name}}> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<{{cls_name}} *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -33,33 +33,35 @@ static JSClassDef {{ cls_name_lower }}_class_def = {
 };
 
 static JSValue {{ cls_name_lower }}_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["{{ cls_name }}"];
+	JSClassID class_id = classes[typeid({{ cls_name }})];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
-
+	
 	{{ cls_name }} *instance = nullptr;
-
-{%- for ctor in cls.constructors %}
+	GDVariantAdapter<{{cls_name}}> *adapter = reinterpret_cast<GDVariantAdapter<{{cls_name}}> *>(memalloc(sizeof(GDVariantAdapter<{{cls_name}}>)));
+{% for ctor in cls.constructors %}
 	if (argc == {{ ctor.arguments | length if ctor.arguments else 0 }}{% if ctor.arguments %}{{ variant_type_cond(ctor.arguments) }}{% endif %}) {
-		{% if ctor.arguments %}
-			{% for arg in ctor.arguments %}
-		{{ arg.type }} v{{ loop.index0 }} = VariantAdapter(argv[{{ loop.index0 }}]).get<{{ arg.type }}>();
-			{% endfor %}
-		instance = memnew({{ cls_name }}({{ put_args(ctor.arguments) }}));
-		{% else %}
-		instance = memnew({{ cls_name }}());
-		{% endif %}
+		{% for arg in ctor.arguments %}
+			{% if arg.type == "Object"%}
+		Object *v{{ loop.index0 }} = JSValueAdapter<{{arg.type}}>(argv[{{ loop.index0 }}]).get();
+			{% else%}
+		{{ arg.type }} v{{ loop.index0 }} = *JSValueAdapter<{{arg.type}}>(argv[{{ loop.index0 }}]).get();
+			{% endif %}
+		{% endfor %}
+		instance = reinterpret_cast<{{cls_name}} *>(memalloc(sizeof({{cls_name}})));
+		instance = new (instance) {{cls_name}}({{put_args(ctor.arguments)}});
 	}
 {% endfor %}
+	adapter = new (adapter) GDVariantAdapter<{{cls_name}}>(*instance, true);
 
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 {% if all_methods or cls.members %}
@@ -73,11 +75,11 @@ static JSValue {{cls_name_lower}}_class_{{method.name}}(JSContext *ctx, JSValueC
 {# Generate property accessors #}
 {% for member in cls.members %}
 static JSValue {{ cls_name_lower }}_class_get_{{ member.name }}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	{{ cls_name }} &val = *reinterpret_cast<{{ cls_name }} *>(JS_GetOpaque(this_val, classes["{{ cls_name }}"]));
+	{{ cls_name }} &val = *reinterpret_cast<{{ cls_name }} *>(JS_GetOpaque(this_val, classes[typeid({{ cls_name }})]));
 	{{ get_property_accessor_expression(member, 'get') }}
 }
 static JSValue {{ cls_name_lower }}_class_set_{{ member.name }}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	{{ cls_name }} &val = *reinterpret_cast<{{ cls_name }} *>(JS_GetOpaque(this_val, classes["{{ cls_name }}"]));
+	{{ cls_name }} &val = *reinterpret_cast<{{ cls_name }} *>(JS_GetOpaque(this_val, classes[typeid({{ cls_name }})]));
 	{{ get_property_accessor_expression(member, 'set') }}
 	return JS_UNDEFINED;
 }
@@ -107,8 +109,9 @@ void define_{{ cls_name_lower }}_property(JSContext *ctx, JSValue obj) {
 {% endif %}
 
 static int js_{{ cls_name_lower }}_class_init(JSContext *ctx) {
-	classes["{{ cls_name }}"] = JS_NewClassID(&classes["{{ cls_name }}"]);
-	JSClassID class_id = classes["{{ cls_name }}"];
+	JSClassID class_id;
+	class_id = JS_NewClassID(&class_id);
+	classes[typeid({{cls_name}})] = class_id;
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &{{ cls_name_lower }}_class_def);
 

@@ -10,10 +10,10 @@
 using namespace godot;
 
 static void rect2i_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["Rect2i"];
-	Rect2i *opaque_ptr = static_cast<Rect2i *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(Rect2i)];
+	GDVariantAdapter<Rect2i> *opaque_ptr = static_cast<GDVariantAdapter<Rect2i> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<Rect2i *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -23,42 +23,50 @@ static JSClassDef rect2i_class_def = {
 };
 
 static JSValue rect2i_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["Rect2i"];
+	JSClassID class_id = classes[typeid(Rect2i)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
 
-	Rect2i *instance = nullptr;	if (argc == 0) {
-		instance = memnew(Rect2i());
+	Rect2i *instance = nullptr;
+	GDVariantAdapter<Rect2i> *adapter = reinterpret_cast<GDVariantAdapter<Rect2i> *>(memalloc(sizeof(GDVariantAdapter<Rect2i>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<Rect2i *>(memalloc(sizeof(Rect2i)));
+		instance = new (instance) Rect2i();
 	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::RECT2I) {
-		Rect2i v0 = VariantAdapter(argv[0]).get<Rect2i>();
-		instance = memnew(Rect2i(v0));
+	if (argc == 1 && (JSValueAdapter<Rect2i>::can_cast(argv[0]))) {
+		Rect2i v0 = *JSValueAdapter<Rect2i>(argv[0]).get();
+		instance = reinterpret_cast<Rect2i *>(memalloc(sizeof(Rect2i)));
+		instance = new (instance) Rect2i(v0);
 	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::RECT2) {
-		Rect2 v0 = VariantAdapter(argv[0]).get<Rect2>();
-		instance = memnew(Rect2i(v0));
+	if (argc == 1 && (JSValueAdapter<Rect2>::can_cast(argv[0]))) {
+		Rect2 v0 = *JSValueAdapter<Rect2>(argv[0]).get();
+		instance = reinterpret_cast<Rect2i *>(memalloc(sizeof(Rect2i)));
+		instance = new (instance) Rect2i(v0);
 	}
-	if (argc == 2&&VariantAdapter(argv[0]).get_type() == Variant::Type::VECTOR2I&&VariantAdapter(argv[1]).get_type() == Variant::Type::VECTOR2I) {
-		Vector2i v0 = VariantAdapter(argv[0]).get<Vector2i>();
-		Vector2i v1 = VariantAdapter(argv[1]).get<Vector2i>();
-		instance = memnew(Rect2i(v0, v1));
+	if (argc == 2 && (JSValueAdapter<Vector2i>::can_cast(argv[0])) && (JSValueAdapter<Vector2i>::can_cast(argv[1]))) {
+		Vector2i v0 = *JSValueAdapter<Vector2i>(argv[0]).get();
+		Vector2i v1 = *JSValueAdapter<Vector2i>(argv[1]).get();
+		instance = reinterpret_cast<Rect2i *>(memalloc(sizeof(Rect2i)));
+		instance = new (instance) Rect2i(v0, v1);
 	}
-	if (argc == 4&&VariantAdapter(argv[0]).get_type() == Variant::Type::INT&&VariantAdapter(argv[1]).get_type() == Variant::Type::INT&&VariantAdapter(argv[2]).get_type() == Variant::Type::INT&&VariantAdapter(argv[3]).get_type() == Variant::Type::INT) {
-		int v0 = VariantAdapter(argv[0]).get<int>();
-		int v1 = VariantAdapter(argv[1]).get<int>();
-		int v2 = VariantAdapter(argv[2]).get<int>();
-		int v3 = VariantAdapter(argv[3]).get<int>();
-		instance = memnew(Rect2i(v0, v1, v2, v3));
+	if (argc == 4 && (JSValueAdapter<int>::can_cast(argv[0])) && (JSValueAdapter<int>::can_cast(argv[1])) && (JSValueAdapter<int>::can_cast(argv[2])) && (JSValueAdapter<int>::can_cast(argv[3]))) {
+		int v0 = *JSValueAdapter<int>(argv[0]).get();
+		int v1 = *JSValueAdapter<int>(argv[1]).get();
+		int v2 = *JSValueAdapter<int>(argv[2]).get();
+		int v3 = *JSValueAdapter<int>(argv[3]).get();
+		instance = reinterpret_cast<Rect2i *>(memalloc(sizeof(Rect2i)));
+		instance = new (instance) Rect2i(v0, v1, v2, v3);
 	}
+	adapter = new (adapter) GDVariantAdapter<Rect2i>(*instance, true);
 
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue rect2i_class_get_center(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -102,30 +110,30 @@ static JSValue rect2i_class_abs(JSContext *ctx, JSValueConst this_val, int argc,
 }
 
 static JSValue rect2i_class_get_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Rect2i &val = *reinterpret_cast<Rect2i *>(JS_GetOpaque(this_val, classes["Rect2i"]));
-	return VariantAdapter(val.position);
+	Rect2i &val = *reinterpret_cast<Rect2i *>(JS_GetOpaque(this_val, classes[typeid(Rect2i)]));
+	return GDVariantAdapter<Vector2i>(val.position);
 }
 static JSValue rect2i_class_set_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Rect2i &val = *reinterpret_cast<Rect2i *>(JS_GetOpaque(this_val, classes["Rect2i"]));
-	val.position = VariantAdapter(*argv).get<Vector2i>();
+	Rect2i &val = *reinterpret_cast<Rect2i *>(JS_GetOpaque(this_val, classes[typeid(Rect2i)]));
+	val.position = *JSValueAdapter<Vector2i>(*argv).get();
 	return JS_UNDEFINED;
 }
 static JSValue rect2i_class_get_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Rect2i &val = *reinterpret_cast<Rect2i *>(JS_GetOpaque(this_val, classes["Rect2i"]));
-	return VariantAdapter(val.size);
+	Rect2i &val = *reinterpret_cast<Rect2i *>(JS_GetOpaque(this_val, classes[typeid(Rect2i)]));
+	return GDVariantAdapter<Vector2i>(val.size);
 }
 static JSValue rect2i_class_set_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Rect2i &val = *reinterpret_cast<Rect2i *>(JS_GetOpaque(this_val, classes["Rect2i"]));
-	val.size = VariantAdapter(*argv).get<Vector2i>();
+	Rect2i &val = *reinterpret_cast<Rect2i *>(JS_GetOpaque(this_val, classes[typeid(Rect2i)]));
+	val.size = *JSValueAdapter<Vector2i>(*argv).get();
 	return JS_UNDEFINED;
 }
 static JSValue rect2i_class_get_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Rect2i &val = *reinterpret_cast<Rect2i *>(JS_GetOpaque(this_val, classes["Rect2i"]));
-	return VariantAdapter(val.get_end());
+	Rect2i &val = *reinterpret_cast<Rect2i *>(JS_GetOpaque(this_val, classes[typeid(Rect2i)]));
+	return GDVariantAdapter<Vector2i>(val.get_end());
 }
 static JSValue rect2i_class_set_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Rect2i &val = *reinterpret_cast<Rect2i *>(JS_GetOpaque(this_val, classes["Rect2i"]));
-	val.set_end(VariantAdapter(*argv).get<Vector2i>());
+	Rect2i &val = *reinterpret_cast<Rect2i *>(JS_GetOpaque(this_val, classes[typeid(Rect2i)]));
+	val.set_end(*JSValueAdapter<Vector2i>(*argv).get());
 	return JS_UNDEFINED;
 }
 
@@ -170,13 +178,14 @@ void define_rect2i_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_rect2i_class_init(JSContext *ctx) {
-	classes["Rect2i"] = JS_NewClassID(&classes["Rect2i"]);
-	JSClassID class_id = classes["Rect2i"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(Rect2i)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &rect2i_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	define_rect2i_property(ctx, proto);	JS_SetPropertyFunctionList(ctx, proto, rect2i_class_proto_funcs, _countof(rect2i_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);
+	define_rect2i_property(ctx, proto);
+	JS_SetPropertyFunctionList(ctx, proto, rect2i_class_proto_funcs, _countof(rect2i_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, rect2i_class_constructor, "Rect2i", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
 

@@ -11,10 +11,10 @@
 using namespace godot;
 
 static void transform3d_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["Transform3D"];
-	Transform3D *opaque_ptr = static_cast<Transform3D *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(Transform3D)];
+	GDVariantAdapter<Transform3D> *opaque_ptr = static_cast<GDVariantAdapter<Transform3D> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<Transform3D *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -24,42 +24,50 @@ static JSClassDef transform3d_class_def = {
 };
 
 static JSValue transform3d_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["Transform3D"];
+	JSClassID class_id = classes[typeid(Transform3D)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
+	
+	Transform3D *instance = nullptr;
+	GDVariantAdapter<Transform3D> *adapter = reinterpret_cast<GDVariantAdapter<Transform3D> *>(memalloc(sizeof(GDVariantAdapter<Transform3D>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<Transform3D *>(memalloc(sizeof(Transform3D)));
+		instance = new (instance) Transform3D();
+	}
+	if (argc == 1&&(JSValueAdapter<Transform3D>::can_cast(argv[0]))) {
+		Transform3D v0 = *JSValueAdapter<Transform3D>(argv[0]).get();
+		instance = reinterpret_cast<Transform3D *>(memalloc(sizeof(Transform3D)));
+		instance = new (instance) Transform3D(v0);
+	}
+	if (argc == 2&&(JSValueAdapter<Basis>::can_cast(argv[0]))&&(JSValueAdapter<Vector3>::can_cast(argv[1]))) {
+		Basis v0 = *JSValueAdapter<Basis>(argv[0]).get();
+		Vector3 v1 = *JSValueAdapter<Vector3>(argv[1]).get();
+		instance = reinterpret_cast<Transform3D *>(memalloc(sizeof(Transform3D)));
+		instance = new (instance) Transform3D(v0, v1);
+	}
+	if (argc == 4&&(JSValueAdapter<Vector3>::can_cast(argv[0]))&&(JSValueAdapter<Vector3>::can_cast(argv[1]))&&(JSValueAdapter<Vector3>::can_cast(argv[2]))&&(JSValueAdapter<Vector3>::can_cast(argv[3]))) {
+		Vector3 v0 = *JSValueAdapter<Vector3>(argv[0]).get();
+		Vector3 v1 = *JSValueAdapter<Vector3>(argv[1]).get();
+		Vector3 v2 = *JSValueAdapter<Vector3>(argv[2]).get();
+		Vector3 v3 = *JSValueAdapter<Vector3>(argv[3]).get();
+		instance = reinterpret_cast<Transform3D *>(memalloc(sizeof(Transform3D)));
+		instance = new (instance) Transform3D(v0, v1, v2, v3);
+	}
+	if (argc == 1&&(JSValueAdapter<Projection>::can_cast(argv[0]))) {
+		Projection v0 = *JSValueAdapter<Projection>(argv[0]).get();
+		instance = reinterpret_cast<Transform3D *>(memalloc(sizeof(Transform3D)));
+		instance = new (instance) Transform3D(v0);
+	}
+	adapter = new (adapter) GDVariantAdapter<Transform3D>(*instance, true);
 
-	Transform3D *instance = nullptr;	if (argc == 0) {
-		instance = memnew(Transform3D());
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::TRANSFORM3D) {
-		Transform3D v0 = VariantAdapter(argv[0]).get<Transform3D>();
-		instance = memnew(Transform3D(v0));
-	}
-	if (argc == 2&&VariantAdapter(argv[0]).get_type() == Variant::Type::BASIS&&VariantAdapter(argv[1]).get_type() == Variant::Type::VECTOR3) {
-		Basis v0 = VariantAdapter(argv[0]).get<Basis>();
-		Vector3 v1 = VariantAdapter(argv[1]).get<Vector3>();
-		instance = memnew(Transform3D(v0, v1));
-	}
-	if (argc == 4&&VariantAdapter(argv[0]).get_type() == Variant::Type::VECTOR3&&VariantAdapter(argv[1]).get_type() == Variant::Type::VECTOR3&&VariantAdapter(argv[2]).get_type() == Variant::Type::VECTOR3&&VariantAdapter(argv[3]).get_type() == Variant::Type::VECTOR3) {
-		Vector3 v0 = VariantAdapter(argv[0]).get<Vector3>();
-		Vector3 v1 = VariantAdapter(argv[1]).get<Vector3>();
-		Vector3 v2 = VariantAdapter(argv[2]).get<Vector3>();
-		Vector3 v3 = VariantAdapter(argv[3]).get<Vector3>();
-		instance = memnew(Transform3D(v0, v1, v2, v3));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PROJECTION) {
-		Projection v0 = VariantAdapter(argv[0]).get<Projection>();
-		instance = memnew(Transform3D(v0));
-	}
-
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue transform3d_class_inverse(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -103,21 +111,21 @@ static JSValue transform3d_class_is_finite(JSContext *ctx, JSValueConst this_val
 }
 
 static JSValue transform3d_class_get_basis(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform3D &val = *reinterpret_cast<Transform3D *>(JS_GetOpaque(this_val, classes["Transform3D"]));
-	return VariantAdapter(val.basis);
+	Transform3D &val = *reinterpret_cast<Transform3D *>(JS_GetOpaque(this_val, classes[typeid(Transform3D)]));
+	return GDVariantAdapter<Basis>(val.basis);
 }
 static JSValue transform3d_class_set_basis(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform3D &val = *reinterpret_cast<Transform3D *>(JS_GetOpaque(this_val, classes["Transform3D"]));
-	val.basis = VariantAdapter(*argv).get<Basis>();
+	Transform3D &val = *reinterpret_cast<Transform3D *>(JS_GetOpaque(this_val, classes[typeid(Transform3D)]));
+	val.basis = *JSValueAdapter<Basis>(*argv).get();
 	return JS_UNDEFINED;
 }
 static JSValue transform3d_class_get_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform3D &val = *reinterpret_cast<Transform3D *>(JS_GetOpaque(this_val, classes["Transform3D"]));
-	return VariantAdapter(val.origin);
+	Transform3D &val = *reinterpret_cast<Transform3D *>(JS_GetOpaque(this_val, classes[typeid(Transform3D)]));
+	return GDVariantAdapter<Vector3>(val.origin);
 }
 static JSValue transform3d_class_set_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform3D &val = *reinterpret_cast<Transform3D *>(JS_GetOpaque(this_val, classes["Transform3D"]));
-	val.origin = VariantAdapter(*argv).get<Vector3>();
+	Transform3D &val = *reinterpret_cast<Transform3D *>(JS_GetOpaque(this_val, classes[typeid(Transform3D)]));
+	val.origin = *JSValueAdapter<Vector3>(*argv).get();
 	return JS_UNDEFINED;
 }
 
@@ -155,8 +163,7 @@ void define_transform3d_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_transform3d_class_init(JSContext *ctx) {
-	classes["Transform3D"] = JS_NewClassID(&classes["Transform3D"]);
-	JSClassID class_id = classes["Transform3D"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(Transform3D)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &transform3d_class_def);
 

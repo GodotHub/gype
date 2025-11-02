@@ -1,10 +1,11 @@
 
 
 declare global {
-    declare class StringName {
+    declare class GDString {
         constructor();
         constructor(_from: GDString | StringName | string);
         constructor(_from: GDString | StringName | string);
+        constructor(_from: NodePath | GDString | string);
 
 
         public casecmp_to(to: GDString | StringName | string): number;
@@ -66,6 +67,7 @@ declare global {
         public unicode_at(at: number): number;
         public indent(prefix: GDString | StringName | string): GDString;
         public dedent(): GDString;
+        public hash(): number;
         public md5_text(): GDString;
         public sha1_text(): GDString;
         public sha256_text(): GDString;
@@ -116,7 +118,12 @@ declare global {
         public to_wchar_buffer(): PackedByteArray;
         public to_multibyte_char_buffer(encoding: GDString | StringName | string): PackedByteArray;
         public hex_decode(): PackedByteArray;
-        public hash(): number;
+        public static num_scientific(_number: number): GDString;
+        public static num(_number: number, decimals: number): GDString;
+        public static num_int64(_number: number, base: number, capitalize_hex: boolean): GDString;
+        public static num_uint64(_number: number, base: number, capitalize_hex: boolean): GDString;
+        public static chr(code: number): GDString;
+        public static humanize_size(size: number): GDString;
 
     }
 }

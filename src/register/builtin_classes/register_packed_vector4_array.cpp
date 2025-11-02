@@ -11,10 +11,10 @@
 using namespace godot;
 
 static void packed_vector4_array_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["PackedVector4Array"];
-	PackedVector4Array *opaque_ptr = static_cast<PackedVector4Array *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(PackedVector4Array)];
+	GDVariantAdapter<PackedVector4Array> *opaque_ptr = static_cast<GDVariantAdapter<PackedVector4Array> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<PackedVector4Array *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -24,30 +24,36 @@ static JSClassDef packed_vector4_array_class_def = {
 };
 
 static JSValue packed_vector4_array_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["PackedVector4Array"];
+	JSClassID class_id = classes[typeid(PackedVector4Array)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
+	
+	PackedVector4Array *instance = nullptr;
+	GDVariantAdapter<PackedVector4Array> *adapter = reinterpret_cast<GDVariantAdapter<PackedVector4Array> *>(memalloc(sizeof(GDVariantAdapter<PackedVector4Array>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<PackedVector4Array *>(memalloc(sizeof(PackedVector4Array)));
+		instance = new (instance) PackedVector4Array();
+	}
+	if (argc == 1&&(JSValueAdapter<PackedVector4Array>::can_cast(argv[0]))) {
+		PackedVector4Array v0 = *JSValueAdapter<PackedVector4Array>(argv[0]).get();
+		instance = reinterpret_cast<PackedVector4Array *>(memalloc(sizeof(PackedVector4Array)));
+		instance = new (instance) PackedVector4Array(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<Array>::can_cast(argv[0]))) {
+		Array v0 = *JSValueAdapter<Array>(argv[0]).get();
+		instance = reinterpret_cast<PackedVector4Array *>(memalloc(sizeof(PackedVector4Array)));
+		instance = new (instance) PackedVector4Array(v0);
+	}
+	adapter = new (adapter) GDVariantAdapter<PackedVector4Array>(*instance, true);
 
-	PackedVector4Array *instance = nullptr;	if (argc == 0) {
-		instance = memnew(PackedVector4Array());
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_VECTOR4_ARRAY) {
-		PackedVector4Array v0 = VariantAdapter(argv[0]).get<PackedVector4Array>();
-		instance = memnew(PackedVector4Array(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::ARRAY) {
-		Array v0 = VariantAdapter(argv[0]).get<Array>();
-		instance = memnew(PackedVector4Array(v0));
-	}
-
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue packed_vector4_array_class_get(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -156,8 +162,7 @@ static const JSCFunctionListEntry packed_vector4_array_class_proto_funcs[] = {
 
 
 static int js_packed_vector4_array_class_init(JSContext *ctx) {
-	classes["PackedVector4Array"] = JS_NewClassID(&classes["PackedVector4Array"]);
-	JSClassID class_id = classes["PackedVector4Array"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(PackedVector4Array)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &packed_vector4_array_class_def);
 

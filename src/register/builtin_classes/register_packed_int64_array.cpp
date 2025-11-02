@@ -10,10 +10,10 @@
 using namespace godot;
 
 static void packed_int64_array_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["PackedInt64Array"];
-	PackedInt64Array *opaque_ptr = static_cast<PackedInt64Array *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(PackedInt64Array)];
+	GDVariantAdapter<PackedInt64Array> *opaque_ptr = static_cast<GDVariantAdapter<PackedInt64Array> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<PackedInt64Array *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -23,30 +23,36 @@ static JSClassDef packed_int64_array_class_def = {
 };
 
 static JSValue packed_int64_array_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["PackedInt64Array"];
+	JSClassID class_id = classes[typeid(PackedInt64Array)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
+	
+	PackedInt64Array *instance = nullptr;
+	GDVariantAdapter<PackedInt64Array> *adapter = reinterpret_cast<GDVariantAdapter<PackedInt64Array> *>(memalloc(sizeof(GDVariantAdapter<PackedInt64Array>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<PackedInt64Array *>(memalloc(sizeof(PackedInt64Array)));
+		instance = new (instance) PackedInt64Array();
+	}
+	if (argc == 1&&(JSValueAdapter<PackedInt64Array>::can_cast(argv[0]))) {
+		PackedInt64Array v0 = *JSValueAdapter<PackedInt64Array>(argv[0]).get();
+		instance = reinterpret_cast<PackedInt64Array *>(memalloc(sizeof(PackedInt64Array)));
+		instance = new (instance) PackedInt64Array(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<Array>::can_cast(argv[0]))) {
+		Array v0 = *JSValueAdapter<Array>(argv[0]).get();
+		instance = reinterpret_cast<PackedInt64Array *>(memalloc(sizeof(PackedInt64Array)));
+		instance = new (instance) PackedInt64Array(v0);
+	}
+	adapter = new (adapter) GDVariantAdapter<PackedInt64Array>(*instance, true);
 
-	PackedInt64Array *instance = nullptr;	if (argc == 0) {
-		instance = memnew(PackedInt64Array());
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_INT64_ARRAY) {
-		PackedInt64Array v0 = VariantAdapter(argv[0]).get<PackedInt64Array>();
-		instance = memnew(PackedInt64Array(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::ARRAY) {
-		Array v0 = VariantAdapter(argv[0]).get<Array>();
-		instance = memnew(PackedInt64Array(v0));
-	}
-
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue packed_int64_array_class_get(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -155,8 +161,7 @@ static const JSCFunctionListEntry packed_int64_array_class_proto_funcs[] = {
 
 
 static int js_packed_int64_array_class_init(JSContext *ctx) {
-	classes["PackedInt64Array"] = JS_NewClassID(&classes["PackedInt64Array"]);
-	JSClassID class_id = classes["PackedInt64Array"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(PackedInt64Array)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &packed_int64_array_class_def);
 

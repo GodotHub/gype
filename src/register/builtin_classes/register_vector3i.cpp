@@ -10,10 +10,10 @@
 using namespace godot;
 
 static void vector3i_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["Vector3i"];
-	Vector3i *opaque_ptr = static_cast<Vector3i *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(Vector3i)];
+	GDVariantAdapter<Vector3i> *opaque_ptr = static_cast<GDVariantAdapter<Vector3i> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<Vector3i *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -23,36 +23,43 @@ static JSClassDef vector3i_class_def = {
 };
 
 static JSValue vector3i_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["Vector3i"];
+	JSClassID class_id = classes[typeid(Vector3i)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
+	
+	Vector3i *instance = nullptr;
+	GDVariantAdapter<Vector3i> *adapter = reinterpret_cast<GDVariantAdapter<Vector3i> *>(memalloc(sizeof(GDVariantAdapter<Vector3i>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<Vector3i *>(memalloc(sizeof(Vector3i)));
+		instance = new (instance) Vector3i();
+	}
+	if (argc == 1&&(JSValueAdapter<Vector3i>::can_cast(argv[0]))) {
+		Vector3i v0 = *JSValueAdapter<Vector3i>(argv[0]).get();
+		instance = reinterpret_cast<Vector3i *>(memalloc(sizeof(Vector3i)));
+		instance = new (instance) Vector3i(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<Vector3>::can_cast(argv[0]))) {
+		Vector3 v0 = *JSValueAdapter<Vector3>(argv[0]).get();
+		instance = reinterpret_cast<Vector3i *>(memalloc(sizeof(Vector3i)));
+		instance = new (instance) Vector3i(v0);
+	}
+	if (argc == 3&&(JSValueAdapter<int>::can_cast(argv[0]))&&(JSValueAdapter<int>::can_cast(argv[1]))&&(JSValueAdapter<int>::can_cast(argv[2]))) {
+		int v0 = *JSValueAdapter<int>(argv[0]).get();
+		int v1 = *JSValueAdapter<int>(argv[1]).get();
+		int v2 = *JSValueAdapter<int>(argv[2]).get();
+		instance = reinterpret_cast<Vector3i *>(memalloc(sizeof(Vector3i)));
+		instance = new (instance) Vector3i(v0, v1, v2);
+	}
+	adapter = new (adapter) GDVariantAdapter<Vector3i>(*instance, true);
 
-	Vector3i *instance = nullptr;	if (argc == 0) {
-		instance = memnew(Vector3i());
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::VECTOR3I) {
-		Vector3i v0 = VariantAdapter(argv[0]).get<Vector3i>();
-		instance = memnew(Vector3i(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::VECTOR3) {
-		Vector3 v0 = VariantAdapter(argv[0]).get<Vector3>();
-		instance = memnew(Vector3i(v0));
-	}
-	if (argc == 3&&VariantAdapter(argv[0]).get_type() == Variant::Type::INT&&VariantAdapter(argv[1]).get_type() == Variant::Type::INT&&VariantAdapter(argv[2]).get_type() == Variant::Type::INT) {
-		int v0 = VariantAdapter(argv[0]).get<int>();
-		int v1 = VariantAdapter(argv[1]).get<int>();
-		int v2 = VariantAdapter(argv[2]).get<int>();
-		instance = memnew(Vector3i(v0, v1, v2));
-	}
-
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue vector3i_class_min_axis_index(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -105,30 +112,30 @@ static JSValue vector3i_class_maxi(JSContext *ctx, JSValueConst this_val, int ar
 }
 
 static JSValue vector3i_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector3i &val = *reinterpret_cast<Vector3i *>(JS_GetOpaque(this_val, classes["Vector3i"]));
-	return VariantAdapter(val.x);
+	Vector3i &val = *reinterpret_cast<Vector3i *>(JS_GetOpaque(this_val, classes[typeid(Vector3i)]));
+	return GDVariantAdapter<int>(val.x);
 }
 static JSValue vector3i_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector3i &val = *reinterpret_cast<Vector3i *>(JS_GetOpaque(this_val, classes["Vector3i"]));
-	val.x = VariantAdapter(*argv).get<int>();
+	Vector3i &val = *reinterpret_cast<Vector3i *>(JS_GetOpaque(this_val, classes[typeid(Vector3i)]));
+	val.x = *JSValueAdapter<int>(*argv).get();
 	return JS_UNDEFINED;
 }
 static JSValue vector3i_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector3i &val = *reinterpret_cast<Vector3i *>(JS_GetOpaque(this_val, classes["Vector3i"]));
-	return VariantAdapter(val.y);
+	Vector3i &val = *reinterpret_cast<Vector3i *>(JS_GetOpaque(this_val, classes[typeid(Vector3i)]));
+	return GDVariantAdapter<int>(val.y);
 }
 static JSValue vector3i_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector3i &val = *reinterpret_cast<Vector3i *>(JS_GetOpaque(this_val, classes["Vector3i"]));
-	val.y = VariantAdapter(*argv).get<int>();
+	Vector3i &val = *reinterpret_cast<Vector3i *>(JS_GetOpaque(this_val, classes[typeid(Vector3i)]));
+	val.y = *JSValueAdapter<int>(*argv).get();
 	return JS_UNDEFINED;
 }
 static JSValue vector3i_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector3i &val = *reinterpret_cast<Vector3i *>(JS_GetOpaque(this_val, classes["Vector3i"]));
-	return VariantAdapter(val.z);
+	Vector3i &val = *reinterpret_cast<Vector3i *>(JS_GetOpaque(this_val, classes[typeid(Vector3i)]));
+	return GDVariantAdapter<int>(val.z);
 }
 static JSValue vector3i_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector3i &val = *reinterpret_cast<Vector3i *>(JS_GetOpaque(this_val, classes["Vector3i"]));
-	val.z = VariantAdapter(*argv).get<int>();
+	Vector3i &val = *reinterpret_cast<Vector3i *>(JS_GetOpaque(this_val, classes[typeid(Vector3i)]));
+	val.z = *JSValueAdapter<int>(*argv).get();
 	return JS_UNDEFINED;
 }
 
@@ -176,8 +183,7 @@ void define_vector3i_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_vector3i_class_init(JSContext *ctx) {
-	classes["Vector3i"] = JS_NewClassID(&classes["Vector3i"]);
-	JSClassID class_id = classes["Vector3i"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(Vector3i)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &vector3i_class_def);
 

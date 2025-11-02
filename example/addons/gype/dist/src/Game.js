@@ -46,10 +46,15 @@ let Game = (() => {
     let _classSuper = Node2D;
     var Game = _classThis = class extends _classSuper {
         _ready() {
-            GD.print("ready");
+            let vec = new Vector2();
+            vec.x++;
+            GD.print(vec);
+            this.position.x++;
+            GD.print(this.position);
+            let arr = [0, 1];
+            GD.print(arr);
         }
-        _process(delta) {
-        }
+        _process(delta) { }
     };
     __setFunctionName(_classThis, "Game");
     (() => {

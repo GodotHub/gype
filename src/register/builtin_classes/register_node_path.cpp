@@ -10,10 +10,10 @@
 using namespace godot;
 
 static void node_path_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["NodePath"];
-	NodePath *opaque_ptr = static_cast<NodePath *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(NodePath)];
+	GDVariantAdapter<NodePath> *opaque_ptr = static_cast<GDVariantAdapter<NodePath> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<NodePath *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -23,30 +23,36 @@ static JSClassDef node_path_class_def = {
 };
 
 static JSValue node_path_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["NodePath"];
+	JSClassID class_id = classes[typeid(NodePath)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
+	
+	NodePath *instance = nullptr;
+	GDVariantAdapter<NodePath> *adapter = reinterpret_cast<GDVariantAdapter<NodePath> *>(memalloc(sizeof(GDVariantAdapter<NodePath>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<NodePath *>(memalloc(sizeof(NodePath)));
+		instance = new (instance) NodePath();
+	}
+	if (argc == 1&&(JSValueAdapter<NodePath>::can_cast(argv[0]))) {
+		NodePath v0 = *JSValueAdapter<NodePath>(argv[0]).get();
+		instance = reinterpret_cast<NodePath *>(memalloc(sizeof(NodePath)));
+		instance = new (instance) NodePath(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<String>::can_cast(argv[0]))) {
+		String v0 = *JSValueAdapter<String>(argv[0]).get();
+		instance = reinterpret_cast<NodePath *>(memalloc(sizeof(NodePath)));
+		instance = new (instance) NodePath(v0);
+	}
+	adapter = new (adapter) GDVariantAdapter<NodePath>(*instance, true);
 
-	NodePath *instance = nullptr;	if (argc == 0) {
-		instance = memnew(NodePath());
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::NODE_PATH) {
-		NodePath v0 = VariantAdapter(argv[0]).get<NodePath>();
-		instance = memnew(NodePath(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::STRING) {
-		String v0 = VariantAdapter(argv[0]).get<String>();
-		instance = memnew(NodePath(v0));
-	}
-
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue node_path_class_is_absolute(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -100,8 +106,7 @@ static const JSCFunctionListEntry node_path_class_proto_funcs[] = {
 
 
 static int js_node_path_class_init(JSContext *ctx) {
-	classes["NodePath"] = JS_NewClassID(&classes["NodePath"]);
-	JSClassID class_id = classes["NodePath"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(NodePath)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &node_path_class_def);
 

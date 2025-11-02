@@ -11,10 +11,10 @@
 using namespace godot;
 
 static void dictionary_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["Dictionary"];
-	Dictionary *opaque_ptr = static_cast<Dictionary *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(Dictionary)];
+	GDVariantAdapter<Dictionary> *opaque_ptr = static_cast<GDVariantAdapter<Dictionary> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<Dictionary *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -24,36 +24,42 @@ static JSClassDef dictionary_class_def = {
 };
 
 static JSValue dictionary_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["Dictionary"];
+	JSClassID class_id = classes[typeid(Dictionary)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
 
-	Dictionary *instance = nullptr;	if (argc == 0) {
-		instance = memnew(Dictionary());
+	Dictionary *instance = nullptr;
+	GDVariantAdapter<Dictionary> *adapter = reinterpret_cast<GDVariantAdapter<Dictionary> *>(memalloc(sizeof(GDVariantAdapter<Dictionary>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<Dictionary *>(memalloc(sizeof(Dictionary)));
+		instance = new (instance) Dictionary();
 	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::DICTIONARY) {
-		Dictionary v0 = VariantAdapter(argv[0]).get<Dictionary>();
-		instance = memnew(Dictionary(v0));
+	if (argc == 1 && (JSValueAdapter<Dictionary>::can_cast(argv[0]))) {
+		Dictionary v0 = *JSValueAdapter<Dictionary>(argv[0]).get();
+		instance = reinterpret_cast<Dictionary *>(memalloc(sizeof(Dictionary)));
+		instance = new (instance) Dictionary(v0);
 	}
-	if (argc == 7&&VariantAdapter(argv[0]).get_type() == Variant::Type::DICTIONARY&&VariantAdapter(argv[1]).get_type() == Variant::Type::INT&&VariantAdapter(argv[2]).get_type() == Variant::Type::STRING_NAME&&VariantAdapter(argv[3]).get_type() != Variant::Type::VARIANT_MAX&&VariantAdapter(argv[4]).get_type() == Variant::Type::INT&&VariantAdapter(argv[5]).get_type() == Variant::Type::STRING_NAME&&VariantAdapter(argv[6]).get_type() != Variant::Type::VARIANT_MAX) {
-		Dictionary v0 = VariantAdapter(argv[0]).get<Dictionary>();
-		int v1 = VariantAdapter(argv[1]).get<int>();
-		StringName v2 = VariantAdapter(argv[2]).get<StringName>();
-		Variant v3 = VariantAdapter(argv[3]).get<Variant>();
-		int v4 = VariantAdapter(argv[4]).get<int>();
-		StringName v5 = VariantAdapter(argv[5]).get<StringName>();
-		Variant v6 = VariantAdapter(argv[6]).get<Variant>();
-		instance = memnew(Dictionary(v0, v1, v2, v3, v4, v5, v6));
+	if (argc == 7 && (JSValueAdapter<Dictionary>::can_cast(argv[0])) && (JSValueAdapter<int>::can_cast(argv[1])) && (JSValueAdapter<StringName>::can_cast(argv[2])) && (JSValueAdapter<Variant>::can_cast(argv[3])) && (JSValueAdapter<int>::can_cast(argv[4])) && (JSValueAdapter<StringName>::can_cast(argv[5])) && (JSValueAdapter<Variant>::can_cast(argv[6]))) {
+		Dictionary v0 = *JSValueAdapter<Dictionary>(argv[0]).get();
+		int v1 = *JSValueAdapter<int>(argv[1]).get();
+		StringName v2 = *JSValueAdapter<StringName>(argv[2]).get();
+		Variant v3 = *JSValueAdapter<Variant>(argv[3]).get();
+		int v4 = *JSValueAdapter<int>(argv[4]).get();
+		StringName v5 = *JSValueAdapter<StringName>(argv[5]).get();
+		Variant v6 = *JSValueAdapter<Variant>(argv[6]).get();
+		instance = reinterpret_cast<Dictionary *>(memalloc(sizeof(Dictionary)));
+		instance = new (instance) Dictionary(v0, v1, v2, v3, v4, v5, v6);
 	}
+	adapter = new (adapter) GDVariantAdapter<Dictionary>(*instance, true);
 
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue dictionary_class_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -64,19 +70,19 @@ static JSValue dictionary_class_is_empty(JSContext *ctx, JSValueConst this_val, 
 }
 static JSValue dictionary_class_clear(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Dictionary::clear, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
 static JSValue dictionary_class_assign(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Dictionary::assign, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
 static JSValue dictionary_class_sort(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Dictionary::sort, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
 static JSValue dictionary_class_merge(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Dictionary::merge, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
 static JSValue dictionary_class_merged(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::merged, ctx, this_val, argc, argv);
@@ -155,7 +161,7 @@ static JSValue dictionary_class_get_typed_value_script(JSContext *ctx, JSValueCo
 }
 static JSValue dictionary_class_make_read_only(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Dictionary::make_read_only, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
 static JSValue dictionary_class_is_read_only(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::is_read_only, ctx, this_val, argc, argv);
@@ -163,7 +169,6 @@ static JSValue dictionary_class_is_read_only(JSContext *ctx, JSValueConst this_v
 static JSValue dictionary_class_recursive_equal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::recursive_equal, ctx, this_val, argc, argv);
 }
-
 
 static const JSCFunctionListEntry dictionary_class_proto_funcs[] = {
 	JS_CFUNC_DEF("size", 0, &dictionary_class_size),
@@ -202,15 +207,16 @@ static const JSCFunctionListEntry dictionary_class_proto_funcs[] = {
 	JS_CFUNC_DEF("recursive_equal", 2, &dictionary_class_recursive_equal),
 };
 
-
 static int js_dictionary_class_init(JSContext *ctx) {
-	classes["Dictionary"] = JS_NewClassID(&classes["Dictionary"]);
-	JSClassID class_id = classes["Dictionary"];
+	JSClassID class_id;
+	class_id = JS_NewClassID(&class_id);
+	classes[typeid(Dictionary)] = class_id;
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &dictionary_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	JS_SetPropertyFunctionList(ctx, proto, dictionary_class_proto_funcs, _countof(dictionary_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);
+	JS_SetPropertyFunctionList(ctx, proto, dictionary_class_proto_funcs, _countof(dictionary_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, dictionary_class_constructor, "Dictionary", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
 

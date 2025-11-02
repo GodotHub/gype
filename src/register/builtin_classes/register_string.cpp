@@ -12,10 +12,10 @@
 using namespace godot;
 
 static void string_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["String"];
-	String *opaque_ptr = static_cast<String *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(String)];
+	GDVariantAdapter<String> *opaque_ptr = static_cast<GDVariantAdapter<String> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<String *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -25,34 +25,41 @@ static JSClassDef string_class_def = {
 };
 
 static JSValue string_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["String"];
+	JSClassID class_id = classes[typeid(String)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
+	
+	String *instance = nullptr;
+	GDVariantAdapter<String> *adapter = reinterpret_cast<GDVariantAdapter<String> *>(memalloc(sizeof(GDVariantAdapter<String>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<String *>(memalloc(sizeof(String)));
+		instance = new (instance) String();
+	}
+	if (argc == 1&&(JSValueAdapter<String>::can_cast(argv[0]))) {
+		String v0 = *JSValueAdapter<String>(argv[0]).get();
+		instance = reinterpret_cast<String *>(memalloc(sizeof(String)));
+		instance = new (instance) String(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<StringName>::can_cast(argv[0]))) {
+		StringName v0 = *JSValueAdapter<StringName>(argv[0]).get();
+		instance = reinterpret_cast<String *>(memalloc(sizeof(String)));
+		instance = new (instance) String(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<NodePath>::can_cast(argv[0]))) {
+		NodePath v0 = *JSValueAdapter<NodePath>(argv[0]).get();
+		instance = reinterpret_cast<String *>(memalloc(sizeof(String)));
+		instance = new (instance) String(v0);
+	}
+	adapter = new (adapter) GDVariantAdapter<String>(*instance, true);
 
-	String *instance = nullptr;	if (argc == 0) {
-		instance = memnew(String());
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::STRING) {
-		String v0 = VariantAdapter(argv[0]).get<String>();
-		instance = memnew(String(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::STRING_NAME) {
-		StringName v0 = VariantAdapter(argv[0]).get<StringName>();
-		instance = memnew(String(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::NODE_PATH) {
-		NodePath v0 = VariantAdapter(argv[0]).get<NodePath>();
-		instance = memnew(String(v0));
-	}
-
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue string_class_casecmp_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -526,8 +533,7 @@ static const JSCFunctionListEntry string_class_proto_funcs[] = {
 
 
 static int js_string_class_init(JSContext *ctx) {
-	classes["String"] = JS_NewClassID(&classes["String"]);
-	JSClassID class_id = classes["String"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(String)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &string_class_def);
 

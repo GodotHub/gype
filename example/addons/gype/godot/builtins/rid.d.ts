@@ -1,14 +1,15 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDArray } from '@godot/builtins/gd_array';
+
+declare global {
+    declare class RID {
+        constructor();
+        constructor(_from: RID);
 
 
-export declare class RID {
-    constructor();
-    constructor(_from: RID);
+        public is_valid(): boolean;
+        public get_id(): number;
 
-
-    public is_valid(): boolean;
-    public get_id(): number;
-
+    }
 }
+
+export {};

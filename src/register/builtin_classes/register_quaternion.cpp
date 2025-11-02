@@ -10,10 +10,10 @@
 using namespace godot;
 
 static void quaternion_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["Quaternion"];
-	Quaternion *opaque_ptr = static_cast<Quaternion *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(Quaternion)];
+	GDVariantAdapter<Quaternion> *opaque_ptr = static_cast<GDVariantAdapter<Quaternion> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<Quaternion *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -23,47 +23,56 @@ static JSClassDef quaternion_class_def = {
 };
 
 static JSValue quaternion_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["Quaternion"];
+	JSClassID class_id = classes[typeid(Quaternion)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
+	
+	Quaternion *instance = nullptr;
+	GDVariantAdapter<Quaternion> *adapter = reinterpret_cast<GDVariantAdapter<Quaternion> *>(memalloc(sizeof(GDVariantAdapter<Quaternion>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<Quaternion *>(memalloc(sizeof(Quaternion)));
+		instance = new (instance) Quaternion();
+	}
+	if (argc == 1&&(JSValueAdapter<Quaternion>::can_cast(argv[0]))) {
+		Quaternion v0 = *JSValueAdapter<Quaternion>(argv[0]).get();
+		instance = reinterpret_cast<Quaternion *>(memalloc(sizeof(Quaternion)));
+		instance = new (instance) Quaternion(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<Basis>::can_cast(argv[0]))) {
+		Basis v0 = *JSValueAdapter<Basis>(argv[0]).get();
+		instance = reinterpret_cast<Quaternion *>(memalloc(sizeof(Quaternion)));
+		instance = new (instance) Quaternion(v0);
+	}
+	if (argc == 2&&(JSValueAdapter<Vector3>::can_cast(argv[0]))&&(JSValueAdapter<float>::can_cast(argv[1]))) {
+		Vector3 v0 = *JSValueAdapter<Vector3>(argv[0]).get();
+		float v1 = *JSValueAdapter<float>(argv[1]).get();
+		instance = reinterpret_cast<Quaternion *>(memalloc(sizeof(Quaternion)));
+		instance = new (instance) Quaternion(v0, v1);
+	}
+	if (argc == 2&&(JSValueAdapter<Vector3>::can_cast(argv[0]))&&(JSValueAdapter<Vector3>::can_cast(argv[1]))) {
+		Vector3 v0 = *JSValueAdapter<Vector3>(argv[0]).get();
+		Vector3 v1 = *JSValueAdapter<Vector3>(argv[1]).get();
+		instance = reinterpret_cast<Quaternion *>(memalloc(sizeof(Quaternion)));
+		instance = new (instance) Quaternion(v0, v1);
+	}
+	if (argc == 4&&(JSValueAdapter<float>::can_cast(argv[0]))&&(JSValueAdapter<float>::can_cast(argv[1]))&&(JSValueAdapter<float>::can_cast(argv[2]))&&(JSValueAdapter<float>::can_cast(argv[3]))) {
+		float v0 = *JSValueAdapter<float>(argv[0]).get();
+		float v1 = *JSValueAdapter<float>(argv[1]).get();
+		float v2 = *JSValueAdapter<float>(argv[2]).get();
+		float v3 = *JSValueAdapter<float>(argv[3]).get();
+		instance = reinterpret_cast<Quaternion *>(memalloc(sizeof(Quaternion)));
+		instance = new (instance) Quaternion(v0, v1, v2, v3);
+	}
+	adapter = new (adapter) GDVariantAdapter<Quaternion>(*instance, true);
 
-	Quaternion *instance = nullptr;	if (argc == 0) {
-		instance = memnew(Quaternion());
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::QUATERNION) {
-		Quaternion v0 = VariantAdapter(argv[0]).get<Quaternion>();
-		instance = memnew(Quaternion(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::BASIS) {
-		Basis v0 = VariantAdapter(argv[0]).get<Basis>();
-		instance = memnew(Quaternion(v0));
-	}
-	if (argc == 2&&VariantAdapter(argv[0]).get_type() == Variant::Type::VECTOR3&&(VariantAdapter(argv[1]).get_type() == Variant::Type::FLOAT || VariantAdapter(argv[1]).get_type() == Variant::Type::INT)) {
-		Vector3 v0 = VariantAdapter(argv[0]).get<Vector3>();
-		float v1 = VariantAdapter(argv[1]).get<float>();
-		instance = memnew(Quaternion(v0, v1));
-	}
-	if (argc == 2&&VariantAdapter(argv[0]).get_type() == Variant::Type::VECTOR3&&VariantAdapter(argv[1]).get_type() == Variant::Type::VECTOR3) {
-		Vector3 v0 = VariantAdapter(argv[0]).get<Vector3>();
-		Vector3 v1 = VariantAdapter(argv[1]).get<Vector3>();
-		instance = memnew(Quaternion(v0, v1));
-	}
-	if (argc == 4&&(VariantAdapter(argv[0]).get_type() == Variant::Type::FLOAT || VariantAdapter(argv[0]).get_type() == Variant::Type::INT)&&(VariantAdapter(argv[1]).get_type() == Variant::Type::FLOAT || VariantAdapter(argv[1]).get_type() == Variant::Type::INT)&&(VariantAdapter(argv[2]).get_type() == Variant::Type::FLOAT || VariantAdapter(argv[2]).get_type() == Variant::Type::INT)&&(VariantAdapter(argv[3]).get_type() == Variant::Type::FLOAT || VariantAdapter(argv[3]).get_type() == Variant::Type::INT)) {
-		float v0 = VariantAdapter(argv[0]).get<float>();
-		float v1 = VariantAdapter(argv[1]).get<float>();
-		float v2 = VariantAdapter(argv[2]).get<float>();
-		float v3 = VariantAdapter(argv[3]).get<float>();
-		instance = memnew(Quaternion(v0, v1, v2, v3));
-	}
-
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue quaternion_class_length(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -125,39 +134,39 @@ static JSValue quaternion_class_get_angle(JSContext *ctx, JSValueConst this_val,
 }
 
 static JSValue quaternion_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes["Quaternion"]));
-	return VariantAdapter(val.x);
+	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes[typeid(Quaternion)]));
+	return GDVariantAdapter<float>(val.x);
 }
 static JSValue quaternion_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes["Quaternion"]));
-	val.x = VariantAdapter(*argv).get<float>();
+	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes[typeid(Quaternion)]));
+	val.x = *JSValueAdapter<float>(*argv).get();
 	return JS_UNDEFINED;
 }
 static JSValue quaternion_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes["Quaternion"]));
-	return VariantAdapter(val.y);
+	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes[typeid(Quaternion)]));
+	return GDVariantAdapter<float>(val.y);
 }
 static JSValue quaternion_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes["Quaternion"]));
-	val.y = VariantAdapter(*argv).get<float>();
+	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes[typeid(Quaternion)]));
+	val.y = *JSValueAdapter<float>(*argv).get();
 	return JS_UNDEFINED;
 }
 static JSValue quaternion_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes["Quaternion"]));
-	return VariantAdapter(val.z);
+	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes[typeid(Quaternion)]));
+	return GDVariantAdapter<float>(val.z);
 }
 static JSValue quaternion_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes["Quaternion"]));
-	val.z = VariantAdapter(*argv).get<float>();
+	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes[typeid(Quaternion)]));
+	val.z = *JSValueAdapter<float>(*argv).get();
 	return JS_UNDEFINED;
 }
 static JSValue quaternion_class_get_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes["Quaternion"]));
-	return VariantAdapter(val.w);
+	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes[typeid(Quaternion)]));
+	return GDVariantAdapter<float>(val.w);
 }
 static JSValue quaternion_class_set_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes["Quaternion"]));
-	val.w = VariantAdapter(*argv).get<float>();
+	Quaternion &val = *reinterpret_cast<Quaternion *>(JS_GetOpaque(this_val, classes[typeid(Quaternion)]));
+	val.w = *JSValueAdapter<float>(*argv).get();
 	return JS_UNDEFINED;
 }
 
@@ -215,8 +224,7 @@ void define_quaternion_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_quaternion_class_init(JSContext *ctx) {
-	classes["Quaternion"] = JS_NewClassID(&classes["Quaternion"]);
-	JSClassID class_id = classes["Quaternion"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(Quaternion)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &quaternion_class_def);
 

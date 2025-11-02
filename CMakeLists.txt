@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.10...3.17)
 
 project(gype C CXX)
 
-set(GODOTCPP_GENERATE_TEMPLATE_GET_NODE OFF CACHE BOOL "Disable generation of get_node template method in godot-cpp" FORCE)
-
 add_subdirectory(quickjs)
 add_subdirectory(godot-cpp)
 add_subdirectory(tree-sitter)
@@ -26,10 +24,14 @@ set_target_properties(gype PROPERTIES
 )
 
 target_include_directories(gype 
-    PRIVATE
+    PRIVATE 
         include
 )
 
-target_link_libraries(gype PRIVATE godot-cpp)
-target_link_libraries(gype PRIVATE tree-sitter)
 target_link_libraries(gype PRIVATE quickjs)
+target_link_libraries(gype PRIVATE tree-sitter)
+target_link_libraries(gype PRIVATE godot-cpp)
+
+# add_custom_command(TARGET gype POST_BUILD
+#                    COMMAND ${CMAKE_STRIP} $<TARGET_FILE:gype>
+#                    COMMENT "Stripping symbols from gype...")

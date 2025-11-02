@@ -12,10 +12,10 @@
 using namespace godot;
 
 static void callable_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["Callable"];
-	Callable *opaque_ptr = static_cast<Callable *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(Callable)];
+	GDVariantAdapter<Callable> *opaque_ptr = static_cast<GDVariantAdapter<Callable> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<Callable *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -25,32 +25,37 @@ static JSClassDef callable_class_def = {
 };
 
 static JSValue callable_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["Callable"];
+	JSClassID class_id = classes[typeid(Callable)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
 
 	Callable *instance = nullptr;
+	GDVariantAdapter<Callable> *adapter = reinterpret_cast<GDVariantAdapter<Callable> *>(memalloc(sizeof(GDVariantAdapter<Callable>)));
 	if (argc == 0) {
-		instance = memnew(Callable());
+		instance = reinterpret_cast<Callable *>(memalloc(sizeof(Callable)));
+		instance = new (instance) Callable();
 	}
-	if (argc == 1 && VariantAdapter(argv[0]).get_type() == Variant::Type::CALLABLE) {
-		Callable v0 = VariantAdapter(argv[0]).get<Callable>();
-		instance = memnew(Callable(v0));
+	if (argc == 1 && (JSValueAdapter<Callable>::can_cast(argv[0]))) {
+		Callable v0 = *JSValueAdapter<Callable>(argv[0]).get();
+		instance = reinterpret_cast<Callable *>(memalloc(sizeof(Callable)));
+		instance = new (instance) Callable(v0);
 	}
-	if (argc == 2 && VariantAdapter(argv[0]).get_type() == Variant::Type::OBJECT && VariantAdapter(argv[1]).get_type() == Variant::Type::STRING_NAME) {
-		Object *v0 = VariantAdapter(argv[0]).get<Object *>();
-		StringName v1 = VariantAdapter(argv[1]).get<StringName>();
-		instance = memnew(Callable(v0, v1));
+	if (argc == 2 && (JSValueAdapter<Object *>::can_cast(argv[0])) && (JSValueAdapter<StringName>::can_cast(argv[1]))) {
+		Object *v0 = JSValueAdapter<Object *>(argv[0]).get();
+		StringName v1 = *JSValueAdapter<StringName>(argv[1]).get();
+		instance = reinterpret_cast<Callable *>(memalloc(sizeof(Callable)));
+		instance = new (instance) Callable(v0, v1);
 	}
+	adapter = new (adapter) GDVariantAdapter<Callable>(*instance, true);
 
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue callable_class_create(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -142,8 +147,9 @@ static const JSCFunctionListEntry callable_class_proto_funcs[] = {
 };
 
 static int js_callable_class_init(JSContext *ctx) {
-	classes["Callable"] = JS_NewClassID(&classes["Callable"]);
-	JSClassID class_id = classes["Callable"];
+	JSClassID class_id;
+	class_id = JS_NewClassID(&class_id);
+	classes[typeid(Callable)] = class_id;
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &callable_class_def);
 

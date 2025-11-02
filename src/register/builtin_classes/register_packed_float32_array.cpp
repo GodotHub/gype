@@ -10,10 +10,10 @@
 using namespace godot;
 
 static void packed_float32_array_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["PackedFloat32Array"];
-	PackedFloat32Array *opaque_ptr = static_cast<PackedFloat32Array *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(PackedFloat32Array)];
+	GDVariantAdapter<PackedFloat32Array> *opaque_ptr = static_cast<GDVariantAdapter<PackedFloat32Array> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<PackedFloat32Array *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -23,30 +23,36 @@ static JSClassDef packed_float32_array_class_def = {
 };
 
 static JSValue packed_float32_array_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["PackedFloat32Array"];
+	JSClassID class_id = classes[typeid(PackedFloat32Array)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
+	
+	PackedFloat32Array *instance = nullptr;
+	GDVariantAdapter<PackedFloat32Array> *adapter = reinterpret_cast<GDVariantAdapter<PackedFloat32Array> *>(memalloc(sizeof(GDVariantAdapter<PackedFloat32Array>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<PackedFloat32Array *>(memalloc(sizeof(PackedFloat32Array)));
+		instance = new (instance) PackedFloat32Array();
+	}
+	if (argc == 1&&(JSValueAdapter<PackedFloat32Array>::can_cast(argv[0]))) {
+		PackedFloat32Array v0 = *JSValueAdapter<PackedFloat32Array>(argv[0]).get();
+		instance = reinterpret_cast<PackedFloat32Array *>(memalloc(sizeof(PackedFloat32Array)));
+		instance = new (instance) PackedFloat32Array(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<Array>::can_cast(argv[0]))) {
+		Array v0 = *JSValueAdapter<Array>(argv[0]).get();
+		instance = reinterpret_cast<PackedFloat32Array *>(memalloc(sizeof(PackedFloat32Array)));
+		instance = new (instance) PackedFloat32Array(v0);
+	}
+	adapter = new (adapter) GDVariantAdapter<PackedFloat32Array>(*instance, true);
 
-	PackedFloat32Array *instance = nullptr;	if (argc == 0) {
-		instance = memnew(PackedFloat32Array());
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_FLOAT32_ARRAY) {
-		PackedFloat32Array v0 = VariantAdapter(argv[0]).get<PackedFloat32Array>();
-		instance = memnew(PackedFloat32Array(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::ARRAY) {
-		Array v0 = VariantAdapter(argv[0]).get<Array>();
-		instance = memnew(PackedFloat32Array(v0));
-	}
-
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue packed_float32_array_class_get(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -155,8 +161,7 @@ static const JSCFunctionListEntry packed_float32_array_class_proto_funcs[] = {
 
 
 static int js_packed_float32_array_class_init(JSContext *ctx) {
-	classes["PackedFloat32Array"] = JS_NewClassID(&classes["PackedFloat32Array"]);
-	JSClassID class_id = classes["PackedFloat32Array"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(PackedFloat32Array)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &packed_float32_array_class_def);
 

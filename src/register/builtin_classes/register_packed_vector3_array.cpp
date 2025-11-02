@@ -11,10 +11,10 @@
 using namespace godot;
 
 static void packed_vector3_array_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["PackedVector3Array"];
-	PackedVector3Array *opaque_ptr = static_cast<PackedVector3Array *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(PackedVector3Array)];
+	GDVariantAdapter<PackedVector3Array> *opaque_ptr = static_cast<GDVariantAdapter<PackedVector3Array> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<PackedVector3Array *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -24,30 +24,36 @@ static JSClassDef packed_vector3_array_class_def = {
 };
 
 static JSValue packed_vector3_array_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["PackedVector3Array"];
+	JSClassID class_id = classes[typeid(PackedVector3Array)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
+	
+	PackedVector3Array *instance = nullptr;
+	GDVariantAdapter<PackedVector3Array> *adapter = reinterpret_cast<GDVariantAdapter<PackedVector3Array> *>(memalloc(sizeof(GDVariantAdapter<PackedVector3Array>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<PackedVector3Array *>(memalloc(sizeof(PackedVector3Array)));
+		instance = new (instance) PackedVector3Array();
+	}
+	if (argc == 1&&(JSValueAdapter<PackedVector3Array>::can_cast(argv[0]))) {
+		PackedVector3Array v0 = *JSValueAdapter<PackedVector3Array>(argv[0]).get();
+		instance = reinterpret_cast<PackedVector3Array *>(memalloc(sizeof(PackedVector3Array)));
+		instance = new (instance) PackedVector3Array(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<Array>::can_cast(argv[0]))) {
+		Array v0 = *JSValueAdapter<Array>(argv[0]).get();
+		instance = reinterpret_cast<PackedVector3Array *>(memalloc(sizeof(PackedVector3Array)));
+		instance = new (instance) PackedVector3Array(v0);
+	}
+	adapter = new (adapter) GDVariantAdapter<PackedVector3Array>(*instance, true);
 
-	PackedVector3Array *instance = nullptr;	if (argc == 0) {
-		instance = memnew(PackedVector3Array());
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_VECTOR3_ARRAY) {
-		PackedVector3Array v0 = VariantAdapter(argv[0]).get<PackedVector3Array>();
-		instance = memnew(PackedVector3Array(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::ARRAY) {
-		Array v0 = VariantAdapter(argv[0]).get<Array>();
-		instance = memnew(PackedVector3Array(v0));
-	}
-
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue packed_vector3_array_class_get(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -156,8 +162,7 @@ static const JSCFunctionListEntry packed_vector3_array_class_proto_funcs[] = {
 
 
 static int js_packed_vector3_array_class_init(JSContext *ctx) {
-	classes["PackedVector3Array"] = JS_NewClassID(&classes["PackedVector3Array"]);
-	JSClassID class_id = classes["PackedVector3Array"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(PackedVector3Array)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &packed_vector3_array_class_def);
 

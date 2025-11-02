@@ -39,8 +39,6 @@ void initialize_gype_types(ModuleInitializationLevel p_level) {
 	}
 	if (p_level == ModuleInitializationLevel::MODULE_INITIALIZATION_LEVEL_SCENE) {
 		init_ts_support();
-		const char *code = "GD.print(\"123456\")";
-		JS_Eval(js_context(), code, strlen(code), "<eval>", JS_EVAL_TYPE_MODULE);
 	}
 }
 

@@ -2,46 +2,199 @@
 #define __VARIANT_HELPER_H__
 
 #include "utils/env.hpp"
-#include "utils/quickjs_helper.hpp"
+#include "utils/str_helper.hpp"
 #include <quickjs.h>
-#include <godot_cpp/variant/variant.hpp>
+#include <godot_cpp/core/type_info.hpp>
+#include <godot_cpp/variant/builtin_types.hpp>
+#include <type_traits>
+#include <typeindex>
+#include <unordered_map>
 
-class VariantAdapter {
-	godot::Variant m_internal_storage;
-	const godot::Variant *m_active_variant;
+namespace godot {
+class Variant;
+class Object;
+} //namespace godot
+
+extern std::unordered_map<std::type_index, JSClassID> classes;
+
+extern godot::Variant jsvalue_to_variant(JSValue val);
+
+template <typename IN, typename OUT, typename = void>
+class VariantAdapter;
+
+template <typename IN>
+using GDVariantAdapter = VariantAdapter<IN, JSValue>;
+template <typename IN>
+using GDObjectAdapter = VariantAdapter<IN *, JSValue>;
+template <typename OUT>
+using JSValueAdapter = VariantAdapter<JSValue, OUT>;
+template <typename OUT>
+using JSObjectAdapter = VariantAdapter<JSValue, OUT *>;
+
+template <typename T, typename = std::enable_if_t<std::is_base_of_v<godot::Object, T>>>
+JSValue variant_to_jsvalue(const T *val) {
+	const godot::Object *obj = val;
+	const char *class_name = to_chars(obj->get_class());
+	char code[1024];
+	sprintf(code, "import { %s } from \"@godot/classes/%s\";", class_name, camelToSnake(class_name).c_str());
+	JS_Eval(js_context(), code, strlen(code), "<eval>", JS_EVAL_TYPE_MODULE);
+	JSClassID class_id = classes[typeid(*obj)];
+	JSValue js_obj = JS_NewObjectClass(js_context(), class_id);
+	void *raw_mem = memalloc(sizeof(GDObjectAdapter<T>));
+	GDObjectAdapter<T> *adapter = new (raw_mem) GDObjectAdapter<T>(val, false);
+	JS_SetOpaque(js_obj, adapter);
+	return js_obj;
+}
+
+template <typename T, typename = std::enable_if_t<!std::is_pointer_v<T>>>
+JSValue variant_to_jsvalue(const T &val) {
+	JSClassID class_id = classes[typeid(T)];
+	if constexpr (std::is_same_v<T, godot::Array>) {
+		godot::Array arr = val;
+		JSValue js_arr = JS_NewArray(js_context());
+		for (int i = 0; i < arr.size(); i++) {
+			JS_SetPropertyUint32(js_context(), js_arr, i, variant_to_jsvalue<godot::Variant>(arr[i]));
+		}
+		return js_arr;
+	} else if constexpr (std::is_fundamental_v<T>) {
+		if constexpr (std::is_integral_v<T>) {
+			return JS_NewInt64(js_context(), val);
+		} else if constexpr (std::is_floating_point_v<T>) {
+			return JS_NewFloat64(js_context(), val);
+		} else if constexpr (std::is_same_v<T, char *>) {
+			return JS_NewString(js_context(), val);
+		} else if constexpr (std::is_same_v<T, bool>) {
+			return JS_NewBool(js_context(), val);
+		} else {
+			return JS_UNDEFINED;
+		}
+	} else {
+		JSValue js_obj = JS_NewObjectClass(js_context(), class_id);
+		void *raw_mem = memalloc(sizeof(GDVariantAdapter<T>));
+		GDVariantAdapter<T> *adapter = new (raw_mem) GDVariantAdapter<T>(val);
+		JS_SetOpaque(js_obj, adapter);
+		return js_obj;
+	}
+}
+
+template <typename IN>
+class VariantAdapter<IN, JSValue,
+		std::enable_if_t<!std::is_pointer_v<IN> &&
+				!std::is_base_of_v<godot::Object, IN> &&
+				!std::is_same_v<IN, JSValue> &&
+				(std::is_constructible_v<godot::Variant, IN> || std::is_same_v<IN, godot::Variant>)>> {
+public:
+	using CleanIN = std::decay_t<IN>;
+
+	const CleanIN m_internal_storage;
+	const CleanIN *m_active_variant;
+	const bool can_memfree = false;
 
 public:
 	VariantAdapter() :
-			m_active_variant(&m_internal_storage) {}
+			m_internal_storage(IN()),
+			m_active_variant(&m_internal_storage),
+			can_memfree(false) {}
+	VariantAdapter(const IN &p_other, bool can_memfree = false) :
+			m_internal_storage(p_other),
+			m_active_variant(&m_internal_storage),
+			can_memfree(can_memfree) {}
 
-	VariantAdapter(const godot::Variant &p_other) :
-			m_active_variant(&p_other) {}
-
-	VariantAdapter(const JSValue &p_jsvalue) :
-			m_internal_storage(jsvalue_to_variant(p_jsvalue)),
-			m_active_variant(&m_internal_storage) {
+	static bool can_cast(JSValue val) {
+		return classes[typeid(IN)] == JS_GetClassID(val);
 	}
 
-	template <typename T>
-	T get() const {
-		if constexpr (std::is_same_v<T, char32_t>) {
-			return static_cast<godot::String>(*m_active_variant).ptrw();
-		} else {
-			return static_cast<T>(*m_active_variant);
-		}
-	}
+	operator JSValue() { return variant_to_jsvalue<IN>(*m_active_variant); }
+	operator CleanIN() { return *m_active_variant; }
 
-	operator godot::Variant() const {
-		return *m_active_variant;
-	}
-
-	operator JSValue() const {
-		return variant_to_jsvalue(*m_active_variant);
-	}
-
-	godot::Variant::Type get_type() const {
-		return m_active_variant->get_type();
+	CleanIN *get() {
+		return const_cast<IN *>(m_active_variant);
 	}
 };
 
+template <typename IN>
+class VariantAdapter<IN *, JSValue, std::enable_if_t<std::is_same_v<godot::Object, IN> || std::is_base_of_v<godot::Object, IN>>> {
+public:
+	const IN *m_active_variant;
+	const bool can_memfree = false;
+
+	VariantAdapter() :
+			m_active_variant(nullptr),
+			can_memfree(false) {}
+	VariantAdapter(const IN *p_other, bool can_memfree = false) :
+			m_active_variant(p_other),
+			can_memfree(can_memfree) {}
+
+	static bool can_cast(JSValue val) {
+		return classes[typeid(IN)] == JS_GetClassID(val);
+	}
+
+	IN *get() {
+		return const_cast<IN *>(m_active_variant);
+	}
+
+	operator JSValue() { return variant_to_jsvalue(m_active_variant); }
+	operator IN *() { return m_active_variant; }
+};
+
+template <typename OUT>
+class VariantAdapter<JSValue, OUT, std::enable_if_t<!(std::is_pointer_v<OUT> || std::is_same_v<godot::Object, OUT> || std::is_base_of_v<godot::Object, OUT>)>> {
+public:
+	const JSValue m_active_variant;
+	const OUT out_ptr;
+	const bool can_memfree = false;
+
+	VariantAdapter() :
+			m_active_variant(JS_UNDEFINED) {}
+	VariantAdapter(const JSValue &p_other) :
+			m_active_variant(p_other),
+			out_ptr(jsvalue_to_variant(p_other)) {}
+
+	static bool can_cast(JSValue val) {
+		if (JS_IsNumber(val) || JS_IsBool(val)) {
+			return std::is_fundamental_v<OUT>;
+		} else if (JS_IsObject(val)) {
+			return classes[typeid(OUT)] == JS_GetClassID(val);
+		} else {
+			return false;
+		}
+	}
+
+	OUT *get() {
+		return const_cast<OUT *>(&out_ptr);
+	}
+
+	operator JSValue() { return m_active_variant; }
+	operator OUT *() { return get(); }
+};
+
+template <typename OUT>
+class VariantAdapter<JSValue, OUT *, std::enable_if_t<std::is_same_v<godot::Object, OUT> || std::is_base_of_v<godot::Object, OUT>>> {
+public:
+	const JSValue m_active_variant;
+	const OUT *out_ptr;
+	const bool can_memfree = false;
+
+	VariantAdapter() :
+			m_active_variant(JS_UNDEFINED) {}
+	VariantAdapter(const JSValue &p_other) :
+			m_active_variant(p_other),
+			out_ptr(jsvalue_to_variant(p_other)) {}
+
+	static bool can_cast(JSValue val) {
+		if (JS_IsNumber(val) || JS_IsBool(val)) {
+			return std::is_fundamental_v<OUT>;
+		} else if (JS_IsObject(val)) {
+			return classes[typeid(OUT)] == JS_GetClassID(val);
+		} else {
+			return false;
+		}
+	}
+
+	OUT *get() {
+		return const_cast<OUT *>(out_ptr);
+	}
+	operator JSValue() { return m_active_variant; }
+	operator OUT *() { return get(); }
+};
 #endif // __VARIANT_HELPER_H__

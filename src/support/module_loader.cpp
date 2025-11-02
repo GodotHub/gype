@@ -1,4 +1,6 @@
+#include "support/module_loader.hpp"
 #include "support/typescript.hpp"
+#include "utils/str_helper.hpp"
 #include <quickjs.h>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/variant/string.hpp>
@@ -20,8 +22,12 @@ JSModuleDef *module_loader(JSContext *ctx, const char *module_name, void *opaque
 		path = path.replace("@godot", p);
 	}
 
-	Ref<TypeScript> script = ResourceLoader::get_singleton()->load(path);
+	// String class_name(path.get_file().get_basename());
+	// if (!(registered_classes()->has(class_name))) {
+	// 	(*register_func_map())[class_name]();
+	// }
 
+	Ref<TypeScript> script = ResourceLoader::get_singleton()->load(path);
 	if (script.is_null()) {
 		return NULL;
 	}

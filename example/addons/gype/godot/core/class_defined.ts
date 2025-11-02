@@ -1,7 +1,5 @@
 import { Node } from "@godot/classes/node";
-import { Signal } from "@godot/builtins/signal";
 import { GodotObject } from "@godot/classes/godot_object";
-import { Callable } from "@godot/builtins/callable";
 
 const _GodotClass = Symbol("_GodotClass");
 export function GodotClass(target: any) {

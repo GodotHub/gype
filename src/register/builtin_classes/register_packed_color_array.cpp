@@ -11,10 +11,10 @@
 using namespace godot;
 
 static void packed_color_array_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["PackedColorArray"];
-	PackedColorArray *opaque_ptr = static_cast<PackedColorArray *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(PackedColorArray)];
+	GDVariantAdapter<PackedColorArray> *opaque_ptr = static_cast<GDVariantAdapter<PackedColorArray> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<PackedColorArray *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -24,30 +24,36 @@ static JSClassDef packed_color_array_class_def = {
 };
 
 static JSValue packed_color_array_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["PackedColorArray"];
+	JSClassID class_id = classes[typeid(PackedColorArray)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
+	
+	PackedColorArray *instance = nullptr;
+	GDVariantAdapter<PackedColorArray> *adapter = reinterpret_cast<GDVariantAdapter<PackedColorArray> *>(memalloc(sizeof(GDVariantAdapter<PackedColorArray>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<PackedColorArray *>(memalloc(sizeof(PackedColorArray)));
+		instance = new (instance) PackedColorArray();
+	}
+	if (argc == 1&&(JSValueAdapter<PackedColorArray>::can_cast(argv[0]))) {
+		PackedColorArray v0 = *JSValueAdapter<PackedColorArray>(argv[0]).get();
+		instance = reinterpret_cast<PackedColorArray *>(memalloc(sizeof(PackedColorArray)));
+		instance = new (instance) PackedColorArray(v0);
+	}
+	if (argc == 1&&(JSValueAdapter<Array>::can_cast(argv[0]))) {
+		Array v0 = *JSValueAdapter<Array>(argv[0]).get();
+		instance = reinterpret_cast<PackedColorArray *>(memalloc(sizeof(PackedColorArray)));
+		instance = new (instance) PackedColorArray(v0);
+	}
+	adapter = new (adapter) GDVariantAdapter<PackedColorArray>(*instance, true);
 
-	PackedColorArray *instance = nullptr;	if (argc == 0) {
-		instance = memnew(PackedColorArray());
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::PACKED_COLOR_ARRAY) {
-		PackedColorArray v0 = VariantAdapter(argv[0]).get<PackedColorArray>();
-		instance = memnew(PackedColorArray(v0));
-	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::ARRAY) {
-		Array v0 = VariantAdapter(argv[0]).get<Array>();
-		instance = memnew(PackedColorArray(v0));
-	}
-
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue packed_color_array_class_get(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -156,8 +162,7 @@ static const JSCFunctionListEntry packed_color_array_class_proto_funcs[] = {
 
 
 static int js_packed_color_array_class_init(JSContext *ctx) {
-	classes["PackedColorArray"] = JS_NewClassID(&classes["PackedColorArray"]);
-	JSClassID class_id = classes["PackedColorArray"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(PackedColorArray)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &packed_color_array_class_def);
 

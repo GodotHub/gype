@@ -1,10 +1,10 @@
+#include "register/builtin_classes/builtin_signal_vararg.hpp"
 #include "register/builtin_classes/register_builtin_classes.hpp"
 #include "utils/env.hpp"
 #include "utils/func_utils.hpp"
 #include "utils/quickjs_helper.hpp"
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
-#include "register/builtin_classes/builtin_signal_vararg.hpp"
 #include <quickjs.h>
 #include <godot_cpp/variant/array.hpp>
 #include <godot_cpp/variant/callable.hpp>
@@ -13,10 +13,10 @@
 using namespace godot;
 
 static void signal_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["Signal"];
-	Signal *opaque_ptr = static_cast<Signal *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(Signal)];
+	GDVariantAdapter<Signal> *opaque_ptr = static_cast<GDVariantAdapter<Signal> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<Signal *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -26,31 +26,37 @@ static JSClassDef signal_class_def = {
 };
 
 static JSValue signal_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["Signal"];
+	JSClassID class_id = classes[typeid(Signal)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
 
-	Signal *instance = nullptr;	if (argc == 0) {
-		instance = memnew(Signal());
+	Signal *instance = nullptr;
+	GDVariantAdapter<Signal> *adapter = reinterpret_cast<GDVariantAdapter<Signal> *>(memalloc(sizeof(GDVariantAdapter<Signal>)));
+	if (argc == 0) {
+		instance = reinterpret_cast<Signal *>(memalloc(sizeof(Signal)));
+		instance = new (instance) Signal();
 	}
-	if (argc == 1&&VariantAdapter(argv[0]).get_type() == Variant::Type::SIGNAL) {
-		Signal v0 = VariantAdapter(argv[0]).get<Signal>();
-		instance = memnew(Signal(v0));
+	if (argc == 1 && (JSValueAdapter<Signal>::can_cast(argv[0]))) {
+		Signal v0 = *JSValueAdapter<Signal>(argv[0]).get();
+		instance = reinterpret_cast<Signal *>(memalloc(sizeof(Signal)));
+		instance = new (instance) Signal(v0);
 	}
-	if (argc == 2&&VariantAdapter(argv[0]).get_type() == Variant::Type::OBJECT&&VariantAdapter(argv[1]).get_type() == Variant::Type::STRING_NAME) {
-		Object *v0 = VariantAdapter(argv[0]).get<Object*>();
-		StringName v1 = VariantAdapter(argv[1]).get<StringName>();
-		instance = memnew(Signal(v0, v1));
+	if (argc == 2 && (JSObjectAdapter<Object>::can_cast(argv[0])) && (JSValueAdapter<StringName>::can_cast(argv[1]))) {
+		Object *v0 = JSObjectAdapter<Object>(argv[0]).get();
+		StringName v1 = *JSValueAdapter<StringName>(argv[1]).get();
+		instance = reinterpret_cast<Signal *>(memalloc(sizeof(Signal)));
+		instance = new (instance) Signal(v0, v1);
 	}
+	adapter = new (adapter) GDVariantAdapter<Signal>(*instance, true);
 
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue signal_class_is_null(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -70,7 +76,7 @@ static JSValue signal_class_connect(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue signal_class_disconnect(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Signal::disconnect, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
 static JSValue signal_class_is_connected(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Signal::is_connected, ctx, this_val, argc, argv);
@@ -85,7 +91,6 @@ static JSValue signal_class_emit(JSContext *ctx, JSValueConst this_val, int argc
 	return call_builtin_free_opaque_no_fixed_vararg_method_no_ret<Signal>(&js_emit, ctx, this_val, argc, argv);
 }
 
-
 static const JSCFunctionListEntry signal_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_null", 0, &signal_class_is_null),
 	JS_CFUNC_DEF("get_object", 0, &signal_class_get_object),
@@ -99,15 +104,14 @@ static const JSCFunctionListEntry signal_class_proto_funcs[] = {
 	JS_CFUNC_DEF("emit", 0, &signal_class_emit),
 };
 
-
 static int js_signal_class_init(JSContext *ctx) {
-	classes["Signal"] = JS_NewClassID(&classes["Signal"]);
-	JSClassID class_id = classes["Signal"];
+	JSClassID class_id = JS_NewClassID(&classes[typeid(Signal)]);
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &signal_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	JS_SetPropertyFunctionList(ctx, proto, signal_class_proto_funcs, _countof(signal_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);
+	JS_SetPropertyFunctionList(ctx, proto, signal_class_proto_funcs, _countof(signal_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, signal_class_constructor, "Signal", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
 

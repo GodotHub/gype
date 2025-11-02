@@ -60,7 +60,8 @@ TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, TypeScript *scrip
 				const char *symbol_name = JS_AtomToCString(js_context(), symbol);
 				ret = JS_GetProperty(js_context(), ret, symbol);
 				if (strcmp(symbol_mask, symbol_name) == 0) {
-					JSValue vbinding = VariantAdapter(gd_binding);
+					GDVariantAdapter<Object *> adapter = GDVariantAdapter<Object *>(gd_binding);
+					JSValue vbinding = adapter;
 					js_binding = JS_CallConstructor(js_context(), clazz, 1, &vbinding);
 					ERR_FAIL_COND(is_exception(js_context(), js_binding));
 					JS_SetOpaque(js_binding, gd_binding);
@@ -112,7 +113,7 @@ GDExtensionBool TypeScriptInstance::set(GDExtensionConstStringNamePtr p_name, GD
 	if (script->is_tool || !Engine::get_singleton()->is_editor_hint()) {
 		Variant varg;
 		internal::gdextension_interface_variant_new_copy(varg._native_ptr(), p_variant);
-		return JS_SetPropertyStr(js_context(), js_binding, name, VariantAdapter(varg)) > 0;
+		return JS_SetPropertyStr(js_context(), js_binding, name, GDVariantAdapter<Variant>(varg)) > 0;
 	}
 	return false;
 }
@@ -125,7 +126,7 @@ GDExtensionBool TypeScriptInstance::get(GDExtensionConstStringNamePtr p_name, GD
 		if (JS_IsUndefined(js_ret)) {
 			return false;
 		}
-		Variant ret = VariantAdapter(js_ret);
+		Variant ret = *JSValueAdapter<Variant>(js_ret).get();
 		internal::gdextension_interface_variant_new_copy(r_ret, ret._native_ptr());
 		return true;
 	}
@@ -188,9 +189,9 @@ void TypeScriptInstance::call(GDExtensionConstStringNamePtr p_method, const GDEx
 			const Variant *variant_args = p_args ? *reinterpret_cast<const Variant *const *>(p_args) : nullptr;
 			std::vector<JSValue> js_args(p_argument_count);
 			for (int i = 0; i < p_argument_count; i++) {
-				js_args[i] = VariantAdapter(variant_args[i]);
+				js_args[i] = GDVariantAdapter<Variant>(variant_args[i]);
 			}
-			Variant ret = VariantAdapter(JS_Call(js_context(), js_method, js_instance, p_argument_count, js_args.data()));
+			Variant ret = *JSValueAdapter<Variant>(JS_Call(js_context(), js_method, js_instance, p_argument_count, js_args.data())).get();
 			internal::gdextension_interface_variant_new_copy(r_return, ret._native_ptr());
 			r_error->error = GDExtensionCallErrorType::GDEXTENSION_CALL_OK;
 			execute_events();

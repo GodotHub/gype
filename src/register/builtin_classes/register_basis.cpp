@@ -11,10 +11,10 @@
 using namespace godot;
 
 static void basis_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes["Basis"];
-	Basis *opaque_ptr = static_cast<Basis *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr) {
-		memfree(opaque_ptr);
+	JSClassID class_id = classes[typeid(Basis)];
+	GDVariantAdapter<Basis> *opaque_ptr = static_cast<GDVariantAdapter<Basis> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr && opaque_ptr->can_memfree) {
+		memfree(const_cast<Basis *>(opaque_ptr->m_active_variant));
 	}
 }
 
@@ -24,42 +24,49 @@ static JSClassDef basis_class_def = {
 };
 
 static JSValue basis_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["Basis"];
+	JSClassID class_id = classes[typeid(Basis)];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
 		return obj;
 	}
 
 	Basis *instance = nullptr;
+	GDVariantAdapter<Basis> *adapter = reinterpret_cast<GDVariantAdapter<Basis> *>(memalloc(sizeof(GDVariantAdapter<Basis>)));
 	if (argc == 0) {
-		instance = memnew(Basis());
+		instance = reinterpret_cast<Basis *>(memalloc(sizeof(Basis)));
+		instance = new (instance) Basis();
 	}
-	if (argc == 1 && VariantAdapter(argv[0]).get_type() == Variant::Type::BASIS) {
-		Basis v0 = VariantAdapter(argv[0]).get<Basis>();
-		instance = memnew(Basis(v0));
+	if (argc == 1 && (JSValueAdapter<Basis>::can_cast(argv[0]))) {
+		Basis v0 = *JSValueAdapter<Basis>(argv[0]).get();
+		instance = reinterpret_cast<Basis *>(memalloc(sizeof(Basis)));
+		instance = new (instance) Basis(v0);
 	}
-	if (argc == 1 && VariantAdapter(argv[0]).get_type() == Variant::Type::QUATERNION) {
-		Quaternion v0 = VariantAdapter(argv[0]).get<Quaternion>();
-		instance = memnew(Basis(v0));
+	if (argc == 1 && (JSValueAdapter<Quaternion>::can_cast(argv[0]))) {
+		Quaternion v0 = *JSValueAdapter<Quaternion>(argv[0]).get();
+		instance = reinterpret_cast<Basis *>(memalloc(sizeof(Basis)));
+		instance = new (instance) Basis(v0);
 	}
-	if (argc == 2 && VariantAdapter(argv[0]).get_type() == Variant::Type::VECTOR3 && (VariantAdapter(argv[1]).get_type() == Variant::Type::FLOAT || VariantAdapter(argv[1]).get_type() == Variant::Type::INT)) {
-		Vector3 v0 = VariantAdapter(argv[0]).get<Vector3>();
-		float v1 = VariantAdapter(argv[1]).get<float>();
-		instance = memnew(Basis(v0, v1));
+	if (argc == 2 && (JSValueAdapter<Vector3>::can_cast(argv[0])) && (JSValueAdapter<float>::can_cast(argv[1]))) {
+		Vector3 v0 = *JSValueAdapter<Vector3>(argv[0]).get();
+		float v1 = *JSValueAdapter<float>(argv[1]).get();
+		instance = reinterpret_cast<Basis *>(memalloc(sizeof(Basis)));
+		instance = new (instance) Basis(v0, v1);
 	}
-	if (argc == 3 && VariantAdapter(argv[0]).get_type() == Variant::Type::VECTOR3 && VariantAdapter(argv[1]).get_type() == Variant::Type::VECTOR3 && VariantAdapter(argv[2]).get_type() == Variant::Type::VECTOR3) {
-		Vector3 v0 = VariantAdapter(argv[0]).get<Vector3>();
-		Vector3 v1 = VariantAdapter(argv[1]).get<Vector3>();
-		Vector3 v2 = VariantAdapter(argv[2]).get<Vector3>();
-		instance = memnew(Basis(v0, v1, v2));
+	if (argc == 3 && (JSValueAdapter<Vector3>::can_cast(argv[0])) && (JSValueAdapter<Vector3>::can_cast(argv[1])) && (JSValueAdapter<Vector3>::can_cast(argv[2]))) {
+		Vector3 v0 = *JSValueAdapter<Vector3>(argv[0]).get();
+		Vector3 v1 = *JSValueAdapter<Vector3>(argv[1]).get();
+		Vector3 v2 = *JSValueAdapter<Vector3>(argv[2]).get();
+		instance = reinterpret_cast<Basis *>(memalloc(sizeof(Basis)));
+		instance = new (instance) Basis(v0, v1, v2);
 	}
+	adapter = new (adapter) GDVariantAdapter<Basis>(*instance, true);
 
-	if (!instance) {
+	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, instance);
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 static JSValue basis_class_inverse(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -124,30 +131,30 @@ static JSValue basis_class_from_euler(JSContext *ctx, JSValueConst this_val, int
 }
 
 static JSValue basis_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes["Basis"]));
-	return VariantAdapter(val.rows[0]);
+	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes[typeid(Basis)]));
+	return GDVariantAdapter<Vector3>(val.rows[0]);
 }
 static JSValue basis_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes["Basis"]));
-	val.rows[0] = VariantAdapter(*argv).get<Vector3>();
+	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes[typeid(Basis)]));
+	val.rows[0] = *JSValueAdapter<Vector3>(*argv).get();
 	return JS_UNDEFINED;
 }
 static JSValue basis_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes["Basis"]));
-	return VariantAdapter(val.rows[1]);
+	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes[typeid(Basis)]));
+	return GDVariantAdapter<Vector3>(val.rows[1]);
 }
 static JSValue basis_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes["Basis"]));
-	val.rows[1] = VariantAdapter(*argv).get<Vector3>();
+	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes[typeid(Basis)]));
+	val.rows[1] = *JSValueAdapter<Vector3>(*argv).get();
 	return JS_UNDEFINED;
 }
 static JSValue basis_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes["Basis"]));
-	return VariantAdapter(val.rows[2]);
+	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes[typeid(Basis)]));
+	return GDVariantAdapter<Vector3>(val.rows[2]);
 }
 static JSValue basis_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes["Basis"]));
-	val.rows[2] = VariantAdapter(*argv).get<Vector3>();
+	Basis &val = *reinterpret_cast<Basis *>(JS_GetOpaque(this_val, classes[typeid(Basis)]));
+	val.rows[2] = *JSValueAdapter<Vector3>(*argv).get();
 	return JS_UNDEFINED;
 }
 
@@ -199,8 +206,9 @@ void define_basis_property(JSContext *ctx, JSValue obj) {
 }
 
 static int js_basis_class_init(JSContext *ctx) {
-	classes["Basis"] = JS_NewClassID(&classes["Basis"]);
-	JSClassID class_id = classes["Basis"];
+	JSClassID class_id;
+	class_id = JS_NewClassID(&class_id);
+	classes[typeid(Basis)] = class_id;
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &basis_class_def);
 

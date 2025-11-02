@@ -158,7 +158,11 @@ ScriptLanguage::ScriptNameCasing TypeScriptLanguage::_preferred_file_name_casing
 }
 
 Dictionary TypeScriptLanguage::_complete_code(const String &p_code, const String &p_path, Object *p_owner) const {
-	return Dictionary();
+	Dictionary ret;
+	ret["result"] = PackedStringArray();
+	ret["force"] = false; 
+	ret["call_hint"] = ""; 
+	return ret;
 }
 
 Dictionary TypeScriptLanguage::_lookup_code(const String &p_code, const String &p_symbol, const String &p_path, Object *p_owner) const {

@@ -8,6 +8,7 @@
 #include "utils/func_utils.hpp"
 #include "utils/variant_helper.hpp"
 #include "utils/quickjs_helper.hpp"
+#include "support/module_loader.hpp"
 {% if has_vararg_methods %}
 #include "register/classes/class_{{ snake_name }}_vararg.hpp"
 {% endif %}
@@ -21,10 +22,11 @@
 using namespace godot;
 
 static void {{ snake_name }}_class_finalizer(JSRuntime *rt, JSValue val) {
-    {{ class_name }} *instance = reinterpret_cast<{{ class_name }} *>(JS_GetOpaque(val, classes["{{ class_name }}"]));
-    if (instance) {
-        internal::gdextension_interface_object_free_instance_binding(instance->_owner, internal::token);
-    }
+	JSClassID class_id = classes[typeid({{ class_name }})];
+	GDObjectAdapter<{{class_name}}> *opaque_ptr = static_cast<GDObjectAdapter<{{class_name}}> *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr) {
+		internal::gdextension_interface_object_free_instance_binding(opaque_ptr->get()->_owner, internal::token);
+	}
 }
 
 static JSClassDef {{ snake_name }}_class_def = {
@@ -33,26 +35,28 @@ static JSClassDef {{ snake_name }}_class_def = {
 };
 
 static JSValue {{ snake_name }}_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-    JSClassID class_id = classes["{{ class_name }}"];
+    JSClassID class_id = classes[typeid({{ class_name }})];
     JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
     JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
-    if (JS_IsException(obj)) {
-        return obj;
-    }
+	if (is_exception(js_context(), obj)) {
+		return obj;
+	}
 
     {{ class_name }} *instance;
+	GDObjectAdapter<{{class_name}}> *adapter = reinterpret_cast<GDObjectAdapter<{{class_name}}> *>(memalloc(sizeof(GDObjectAdapter<{{class_name}}>)));
     // Allow constructing from an existing native pointer
-    if (argc == 1 && VariantAdapter(argv[0]).get_type() == Variant::OBJECT) {
-        instance = static_cast<{{ class_name }} *>(VariantAdapter(*argv).get<Object *>());
+    if (argc == 1 && GDObjectAdapter<{{class_name}}>::can_cast(argv[0])) {
+        instance = static_cast<{{ class_name }} *>(JSObjectAdapter<Object>(*argv).get());
     } else {
         instance = memnew({{ class_name }});
     }
+	memnew_placement(adapter, GDObjectAdapter<{{class_name}}>(instance, true));
 
     if (!instance) {
         JS_FreeValue(js_context(), obj);
         return JS_EXCEPTION;
     }
-    JS_SetOpaque(obj, instance);
+    JS_SetOpaque(obj, adapter);
     return obj;
 }
 
@@ -124,7 +128,7 @@ static JSValue {{snake_name}}_class_get_{{signal['name']}}_signal(JSContext *ctx
 	{{cls['name']}} *opaque = reinterpret_cast<{{cls['name']}} *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)));
 	JSValue js_signal = JS_GetPropertyStr(js_context(), this_val, "{{signal['name']}}_signal");
 	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "{{signal['name']}}"));
+		js_signal = GDVariantAdapter<Signal>(Signal(opaque, "{{signal['name']}}"));
 		JS_DefinePropertyValueStr(js_context(), this_val, "{{signal['name']}}_signal", js_signal, JS_PROP_HAS_VALUE);
 	}
 	return js_signal;
@@ -175,14 +179,15 @@ static void define_{{snake_name}}_enum(JSContext *ctx, JSValue proto) {
 	{% endfor %}
 }
 
-static int js_{{snake_name}}_class_init(JSContext *ctx, JSModuleDef *m) {
-	classes["{{class_name}}"] = JS_NewClassID(&classes["{{class_name}}"]);
-	JSClassID class_id = classes["{{class_name}}"];
+static int js_{{snake_name}}_class_init(JSContext *ctx, JSModuleDef *m) {	
+	JSClassID class_id;
+	class_id = JS_NewClassID(&class_id);
+	classes[typeid({{class_name}})] = class_id;
 	JS_NewClass(JS_GetRuntime(js_context()), class_id, &{{snake_name}}_class_def);
 
 	JSValue proto = JS_NewObjectClass(js_context(), class_id);
 	{% if cls['inherits'] %}
-	JSValue base_class = JS_GetClassProto(js_context(), classes["{{cls['inherits']}}"]);
+	JSValue base_class = JS_GetClassProto(js_context(), classes[typeid({{cls['inherits']}})]);
 	JS_SetPrototype(js_context(), proto, base_class);
 	{% endif %}
 	JS_SetClassProto(js_context(), class_id, proto);
@@ -232,6 +237,12 @@ JSModuleDef *js_init_{{ snake_name }}_module(JSContext *ctx) {
 	return _js_init_{{ snake_name }}_module(js_context(), "@godot/classes/{{camel_to_snake(class_name)}}");
 }
 
-void register_{{ snake_name }}() {
+void __register_{{ snake_name }}() {
 	js_init_{{ snake_name }}_module(js_context());
+}
+
+void register_{{ snake_name }}() {
+	{# (*register_func_map())["{{snake_name}}"] = __register_{{snake_name}};
+	(*registered_classes()).insert("{{snake_name}}"); #}
+	__register_{{snake_name}}();
 }

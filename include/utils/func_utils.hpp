@@ -79,41 +79,44 @@ convert(JSContext *ctx, JSValue v) {
 template <typename T>
 std::enable_if_t<std::is_same_v<T, Vector2> || std::is_same_v<T, Vector3>, T>
 convert(JSContext *ctx, JSValue v) {
-	return VariantAdapter(v).get<T>();
+	return *JSValueAdapter<T>(v).get();
 }
 template <typename T>
-std::enable_if_t<std::is_fundamental_v<T>, T>
+std::enable_if_t<std::is_fundamental_v<T> && !std::is_same_v<char32_t, T>, T>
 convert(JSContext *ctx, JSValue v) {
-	if constexpr (std::is_same_v<T, char32_t>) {
-		return *(VariantAdapter(v).get<String>()).ptrw();
-	} else {
-		return VariantAdapter(v).get<T>();
-	}
+	return *JSValueAdapter<T>(v).get();
 }
+
+template <typename T>
+std::enable_if_t<std::is_same_v<T, char32_t>, T>
+convert(JSContext *ctx, JSValue v) {
+	return *JSValueAdapter<String>(v).get()->ptrw();
+}
+
 template <typename T>
 std::enable_if_t<std::is_enum_v<T> && !std::is_fundamental_v<T>, T>
 convert(JSContext *ctx, JSValue v) {
-	return static_cast<T>(VariantAdapter(v).get<int64_t>());
+	return static_cast<T>(*JSValueAdapter<int64_t>(v).get());
 }
 template <typename T>
 std::enable_if_t<is_const_ref_v<T>, const_ref_extract_type_t<T> *>
 convert(JSContext *ctx, JSValue v) {
-	return static_cast<const_ref_extract_type_t<T> *>(VariantAdapter(v).get<Object *>());
+	return static_cast<const_ref_extract_type_t<T> *>(JSObjectAdapter<Object>(v).get());
 }
 template <typename T>
 std::enable_if_t<is_ref_v<T>, ref_extract_type_t<T> *>
 convert(JSContext *ctx, JSValue v) {
-	return static_cast<ref_extract_type_t<T> *>(VariantAdapter(v).get<Object *>());
+	return static_cast<ref_extract_type_t<T> *>(JSObjectAdapter<Object>(v).get());
 }
 template <typename T>
 std::enable_if_t<!is_const_ref_v<T> && !is_ref_v<T> && std::is_reference_v<T>, std::remove_const_t<std::remove_reference_t<T>>>
 convert(JSContext *ctx, JSValue v) {
-	return VariantAdapter(v).operator godot::Variant();
+	return *JSValueAdapter<std::decay_t<T>>(v).get();
 }
 template <typename T>
 std::enable_if_t<std::is_pointer_v<T> && std::is_base_of_v<std::remove_pointer_t<T>, Object>, std::remove_pointer_t<T> *>
 convert(JSContext *ctx, JSValue v) {
-	return static_cast<std::remove_pointer_t<T> *>(VariantAdapter(v).get<Object *>());
+	return static_cast<std::remove_pointer_t<T> *>(JSObjectAdapter<Object>(v).get());
 }
 template <typename T>
 std::enable_if_t<std::is_pointer_v<T> && !std::is_base_of_v<std::remove_pointer_t<T>, Object>, std::remove_pointer_t<T> *>
@@ -124,7 +127,7 @@ convert(JSContext *ctx, JSValue v) {
 template <typename T>
 std::enable_if_t<is_bitfield_v<T>, T>
 convert(JSContext *ctx, JSValue v) {
-	return VariantAdapter(v).get<int64_t>();
+	return *JSValueAdapter<int64_t>(v).get();
 }
 
 template <typename T, typename... P, std::size_t... Is>
@@ -153,7 +156,7 @@ JSValue call_builtin_const_method_no_ret(void (T::*Func)(P...) const, JSContext 
 template <typename R, typename T, typename... P, std::size_t... Is>
 JSValue call_builtin_method_ret_impl(R (T::*Func)(P...), JSContext *ctx, JSValue this_val, int argc, JSValue *argv, std::index_sequence<Is...>) {
 	T *obj = (T *)JS_GetOpaque(this_val, JS_GetClassID(this_val));
-	JSValue ret = VariantAdapter((obj->*Func)((convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is]))...));
+	JSValue ret = VariantAdapter<R, JSValue>((obj->*Func)((convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is]))...));
 	return ret;
 }
 
@@ -165,7 +168,7 @@ JSValue call_builtin_method_ret(R (T::*Func)(P...), JSContext *ctx, JSValue this
 template <typename R, typename T, typename... P, std::size_t... Is>
 JSValue call_builtin_const_method_ret_impl(R (T::*Func)(P...) const, JSContext *ctx, JSValue this_val, int argc, JSValue *argv, std::index_sequence<Is...>) {
 	T *obj = (T *)JS_GetOpaque(this_val, JS_GetClassID(this_val));
-	JSValue ret = VariantAdapter((obj->*Func)((convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is]))...));
+	JSValue ret = VariantAdapter<R, JSValue>((obj->*Func)((convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is]))...));
 	return ret;
 }
 
@@ -176,7 +179,7 @@ JSValue call_builtin_const_method_ret(R (T::*Func)(P...) const, JSContext *ctx, 
 
 template <typename R, typename... P, std::size_t... Is>
 JSValue call_builtin_static_method_ret_impl(R (*Func)(P...), JSContext *ctx, JSValue this_val, int argc, JSValue *argv, std::index_sequence<Is...>) {
-	JSValue ret = VariantAdapter((*Func)(convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])...));
+	JSValue ret = VariantAdapter<R, JSValue>((*Func)(convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])...));
 	return ret;
 }
 
@@ -248,30 +251,30 @@ JSValue call_builtin_const_no_fixed_vararg_method_no_ret(void (T::*Func)(void *o
 	return call_builtin_const_no_fixed_vararg_method_no_ret_impl(Func, ctx, std::forward<JSValue>(this_obj), argc, argv);
 }
 
-template <typename T, typename R, typename... P>
+template <typename T, typename R>
 JSValue call_builtin_free_opaque_no_fixed_vararg_method_ret_impl(R (*Func)(void *, const std::vector<Variant> &), JSContext *ctx, JSValueConst this_obj, int argc, JSValueConst *argv) {
 	T *gd_val = static_cast<T *>(JS_GetOpaque(this_obj, JS_GetClassID(this_obj)));
 	GDExtensionTypePtr vopaque = gd_val->_native_ptr();
 	std::vector<Variant> variant_args;
 	for (int i = 0; i < argc; ++i) {
-		variant_args.push_back(VariantAdapter(argv[i]));
+		variant_args.push_back(*JSValueAdapter<Variant>(argv[i]).get());
 	}
-	JSValue ret = VariantAdapter((*Func)(vopaque, variant_args));
+	JSValue ret = VariantAdapter<R, JSValue>((*Func)(vopaque, variant_args));
 	return ret;
 }
 
-template <typename T, typename R, typename... P>
+template <typename T, typename R>
 JSValue call_builtin_free_opaque_no_fixed_vararg_method_ret(R (*Func)(void *, const std::vector<Variant> &), JSContext *ctx, JSValueConst this_obj, int argc, JSValueConst *argv) {
 	return call_builtin_free_opaque_no_fixed_vararg_method_ret_impl<T>(Func, ctx, std::forward<JSValue>(this_obj), argc, argv);
 }
 
-template <typename T, typename... P>
+template <typename T>
 JSValue call_builtin_free_opaque_no_fixed_vararg_method_no_ret_impl(void (*Func)(void *, const std::vector<Variant> &), JSContext *ctx, JSValueConst this_obj, int argc, JSValueConst *argv) {
 	T *gd_val = static_cast<T *>(JS_GetOpaque(this_obj, JS_GetClassID(this_obj)));
 	void *vopaque = gd_val->_native_ptr();
 	std::vector<Variant> variant_args;
 	for (int i = 0; i < argc; ++i) {
-		variant_args.push_back(VariantAdapter(argv[i]));
+		variant_args.push_back(*JSValueAdapter<Variant>(argv[i]).get());
 	}
 	(*Func)(vopaque, variant_args);
 	return JS_UNDEFINED;
@@ -309,7 +312,7 @@ JSValue call_builtin_free_opaque_vararg_method_no_ret_impl(void (*Func)(void *, 
 	constexpr int fixed_argc = sizeof...(P) - 1;
 	std::vector<Variant> variant_args;
 	for (int i = fixed_argc; i < argc; ++i) {
-		variant_args.push_back(VariantAdapter(argv[i]));
+		variant_args.push_back(*JSValueAdapter<Variant>(argv[i]).get());
 	}
 	(*Func)(vopaque, convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])..., variant_args);
 	return JS_UNDEFINED;
@@ -327,7 +330,7 @@ JSValue call_builtin_vararg_method_ret_impl(R (T::*Func)(P...), JSContext *ctx, 
 	constexpr int fixed_argc = sizeof...(P) - 1;
 	std::vector<Variant> variant_args;
 	for (int i = fixed_argc; i < argc; ++i) {
-		variant_args.push_back(VariantAdapter(argv[i]));
+		variant_args.push_back(*JSValueAdapter(argv[i]).get());
 	}
 	JSValue ret = VariantAdapter((gd_val->*Func)(convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])..., variant_args));
 	return ret;
@@ -343,7 +346,7 @@ JSValue call_builtin_static_vararg_method_no_ret_impl(void (*Func)(P...), JSCont
 	constexpr int fixed_argc = sizeof...(P) - 1;
 	std::vector<Variant> variant_args;
 	for (int i = fixed_argc; i < argc; ++i) {
-		variant_args.push_back(VariantAdapter(argv[i]));
+		variant_args.push_back(*JSValueAdapter<Variant>(argv[i]).get());
 	}
 	(*Func)(convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])..., variant_args);
 	return JS_UNDEFINED;
@@ -360,7 +363,7 @@ JSValue call_builtin_free_owner_vararg_method_no_ret_impl(void (*Func)(void *, P
 	constexpr int fixed_argc = sizeof...(P) - 1;
 	std::vector<Variant> variant_args;
 	for (int i = fixed_argc; i < argc; ++i) {
-		variant_args.push_back(VariantAdapter(argv[i]));
+		variant_args.push_back(*JSValueAdapter<Variant>(argv[i]).get());
 	}
 	(*Func)(owner, convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])..., variant_args);
 	return JS_UNDEFINED;
@@ -378,9 +381,9 @@ JSValue call_builtin_const_vararg_method_ret_impl(R (T::*Func)(P...) const, JSCo
 	constexpr int fixed_argc = sizeof...(P) - 1;
 	std::vector<Variant> variant_args;
 	for (int i = fixed_argc; i < argc; ++i) {
-		variant_args.push_back(VariantAdapter(argv[i]));
+		variant_args.push_back(*JSValueAdapter(argv[i]).get());
 	}
-	JSValue ret = VariantAdapter((gd_val->*Func)(convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])..., variant_args));
+	JSValue ret = VariantAdapter<R, JSValue>((gd_val->*Func)(convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])..., variant_args));
 	return ret;
 }
 
@@ -394,9 +397,9 @@ JSValue call_builtin_const_no_fixed_vararg_method_ret_impl(R (T::*Func)(std::vec
 	T *gd_val = static_cast<T *>(JS_GetOpaque(this_obj, JS_GetClassID(this_obj)));
 	std::vector<Variant> variant_args;
 	for (int i = 0; i < argc; ++i) {
-		variant_args.push_back(VariantAdapter(argv[i]));
+		variant_args.push_back(*JSValueAdapter(argv[i]).get());
 	}
-	JSValue ret = VariantAdapter((gd_val->*Func)(variant_args));
+	JSValue ret = VariantAdapter<R, JSValue>((gd_val->*Func)(variant_args));
 	return ret;
 }
 
@@ -410,9 +413,9 @@ JSValue call_builtin_static_vararg_method_ret_impl(R (*Func)(P...), JSContext *c
 	constexpr int fixed_argc = sizeof...(P) - 1;
 	std::vector<Variant> variant_args;
 	for (int i = fixed_argc; i < argc; ++i) {
-		variant_args.push_back(VariantAdapter(argv[i]));
+		variant_args.push_back(*JSValueAdapter<Variant>(argv[i]).get());
 	}
-	JSValue ret = VariantAdapter((*Func)(convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])..., variant_args));
+	JSValue ret = VariantAdapter<R, JSValue>((*Func)(convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])..., variant_args));
 	return ret;
 }
 
@@ -427,9 +430,9 @@ JSValue call_builtin_free_owner_vararg_method_ret_impl(R (*Func)(void *, P...), 
 	constexpr int fixed_argc = sizeof...(P) - 1;
 	std::vector<Variant> variant_args;
 	for (int i = fixed_argc; i < argc; ++i) {
-		variant_args.push_back(VariantAdapter(argv[i]));
+		variant_args.push_back(*JSValueAdapter<Variant>(argv[i]).get());
 	}
-	JSValue ret = VariantAdapter((*Func)(owner, convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])..., variant_args));
+	JSValue ret = VariantAdapter<R, JSValue>((*Func)(owner, convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])..., variant_args));
 
 	return ret;
 }

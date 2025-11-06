@@ -54,6 +54,8 @@ def main():
             is_singleton=is_singleton,
             dependency=dependencies,
             singletons=singletons,
+            classes=sorted_classes,
+            builtin_classes=all_builtin_classes,
             has_vararg_methods=has_vararg_method(cls)
         )
 

@@ -46,7 +46,7 @@ static JSClassDef {{snake_name}}_class_def = {
 };
 
 static JSValue {{snake_name}}_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes[typeid({{clazz_name}})];
+	JSClassID class_id = classes["{{clazz_name}}"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -115,13 +115,13 @@ static const JSCFunctionListEntry {{snake_name}}_class_static_funcs[] = {
 {% endif %}
 
 static int js_{{snake_name}}_class_init(JSContext *ctx) {
-	JSClassID class_id = classes[typeid({{ clazz_name }})];
-	classes[typeid({{clazz_name}})] = class_id;
+	JSClassID class_id = classes["{{ clazz_name }}"];
+	classes["{{clazz_name}}"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &{{snake_name}}_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
 	{% if cls['inherits'] %}
-	JSValue base_class = JS_GetClassProto(ctx, classes[typeid({{cls['inherits']}})]);
+	JSValue base_class = JS_GetClassProto(ctx, classes["{{cls['inherits']}}"]);
 	JS_SetPrototype(ctx, proto, base_class);
 	{% endif %}
 	JS_SetClassProto(ctx, class_id, proto);

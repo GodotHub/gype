@@ -1,6 +1,6 @@
 import { Node2D } from "@godot/classes/node2d";
-export declare class Game extends Node2D {
+export declare class new_script extends Node2D {
     _ready(): void;
     _process(delta: number): void;
 }
-//# sourceMappingURL=Game.d.ts.map
+//# sourceMappingURL=new_script.d.ts.map

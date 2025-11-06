@@ -9,6 +9,7 @@
 // Forward declarations for individual class registration functions
 {% for cls in classes %}
 void register_{{ camel_to_snake(cls.name) }}();
+void register_proxy_{{ camel_to_snake(cls.name) }}();
 {% endfor %}
 
 // Main function to orchestrate the registration of all built-in classes

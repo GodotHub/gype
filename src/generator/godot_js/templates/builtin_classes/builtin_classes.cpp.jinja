@@ -4,8 +4,13 @@
     - Whitespace control is enabled to prevent extra newlines.
 #}
 {%- set cls_name = cls.name %}
+{% set jsname = cls.name %}
+{%- if cls_name == "String" -%}
+{% set jsname = "GDString" %}
+{%- endif -%}
 {%- set cls_name_lower = camel_to_snake(cls_name) %}
 #include "register/builtin_classes/register_builtin_classes.hpp"
+#include "register/object_proxy.hpp"
 #include "utils/env.hpp"
 #include "utils/func_utils.hpp"
 #include "utils/quickjs_helper.hpp"
@@ -17,14 +22,19 @@
 #include <quickjs.h>
 {{ include_path }}
 
+{% macro norm_type(tp) %}
+	{% if tp == 'float' %}double{% else %}{{tp}}{% endif %}
+{% endmacro %}
+
 using namespace godot;
 
 static void {{ cls_name_lower }}_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes[typeid({{ cls_name }})];
-	GDVariantAdapter<{{cls_name}}> *opaque_ptr = static_cast<GDVariantAdapter<{{cls_name}}> *>(JS_GetOpaque(val, class_id));
+	{# JSClassID class_id = classes["{{ cls_name }}"];
+	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr && opaque_ptr->can_memfree) {
 		memfree(const_cast<{{cls_name}} *>(opaque_ptr->m_active_variant));
-	}
+	} #}
+	// 处于栈内存的变量不需要释放,除了对象
 }
 
 static JSClassDef {{ cls_name_lower }}_class_def = {
@@ -33,28 +43,23 @@ static JSClassDef {{ cls_name_lower }}_class_def = {
 };
 
 static JSValue {{ cls_name_lower }}_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes[typeid({{ cls_name }})];
+	JSClassID class_id = classes["{{ cls_name }}"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
+
 	if (JS_IsException(obj)) {
 		return obj;
 	}
 	
 	{{ cls_name }} *instance = nullptr;
-	GDVariantAdapter<{{cls_name}}> *adapter = reinterpret_cast<GDVariantAdapter<{{cls_name}}> *>(memalloc(sizeof(GDVariantAdapter<{{cls_name}}>)));
 {% for ctor in cls.constructors %}
 	if (argc == {{ ctor.arguments | length if ctor.arguments else 0 }}{% if ctor.arguments %}{{ variant_type_cond(ctor.arguments) }}{% endif %}) {
 		{% for arg in ctor.arguments %}
-			{% if arg.type == "Object"%}
-		Object *v{{ loop.index0 }} = JSValueAdapter<{{arg.type}}>(argv[{{ loop.index0 }}]).get();
-			{% else%}
-		{{ arg.type }} v{{ loop.index0 }} = *JSValueAdapter<{{arg.type}}>(argv[{{ loop.index0 }}]).get();
-			{% endif %}
+		{{ norm_type(arg.type) }} v{{ loop.index0 }} = VariantAdapter(argv[{{ loop.index0 }}]).get();
 		{% endfor %}
-		instance = reinterpret_cast<{{cls_name}} *>(memalloc(sizeof({{cls_name}})));
-		instance = new (instance) {{cls_name}}({{put_args(ctor.arguments)}});
+		instance = memnew({{cls_name}}({{put_args(ctor.arguments)}}));
 	}
 {% endfor %}
-	adapter = new (adapter) GDVariantAdapter<{{cls_name}}>(*instance, true);
+	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
 
 	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
@@ -75,11 +80,11 @@ static JSValue {{cls_name_lower}}_class_{{method.name}}(JSContext *ctx, JSValueC
 {# Generate property accessors #}
 {% for member in cls.members %}
 static JSValue {{ cls_name_lower }}_class_get_{{ member.name }}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	{{ cls_name }} &val = *reinterpret_cast<{{ cls_name }} *>(JS_GetOpaque(this_val, classes[typeid({{ cls_name }})]));
+	{{ cls_name }} val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["{{ cls_name }}"]))->get();
 	{{ get_property_accessor_expression(member, 'get') }}
 }
 static JSValue {{ cls_name_lower }}_class_set_{{ member.name }}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	{{ cls_name }} &val = *reinterpret_cast<{{ cls_name }} *>(JS_GetOpaque(this_val, classes[typeid({{ cls_name }})]));
+	{{ cls_name }} val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["{{ cls_name }}"]))->get();
 	{{ get_property_accessor_expression(member, 'set') }}
 	return JS_UNDEFINED;
 }
@@ -109,9 +114,9 @@ void define_{{ cls_name_lower }}_property(JSContext *ctx, JSValue obj) {
 {% endif %}
 
 static int js_{{ cls_name_lower }}_class_init(JSContext *ctx) {
-	JSClassID class_id;
-	class_id = JS_NewClassID(&class_id);
-	classes[typeid({{cls_name}})] = class_id;
+	JSClassID class_id = 0;
+	classes["{{cls_name}}"] = JS_NewClassID(&class_id);
+	classes_by_id[class_id] = "{{cls_name}}";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &{{ cls_name_lower }}_class_def);
 
@@ -124,11 +129,11 @@ static int js_{{ cls_name_lower }}_class_init(JSContext *ctx) {
 	JS_SetPropertyFunctionList(ctx, proto, {{ cls_name_lower }}_class_proto_funcs, _countof({{ cls_name_lower }}_class_proto_funcs));
 {%- endif %}
 
-	JSValue ctor = JS_NewCFunction2(ctx, {{ cls_name_lower }}_class_constructor, "{{ cls_name }}", 0, JS_CFUNC_constructor, 0);
+	JSValue ctor = JS_NewCFunction2(ctx, {{ cls_name_lower }}_class_constructor, "{{ jsname }}", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "{{ cls_name }}", ctor);
+	JS_SetPropertyStr(ctx, global, "{{ jsname }}", ctor);
 
 	return 0;
 }
@@ -139,4 +144,118 @@ void js_init_{{ cls_name_lower }}_module(JSContext *ctx) {
 
 void register_{{ cls_name_lower }}() {
 	js_init_{{ cls_name_lower }}_module(js_context());
+}
+
+// ------------------{{cls_name}}Proxy------------------
+static void {{cls_name_lower}}_proxy_finalizer(JSRuntime *rt, JSValue val) {
+	void *proxy = JS_GetOpaque(val, classes["{{cls_name}}Proxy"]);
+	if (proxy) {
+		memfree(static_cast<ObjectProxy<{{cls_name}}> *>(proxy));
+	}
+}
+
+static JSClassDef {{cls_name_lower}}_proxy_def = {
+	"{{cls_name}}Proxy",
+	.finalizer = {{cls_name_lower}}_proxy_finalizer
+};
+
+
+static JSValue {{ cls_name_lower }}_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
+	JSClassID class_id = classes["{{cls_name}}Proxy"];
+	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
+	if (is_exception(js_context(), obj)) {
+		return obj;
+	}
+
+	ObjectProxy<{{cls_name}}> *proxy;
+	JSClassID opaque_id;
+	// Allow constructing from an existing native pointer
+	if (argc == 1 && JS_IsObject(*argv)) {
+		proxy = static_cast<ObjectProxy<{{cls_name}}> *>(JS_GetAnyOpaque(*argv, &opaque_id));
+	} else {
+		return JS_EXCEPTION;
+	}
+
+	if (!proxy) {
+		JS_FreeValue(ctx, obj);
+		return JS_EXCEPTION;
+	}
+	JS_SetOpaque(obj, proxy);
+	return obj;
+}
+
+{% if all_methods or cls.members %}
+{# Generate method wrappers #}
+{% for method in all_methods %}
+static JSValue {{cls_name_lower}}_proxy_{{method.name}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	{{ get_proxy_method_call_expression(method, cls_name) }}
+}
+{% endfor %}
+
+{# Generate property accessors #}
+{% for member in cls.members %}
+static JSValue {{ cls_name_lower }}_proxy_get_{{ member.name }}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	{{ get_property_proxy_accessor_expression(cls_name, member, 'get') }}
+}
+static JSValue {{ cls_name_lower }}_proxy_set_{{ member.name }}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	{{ get_property_proxy_accessor_expression(cls_name, member, 'set') }}
+	return JS_UNDEFINED;
+}
+{% endfor %}
+{% endif %}
+
+{% if all_methods %}
+static const JSCFunctionListEntry {{ cls_name_lower }}_proxy_proto_funcs[] = {
+{% for method in all_methods %}
+	JS_CFUNC_DEF("{{ method.name }}", {{ get_arg_count(method) }}, &{{ cls_name_lower }}_proxy_{{ method.name }}),
+{% endfor %}
+};
+{% endif %}
+
+{% if cls.members %}
+void define_{{ cls_name_lower }}_proxy_property(JSContext *ctx, JSValue obj) {
+{% for member in cls.members %}
+	JS_DefinePropertyGetSet(
+			ctx,
+			obj,
+			JS_NewAtom(ctx, "{{ member.name }}"),
+			JS_NewCFunction(ctx, {{ cls_name_lower }}_proxy_get_{{ member.name }}, "get_{{ member.name }}", 0),
+			JS_NewCFunction(ctx, {{ cls_name_lower }}_proxy_set_{{ member.name }}, "set_{{ member.name }}", 1),
+			JS_PROP_GETSET);
+{% endfor %}
+}
+{% endif %}
+
+static int js_{{ cls_name_lower }}_proxy_init(JSContext *ctx) {
+	JSClassID class_id = 0;
+	classes["{{cls_name}}Proxy"] = JS_NewClassID(&class_id);
+	classes_by_id[class_id] = "{{cls_name}}Proxy";
+
+	JS_NewClass(JS_GetRuntime(ctx), class_id, &{{ cls_name_lower }}_proxy_def);
+
+	JSValue proto = JS_NewObject(ctx);
+	JS_SetClassProto(ctx, class_id, proto);
+{% if cls.members %}
+	define_{{ cls_name_lower }}_proxy_property(ctx, proto);
+{% endif %}
+{% if all_methods %}
+	JS_SetPropertyFunctionList(ctx, proto, {{ cls_name_lower }}_proxy_proto_funcs, _countof({{ cls_name_lower }}_proxy_proto_funcs));
+{% endif %}
+
+	JSValue ctor = JS_NewCFunction2(ctx, {{ cls_name_lower }}_proxy_constructor, "{{ cls_name }}Proxy", 0, JS_CFUNC_constructor, 0);
+	JS_SetConstructor(ctx, ctor, proto);
+
+	JSValue global = JS_GetGlobalObject(ctx);
+	JS_SetPropertyStr(ctx, global, "{{ cls_name }}Proxy", ctor);
+
+	return 0;
+}
+
+void js_init_{{ cls_name_lower }}_proxy_module(JSContext *ctx) {
+	js_{{ cls_name_lower }}_proxy_init(ctx);
+}
+
+void register_proxy_{{ cls_name_lower }}() {
+	js_init_{{ cls_name_lower }}_proxy_module(js_context());
 }

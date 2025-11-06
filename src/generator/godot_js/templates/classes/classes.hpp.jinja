@@ -6,9 +6,10 @@
 
 #define CHECK_INSTANCE_VALID(val)                                                          \
 	{                                                                                      \
+		JSValue undefined = JS_UNDEFINED;                                                  \
 		void *opaque = JS_GetOpaque(val, JS_GetClassID(val));                              \
-		Object *object = reinterpret_cast<Object *>(opaque);                               \
-		intptr_t ptr = (intptr_t)object->_owner;                                           \
+		VariantAdapter *adapter = reinterpret_cast<VariantAdapter *>(opaque);              \
+		godot::Object *object = static_cast<godot::Object *>(adapter->get());              \
 		ERR_FAIL_COND(!UtilityFunctions::is_instance_id_valid(object->get_instance_id())); \
 	}
 
@@ -16,7 +17,8 @@
 	{                                                                                                   \
 		JSValue undefined = JS_UNDEFINED;                                                               \
 		void *opaque = JS_GetOpaque(val, JS_GetClassID(val));                                           \
-		Object *object = reinterpret_cast<Object *>(opaque);                                            \
+		VariantAdapter *adapter = reinterpret_cast<VariantAdapter *>(opaque);                           \
+		godot::Object *object = static_cast<godot::Object *>(adapter->get());                           \
 		ERR_FAIL_COND_V(!UtilityFunctions::is_instance_id_valid(object->get_instance_id()), undefined); \
 	}
 	

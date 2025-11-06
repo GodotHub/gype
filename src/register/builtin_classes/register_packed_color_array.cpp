@@ -1,4 +1,5 @@
 #include "register/builtin_classes/register_builtin_classes.hpp"
+#include "register/object_proxy.hpp"
 #include "utils/env.hpp"
 #include "utils/func_utils.hpp"
 #include "utils/quickjs_helper.hpp"
@@ -8,14 +9,11 @@
 #include <godot_cpp/variant/color.hpp>
 #include <godot_cpp/variant/packed_byte_array.hpp>
 
+
 using namespace godot;
 
 static void packed_color_array_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes[typeid(PackedColorArray)];
-	GDVariantAdapter<PackedColorArray> *opaque_ptr = static_cast<GDVariantAdapter<PackedColorArray> *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr && opaque_ptr->can_memfree) {
-		memfree(const_cast<PackedColorArray *>(opaque_ptr->m_active_variant));
-	}
+	// 处于栈内存的变量不需要释放,除了对象
 }
 
 static JSClassDef packed_color_array_class_def = {
@@ -24,29 +22,26 @@ static JSClassDef packed_color_array_class_def = {
 };
 
 static JSValue packed_color_array_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes[typeid(PackedColorArray)];
+	JSClassID class_id = classes["PackedColorArray"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
+
 	if (JS_IsException(obj)) {
 		return obj;
 	}
 	
 	PackedColorArray *instance = nullptr;
-	GDVariantAdapter<PackedColorArray> *adapter = reinterpret_cast<GDVariantAdapter<PackedColorArray> *>(memalloc(sizeof(GDVariantAdapter<PackedColorArray>)));
 	if (argc == 0) {
-		instance = reinterpret_cast<PackedColorArray *>(memalloc(sizeof(PackedColorArray)));
-		instance = new (instance) PackedColorArray();
+		instance = memnew(PackedColorArray());
 	}
-	if (argc == 1&&(JSValueAdapter<PackedColorArray>::can_cast(argv[0]))) {
-		PackedColorArray v0 = *JSValueAdapter<PackedColorArray>(argv[0]).get();
-		instance = reinterpret_cast<PackedColorArray *>(memalloc(sizeof(PackedColorArray)));
-		instance = new (instance) PackedColorArray(v0);
+	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_COLOR_ARRAY))) {
+		PackedColorArray v0 = VariantAdapter(argv[0]).get();
+		instance = memnew(PackedColorArray(v0));
 	}
-	if (argc == 1&&(JSValueAdapter<Array>::can_cast(argv[0]))) {
-		Array v0 = *JSValueAdapter<Array>(argv[0]).get();
-		instance = reinterpret_cast<PackedColorArray *>(memalloc(sizeof(PackedColorArray)));
-		instance = new (instance) PackedColorArray(v0);
+	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::ARRAY))) {
+		Array v0 = VariantAdapter(argv[0]).get();
+		instance = memnew(PackedColorArray(v0));
 	}
-	adapter = new (adapter) GDVariantAdapter<PackedColorArray>(*instance, true);
+	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
 
 	if (!instance || !adapter) {
 		JS_FreeValue(ctx, obj);
@@ -162,7 +157,9 @@ static const JSCFunctionListEntry packed_color_array_class_proto_funcs[] = {
 
 
 static int js_packed_color_array_class_init(JSContext *ctx) {
-	JSClassID class_id = JS_NewClassID(&classes[typeid(PackedColorArray)]);
+	JSClassID class_id = 0;
+	classes["PackedColorArray"] = JS_NewClassID(&class_id);
+	classes_by_id[class_id] = "PackedColorArray";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &packed_color_array_class_def);
 
@@ -183,4 +180,272 @@ void js_init_packed_color_array_module(JSContext *ctx) {
 
 void register_packed_color_array() {
 	js_init_packed_color_array_module(js_context());
+}
+
+// ------------------PackedColorArrayProxy------------------
+static void packed_color_array_proxy_finalizer(JSRuntime *rt, JSValue val) {
+	void *proxy = JS_GetOpaque(val, classes["PackedColorArrayProxy"]);
+	if (proxy) {
+		memfree(static_cast<ObjectProxy<PackedColorArray> *>(proxy));
+	}
+}
+
+static JSClassDef packed_color_array_proxy_def = {
+	"PackedColorArrayProxy",
+	.finalizer = packed_color_array_proxy_finalizer
+};
+
+
+static JSValue packed_color_array_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
+	JSClassID class_id = classes["PackedColorArrayProxy"];
+	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
+	if (is_exception(js_context(), obj)) {
+		return obj;
+	}
+
+	ObjectProxy<PackedColorArray> *proxy;
+	JSClassID opaque_id;
+	// Allow constructing from an existing native pointer
+	if (argc == 1 && JS_IsObject(*argv)) {
+		proxy = static_cast<ObjectProxy<PackedColorArray> *>(JS_GetAnyOpaque(*argv, &opaque_id));
+	} else {
+		return JS_EXCEPTION;
+	}
+
+	if (!proxy) {
+		JS_FreeValue(ctx, obj);
+		return JS_EXCEPTION;
+	}
+	JS_SetOpaque(obj, proxy);
+	return obj;
+}
+
+static JSValue packed_color_array_proxy_get(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&PackedColorArray::get, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+static JSValue packed_color_array_proxy_set(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	call_builtin_method_no_ret(&PackedColorArray::set, ctx, this_val, argc, argv);
+    return JS_UNDEFINED;
+}
+static JSValue packed_color_array_proxy_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&PackedColorArray::size, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+static JSValue packed_color_array_proxy_is_empty(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&PackedColorArray::is_empty, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+static JSValue packed_color_array_proxy_push_back(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_method_ret(&PackedColorArray::push_back, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+static JSValue packed_color_array_proxy_append(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_method_ret(&PackedColorArray::append, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+static JSValue packed_color_array_proxy_append_array(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	call_builtin_method_no_ret(&PackedColorArray::append_array, ctx, this_val, argc, argv);
+    return JS_UNDEFINED;
+}
+static JSValue packed_color_array_proxy_remove_at(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	call_builtin_method_no_ret(&PackedColorArray::remove_at, ctx, this_val, argc, argv);
+    return JS_UNDEFINED;
+}
+static JSValue packed_color_array_proxy_insert(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_method_ret(&PackedColorArray::insert, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+static JSValue packed_color_array_proxy_fill(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	call_builtin_method_no_ret(&PackedColorArray::fill, ctx, this_val, argc, argv);
+    return JS_UNDEFINED;
+}
+static JSValue packed_color_array_proxy_resize(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_method_ret(&PackedColorArray::resize, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+static JSValue packed_color_array_proxy_clear(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	call_builtin_method_no_ret(&PackedColorArray::clear, ctx, this_val, argc, argv);
+    return JS_UNDEFINED;
+}
+static JSValue packed_color_array_proxy_has(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&PackedColorArray::has, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+static JSValue packed_color_array_proxy_reverse(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	call_builtin_method_no_ret(&PackedColorArray::reverse, ctx, this_val, argc, argv);
+    return JS_UNDEFINED;
+}
+static JSValue packed_color_array_proxy_slice(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&PackedColorArray::slice, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+static JSValue packed_color_array_proxy_to_byte_array(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&PackedColorArray::to_byte_array, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+static JSValue packed_color_array_proxy_sort(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	call_builtin_method_no_ret(&PackedColorArray::sort, ctx, this_val, argc, argv);
+    return JS_UNDEFINED;
+}
+static JSValue packed_color_array_proxy_bsearch(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_method_ret(&PackedColorArray::bsearch, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+static JSValue packed_color_array_proxy_duplicate(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_method_ret(&PackedColorArray::duplicate, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+static JSValue packed_color_array_proxy_find(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&PackedColorArray::find, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+static JSValue packed_color_array_proxy_rfind(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&PackedColorArray::rfind, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+static JSValue packed_color_array_proxy_count(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&PackedColorArray::count, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+static JSValue packed_color_array_proxy_erase(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	void *opaque = JS_GetOpaque(this_val, classes["PackedColorArrayProxy"]);
+    ObjectProxy<PackedColorArray> *proxy = reinterpret_cast<ObjectProxy<PackedColorArray> *>(opaque);
+    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_method_ret(&PackedColorArray::erase, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
+}
+
+
+static const JSCFunctionListEntry packed_color_array_proxy_proto_funcs[] = {
+	JS_CFUNC_DEF("get", 1, &packed_color_array_proxy_get),
+	JS_CFUNC_DEF("set", 2, &packed_color_array_proxy_set),
+	JS_CFUNC_DEF("size", 0, &packed_color_array_proxy_size),
+	JS_CFUNC_DEF("is_empty", 0, &packed_color_array_proxy_is_empty),
+	JS_CFUNC_DEF("push_back", 1, &packed_color_array_proxy_push_back),
+	JS_CFUNC_DEF("append", 1, &packed_color_array_proxy_append),
+	JS_CFUNC_DEF("append_array", 1, &packed_color_array_proxy_append_array),
+	JS_CFUNC_DEF("remove_at", 1, &packed_color_array_proxy_remove_at),
+	JS_CFUNC_DEF("insert", 2, &packed_color_array_proxy_insert),
+	JS_CFUNC_DEF("fill", 1, &packed_color_array_proxy_fill),
+	JS_CFUNC_DEF("resize", 1, &packed_color_array_proxy_resize),
+	JS_CFUNC_DEF("clear", 0, &packed_color_array_proxy_clear),
+	JS_CFUNC_DEF("has", 1, &packed_color_array_proxy_has),
+	JS_CFUNC_DEF("reverse", 0, &packed_color_array_proxy_reverse),
+	JS_CFUNC_DEF("slice", 2, &packed_color_array_proxy_slice),
+	JS_CFUNC_DEF("to_byte_array", 0, &packed_color_array_proxy_to_byte_array),
+	JS_CFUNC_DEF("sort", 0, &packed_color_array_proxy_sort),
+	JS_CFUNC_DEF("bsearch", 2, &packed_color_array_proxy_bsearch),
+	JS_CFUNC_DEF("duplicate", 0, &packed_color_array_proxy_duplicate),
+	JS_CFUNC_DEF("find", 2, &packed_color_array_proxy_find),
+	JS_CFUNC_DEF("rfind", 2, &packed_color_array_proxy_rfind),
+	JS_CFUNC_DEF("count", 1, &packed_color_array_proxy_count),
+	JS_CFUNC_DEF("erase", 1, &packed_color_array_proxy_erase),
+};
+
+
+static int js_packed_color_array_proxy_init(JSContext *ctx) {
+	JSClassID class_id = 0;
+	classes["PackedColorArrayProxy"] = JS_NewClassID(&class_id);
+	classes_by_id[class_id] = "PackedColorArrayProxy";
+
+	JS_NewClass(JS_GetRuntime(ctx), class_id, &packed_color_array_proxy_def);
+
+	JSValue proto = JS_NewObject(ctx);
+	JS_SetClassProto(ctx, class_id, proto);
+	JS_SetPropertyFunctionList(ctx, proto, packed_color_array_proxy_proto_funcs, _countof(packed_color_array_proxy_proto_funcs));
+
+	JSValue ctor = JS_NewCFunction2(ctx, packed_color_array_proxy_constructor, "PackedColorArrayProxy", 0, JS_CFUNC_constructor, 0);
+	JS_SetConstructor(ctx, ctor, proto);
+
+	JSValue global = JS_GetGlobalObject(ctx);
+	JS_SetPropertyStr(ctx, global, "PackedColorArrayProxy", ctor);
+
+	return 0;
+}
+
+void js_init_packed_color_array_proxy_module(JSContext *ctx) {
+	js_packed_color_array_proxy_init(ctx);
+}
+
+void register_proxy_packed_color_array() {
+	js_init_packed_color_array_proxy_module(js_context());
 }

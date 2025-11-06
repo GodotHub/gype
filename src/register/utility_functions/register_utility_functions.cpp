@@ -14,7 +14,7 @@ using namespace godot;
 JSValue utility_functions_instance;
 
 static void utility_functions_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes[typeid(UtilityFunctions)];
+	JSClassID class_id = classes["UtilityFunctions"];
 	UtilityFunctions *utility_functions = static_cast<UtilityFunctions *>(JS_GetOpaque(val, class_id));
 	if (utility_functions) {
 		memdelete(utility_functions);
@@ -27,7 +27,7 @@ static JSClassDef utility_functions_class_def = {
 };
 
 static JSValue utility_functions_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes[typeid(UtilityFunctions)];
+	JSClassID class_id = classes["UtilityFunctions"];
 	UtilityFunctions *utility_functions_class;
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj)) {
@@ -505,8 +505,8 @@ static const JSCFunctionListEntry utility_functions_class_funcs[] = {
 };
 
 static int js_utility_functions_class_init(JSContext *ctx) {
-	JSClassID class_id = JS_NewClassID(&classes[typeid(UtilityFunctions)]);
-	classes[typeid(UtilityFunctions)] = class_id;
+	JSClassID class_id = JS_NewClassID(&classes["UtilityFunctions"]);
+	classes["UtilityFunctions"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &utility_functions_class_def);
 
 	JSValue proto = JS_NewObject(ctx);

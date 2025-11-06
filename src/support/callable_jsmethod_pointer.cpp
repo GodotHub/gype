@@ -68,13 +68,13 @@ int CallableJSMethodPointer::get_argument_count(bool &r_is_valid) const {
 void CallableJSMethodPointer::call(const Variant **p_arguments, int p_argcount, Variant &r_return_value, GDExtensionCallError &r_call_error) const {
 	std::vector<JSValue> args;
 	for (int i = 0; i < p_argcount; i++) {
-		args.push_back(GDVariantAdapter<Variant>((*p_arguments)[i]));
+		args.push_back(VariantAdapter((*p_arguments)[i]));
 	}
 	JSValue ret = JS_Call(js_context(), function, instance, p_argcount, args.data());
 	if (is_exception(js_context(), ret)) {
 		r_call_error.error = GDExtensionCallErrorType::GDEXTENSION_CALL_ERROR_INVALID_METHOD;
 	}
-	r_return_value = *JSValueAdapter<Variant>(ret).get();
+	r_return_value = VariantAdapter(ret).get();
 	r_call_error.error = GDExtensionCallErrorType::GDEXTENSION_CALL_OK;
 }
 

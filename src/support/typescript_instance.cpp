@@ -33,6 +33,7 @@ const char *TypeScriptInstance::symbol_mask = "_GodotClass";
 
 TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, TypeScript *script, bool is_placeholder) {
 	this->script = script;
+	this->p_godot_object = p_godot_object;
 	gd_binding = internal::get_object_instance_binding(p_godot_object->_owner);
 	String code = script->get_dist_source_code();
 	std::string code_str = std::string(code.utf8().get_data());
@@ -60,11 +61,10 @@ TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, TypeScript *scrip
 				const char *symbol_name = JS_AtomToCString(js_context(), symbol);
 				ret = JS_GetProperty(js_context(), ret, symbol);
 				if (strcmp(symbol_mask, symbol_name) == 0) {
-					GDVariantAdapter<Object *> adapter = GDVariantAdapter<Object *>(gd_binding);
-					JSValue vbinding = adapter;
-					js_binding = JS_CallConstructor(js_context(), clazz, 1, &vbinding);
+ 					VariantAdapter *adapter = memnew(VariantAdapter(gd_binding));
+					JSValue constroctor_arg = *adapter;
+					js_binding = JS_CallConstructor(js_context(), clazz, 1, &constroctor_arg);
 					ERR_FAIL_COND(is_exception(js_context(), js_binding));
-					JS_SetOpaque(js_binding, gd_binding);
 					script->instances.insert(gd_binding->get_instance_id());
 				}
 			}
@@ -108,25 +108,25 @@ JSValue TypeScriptInstance::find_ns_property(JSModuleDef *md, const char *name) 
 	return true;
 
 GDExtensionBool TypeScriptInstance::set(GDExtensionConstStringNamePtr p_name, GDExtensionConstVariantPtr p_variant) {
-	BINDING_VALID_V(gd_binding, false);
+	// BINDING_VALID_V(gd_binding, false);
 	const char *name = to_chars(*reinterpret_cast<const StringName *>(p_name));
 	if (script->is_tool || !Engine::get_singleton()->is_editor_hint()) {
 		Variant varg;
 		internal::gdextension_interface_variant_new_copy(varg._native_ptr(), p_variant);
-		return JS_SetPropertyStr(js_context(), js_binding, name, GDVariantAdapter<Variant>(varg)) > 0;
+		return JS_SetPropertyStr(js_context(), js_binding, name, VariantAdapter(varg)) > 0;
 	}
 	return false;
 }
 
 GDExtensionBool TypeScriptInstance::get(GDExtensionConstStringNamePtr p_name, GDExtensionVariantPtr r_ret) {
-	BINDING_VALID_V(gd_binding, false);
+	// BINDING_VALID_V(gd_binding, false);
 	const char *name = to_chars(*reinterpret_cast<const StringName *>(p_name));
 	if (script->is_tool || !Engine::get_singleton()->is_editor_hint()) {
 		JSValue js_ret = JS_GetPropertyStr(js_context(), js_binding, name);
 		if (JS_IsUndefined(js_ret)) {
 			return false;
 		}
-		Variant ret = *JSValueAdapter<Variant>(js_ret).get();
+		Variant ret = VariantAdapter(js_ret).get();
 		internal::gdextension_interface_variant_new_copy(r_ret, ret._native_ptr());
 		return true;
 	}
@@ -167,7 +167,7 @@ GDExtensionInt TypeScriptInstance::get_method_argument_count(GDExtensionConstStr
 }
 
 void TypeScriptInstance::call(GDExtensionConstStringNamePtr p_method, const GDExtensionConstVariantPtr *p_args, GDExtensionInt p_argument_count, GDExtensionVariantPtr r_return, GDExtensionCallError *r_error) {
-	BINDING_VALID(gd_binding);
+	// BINDING_VALID(gd_binding);
 	JSValue js_instance = js_binding;
 	JSValue prototype = JS_GetPrototype(js_context(), js_instance);
 	const char *method = to_chars(*reinterpret_cast<const StringName *>(p_method));
@@ -189,9 +189,9 @@ void TypeScriptInstance::call(GDExtensionConstStringNamePtr p_method, const GDEx
 			const Variant *variant_args = p_args ? *reinterpret_cast<const Variant *const *>(p_args) : nullptr;
 			std::vector<JSValue> js_args(p_argument_count);
 			for (int i = 0; i < p_argument_count; i++) {
-				js_args[i] = GDVariantAdapter<Variant>(variant_args[i]);
+				js_args[i] = VariantAdapter(variant_args[i]);
 			}
-			Variant ret = *JSValueAdapter<Variant>(JS_Call(js_context(), js_method, js_instance, p_argument_count, js_args.data())).get();
+			Variant ret = VariantAdapter(JS_Call(js_context(), js_method, js_instance, p_argument_count, js_args.data())).get();
 			internal::gdextension_interface_variant_new_copy(r_return, ret._native_ptr());
 			r_error->error = GDExtensionCallErrorType::GDEXTENSION_CALL_OK;
 			execute_events();
@@ -204,7 +204,7 @@ void TypeScriptInstance::call(GDExtensionConstStringNamePtr p_method, const GDEx
 }
 
 void TypeScriptInstance::notification(int32_t p_what, GDExtensionBool p_reversed) {
-	BINDING_VALID(gd_binding);
+	// BINDING_VALID(gd_binding);
 	JSAtom atom = JS_NewAtom(js_context(), "_notification");
 	if (script->is_tool || !Engine::get_singleton()->is_editor_hint()) {
 		JSValue js_instance = js_binding;
@@ -215,7 +215,7 @@ void TypeScriptInstance::notification(int32_t p_what, GDExtensionBool p_reversed
 }
 
 void TypeScriptInstance::to_string(GDExtensionBool *r_is_valid, GDExtensionStringPtr r_out) {
-	BINDING_VALID(gd_binding);
+	// BINDING_VALID(gd_binding);
 	JSValue js_instance = js_binding;
 	static JSAtom to_string_atom = JS_NewAtom(js_context(), "toString");
 	JSValue ret = JS_Invoke(js_context(), js_instance, to_string_atom, 0, NULL);
@@ -225,18 +225,18 @@ void TypeScriptInstance::to_string(GDExtensionBool *r_is_valid, GDExtensionStrin
 }
 
 void TypeScriptInstance::refcount_incremented() {
-	BINDING_VALID(gd_binding);
+	// BINDING_VALID(gd_binding);
 	JS_DupValue(js_context(), js_binding);
 }
 
 GDExtensionBool TypeScriptInstance::refcount_decremented() {
-	BINDING_VALID_V(gd_binding, false);
+	// BINDING_VALID_V(gd_binding, false);
 	JS_FreeValue(js_context(), js_binding);
 	return !JS_IsLiveObject(js_runtime(), js_binding);
 }
 
 GDExtensionObjectPtr TypeScriptInstance::get_owner() {
-	return gd_binding->_owner;
+	return p_godot_object->_owner;
 }
 
 GDExtensionObjectPtr TypeScriptInstance::get_script() {
@@ -252,7 +252,8 @@ GDExtensionScriptLanguagePtr TypeScriptInstance::get_language() {
 }
 
 Object *TypeScriptInstance::get_binding() {
-	return gd_binding ? internal::get_object_instance_binding(gd_binding->_owner) : nullptr;
+	gd_binding = gd_binding ? gd_binding : internal::get_object_instance_binding(p_godot_object->_owner);
+	return gd_binding;
 }
 
 static void notification_bind(JSValue instance, JSValue prototype, int32_t p_what, GDExtensionBool p_reversed) {

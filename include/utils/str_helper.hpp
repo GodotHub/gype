@@ -2,6 +2,7 @@
 #define __STR_HELPER_H__
 
 #include <string>
+
 namespace godot {
 
 class String;

@@ -6,7 +6,13 @@
 
 using namespace godot;
 
-std::unordered_map<std::type_index, JSClassID> classes;
+// std::unordered_map<std::type_index, JSClassID> classes;
+// std::unordered_map<std::type_index, JSClassID> proxies;
+// std::unordered_map<JSClassID, std::type_index> classes_by_id;
+
+HashMap<StringName, JSClassID> classes;
+HashMap<JSClassID, StringName> classes_by_id;
+HashMap<StringName, JSClassID> proxies;
 
 enum {
 	/* classid tag        */ /* union usage   | properties */
@@ -117,18 +123,17 @@ bool is_exception(JSContext *ctx, JSValue exp) {
 	}
 }
 
-static inline int64_t to_int64(JSContext *ctx, JSValue val) {
+int64_t to_int64(JSContext *ctx, JSValue val) {
 	int64_t i;
 	ERR_FAIL_COND_V(JS_ToInt64(ctx, &i, val), 0);
 	return i;
 }
 
-void *create_heap_copy_from_variant(const Variant &p_variant, std::type_index &type_index) {
-#define RETURN_VARIANT_FROM_HEAP(type)                                    \
-	{                                                                     \
-		type *raw_mem = reinterpret_cast<type *>(memalloc(sizeof(type))); \
-		type_index = typeid(type);                                        \
-		return new (raw_mem) type(p_variant);                             \
+static VariantAdapter *create_heap_copy_from_variant(const Variant &p_variant, StringName &type_index) {
+#define RETURN_VARIANT_FROM_HEAP(type)         \
+	{                                          \
+		type_index = #type;                    \
+		return memnew(VariantAdapter(type())); \
 	}
 
 	switch (p_variant.get_type()) {
@@ -199,101 +204,99 @@ void *create_heap_copy_from_variant(const Variant &p_variant, std::type_index &t
 	}
 }
 
-// JSValue variant_to_jsvalue(const Variant &val) {
-// 	Variant::Type type = val.get_type();
-// 	String type_name = Variant::get_type_name(type);
-// 	switch (type) {
-// 		case Variant::Type::NIL:
-// 			return JS_UNDEFINED;
-// 		case Variant::Type::INT:
-// 			return JS_NewInt64(js_context(), val);
-// 		case Variant::Type::FLOAT:
-// 			return JS_NewFloat64(js_context(), val);
-// 		case Variant::Type::BOOL:
-// 			return JS_NewBool(js_context(), val);
-// 		case Variant::Type::STRING:
-// 			return JS_NewString(js_context(), to_chars(String(val)));
-// 		case Variant::Type::STRING_NAME:
-// 			return JS_NewString(js_context(), to_chars(StringName(val)));
-// 		case Variant::Type::VECTOR2:
-// 		case Variant::Type::VECTOR2I:
-// 		case Variant::Type::VECTOR3:
-// 		case Variant::Type::VECTOR3I:
-// 		case Variant::Type::VECTOR4:
-// 		case Variant::Type::VECTOR4I:
-// 		case Variant::Type::AABB:
-// 		case Variant::Type::BASIS:
-// 		case Variant::Type::CALLABLE:
-// 		case Variant::Type::COLOR:
-// 		case Variant::Type::DICTIONARY:
-// 		case Variant::Type::NODE_PATH:
-// 		case Variant::Type::PLANE:
-// 		case Variant::Type::PROJECTION:
-// 		case Variant::Type::QUATERNION:
-// 		case Variant::Type::RECT2:
-// 		case Variant::Type::RECT2I:
-// 		case Variant::Type::RID:
-// 		case Variant::Type::SIGNAL:
-// 		case Variant::Type::TRANSFORM2D:
-// 		case Variant::Type::TRANSFORM3D:
-// 		case Variant::Type::PACKED_BYTE_ARRAY:
-// 		case Variant::Type::PACKED_COLOR_ARRAY:
-// 		case Variant::Type::PACKED_FLOAT32_ARRAY:
-// 		case Variant::Type::PACKED_FLOAT64_ARRAY:
-// 		case Variant::Type::PACKED_INT32_ARRAY:
-// 		case Variant::Type::PACKED_INT64_ARRAY:
-// 		case Variant::Type::PACKED_STRING_ARRAY:
-// 		case Variant::Type::PACKED_VECTOR2_ARRAY:
-// 		case Variant::Type::PACKED_VECTOR3_ARRAY:
-// 		case Variant::Type::PACKED_VECTOR4_ARRAY: {
-// 			std::type_index created_type(typeid(void));
-// 			void *gd_obj = create_heap_copy_from_variant(val, created_type);
-// 			if (!gd_obj) {
-// 				return JS_UNDEFINED;
-// 			}
-// 			String type_name = Variant::get_type_name(type);
-// 			JSClassID class_id = classes[created_type];
-// 			JSValue js_obj = JS_NewObjectClass(js_context(), class_id);
-// 			JS_SetOpaque(js_obj, gd_obj);
-// 			return js_obj;
-// 		}
-// 		case Variant::Type::ARRAY: {
-// 			Array arr = val;
-// 			JSValue js_arr = JS_NewArray(js_context());
-// 			for (int i = 0; i < arr.size(); i++) {
-// 				JS_SetPropertyUint32(js_context(), js_arr, i, variant_to_jsvalue(arr[i]));
-// 			}
-// 			return js_arr;
-// 		}
-// 		case Variant::Type::OBJECT: {
-// 			Object *obj = val;
-// 			if (obj) {
-// 				const char *class_name = to_chars(obj->get_class());
-// 				char code[1024];
-// 				sprintf(code, "import { %s } from \"@godot/classes/%s\";", class_name, camelToSnake(class_name).c_str());
-// 				JS_Eval(js_context(), code, strlen(code), "<eval>", JS_EVAL_TYPE_MODULE);
-// 				JSClassID class_id = classes[typeid(*obj)];
-// 				JSValue js_obj = JS_NewObjectClass(js_context(), class_id);
-// 				JS_SetOpaque(js_obj, obj);
-// 				return js_obj;
-// 			}
-// 			return JS_UNDEFINED;
-// 		}
-// 		default: {
-// 			return JS_UNDEFINED;
-// 		}
-// 	}
-// }
-
-static inline Variant js_obj_to_variant(JSValue val) {
-#define OBJ_TO_VARIANT_CASE(type)                                                                 \
-	else if (class_id == classes[typeid(type)]) {                                                 \
-		return *(reinterpret_cast<GDVariantAdapter<type> *>(JS_GetOpaque(val, class_id))->get()); \
+JSValue variant_to_jsvalue(const Variant &val) {
+	Variant::Type type = val.get_type();
+	String type_name = Variant::get_type_name(type);
+	switch (type) {
+		case Variant::Type::NIL:
+			return JS_UNDEFINED;
+		case Variant::Type::INT:
+			return JS_NewInt64(js_context(), val);
+		case Variant::Type::FLOAT:
+			return JS_NewFloat64(js_context(), val);
+		case Variant::Type::BOOL:
+			return JS_NewBool(js_context(), val);
+		case Variant::Type::STRING:
+			return JS_NewString(js_context(), to_chars(String(val)));
+		case Variant::Type::STRING_NAME:
+			return JS_NewString(js_context(), to_chars(StringName(val)));
+		case Variant::Type::VECTOR2:
+		case Variant::Type::VECTOR2I:
+		case Variant::Type::VECTOR3:
+		case Variant::Type::VECTOR3I:
+		case Variant::Type::VECTOR4:
+		case Variant::Type::VECTOR4I:
+		case Variant::Type::AABB:
+		case Variant::Type::BASIS:
+		case Variant::Type::CALLABLE:
+		case Variant::Type::COLOR:
+		case Variant::Type::DICTIONARY:
+		case Variant::Type::NODE_PATH:
+		case Variant::Type::PLANE:
+		case Variant::Type::PROJECTION:
+		case Variant::Type::QUATERNION:
+		case Variant::Type::RECT2:
+		case Variant::Type::RECT2I:
+		case Variant::Type::RID:
+		case Variant::Type::SIGNAL:
+		case Variant::Type::TRANSFORM2D:
+		case Variant::Type::TRANSFORM3D:
+		case Variant::Type::PACKED_BYTE_ARRAY:
+		case Variant::Type::PACKED_COLOR_ARRAY:
+		case Variant::Type::PACKED_FLOAT32_ARRAY:
+		case Variant::Type::PACKED_FLOAT64_ARRAY:
+		case Variant::Type::PACKED_INT32_ARRAY:
+		case Variant::Type::PACKED_INT64_ARRAY:
+		case Variant::Type::PACKED_STRING_ARRAY:
+		case Variant::Type::PACKED_VECTOR2_ARRAY:
+		case Variant::Type::PACKED_VECTOR3_ARRAY:
+		case Variant::Type::PACKED_VECTOR4_ARRAY: {
+			StringName created_type;
+			VariantAdapter *adapter = create_heap_copy_from_variant(val, created_type);
+			JSClassID class_id = classes[created_type];
+			JSValue js_adapter = JS_NewObjectClass(js_context(), class_id);
+			JS_SetOpaque(js_adapter, adapter);
+			return js_adapter;
+		}
+		case Variant::Type::ARRAY: {
+			Array arr = val;
+			JSValue js_arr = JS_NewArray(js_context());
+			for (int i = 0; i < arr.size(); i++) {
+				JS_SetPropertyUint32(js_context(), js_arr, i, variant_to_jsvalue(arr[i]));
+			}
+			return js_arr;
+		}
+		case Variant::Type::OBJECT: {
+			Object *obj = val;
+			VariantAdapter *adapter = memnew(VariantAdapter(val));
+			const char *class_name = to_chars(obj->get_class());
+			char code[1024];
+			sprintf(code, "import { %s } from \"@godot/classes/%s\";", class_name, camelToSnake(class_name).c_str());
+			JS_Eval(js_context(), code, strlen(code), "<eval>", JS_EVAL_TYPE_MODULE);
+			JSClassID class_id = classes[class_name];
+			JSValue js_adapter = JS_NewObjectClass(js_context(), class_id);
+			JS_SetOpaque(js_adapter, adapter);
+			return js_adapter;
+		}
+		default: {
+			return JS_UNDEFINED;
+		}
 	}
+}
 
+godot::Variant js_obj_to_variant(JSValue val) {
+#define OBJ_TO_VARIANT_CASE(type)                                                       \
+	else if (class_id == classes[#type]) {                                              \
+		return static_cast<VariantAdapter *>(JS_GetOpaque(val, classes[#type]))->get(); \
+	}
+#define PROXY_TO_VARIANT_CASE(type)                                                                   \
+	else if (class_id == classes[#type "Proxy"]) {                                                    \
+		return static_cast<ObjectProxy<type> *>(JS_GetOpaque(val, classes[#type "Proxy"]))->getter(); \
+	}
 	JSClassID class_id = JS_GetClassID(val);
+
 	if (JS_IsArray(js_context(), val)) {
-		Array gd_arr;
+		godot::Array gd_arr;
 		JSValue js_len = JS_GetPropertyStr(js_context(), val, "length");
 		int64_t len = to_int64(js_context(), js_len);
 		for (int64_t i = 0; i < len; i++) {
@@ -334,9 +337,73 @@ static inline Variant js_obj_to_variant(JSValue val) {
 	OBJ_TO_VARIANT_CASE(PackedVector4Array)
 	OBJ_TO_VARIANT_CASE(PackedColorArray)
 	OBJ_TO_VARIANT_CASE(PackedStringArray)
+	PROXY_TO_VARIANT_CASE(Vector2)
+	PROXY_TO_VARIANT_CASE(Vector2i)
+	PROXY_TO_VARIANT_CASE(Vector3)
+	PROXY_TO_VARIANT_CASE(Vector3i)
+	PROXY_TO_VARIANT_CASE(Vector4)
+	PROXY_TO_VARIANT_CASE(Vector4i)
+	PROXY_TO_VARIANT_CASE(AABB)
+	PROXY_TO_VARIANT_CASE(Basis)
+	PROXY_TO_VARIANT_CASE(Callable)
+	PROXY_TO_VARIANT_CASE(Color)
+	PROXY_TO_VARIANT_CASE(Dictionary)
+	PROXY_TO_VARIANT_CASE(NodePath)
+	PROXY_TO_VARIANT_CASE(Projection)
+	PROXY_TO_VARIANT_CASE(Quaternion)
+	PROXY_TO_VARIANT_CASE(Rect2)
+	PROXY_TO_VARIANT_CASE(Rect2i)
+	PROXY_TO_VARIANT_CASE(RID)
+	PROXY_TO_VARIANT_CASE(Signal)
+	PROXY_TO_VARIANT_CASE(Transform2D)
+	PROXY_TO_VARIANT_CASE(Transform3D)
+	PROXY_TO_VARIANT_CASE(PackedByteArray)
+	PROXY_TO_VARIANT_CASE(PackedInt32Array)
+	PROXY_TO_VARIANT_CASE(PackedInt64Array)
+	PROXY_TO_VARIANT_CASE(PackedFloat32Array)
+	PROXY_TO_VARIANT_CASE(PackedFloat64Array)
+	PROXY_TO_VARIANT_CASE(PackedStringArray)
+	PROXY_TO_VARIANT_CASE(PackedVector2Array)
+	PROXY_TO_VARIANT_CASE(PackedVector3Array)
+	PROXY_TO_VARIANT_CASE(PackedVector4Array)
+	PROXY_TO_VARIANT_CASE(PackedColorArray)
+	PROXY_TO_VARIANT_CASE(PackedStringArray)
 	else {
-		return reinterpret_cast<GDObjectAdapter<Object> *>(JS_GetOpaque(val, class_id))->get();
+		return reinterpret_cast<VariantAdapter *>(JS_GetOpaque(val, class_id))->get();
 	}
+}
+godot::Variant jsvalue_to_variant(JSValue val) {
+	int tag = JS_VALUE_GET_TAG(val);
+	switch (tag) {
+		case JS_TAG_INT: {
+			int64_t i;
+			ERR_FAIL_COND_V(JS_ToInt64(js_context(), &i, val), godot::Variant());
+			return i;
+		} break;
+		case JS_TAG_FLOAT64: {
+			double d;
+			ERR_FAIL_COND_V(JS_ToFloat64(js_context(), &d, val), godot::Variant());
+			return d;
+		} break;
+		case JS_TAG_BOOL: {
+			return JS_ToBool(js_context(), val);
+		} break;
+		case JS_TAG_STRING: {
+			return JS_ToCString(js_context(), val);
+		} break;
+		case JS_TAG_OBJECT: {
+			return js_obj_to_variant(val);
+		} break;
+		case JS_TAG_UNDEFINED:
+		case JS_TAG_NULL:
+		case JS_TAG_UNINITIALIZED:
+			return godot::Variant();
+		default: {
+			print_exception(js_context());
+			ERR_FAIL_V(godot::Variant());
+		}
+	}
+	ERR_FAIL_V(godot::Variant());
 }
 
 // template <typename T, typename = void>
@@ -375,36 +442,6 @@ static inline Variant js_obj_to_variant(JSValue val) {
 // 		return reinterpret_cast<T *>(JS_GetOpaque(val, class_id));
 // 	}
 // }
-
-Variant jsvalue_to_variant(JSValue val) {
-	int tag = JS_VALUE_GET_TAG(val);
-	switch (tag) {
-		case JS_TAG_INT: {
-			int64_t i;
-			ERR_FAIL_COND_V(JS_ToInt64(js_context(), &i, val), 0);
-			return i;
-		}
-		case JS_TAG_FLOAT64: {
-			double i;
-			ERR_FAIL_COND_V(JS_ToFloat64(js_context(), &i, val), 0);
-			return i;
-		}
-		case JS_TAG_BOOL:
-			return JS_ToBool(js_context(), val);
-		case JS_TAG_STRING:
-			return JS_ToCString(js_context(), val);
-		case JS_TAG_OBJECT:
-			return js_obj_to_variant(val);
-		case JS_TAG_UNDEFINED:
-		case JS_TAG_NULL:
-		case JS_TAG_UNINITIALIZED:
-			return Variant();
-		default: {
-			print_exception(js_context());
-			ERR_FAIL_V(Variant());
-		}
-	}
-}
 
 // template <typename T, std::enable_if_t<std::is_base_of_v<godot::Object, T>>>
 // T jsvalue_to_variant(JSValue val) {

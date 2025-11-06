@@ -39,19 +39,13 @@ def put_args(arguments):
     
     return ", ".join(arg_names)
 
-def connect_mutable_args(arguments: list, all_class_names: set) -> str:
-    """
-    【已修正】
-    为 vararg 包装函数生成 C++ 参数列表。
-    - POD 类型按值传递 (e.g., int, float)
-    - 继承自 Object 的引擎类按指针传递 (e.g., Node*, FileAccess*)
-    - 其他内置类型 (Vector2, String, etc.) 按 const 引用传递
-    - 最后追加用于 varargs 的 std::vector<Variant>
-    """
+def connect_mutable_args(arguments: list, all_class_names: set) -> str: 
     arg_strings = []
     if arguments:
         for arg in arguments:
             arg_type = arg['type']
+            if arg_type == 'float':
+                arg_type = 'double'
             arg_name = f"p_{arg['name']}"
 
             if is_pod_type(arg_type):
@@ -79,15 +73,6 @@ def has_vararg_method(clazz):
 # =================================================================
 
 def put_args(arguments):
-    """
-    【已实现】
-    生成用于C++函数调用的参数列表字符串。
-    例如，对于一个有两个参数的构造函数，此函数会生成 "v0, v1"。
-    这些变量名 (v0, v1) 对应于在构造函数包装器中从JS参数 (argv) 解包出来的C++变量。
-    
-    :param arguments: 来自 extension_api.json 的参数列表。
-    :return: 一个逗号分隔的参数名字符串，如 "v0, v1, v2"，如果无参数则返回空字符串。
-    """
     if not arguments:
         return ''
     
@@ -103,8 +88,10 @@ def variant_type_cond(arguments):
     conditions = []
     for i, arg in enumerate(arguments):
         ltype = arg['type']
-        
-        condition = f'(JSValueAdapter<{ltype}>::can_cast(argv[{i}]))'
+        if ltype == 'float':
+            ltype = 'double'
+        if arg['type'] != 'Variant':
+            condition = f'(VariantAdapter::can_cast(argv[{i}],Variant::Type::{camel_to_snake(arg['type']).upper()}))'
         conditions.append(condition)
     
     # 将所有条件用 '&&' 连接，并在开头加上 '&&' 以简化模板中的if语句
@@ -177,10 +164,6 @@ def get_arg_count(method):
     return len(args) if args else 0
 
 def get_method_call_expression(method, class_name):
-    """
-    根据方法属性生成完整的 C++ 方法调用包装表达式。
-    这将处理 static, const, vararg, 和 return value 的所有组合。
-    """
     method_name = method['name']
     has_return = method.get('return_type') or method.get('return_value')
     
@@ -218,6 +201,55 @@ def get_method_call_expression(method, class_name):
         else:
             return (f'call_builtin{const_suffix}_method_no_ret(&{class_name}::{method_name}, ctx, this_val, argc, argv);\n'
                     '    return JS_UNDEFINED;')
+        
+def get_proxy_method_call_expression(method, class_name):
+    method_name = method['name']
+    has_return = method.get('return_type') or method.get('return_value')
+    code = f'void *opaque = JS_GetOpaque(this_val, classes["{class_name}Proxy"]);\n'
+    code += f'    ObjectProxy<{class_name}> *proxy = reinterpret_cast<ObjectProxy<{class_name}> *>(opaque);\n'
+    code += f'    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);\n'
+    code += f'    this_val = VariantAdapter(wrapped);\n'
+    # 1. 处理 VarArg 方法
+    if method.get('is_vararg'):
+        has_fixed_args = get_arg_count(method) > 0
+        if has_return:
+            if has_fixed_args:
+                # 有固定参数，有返回值
+                code += f'JSValue ret = call_builtin_free_opaque_vararg_method_ret<{class_name}>(&js_{method_name}, ctx, this_val, argc, argv);\n'
+                return code + f'JS_FreeValue(ctx, this_val);\n    return ret;'
+            else:
+                # 无固定参数，有返回值
+                code += f'JSValue ret = call_builtin_free_opaque_no_fixed_vararg_method_ret<{class_name}>(&js_{method_name}, ctx, this_val, argc, argv);\n'
+                return code + f'JS_FreeValue(ctx, this_val);\n    return ret;'
+        else: # 无返回值
+            if has_fixed_args:
+                # 有固定参数，无返回值
+                code = f'call_builtin_free_opaque_vararg_method_no_ret<{class_name}>(&js_{method_name}, ctx, this_val, argc, argv);\n'
+                return code + f'JS_FreeValue(ctx, this_val);\n    return JS_UNDEFINED;'
+            else:
+                # 无固定参数，无返回值
+                code = f'call_builtin_free_opaque_no_fixed_vararg_method_no_ret<{class_name}>(&js_{method_name}, ctx, this_val, argc, argv);\n'
+                return code + f'JS_FreeValue(ctx, this_val);\n    return JS_UNDEFINED;'
+
+    # 2. 处理静态方法
+    elif method.get('is_static'):
+        if has_return:
+            return f'return call_builtin_static_method_ret(&{class_name}::{method_name}, ctx, this_val, argc, argv);'
+        else:
+            return (f'call_builtin_static_method_no_ret(&{class_name}::{method_name}, ctx, this_val, argc, argv);\n'
+                    '    return JS_UNDEFINED;')
+
+    # 3. 处理普通实例方法
+    else:
+        const_suffix = get_const_suffix(method)
+        if has_return:
+            code += f'    JSValue ret = call_builtin{const_suffix}_method_ret(&{class_name}::{method_name}, ctx, this_val, argc, argv);\n'
+            code += f'    JS_FreeValue(ctx, this_val);\n'
+            code += f'    return ret;'
+            return code
+        else:
+            return (f'call_builtin{const_suffix}_method_no_ret(&{class_name}::{method_name}, ctx, this_val, argc, argv);\n'
+                    '    return JS_UNDEFINED;')
 
 def get_property_accessor_expression(member, access_type):
     """为属性生成 getter 或 setter 的 C++ 表达式。"""
@@ -226,19 +258,52 @@ def get_property_accessor_expression(member, access_type):
     if access_type == 'get':
         getter = member.get('getter_name')
         member_type = member['type']
+        if member_type == 'float':
+            member_type = 'double'
         if getter:
-            return f'return GDVariantAdapter<{member_type}>(val.{getter}());'
+            return f'return VariantAdapter(val.{getter}());'
         else:
-            return f'return GDVariantAdapter<{member_type}>(val.{member_name});'
+            return f'return VariantAdapter(val.{member_name});'
     
     elif access_type == 'set':
         setter = member.get('setter_name')
         member_type = member['type']
+        if member_type == 'float':
+            member_type = 'double'
         if setter:
-            return f'val.{setter}(*JSValueAdapter<{member_type}>(*argv)).get();'
+            return f'val.{setter}(VariantAdapter(*argv)).get();'
         else:
-            return f'val.{member_name} = *JSValueAdapter<{member_type}>(*argv).get();'
+            return f'val.{member_name} = VariantAdapter(*argv).get();'
     
+    return "// Invalid access type"
+
+
+def get_property_proxy_accessor_expression(class_name, member, access_type):
+    """为属性生成 getter 或 setter 的 C++ 表达式。"""
+    member_name = member['name']
+    code = f'void *opaque = JS_GetOpaque(this_val, classes["{class_name}Proxy"]);\n'
+    code += f'    ObjectProxy<{class_name}> *proxy = reinterpret_cast<ObjectProxy<{class_name}> *>(opaque);\n'
+    if access_type == 'get':
+        getter = member.get('getter_name')
+        member_type = member['type']
+        if member_type == 'float':
+            member_type = 'double'
+        code += f'    {class_name} ret = proxy->getter();\n'
+        if getter:
+            code += f'    return VariantAdapter(ret.{getter}());'
+            return code
+        else:
+            code += f'    return VariantAdapter(ret.{member_name});'
+            return code
+    elif access_type == 'set':
+        member_type = member['type']
+        if member_type == 'float':
+            member_type = 'double'
+        code += f'    VariantAdapter {member_name}(argv[0]);\n'
+        code += f'    {class_name} wrapped = proxy->getter();\n'
+        code += f'    wrapped.{member_name} = {member_name}.get();\n'
+        code += f'    proxy->setter(wrapped);'
+        return code
     return "// Invalid access type"
 
 def collect_method_dependencies(methods: list, all_classes: list, all_builtin_classes: list) -> tuple:

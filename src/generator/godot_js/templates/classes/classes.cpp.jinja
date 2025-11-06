@@ -1,9 +1,12 @@
 {% set class_name = cls.name %}
 {% set snake_name = camel_to_snake(class_name) %}
+{% set objects = classes | map(attribute="name") | list %}
+{% set pod_types = ['Nil', 'bool', 'int', 'float'] %}
 {% set instance_methods = cls.methods | selectattr('is_vararg', 'equalto', false) | selectattr('is_virtual', 'equalto', false) | selectattr('is_static', 'equalto', false) | list %}
 {% set static_methods = cls.methods | selectattr('is_vararg', 'equalto', false) | selectattr('is_virtual', 'equalto', false) | selectattr('is_static', 'equalto', true) | list %}
 {% set vararg_methods = cls.methods | selectattr('is_vararg', 'equalto', true) | list %}
 #include "register/classes/register_classes.hpp"
+#include "register/object_proxy.hpp"
 #include "utils/env.hpp"
 #include "utils/func_utils.hpp"
 #include "utils/variant_helper.hpp"
@@ -19,13 +22,40 @@
 #include <godot_cpp/variant/builtin_types.hpp>
 #include <godot_cpp/classes/{{ snake_name }}.hpp>
 {% macro get_const(method) %}{{ '_const' if method.is_const else '' }}{% endmacro %}
+{%- macro clean_type(e) -%}
+	{%- if e.startswith("enum::") -%}
+{{-e[6:] | replace(".", "::")-}}
+	{%- elif e.startswith("bitfield::") -%}
+{{-e[10:] | replace(".", "::")}}
+	{%- elif "int" in e and "typedarray::" in e-%}
+PackedInt32Array
+	{%- elif e.startswith("typedarray::") -%}
+Packed{{-e[12] | upper -}}{{-e[13:]-}}Array
+	{%- else -%}
+{{-e-}}
+	{%- endif -%}
+{%- endmacro -%}
+{% macro get_array_typed(e) %}
+	{%- if e.startswith("typedarray::") -%}
+TypedArray<{{-e[12:]-}}>
+	{%- else -%}
+{{e}}
+	{% endif %}
+{% endmacro %}
+{% macro clean_setter(e) %}
+{%- if e[0] == "_" -%}
+{{-e[1:]-}}
+{%- else -%}
+{{-e-}}
+{%- endif -%}
+{%- endmacro -%}
 using namespace godot;
 
 static void {{ snake_name }}_class_finalizer(JSRuntime *rt, JSValue val) {
-	JSClassID class_id = classes[typeid({{ class_name }})];
-	GDObjectAdapter<{{class_name}}> *opaque_ptr = static_cast<GDObjectAdapter<{{class_name}}> *>(JS_GetOpaque(val, class_id));
+	JSClassID class_id = classes["{{ class_name }}"];
+	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		internal::gdextension_interface_object_free_instance_binding(opaque_ptr->get()->_owner, internal::token);
+		internal::gdextension_interface_object_free_instance_binding(static_cast<Object *>(opaque_ptr->get())->_owner, internal::token);
 	}
 }
 
@@ -35,7 +65,7 @@ static JSClassDef {{ snake_name }}_class_def = {
 };
 
 static JSValue {{ snake_name }}_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-    JSClassID class_id = classes[typeid({{ class_name }})];
+    JSClassID class_id = classes["{{ class_name }}"];
     JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
     JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
 	if (is_exception(js_context(), obj)) {
@@ -43,14 +73,15 @@ static JSValue {{ snake_name }}_class_constructor(JSContext *ctx, JSValueConst n
 	}
 
     {{ class_name }} *instance;
-	GDObjectAdapter<{{class_name}}> *adapter = reinterpret_cast<GDObjectAdapter<{{class_name}}> *>(memalloc(sizeof(GDObjectAdapter<{{class_name}}>)));
+	VariantAdapter *adapter;
     // Allow constructing from an existing native pointer
-    if (argc == 1 && GDObjectAdapter<{{class_name}}>::can_cast(argv[0])) {
-        instance = static_cast<{{ class_name }} *>(JSObjectAdapter<Object>(*argv).get());
+    if (argc == 1 && VariantAdapter::can_cast(argv[0], Variant::Type::OBJECT)) {
+		adapter = static_cast<VariantAdapter *>(JS_GetOpaque(argv[0], class_id));
+		instance = static_cast<{{ class_name }} *>(VariantAdapter(*argv).get().operator Object *());
     } else {
         instance = memnew({{ class_name }});
+	 	adapter = memnew(VariantAdapter(instance, true));
     }
-	memnew_placement(adapter, GDObjectAdapter<{{class_name}}>(instance, true));
 
     if (!instance) {
         JS_FreeValue(js_context(), obj);
@@ -72,6 +103,59 @@ static JSValue {{snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValueCo
 	return call_builtin_method_ret(static_cast<bool(FileAccess::*)(const PackedByteArray &)>(&FileAccess::store_buffer), js_context(), this_val, argc, argv);
 };
 	{% else %}
+		{% if method['name'] in cls["properties"] | map(attribute="getter") %}
+		{% set prop1 = cls["properties"] | selectattr("getter", "equalto",  method["name"]) | first %}
+		{% set getter_method = instance_methods | selectattr("name", "equalto",  prop1["getter"]) | first %}
+		{% set setter_method = instance_methods | selectattr("name", "equalto",  prop1['setter']) | first %}
+static JSValue {{snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	{% if prop1['type'] in (builtin_classes | map(attribute='name') | list) and prop1['type'] not in pod_types and 'typedarray::' not in getter_method['return_value']['type'] %}
+	CHECK_INSTANCE_VALID_V(this_val);
+	ObjectProxy<{{clean_type(getter_method['return_value']['type'])}}> *proxy = memnew(ObjectProxy<{{clean_type(getter_method['return_value']['type'])}}>);
+	proxy->wrapped = VariantAdapter(this_val).get();
+	{% set proxy_type = clean_type(getter_method['return_value']['type']) %}
+	{% set typed = get_array_typed(getter_method['return_value']['type']) %}
+	{% if prop1["getter"] %}
+	proxy->getter = [this_val]() -> {{proxy_type}} {
+		{{class_name}} *obj = static_cast<{{class_name}} *>(VariantAdapter(this_val).get().operator Object*());
+		return obj->{{prop1["getter"]}}();
+	};
+	{% endif %}
+	{% if prop1["setter"] %}
+	proxy->setter = [this_val](const {{proxy_type}} &value) -> void {
+		{{class_name}} *js_proxy = static_cast<{{class_name}} *>(VariantAdapter(this_val).get().operator Object *());
+		{% set setter =  instance_methods | selectattr("name" , "equalto", prop1["setter"]) | first %}
+		{% if proxy_type.startswith("Packed") %}
+		js_proxy->{{clean_setter(prop1["setter"])}}({{typed}}(Array(value)));
+		{% else %}
+		js_proxy->{{clean_setter(prop1["setter"])}}(value);
+		{% endif %}
+	};
+	{% endif %}
+	JSValue obj = JS_NewObjectClass(ctx, classes["{{proxy_type}}Proxy"]);
+	if (is_exception(ctx, obj)) {
+		return JS_EXCEPTION;
+	}
+	JS_SetOpaque(obj, &proxy);
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "{{proxy_type}}Proxy");
+	JSValue construct_arg = JS_NewObject(ctx);
+	JS_SetOpaque(construct_arg, proxy);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+    return js_proxy;
+	{% else %}
+	CHECK_INSTANCE_VALID_V(this_val);
+		{% if method['return_value'] %}
+			{% if class_name == 'Node' and method['name'] == 'get_node' %}
+	return call_builtin_const_method_ret(&Node::get_node_internal, js_context(), this_val, argc, argv);
+			{% else %}
+	return call_builtin{{get_const(method)}}_method_ret(&{{class_name}}::{{method['name']}}, js_context(), this_val, argc, argv);
+			{% endif %}
+		{% else %}
+    return call_builtin{{get_const(method)}}_method_no_ret(&{{class_name}}::{{method['name']}}, js_context(), this_val, argc, argv);
+		{% endif %}
+	{% endif %}
+}
+		{% else %}
 static JSValue {{snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
 		{% if method['return_value'] %}
@@ -84,6 +168,7 @@ static JSValue {{snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValueCo
     return call_builtin{{get_const(method)}}_method_no_ret(&{{class_name}}::{{method['name']}}, js_context(), this_val, argc, argv);
 		{% endif %}
 };
+		{% endif %}
 	{% endif %}
 {% endfor %}
 {% for method in static_methods %}
@@ -125,10 +210,10 @@ static const JSCFunctionListEntry {{snake_name}}_class_static_funcs[] = {
 {% for signal in cls['signals'] %}
 static JSValue {{snake_name}}_class_get_{{signal['name']}}_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	{{cls['name']}} *opaque = reinterpret_cast<{{cls['name']}} *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)));
+	{{cls['name']}} *opaque = static_cast<{{cls['name']}} *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
 	JSValue js_signal = JS_GetPropertyStr(js_context(), this_val, "{{signal['name']}}_signal");
 	if (JS_IsUndefined(js_signal)) {
-		js_signal = GDVariantAdapter<Signal>(Signal(opaque, "{{signal['name']}}"));
+		js_signal = VariantAdapter(Signal(opaque, "{{signal['name']}}"));
 		JS_DefinePropertyValueStr(js_context(), this_val, "{{signal['name']}}_signal", js_signal, JS_PROP_HAS_VALUE);
 	}
 	return js_signal;
@@ -136,13 +221,13 @@ static JSValue {{snake_name}}_class_get_{{signal['name']}}_signal(JSContext *ctx
 {% endfor %}
 
 {% macro getset(gs,method,type) %}
-	{%  if (gs in cls['methods'] | map(attribute='name')) and type == 'getter' %}
-	JS_NewCFunction(js_context(), {{snake_name}}_class_{{gs}}, "{{gs}}", 0)
-	{% elif (gs in cls['methods'] | map(attribute='name')) and type == 'setter' %}
-	JS_NewCFunction(js_context(), {{snake_name}}_class_{{gs}}, "{{gs}}", 1)
-	{% else %}
-	JS_UNDEFINED
-	{% endif %}
+	{%-  if (gs in cls['methods'] | map(attribute='name')) and type == 'getter' %}
+JS_NewCFunction(js_context(), {{snake_name}}_class_{{gs}}, "{{gs}}", 0),
+	{%- elif (gs in cls['methods'] | map(attribute='name')) and type == 'setter' %}
+JS_NewCFunction(js_context(), {{snake_name}}_class_{{gs}}, "{{gs}}", 1),
+	{%- else %}
+JS_UNDEFINED,
+	{%- endif %}
 {% endmacro %}
 
 static void define_{{snake_name}}_property(JSContext *ctx, JSValue proto) {
@@ -152,8 +237,8 @@ static void define_{{snake_name}}_property(JSContext *ctx, JSValue proto) {
         js_context(),
         proto,
         JS_NewAtom(js_context(), "{{prop['name']}}"),
-        {{ getset(prop['getter'], cls['methods'], 'getter') }},
-        {{ getset(prop['setter'], cls['methods'], 'setter') }},
+        {{ getset(prop['getter'], cls['methods'], 'getter') }}
+        {{ getset(prop['setter'], cls['methods'], 'setter') }}
         JS_PROP_GETSET
     );
 		{% endif %}
@@ -180,14 +265,15 @@ static void define_{{snake_name}}_enum(JSContext *ctx, JSValue proto) {
 }
 
 static int js_{{snake_name}}_class_init(JSContext *ctx, JSModuleDef *m) {	
-	JSClassID class_id;
+	JSClassID class_id = 0;
 	class_id = JS_NewClassID(&class_id);
-	classes[typeid({{class_name}})] = class_id;
+	classes["{{class_name}}"] = class_id;
+	classes_by_id[class_id] = "{{class_name}}";
 	JS_NewClass(JS_GetRuntime(js_context()), class_id, &{{snake_name}}_class_def);
 
 	JSValue proto = JS_NewObjectClass(js_context(), class_id);
 	{% if cls['inherits'] %}
-	JSValue base_class = JS_GetClassProto(js_context(), classes[typeid({{cls['inherits']}})]);
+	JSValue base_class = JS_GetClassProto(js_context(), classes["{{cls['inherits']}}"]);
 	JS_SetPrototype(js_context(), proto, base_class);
 	{% endif %}
 	JS_SetClassProto(js_context(), class_id, proto);

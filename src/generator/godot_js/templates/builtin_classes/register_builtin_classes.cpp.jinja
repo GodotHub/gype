@@ -7,5 +7,6 @@
 void register_builtin_classes() {
 {% for cls in classes %}
 	register_{{ camel_to_snake(cls.name) }}();
+	register_proxy_{{ camel_to_snake(cls.name) }}();
 {% endfor %}
 }

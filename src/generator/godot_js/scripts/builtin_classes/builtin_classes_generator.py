@@ -10,7 +10,7 @@ from utils.generation_utils import (
     generate_vararg_helpers # <-- 导入 vararg 生成器
 )
 # 导入我们需要的辅助函数，以便在 Python 脚本中使用
-from utils.jinja_helper import is_pod_type, has_vararg_method, collect_builtin_dependencies, get_method_call_expression
+from utils.jinja_helper import is_pod_type, has_vararg_method, collect_builtin_dependencies, get_property_proxy_accessor_expression, get_proxy_method_call_expression
 
 def main():
     """为 Godot 内置类型生成 C++ 绑定。"""
@@ -58,6 +58,8 @@ def main():
             all_methods=all_methods,
             has_vararg_methods=has_vararg_method(cls),
             include_path=include_path_str,
+            get_property_proxy_accessor_expression=get_property_proxy_accessor_expression,
+            get_proxy_method_call_expression=get_proxy_method_call_expression
         )
     print("  - Generation complete.")
     # ========================================================================
@@ -80,7 +82,7 @@ def main():
         jinja_env=env
     )
 
-    # d. 生成 Vararg 辅助文件 (现在可以正常工作了)
+    # # d. 生成 Vararg 辅助文件 (现在可以正常工作了)
     generate_vararg_helpers(
         items=classes_to_generate,
         template_path='vararg_method.hpp.jinja',

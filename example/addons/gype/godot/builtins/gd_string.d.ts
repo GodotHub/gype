@@ -49,9 +49,9 @@ declare global {
         public to_pascal_case(): GDString;
         public to_snake_case(): GDString;
         public to_kebab_case(): GDString;
-        public split(delimiter: GDString | StringName | string, allow_empty: boolean, maxsplit: number): PackedStringArray;
-        public rsplit(delimiter: GDString | StringName | string, allow_empty: boolean, maxsplit: number): PackedStringArray;
-        public split_floats(delimiter: GDString | StringName | string, allow_empty: boolean): PackedFloat64Array;
+        public split(delimiter: GDString | StringName | string, allowEmpty: boolean, maxsplit: number): PackedStringArray;
+        public rsplit(delimiter: GDString | StringName | string, allowEmpty: boolean, maxsplit: number): PackedStringArray;
+        public split_floats(delimiter: GDString | StringName | string, allowEmpty: boolean): PackedFloat64Array;
         public join(parts: PackedStringArray): GDString;
         public to_upper(): GDString;
         public to_lower(): GDString;
@@ -82,7 +82,7 @@ declare global {
         public simplify_path(): GDString;
         public get_base_dir(): GDString;
         public get_file(): GDString;
-        public xml_escape(escape_quotes: boolean): GDString;
+        public xml_escape(escapeQuotes: boolean): GDString;
         public xml_unescape(): GDString;
         public uri_encode(): GDString;
         public uri_decode(): GDString;
@@ -97,7 +97,7 @@ declare global {
         public is_valid_identifier(): boolean;
         public is_valid_int(): boolean;
         public is_valid_float(): boolean;
-        public is_valid_hex_number(with_prefix: boolean): boolean;
+        public is_valid_hex_number(withPrefix: boolean): boolean;
         public is_valid_html_color(): boolean;
         public is_valid_ip_address(): boolean;
         public is_valid_filename(): boolean;
@@ -105,8 +105,8 @@ declare global {
         public to_float(): number;
         public hex_to_int(): number;
         public bin_to_int(): number;
-        public lpad(min_length: number, character: GDString | StringName | string): GDString;
-        public rpad(min_length: number, character: GDString | StringName | string): GDString;
+        public lpad(minLength: number, character: GDString | StringName | string): GDString;
+        public rpad(minLength: number, character: GDString | StringName | string): GDString;
         public pad_decimals(digits: number): GDString;
         public pad_zeros(digits: number): GDString;
         public trim_prefix(prefix: GDString | StringName | string): GDString;
@@ -120,8 +120,8 @@ declare global {
         public hex_decode(): PackedByteArray;
         public static num_scientific(_number: number): GDString;
         public static num(_number: number, decimals: number): GDString;
-        public static num_int64(_number: number, base: number, capitalize_hex: boolean): GDString;
-        public static num_uint64(_number: number, base: number, capitalize_hex: boolean): GDString;
+        public static num_int64(_number: number, base: number, capitalizeHex: boolean): GDString;
+        public static num_uint64(_number: number, base: number, capitalizeHex: boolean): GDString;
         public static chr(code: number): GDString;
         public static humanize_size(size: number): GDString;
 

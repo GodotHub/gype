@@ -24,7 +24,7 @@ class CallableJSMethodPointer : public CallableCustomMethodPointerBase {
 public:
 	virtual ObjectID get_object() const override {
 		uint32_t id = JS_GetClassID(instance);
-		Object *obj = reinterpret_cast<Object *>(JS_GetOpaque(instance, id));
+		Object *obj = static_cast<VariantAdapter *>(JS_GetOpaque(instance, id))->get();
 		return ObjectID(obj->get_instance_id());
 	}
 	virtual int get_argument_count(bool &r_is_valid) const override;

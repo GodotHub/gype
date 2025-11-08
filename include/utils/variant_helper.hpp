@@ -211,19 +211,20 @@ extern JSValue variant_to_jsvalue(const godot::Variant &val);
 // };
 
 class IAdapter {
-protected:
-	bool can_memfree = false;
+public:
+	bool const can_memfree = false;
 
 public:
 	IAdapter() :
 			can_memfree(false) {}
 	IAdapter(bool can_memfree) :
 			can_memfree(can_memfree) {}
-	virtual godot::Variant::Type get_type() = 0;
+	virtual godot::Variant::Type get_type() const = 0;
 };
 
 class VariantAdapter : public IAdapter {
-	godot::Variant variant;
+public:
+	const godot::Variant variant;
 
 public:
 	VariantAdapter() :
@@ -235,11 +236,11 @@ public:
 			IAdapter(can_memfree),
 			variant(jsvalue_to_variant(jsvalue)) {}
 
-	godot::Variant get() {
+	godot::Variant get() const {
 		return variant;
 	}
 
-	godot::Variant::Type get_type() override {
+	godot::Variant::Type get_type() const override {
 		return variant.get_type();
 	}
 
@@ -278,7 +279,7 @@ public:
 	godot::Object *get() const {
 		return const_cast<godot::Object *>(static_cast<const godot::Object *>(obj));
 	}
-	virtual godot::Variant::Type get_type() {
+	virtual godot::Variant::Type get_type() const {
 		return godot::Variant::Type::OBJECT;
 	}
 	operator godot::Object *() { return const_cast<godot::Object *>(obj); }

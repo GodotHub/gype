@@ -29,10 +29,10 @@ declare global {
         public project(b: Vector2): Vector2;
         public lerp(to: Vector2, weight: number): Vector2;
         public slerp(to: Vector2, weight: number): Vector2;
-        public cubic_interpolate(b: Vector2, pre_a: Vector2, post_b: Vector2, weight: number): Vector2;
-        public cubic_interpolate_in_time(b: Vector2, pre_a: Vector2, post_b: Vector2, weight: number, b_t: number, pre_a_t: number, post_b_t: number): Vector2;
-        public bezier_interpolate(control_1: Vector2, control_2: Vector2, end: Vector2, t: number): Vector2;
-        public bezier_derivative(control_1: Vector2, control_2: Vector2, end: Vector2, t: number): Vector2;
+        public cubic_interpolate(b: Vector2, preA: Vector2, postB: Vector2, weight: number): Vector2;
+        public cubic_interpolate_in_time(b: Vector2, preA: Vector2, postB: Vector2, weight: number, bT: number, preAT: number, postBT: number): Vector2;
+        public bezier_interpolate(control1: Vector2, control2: Vector2, end: Vector2, t: number): Vector2;
+        public bezier_derivative(control1: Vector2, control2: Vector2, end: Vector2, t: number): Vector2;
         public max_axis_index(): number;
         public min_axis_index(): number;
         public move_toward(to: Vector2, delta: number): Vector2;

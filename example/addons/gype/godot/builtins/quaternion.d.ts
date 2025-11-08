@@ -6,7 +6,7 @@ declare global {
         constructor(_from: Quaternion);
         constructor(_from: Basis);
         constructor(axis: Vector3, angle: number);
-        constructor(arc_from: Vector3, arc_to: Vector3);
+        constructor(arcFrom: Vector3, arcTo: Vector3);
         constructor(x: number, y: number, z: number, w: number);
 
         public x: number;
@@ -27,8 +27,8 @@ declare global {
         public dot(_with: Quaternion): number;
         public slerp(to: Quaternion, weight: number): Quaternion;
         public slerpni(to: Quaternion, weight: number): Quaternion;
-        public spherical_cubic_interpolate(b: Quaternion, pre_a: Quaternion, post_b: Quaternion, weight: number): Quaternion;
-        public spherical_cubic_interpolate_in_time(b: Quaternion, pre_a: Quaternion, post_b: Quaternion, weight: number, b_t: number, pre_a_t: number, post_b_t: number): Quaternion;
+        public spherical_cubic_interpolate(b: Quaternion, preA: Quaternion, postB: Quaternion, weight: number): Quaternion;
+        public spherical_cubic_interpolate_in_time(b: Quaternion, preA: Quaternion, postB: Quaternion, weight: number, bT: number, preAT: number, postBT: number): Quaternion;
         public get_euler(order: number): Vector3;
         public static from_euler(euler: Vector3): Quaternion;
         public get_axis(): Vector3;

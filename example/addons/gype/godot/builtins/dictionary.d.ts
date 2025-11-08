@@ -4,7 +4,7 @@ declare global {
     declare class Dictionary {
         constructor();
         constructor(_from: Dictionary);
-        constructor(base: Dictionary, key_type: number, key_class_name: GDString | StringName | string, key_script: any, value_type: number, value_class_name: GDString | StringName | string, value_script: any);
+        constructor(base: Dictionary, keyType: number, keyClassName: GDString | StringName | string, keyScript: any, valueType: number, valueClassName: GDString | StringName | string, valueScript: any);
 
 
         public size(): number;
@@ -22,7 +22,7 @@ declare global {
         public keys(): GDArray;
         public values(): GDArray;
         public duplicate(deep: boolean): Dictionary;
-        public duplicate_deep(deesubresources_mode: number): Dictionary;
+        public duplicate_deep(deesubresourcesMode: number): Dictionary;
         public get(key: any, _default: any): any;
         public get_or_add(key: any, _default: any): any;
         public set(key: any, value: any): boolean;
@@ -40,7 +40,7 @@ declare global {
         public get_typed_value_script(): any;
         public make_read_only(): void;
         public is_read_only(): boolean;
-        public recursive_equal(dictionary: Dictionary, recursion_count: number): boolean;
+        public recursive_equal(dictionary: Dictionary, recursionCount: number): boolean;
 
     }
 }

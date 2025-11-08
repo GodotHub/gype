@@ -4,7 +4,7 @@ declare global {
     declare class GDArray {
         constructor();
         constructor(_from: GDArray);
-        constructor(base: GDArray, _type: number, class_name: GDString | StringName | string, script: any);
+        constructor(base: GDArray, _type: number, className: GDString | StringName | string, script: any);
         constructor(_from: PackedByteArray);
         constructor(_from: PackedInt32Array);
         constructor(_from: PackedInt64Array);
@@ -52,7 +52,7 @@ declare global {
         public bsearch_custom(value: any, func: Callable, before: boolean): number;
         public reverse(): void;
         public duplicate(deep: boolean): GDArray;
-        public duplicate_deep(deesubresources_mode: number): GDArray;
+        public duplicate_deep(deesubresourcesMode: number): GDArray;
         public slice(begin: number, end: number, step: number, deep: boolean): GDArray;
         public filter(method: Callable): GDArray;
         public map(method: Callable): GDArray;

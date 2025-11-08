@@ -1,4 +1,10 @@
 
+import type { Callable } from '@godot/builtins/callable';
+import type { GDArray } from '@godot/builtins/gd_array';
+import type { GDString } from '@godot/builtins/gd_string';
+import type { NodePath } from '@godot/builtins/node_path';
+import type { Signal } from '@godot/builtins/signal';
+import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class GodotObject {
@@ -8,8 +14,8 @@ export declare class GodotObject {
     public is_class(_class: GDString | StringName | string): boolean;
     public set(property: GDString | StringName | string, value: any): void;
     public get(property: GDString | StringName | string): any;
-    public set_indexed(property_path: NodePath | GDString | string, value: any): void;
-    public get_indexed(property_path: NodePath | GDString | string): any;
+    public set_indexed(propertyPath: NodePath | GDString | string, value: any): void;
+    public get_indexed(propertyPath: NodePath | GDString | string): any;
     public get_property_list(): Array<any>;
     public get_method_list(): Array<any>;
     public property_can_revert(property: GDString | StringName | string): boolean;
@@ -31,7 +37,7 @@ export declare class GodotObject {
     public call(method: GDString | StringName | string, ...args: any[]): any;
     public call_deferred(method: GDString | StringName | string, ...args: any[]): any;
     public set_deferred(property: GDString | StringName | string, value: any): void;
-    public callv(method: GDString | StringName | string, arg_array: GDArray): any;
+    public callv(method: GDString | StringName | string, argArray: GDArray): any;
     public has_method(method: GDString | StringName | string): boolean;
     public get_method_argument_count(method: GDString | StringName | string): number;
     public has_signal(signal: GDString | StringName | string): boolean;
@@ -48,7 +54,7 @@ export declare class GodotObject {
     public set_message_translation(enable: boolean): void;
     public can_translate_messages(): boolean;
     public tr(message: GDString | StringName | string, context: GDString | StringName | string): GDString;
-    public tr_n(message: GDString | StringName | string, plural_message: GDString | StringName | string, n: number, context: GDString | StringName | string): GDString;
+    public tr_n(message: GDString | StringName | string, pluralMessage: GDString | StringName | string, n: number, context: GDString | StringName | string): GDString;
     public get_translation_domain(): StringName;
     public set_translation_domain(domain: GDString | StringName | string): void;
     public is_queued_for_deletion(): boolean;

@@ -15,9 +15,9 @@ declare global {
         public append(value: Vector2): boolean;
         public append_array(array: PackedVector2Array): void;
         public remove_at(index: number): void;
-        public insert(at_index: number, value: Vector2): number;
+        public insert(atIndex: number, value: Vector2): number;
         public fill(value: Vector2): void;
-        public resize(new_size: number): number;
+        public resize(newSize: number): number;
         public clear(): void;
         public has(value: Vector2): boolean;
         public reverse(): void;

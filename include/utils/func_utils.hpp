@@ -253,8 +253,8 @@ JSValue call_builtin_const_no_fixed_vararg_method_no_ret(void (T::*Func)(void *o
 
 template <typename T, typename R>
 JSValue call_builtin_free_opaque_no_fixed_vararg_method_ret_impl(R (*Func)(void *, const std::vector<Variant> &), JSContext *ctx, JSValueConst this_obj, int argc, JSValueConst *argv) {
-	T *gd_val = static_cast<T *>(JS_GetOpaque(this_obj, JS_GetClassID(this_obj)));
-	GDExtensionTypePtr vopaque = gd_val->_native_ptr();
+	T instance = static_cast<T>(static_cast<VariantAdapter *>(JS_GetOpaque(this_obj, JS_GetClassID(this_obj)))->get());
+	GDExtensionTypePtr vopaque = instance._native_ptr();
 	std::vector<Variant> variant_args;
 	for (int i = 0; i < argc; ++i) {
 		variant_args.push_back(VariantAdapter(argv[i]).get());

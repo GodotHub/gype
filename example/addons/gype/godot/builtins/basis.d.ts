@@ -6,7 +6,7 @@ declare global {
         constructor(_from: Basis);
         constructor(_from: Quaternion);
         constructor(axis: Vector3, angle: number);
-        constructor(x_axis: Vector3, y_axis: Vector3, z_axis: Vector3);
+        constructor(xAxis: Vector3, yAxis: Vector3, zAxis: Vector3);
 
         public x: Vector3;
         public y: Vector3;
@@ -29,7 +29,7 @@ declare global {
         public is_equal_approx(b: Basis): boolean;
         public is_finite(): boolean;
         public get_rotation_quaternion(): Quaternion;
-        public static looking_at(target: Vector3, up: Vector3, use_model_front: boolean): Basis;
+        public static looking_at(target: Vector3, up: Vector3, useModelFront: boolean): Basis;
         public static from_scale(scale: Vector3): Basis;
         public static from_euler(euler: Vector3, order: number): Basis;
 

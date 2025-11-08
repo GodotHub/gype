@@ -18,7 +18,7 @@ declare global {
         public has_point(point: Vector2): boolean;
         public is_equal_approx(rect: Rect2): boolean;
         public is_finite(): boolean;
-        public intersects(b: Rect2, include_borders: boolean): boolean;
+        public intersects(b: Rect2, includeBorders: boolean): boolean;
         public encloses(b: Rect2): boolean;
         public intersection(b: Rect2): Rect2;
         public merge(b: Rect2): Rect2;

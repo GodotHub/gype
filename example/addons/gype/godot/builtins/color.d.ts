@@ -31,7 +31,7 @@ declare global {
         public to_argb64(): number;
         public to_abgr64(): number;
         public to_rgba64(): number;
-        public to_html(with_alpha: boolean): GDString;
+        public to_html(withAlpha: boolean): GDString;
         public clamp(min: Color, max: Color): Color;
         public inverted(): Color;
         public lerp(to: Color, weight: number): Color;

@@ -21,7 +21,8 @@
 		godot::Object *object = static_cast<godot::Object *>(adapter->get());                           \
 		ERR_FAIL_COND_V(!UtilityFunctions::is_instance_id_valid(object->get_instance_id()), undefined); \
 	}
-	
+
+
 {% for class in classes %}
 void register_{{ camel_to_snake(class['name']) }}();
 {% endfor %}

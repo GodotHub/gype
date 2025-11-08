@@ -6,7 +6,7 @@ declare global {
         constructor(_from: Transform2D);
         constructor(rotation: number, position: Vector2);
         constructor(rotation: number, scale: Vector2, skew: number, position: Vector2);
-        constructor(x_axis: Vector2, y_axis: Vector2, origin: Vector2);
+        constructor(xAxis: Vector2, yAxis: Vector2, origin: Vector2);
 
         public x: Vector2;
         public y: Vector2;

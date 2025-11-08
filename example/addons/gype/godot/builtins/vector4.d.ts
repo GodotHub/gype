@@ -22,8 +22,8 @@ declare global {
         public ceil(): Vector4;
         public round(): Vector4;
         public lerp(to: Vector4, weight: number): Vector4;
-        public cubic_interpolate(b: Vector4, pre_a: Vector4, post_b: Vector4, weight: number): Vector4;
-        public cubic_interpolate_in_time(b: Vector4, pre_a: Vector4, post_b: Vector4, weight: number, b_t: number, pre_a_t: number, post_b_t: number): Vector4;
+        public cubic_interpolate(b: Vector4, preA: Vector4, postB: Vector4, weight: number): Vector4;
+        public cubic_interpolate_in_time(b: Vector4, preA: Vector4, postB: Vector4, weight: number, bT: number, preAT: number, postBT: number): Vector4;
         public posmod(mod: number): Vector4;
         public posmodv(modv: Vector4): Vector4;
         public snapped(step: Vector4): Vector4;

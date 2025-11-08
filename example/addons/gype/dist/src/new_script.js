@@ -46,10 +46,14 @@ let new_script = (() => {
     let _classSuper = Node2D;
     var new_script = _classThis = class extends _classSuper {
         _ready() {
-            GD.print(++this.position.x);
-            GD.print(this.position.x);
+            let callable = new Callable(this, this.test);
+            callable.call();
         }
         _process(delta) {
+            GD.print(1);
+        }
+        test() {
+            GD.print("test");
         }
     };
     __setFunctionName(_classThis, "new_script");

@@ -4,7 +4,7 @@ declare global {
     declare class Callable {
         constructor();
         constructor(_from: Callable);
-        constructor(object: GodotObject, method: GDString | StringName | string);
+        constructor(object: GodotObject, method: Function);
 
 
         public static create(variant: any, method: GDString | StringName | string): Callable;
@@ -26,7 +26,7 @@ declare global {
         public call(...args: any[]): any;
         public call_deferred(...args: any[]): void;
         public rpc(...args: any[]): void;
-        public rpc_id(peer_id: number, ...args: any[]): void;
+        public rpc_id(peerId: number, ...args: any[]): void;
         public bind(...args: any[]): Callable;
 
     }

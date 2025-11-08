@@ -15,9 +15,9 @@ declare global {
         public append(value: Color): boolean;
         public append_array(array: PackedColorArray): void;
         public remove_at(index: number): void;
-        public insert(at_index: number, value: Color): number;
+        public insert(atIndex: number, value: Color): number;
         public fill(value: Color): void;
-        public resize(new_size: number): number;
+        public resize(newSize: number): number;
         public clear(): void;
         public has(value: Color): boolean;
         public reverse(): void;

@@ -15,9 +15,9 @@ declare global {
         public append(value: GDString | StringName | string): boolean;
         public append_array(array: PackedStringArray): void;
         public remove_at(index: number): void;
-        public insert(at_index: number, value: GDString | StringName | string): number;
+        public insert(atIndex: number, value: GDString | StringName | string): number;
         public fill(value: GDString | StringName | string): void;
-        public resize(new_size: number): number;
+        public resize(newSize: number): number;
         public clear(): void;
         public has(value: GDString | StringName | string): boolean;
         public reverse(): void;

@@ -18,7 +18,7 @@ declare global {
 
         public normalized(): Plane;
         public get_center(): Vector3;
-        public is_equal_approx(to_plane: Plane): boolean;
+        public is_equal_approx(toPlane: Plane): boolean;
         public is_finite(): boolean;
         public is_point_over(point: Vector3): boolean;
         public distance_to(point: Vector3): number;

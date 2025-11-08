@@ -3,9 +3,9 @@ declare global {
      * A global object providing access to Godot's utility functions.
      */
     interface UtilityFunctions {
-        sin(angle_rad: number): number;
-        cos(angle_rad: number): number;
-        tan(angle_rad: number): number;
+        sin(angleRad: number): number;
+        cos(angleRad: number): number;
+        tan(angleRad: number): number;
         sinh(x: number): number;
         cosh(x: number): number;
         tanh(x: number): number;
@@ -52,10 +52,10 @@ declare global {
         lerpf(_from: number, to: number, weight: number): number;
         cubic_interpolate(_from: number, to: number, pre: number, post: number, weight: number): number;
         cubic_interpolate_angle(_from: number, to: number, pre: number, post: number, weight: number): number;
-        cubic_interpolate_in_time(_from: number, to: number, pre: number, post: number, weight: number, to_t: number, pre_t: number, post_t: number): number;
-        cubic_interpolate_angle_in_time(_from: number, to: number, pre: number, post: number, weight: number, to_t: number, pre_t: number, post_t: number): number;
-        bezier_interpolate(start: number, control_1: number, control_2: number, end: number, t: number): number;
-        bezier_derivative(start: number, control_1: number, control_2: number, end: number, t: number): number;
+        cubic_interpolate_in_time(_from: number, to: number, pre: number, post: number, weight: number, toT: number, preT: number, postT: number): number;
+        cubic_interpolate_angle_in_time(_from: number, to: number, pre: number, post: number, weight: number, toT: number, preT: number, postT: number): number;
+        bezier_interpolate(start: number, control1: number, control2: number, end: number, t: number): number;
+        bezier_derivative(start: number, control1: number, control2: number, end: number, t: number): number;
         angle_difference(_from: number, to: number): number;
         lerp_angle(_from: number, to: number, weight: number): number;
         inverse_lerp(_from: number, to: number, weight: number): number;
@@ -111,7 +111,7 @@ declare global {
         var_to_bytes_with_objects(variable: any): PackedByteArray;
         bytes_to_var_with_objects(bytes: PackedByteArray): any;
         hash(variable: any): number;
-        instance_from_id(instance_id: number): GodotObject;
+        instance_from_id(instanceId: number): GodotObject;
         is_instance_id_valid(id: number): boolean;
         is_instance_valid(instance: any): boolean;
         rid_allocate_id(): number;

@@ -15,9 +15,9 @@ declare global {
         public append(value: number): boolean;
         public append_array(array: PackedFloat32Array): void;
         public remove_at(index: number): void;
-        public insert(at_index: number, value: number): number;
+        public insert(atIndex: number, value: number): number;
         public fill(value: number): void;
-        public resize(new_size: number): number;
+        public resize(newSize: number): number;
         public clear(): void;
         public has(value: number): boolean;
         public reverse(): void;

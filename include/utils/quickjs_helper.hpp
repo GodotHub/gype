@@ -24,10 +24,9 @@
 
 // extern std::unordered_map<std::type_index, JSClassID> classes;
 // extern std::unordered_map<std::type_index, JSClassID> proxies;
-// extern std::unordered_map<JSClassID, std::type_index> classes_by_id;
 
 extern godot::HashMap<godot::StringName, JSClassID> classes;
-extern godot::HashMap<godot::StringName, JSClassID> proxies;
+extern godot::HashMap<JSClassID, godot::StringName> classes_by_id;
 
 extern bool is_exception(JSContext *ctx, JSValue exp);
 extern void print_exception(JSContext *ctx);

@@ -23,7 +23,7 @@ declare global {
         public intersects_plane(plane: Plane): boolean;
         public intersection(_with: AABB): AABB;
         public merge(_with: AABB): AABB;
-        public expand(to_point: Vector3): AABB;
+        public expand(toPoint: Vector3): AABB;
         public grow(by: number): AABB;
         public get_support(direction: Vector3): Vector3;
         public get_longest_axis(): Vector3;

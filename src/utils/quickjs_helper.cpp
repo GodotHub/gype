@@ -12,7 +12,6 @@ using namespace godot;
 
 HashMap<StringName, JSClassID> classes;
 HashMap<JSClassID, StringName> classes_by_id;
-HashMap<StringName, JSClassID> proxies;
 
 enum {
 	/* classid tag        */ /* union usage   | properties */
@@ -305,6 +304,8 @@ godot::Variant js_obj_to_variant(JSValue val) {
 		}
 		JS_FreeValue(js_context(), js_len);
 		return gd_arr;
+	} else if (classes_by_id.has(class_id)) {
+		return reinterpret_cast<VariantAdapter *>(JS_GetOpaque(val, class_id))->get();
 	}
 	OBJ_TO_VARIANT_CASE(Vector2)
 	OBJ_TO_VARIANT_CASE(Vector2i)
@@ -337,6 +338,7 @@ godot::Variant js_obj_to_variant(JSValue val) {
 	OBJ_TO_VARIANT_CASE(PackedVector4Array)
 	OBJ_TO_VARIANT_CASE(PackedColorArray)
 	OBJ_TO_VARIANT_CASE(PackedStringArray)
+	OBJ_TO_VARIANT_CASE(Variant)
 	PROXY_TO_VARIANT_CASE(Vector2)
 	PROXY_TO_VARIANT_CASE(Vector2i)
 	PROXY_TO_VARIANT_CASE(Vector3)
@@ -369,7 +371,7 @@ godot::Variant js_obj_to_variant(JSValue val) {
 	PROXY_TO_VARIANT_CASE(PackedColorArray)
 	PROXY_TO_VARIANT_CASE(PackedStringArray)
 	else {
-		return reinterpret_cast<VariantAdapter *>(JS_GetOpaque(val, class_id))->get();
+		return Variant();
 	}
 }
 godot::Variant jsvalue_to_variant(JSValue val) {

@@ -34,10 +34,10 @@ declare global {
         public rotated(axis: Vector3, angle: number): Vector3;
         public lerp(to: Vector3, weight: number): Vector3;
         public slerp(to: Vector3, weight: number): Vector3;
-        public cubic_interpolate(b: Vector3, pre_a: Vector3, post_b: Vector3, weight: number): Vector3;
-        public cubic_interpolate_in_time(b: Vector3, pre_a: Vector3, post_b: Vector3, weight: number, b_t: number, pre_a_t: number, post_b_t: number): Vector3;
-        public bezier_interpolate(control_1: Vector3, control_2: Vector3, end: Vector3, t: number): Vector3;
-        public bezier_derivative(control_1: Vector3, control_2: Vector3, end: Vector3, t: number): Vector3;
+        public cubic_interpolate(b: Vector3, preA: Vector3, postB: Vector3, weight: number): Vector3;
+        public cubic_interpolate_in_time(b: Vector3, preA: Vector3, postB: Vector3, weight: number, bT: number, preAT: number, postBT: number): Vector3;
+        public bezier_interpolate(control1: Vector3, control2: Vector3, end: Vector3, t: number): Vector3;
+        public bezier_derivative(control1: Vector3, control2: Vector3, end: Vector3, t: number): Vector3;
         public move_toward(to: Vector3, delta: number): Vector3;
         public dot(_with: Vector3): number;
         public cross(_with: Vector3): Vector3;

@@ -293,7 +293,10 @@ godot::Variant js_obj_to_variant(JSValue val) {
 		return static_cast<ObjectProxy<type> *>(JS_GetOpaque(val, classes[#type "Proxy"]))->getter(); \
 	}
 	JSClassID class_id = JS_GetClassID(val);
-
+	if (!classes_by_id.has(class_id)) {
+		return Variant();
+	}
+	
 	if (JS_IsArray(js_context(), val)) {
 		godot::Array gd_arr;
 		JSValue js_len = JS_GetPropertyStr(js_context(), val, "length");
@@ -304,8 +307,6 @@ godot::Variant js_obj_to_variant(JSValue val) {
 		}
 		JS_FreeValue(js_context(), js_len);
 		return gd_arr;
-	} else if (classes_by_id.has(class_id)) {
-		return reinterpret_cast<VariantAdapter *>(JS_GetOpaque(val, class_id))->get();
 	}
 	OBJ_TO_VARIANT_CASE(Vector2)
 	OBJ_TO_VARIANT_CASE(Vector2i)
@@ -371,7 +372,7 @@ godot::Variant js_obj_to_variant(JSValue val) {
 	PROXY_TO_VARIANT_CASE(PackedColorArray)
 	PROXY_TO_VARIANT_CASE(PackedStringArray)
 	else {
-		return Variant();
+		return reinterpret_cast<VariantAdapter *>(JS_GetOpaque(val, class_id))->get();
 	}
 }
 godot::Variant jsvalue_to_variant(JSValue val) {

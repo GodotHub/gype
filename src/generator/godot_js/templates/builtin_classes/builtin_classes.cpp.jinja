@@ -143,7 +143,7 @@ void js_init_{{ cls_name_lower }}_module(JSContext *ctx) {
 }
 
 void register_{{ cls_name_lower }}() {
-	js_init_{{ cls_name_lower }}_module(js_context());
+	js_init_{{ cls_name_lower }}_module(ctx);
 }
 
 // ------------------{{cls_name}}Proxy------------------
@@ -162,9 +162,9 @@ static JSClassDef {{cls_name_lower}}_proxy_def = {
 
 static JSValue {{ cls_name_lower }}_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
 	JSClassID class_id = classes["{{cls_name}}Proxy"];
-	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
-	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
-	if (is_exception(js_context(), obj)) {
+	JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
+	if (is_exception(ctx, obj)) {
 		return obj;
 	}
 

@@ -32,6 +32,10 @@ const char *TypeScriptInstance::symbol_mask = "_GodotClass";
 	ERR_FAIL_COND(JS_IsUndefined(js_binding));
 
 TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, TypeScript *script, bool is_placeholder) {
+	if (script->dirty) {
+		script->compile();
+	}
+
 	this->script = script;
 	this->p_godot_object = p_godot_object;
 	gd_binding = internal::get_object_instance_binding(p_godot_object->_owner);
@@ -61,7 +65,7 @@ TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, TypeScript *scrip
 				const char *symbol_name = JS_AtomToCString(js_context(), symbol);
 				ret = JS_GetProperty(js_context(), ret, symbol);
 				if (strcmp(symbol_mask, symbol_name) == 0) {
- 					VariantAdapter *adapter = memnew(VariantAdapter(gd_binding));
+					VariantAdapter *adapter = memnew(VariantAdapter(gd_binding));
 					JSValue constroctor_arg = *adapter;
 					js_binding = JS_CallConstructor(js_context(), clazz, 1, &constroctor_arg);
 					ERR_FAIL_COND(is_exception(js_context(), js_binding));
@@ -173,7 +177,7 @@ void TypeScriptInstance::call(GDExtensionConstStringNamePtr p_method, const GDEx
 	const char *method = to_chars(*reinterpret_cast<const StringName *>(p_method));
 	JSAtom atom = JS_NewAtom(js_context(), method);
 
-	if (!script->is_tool && Engine::get_singleton()->is_editor_hint() && method[0] == '_') {
+	if (!script->is_tool && Engine::get_singleton()->is_editor_hint()) {
 		r_error->error = GDExtensionCallErrorType::GDEXTENSION_CALL_ERROR_INVALID_METHOD;
 		return;
 	}

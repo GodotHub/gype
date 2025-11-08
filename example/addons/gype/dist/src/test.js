@@ -38,34 +38,32 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
 };
 import { Node2D } from "@godot/classes/node2d";
 import { GodotClass } from "@godot/core/class_defined";
-let new_script = (() => {
+let test = (() => {
     let _classDecorators = [GodotClass];
     let _classDescriptor;
     let _classExtraInitializers = [];
     let _classThis;
     let _classSuper = Node2D;
-    var new_script = _classThis = class extends _classSuper {
+    var test = _classThis = class extends _classSuper {
         _ready() {
-            let callable = new Callable(this, this.test);
-            callable.call();
+            GD.print(this.position);
+            GD.print(this.position.x);
+            GD.print(++this.position.x);
+            GD.print(this.position.x);
         }
         _process(delta) {
-            GD.print(1);
-        }
-        test() {
-            GD.print("test");
         }
     };
-    __setFunctionName(_classThis, "new_script");
+    __setFunctionName(_classThis, "test");
     (() => {
         var _a;
         const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create((_a = _classSuper[Symbol.metadata]) !== null && _a !== void 0 ? _a : null) : void 0;
         __esDecorate(null, _classDescriptor = { value: _classThis }, _classDecorators, { kind: "class", name: _classThis.name, metadata: _metadata }, null, _classExtraInitializers);
-        new_script = _classThis = _classDescriptor.value;
+        test = _classThis = _classDescriptor.value;
         if (_metadata) Object.defineProperty(_classThis, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
         __runInitializers(_classThis, _classExtraInitializers);
     })();
-    return new_script = _classThis;
+    return test = _classThis;
 })();
-export { new_script };
-//# sourceMappingURL=new_script.js.map
+export { test };
+//# sourceMappingURL=test.js.map

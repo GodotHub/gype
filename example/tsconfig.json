@@ -34,18 +34,16 @@
 
     // Recommended Options
     "strict": true,
-    // "jsx": "react-jsx",
-    // "verbatimModuleSyntax": true,
-    // "isolatedModules": true,
-    // "noUncheckedSideEffectImports": true,
+    "jsx": "react-jsx",
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
     "paths": {
       "@res/*": ["./src/*"],
-      "@godot/*": ["./addons/gype/godot/*"],
+      "@godot/*": ["./addons/gype/godot/*"]
     },
-    "outDir": "./addons/gype/dist",
-    "rootDir": "./",
-  },
-  "exclude": ["./addons/gype/dist"]
+    "outDir": "./addons/gype/dist"
+  }
 }

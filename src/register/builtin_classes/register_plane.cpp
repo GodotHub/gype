@@ -12,7 +12,11 @@
 using namespace godot;
 
 static void plane_class_finalizer(JSRuntime *rt, JSValue val) {
-	// 处于栈内存的变量不需要释放,除了对象
+	JSClassID class_id = classes["Plane"];
+	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr) {
+		memfree(opaque_ptr);
+	}
 }
 
 static JSClassDef plane_class_def = {
@@ -28,44 +32,44 @@ static JSValue plane_class_constructor(JSContext *ctx, JSValueConst new_target, 
 		return obj;
 	}
 	
-	Plane *instance = nullptr;
+	Plane instance;
 	if (argc == 0) {
-		instance = memnew(Plane());
+		instance = Plane();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PLANE))) {
 		Plane v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Plane(v0));
+		instance = Plane(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))) {
 		Vector3 v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Plane(v0));
+		instance = Plane(v0);
 	}
 	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::FLOAT))) {
 		Vector3 v0 = VariantAdapter(argv[0]).get();
 		double v1 = VariantAdapter(argv[1]).get();
-		instance = memnew(Plane(v0, v1));
+		instance = Plane(v0, v1);
 	}
 	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR3))) {
 		Vector3 v0 = VariantAdapter(argv[0]).get();
 		Vector3 v1 = VariantAdapter(argv[1]).get();
-		instance = memnew(Plane(v0, v1));
+		instance = Plane(v0, v1);
 	}
 	if (argc == 3&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[2],Variant::Type::VECTOR3))) {
 		Vector3 v0 = VariantAdapter(argv[0]).get();
 		Vector3 v1 = VariantAdapter(argv[1]).get();
 		Vector3 v2 = VariantAdapter(argv[2]).get();
-		instance = memnew(Plane(v0, v1, v2));
+		instance = Plane(v0, v1, v2);
 	}
 	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[2],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[3],Variant::Type::FLOAT))) {
 		double v0 = VariantAdapter(argv[0]).get();
 		double v1 = VariantAdapter(argv[1]).get();
 		double v2 = VariantAdapter(argv[2]).get();
 		double v3 = VariantAdapter(argv[3]).get();
-		instance = memnew(Plane(v0, v1, v2, v3));
+		instance = Plane(v0, v1, v2, v3);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
-	if (!instance || !adapter) {
+	if (!adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
@@ -247,9 +251,9 @@ static JSClassDef plane_proxy_def = {
 
 static JSValue plane_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
 	JSClassID class_id = classes["PlaneProxy"];
-	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
-	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
-	if (is_exception(js_context(), obj)) {
+	JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
+	if (is_exception(ctx, obj)) {
 		return obj;
 	}
 

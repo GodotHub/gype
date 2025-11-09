@@ -11,7 +11,11 @@
 using namespace godot;
 
 static void rect2i_class_finalizer(JSRuntime *rt, JSValue val) {
-	// 处于栈内存的变量不需要释放,除了对象
+	JSClassID class_id = classes["Rect2i"];
+	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr) {
+		memfree(opaque_ptr);
+	}
 }
 
 static JSClassDef rect2i_class_def = {
@@ -27,33 +31,33 @@ static JSValue rect2i_class_constructor(JSContext *ctx, JSValueConst new_target,
 		return obj;
 	}
 
-	Rect2i *instance = nullptr;
+	Rect2i instance;
 	if (argc == 0) {
-		instance = memnew(Rect2i());
+		instance = Rect2i();
 	}
 	if (argc == 1 && (VariantAdapter::can_cast(argv[0], Variant::Type::RECT2I))) {
 		Rect2i v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Rect2i(v0));
+		instance = Rect2i(v0);
 	}
 	if (argc == 1 && (VariantAdapter::can_cast(argv[0], Variant::Type::RECT2))) {
 		Rect2 v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Rect2i(v0));
+		instance = Rect2i(v0);
 	}
 	if (argc == 2 && (VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR2I)) && (VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR2I))) {
 		Vector2i v0 = VariantAdapter(argv[0]).get();
 		Vector2i v1 = VariantAdapter(argv[1]).get();
-		instance = memnew(Rect2i(v0, v1));
+		instance = Rect2i(v0, v1);
 	}
 	if (argc == 4 && (VariantAdapter::can_cast(argv[0], Variant::Type::INT)) && (VariantAdapter::can_cast(argv[1], Variant::Type::INT)) && (VariantAdapter::can_cast(argv[2], Variant::Type::INT)) && (VariantAdapter::can_cast(argv[3], Variant::Type::INT))) {
 		int v0 = VariantAdapter(argv[0]).get();
 		int v1 = VariantAdapter(argv[1]).get();
 		int v2 = VariantAdapter(argv[2]).get();
 		int v3 = VariantAdapter(argv[3]).get();
-		instance = memnew(Rect2i(v0, v1, v2, v3));
+		instance = Rect2i(v0, v1, v2, v3);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
-	if (!instance || !adapter) {
+	if (!adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
@@ -212,9 +216,9 @@ static JSClassDef rect2i_proxy_def = {
 
 static JSValue rect2i_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
 	JSClassID class_id = classes["Rect2iProxy"];
-	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
-	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
-	if (is_exception(js_context(), obj)) {
+	JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
+	if (is_exception(ctx, obj)) {
 		return obj;
 	}
 

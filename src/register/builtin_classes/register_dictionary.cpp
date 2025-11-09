@@ -13,7 +13,11 @@
 using namespace godot;
 
 static void dictionary_class_finalizer(JSRuntime *rt, JSValue val) {
-	// 处于栈内存的变量不需要释放,除了对象
+	JSClassID class_id = classes["Dictionary"];
+	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr) {
+		memfree(opaque_ptr);
+	}
 }
 
 static JSClassDef dictionary_class_def = {
@@ -29,13 +33,13 @@ static JSValue dictionary_class_constructor(JSContext *ctx, JSValueConst new_tar
 		return obj;
 	}
 	
-	Dictionary *instance = nullptr;
+	Dictionary instance;
 	if (argc == 0) {
-		instance = memnew(Dictionary());
+		instance = Dictionary();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::DICTIONARY))) {
 		Dictionary v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Dictionary(v0));
+		instance = Dictionary(v0);
 	}
 	if (argc == 7&&(VariantAdapter::can_cast(argv[0],Variant::Type::DICTIONARY))&&(VariantAdapter::can_cast(argv[1],Variant::Type::INT))&&(VariantAdapter::can_cast(argv[2],Variant::Type::STRING_NAME))&&(VariantAdapter::can_cast(argv[2],Variant::Type::STRING_NAME))&&(VariantAdapter::can_cast(argv[4],Variant::Type::INT))&&(VariantAdapter::can_cast(argv[5],Variant::Type::STRING_NAME))&&(VariantAdapter::can_cast(argv[5],Variant::Type::STRING_NAME))) {
 		Dictionary v0 = VariantAdapter(argv[0]).get();
@@ -45,11 +49,11 @@ static JSValue dictionary_class_constructor(JSContext *ctx, JSValueConst new_tar
 		int v4 = VariantAdapter(argv[4]).get();
 		StringName v5 = VariantAdapter(argv[5]).get();
 		Variant v6 = VariantAdapter(argv[6]).get();
-		instance = memnew(Dictionary(v0, v1, v2, v3, v4, v5, v6));
+		instance = Dictionary(v0, v1, v2, v3, v4, v5, v6);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
-	if (!instance || !adapter) {
+	if (!adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
@@ -246,9 +250,9 @@ static JSClassDef dictionary_proxy_def = {
 
 static JSValue dictionary_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
 	JSClassID class_id = classes["DictionaryProxy"];
-	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
-	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
-	if (is_exception(js_context(), obj)) {
+	JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
+	if (is_exception(ctx, obj)) {
 		return obj;
 	}
 

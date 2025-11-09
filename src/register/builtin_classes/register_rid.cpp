@@ -12,7 +12,11 @@
 using namespace godot;
 
 static void rid_class_finalizer(JSRuntime *rt, JSValue val) {
-	// 处于栈内存的变量不需要释放,除了对象
+	JSClassID class_id = classes["RID"];
+	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr) {
+		memfree(opaque_ptr);
+	}
 }
 
 static JSClassDef rid_class_def = {
@@ -28,17 +32,17 @@ static JSValue rid_class_constructor(JSContext *ctx, JSValueConst new_target, in
 		return obj;
 	}
 	
-	RID *instance = nullptr;
+	RID instance;
 	if (argc == 0) {
-		instance = memnew(RID());
+		instance = RID();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::RID))) {
 		RID v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(RID(v0));
+		instance = RID(v0);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
-	if (!instance || !adapter) {
+	if (!adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
@@ -102,9 +106,9 @@ static JSClassDef rid_proxy_def = {
 
 static JSValue rid_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
 	JSClassID class_id = classes["RIDProxy"];
-	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
-	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
-	if (is_exception(js_context(), obj)) {
+	JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
+	if (is_exception(ctx, obj)) {
 		return obj;
 	}
 

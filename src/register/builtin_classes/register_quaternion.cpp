@@ -12,7 +12,11 @@
 using namespace godot;
 
 static void quaternion_class_finalizer(JSRuntime *rt, JSValue val) {
-	// 处于栈内存的变量不需要释放,除了对象
+	JSClassID class_id = classes["Quaternion"];
+	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr) {
+		memfree(opaque_ptr);
+	}
 }
 
 static JSClassDef quaternion_class_def = {
@@ -28,38 +32,38 @@ static JSValue quaternion_class_constructor(JSContext *ctx, JSValueConst new_tar
 		return obj;
 	}
 	
-	Quaternion *instance = nullptr;
+	Quaternion instance;
 	if (argc == 0) {
-		instance = memnew(Quaternion());
+		instance = Quaternion();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::QUATERNION))) {
 		Quaternion v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Quaternion(v0));
+		instance = Quaternion(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::BASIS))) {
 		Basis v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Quaternion(v0));
+		instance = Quaternion(v0);
 	}
 	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::FLOAT))) {
 		Vector3 v0 = VariantAdapter(argv[0]).get();
 		double v1 = VariantAdapter(argv[1]).get();
-		instance = memnew(Quaternion(v0, v1));
+		instance = Quaternion(v0, v1);
 	}
 	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR3))) {
 		Vector3 v0 = VariantAdapter(argv[0]).get();
 		Vector3 v1 = VariantAdapter(argv[1]).get();
-		instance = memnew(Quaternion(v0, v1));
+		instance = Quaternion(v0, v1);
 	}
 	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[2],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[3],Variant::Type::FLOAT))) {
 		double v0 = VariantAdapter(argv[0]).get();
 		double v1 = VariantAdapter(argv[1]).get();
 		double v2 = VariantAdapter(argv[2]).get();
 		double v3 = VariantAdapter(argv[3]).get();
-		instance = memnew(Quaternion(v0, v1, v2, v3));
+		instance = Quaternion(v0, v1, v2, v3);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
-	if (!instance || !adapter) {
+	if (!adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
@@ -257,9 +261,9 @@ static JSClassDef quaternion_proxy_def = {
 
 static JSValue quaternion_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
 	JSClassID class_id = classes["QuaternionProxy"];
-	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
-	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
-	if (is_exception(js_context(), obj)) {
+	JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
+	if (is_exception(ctx, obj)) {
 		return obj;
 	}
 

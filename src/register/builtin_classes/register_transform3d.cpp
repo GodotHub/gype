@@ -13,7 +13,11 @@
 using namespace godot;
 
 static void transform3d_class_finalizer(JSRuntime *rt, JSValue val) {
-	// 处于栈内存的变量不需要释放,除了对象
+	JSClassID class_id = classes["Transform3D"];
+	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr) {
+		memfree(opaque_ptr);
+	}
 }
 
 static JSClassDef transform3d_class_def = {
@@ -29,33 +33,33 @@ static JSValue transform3d_class_constructor(JSContext *ctx, JSValueConst new_ta
 		return obj;
 	}
 	
-	Transform3D *instance = nullptr;
+	Transform3D instance;
 	if (argc == 0) {
-		instance = memnew(Transform3D());
+		instance = Transform3D();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::TRANSFORM3D))) {
 		Transform3D v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Transform3D(v0));
+		instance = Transform3D(v0);
 	}
 	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::BASIS))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR3))) {
 		Basis v0 = VariantAdapter(argv[0]).get();
 		Vector3 v1 = VariantAdapter(argv[1]).get();
-		instance = memnew(Transform3D(v0, v1));
+		instance = Transform3D(v0, v1);
 	}
 	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[2],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[3],Variant::Type::VECTOR3))) {
 		Vector3 v0 = VariantAdapter(argv[0]).get();
 		Vector3 v1 = VariantAdapter(argv[1]).get();
 		Vector3 v2 = VariantAdapter(argv[2]).get();
 		Vector3 v3 = VariantAdapter(argv[3]).get();
-		instance = memnew(Transform3D(v0, v1, v2, v3));
+		instance = Transform3D(v0, v1, v2, v3);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PROJECTION))) {
 		Projection v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Transform3D(v0));
+		instance = Transform3D(v0);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
-	if (!instance || !adapter) {
+	if (!adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
@@ -197,9 +201,9 @@ static JSClassDef transform3d_proxy_def = {
 
 static JSValue transform3d_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
 	JSClassID class_id = classes["Transform3DProxy"];
-	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
-	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
-	if (is_exception(js_context(), obj)) {
+	JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
+	if (is_exception(ctx, obj)) {
 		return obj;
 	}
 

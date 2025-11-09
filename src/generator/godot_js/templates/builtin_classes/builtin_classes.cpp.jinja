@@ -23,7 +23,12 @@
 {{ include_path }}
 
 {% macro norm_type(tp) %}
-	{% if tp == 'float' %}double{% else %}{{tp}}{% endif %}
+	{% if tp == 'float' %}double
+	{% elif tp=='Object'%}
+	Object *
+	{% else %}
+	{{tp}}
+	{% endif %}
 {% endmacro %}
 
 using namespace godot;
@@ -49,18 +54,18 @@ static JSValue {{ cls_name_lower }}_class_constructor(JSContext *ctx, JSValueCon
 		return obj;
 	}
 	
-	{{ cls_name }} *instance = nullptr;
+	{{ cls_name }} instance;
 {% for ctor in cls.constructors %}
 	if (argc == {{ ctor.arguments | length if ctor.arguments else 0 }}{% if ctor.arguments %}{{ variant_type_cond(ctor.arguments) }}{% endif %}) {
 		{% for arg in ctor.arguments %}
 		{{ norm_type(arg.type) }} v{{ loop.index0 }} = VariantAdapter(argv[{{ loop.index0 }}]).get();
 		{% endfor %}
-		instance = memnew({{cls_name}}({{put_args(ctor.arguments)}}));
+		instance = {{cls_name}}({{put_args(ctor.arguments)}});
 	}
 {% endfor %}
-	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
-	if (!instance || !adapter) {
+	if (!adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
@@ -142,7 +147,7 @@ void js_init_{{ cls_name_lower }}_module(JSContext *ctx) {
 }
 
 void register_{{ cls_name_lower }}() {
-	js_init_{{ cls_name_lower }}_module(ctx);
+	js_init_{{ cls_name_lower }}_module(js_context());
 }
 
 // ------------------{{cls_name}}Proxy------------------

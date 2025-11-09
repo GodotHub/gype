@@ -13,7 +13,11 @@
 using namespace godot;
 
 static void vector3_class_finalizer(JSRuntime *rt, JSValue val) {
-	// 处于栈内存的变量不需要释放,除了对象
+	JSClassID class_id = classes["Vector3"];
+	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr) {
+		memfree(opaque_ptr);
+	}
 }
 
 static JSClassDef vector3_class_def = {
@@ -29,27 +33,27 @@ static JSValue vector3_class_constructor(JSContext *ctx, JSValueConst new_target
 		return obj;
 	}
 	
-	Vector3 *instance = nullptr;
+	Vector3 instance;
 	if (argc == 0) {
-		instance = memnew(Vector3());
+		instance = Vector3();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))) {
 		Vector3 v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Vector3(v0));
+		instance = Vector3(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3I))) {
 		Vector3i v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Vector3(v0));
+		instance = Vector3(v0);
 	}
 	if (argc == 3&&(VariantAdapter::can_cast(argv[0],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[2],Variant::Type::FLOAT))) {
 		double v0 = VariantAdapter(argv[0]).get();
 		double v1 = VariantAdapter(argv[1]).get();
 		double v2 = VariantAdapter(argv[2]).get();
-		instance = memnew(Vector3(v0, v1, v2));
+		instance = Vector3(v0, v1, v2);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
-	if (!instance || !adapter) {
+	if (!adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
@@ -347,9 +351,9 @@ static JSClassDef vector3_proxy_def = {
 
 static JSValue vector3_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
 	JSClassID class_id = classes["Vector3Proxy"];
-	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
-	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
-	if (is_exception(js_context(), obj)) {
+	JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
+	if (is_exception(ctx, obj)) {
 		return obj;
 	}
 

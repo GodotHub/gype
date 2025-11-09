@@ -15,7 +15,11 @@
 using namespace godot;
 
 static void string_name_class_finalizer(JSRuntime *rt, JSValue val) {
-	// 处于栈内存的变量不需要释放,除了对象
+	JSClassID class_id = classes["StringName"];
+	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr) {
+		memfree(opaque_ptr);
+	}
 }
 
 static JSClassDef string_name_class_def = {
@@ -31,21 +35,21 @@ static JSValue string_name_class_constructor(JSContext *ctx, JSValueConst new_ta
 		return obj;
 	}
 	
-	StringName *instance = nullptr;
+	StringName instance;
 	if (argc == 0) {
-		instance = memnew(StringName());
+		instance = StringName();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::STRING_NAME))) {
 		StringName v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(StringName(v0));
+		instance = StringName(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::STRING))) {
 		String v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(StringName(v0));
+		instance = StringName(v0);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
-	if (!instance || !adapter) {
+	if (!adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
@@ -541,9 +545,9 @@ static JSClassDef string_name_proxy_def = {
 
 static JSValue string_name_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
 	JSClassID class_id = classes["StringNameProxy"];
-	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
-	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
-	if (is_exception(js_context(), obj)) {
+	JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
+	if (is_exception(ctx, obj)) {
 		return obj;
 	}
 

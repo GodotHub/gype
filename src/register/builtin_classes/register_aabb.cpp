@@ -12,7 +12,11 @@
 using namespace godot;
 
 static void aabb_class_finalizer(JSRuntime *rt, JSValue val) {
-	// 处于栈内存的变量不需要释放,除了对象
+	JSClassID class_id = classes["AABB"];
+	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr) {
+		memfree(opaque_ptr);
+	}
 }
 
 static JSClassDef aabb_class_def = {
@@ -28,22 +32,22 @@ static JSValue aabb_class_constructor(JSContext *ctx, JSValueConst new_target, i
 		return obj;
 	}
 
-	AABB *instance = nullptr;
+	AABB instance;
 	if (argc == 0) {
-		instance = memnew(AABB());
+		instance = AABB();
 	}
 	if (argc == 1 && (VariantAdapter::can_cast(argv[0], Variant::Type::AABB))) {
 		AABB v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(AABB(v0));
+		instance = AABB(v0);
 	}
 	if (argc == 2 && (VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR3)) && (VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR3))) {
 		Vector3 v0 = VariantAdapter(argv[0]).get();
 		Vector3 v1 = VariantAdapter(argv[1]).get();
-		instance = memnew(AABB(v0, v1));
+		instance = AABB(v0, v1);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
-	if (!instance || !adapter) {
+	if (!adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
@@ -124,7 +128,7 @@ static JSValue aabb_class_intersects_segment(JSContext *ctx, JSValueConst this_v
 	return call_builtin_const_method_ret(&AABB::intersects_segment_bind, ctx, this_val, argc, argv);
 }
 static JSValue aabb_class_intersects_ray(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	return call_builtin_const_method_ret(&AABB::intersects_ray, ctx, this_val, argc, argv);
+	return call_builtin_const_method_ret(&AABB::intersects_ray_bind, ctx, this_val, argc, argv);
 }
 
 static JSValue aabb_class_get_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -250,9 +254,9 @@ static JSClassDef aabb_proxy_def = {
 
 static JSValue aabb_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
 	JSClassID class_id = classes["AABBProxy"];
-	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
-	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
-	if (is_exception(js_context(), obj)) {
+	JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
+	if (is_exception(ctx, obj)) {
 		return obj;
 	}
 
@@ -494,7 +498,7 @@ static JSValue aabb_proxy_intersects_ray(JSContext *ctx, JSValueConst this_val, 
 	ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
 	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
 	this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&AABB::intersects_ray, ctx, this_val, argc, argv);
+	JSValue ret = call_builtin_const_method_ret(&AABB::intersects_ray_bind, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }

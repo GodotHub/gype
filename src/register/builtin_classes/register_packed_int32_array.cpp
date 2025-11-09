@@ -12,7 +12,11 @@
 using namespace godot;
 
 static void packed_int32_array_class_finalizer(JSRuntime *rt, JSValue val) {
-	// 处于栈内存的变量不需要释放,除了对象
+	JSClassID class_id = classes["PackedInt32Array"];
+	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr) {
+		memfree(opaque_ptr);
+	}
 }
 
 static JSClassDef packed_int32_array_class_def = {
@@ -28,21 +32,21 @@ static JSValue packed_int32_array_class_constructor(JSContext *ctx, JSValueConst
 		return obj;
 	}
 	
-	PackedInt32Array *instance = nullptr;
+	PackedInt32Array instance;
 	if (argc == 0) {
-		instance = memnew(PackedInt32Array());
+		instance = PackedInt32Array();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_INT32_ARRAY))) {
 		PackedInt32Array v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(PackedInt32Array(v0));
+		instance = PackedInt32Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::ARRAY))) {
 		Array v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(PackedInt32Array(v0));
+		instance = PackedInt32Array(v0);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
-	if (!instance || !adapter) {
+	if (!adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
@@ -197,9 +201,9 @@ static JSClassDef packed_int32_array_proxy_def = {
 
 static JSValue packed_int32_array_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
 	JSClassID class_id = classes["PackedInt32ArrayProxy"];
-	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
-	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
-	if (is_exception(js_context(), obj)) {
+	JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
+	if (is_exception(ctx, obj)) {
 		return obj;
 	}
 

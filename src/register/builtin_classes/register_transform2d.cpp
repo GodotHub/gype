@@ -11,7 +11,11 @@
 using namespace godot;
 
 static void transform2d_class_finalizer(JSRuntime *rt, JSValue val) {
-	// 处于栈内存的变量不需要释放,除了对象
+	JSClassID class_id = classes["Transform2D"];
+	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr) {
+		memfree(opaque_ptr);
+	}
 }
 
 static JSClassDef transform2d_class_def = {
@@ -27,35 +31,35 @@ static JSValue transform2d_class_constructor(JSContext *ctx, JSValueConst new_ta
 		return obj;
 	}
 
-	Transform2D *instance = nullptr;
+	Transform2D instance;
 	if (argc == 0) {
-		instance = memnew(Transform2D());
+		instance = Transform2D();
 	}
 	if (argc == 1 && (VariantAdapter::can_cast(argv[0], Variant::Type::TRANSFORM2D))) {
 		Transform2D v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Transform2D(v0));
+		instance = Transform2D(v0);
 	}
 	if (argc == 2 && (VariantAdapter::can_cast(argv[0], Variant::Type::FLOAT)) && (VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR2))) {
 		double v0 = VariantAdapter(argv[0]).get();
 		Vector2 v1 = VariantAdapter(argv[1]).get();
-		instance = memnew(Transform2D(v0, v1));
+		instance = Transform2D(v0, v1);
 	}
 	if (argc == 4 && (VariantAdapter::can_cast(argv[0], Variant::Type::FLOAT)) && (VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR2)) && (VariantAdapter::can_cast(argv[2], Variant::Type::FLOAT)) && (VariantAdapter::can_cast(argv[3], Variant::Type::VECTOR2))) {
 		double v0 = VariantAdapter(argv[0]).get();
 		Vector2 v1 = VariantAdapter(argv[1]).get();
 		double v2 = VariantAdapter(argv[2]).get();
 		Vector2 v3 = VariantAdapter(argv[3]).get();
-		instance = memnew(Transform2D(v0, v1, v2, v3));
+		instance = Transform2D(v0, v1, v2, v3);
 	}
 	if (argc == 3 && (VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR2)) && (VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR2)) && (VariantAdapter::can_cast(argv[2], Variant::Type::VECTOR2))) {
 		Vector2 v0 = VariantAdapter(argv[0]).get();
 		Vector2 v1 = VariantAdapter(argv[1]).get();
 		Vector2 v2 = VariantAdapter(argv[2]).get();
-		instance = memnew(Transform2D(v0, v1, v2));
+		instance = Transform2D(v0, v1, v2);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
-	if (!instance || !adapter) {
+	if (!adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
@@ -246,9 +250,9 @@ static JSClassDef transform2d_proxy_def = {
 
 static JSValue transform2d_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
 	JSClassID class_id = classes["Transform2DProxy"];
-	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
-	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
-	if (is_exception(js_context(), obj)) {
+	JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
+	if (is_exception(ctx, obj)) {
 		return obj;
 	}
 
@@ -491,9 +495,9 @@ static JSValue transform2d_proxy_set_y(JSContext *ctx, JSValueConst this_val, in
 }
 // static JSValue transform2d_proxy_get_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 // 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-// 	ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-// 	Transform2D ret = proxy->getter();
-// 	return VariantAdapter(ret.origin);
+//     ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
+//     Transform2D ret = proxy->getter();
+//     return VariantAdapter(ret.origin);
 // }
 static JSValue transform2d_proxy_set_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);

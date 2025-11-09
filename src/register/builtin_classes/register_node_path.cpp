@@ -12,7 +12,11 @@
 using namespace godot;
 
 static void node_path_class_finalizer(JSRuntime *rt, JSValue val) {
-	// 处于栈内存的变量不需要释放,除了对象
+	JSClassID class_id = classes["NodePath"];
+	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr) {
+		memfree(opaque_ptr);
+	}
 }
 
 static JSClassDef node_path_class_def = {
@@ -28,21 +32,21 @@ static JSValue node_path_class_constructor(JSContext *ctx, JSValueConst new_targ
 		return obj;
 	}
 	
-	NodePath *instance = nullptr;
+	NodePath instance;
 	if (argc == 0) {
-		instance = memnew(NodePath());
+		instance = NodePath();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::NODE_PATH))) {
 		NodePath v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(NodePath(v0));
+		instance = NodePath(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::STRING))) {
 		String v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(NodePath(v0));
+		instance = NodePath(v0);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
-	if (!instance || !adapter) {
+	if (!adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
@@ -142,9 +146,9 @@ static JSClassDef node_path_proxy_def = {
 
 static JSValue node_path_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
 	JSClassID class_id = classes["NodePathProxy"];
-	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
-	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
-	if (is_exception(js_context(), obj)) {
+	JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
+	if (is_exception(ctx, obj)) {
 		return obj;
 	}
 

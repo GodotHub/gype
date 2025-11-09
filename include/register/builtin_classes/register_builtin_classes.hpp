@@ -2,7 +2,6 @@
 #define __REGISTER_BUILTIN_CLASSES_H__
 
 // Forward declarations for individual class registration functions
-// void register_variant();
 void register_string();
 void register_proxy_string();
 void register_vector2();

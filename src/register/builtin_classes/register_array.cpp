@@ -13,7 +13,11 @@
 using namespace godot;
 
 static void array_class_finalizer(JSRuntime *rt, JSValue val) {
-	// 处于栈内存的变量不需要释放,除了对象
+	JSClassID class_id = classes["Array"];
+	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
+	if (opaque_ptr) {
+		memfree(opaque_ptr);
+	}
 }
 
 static JSClassDef array_class_def = {
@@ -29,64 +33,64 @@ static JSValue array_class_constructor(JSContext *ctx, JSValueConst new_target, 
 		return obj;
 	}
 	
-	Array *instance = nullptr;
+	Array instance;
 	if (argc == 0) {
-		instance = memnew(Array());
+		instance = Array();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::ARRAY))) {
 		Array v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Array(v0));
+		instance = Array(v0);
 	}
 	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::ARRAY))&&(VariantAdapter::can_cast(argv[1],Variant::Type::INT))&&(VariantAdapter::can_cast(argv[2],Variant::Type::STRING_NAME))&&(VariantAdapter::can_cast(argv[2],Variant::Type::STRING_NAME))) {
 		Array v0 = VariantAdapter(argv[0]).get();
 		int v1 = VariantAdapter(argv[1]).get();
 		StringName v2 = VariantAdapter(argv[2]).get();
 		Variant v3 = VariantAdapter(argv[3]).get();
-		instance = memnew(Array(v0, v1, v2, v3));
+		instance = Array(v0, v1, v2, v3);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_BYTE_ARRAY))) {
 		PackedByteArray v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Array(v0));
+		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_INT32_ARRAY))) {
 		PackedInt32Array v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Array(v0));
+		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_INT64_ARRAY))) {
 		PackedInt64Array v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Array(v0));
+		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_FLOAT32_ARRAY))) {
 		PackedFloat32Array v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Array(v0));
+		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_FLOAT64_ARRAY))) {
 		PackedFloat64Array v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Array(v0));
+		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_STRING_ARRAY))) {
 		PackedStringArray v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Array(v0));
+		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_VECTOR2_ARRAY))) {
 		PackedVector2Array v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Array(v0));
+		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_VECTOR3_ARRAY))) {
 		PackedVector3Array v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Array(v0));
+		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_COLOR_ARRAY))) {
 		PackedColorArray v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Array(v0));
+		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_VECTOR4_ARRAY))) {
 		PackedVector4Array v0 = VariantAdapter(argv[0]).get();
-		instance = memnew(Array(v0));
+		instance = Array(v0);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(*instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
-	if (!instance || !adapter) {
+	if (!adapter) {
 		JS_FreeValue(ctx, obj);
 		return JS_EXCEPTION;
 	}
@@ -361,9 +365,9 @@ static JSClassDef array_proxy_def = {
 
 static JSValue array_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
 	JSClassID class_id = classes["ArrayProxy"];
-	JSValue proto = JS_GetPropertyStr(js_context(), new_target, "prototype");
-	JSValue obj = JS_NewObjectProtoClass(js_context(), proto, class_id);
-	if (is_exception(js_context(), obj)) {
+	JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
+	if (is_exception(ctx, obj)) {
 		return obj;
 	}
 

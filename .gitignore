@@ -43,3 +43,5 @@ src/register/classes/*
 !src/register/classes/.keep
 src/register/global_enum/*
 !src/register/global_enum/.keep
+
+.vs

@@ -1,39 +1,73 @@
 
+/**
+ * Godot's built-in Basis type.
+ *
+ * As a data structure, it can be represented by a plain object.
+ * @example
+ * let my_vector: Basis = { x: 1, y: 0 };
+ *
+ * To create a new instance, use the global constructor.
+ * @example
+ * const my_vector = new Basis(1, 0);
+ */
+export interface Basis {
+    x: Vector3;
+    y: Vector3;
+    z: Vector3;
 
-declare global {
-    declare class Basis {
-        constructor();
-        constructor(_from: Basis);
-        constructor(_from: Quaternion);
-        constructor(axis: Vector3, angle: number);
-        constructor(xAxis: Vector3, yAxis: Vector3, zAxis: Vector3);
-
-        public x: Vector3;
-        public y: Vector3;
-        public z: Vector3;
-
-        public inverse(): Basis;
-        public transposed(): Basis;
-        public orthonormalized(): Basis;
-        public determinant(): number;
-        public rotated(axis: Vector3, angle: number): Basis;
-        public scaled(scale: Vector3): Basis;
-        public scaled_local(scale: Vector3): Basis;
-        public get_scale(): Vector3;
-        public get_euler(order: number): Vector3;
-        public tdotx(_with: Vector3): number;
-        public tdoty(_with: Vector3): number;
-        public tdotz(_with: Vector3): number;
-        public slerp(to: Basis, weight: number): Basis;
-        public is_conformal(): boolean;
-        public is_equal_approx(b: Basis): boolean;
-        public is_finite(): boolean;
-        public get_rotation_quaternion(): Quaternion;
-        public static looking_at(target: Vector3, up: Vector3, useModelFront: boolean): Basis;
-        public static from_scale(scale: Vector3): Basis;
-        public static from_euler(euler: Vector3, order: number): Basis;
-
-    }
+    inverse(): Basis;
+    transposed(): Basis;
+    orthonormalized(): Basis;
+    determinant(): number;
+    rotated(axis: Vector3, angle: number): Basis;
+    scaled(scale: Vector3): Basis;
+    scaledLocal(scale: Vector3): Basis;
+    getScale(): Vector3;
+    getEuler(order: number = 2): Vector3;
+    tdotx(_with: Vector3): number;
+    tdoty(_with: Vector3): number;
+    tdotz(_with: Vector3): number;
+    slerp(to: Basis, weight: number): Basis;
+    isConformal(): boolean;
+    isEqualApprox(b: Basis): boolean;
+    isFinite(): boolean;
+    getRotationQuaternion(): Quaternion;
+    lookingAt(target: Vector3, up: Vector3 = Vector3(0, 1, 0), useModelFront: boolean = false): Basis;
+    fromScale(scale: Vector3): Basis;
+    fromEuler(euler: Vector3, order: number = 2): Basis;
 }
 
-export {};
+/**
+ * A global constructor and namespace for the Basis type.
+ *
+ * Use `new Basis(...)` to create a new instance.
+ * Access static members like `Basis.ZERO`.
+ */
+export declare const Basis: {
+    new(): Basis;
+    new(_from: Basis): Basis;
+    new(_from: Quaternion): Basis;
+    new(axis: Vector3, angle: number): Basis;
+    new(xAxis: Vector3, yAxis: Vector3, zAxis: Vector3): Basis;
+
+    readonly IDENTITY: Basis;
+    readonly FLIP_X: Basis;
+    readonly FLIP_Y: Basis;
+    readonly FLIP_Z: Basis;
+
+    /*
+    // equals(any): boolean
+    // not_equals(any): boolean
+    // op_not(any): boolean
+    // multiply(number): Basis
+    // divide(number): Basis
+    // multiply(number): Basis
+    // divide(number): Basis
+    // multiply(Vector3): Vector3
+    // equals(Basis): boolean
+    // not_equals(Basis): boolean
+    // multiply(Basis): Basis
+    // in_op(Dictionary): boolean
+    // in_op(GDArray): boolean
+    */
+};

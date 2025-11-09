@@ -7,10 +7,12 @@ from utils.generation_utils import (
     setup_jinja_env,
     generate_files_from_template,
     generate_main_registration_file,
-    generate_vararg_helpers # <-- 导入 vararg 生成器
+    generate_vararg_helpers  # <-- 导入 vararg 生成器
 )
 # 导入我们需要的辅助函数，以便在 Python 脚本中使用
-from utils.jinja_helper import is_pod_type, has_vararg_method, collect_builtin_dependencies, get_property_proxy_accessor_expression, get_proxy_method_call_expression
+from utils.jinja_helper import is_pod_type, has_vararg_method, collect_builtin_dependencies, \
+    get_property_proxy_accessor_expression, get_proxy_method_call_expression
+
 
 def main():
     """为 Godot 内置类型生成 C++ 绑定。"""
@@ -25,7 +27,8 @@ def main():
     api_data = load_api_data()
     all_builtin_classes = api_data.get('builtin_classes', [])
     classes_to_generate = [cls for cls in all_builtin_classes if not is_pod_type(cls['name'])]
-    print(f"Found {len(all_builtin_classes)} built-in classes, will generate for {len(classes_to_generate)} non-POD classes.")
+    print(
+        f"Found {len(all_builtin_classes)} built-in classes, will generate for {len(classes_to_generate)} non-POD classes.")
 
     # --- 3. 设置 Jinja 环境 ---
     env = setup_jinja_env(template_dir)
@@ -42,15 +45,15 @@ def main():
         # (准备上下文) 为当前这个类计算它需要的所有数据
         all_methods = cls.get('methods', [])
         dependencies = collect_builtin_dependencies(cls, all_builtin_classes)
-        
+
         # 创建 include 路径字符串
         include_paths = [f'#include <godot_cpp/variant/{dep}.hpp>' for dep in dependencies]
         include_path_str = "\n".join(include_paths)
 
         # (为单个类调用生成器) 每次只处理一个类，并传入它的专属上下文
         generate_files_from_template(
-            items=[cls], # <-- 关键：只传入一个元素的列表
-            template_path='builtin_classes.cpp.jinja', # 模板名应与你的文件系统匹配
+            items=[cls],  # <-- 关键：只传入一个元素的列表
+            template_path='builtin_classes.cpp.jinja',  # 模板名应与你的文件系统匹配
             output_dir=output_src_dir,
             file_name_format='register_{item_name_snake}.cpp',
             jinja_env=env,
@@ -73,7 +76,7 @@ def main():
         output_path=output_include_dir / 'register_builtin_classes.hpp',
         jinja_env=env
     )
-    
+
     # c. 生成主注册源文件 (这部分逻辑不变)
     generate_main_registration_file(
         items=classes_to_generate,
@@ -93,6 +96,7 @@ def main():
     )
 
     print("\nSuccessfully generated all BUILT-IN binding files.")
+
 
 if __name__ == "__main__":
     main()

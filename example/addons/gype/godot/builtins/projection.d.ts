@@ -1,53 +1,73 @@
 
+/**
+ * Godot's built-in Projection type.
+ *
+ * As a data structure, it can be represented by a plain object.
+ * @example
+ * let my_vector: Projection = { x: 1, y: 0 };
+ *
+ * To create a new instance, use the global constructor.
+ * @example
+ * const my_vector = new Projection(1, 0);
+ */
+export interface Projection {
+    x: Vector4;
+    y: Vector4;
+    z: Vector4;
+    w: Vector4;
 
-declare global {
-    declare class Projection {
-        constructor();
-        constructor(_from: Projection);
-        constructor(_from: Transform3D);
-        constructor(xAxis: Vector4, yAxis: Vector4, zAxis: Vector4, wAxis: Vector4);
-
-        public x: Vector4;
-        public y: Vector4;
-        public z: Vector4;
-        public w: Vector4;
-
-        public static create_depth_correction(fliy: boolean): Projection;
-        public static create_light_atlas_rect(rect: Rect2): Projection;
-        public static create_perspective(fovy: number, aspect: number, zNear: number, zFar: number, flifov: boolean): Projection;
-        public static create_perspective_hmd(fovy: number, aspect: number, zNear: number, zFar: number, flifov: boolean, eye: number, intraocularDist: number, convergenceDist: number): Projection;
-        public static create_for_hmd(eye: number, aspect: number, intraocularDist: number, displayWidth: number, displayToLens: number, oversample: number, zNear: number, zFar: number): Projection;
-        public static create_orthogonal(left: number, right: number, bottom: number, top: number, zNear: number, zFar: number): Projection;
-        public static create_orthogonal_aspect(size: number, aspect: number, zNear: number, zFar: number, flifov: boolean): Projection;
-        public static create_frustum(left: number, right: number, bottom: number, top: number, zNear: number, zFar: number): Projection;
-        public static create_frustum_aspect(size: number, aspect: number, offset: Vector2, zNear: number, zFar: number, flifov: boolean): Projection;
-        public static create_fit_aabb(aabb: AABB): Projection;
-        public determinant(): number;
-        public perspective_znear_adjusted(newZnear: number): Projection;
-        public get_projection_plane(plane: number): Plane;
-        public flipped_y(): Projection;
-        public jitter_offseted(offset: Vector2): Projection;
-        public static get_fovy(fovx: number, aspect: number): number;
-        public get_z_far(): number;
-        public get_z_near(): number;
-        public get_aspect(): number;
-        public get_fov(): number;
-        public is_orthogonal(): boolean;
-        public get_viewport_half_extents(): Vector2;
-        public get_far_plane_half_extents(): Vector2;
-        public inverse(): Projection;
-        public get_pixels_per_meter(forPixelWidth: number): number;
-        public get_lod_multiplier(): number;
-
-        public static readonly Planes: {
-            PLANE_NEAR: 0;
-            PLANE_FAR: 1;
-            PLANE_LEFT: 2;
-            PLANE_TOP: 3;
-            PLANE_RIGHT: 4;
-            PLANE_BOTTOM: 5;
-        };
-    }
+    createDepthCorrection(fliy: boolean): Projection;
+    createLightAtlasRect(rect: Rect2): Projection;
+    createPerspective(fovy: number, aspect: number, zNear: number, zFar: number, flifov: boolean = false): Projection;
+    createPerspectiveHmd(fovy: number, aspect: number, zNear: number, zFar: number, flifov: boolean, eye: number, intraocularDist: number, convergenceDist: number): Projection;
+    createForHmd(eye: number, aspect: number, intraocularDist: number, displayWidth: number, displayToLens: number, oversample: number, zNear: number, zFar: number): Projection;
+    createOrthogonal(left: number, right: number, bottom: number, top: number, zNear: number, zFar: number): Projection;
+    createOrthogonalAspect(size: number, aspect: number, zNear: number, zFar: number, flifov: boolean = false): Projection;
+    createFrustum(left: number, right: number, bottom: number, top: number, zNear: number, zFar: number): Projection;
+    createFrustumAspect(size: number, aspect: number, offset: Vector2, zNear: number, zFar: number, flifov: boolean = false): Projection;
+    createFitAabb(aabb: AABB): Projection;
+    determinant(): number;
+    perspectiveZnearAdjusted(newZnear: number): Projection;
+    getProjectionPlane(plane: number): Plane;
+    flippedY(): Projection;
+    jitterOffseted(offset: Vector2): Projection;
+    getFovy(fovx: number, aspect: number): number;
+    getZFar(): number;
+    getZNear(): number;
+    getAspect(): number;
+    getFov(): number;
+    isOrthogonal(): boolean;
+    getViewportHalfExtents(): Vector2;
+    getFarPlaneHalfExtents(): Vector2;
+    inverse(): Projection;
+    getPixelsPerMeter(forPixelWidth: number): number;
+    getLodMultiplier(): number;
 }
 
-export {};
+/**
+ * A global constructor and namespace for the Projection type.
+ *
+ * Use `new Projection(...)` to create a new instance.
+ * Access static members like `Projection.ZERO`.
+ */
+export declare const Projection: {
+    new(): Projection;
+    new(_from: Projection): Projection;
+    new(_from: Transform3D): Projection;
+    new(xAxis: Vector4, yAxis: Vector4, zAxis: Vector4, wAxis: Vector4): Projection;
+
+    readonly IDENTITY: Projection;
+    readonly ZERO: Projection;
+
+    /*
+    // equals(any): boolean
+    // not_equals(any): boolean
+    // op_not(any): boolean
+    // multiply(Vector4): Vector4
+    // equals(Projection): boolean
+    // not_equals(Projection): boolean
+    // multiply(Projection): Projection
+    // in_op(Dictionary): boolean
+    // in_op(GDArray): boolean
+    */
+};

@@ -21,8 +21,9 @@
 		godot::Object *object = static_cast<godot::Object *>(adapter->get());                           \
 		ERR_FAIL_COND_V(!UtilityFunctions::is_instance_id_valid(object->get_instance_id()), undefined); \
 	}
-	
-void register_object();
+
+
+void register_godot_object();
 void register_audio_server();
 void register_camera_server();
 void register_class_db();

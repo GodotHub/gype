@@ -1,6 +1,7 @@
 # ICU Parts
 
-This directory contains a small subset of files from the Unicode organization's [ICU repository](https://github.com/unicode-org/icu).
+This directory contains a small subset of files from the Unicode
+organization's [ICU repository](https://github.com/unicode-org/icu).
 
 ### License
 
@@ -8,16 +9,21 @@ The license for these files is contained in the `LICENSE` file within this direc
 
 ### Contents
 
-* Source files taken from the [`icu4c/source/common/unicode`](https://github.com/unicode-org/icu/tree/552b01f61127d30d6589aa4bf99468224979b661/icu4c/source/common/unicode) directory:
-  * `utf8.h`
-  * `utf16.h`
-  * `umachine.h`
-* Empty source files that are referenced by the above source files, but whose original contents in `libicu` are not needed:
-  * `ptypes.h`
-  * `urename.h`
-  * `utf.h`
+* Source files taken from the [
+  `icu4c/source/common/unicode`](https://github.com/unicode-org/icu/tree/552b01f61127d30d6589aa4bf99468224979b661/icu4c/source/common/unicode)
+  directory:
+    * `utf8.h`
+    * `utf16.h`
+    * `umachine.h`
+* Empty source files that are referenced by the above source files, but whose original contents in `libicu` are not
+  needed:
+    * `ptypes.h`
+    * `urename.h`
+    * `utf.h`
 * `ICU_SHA` - File containing the Git SHA of the commit in the `icu` repository from which the files were obtained.
-* `LICENSE` - The license file from the [`icu4c`](https://github.com/unicode-org/icu/tree/552b01f61127d30d6589aa4bf99468224979b661/icu4c) directory of the `icu` repository.
+* `LICENSE` - The license file from the [
+  `icu4c`](https://github.com/unicode-org/icu/tree/552b01f61127d30d6589aa4bf99468224979b661/icu4c) directory of the
+  `icu` repository.
 * `README.md` - This text file.
 
 ### Updating ICU

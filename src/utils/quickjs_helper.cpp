@@ -270,12 +270,14 @@ JSValue variant_to_jsvalue(const Variant &val) {
 			VariantAdapter *adapter = memnew(VariantAdapter(val));
 			const char *class_name = to_chars(obj->get_class());
 			char code[1024];
+			if (strcmp(class_name, "Object") == 0) {
+				class_name = "GodotObject";
+			} 
 			sprintf(code, "import { %s } from \"@godot/classes/%s\";", class_name, camelToSnake(class_name).c_str());
 			JS_Eval(js_context(), code, strlen(code), "<eval>", JS_EVAL_TYPE_MODULE);
-			JSClassID class_id = classes[class_name];
-			JSValue js_adapter = JS_NewObjectClass(js_context(), class_id);
-			JS_SetOpaque(js_adapter, adapter);
-			return js_adapter;
+			JSValue wrapper = JS_NewObjectClass(js_context(), classes[class_name]);
+			JS_SetOpaque(wrapper, adapter);
+			return wrapper;
 		}
 		default: {
 			return JS_UNDEFINED;
@@ -296,7 +298,7 @@ godot::Variant js_obj_to_variant(JSValue val) {
 	if (!classes_by_id.has(class_id)) {
 		return Variant();
 	}
-	
+
 	if (JS_IsArray(js_context(), val)) {
 		godot::Array gd_arr;
 		JSValue js_len = JS_GetPropertyStr(js_context(), val, "length");
@@ -339,7 +341,6 @@ godot::Variant js_obj_to_variant(JSValue val) {
 	OBJ_TO_VARIANT_CASE(PackedVector4Array)
 	OBJ_TO_VARIANT_CASE(PackedColorArray)
 	OBJ_TO_VARIANT_CASE(PackedStringArray)
-	OBJ_TO_VARIANT_CASE(Variant)
 	PROXY_TO_VARIANT_CASE(Vector2)
 	PROXY_TO_VARIANT_CASE(Vector2i)
 	PROXY_TO_VARIANT_CASE(Vector3)

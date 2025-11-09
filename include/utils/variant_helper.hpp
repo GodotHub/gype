@@ -225,6 +225,7 @@ public:
 class VariantAdapter : public IAdapter {
 public:
 	const godot::Variant variant;
+	void *typedVariant = nullptr;
 
 public:
 	VariantAdapter() :
@@ -240,6 +241,11 @@ public:
 		return variant;
 	}
 
+	template <typename T>
+	godot::Variant get() const {
+		return variant;
+	}
+
 	godot::Variant::Type get_type() const override {
 		return variant.get_type();
 	}
@@ -249,7 +255,8 @@ public:
 	}
 
 	static bool can_cast(JSValue val, godot::Variant::Type type) {
-		VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(val, JS_GetClassID(val)));
+		JSClassID class_id = 0;
+		VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(val, &class_id));
 		return adapter->get().get_type() == type;
 	}
 

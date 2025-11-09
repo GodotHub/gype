@@ -23,7 +23,10 @@
 	}
 
 
-{% for class in classes %}
+{% for class in classes %}	
+{% if cls.name == 'Object' %}
+	register_{{ godot_object }}();
+{% endif %}
 void register_{{ camel_to_snake(class['name']) }}();
 {% endfor %}
 void register_classes();

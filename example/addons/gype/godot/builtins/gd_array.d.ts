@@ -1,75 +1,104 @@
 
+/**
+ * Godot's built-in GDArray type.
+ *
+ * As a data structure, it can be represented by a plain object.
+ * @example
+ * let my_vector: GDArray = { x: 1, y: 0 };
+ *
+ * To create a new instance, use the global constructor.
+ * @example
+ * const my_vector = new GDArray(1, 0);
+ */
+export interface GDArray {
 
-declare global {
-    declare class GDArray {
-        constructor();
-        constructor(_from: GDArray);
-        constructor(base: GDArray, _type: number, className: GDString | StringName | string, script: any);
-        constructor(_from: PackedByteArray);
-        constructor(_from: PackedInt32Array);
-        constructor(_from: PackedInt64Array);
-        constructor(_from: PackedFloat32Array);
-        constructor(_from: PackedFloat64Array);
-        constructor(_from: PackedStringArray);
-        constructor(_from: PackedVector2Array);
-        constructor(_from: PackedVector3Array);
-        constructor(_from: PackedColorArray);
-        constructor(_from: PackedVector4Array);
-
-
-        public size(): number;
-        public is_empty(): boolean;
-        public clear(): void;
-        public hash(): number;
-        public assign(array: GDArray): void;
-        public get(index: number): any;
-        public set(index: number, value: any): void;
-        public push_back(value: any): void;
-        public push_front(value: any): void;
-        public append(value: any): void;
-        public append_array(array: GDArray): void;
-        public resize(size: number): number;
-        public insert(position: number, value: any): number;
-        public remove_at(position: number): void;
-        public fill(value: any): void;
-        public erase(value: any): void;
-        public front(): any;
-        public back(): any;
-        public pick_random(): any;
-        public find(what: any, _from: number): number;
-        public find_custom(method: Callable, _from: number): number;
-        public rfind(what: any, _from: number): number;
-        public rfind_custom(method: Callable, _from: number): number;
-        public count(value: any): number;
-        public has(value: any): boolean;
-        public pop_back(): any;
-        public pop_front(): any;
-        public pop_at(position: number): any;
-        public sort(): void;
-        public sort_custom(func: Callable): void;
-        public shuffle(): void;
-        public bsearch(value: any, before: boolean): number;
-        public bsearch_custom(value: any, func: Callable, before: boolean): number;
-        public reverse(): void;
-        public duplicate(deep: boolean): GDArray;
-        public duplicate_deep(deesubresourcesMode: number): GDArray;
-        public slice(begin: number, end: number, step: number, deep: boolean): GDArray;
-        public filter(method: Callable): GDArray;
-        public map(method: Callable): GDArray;
-        public reduce(method: Callable, accum: any): any;
-        public any(method: Callable): boolean;
-        public all(method: Callable): boolean;
-        public max(): any;
-        public min(): any;
-        public is_typed(): boolean;
-        public is_same_typed(array: GDArray): boolean;
-        public get_typed_builtin(): number;
-        public get_typed_class_name(): StringName;
-        public get_typed_script(): any;
-        public make_read_only(): void;
-        public is_read_only(): boolean;
-
-    }
+    size(): number;
+    isEmpty(): boolean;
+    clear(): void;
+    hash(): number;
+    assign(array: GDArray): void;
+    get(index: number): any;
+    set(index: number, value: any): void;
+    pushBack(value: any): void;
+    pushFront(value: any): void;
+    append(value: any): void;
+    appendArray(array: GDArray): void;
+    resize(size: number): number;
+    insert(position: number, value: any): number;
+    removeAt(position: number): void;
+    fill(value: any): void;
+    erase(value: any): void;
+    front(): any;
+    back(): any;
+    pickRandom(): any;
+    find(what: any, _from: number = 0): number;
+    findCustom(method: Callable, _from: number = 0): number;
+    rfind(what: any, _from: number = -1): number;
+    rfindCustom(method: Callable, _from: number = -1): number;
+    count(value: any): number;
+    has(value: any): boolean;
+    popBack(): any;
+    popFront(): any;
+    popAt(position: number): any;
+    sort(): void;
+    sortCustom(func: Callable): void;
+    shuffle(): void;
+    bsearch(value: any, before: boolean = true): number;
+    bsearchCustom(value: any, func: Callable, before: boolean = true): number;
+    reverse(): void;
+    duplicate(deep: boolean = false): GDArray;
+    duplicateDeep(deesubresourcesMode: number = 1): GDArray;
+    slice(begin: number, end: number = 2147483647, step: number = 1, deep: boolean = false): GDArray;
+    filter(method: Callable): GDArray;
+    map(method: Callable): GDArray;
+    reduce(method: Callable, accum: any = null): any;
+    any(method: Callable): boolean;
+    all(method: Callable): boolean;
+    max(): any;
+    min(): any;
+    isTyped(): boolean;
+    isSameTyped(array: GDArray): boolean;
+    getTypedBuiltin(): number;
+    getTypedClassName(): StringName;
+    getTypedScript(): any;
+    makeReadOnly(): void;
+    isReadOnly(): boolean;
 }
 
-export {};
+/**
+ * A global constructor and namespace for the GDArray type.
+ *
+ * Use `new GDArray(...)` to create a new instance.
+ * Access static members like `GDArray.ZERO`.
+ */
+export declare const GDArray: {
+    new(): GDArray;
+    new(_from: GDArray): GDArray;
+    new(base: GDArray, _type: number, className: GDString | StringName | string, script: any): GDArray;
+    new(_from: PackedByteArray): GDArray;
+    new(_from: PackedInt32Array): GDArray;
+    new(_from: PackedInt64Array): GDArray;
+    new(_from: PackedFloat32Array): GDArray;
+    new(_from: PackedFloat64Array): GDArray;
+    new(_from: PackedStringArray): GDArray;
+    new(_from: PackedVector2Array): GDArray;
+    new(_from: PackedVector3Array): GDArray;
+    new(_from: PackedColorArray): GDArray;
+    new(_from: PackedVector4Array): GDArray;
+
+
+    /*
+    // equals(any): boolean
+    // not_equals(any): boolean
+    // op_not(any): boolean
+    // in_op(Dictionary): boolean
+    // equals(GDArray): boolean
+    // not_equals(GDArray): boolean
+    // less(GDArray): boolean
+    // less_equal(GDArray): boolean
+    // greater(GDArray): boolean
+    // greater_equal(GDArray): boolean
+    // add(GDArray): GDArray
+    // in_op(GDArray): boolean
+    */
+};

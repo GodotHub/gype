@@ -12,6 +12,7 @@ from utils.generation_utils import (
 )
 from utils.jinja_helper import has_vararg_method, collect_class_dependencies
 
+
 def main():
     """为 Godot 引擎类生成 C++ 绑定。"""
     print("Starting C++ binding generation for Godot ENGINE classes...")
@@ -43,9 +44,9 @@ def main():
         is_singleton = cls['name'] in singleton_types
         # 使用导入的函数收集依赖
         dependencies = collect_class_dependencies(cls, all_classes)
-        
+
         generate_files_from_template(
-            items=[cls], # 每次只处理一个类
+            items=[cls],  # 每次只处理一个类
             template_path='classes.cpp.jinja',
             output_dir=output_src_dir,
             file_name_format='register_{item_name_snake}.cpp',
@@ -63,14 +64,14 @@ def main():
         dependencies = collect_class_dependencies(cls, all_classes)
         generate_files_from_template(
             items=[cls],
-            template_path='singletons.cpp.jinja', # 使用您指定的、不可修改的模板
+            template_path='singletons.cpp.jinja',  # 使用您指定的、不可修改的模板
             output_dir=output_src_dir,
-            file_name_format='register_{item_name_snake}.cpp', # 文件名与普通类一致，不会冲突因为类集合是互斥的
+            file_name_format='register_{item_name_snake}.cpp',  # 文件名与普通类一致，不会冲突因为类集合是互斥的
             jinja_env=env,
             dependency=dependencies,
             singletons=singletons
         )
-    
+
     # b. & c. 生成主注册文件 (这部分保持不变)
     generate_main_registration_file(
         items=sorted_classes,
@@ -98,6 +99,7 @@ def main():
     )
 
     print("\nSuccessfully generated all ENGINE binding files.")
+
 
 if __name__ == "__main__":
     main()

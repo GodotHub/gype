@@ -1,69 +1,112 @@
 
+/**
+ * Godot's built-in Vector2 type.
+ *
+ * As a data structure, it can be represented by a plain object.
+ * @example
+ * let my_vector: Vector2 = { x: 1, y: 0 };
+ *
+ * To create a new instance, use the global constructor.
+ * @example
+ * const my_vector = new Vector2(1, 0);
+ */
+export interface Vector2 {
+    x: number;
+    y: number;
 
-declare global {
-    declare class Vector2 {
-        constructor();
-        constructor(_from: Vector2);
-        constructor(_from: Vector2i);
-        constructor(x: number, y: number);
-
-        public x: number;
-        public y: number;
-
-        public angle(): number;
-        public angle_to(to: Vector2): number;
-        public angle_to_point(to: Vector2): number;
-        public direction_to(to: Vector2): Vector2;
-        public distance_to(to: Vector2): number;
-        public distance_squared_to(to: Vector2): number;
-        public length(): number;
-        public length_squared(): number;
-        public limit_length(length: number): Vector2;
-        public normalized(): Vector2;
-        public is_normalized(): boolean;
-        public is_equal_approx(to: Vector2): boolean;
-        public is_zero_approx(): boolean;
-        public is_finite(): boolean;
-        public posmod(mod: number): Vector2;
-        public posmodv(modv: Vector2): Vector2;
-        public project(b: Vector2): Vector2;
-        public lerp(to: Vector2, weight: number): Vector2;
-        public slerp(to: Vector2, weight: number): Vector2;
-        public cubic_interpolate(b: Vector2, preA: Vector2, postB: Vector2, weight: number): Vector2;
-        public cubic_interpolate_in_time(b: Vector2, preA: Vector2, postB: Vector2, weight: number, bT: number, preAT: number, postBT: number): Vector2;
-        public bezier_interpolate(control1: Vector2, control2: Vector2, end: Vector2, t: number): Vector2;
-        public bezier_derivative(control1: Vector2, control2: Vector2, end: Vector2, t: number): Vector2;
-        public max_axis_index(): number;
-        public min_axis_index(): number;
-        public move_toward(to: Vector2, delta: number): Vector2;
-        public rotated(angle: number): Vector2;
-        public orthogonal(): Vector2;
-        public floor(): Vector2;
-        public ceil(): Vector2;
-        public round(): Vector2;
-        public aspect(): number;
-        public dot(_with: Vector2): number;
-        public slide(n: Vector2): Vector2;
-        public bounce(n: Vector2): Vector2;
-        public reflect(line: Vector2): Vector2;
-        public cross(_with: Vector2): number;
-        public abs(): Vector2;
-        public sign(): Vector2;
-        public clamp(min: Vector2, max: Vector2): Vector2;
-        public clampf(min: number, max: number): Vector2;
-        public snapped(step: Vector2): Vector2;
-        public snappedf(step: number): Vector2;
-        public min(_with: Vector2): Vector2;
-        public minf(_with: number): Vector2;
-        public max(_with: Vector2): Vector2;
-        public maxf(_with: number): Vector2;
-        public static from_angle(angle: number): Vector2;
-
-        public static readonly Axis: {
-            AXIS_X: 0;
-            AXIS_Y: 1;
-        };
-    }
+    angle(): number;
+    angleTo(to: Vector2): number;
+    angleToPoint(to: Vector2): number;
+    directionTo(to: Vector2): Vector2;
+    distanceTo(to: Vector2): number;
+    distanceSquaredTo(to: Vector2): number;
+    length(): number;
+    lengthSquared(): number;
+    limitLength(length: number = 1.0): Vector2;
+    normalized(): Vector2;
+    isNormalized(): boolean;
+    isEqualApprox(to: Vector2): boolean;
+    isZeroApprox(): boolean;
+    isFinite(): boolean;
+    posmod(mod: number): Vector2;
+    posmodv(modv: Vector2): Vector2;
+    project(b: Vector2): Vector2;
+    lerp(to: Vector2, weight: number): Vector2;
+    slerp(to: Vector2, weight: number): Vector2;
+    cubicInterpolate(b: Vector2, preA: Vector2, postB: Vector2, weight: number): Vector2;
+    cubicInterpolateInTime(b: Vector2, preA: Vector2, postB: Vector2, weight: number, bT: number, preAT: number, postBT: number): Vector2;
+    bezierInterpolate(control1: Vector2, control2: Vector2, end: Vector2, t: number): Vector2;
+    bezierDerivative(control1: Vector2, control2: Vector2, end: Vector2, t: number): Vector2;
+    maxAxisIndex(): number;
+    minAxisIndex(): number;
+    moveToward(to: Vector2, delta: number): Vector2;
+    rotated(angle: number): Vector2;
+    orthogonal(): Vector2;
+    floor(): Vector2;
+    ceil(): Vector2;
+    round(): Vector2;
+    aspect(): number;
+    dot(_with: Vector2): number;
+    slide(n: Vector2): Vector2;
+    bounce(n: Vector2): Vector2;
+    reflect(line: Vector2): Vector2;
+    cross(_with: Vector2): number;
+    abs(): Vector2;
+    sign(): Vector2;
+    clamp(min: Vector2, max: Vector2): Vector2;
+    clampf(min: number, max: number): Vector2;
+    snapped(step: Vector2): Vector2;
+    snappedf(step: number): Vector2;
+    min(_with: Vector2): Vector2;
+    minf(_with: number): Vector2;
+    max(_with: Vector2): Vector2;
+    maxf(_with: number): Vector2;
+    fromAngle(angle: number): Vector2;
 }
 
-export {};
+/**
+ * A global constructor and namespace for the Vector2 type.
+ *
+ * Use `new Vector2(...)` to create a new instance.
+ * Access static members like `Vector2.ZERO`.
+ */
+export declare const Vector2: {
+    new(): Vector2;
+    new(_from: Vector2): Vector2;
+    new(_from: Vector2i): Vector2;
+    new(x: number, y: number): Vector2;
+
+    readonly ZERO: Vector2;
+    readonly ONE: Vector2;
+    readonly INF: Vector2;
+    readonly LEFT: Vector2;
+    readonly RIGHT: Vector2;
+    readonly UP: Vector2;
+    readonly DOWN: Vector2;
+
+    /*
+    // equals(any): boolean
+    // not_equals(any): boolean
+    // negate(any): Vector2
+    // positive(any): Vector2
+    // op_not(any): boolean
+    // multiply(number): Vector2
+    // divide(number): Vector2
+    // multiply(number): Vector2
+    // divide(number): Vector2
+    // equals(Vector2): boolean
+    // not_equals(Vector2): boolean
+    // less(Vector2): boolean
+    // less_equal(Vector2): boolean
+    // greater(Vector2): boolean
+    // greater_equal(Vector2): boolean
+    // add(Vector2): Vector2
+    // subtract(Vector2): Vector2
+    // multiply(Vector2): Vector2
+    // divide(Vector2): Vector2
+    // multiply(Transform2D): Vector2
+    // in_op(Dictionary): boolean
+    // in_op(GDArray): boolean
+    // in_op(PackedVector2Array): boolean
+    */
+};

@@ -31,7 +31,3 @@ target_include_directories(gype
 target_link_libraries(gype PRIVATE quickjs)
 target_link_libraries(gype PRIVATE tree-sitter)
 target_link_libraries(gype PRIVATE godot-cpp)
-
-# add_custom_command(TARGET gype POST_BUILD
-#                    COMMAND ${CMAKE_STRIP} $<TARGET_FILE:gype>
-#                    COMMENT "Stripping symbols from gype...")

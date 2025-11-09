@@ -1,131 +1,206 @@
 
+/**
+ * Godot's built-in GDString type.
+ *
+ * As a data structure, it can be represented by a plain object.
+ * @example
+ * let my_vector: GDString = { x: 1, y: 0 };
+ *
+ * To create a new instance, use the global constructor.
+ * @example
+ * const my_vector = new GDString(1, 0);
+ */
+export interface GDString {
 
-declare global {
-    declare class GDString {
-        constructor();
-        constructor(_from: GDString | StringName | string);
-        constructor(_from: GDString | StringName | string);
-        constructor(_from: NodePath | GDString | string);
-
-
-        public casecmp_to(to: GDString | StringName | string): number;
-        public nocasecmp_to(to: GDString | StringName | string): number;
-        public naturalcasecmp_to(to: GDString | StringName | string): number;
-        public naturalnocasecmp_to(to: GDString | StringName | string): number;
-        public filecasecmp_to(to: GDString | StringName | string): number;
-        public filenocasecmp_to(to: GDString | StringName | string): number;
-        public length(): number;
-        public substr(_from: number, len: number): GDString;
-        public get_slice(delimiter: GDString | StringName | string, slice: number): GDString;
-        public get_slicec(delimiter: number, slice: number): GDString;
-        public get_slice_count(delimiter: GDString | StringName | string): number;
-        public find(what: GDString | StringName | string, _from: number): number;
-        public findn(what: GDString | StringName | string, _from: number): number;
-        public count(what: GDString | StringName | string, _from: number, to: number): number;
-        public countn(what: GDString | StringName | string, _from: number, to: number): number;
-        public rfind(what: GDString | StringName | string, _from: number): number;
-        public rfindn(what: GDString | StringName | string, _from: number): number;
-        public match(expr: GDString | StringName | string): boolean;
-        public matchn(expr: GDString | StringName | string): boolean;
-        public begins_with(text: GDString | StringName | string): boolean;
-        public ends_with(text: GDString | StringName | string): boolean;
-        public is_subsequence_of(text: GDString | StringName | string): boolean;
-        public is_subsequence_ofn(text: GDString | StringName | string): boolean;
-        public bigrams(): PackedStringArray;
-        public similarity(text: GDString | StringName | string): number;
-        public format(values: any, placeholder: GDString | StringName | string): GDString;
-        public replace(what: GDString | StringName | string, forwhat: GDString | StringName | string): GDString;
-        public replacen(what: GDString | StringName | string, forwhat: GDString | StringName | string): GDString;
-        public replace_char(key: number, _with: number): GDString;
-        public replace_chars(keys: GDString | StringName | string, _with: number): GDString;
-        public remove_char(what: number): GDString;
-        public remove_chars(chars: GDString | StringName | string): GDString;
-        public repeat(count: number): GDString;
-        public reverse(): GDString;
-        public insert(position: number, what: GDString | StringName | string): GDString;
-        public erase(position: number, chars: number): GDString;
-        public capitalize(): GDString;
-        public to_camel_case(): GDString;
-        public to_pascal_case(): GDString;
-        public to_snake_case(): GDString;
-        public to_kebab_case(): GDString;
-        public split(delimiter: GDString | StringName | string, allowEmpty: boolean, maxsplit: number): PackedStringArray;
-        public rsplit(delimiter: GDString | StringName | string, allowEmpty: boolean, maxsplit: number): PackedStringArray;
-        public split_floats(delimiter: GDString | StringName | string, allowEmpty: boolean): PackedFloat64Array;
-        public join(parts: PackedStringArray): GDString;
-        public to_upper(): GDString;
-        public to_lower(): GDString;
-        public left(length: number): GDString;
-        public right(length: number): GDString;
-        public strip_edges(left: boolean, right: boolean): GDString;
-        public strip_escapes(): GDString;
-        public lstrip(chars: GDString | StringName | string): GDString;
-        public rstrip(chars: GDString | StringName | string): GDString;
-        public get_extension(): GDString;
-        public get_basename(): GDString;
-        public path_join(path: GDString | StringName | string): GDString;
-        public unicode_at(at: number): number;
-        public indent(prefix: GDString | StringName | string): GDString;
-        public dedent(): GDString;
-        public hash(): number;
-        public md5_text(): GDString;
-        public sha1_text(): GDString;
-        public sha256_text(): GDString;
-        public md5_buffer(): PackedByteArray;
-        public sha1_buffer(): PackedByteArray;
-        public sha256_buffer(): PackedByteArray;
-        public is_empty(): boolean;
-        public contains(what: GDString | StringName | string): boolean;
-        public containsn(what: GDString | StringName | string): boolean;
-        public is_absolute_path(): boolean;
-        public is_relative_path(): boolean;
-        public simplify_path(): GDString;
-        public get_base_dir(): GDString;
-        public get_file(): GDString;
-        public xml_escape(escapeQuotes: boolean): GDString;
-        public xml_unescape(): GDString;
-        public uri_encode(): GDString;
-        public uri_decode(): GDString;
-        public uri_file_decode(): GDString;
-        public c_escape(): GDString;
-        public c_unescape(): GDString;
-        public json_escape(): GDString;
-        public validate_node_name(): GDString;
-        public validate_filename(): GDString;
-        public is_valid_ascii_identifier(): boolean;
-        public is_valid_unicode_identifier(): boolean;
-        public is_valid_identifier(): boolean;
-        public is_valid_int(): boolean;
-        public is_valid_float(): boolean;
-        public is_valid_hex_number(withPrefix: boolean): boolean;
-        public is_valid_html_color(): boolean;
-        public is_valid_ip_address(): boolean;
-        public is_valid_filename(): boolean;
-        public to_int(): number;
-        public to_float(): number;
-        public hex_to_int(): number;
-        public bin_to_int(): number;
-        public lpad(minLength: number, character: GDString | StringName | string): GDString;
-        public rpad(minLength: number, character: GDString | StringName | string): GDString;
-        public pad_decimals(digits: number): GDString;
-        public pad_zeros(digits: number): GDString;
-        public trim_prefix(prefix: GDString | StringName | string): GDString;
-        public trim_suffix(suffix: GDString | StringName | string): GDString;
-        public to_ascii_buffer(): PackedByteArray;
-        public to_utf8_buffer(): PackedByteArray;
-        public to_utf16_buffer(): PackedByteArray;
-        public to_utf32_buffer(): PackedByteArray;
-        public to_wchar_buffer(): PackedByteArray;
-        public to_multibyte_char_buffer(encoding: GDString | StringName | string): PackedByteArray;
-        public hex_decode(): PackedByteArray;
-        public static num_scientific(_number: number): GDString;
-        public static num(_number: number, decimals: number): GDString;
-        public static num_int64(_number: number, base: number, capitalizeHex: boolean): GDString;
-        public static num_uint64(_number: number, base: number, capitalizeHex: boolean): GDString;
-        public static chr(code: number): GDString;
-        public static humanize_size(size: number): GDString;
-
-    }
+    casecmpTo(to: GDString | StringName | string): number;
+    nocasecmpTo(to: GDString | StringName | string): number;
+    naturalcasecmpTo(to: GDString | StringName | string): number;
+    naturalnocasecmpTo(to: GDString | StringName | string): number;
+    filecasecmpTo(to: GDString | StringName | string): number;
+    filenocasecmpTo(to: GDString | StringName | string): number;
+    length(): number;
+    substr(_from: number, len: number = -1): GDString;
+    getSlice(delimiter: GDString | StringName | string, slice: number): GDString;
+    getSlicec(delimiter: number, slice: number): GDString;
+    getSliceCount(delimiter: GDString | StringName | string): number;
+    find(what: GDString | StringName | string, _from: number = 0): number;
+    findn(what: GDString | StringName | string, _from: number = 0): number;
+    count(what: GDString | StringName | string, _from: number = 0, to: number = 0): number;
+    countn(what: GDString | StringName | string, _from: number = 0, to: number = 0): number;
+    rfind(what: GDString | StringName | string, _from: number = -1): number;
+    rfindn(what: GDString | StringName | string, _from: number = -1): number;
+    match(expr: GDString | StringName | string): boolean;
+    matchn(expr: GDString | StringName | string): boolean;
+    beginsWith(text: GDString | StringName | string): boolean;
+    endsWith(text: GDString | StringName | string): boolean;
+    isSubsequenceOf(text: GDString | StringName | string): boolean;
+    isSubsequenceOfn(text: GDString | StringName | string): boolean;
+    bigrams(): PackedStringArray;
+    similarity(text: GDString | StringName | string): number;
+    format(values: any, placeholder: GDString | StringName | string = "{_}"): GDString;
+    replace(what: GDString | StringName | string, forwhat: GDString | StringName | string): GDString;
+    replacen(what: GDString | StringName | string, forwhat: GDString | StringName | string): GDString;
+    replaceChar(key: number, _with: number): GDString;
+    replaceChars(keys: GDString | StringName | string, _with: number): GDString;
+    removeChar(what: number): GDString;
+    removeChars(chars: GDString | StringName | string): GDString;
+    repeat(count: number): GDString;
+    reverse(): GDString;
+    insert(position: number, what: GDString | StringName | string): GDString;
+    erase(position: number, chars: number = 1): GDString;
+    capitalize(): GDString;
+    toCamelCase(): GDString;
+    toPascalCase(): GDString;
+    toSnakeCase(): GDString;
+    toKebabCase(): GDString;
+    split(delimiter: GDString | StringName | string = "", allowEmpty: boolean = true, maxsplit: number = 0): PackedStringArray;
+    rsplit(delimiter: GDString | StringName | string = "", allowEmpty: boolean = true, maxsplit: number = 0): PackedStringArray;
+    splitFloats(delimiter: GDString | StringName | string, allowEmpty: boolean = true): PackedFloat64Array;
+    join(parts: PackedStringArray): GDString;
+    toUpper(): GDString;
+    toLower(): GDString;
+    left(length: number): GDString;
+    right(length: number): GDString;
+    stripEdges(left: boolean = true, right: boolean = true): GDString;
+    stripEscapes(): GDString;
+    lstrip(chars: GDString | StringName | string): GDString;
+    rstrip(chars: GDString | StringName | string): GDString;
+    getExtension(): GDString;
+    getBasename(): GDString;
+    pathJoin(path: GDString | StringName | string): GDString;
+    unicodeAt(at: number): number;
+    indent(prefix: GDString | StringName | string): GDString;
+    dedent(): GDString;
+    hash(): number;
+    md5Text(): GDString;
+    sha1Text(): GDString;
+    sha256Text(): GDString;
+    md5Buffer(): PackedByteArray;
+    sha1Buffer(): PackedByteArray;
+    sha256Buffer(): PackedByteArray;
+    isEmpty(): boolean;
+    contains(what: GDString | StringName | string): boolean;
+    containsn(what: GDString | StringName | string): boolean;
+    isAbsolutePath(): boolean;
+    isRelativePath(): boolean;
+    simplifyPath(): GDString;
+    getBaseDir(): GDString;
+    getFile(): GDString;
+    xmlEscape(escapeQuotes: boolean = false): GDString;
+    xmlUnescape(): GDString;
+    uriEncode(): GDString;
+    uriDecode(): GDString;
+    uriFileDecode(): GDString;
+    cEscape(): GDString;
+    cUnescape(): GDString;
+    jsonEscape(): GDString;
+    validateNodeName(): GDString;
+    validateFilename(): GDString;
+    isValidAsciiIdentifier(): boolean;
+    isValidUnicodeIdentifier(): boolean;
+    isValidIdentifier(): boolean;
+    isValidInt(): boolean;
+    isValidFloat(): boolean;
+    isValidHexNumber(withPrefix: boolean = false): boolean;
+    isValidHtmlColor(): boolean;
+    isValidIpAddress(): boolean;
+    isValidFilename(): boolean;
+    toInt(): number;
+    toFloat(): number;
+    hexToInt(): number;
+    binToInt(): number;
+    lpad(minLength: number, character: GDString | StringName | string = " "): GDString;
+    rpad(minLength: number, character: GDString | StringName | string = " "): GDString;
+    padDecimals(digits: number): GDString;
+    padZeros(digits: number): GDString;
+    trimPrefix(prefix: GDString | StringName | string): GDString;
+    trimSuffix(suffix: GDString | StringName | string): GDString;
+    toAsciiBuffer(): PackedByteArray;
+    toUtf8Buffer(): PackedByteArray;
+    toUtf16Buffer(): PackedByteArray;
+    toUtf32Buffer(): PackedByteArray;
+    toWcharBuffer(): PackedByteArray;
+    toMultibyteCharBuffer(encoding: GDString | StringName | string = ""): PackedByteArray;
+    hexDecode(): PackedByteArray;
+    numScientific(_number: number): GDString;
+    num(_number: number, decimals: number = -1): GDString;
+    numInt64(_number: number, base: number = 10, capitalizeHex: boolean = false): GDString;
+    numUint64(_number: number, base: number = 10, capitalizeHex: boolean = false): GDString;
+    chr(code: number): GDString;
+    humanizeSize(size: number): GDString;
 }
 
-export {};
+/**
+ * A global constructor and namespace for the GDString type.
+ *
+ * Use `new GDString(...)` to create a new instance.
+ * Access static members like `GDString.ZERO`.
+ */
+export declare const GDString: {
+    new(): GDString;
+    new(_from: GDString | StringName | string): GDString;
+    new(_from: GDString | StringName | string): GDString;
+    new(_from: NodePath | GDString | string): GDString;
+
+
+    /*
+    // equals(any): boolean
+    // not_equals(any): boolean
+    // module(any): GDString
+    // op_not(any): boolean
+    // module(boolean): GDString
+    // module(number): GDString
+    // module(number): GDString
+    // equals(GDString): boolean
+    // not_equals(GDString): boolean
+    // less(GDString): boolean
+    // less_equal(GDString): boolean
+    // greater(GDString): boolean
+    // greater_equal(GDString): boolean
+    // add(GDString): GDString
+    // module(GDString): GDString
+    // in_op(GDString): boolean
+    // module(Vector2): GDString
+    // module(Vector2i): GDString
+    // module(Rect2): GDString
+    // module(Rect2i): GDString
+    // module(Vector3): GDString
+    // module(Vector3i): GDString
+    // module(Transform2D): GDString
+    // module(Vector4): GDString
+    // module(Vector4i): GDString
+    // module(Plane): GDString
+    // module(Quaternion): GDString
+    // module(AABB): GDString
+    // module(Basis): GDString
+    // module(Transform3D): GDString
+    // module(Projection): GDString
+    // module(Color): GDString
+    // equals(StringName): boolean
+    // not_equals(StringName): boolean
+    // add(StringName): GDString
+    // module(StringName): GDString
+    // in_op(StringName): boolean
+    // module(NodePath): GDString
+    // module(RID): GDString
+    // module(GodotObject): GDString
+    // in_op(GodotObject): boolean
+    // module(Callable): GDString
+    // module(Signal): GDString
+    // module(Dictionary): GDString
+    // in_op(Dictionary): boolean
+    // module(GDArray): GDString
+    // in_op(GDArray): boolean
+    // module(PackedByteArray): GDString
+    // module(PackedInt32Array): GDString
+    // module(PackedInt64Array): GDString
+    // module(PackedFloat32Array): GDString
+    // module(PackedFloat64Array): GDString
+    // module(PackedStringArray): GDString
+    // in_op(PackedStringArray): boolean
+    // module(PackedVector2Array): GDString
+    // module(PackedVector3Array): GDString
+    // module(PackedColorArray): GDString
+    // module(PackedVector4Array): GDString
+    */
+};

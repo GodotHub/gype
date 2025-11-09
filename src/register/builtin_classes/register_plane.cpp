@@ -98,13 +98,13 @@ static JSValue plane_class_project(JSContext *ctx, JSValueConst this_val, int ar
 	return call_builtin_const_method_ret(&Plane::project, ctx, this_val, argc, argv);
 }
 static JSValue plane_class_intersect_3(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	return call_builtin_const_method_ret(&Plane::intersect_3, ctx, this_val, argc, argv);
+	return call_builtin_const_method_ret(&Plane::intersect_3_bind, ctx, this_val, argc, argv);
 }
 static JSValue plane_class_intersects_ray(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	return call_builtin_const_method_ret(&Plane::intersects_ray, ctx, this_val, argc, argv);
+	return call_builtin_const_method_ret(&Plane::intersects_ray_bind, ctx, this_val, argc, argv);
 }
 static JSValue plane_class_intersects_segment(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	return call_builtin_const_method_ret(&Plane::intersects_segment, ctx, this_val, argc, argv);
+	return call_builtin_const_method_ret(&Plane::intersects_segment_bind, ctx, this_val, argc, argv);
 }
 
 static JSValue plane_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -347,7 +347,7 @@ static JSValue plane_proxy_intersect_3(JSContext *ctx, JSValueConst this_val, in
     ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
     Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
     this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Plane::intersect_3, ctx, this_val, argc, argv);
+    JSValue ret = call_builtin_const_method_ret(&Plane::intersect_3_bind, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
     return ret;
 }
@@ -356,7 +356,7 @@ static JSValue plane_proxy_intersects_ray(JSContext *ctx, JSValueConst this_val,
     ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
     Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
     this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Plane::intersects_ray, ctx, this_val, argc, argv);
+    JSValue ret = call_builtin_const_method_ret(&Plane::intersects_ray_bind, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
     return ret;
 }
@@ -365,7 +365,7 @@ static JSValue plane_proxy_intersects_segment(JSContext *ctx, JSValueConst this_
     ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
     Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
     this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Plane::intersects_segment, ctx, this_val, argc, argv);
+    JSValue ret = call_builtin_const_method_ret(&Plane::intersects_segment_bind, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
     return ret;
 }

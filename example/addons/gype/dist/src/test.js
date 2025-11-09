@@ -36,6 +36,7 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
     if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
     return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
 };
+import { Vector2 } from "@godot/builtins/vector2";
 import { Node2D } from "@godot/classes/node2d";
 import { GodotClass } from "@godot/core/class_defined";
 let test = (() => {
@@ -46,12 +47,12 @@ let test = (() => {
     let _classSuper = Node2D;
     var test = _classThis = class extends _classSuper {
         _ready() {
-            GD.print(this.position);
-            GD.print(this.position.x);
-            GD.print(++this.position.x);
-            GD.print(this.position.x);
+            this.position = new Vector2(0, 0);
+            this.move_to({});
         }
-        _process(delta) {
+        _process(delta) { }
+        move_to(pos) {
+            GD.print("move to " + pos);
         }
     };
     __setFunctionName(_classThis, "test");

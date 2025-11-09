@@ -1,37 +1,62 @@
 
+/**
+ * Godot's built-in PackedColorArray type.
+ *
+ * As a data structure, it can be represented by a plain object.
+ * @example
+ * let my_vector: PackedColorArray = { x: 1, y: 0 };
+ *
+ * To create a new instance, use the global constructor.
+ * @example
+ * const my_vector = new PackedColorArray(1, 0);
+ */
+export interface PackedColorArray {
 
-declare global {
-    declare class PackedColorArray {
-        constructor();
-        constructor(_from: PackedColorArray);
-        constructor(_from: GDArray);
-
-
-        public get(index: number): Color;
-        public set(index: number, value: Color): void;
-        public size(): number;
-        public is_empty(): boolean;
-        public push_back(value: Color): boolean;
-        public append(value: Color): boolean;
-        public append_array(array: PackedColorArray): void;
-        public remove_at(index: number): void;
-        public insert(atIndex: number, value: Color): number;
-        public fill(value: Color): void;
-        public resize(newSize: number): number;
-        public clear(): void;
-        public has(value: Color): boolean;
-        public reverse(): void;
-        public slice(begin: number, end: number): PackedColorArray;
-        public to_byte_array(): PackedByteArray;
-        public sort(): void;
-        public bsearch(value: Color, before: boolean): number;
-        public duplicate(): PackedColorArray;
-        public find(value: Color, _from: number): number;
-        public rfind(value: Color, _from: number): number;
-        public count(value: Color): number;
-        public erase(value: Color): boolean;
-
-    }
+    get(index: number): Color;
+    set(index: number, value: Color): void;
+    size(): number;
+    isEmpty(): boolean;
+    pushBack(value: Color): boolean;
+    append(value: Color): boolean;
+    appendArray(array: PackedColorArray): void;
+    removeAt(index: number): void;
+    insert(atIndex: number, value: Color): number;
+    fill(value: Color): void;
+    resize(newSize: number): number;
+    clear(): void;
+    has(value: Color): boolean;
+    reverse(): void;
+    slice(begin: number, end: number = 2147483647): PackedColorArray;
+    toByteArray(): PackedByteArray;
+    sort(): void;
+    bsearch(value: Color, before: boolean = true): number;
+    duplicate(): PackedColorArray;
+    find(value: Color, _from: number = 0): number;
+    rfind(value: Color, _from: number = -1): number;
+    count(value: Color): number;
+    erase(value: Color): boolean;
 }
 
-export {};
+/**
+ * A global constructor and namespace for the PackedColorArray type.
+ *
+ * Use `new PackedColorArray(...)` to create a new instance.
+ * Access static members like `PackedColorArray.ZERO`.
+ */
+export declare const PackedColorArray: {
+    new(): PackedColorArray;
+    new(_from: PackedColorArray): PackedColorArray;
+    new(_from: GDArray): PackedColorArray;
+
+
+    /*
+    // equals(any): boolean
+    // not_equals(any): boolean
+    // op_not(any): boolean
+    // in_op(Dictionary): boolean
+    // in_op(GDArray): boolean
+    // equals(PackedColorArray): boolean
+    // not_equals(PackedColorArray): boolean
+    // add(PackedColorArray): PackedColorArray
+    */
+};

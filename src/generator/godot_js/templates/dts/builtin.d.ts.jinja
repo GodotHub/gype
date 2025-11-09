@@ -1,41 +1,59 @@
-{#- 
+{#-
     模板：builtin.d.ts.jinja
     用于生成 Godot 内置类型的 TypeScript 声明。
+
+    此模板采用 "声明合并" 模式：
+    1. `export interface`: 定义类型的“形状”，允许使用对象字面量 (e.g., { x: 0, y: 0 })。
+       它包含实例属性 (members) 和实例方法 (methods)。
+    2. `export declare const`: 定义与类型同名的构造函数和静态成员 (e.g., new Vector2(), Vector2.ZERO)。
+       它包含构造函数 (constructors) 和静态常量 (constants)。
 -#}
-{% set renames = {'String': 'GDString', 'Array': 'GDArray'} %}
-{% set class_name = renames.get(cls.name, cls.name) %}
-{% set inherits = cls.inherits %}
+{% set class_name = get_class_name(cls.name) %}
 
-{% macro extends_clause(inherits_name) %}
-{% if inherits_name %} extends {{ inherits_name }}{% endif %}
-{% endmacro %}
+/**
+ * Godot's built-in {{ cls.name }} type.
+ *
+ * As a data structure, it can be represented by a plain object.
+ * @example
+ * let my_vector: {{ class_name }} = { x: 1, y: 0 };
+ *
+ * To create a new instance, use the global constructor.
+ * @example
+ * const my_vector = new {{ class_name }}(1, 0);
+ */
+export interface {{ class_name }} {
+    {# INSTANCE PROPERTIES (from cls.members) #}
+    {% for member in cls.members %}
+    {{ snake_to_camel(member.name) }}: {{ set_type(member.type) }};
+    {% endfor %}
 
-declare global {
-    declare class {{ class_name }}{{ extends_clause(inherits) }} {
-        {# 构造函数 (参数已由 connect_args 自动处理) #}
-        {% for ctr in cls.constructors %}
-        constructor({{ connect_args(ctr.arguments) }});
-        {% endfor %}
-
-        {# --- [修改 2] 对成员变量应用驼峰转换 --- #}
-        {% for member in cls.members %}
-        public {{ member.name }}: {{ set_type(member.type) }};
-        {% endfor %}
-
-        {# --- [修改 3] 对方法名应用驼峰转换 --- #}
-        {% for method in cls.methods %}
-        public{{ ' static' if method.is_static }} {{ method.name }}({{ connect_args(method.arguments) + process_vararg(method.is_vararg, method.arguments) }}){{- set_return(method.return_type) -}};
-        {% endfor %}
-
-        {# 枚举 (无需修改，保持 UPPER_CASE) #}
-        {% for enum in cls.enums %}
-        public static readonly {{ enum.name }}: {
-            {% for value in enum['values'] %}
-            {{ value.name }}: {{ value.value }};
-            {% endfor %}
-        };
-        {% endfor %}
-    }
+    {# INSTANCE METHODS (from cls.methods) #}
+    {% for method in cls.methods %}
+    {{ snake_to_camel(method.name) }}({{ connect_args(method.arguments) + process_vararg(method.is_vararg, method.arguments) }}){{ set_return(method.return_type) }};
+    {% endfor %}
 }
 
-export {};
+/**
+ * A global constructor and namespace for the {{ class_name }} type.
+ *
+ * Use `new {{ class_name }}(...)` to create a new instance.
+ * Access static members like `{{ class_name }}.ZERO`.
+ */
+export declare const {{ class_name }}: {
+    {# CONSTRUCTORS (from cls.constructors) #}
+    {% for ctr in cls.constructors %}
+    new({{ connect_args(ctr.arguments) }}): {{ class_name }};
+    {% endfor %}
+
+    {# STATIC CONSTANTS (from cls.constants) #}
+    {% for constant in cls.constants %}
+    readonly {{ constant.name }}: {{ class_name }};
+    {% endfor %}
+
+    {# OPERATORS (Commented out as they don't map directly to JS/TS methods) #}
+    /*
+    {% for op in cls.operators %}
+    // {{ get_operator_name(op.name) }}({{ set_type(op.right_type) }}): {{ set_type(op.return_type) }}
+    {% endfor %}
+    */
+};

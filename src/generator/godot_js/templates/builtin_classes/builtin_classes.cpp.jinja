@@ -29,11 +29,10 @@
 using namespace godot;
 
 static void {{ cls_name_lower }}_class_finalizer(JSRuntime *rt, JSValue val) {
-	// 如果变量或者对象是引擎创建的,则很大概率无法释放
 	JSClassID class_id = classes["{{ cls_name }}"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
-	if (opaque_ptr && opaque_ptr->can_memfree) {
-		memfree(const_cast<{{cls_name}} *>(opaque_ptr->m_active_variant));
+	if (opaque_ptr) {
+		memfree(opaque_ptr);
 	}
 }
 

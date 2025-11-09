@@ -121,7 +121,7 @@ static JSValue aabb_class_get_endpoint(JSContext *ctx, JSValueConst this_val, in
 	return call_builtin_const_method_ret(&AABB::get_endpoint, ctx, this_val, argc, argv);
 }
 static JSValue aabb_class_intersects_segment(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	return call_builtin_const_method_ret(&AABB::intersects_segment, ctx, this_val, argc, argv);
+	return call_builtin_const_method_ret(&AABB::intersects_segment_bind, ctx, this_val, argc, argv);
 }
 static JSValue aabb_class_intersects_ray(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&AABB::intersects_ray, ctx, this_val, argc, argv);
@@ -485,7 +485,7 @@ static JSValue aabb_proxy_intersects_segment(JSContext *ctx, JSValueConst this_v
 	ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
 	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
 	this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&AABB::intersects_segment, ctx, this_val, argc, argv);
+	JSValue ret = call_builtin_const_method_ret(&AABB::intersects_segment_bind, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }

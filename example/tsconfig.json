@@ -19,11 +19,9 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
-
     // Style Options
     // "noImplicitReturns": true,
     // "noImplicitOverride": true,
@@ -41,8 +39,12 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
     "paths": {
-      "@res/*": ["./src/*"],
-      "@godot/*": ["./addons/gype/godot/*"]
+      "@res/*": [
+        "./src/*"
+      ],
+      "@godot/*": [
+        "./addons/gype/godot/*"
+      ]
     },
     "outDir": "./addons/gype/dist"
   }

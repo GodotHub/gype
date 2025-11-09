@@ -9,51 +9,43 @@
        它包含构造函数 (constructors) 和静态常量 (constants)。
 -#}
 {% set class_name = get_class_name(cls.name) %}
+declare global {
+    export interface {{ class_name }} {
+        {# INSTANCE PROPERTIES (from cls.members) #}
+        {% for member in cls.members %}
+        {{ member.name }}: {{ set_type(member.type) }};
+        {% endfor %}
 
-/**
- * Godot's built-in {{ cls.name }} type.
- *
- * As a data structure, it can be represented by a plain object.
- * @example
- * let my_vector: {{ class_name }} = { x: 1, y: 0 };
- *
- * To create a new instance, use the global constructor.
- * @example
- * const my_vector = new {{ class_name }}(1, 0);
- */
-export interface {{ class_name }} {
-    {# INSTANCE PROPERTIES (from cls.members) #}
-    {% for member in cls.members %}
-    {{ snake_to_camel(member.name) }}: {{ set_type(member.type) }};
-    {% endfor %}
+        {# INSTANCE METHODS (from cls.methods) #}
+        {% for method in cls.methods %}
+        {{ method.name }}({{ connect_args(method.arguments) + process_vararg(method.is_vararg, method.arguments) }}){{ set_return(method.return_type) }};
+        {% endfor %}
+    }
 
-    {# INSTANCE METHODS (from cls.methods) #}
-    {% for method in cls.methods %}
-    {{ snake_to_camel(method.name) }}({{ connect_args(method.arguments) + process_vararg(method.is_vararg, method.arguments) }}){{ set_return(method.return_type) }};
-    {% endfor %}
+    /**
+    * A global constructor and namespace for the {{ class_name }} type.
+    *
+    * Use `new {{ class_name }}(...)` to create a new instance.
+    * Access static members like `{{ class_name }}.ZERO`.
+    */
+    export declare const {{ class_name }}: {
+        {# CONSTRUCTORS (from cls.constructors) #}
+        {% for ctr in cls.constructors %}
+        new({{ connect_args(ctr.arguments) }}): {{ class_name }};
+        {% endfor %}
+
+        {# STATIC CONSTANTS (from cls.constants) #}
+        {% for constant in cls.constants %}
+        readonly {{ constant.name }}: {{ class_name }};
+        {% endfor %}
+
+        {# OPERATORS (Commented out as they don't map directly to JS/TS methods) #}
+        /*
+        {% for op in cls.operators %}
+        // {{ get_operator_name(op.name) }}({{ set_type(op.right_type) }}): {{ set_type(op.return_type) }}
+        {% endfor %}
+        */
+    };
 }
 
-/**
- * A global constructor and namespace for the {{ class_name }} type.
- *
- * Use `new {{ class_name }}(...)` to create a new instance.
- * Access static members like `{{ class_name }}.ZERO`.
- */
-export declare const {{ class_name }}: {
-    {# CONSTRUCTORS (from cls.constructors) #}
-    {% for ctr in cls.constructors %}
-    new({{ connect_args(ctr.arguments) }}): {{ class_name }};
-    {% endfor %}
-
-    {# STATIC CONSTANTS (from cls.constants) #}
-    {% for constant in cls.constants %}
-    readonly {{ constant.name }}: {{ class_name }};
-    {% endfor %}
-
-    {# OPERATORS (Commented out as they don't map directly to JS/TS methods) #}
-    /*
-    {% for op in cls.operators %}
-    // {{ get_operator_name(op.name) }}({{ set_type(op.right_type) }}): {{ set_type(op.return_type) }}
-    {% endfor %}
-    */
-};
+export {};

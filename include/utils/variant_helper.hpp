@@ -255,9 +255,7 @@ public:
 	}
 
 	static bool can_cast(JSValue val, godot::Variant::Type type) {
-		JSClassID class_id = 0;
-		VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(val, &class_id));
-		return adapter->get().get_type() == type;
+		return VariantAdapter(val).get().get_type() == type;
 	}
 
 	operator godot::Variant() { return variant; }

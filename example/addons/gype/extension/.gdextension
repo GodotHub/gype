@@ -5,4 +5,4 @@ compatibility_minimum="4.5"
 [libraries]
 
 windows.debug.x86_64 = "res://addons/gype/extension/libgype_debug.dll"
-windows.release.x86_64 = "res://addons/gype/extension/libgype.dll"
+windows.release.x86_64 = "res://addons/gype/extension/libgype_release.dll"

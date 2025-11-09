@@ -32,7 +32,7 @@
 
     // Recommended Options
     "strict": true,
-    "jsx": "react-jsx",
+    // "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
@@ -46,6 +46,6 @@
         "./addons/gype/godot/*"
       ]
     },
-    "outDir": "./addons/gype/dist"
+    "outDir": "./addons/gype/dist",
   }
 }

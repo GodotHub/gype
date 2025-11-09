@@ -1,4 +1,3 @@
-import { Vector2 } from "@godot/builtins/vector2";
 import { Node2D } from "@godot/classes/node2d";
 import { GodotClass } from "@godot/core/class_defined";
 
@@ -11,7 +10,7 @@ export class test extends Node2D {
 
   public _process(delta: number): void {}
 
-  public move_to(pos: Vector2) {
-    GD.print("move to " + pos);
+  public move_to(pos: Vector2): void {
+    GD.print(pos);
   }
 }

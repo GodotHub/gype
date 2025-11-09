@@ -250,7 +250,7 @@ void TypeScript::analyze() {
 
 void TypeScript::compile(bool force) {
 	int exit_code = 0;
-	if (dirty && Engine::get_singleton()->is_editor_hint()) {
+	if (dirty) {
 		if (force) {
 			exit_code = OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json", "--force" });
 		} else {

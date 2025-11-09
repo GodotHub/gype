@@ -45,3 +45,4 @@ src/register/global_enum/*
 !src/register/global_enum/.keep
 
 .vs
+.idea

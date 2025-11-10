@@ -198,7 +198,6 @@ void TypeScriptInstance::call(GDExtensionConstStringNamePtr p_method, const GDEx
 			Variant ret = VariantAdapter(JS_Call(js_context(), js_method, js_instance, p_argument_count, js_args.data())).get();
 			internal::gdextension_interface_variant_new_copy(r_return, ret._native_ptr());
 			r_error->error = GDExtensionCallErrorType::GDEXTENSION_CALL_OK;
-			execute_events();
 			return;
 		}
 		prototype = JS_GetPrototype(js_context(), prototype);

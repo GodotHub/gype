@@ -129,10 +129,10 @@ int64_t to_int64(JSContext *ctx, JSValue val) {
 }
 
 static VariantAdapter *create_heap_copy_from_variant(const Variant &p_variant, StringName &type_index) {
-#define RETURN_VARIANT_FROM_HEAP(type)         \
-	{                                          \
-		type_index = #type;                    \
-		return memnew(VariantAdapter(type())); \
+#define RETURN_VARIANT_FROM_HEAP(type)                                   \
+	{                                                                    \
+		type_index = #type;                                              \
+		return memnew(VariantAdapter(p_variant.operator godot::type())); \
 	}
 
 	switch (p_variant.get_type()) {
@@ -199,7 +199,7 @@ static VariantAdapter *create_heap_copy_from_variant(const Variant &p_variant, S
 		case Variant::PACKED_VECTOR4_ARRAY:
 			RETURN_VARIANT_FROM_HEAP(PackedVector4Array);
 		default:
-			RETURN_VARIANT_FROM_HEAP(Variant)
+			return memnew(VariantAdapter(p_variant));
 	}
 }
 
@@ -272,7 +272,7 @@ JSValue variant_to_jsvalue(const Variant &val) {
 			char code[1024];
 			if (strcmp(class_name, "Object") == 0) {
 				class_name = "GodotObject";
-			} 
+			}
 			sprintf(code, "import { %s } from \"@godot/classes/%s\";", class_name, camelToSnake(class_name).c_str());
 			JS_Eval(js_context(), code, strlen(code), "<eval>", JS_EVAL_TYPE_MODULE);
 			JSValue wrapper = JS_NewObjectClass(js_context(), classes[class_name]);

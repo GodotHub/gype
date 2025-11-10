@@ -20,7 +20,6 @@ void init_quickjs() {
 	register_builtin_classes();
 	register_classes();
 	JS_SetModuleLoaderFunc(js_runtime(), NULL, module_loader, NULL);
-	create_event_loop(js_runtime());
 }
 
 void init_ts_support() {
@@ -39,6 +38,11 @@ void initialize_gype_types(ModuleInitializationLevel p_level) {
 	}
 	if (p_level == ModuleInitializationLevel::MODULE_INITIALIZATION_LEVEL_SCENE) {
 		init_ts_support();
+	}
+	if (p_level == ModuleInitializationLevel::MODULE_INITIALIZATION_LEVEL_EDITOR) {
+		GDREGISTER_CLASS(EventLoop);
+		GDREGISTER_CLASS(GypePlugin);
+		EditorPlugins::add_by_type<GypePlugin>();
 	}
 }
 
@@ -60,7 +64,7 @@ GDExtensionBool GDE_EXPORT gype_library_init(GDExtensionInterfaceGetProcAddress 
 
 	initObj.register_initializer(initialize_gype_types);
 	initObj.register_terminator(uninitialize_gype_types);
-	initObj.set_minimum_library_initialization_level(ModuleInitializationLevel::MODULE_INITIALIZATION_LEVEL_SCENE);
+	initObj.set_minimum_library_initialization_level(ModuleInitializationLevel::MODULE_INITIALIZATION_LEVEL_EDITOR);
 
 	return initObj.init();
 }

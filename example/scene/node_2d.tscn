@@ -2,5 +2,13 @@
 
 [ext_resource type="Script" path="res://src/test.ts" id="1_drhme"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_right = 156.0
+offset_bottom = 36.0
+text = "test"
 script = ExtResource("1_drhme")

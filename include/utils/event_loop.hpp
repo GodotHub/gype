@@ -1,11 +1,28 @@
 #ifndef __EVENT_LOOP_H__
 #define __EVENT_LOOP_H__
 
-typedef struct JSContext JSContext;
-typedef struct JSRuntime JSRuntime;
+#include <godot_cpp/classes/editor_plugin.hpp>
+#include <godot_cpp/classes/node.hpp>
 
-void *event_loop(void *arg);
-void execute_events();
-void create_event_loop(JSRuntime *rt);
+class EventLoop : public godot::Node {
+	GDCLASS(EventLoop, Node);
+
+protected:
+	static void _bind_methods();
+
+public:
+	void _process(double delta) override;
+};
+
+class GypePlugin : public godot::EditorPlugin {
+	GDCLASS(GypePlugin, EditorPlugin);
+
+	EventLoop *event_loop = nullptr;
+protected:
+	static void _bind_methods();
+
+public:
+	void _enter_tree() override;
+};
 
 #endif // __EVENT_LOOP_H__

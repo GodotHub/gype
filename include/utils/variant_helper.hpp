@@ -225,7 +225,6 @@ public:
 class VariantAdapter : public IAdapter {
 public:
 	const godot::Variant variant;
-	void *typedVariant = nullptr;
 
 public:
 	VariantAdapter() :

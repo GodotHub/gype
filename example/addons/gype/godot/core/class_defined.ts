@@ -20,6 +20,7 @@ const _resolvers = new Set();
 export function to_promise(signal: Signal): Promise<void> {
   return new Promise((resolve, reject) => {
     let instance: GodotObject = signal.get_object();
+    GD.print(instance)
     if (!GD.is_instance_id_valid(instance.get_instance_id()))
       reject("instance invalid");
     const resolver = new Resolver(resolve);

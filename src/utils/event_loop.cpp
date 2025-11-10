@@ -1,39 +1,23 @@
 #include "utils/event_loop.hpp"
-#include <pthread.h>
+#include "utils/env.hpp"
 #include <quickjs.h>
-#include <unistd.h>
 
-static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
-static pthread_t event_thread;
+using namespace godot;
 
-void *event_loop(void *arg) {
-	int err;
-	JSContext *pctx;
-	JSRuntime *rt = (JSRuntime *)arg;
-	while (1) {
-		pthread_mutex_lock(&mutex);
-		pthread_cond_wait(&cond, &mutex);
+void EventLoop::_bind_methods() {
+}
 
-		while ((err = JS_ExecutePendingJob(rt, &pctx)) > 0) {
-		}
-
-		pthread_mutex_unlock(&mutex);
-
-		if (err < 0) {
-			printf("Error executing pending job\n");
-			break;
-		}
+void EventLoop::_process(double delta) {
+	JSContext *ctx = js_context();
+	if (JS_ExecutePendingJob(js_runtime(), &ctx) < 0) {
+		godot::UtilityFunctions::print("Error executing pending job.");
 	}
-	return NULL;
 }
 
-// 通知事件循环有新任务
-void execute_events() {
-	pthread_cond_signal(&cond);
-	// pthread_join(event_thread, NULL);
+void GypePlugin::_enter_tree() {
+	event_loop = memnew(EventLoop());
+	add_child(event_loop);
 }
 
-void create_event_loop(JSRuntime *rt) {
-	pthread_create(&event_thread, NULL, event_loop, rt);
+void GypePlugin::_bind_methods() {
 }

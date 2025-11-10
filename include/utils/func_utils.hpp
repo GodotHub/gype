@@ -159,15 +159,12 @@ std::enable_if_t<std::is_base_of_v<Object, T>, T *>
 convert(JSValue v) {
 	JSClassID id = 0;
 	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(v, &id));
-	const char *n = typeid(T).name();
 	return static_cast<T *>(adapter->get().operator godot::Object *());
 }
 template <typename T>
 std::enable_if_t<!std::is_base_of_v<Object, T> && std::is_constructible_v<Variant, T>, T>
 convert(JSValue v) {
-	JSClassID id = 0;
-	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(v, &id));
-	return adapter->get();
+	return VariantAdapter(v).get();
 }
 template <typename T>
 void *native_ptr(T variant) {

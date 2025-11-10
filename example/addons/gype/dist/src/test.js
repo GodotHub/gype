@@ -36,23 +36,22 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
     if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
     return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
 };
-import { Node2D } from "@godot/classes/node2d";
-import { GodotClass } from "@godot/core/class_defined";
+import { Button } from "@godot/classes/button";
+import { GodotClass, to_promise } from "@godot/core/class_defined";
+import * as os from "os";
 let test = (() => {
     let _classDecorators = [GodotClass];
     let _classDescriptor;
     let _classExtraInitializers = [];
     let _classThis;
-    let _classSuper = Node2D;
+    let _classSuper = Button;
     var test = _classThis = class extends _classSuper {
+        test() { }
+        _enter_tree() { }
         _ready() {
-            this.position = new Vector2(0, 0);
-            this.move_to(new Vector2(10, 10));
+            os.setTimeout(() => { }, 0);
         }
         _process(delta) { }
-        move_to(pos) {
-            GD.print(pos);
-        }
     };
     __setFunctionName(_classThis, "test");
     (() => {

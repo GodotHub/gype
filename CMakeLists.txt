@@ -12,7 +12,6 @@ file(GLOB_RECURSE
 
 add_library(gype SHARED ${SOURCES})
 
-# --- 通用属性设置 ---
 set_target_properties(gype PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/example/addons/gype/extension"
     LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/example/addons/gype/extension"

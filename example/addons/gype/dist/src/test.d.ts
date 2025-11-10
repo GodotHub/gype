@@ -1,7 +1,8 @@
-import { Node2D } from "@godot/classes/node2d";
-export declare class test extends Node2D {
+import { Button } from "@godot/classes/button";
+export declare class test extends Button {
+    test(): void;
+    _enter_tree(): void;
     _ready(): void;
     _process(delta: number): void;
-    move_to(pos: Vector2): void;
 }
 //# sourceMappingURL=test.d.ts.map

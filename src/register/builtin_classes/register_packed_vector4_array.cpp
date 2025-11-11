@@ -22,7 +22,7 @@ static void packed_vector4_array_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef packed_vector4_array_class_def = {
 	"PackedVector4Array",
-	.finalizer = packed_vector4_array_class_finalizer
+	packed_vector4_array_class_finalizer
 };
 
 static JSValue packed_vector4_array_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -38,11 +38,13 @@ static JSValue packed_vector4_array_class_constructor(JSContext *ctx, JSValueCon
 		instance = PackedVector4Array();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_VECTOR4_ARRAY))) {
-		PackedVector4Array v0 = VariantAdapter(argv[0]).get();
+			PackedVector4Array
+ v0 = VariantAdapter(argv[0]).get();
 		instance = PackedVector4Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::ARRAY))) {
-		Array v0 = VariantAdapter(argv[0]).get();
+			Array
+ v0 = VariantAdapter(argv[0]).get();
 		instance = PackedVector4Array(v0);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -162,7 +164,7 @@ static const JSCFunctionListEntry packed_vector4_array_class_proto_funcs[] = {
 
 static int js_packed_vector4_array_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["PackedVector4Array"] = JS_NewClassID(&class_id);
+	classes["PackedVector4Array"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "PackedVector4Array";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &packed_vector4_array_class_def);
@@ -195,7 +197,7 @@ static void packed_vector4_array_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef packed_vector4_array_proxy_def = {
-	"PackedVector4ArrayProxy",
+	.class_name = "PackedVector4ArrayProxy",
 	.finalizer = packed_vector4_array_proxy_finalizer
 };
 
@@ -428,7 +430,7 @@ static const JSCFunctionListEntry packed_vector4_array_proxy_proto_funcs[] = {
 
 static int js_packed_vector4_array_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["PackedVector4ArrayProxy"] = JS_NewClassID(&class_id);
+	classes["PackedVector4ArrayProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "PackedVector4ArrayProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &packed_vector4_array_proxy_def);

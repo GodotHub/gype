@@ -1,6 +1,5 @@
 import { Button } from "@godot/classes/button";
 import { GodotClass, to_promise } from "@godot/core/class_defined";
-import * as os from "os";
 
 @GodotClass
 export class test extends Button {
@@ -8,8 +7,12 @@ export class test extends Button {
 
   public _enter_tree(): void {}
 
-  public _ready(): void {
-	os.setTimeout(() => {}, 0);
+  public async _ready(): Promise<void> {
+    await new Promise((resolve, reject) => {
+      resolve("hello");
+    }).then((res) => {
+      GD.print(res);
+    });
   }
 
   public _process(delta: number): void {}

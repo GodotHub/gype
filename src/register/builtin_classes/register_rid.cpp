@@ -21,7 +21,7 @@ static void rid_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef rid_class_def = {
 	"RID",
-	.finalizer = rid_class_finalizer
+	rid_class_finalizer
 };
 
 static JSValue rid_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -37,7 +37,8 @@ static JSValue rid_class_constructor(JSContext *ctx, JSValueConst new_target, in
 		instance = RID();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::RID))) {
-		RID v0 = VariantAdapter(argv[0]).get();
+			RID
+ v0 = VariantAdapter(argv[0]).get();
 		instance = RID(v0);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -66,7 +67,7 @@ static const JSCFunctionListEntry rid_class_proto_funcs[] = {
 
 static int js_rid_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["RID"] = JS_NewClassID(&class_id);
+	classes["RID"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "RID";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &rid_class_def);
@@ -99,7 +100,7 @@ static void rid_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef rid_proxy_def = {
-	"RIDProxy",
+	.class_name = "RIDProxy",
 	.finalizer = rid_proxy_finalizer
 };
 
@@ -157,7 +158,7 @@ static const JSCFunctionListEntry rid_proxy_proto_funcs[] = {
 
 static int js_rid_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["RIDProxy"] = JS_NewClassID(&class_id);
+	classes["RIDProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "RIDProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &rid_proxy_def);

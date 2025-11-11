@@ -21,7 +21,7 @@ static void array_class_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef array_class_def = {
-	"Array",
+	.class_name = "Array",
 	.finalizer = array_class_finalizer
 };
 
@@ -38,54 +38,69 @@ static JSValue array_class_constructor(JSContext *ctx, JSValueConst new_target, 
 		instance = Array();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::ARRAY))) {
-		Array v0 = VariantAdapter(argv[0]).get();
+			Array
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Array(v0);
 	}
 	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::ARRAY))&&(VariantAdapter::can_cast(argv[1],Variant::Type::INT))&&(VariantAdapter::can_cast(argv[2],Variant::Type::STRING_NAME))&&(VariantAdapter::can_cast(argv[2],Variant::Type::STRING_NAME))) {
-		Array v0 = VariantAdapter(argv[0]).get();
-		int v1 = VariantAdapter(argv[1]).get();
-		StringName v2 = VariantAdapter(argv[2]).get();
-		Variant v3 = VariantAdapter(argv[3]).get();
+			Array
+ v0 = VariantAdapter(argv[0]).get();
+			int
+ v1 = VariantAdapter(argv[1]).get();
+			StringName
+ v2 = VariantAdapter(argv[2]).get();
+			Variant
+ v3 = VariantAdapter(argv[3]).get();
 		instance = Array(v0, v1, v2, v3);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_BYTE_ARRAY))) {
-		PackedByteArray v0 = VariantAdapter(argv[0]).get();
+			PackedByteArray
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_INT32_ARRAY))) {
-		PackedInt32Array v0 = VariantAdapter(argv[0]).get();
+			PackedInt32Array
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_INT64_ARRAY))) {
-		PackedInt64Array v0 = VariantAdapter(argv[0]).get();
+			PackedInt64Array
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_FLOAT32_ARRAY))) {
-		PackedFloat32Array v0 = VariantAdapter(argv[0]).get();
+			PackedFloat32Array
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_FLOAT64_ARRAY))) {
-		PackedFloat64Array v0 = VariantAdapter(argv[0]).get();
+			PackedFloat64Array
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_STRING_ARRAY))) {
-		PackedStringArray v0 = VariantAdapter(argv[0]).get();
+			PackedStringArray
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_VECTOR2_ARRAY))) {
-		PackedVector2Array v0 = VariantAdapter(argv[0]).get();
+			PackedVector2Array
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_VECTOR3_ARRAY))) {
-		PackedVector3Array v0 = VariantAdapter(argv[0]).get();
+			PackedVector3Array
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_COLOR_ARRAY))) {
-		PackedColorArray v0 = VariantAdapter(argv[0]).get();
+			PackedColorArray
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_VECTOR4_ARRAY))) {
-		PackedVector4Array v0 = VariantAdapter(argv[0]).get();
+			PackedVector4Array
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Array(v0);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -325,7 +340,7 @@ static const JSCFunctionListEntry array_class_proto_funcs[] = {
 
 static int js_array_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Array"] = JS_NewClassID(&class_id);
+	classes["Array"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Array";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &array_class_def);
@@ -358,7 +373,7 @@ static void array_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef array_proxy_def = {
-	"ArrayProxy",
+	.class_name = "ArrayProxy",
 	.finalizer = array_proxy_finalizer
 };
 
@@ -831,7 +846,7 @@ static const JSCFunctionListEntry array_proxy_proto_funcs[] = {
 
 static int js_array_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["ArrayProxy"] = JS_NewClassID(&class_id);
+	classes["ArrayProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "ArrayProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &array_proxy_def);

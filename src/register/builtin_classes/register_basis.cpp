@@ -21,7 +21,7 @@ static void basis_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef basis_class_def = {
 	"Basis",
-	.finalizer = basis_class_finalizer
+	basis_class_finalizer
 };
 
 static JSValue basis_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -37,22 +37,29 @@ static JSValue basis_class_constructor(JSContext *ctx, JSValueConst new_target, 
 		instance = Basis();
 	}
 	if (argc == 1 && (VariantAdapter::can_cast(argv[0], Variant::Type::BASIS))) {
-		Basis v0 = VariantAdapter(argv[0]).get();
+		Basis
+				v0 = VariantAdapter(argv[0]).get();
 		instance = Basis(v0);
 	}
 	if (argc == 1 && (VariantAdapter::can_cast(argv[0], Variant::Type::QUATERNION))) {
-		Quaternion v0 = VariantAdapter(argv[0]).get();
+		Quaternion
+				v0 = VariantAdapter(argv[0]).get();
 		instance = Basis(v0);
 	}
 	if (argc == 2 && (VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR3)) && (VariantAdapter::can_cast(argv[1], Variant::Type::FLOAT))) {
-		Vector3 v0 = VariantAdapter(argv[0]).get();
-		double v1 = VariantAdapter(argv[1]).get();
+		Vector3
+				v0 = VariantAdapter(argv[0]).get();
+		double
+				v1 = VariantAdapter(argv[1]).get();
 		instance = Basis(v0, v1);
 	}
 	if (argc == 3 && (VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR3)) && (VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR3)) && (VariantAdapter::can_cast(argv[2], Variant::Type::VECTOR3))) {
-		Vector3 v0 = VariantAdapter(argv[0]).get();
-		Vector3 v1 = VariantAdapter(argv[1]).get();
-		Vector3 v2 = VariantAdapter(argv[2]).get();
+		Vector3
+				v0 = VariantAdapter(argv[0]).get();
+		Vector3
+				v1 = VariantAdapter(argv[1]).get();
+		Vector3
+				v2 = VariantAdapter(argv[2]).get();
 		instance = Basis(v0, v1, v2);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -203,7 +210,7 @@ void define_basis_property(JSContext *ctx, JSValue obj) {
 
 static int js_basis_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Basis"] = JS_NewClassID(&class_id);
+	classes["Basis"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Basis";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &basis_class_def);
@@ -238,7 +245,7 @@ static void basis_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef basis_proxy_def = {
-	"BasisProxy",
+	.class_name = "BasisProxy",
 	.finalizer = basis_proxy_finalizer
 };
 
@@ -454,7 +461,7 @@ static JSValue basis_proxy_get_y(JSContext *ctx, JSValueConst this_val, int argc
 static JSValue basis_proxy_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["BasisProxy"]);
 	ObjectProxy<Basis> *proxy = reinterpret_cast<ObjectProxy<Basis> *>(opaque);
-	VariantAdapter y(argv[0]);
+	VariantAdapter y(argv[1]);
 	Basis wrapped = proxy->getter();
 	wrapped.rows[1] = y.get();
 	proxy->setter(wrapped);
@@ -525,7 +532,7 @@ void define_basis_proxy_property(JSContext *ctx, JSValue obj) {
 
 static int js_basis_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["BasisProxy"] = JS_NewClassID(&class_id);
+	classes["BasisProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "BasisProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &basis_proxy_def);

@@ -22,7 +22,7 @@ static void dictionary_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef dictionary_class_def = {
 	"Dictionary",
-	.finalizer = dictionary_class_finalizer
+	dictionary_class_finalizer
 };
 
 static JSValue dictionary_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -32,23 +32,31 @@ static JSValue dictionary_class_constructor(JSContext *ctx, JSValueConst new_tar
 	if (JS_IsException(obj)) {
 		return obj;
 	}
-	
+
 	Dictionary instance;
 	if (argc == 0) {
 		instance = Dictionary();
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::DICTIONARY))) {
-		Dictionary v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1 && (VariantAdapter::can_cast(argv[0], Variant::Type::DICTIONARY))) {
+		Dictionary
+				v0 = VariantAdapter(argv[0]).get();
 		instance = Dictionary(v0);
 	}
-	if (argc == 7&&(VariantAdapter::can_cast(argv[0],Variant::Type::DICTIONARY))&&(VariantAdapter::can_cast(argv[1],Variant::Type::INT))&&(VariantAdapter::can_cast(argv[2],Variant::Type::STRING_NAME))&&(VariantAdapter::can_cast(argv[2],Variant::Type::STRING_NAME))&&(VariantAdapter::can_cast(argv[4],Variant::Type::INT))&&(VariantAdapter::can_cast(argv[5],Variant::Type::STRING_NAME))&&(VariantAdapter::can_cast(argv[5],Variant::Type::STRING_NAME))) {
-		Dictionary v0 = VariantAdapter(argv[0]).get();
-		int v1 = VariantAdapter(argv[1]).get();
-		StringName v2 = VariantAdapter(argv[2]).get();
-		Variant v3 = VariantAdapter(argv[3]).get();
-		int v4 = VariantAdapter(argv[4]).get();
-		StringName v5 = VariantAdapter(argv[5]).get();
-		Variant v6 = VariantAdapter(argv[6]).get();
+	if (argc == 7 && (VariantAdapter::can_cast(argv[0], Variant::Type::DICTIONARY)) && (VariantAdapter::can_cast(argv[1], Variant::Type::INT)) && (VariantAdapter::can_cast(argv[2], Variant::Type::STRING_NAME)) && (VariantAdapter::can_cast(argv[2], Variant::Type::STRING_NAME)) && (VariantAdapter::can_cast(argv[4], Variant::Type::INT)) && (VariantAdapter::can_cast(argv[5], Variant::Type::STRING_NAME)) && (VariantAdapter::can_cast(argv[5], Variant::Type::STRING_NAME))) {
+		Dictionary
+				v0 = VariantAdapter(argv[0]).get();
+		int
+				v1 = VariantAdapter(argv[1]).get();
+		StringName
+				v2 = VariantAdapter(argv[2]).get();
+		Variant
+				v3 = VariantAdapter(argv[3]).get();
+		int
+				v4 = VariantAdapter(argv[4]).get();
+		StringName
+				v5 = VariantAdapter(argv[5]).get();
+		Variant
+				v6 = VariantAdapter(argv[6]).get();
 		instance = Dictionary(v0, v1, v2, v3, v4, v5, v6);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -61,114 +69,147 @@ static JSValue dictionary_class_constructor(JSContext *ctx, JSValueConst new_tar
 	JS_SetOpaque(obj, adapter);
 	return obj;
 }
+
 static JSValue dictionary_class_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::size, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_is_empty(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::is_empty, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_clear(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Dictionary::clear, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
+
 static JSValue dictionary_class_assign(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Dictionary::assign, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
+
 static JSValue dictionary_class_sort(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Dictionary::sort, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
+
 static JSValue dictionary_class_merge(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Dictionary::merge, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
+
 static JSValue dictionary_class_merged(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::merged, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_has(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::has, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_has_all(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::has_all, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_find_key(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::find_key, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_erase(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_method_ret(&Dictionary::erase, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_hash(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::hash, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_keys(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::keys, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_values(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::values, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_duplicate(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::duplicate, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_duplicate_deep(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::duplicate_deep, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_get(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::get, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_get_or_add(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_method_ret(&Dictionary::get_or_add, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_set(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_method_ret(&Dictionary::set, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_is_typed(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::is_typed, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_is_typed_key(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::is_typed_key, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_is_typed_value(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::is_typed_value, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_is_same_typed(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::is_same_typed, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_is_same_typed_key(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::is_same_typed_key, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_is_same_typed_value(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::is_same_typed_value, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_get_typed_key_builtin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::get_typed_key_builtin, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_get_typed_value_builtin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::get_typed_value_builtin, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_get_typed_key_class_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::get_typed_key_class_name, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_get_typed_value_class_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::get_typed_value_class_name, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_get_typed_key_script(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::get_typed_key_script, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_get_typed_value_script(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::get_typed_value_script, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_make_read_only(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Dictionary::make_read_only, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
+
 static JSValue dictionary_class_is_read_only(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::is_read_only, ctx, this_val, argc, argv);
 }
+
 static JSValue dictionary_class_recursive_equal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Dictionary::recursive_equal, ctx, this_val, argc, argv);
 }
-
 
 static const JSCFunctionListEntry dictionary_class_proto_funcs[] = {
 	JS_CFUNC_DEF("size", 0, &dictionary_class_size),
@@ -207,16 +248,16 @@ static const JSCFunctionListEntry dictionary_class_proto_funcs[] = {
 	JS_CFUNC_DEF("recursive_equal", 2, &dictionary_class_recursive_equal),
 };
 
-
 static int js_dictionary_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Dictionary"] = JS_NewClassID(&class_id);
+	classes["Dictionary"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Dictionary";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &dictionary_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	JS_SetPropertyFunctionList(ctx, proto, dictionary_class_proto_funcs, _countof(dictionary_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);
+	JS_SetPropertyFunctionList(ctx, proto, dictionary_class_proto_funcs, _countof(dictionary_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, dictionary_class_constructor, "Dictionary", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
 
@@ -243,7 +284,7 @@ static void dictionary_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef dictionary_proxy_def = {
-	"DictionaryProxy",
+	.class_name = "DictionaryProxy",
 	.finalizer = dictionary_proxy_finalizer
 };
 
@@ -275,284 +316,317 @@ static JSValue dictionary_proxy_constructor(JSContext *ctx, JSValueConst new_tar
 
 static JSValue dictionary_proxy_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::size, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::size, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_is_empty(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::is_empty, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::is_empty, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_clear(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Dictionary::clear, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
+
 static JSValue dictionary_proxy_assign(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Dictionary::assign, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
+
 static JSValue dictionary_proxy_sort(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Dictionary::sort, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
+
 static JSValue dictionary_proxy_merge(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Dictionary::merge, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
+
 static JSValue dictionary_proxy_merged(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::merged, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::merged, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_has(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::has, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::has, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_has_all(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::has_all, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::has_all, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_find_key(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::find_key, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::find_key, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_erase(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_method_ret(&Dictionary::erase, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_method_ret(&Dictionary::erase, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_hash(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::hash, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::hash, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_keys(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::keys, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::keys, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_values(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::values, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::values, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_duplicate(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::duplicate, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::duplicate, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_duplicate_deep(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::duplicate_deep, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::duplicate_deep, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_get(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::get, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::get, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_get_or_add(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_method_ret(&Dictionary::get_or_add, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_method_ret(&Dictionary::get_or_add, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_set(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_method_ret(&Dictionary::set, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_method_ret(&Dictionary::set, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_is_typed(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::is_typed, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::is_typed, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_is_typed_key(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::is_typed_key, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::is_typed_key, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_is_typed_value(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::is_typed_value, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::is_typed_value, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_is_same_typed(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::is_same_typed, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::is_same_typed, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_is_same_typed_key(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::is_same_typed_key, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::is_same_typed_key, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_is_same_typed_value(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::is_same_typed_value, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::is_same_typed_value, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_get_typed_key_builtin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::get_typed_key_builtin, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::get_typed_key_builtin, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_get_typed_value_builtin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::get_typed_value_builtin, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::get_typed_value_builtin, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_get_typed_key_class_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::get_typed_key_class_name, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::get_typed_key_class_name, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_get_typed_value_class_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::get_typed_value_class_name, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::get_typed_value_class_name, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_get_typed_key_script(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::get_typed_key_script, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::get_typed_key_script, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_get_typed_value_script(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::get_typed_value_script, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::get_typed_value_script, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_make_read_only(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Dictionary::make_read_only, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
+
 static JSValue dictionary_proxy_is_read_only(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::is_read_only, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::is_read_only, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue dictionary_proxy_recursive_equal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["DictionaryProxy"]);
-    ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Dictionary::recursive_equal, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Dictionary> *proxy = reinterpret_cast<ObjectProxy<Dictionary> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Dictionary::recursive_equal, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
 
 
@@ -596,7 +670,7 @@ static const JSCFunctionListEntry dictionary_proxy_proto_funcs[] = {
 
 static int js_dictionary_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["DictionaryProxy"] = JS_NewClassID(&class_id);
+	classes["DictionaryProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "DictionaryProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &dictionary_proxy_def);

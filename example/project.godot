@@ -15,6 +15,10 @@ run/main_scene="uid://c40ck3eqkn3l5"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+event_loop="*res://event_loop.gd"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/gype/plugin.cfg")

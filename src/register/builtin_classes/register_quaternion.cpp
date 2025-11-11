@@ -21,7 +21,7 @@ static void quaternion_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef quaternion_class_def = {
 	"Quaternion",
-	.finalizer = quaternion_class_finalizer
+	quaternion_class_finalizer
 };
 
 static JSValue quaternion_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -37,28 +37,38 @@ static JSValue quaternion_class_constructor(JSContext *ctx, JSValueConst new_tar
 		instance = Quaternion();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::QUATERNION))) {
-		Quaternion v0 = VariantAdapter(argv[0]).get();
+			Quaternion
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Quaternion(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::BASIS))) {
-		Basis v0 = VariantAdapter(argv[0]).get();
+			Basis
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Quaternion(v0);
 	}
 	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::FLOAT))) {
-		Vector3 v0 = VariantAdapter(argv[0]).get();
-		double v1 = VariantAdapter(argv[1]).get();
+			Vector3
+ v0 = VariantAdapter(argv[0]).get();
+		double
+ v1 = VariantAdapter(argv[1]).get();
 		instance = Quaternion(v0, v1);
 	}
 	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR3))) {
-		Vector3 v0 = VariantAdapter(argv[0]).get();
-		Vector3 v1 = VariantAdapter(argv[1]).get();
+			Vector3
+ v0 = VariantAdapter(argv[0]).get();
+			Vector3
+ v1 = VariantAdapter(argv[1]).get();
 		instance = Quaternion(v0, v1);
 	}
 	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[2],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[3],Variant::Type::FLOAT))) {
-		double v0 = VariantAdapter(argv[0]).get();
-		double v1 = VariantAdapter(argv[1]).get();
-		double v2 = VariantAdapter(argv[2]).get();
-		double v3 = VariantAdapter(argv[3]).get();
+		double
+ v0 = VariantAdapter(argv[0]).get();
+		double
+ v1 = VariantAdapter(argv[1]).get();
+		double
+ v2 = VariantAdapter(argv[2]).get();
+		double
+ v3 = VariantAdapter(argv[3]).get();
 		instance = Quaternion(v0, v1, v2, v3);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -221,7 +231,7 @@ void define_quaternion_property(JSContext *ctx, JSValue obj) {
 
 static int js_quaternion_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Quaternion"] = JS_NewClassID(&class_id);
+	classes["Quaternion"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Quaternion";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &quaternion_class_def);
@@ -254,7 +264,7 @@ static void quaternion_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef quaternion_proxy_def = {
-	"QuaternionProxy",
+	.class_name = "QuaternionProxy",
 	.finalizer = quaternion_proxy_finalizer
 };
 
@@ -566,7 +576,7 @@ void define_quaternion_proxy_property(JSContext *ctx, JSValue obj) {
 
 static int js_quaternion_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["QuaternionProxy"] = JS_NewClassID(&class_id);
+	classes["QuaternionProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "QuaternionProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &quaternion_proxy_def);

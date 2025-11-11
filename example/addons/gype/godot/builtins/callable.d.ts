@@ -1,3 +1,5 @@
+import type { GodotObject } from "@godot/classes/godot_object";
+
 declare global {
     export interface Callable {
 
@@ -35,7 +37,6 @@ declare global {
         new(_from: Callable): Callable;
         new(object: GodotObject, method: GDString | StringName | string): Callable;
         new(object: GodotObject, method: Function): Callable;
-
 
         /*
         // equals(any): boolean

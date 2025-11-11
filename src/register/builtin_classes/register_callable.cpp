@@ -23,7 +23,7 @@ static void callable_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef callable_class_def = {
 	"Callable",
-	.finalizer = callable_class_finalizer
+	callable_class_finalizer
 };
 
 static JSValue callable_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -39,12 +39,15 @@ static JSValue callable_class_constructor(JSContext *ctx, JSValueConst new_targe
 		instance = Callable();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::CALLABLE))) {
-		Callable v0 = VariantAdapter(argv[0]).get();
+			Callable
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Callable(v0);
 	}
 	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::OBJECT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::STRING_NAME))) {
-		Object *v0 = VariantAdapter(argv[0]).get();
-		StringName v1 = VariantAdapter(argv[1]).get();
+			Object *
+ v0 = VariantAdapter(argv[0]).get();
+			StringName
+ v1 = VariantAdapter(argv[1]).get();
 		instance = Callable(v0, v1);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -149,7 +152,7 @@ static const JSCFunctionListEntry callable_class_proto_funcs[] = {
 
 static int js_callable_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Callable"] = JS_NewClassID(&class_id);
+	classes["Callable"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Callable";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &callable_class_def);
@@ -182,7 +185,7 @@ static void callable_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef callable_proxy_def = {
-	"CallableProxy",
+	.class_name = "CallableProxy",
 	.finalizer = callable_proxy_finalizer
 };
 
@@ -412,7 +415,7 @@ static const JSCFunctionListEntry callable_proxy_proto_funcs[] = {
 
 static int js_callable_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["CallableProxy"] = JS_NewClassID(&class_id);
+	classes["CallableProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "CallableProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &callable_proxy_def);

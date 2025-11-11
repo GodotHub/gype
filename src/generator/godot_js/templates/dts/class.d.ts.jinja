@@ -3,6 +3,9 @@
     用于生成 Godot 引擎类的 TypeScript 声明。
 -#}
 {% set class_name = cls.name -%}
+{% if class_name == "Object" %}
+    {% set class_name = "GodotObject" %}
+{% endif %}
 {% set inherits = get_class_name(cls.inherits) if cls.inherits else None -%}
 {% set is_singleton = cls.name in singletons | map(attribute='name') | list %}
 

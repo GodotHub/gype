@@ -9,17 +9,21 @@
 #include "support/typescript_saver.hpp"
 #include "utils/env.hpp"
 #include "utils/event_loop.hpp"
+#include <quickjs-libc.h>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/resource_saver.hpp>
+#include <utils/quickjs_helper.hpp>
+
 
 using namespace godot;
 
 void init_quickjs() {
-	register_utility_functions();
+	js_std_init_handlers(js_runtime());
+	JS_SetModuleLoaderFunc(js_runtime(), NULL, module_loader, NULL);
 	register_builtin_classes();
 	register_classes();
-	JS_SetModuleLoaderFunc(js_runtime(), NULL, module_loader, NULL);
+	register_utility_functions();
 }
 
 void init_ts_support() {
@@ -38,9 +42,9 @@ void initialize_gype_types(ModuleInitializationLevel p_level) {
 	}
 	if (p_level == ModuleInitializationLevel::MODULE_INITIALIZATION_LEVEL_SCENE) {
 		init_ts_support();
+		GDREGISTER_CLASS(EventLoop);
 	}
 	if (p_level == ModuleInitializationLevel::MODULE_INITIALIZATION_LEVEL_EDITOR) {
-		GDREGISTER_CLASS(EventLoop);
 		GDREGISTER_CLASS(GypePlugin);
 		EditorPlugins::add_by_type<GypePlugin>();
 	}
@@ -58,7 +62,6 @@ void uninitialize_gype_types(godot::ModuleInitializationLevel p_level) {
 }
 
 extern "C" {
-
 GDExtensionBool GDE_EXPORT gype_library_init(GDExtensionInterfaceGetProcAddress p_get_proc_address, GDExtensionClassLibraryPtr p_library, GDExtensionInitialization *r_initialization) {
 	GDExtensionBinding::InitObject initObj(p_get_proc_address, p_library, r_initialization);
 

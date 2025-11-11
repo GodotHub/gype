@@ -9,7 +9,7 @@ void EventLoop::_bind_methods() {
 
 void EventLoop::_process(double delta) {
 	JSContext *ctx = js_context();
-	if (JS_ExecutePendingJob(js_runtime(), &ctx) < 0) {
+	if (JS_IsJobPending(js_runtime()) && JS_ExecutePendingJob(js_runtime(), &ctx) < 0) {
 		godot::UtilityFunctions::print("Error executing pending job.");
 	}
 }

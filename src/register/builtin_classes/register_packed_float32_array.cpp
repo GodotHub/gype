@@ -21,7 +21,7 @@ static void packed_float32_array_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef packed_float32_array_class_def = {
 	"PackedFloat32Array",
-	.finalizer = packed_float32_array_class_finalizer
+	packed_float32_array_class_finalizer
 };
 
 static JSValue packed_float32_array_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -37,11 +37,13 @@ static JSValue packed_float32_array_class_constructor(JSContext *ctx, JSValueCon
 		instance = PackedFloat32Array();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_FLOAT32_ARRAY))) {
-		PackedFloat32Array v0 = VariantAdapter(argv[0]).get();
+			PackedFloat32Array
+ v0 = VariantAdapter(argv[0]).get();
 		instance = PackedFloat32Array(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::ARRAY))) {
-		Array v0 = VariantAdapter(argv[0]).get();
+			Array
+ v0 = VariantAdapter(argv[0]).get();
 		instance = PackedFloat32Array(v0);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -161,7 +163,7 @@ static const JSCFunctionListEntry packed_float32_array_class_proto_funcs[] = {
 
 static int js_packed_float32_array_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["PackedFloat32Array"] = JS_NewClassID(&class_id);
+	classes["PackedFloat32Array"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "PackedFloat32Array";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &packed_float32_array_class_def);
@@ -194,7 +196,7 @@ static void packed_float32_array_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef packed_float32_array_proxy_def = {
-	"PackedFloat32ArrayProxy",
+	.class_name = "PackedFloat32ArrayProxy",
 	.finalizer = packed_float32_array_proxy_finalizer
 };
 
@@ -427,7 +429,7 @@ static const JSCFunctionListEntry packed_float32_array_proxy_proto_funcs[] = {
 
 static int js_packed_float32_array_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["PackedFloat32ArrayProxy"] = JS_NewClassID(&class_id);
+	classes["PackedFloat32ArrayProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "PackedFloat32ArrayProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &packed_float32_array_proxy_def);

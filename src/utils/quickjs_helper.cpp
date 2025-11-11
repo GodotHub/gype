@@ -79,37 +79,34 @@ enum {
 };
 
 void print_exception(JSContext *ctx) {
-	JSValue exception_val, val;
-	const char *stack;
+	// 获取实际的异常对象
+	JSValue exception_val = JS_GetException(ctx);
 
-	// 1. 从 context 中获取异常对象
-	exception_val = JS_GetException(ctx);
+	godot::UtilityFunctions::push_error("[QuickJS] Exception caught!");
 
-	// 2. 尝试获取 'stack' 属性，它包含最详细的信息
-	val = JS_GetPropertyStr(ctx, exception_val, "stack");
-	if (!JS_IsUndefined(val)) {
-		stack = JS_ToCString(ctx, val);
-		if (stack) {
-			UtilityFunctions::print("Caught Exception: ", stack);
-			JS_FreeCString(ctx, stack);
+	// 尝试获取 'stack' 属性，它通常包含最详细的信息
+	JSValue stack_val = JS_GetPropertyStr(ctx, exception_val, "stack");
+	if (!JS_IsUndefined(stack_val)) {
+		const char *stack_cstr = JS_ToCString(ctx, stack_val);
+		if (stack_cstr) {
+			godot::UtilityFunctions::print("[QuickJS] Stack: ", stack_cstr);
+			JS_FreeCString(ctx, stack_cstr);
 		}
 	}
-	JS_FreeValue(ctx, val); // 释放 'stack' 属性的 JSValue
+	JS_FreeValue(ctx, stack_val); // 释放 stack 属性值
 
-	// 3. 如果没有 'stack'，就直接打印异常本身
-	//    JS_ToCString 会自动调用 error.toString()
-	if (JS_IsError(ctx, exception_val)) {
-		const char *err_str = JS_ToCString(ctx, exception_val);
-		if (err_str) {
-			// 如果上面已经打印了 stack，这里就不用重复打印了
-			// 但作为备用方案，这很有用
-			// printf("Error: %s\n", err_str);
-			UtilityFunctions::print(err_str);
-			JS_FreeCString(ctx, err_str);
+	// 如果没有 stack，或者想打印更多信息，可以获取 'message' 属性
+	JSValue message_val = JS_GetPropertyStr(ctx, exception_val, "message");
+	if (!JS_IsUndefined(message_val)) {
+		const char *message_cstr = JS_ToCString(ctx, message_val);
+		if (message_cstr) {
+			godot::UtilityFunctions::print("[QuickJS] Message: ", message_cstr);
+			JS_FreeCString(ctx, message_cstr);
 		}
 	}
+	JS_FreeValue(ctx, message_val); // 释放 message 属性值
 
-	// 4. 释放异常对象本身
+	// 释放异常对象本身
 	JS_FreeValue(ctx, exception_val);
 }
 
@@ -299,7 +296,7 @@ godot::Variant js_obj_to_variant(JSValue val) {
 		return Variant();
 	}
 
-	if (JS_IsArray(js_context(), val)) {
+	if (JS_IsArray(val)) {
 		godot::Array gd_arr;
 		JSValue js_len = JS_GetPropertyStr(js_context(), val, "length");
 		int64_t len = to_int64(js_context(), js_len);

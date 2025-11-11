@@ -21,7 +21,7 @@ static void vector4i_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef vector4i_class_def = {
 	"Vector4i",
-	.finalizer = vector4i_class_finalizer
+	vector4i_class_finalizer
 };
 
 static JSValue vector4i_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -37,18 +37,24 @@ static JSValue vector4i_class_constructor(JSContext *ctx, JSValueConst new_targe
 		instance = Vector4i();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR4I))) {
-		Vector4i v0 = VariantAdapter(argv[0]).get();
+			Vector4i
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Vector4i(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR4))) {
-		Vector4 v0 = VariantAdapter(argv[0]).get();
+			Vector4
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Vector4i(v0);
 	}
 	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::INT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::INT))&&(VariantAdapter::can_cast(argv[2],Variant::Type::INT))&&(VariantAdapter::can_cast(argv[3],Variant::Type::INT))) {
-		int v0 = VariantAdapter(argv[0]).get();
-		int v1 = VariantAdapter(argv[1]).get();
-		int v2 = VariantAdapter(argv[2]).get();
-		int v3 = VariantAdapter(argv[3]).get();
+			int
+ v0 = VariantAdapter(argv[0]).get();
+			int
+ v1 = VariantAdapter(argv[1]).get();
+			int
+ v2 = VariantAdapter(argv[2]).get();
+			int
+ v3 = VariantAdapter(argv[3]).get();
 		instance = Vector4i(v0, v1, v2, v3);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -199,7 +205,7 @@ void define_vector4i_property(JSContext *ctx, JSValue obj) {
 
 static int js_vector4i_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Vector4i"] = JS_NewClassID(&class_id);
+	classes["Vector4i"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Vector4i";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &vector4i_class_def);
@@ -232,7 +238,7 @@ static void vector4i_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef vector4i_proxy_def = {
-	"Vector4iProxy",
+	.class_name = "Vector4iProxy",
 	.finalizer = vector4i_proxy_finalizer
 };
 
@@ -520,7 +526,7 @@ void define_vector4i_proxy_property(JSContext *ctx, JSValue obj) {
 
 static int js_vector4i_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Vector4iProxy"] = JS_NewClassID(&class_id);
+	classes["Vector4iProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Vector4iProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &vector4i_proxy_def);

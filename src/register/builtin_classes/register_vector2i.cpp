@@ -8,7 +8,6 @@
 #include <quickjs.h>
 
 
-
 using namespace godot;
 
 static void vector2i_class_finalizer(JSRuntime *rt, JSValue val) {
@@ -21,7 +20,7 @@ static void vector2i_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef vector2i_class_def = {
 	"Vector2i",
-	.finalizer = vector2i_class_finalizer
+	vector2i_class_finalizer
 };
 
 static JSValue vector2i_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -31,22 +30,26 @@ static JSValue vector2i_class_constructor(JSContext *ctx, JSValueConst new_targe
 	if (JS_IsException(obj)) {
 		return obj;
 	}
-	
+
 	Vector2i instance;
 	if (argc == 0) {
 		instance = Vector2i();
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR2I))) {
-		Vector2i v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1 && (VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR2I))) {
+		Vector2i
+				v0 = VariantAdapter(argv[0]).get();
 		instance = Vector2i(v0);
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR2))) {
-		Vector2 v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1 && (VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR2))) {
+		Vector2
+				v0 = VariantAdapter(argv[0]).get();
 		instance = Vector2i(v0);
 	}
-	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::INT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::INT))) {
-		int v0 = VariantAdapter(argv[0]).get();
-		int v1 = VariantAdapter(argv[1]).get();
+	if (argc == 2 && (VariantAdapter::can_cast(argv[0], Variant::Type::INT)) && (VariantAdapter::can_cast(argv[1], Variant::Type::INT))) {
+		int
+				v0 = VariantAdapter(argv[0]).get();
+		int
+				v1 = VariantAdapter(argv[1]).get();
 		instance = Vector2i(v0, v1);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -59,54 +62,71 @@ static JSValue vector2i_class_constructor(JSContext *ctx, JSValueConst new_targe
 	JS_SetOpaque(obj, adapter);
 	return obj;
 }
+
 static JSValue vector2i_class_aspect(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::aspect, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_max_axis_index(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::max_axis_index, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_min_axis_index(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::min_axis_index, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_distance_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::distance_to, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_distance_squared_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::distance_squared_to, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_length(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::length, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_length_squared(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::length_squared, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_sign(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::sign, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_abs(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::abs, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_clamp(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::clamp, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_clampi(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::clampi, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_snapped(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::snapped, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_snappedi(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::snappedi, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::min, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_mini(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::mini, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::max, ctx, this_val, argc, argv);
 }
+
 static JSValue vector2i_class_maxi(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Vector2i::maxi, ctx, this_val, argc, argv);
 }
@@ -115,15 +135,18 @@ static JSValue vector2i_class_get_x(JSContext *ctx, JSValueConst this_val, int a
 	Vector2i val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector2i"]))->get();
 	return VariantAdapter(val.x);
 }
+
 static JSValue vector2i_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Vector2i val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector2i"]))->get();
 	val.x = VariantAdapter(*argv).get();
 	return JS_UNDEFINED;
 }
+
 static JSValue vector2i_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Vector2i val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector2i"]))->get();
 	return VariantAdapter(val.y);
 }
+
 static JSValue vector2i_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Vector2i val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector2i"]))->get();
 	val.y = VariantAdapter(*argv).get();
@@ -169,13 +192,15 @@ void define_vector2i_property(JSContext *ctx, JSValue obj) {
 
 static int js_vector2i_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Vector2i"] = JS_NewClassID(&class_id);
+	classes["Vector2i"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Vector2i";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &vector2i_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	define_vector2i_property(ctx, proto);	JS_SetPropertyFunctionList(ctx, proto, vector2i_class_proto_funcs, _countof(vector2i_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);
+	define_vector2i_property(ctx, proto);
+	JS_SetPropertyFunctionList(ctx, proto, vector2i_class_proto_funcs, _countof(vector2i_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, vector2i_class_constructor, "Vector2i", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
 
@@ -202,7 +227,7 @@ static void vector2i_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef vector2i_proxy_def = {
-	"Vector2iProxy",
+	.class_name = "Vector2iProxy",
 	.finalizer = vector2i_proxy_finalizer
 };
 
@@ -234,186 +259,205 @@ static JSValue vector2i_proxy_constructor(JSContext *ctx, JSValueConst new_targe
 
 static JSValue vector2i_proxy_aspect(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::aspect, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::aspect, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_max_axis_index(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::max_axis_index, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::max_axis_index, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_min_axis_index(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::min_axis_index, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::min_axis_index, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_distance_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::distance_to, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::distance_to, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_distance_squared_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::distance_squared_to, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::distance_squared_to, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_length(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::length, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::length, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_length_squared(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::length_squared, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::length_squared, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_sign(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::sign, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::sign, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_abs(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::abs, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::abs, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_clamp(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::clamp, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::clamp, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_clampi(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::clampi, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::clampi, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_snapped(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::snapped, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::snapped, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_snappedi(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::snappedi, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::snappedi, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::min, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::min, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_mini(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::mini, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::mini, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::max, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::max, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue vector2i_proxy_maxi(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Vector2i::maxi, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Vector2i::maxi, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
 
 static JSValue vector2i_proxy_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Vector2i ret = proxy->getter();
-    return VariantAdapter(ret.x);
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Vector2i ret = proxy->getter();
+	return VariantAdapter(ret.x);
 }
+
 static JSValue vector2i_proxy_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    VariantAdapter x(argv[0]);
-    Vector2i wrapped = proxy->getter();
-    wrapped.x = x.get();
-    proxy->setter(wrapped);
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	VariantAdapter x(argv[0]);
+	Vector2i wrapped = proxy->getter();
+	wrapped.x = x.get();
+	proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
+
 static JSValue vector2i_proxy_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    Vector2i ret = proxy->getter();
-    return VariantAdapter(ret.y);
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	Vector2i ret = proxy->getter();
+	return VariantAdapter(ret.y);
 }
+
 static JSValue vector2i_proxy_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector2iProxy"]);
-    ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
-    VariantAdapter y(argv[0]);
-    Vector2i wrapped = proxy->getter();
-    wrapped.y = y.get();
-    proxy->setter(wrapped);
+	ObjectProxy<Vector2i> *proxy = reinterpret_cast<ObjectProxy<Vector2i> *>(opaque);
+	VariantAdapter y(argv[0]);
+	Vector2i wrapped = proxy->getter();
+	wrapped.y = y.get();
+	proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
 
@@ -456,7 +500,7 @@ void define_vector2i_proxy_property(JSContext *ctx, JSValue obj) {
 
 static int js_vector2i_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Vector2iProxy"] = JS_NewClassID(&class_id);
+	classes["Vector2iProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Vector2iProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &vector2i_proxy_def);

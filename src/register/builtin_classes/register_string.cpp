@@ -23,7 +23,7 @@ static void string_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef string_class_def = {
 	"String",
-	.finalizer = string_class_finalizer
+	string_class_finalizer
 };
 
 static JSValue string_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -39,15 +39,18 @@ static JSValue string_class_constructor(JSContext *ctx, JSValueConst new_target,
 		instance = String();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::STRING))) {
-		String v0 = VariantAdapter(argv[0]).get();
+			String
+ v0 = VariantAdapter(argv[0]).get();
 		instance = String(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::STRING_NAME))) {
-		StringName v0 = VariantAdapter(argv[0]).get();
+			StringName
+ v0 = VariantAdapter(argv[0]).get();
 		instance = String(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::NODE_PATH))) {
-		NodePath v0 = VariantAdapter(argv[0]).get();
+			NodePath
+ v0 = VariantAdapter(argv[0]).get();
 		instance = String(v0);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -532,7 +535,7 @@ static const JSCFunctionListEntry string_class_proto_funcs[] = {
 
 static int js_string_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["String"] = JS_NewClassID(&class_id);
+	classes["String"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "String";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &string_class_def);
@@ -565,7 +568,7 @@ static void string_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef string_proxy_def = {
-	"StringProxy",
+	.class_name = "StringProxy",
 	.finalizer = string_proxy_finalizer
 };
 
@@ -1727,7 +1730,7 @@ static const JSCFunctionListEntry string_proxy_proto_funcs[] = {
 
 static int js_string_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["StringProxy"] = JS_NewClassID(&class_id);
+	classes["StringProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "StringProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &string_proxy_def);

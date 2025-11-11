@@ -23,976 +23,1948 @@
 	}
 
 
+	
 void register_godot_object();
+void register_object();
+	
 void register_audio_server();
+	
 void register_camera_server();
+	
 void register_class_db();
+	
 void register_display_server();
+	
 void register_editor_file_system_directory();
+	
 void register_editor_interface();
+	
 void register_editor_paths();
+	
 void register_editor_selection();
+	
 void register_editor_undo_redo_manager();
+	
 void register_editor_vcs_interface();
+	
 void register_engine();
+	
 void register_engine_debugger();
+	
 void register_framebuffer_cache_rd();
+	
 void register_gd_extension_manager();
+	
 void register_geometry2d();
+	
 void register_geometry3d();
+	
 void register_ip();
+	
 void register_input();
+	
 void register_input_map();
+	
 void register_jni_singleton();
+	
 void register_jsonrpc();
+	
 void register_java_class_wrapper();
+	
 void register_java_script_bridge();
+	
 void register_main_loop();
+	
 void register_marshalls();
+	
 void register_movie_writer();
+	
 void register_native_menu();
+	
 void register_navigation_mesh_generator();
+	
 void register_navigation_server2d();
+	
 void register_navigation_server3d();
+	
 void register_node();
+	
 void register_os();
+	
 void register_open_xr_extension_wrapper();
+	
 void register_open_xr_interaction_profile_metadata();
+	
 void register_performance();
+	
 void register_physics_direct_body_state2d();
+	
 void register_physics_direct_body_state3d();
+	
 void register_physics_direct_space_state2d();
+	
 void register_physics_direct_space_state3d();
+	
 void register_physics_server2d();
+	
 void register_physics_server2d_manager();
+	
 void register_physics_server3d();
+	
 void register_physics_server3d_manager();
+	
 void register_physics_server3d_rendering_server_handler();
+	
 void register_project_settings();
+	
 void register_ref_counted();
+	
 void register_render_data();
+	
 void register_render_scene_data();
+	
 void register_rendering_device();
+	
 void register_rendering_server();
+	
 void register_resource_loader();
+	
 void register_resource_saver();
+	
 void register_resource_uid();
+	
 void register_script_language();
+	
 void register_shader_include_db();
+	
 void register_text_server_manager();
+	
 void register_theme_db();
+	
 void register_tile_data();
+	
 void register_time();
+	
 void register_translation_server();
+	
 void register_tree_item();
+	
 void register_undo_redo();
+	
 void register_uniform_set_cache_rd();
+	
 void register_worker_thread_pool();
+	
 void register_xr_server();
+	
 void register_xrvrs();
+	
 void register_scene_tree();
+	
 void register_animation_mixer();
+	
 void register_audio_stream_player();
+	
 void register_canvas_item();
+	
 void register_canvas_layer();
+	
 void register_editor_file_system();
+	
 void register_editor_plugin();
+	
 void register_editor_resource_preview();
+	
 void register_http_request();
+	
 void register_instance_placeholder();
+	
 void register_missing_node();
+	
 void register_multiplayer_spawner();
+	
 void register_multiplayer_synchronizer();
+	
 void register_navigation_agent2d();
+	
 void register_navigation_agent3d();
+	
 void register_node3d();
+	
 void register_resource_preloader();
+	
 void register_shader_globals_override();
+	
 void register_status_indicator();
+	
 void register_timer();
+	
 void register_viewport();
+	
 void register_world_environment();
+	
 void register_open_xr_extension_wrapper_extension();
+	
 void register_open_xr_future_extension();
+	
 void register_open_xr_render_model_extension();
+	
 void register_physics_direct_body_state2d_extension();
+	
 void register_physics_direct_body_state3d_extension();
+	
 void register_physics_direct_space_state2d_extension();
+	
 void register_physics_direct_space_state3d_extension();
+	
 void register_physics_server2d_extension();
+	
 void register_physics_server3d_extension();
+	
 void register_aes_context();
+	
 void register_a_star2d();
+	
 void register_a_star3d();
+	
 void register_a_star_grid2d();
+	
 void register_audio_effect_instance();
+	
 void register_audio_sample();
+	
 void register_audio_sample_playback();
+	
 void register_audio_stream_playback();
+	
 void register_camera_feed();
+	
 void register_char_fx_transform();
+	
 void register_config_file();
+	
 void register_crypto();
+	
 void register_dtls_server();
+	
 void register_dir_access();
+	
 void register_e_net_connection();
+	
 void register_editor_context_menu_plugin();
+	
 void register_editor_debugger_plugin();
+	
 void register_editor_debugger_session();
+	
 void register_editor_export_platform();
+	
 void register_editor_export_plugin();
+	
 void register_editor_export_preset();
+	
 void register_editor_feature_profile();
+	
 void register_editor_file_system_import_format_support_query();
+	
 void register_editor_inspector_plugin();
+	
 void register_editor_resource_conversion_plugin();
+	
 void register_editor_resource_preview_generator();
+	
 void register_editor_resource_tooltip_plugin();
+	
 void register_editor_scene_format_importer();
+	
 void register_editor_scene_post_import();
+	
 void register_editor_scene_post_import_plugin();
+	
 void register_editor_script();
+	
 void register_editor_translation_parser_plugin();
+	
 void register_encoded_object_as_id();
+	
 void register_engine_profiler();
+	
 void register_expression();
+	
 void register_file_access();
+	
 void register_gltf_object_model_property();
+	
 void register_hmac_context();
+	
 void register_http_client();
+	
 void register_hashing_context();
+	
 void register_image_format_loader();
+	
 void register_java_class();
+	
 void register_java_object();
+	
 void register_java_script_object();
+	
 void register_kinematic_collision2d();
+	
 void register_kinematic_collision3d();
+	
 void register_lightmapper();
+	
 void register_logger();
+	
 void register_mesh_convex_decomposition_settings();
+	
 void register_mesh_data_tool();
+	
 void register_multiplayer_api();
+	
 void register_mutex();
+	
 void register_navigation_path_query_parameters2d();
+	
 void register_navigation_path_query_parameters3d();
+	
 void register_navigation_path_query_result2d();
+	
 void register_navigation_path_query_result3d();
+	
 void register_node3d_gizmo();
+	
 void register_ogg_packet_sequence_playback();
+	
 void register_open_xrapi_extension();
+	
 void register_open_xr_future_result();
+	
 void register_pck_packer();
+	
 void register_packed_data_container_ref();
+	
 void register_packet_peer();
+	
 void register_physics_point_query_parameters2d();
+	
 void register_physics_point_query_parameters3d();
+	
 void register_physics_ray_query_parameters2d();
+	
 void register_physics_ray_query_parameters3d();
+	
 void register_physics_shape_query_parameters2d();
+	
 void register_physics_shape_query_parameters3d();
+	
 void register_physics_test_motion_parameters2d();
+	
 void register_physics_test_motion_parameters3d();
+	
 void register_physics_test_motion_result2d();
+	
 void register_physics_test_motion_result3d();
+	
 void register_rd_attachment_format();
+	
 void register_rd_framebuffer_pass();
+	
 void register_rd_pipeline_color_blend_state();
+	
 void register_rd_pipeline_color_blend_state_attachment();
+	
 void register_rd_pipeline_depth_stencil_state();
+	
 void register_rd_pipeline_multisample_state();
+	
 void register_rd_pipeline_rasterization_state();
+	
 void register_rd_pipeline_specialization_constant();
+	
 void register_rd_sampler_state();
+	
 void register_rd_shader_source();
+	
 void register_rd_texture_format();
+	
 void register_rd_texture_view();
+	
 void register_rd_uniform();
+	
 void register_rd_vertex_attribute();
+	
 void register_random_number_generator();
+	
 void register_reg_ex();
+	
 void register_reg_ex_match();
+	
 void register_render_scene_buffers();
+	
 void register_render_scene_buffers_configuration();
+	
 void register_resource();
+	
 void register_resource_format_loader();
+	
 void register_resource_format_saver();
+	
 void register_resource_importer();
+	
 void register_scene_state();
+	
 void register_scene_tree_timer();
+	
 void register_script_backtrace();
+	
 void register_semaphore();
+	
 void register_skin_reference();
+	
 void register_stream_peer();
+	
 void register_surface_tool();
+	
 void register_tcp_server();
+	
 void register_tls_options();
+	
 void register_text_line();
+	
 void register_text_paragraph();
+	
 void register_text_server();
+	
 void register_thread();
+	
 void register_translation_domain();
+	
 void register_triangle_mesh();
+	
 void register_tween();
+	
 void register_tweener();
+	
 void register_udp_server();
+	
 void register_upnp();
+	
 void register_upnp_device();
+	
 void register_weak_ref();
+	
 void register_web_rtc_peer_connection();
+	
 void register_xml_parser();
+	
 void register_xr_interface();
+	
 void register_xr_pose();
+	
 void register_xr_tracker();
+	
 void register_zip_packer();
+	
 void register_zip_reader();
+	
 void register_render_data_extension();
+	
 void register_render_data_rd();
+	
 void register_render_scene_data_extension();
+	
 void register_render_scene_data_rd();
+	
 void register_script_language_extension();
+	
 void register_animation_player();
+	
 void register_animation_tree();
+	
 void register_control();
+	
 void register_node2d();
+	
 void register_parallax_background();
+	
 void register_grid_map_editor_plugin();
+	
 void register_audio_listener3d();
+	
 void register_audio_stream_player3d();
+	
 void register_bone_attachment3d();
+	
 void register_camera3d();
+	
 void register_collision_object3d();
+	
 void register_collision_polygon3d();
+	
 void register_collision_shape3d();
+	
 void register_grid_map();
+	
 void register_importer_mesh_instance3d();
+	
 void register_joint3d();
+	
 void register_lightmap_probe();
+	
 void register_marker3d();
+	
 void register_navigation_link3d();
+	
 void register_navigation_obstacle3d();
+	
 void register_navigation_region3d();
+	
 void register_open_xr_composition_layer();
+	
 void register_open_xr_hand();
+	
 void register_open_xr_render_model();
+	
 void register_open_xr_render_model_manager();
+	
 void register_path3d();
+	
 void register_path_follow3d();
+	
 void register_ray_cast3d();
+	
 void register_remote_transform3d();
+	
 void register_shape_cast3d();
+	
 void register_skeleton3d();
+	
 void register_skeleton_modifier3d();
+	
 void register_spring_arm3d();
+	
 void register_spring_bone_collision3d();
+	
 void register_vehicle_wheel3d();
+	
 void register_visual_instance3d();
+	
 void register_xr_face_modifier3d();
+	
 void register_xr_node3d();
+	
 void register_xr_origin3d();
+	
 void register_sub_viewport();
+	
 void register_window();
+	
 void register_audio_effect_spectrum_analyzer_instance();
+	
 void register_audio_stream_playback_interactive();
+	
 void register_audio_stream_playback_playlist();
+	
 void register_audio_stream_playback_polyphonic();
+	
 void register_audio_stream_playback_resampled();
+	
 void register_audio_stream_playback_synchronized();
+	
 void register_editor_export_platform_android();
+	
 void register_editor_export_platform_apple_embedded();
+	
 void register_editor_export_platform_extension();
+	
 void register_editor_export_platform_mac_os();
+	
 void register_editor_export_platform_pc();
+	
 void register_editor_export_platform_web();
+	
 void register_editor_scene_format_importer_blend();
+	
 void register_editor_scene_format_importer_fbx2_gltf();
+	
 void register_editor_scene_format_importer_gltf();
+	
 void register_editor_scene_format_importer_ufbx();
+	
 void register_image_format_loader_extension();
+	
 void register_lightmapper_rd();
+	
 void register_multiplayer_api_extension();
+	
 void register_scene_multiplayer();
+	
 void register_editor_node3d_gizmo();
+	
 void register_e_net_packet_peer();
+	
 void register_multiplayer_peer();
+	
 void register_packet_peer_dtls();
+	
 void register_packet_peer_extension();
+	
 void register_packet_peer_stream();
+	
 void register_packet_peer_udp();
+	
 void register_web_rtc_data_channel();
+	
 void register_web_socket_peer();
+	
 void register_render_scene_buffers_extension();
+	
 void register_render_scene_buffers_rd();
+	
 void register_animation();
+	
 void register_animation_library();
+	
 void register_animation_node();
+	
 void register_animation_node_state_machine_playback();
+	
 void register_animation_node_state_machine_transition();
+	
 void register_audio_bus_layout();
+	
 void register_audio_effect();
+	
 void register_audio_stream();
+	
 void register_bit_map();
+	
 void register_bone_map();
+	
 void register_button_group();
+	
 void register_camera_attributes();
+	
 void register_color_palette();
+	
 void register_compositor();
+	
 void register_compositor_effect();
+	
 void register_crypto_key();
+	
 void register_curve();
+	
 void register_curve2d();
+	
 void register_curve3d();
+	
 void register_editor_node3d_gizmo_plugin();
+	
 void register_editor_settings();
+	
 void register_environment();
+	
 void register_foldable_group();
+	
 void register_font();
+	
 void register_gd_extension();
+	
 void register_gltf_accessor();
+	
 void register_gltf_animation();
+	
 void register_gltf_buffer_view();
+	
 void register_gltf_camera();
+	
 void register_gltf_document();
+	
 void register_gltf_document_extension();
+	
 void register_gltf_light();
+	
 void register_gltf_mesh();
+	
 void register_gltf_node();
+	
 void register_gltf_physics_body();
+	
 void register_gltf_physics_shape();
+	
 void register_gltf_skeleton();
+	
 void register_gltf_skin();
+	
 void register_gltf_spec_gloss();
+	
 void register_gltf_state();
+	
 void register_gltf_texture();
+	
 void register_gltf_texture_sampler();
+	
 void register_gradient();
+	
 void register_image();
+	
 void register_importer_mesh();
+	
 void register_input_event();
+	
 void register_json();
+	
 void register_label_settings();
+	
 void register_lightmap_gi_data();
+	
 void register_material();
+	
 void register_mesh();
+	
 void register_mesh_library();
+	
 void register_missing_resource();
+	
 void register_multi_mesh();
+	
 void register_navigation_mesh();
+	
 void register_navigation_mesh_source_geometry_data2d();
+	
 void register_navigation_mesh_source_geometry_data3d();
+	
 void register_navigation_polygon();
+	
 void register_noise();
+	
 void register_occluder3d();
+	
 void register_occluder_polygon2d();
+	
 void register_ogg_packet_sequence();
+	
 void register_open_xr_action();
+	
 void register_open_xr_action_map();
+	
 void register_open_xr_action_set();
+	
 void register_open_xr_binding_modifier();
+	
 void register_open_xr_haptic_base();
+	
 void register_open_xrip_binding();
+	
 void register_open_xr_interaction_profile();
+	
 void register_packed_data_container();
+	
 void register_packed_scene();
+	
 void register_physics_material();
+	
 void register_polygon_path_finder();
+	
 void register_rd_shader_file();
+	
 void register_rd_shader_spirv();
+	
 void register_rich_text_effect();
+	
 void register_scene_replication_config();
+	
 void register_script();
+	
 void register_shader();
+	
 void register_shader_include();
+	
 void register_shape2d();
+	
 void register_shape3d();
+	
 void register_shortcut();
+	
 void register_skeleton_modification2d();
+	
 void register_skeleton_modification_stack2d();
+	
 void register_skeleton_profile();
+	
 void register_skin();
+	
 void register_sky();
+	
 void register_sprite_frames();
+	
 void register_style_box();
+	
 void register_syntax_highlighter();
+	
 void register_texture();
+	
 void register_theme();
+	
 void register_tile_map_pattern();
+	
 void register_tile_set();
+	
 void register_tile_set_source();
+	
 void register_translation();
+	
 void register_video_stream();
+	
 void register_video_stream_playback();
+	
 void register_visual_shader_node();
+	
 void register_voxel_gi_data();
+	
 void register_world2d();
+	
 void register_world3d();
+	
 void register_x509_certificate();
+	
 void register_editor_import_plugin();
+	
 void register_resource_importer_bm_font();
+	
 void register_resource_importer_bit_map();
+	
 void register_resource_importer_csv_translation();
+	
 void register_resource_importer_dynamic_font();
+	
 void register_resource_importer_image();
+	
 void register_resource_importer_image_font();
+	
 void register_resource_importer_layered_texture();
+	
 void register_resource_importer_mp3();
+	
 void register_resource_importer_obj();
+	
 void register_resource_importer_ogg_vorbis();
+	
 void register_resource_importer_svg();
+	
 void register_resource_importer_scene();
+	
 void register_resource_importer_shader_file();
+	
 void register_resource_importer_texture();
+	
 void register_resource_importer_texture_atlas();
+	
 void register_resource_importer_wav();
+	
 void register_stream_peer_buffer();
+	
 void register_stream_peer_extension();
+	
 void register_stream_peer_gzip();
+	
 void register_stream_peer_tcp();
+	
 void register_stream_peer_tls();
+	
 void register_text_server_extension();
+	
 void register_callback_tweener();
+	
 void register_interval_tweener();
+	
 void register_method_tweener();
+	
 void register_property_tweener();
+	
 void register_subtween_tweener();
+	
 void register_web_rtc_peer_connection_extension();
+	
 void register_mobile_vr_interface();
+	
 void register_open_xr_interface();
+	
 void register_web_xr_interface();
+	
 void register_xr_interface_extension();
+	
 void register_xr_face_tracker();
+	
 void register_xr_positional_tracker();
+	
 void register_base_button();
+	
 void register_color_rect();
+	
 void register_container();
+	
 void register_graph_edit();
+	
 void register_item_list();
+	
 void register_label();
+	
 void register_line_edit();
+	
 void register_menu_bar();
+	
 void register_nine_patch_rect();
+	
 void register_panel();
+	
 void register_range();
+	
 void register_reference_rect();
+	
 void register_rich_text_label();
+	
 void register_separator();
+	
 void register_tab_bar();
+	
 void register_text_edit();
+	
 void register_texture_rect();
+	
 void register_tree();
+	
 void register_video_stream_player();
+	
 void register_animated_sprite2d();
+	
 void register_audio_listener2d();
+	
 void register_audio_stream_player2d();
+	
 void register_back_buffer_copy();
+	
 void register_bone2d();
+	
 void register_cpu_particles2d();
+	
 void register_camera2d();
+	
 void register_canvas_group();
+	
 void register_canvas_modulate();
+	
 void register_collision_object2d();
+	
 void register_collision_polygon2d();
+	
 void register_collision_shape2d();
+	
 void register_gpu_particles2d();
+	
 void register_joint2d();
+	
 void register_light2d();
+	
 void register_light_occluder2d();
+	
 void register_line2d();
+	
 void register_marker2d();
+	
 void register_mesh_instance2d();
+	
 void register_multi_mesh_instance2d();
+	
 void register_navigation_link2d();
+	
 void register_navigation_obstacle2d();
+	
 void register_navigation_region2d();
+	
 void register_parallax2d();
+	
 void register_parallax_layer();
+	
 void register_path2d();
+	
 void register_path_follow2d();
+	
 void register_polygon2d();
+	
 void register_ray_cast2d();
+	
 void register_remote_transform2d();
+	
 void register_shape_cast2d();
+	
 void register_skeleton2d();
+	
 void register_sprite2d();
+	
 void register_tile_map();
+	
 void register_tile_map_layer();
+	
 void register_touch_screen_button();
+	
 void register_visible_on_screen_notifier2d();
+	
 void register_xr_camera3d();
+	
 void register_area3d();
+	
 void register_physics_body3d();
+	
 void register_cone_twist_joint3d();
+	
 void register_generic6_dof_joint3d();
+	
 void register_hinge_joint3d();
+	
 void register_pin_joint3d();
+	
 void register_slider_joint3d();
+	
 void register_open_xr_composition_layer_cylinder();
+	
 void register_open_xr_composition_layer_equirect();
+	
 void register_open_xr_composition_layer_quad();
+	
 void register_bone_constraint3d();
+	
 void register_look_at_modifier3d();
+	
 void register_modifier_bone_target3d();
+	
 void register_physical_bone_simulator3d();
+	
 void register_retarget_modifier3d();
+	
 void register_skeleton_ik3d();
+	
 void register_spring_bone_simulator3d();
+	
 void register_xr_body_modifier3d();
+	
 void register_xr_hand_modifier3d();
+	
 void register_spring_bone_collision_capsule3d();
+	
 void register_spring_bone_collision_plane3d();
+	
 void register_spring_bone_collision_sphere3d();
+	
 void register_decal();
+	
 void register_fog_volume();
+	
 void register_gpu_particles_attractor3d();
+	
 void register_gpu_particles_collision3d();
+	
 void register_geometry_instance3d();
+	
 void register_light3d();
+	
 void register_lightmap_gi();
+	
 void register_occluder_instance3d();
+	
 void register_open_xr_visibility_mask();
+	
 void register_reflection_probe();
+	
 void register_root_motion_view();
+	
 void register_visible_on_screen_notifier3d();
+	
 void register_voxel_gi();
+	
 void register_xr_anchor3d();
+	
 void register_xr_controller3d();
+	
 void register_accept_dialog();
+	
 void register_popup();
+	
 void register_audio_stream_generator_playback();
+	
 void register_audio_stream_playback_ogg_vorbis();
+	
 void register_editor_export_platform_ios();
+	
 void register_editor_export_platform_vision_os();
+	
 void register_editor_export_platform_linux_bsd();
+	
 void register_editor_export_platform_windows();
+	
 void register_e_net_multiplayer_peer();
+	
 void register_multiplayer_peer_extension();
+	
 void register_offline_multiplayer_peer();
+	
 void register_web_rtc_multiplayer_peer();
+	
 void register_web_socket_multiplayer_peer();
+	
 void register_web_rtc_data_channel_extension();
+	
 void register_animation_node_extension();
+	
 void register_animation_node_output();
+	
 void register_animation_node_sync();
+	
 void register_animation_node_time_scale();
+	
 void register_animation_node_time_seek();
+	
 void register_animation_root_node();
+	
 void register_audio_effect_amplify();
+	
 void register_audio_effect_capture();
+	
 void register_audio_effect_chorus();
+	
 void register_audio_effect_compressor();
+	
 void register_audio_effect_delay();
+	
 void register_audio_effect_distortion();
+	
 void register_audio_effect_eq();
+	
 void register_audio_effect_filter();
+	
 void register_audio_effect_hard_limiter();
+	
 void register_audio_effect_limiter();
+	
 void register_audio_effect_panner();
+	
 void register_audio_effect_phaser();
+	
 void register_audio_effect_pitch_shift();
+	
 void register_audio_effect_record();
+	
 void register_audio_effect_reverb();
+	
 void register_audio_effect_spectrum_analyzer();
+	
 void register_audio_effect_stereo_enhance();
+	
 void register_audio_stream_generator();
+	
 void register_audio_stream_interactive();
+	
 void register_audio_stream_mp3();
+	
 void register_audio_stream_microphone();
+	
 void register_audio_stream_ogg_vorbis();
+	
 void register_audio_stream_playlist();
+	
 void register_audio_stream_polyphonic();
+	
 void register_audio_stream_randomizer();
+	
 void register_audio_stream_synchronized();
+	
 void register_audio_stream_wav();
+	
 void register_camera_attributes_physical();
+	
 void register_camera_attributes_practical();
+	
 void register_font_file();
+	
 void register_font_variation();
+	
 void register_system_font();
+	
 void register_fbx_document();
+	
 void register_gltf_document_extension_convert_importer_mesh();
+	
 void register_fbx_state();
+	
 void register_input_event_action();
+	
 void register_input_event_from_window();
+	
 void register_input_event_joypad_button();
+	
 void register_input_event_joypad_motion();
+	
 void register_input_event_midi();
+	
 void register_input_event_shortcut();
+	
 void register_base_material3d();
+	
 void register_canvas_item_material();
+	
 void register_fog_material();
+	
 void register_panorama_sky_material();
+	
 void register_particle_process_material();
+	
 void register_physical_sky_material();
+	
 void register_placeholder_material();
+	
 void register_procedural_sky_material();
+	
 void register_shader_material();
+	
 void register_array_mesh();
+	
 void register_immediate_mesh();
+	
 void register_placeholder_mesh();
+	
 void register_primitive_mesh();
+	
 void register_fast_noise_lite();
+	
 void register_array_occluder3d();
+	
 void register_box_occluder3d();
+	
 void register_polygon_occluder3d();
+	
 void register_quad_occluder3d();
+	
 void register_sphere_occluder3d();
+	
 void register_open_xr_action_binding_modifier();
+	
 void register_open_xrip_binding_modifier();
+	
 void register_open_xr_haptic_vibration();
+	
 void register_gd_script();
+	
 void register_script_extension();
+	
 void register_visual_shader();
+	
 void register_capsule_shape2d();
+	
 void register_circle_shape2d();
+	
 void register_concave_polygon_shape2d();
+	
 void register_convex_polygon_shape2d();
+	
 void register_rectangle_shape2d();
+	
 void register_segment_shape2d();
+	
 void register_separation_ray_shape2d();
+	
 void register_world_boundary_shape2d();
+	
 void register_box_shape3d();
+	
 void register_capsule_shape3d();
+	
 void register_concave_polygon_shape3d();
+	
 void register_convex_polygon_shape3d();
+	
 void register_cylinder_shape3d();
+	
 void register_height_map_shape3d();
+	
 void register_separation_ray_shape3d();
+	
 void register_sphere_shape3d();
+	
 void register_world_boundary_shape3d();
+	
 void register_skeleton_modification2dccdik();
+	
 void register_skeleton_modification2dfabrik();
+	
 void register_skeleton_modification2d_jiggle();
+	
 void register_skeleton_modification2d_look_at();
+	
 void register_skeleton_modification2d_physical_bones();
+	
 void register_skeleton_modification2d_stack_holder();
+	
 void register_skeleton_modification2d_two_bone_ik();
+	
 void register_skeleton_profile_humanoid();
+	
 void register_style_box_empty();
+	
 void register_style_box_flat();
+	
 void register_style_box_line();
+	
 void register_style_box_texture();
+	
 void register_code_highlighter();
+	
 void register_editor_syntax_highlighter();
+	
 void register_texture2d();
+	
 void register_texture3d();
+	
 void register_texture_layered();
+	
 void register_tile_set_atlas_source();
+	
 void register_tile_set_scenes_collection_source();
+	
 void register_optimized_translation();
+	
 void register_video_stream_theora();
+	
 void register_visual_shader_node_billboard();
+	
 void register_visual_shader_node_clamp();
+	
 void register_visual_shader_node_color_func();
+	
 void register_visual_shader_node_color_op();
+	
 void register_visual_shader_node_compare();
+	
 void register_visual_shader_node_constant();
+	
 void register_visual_shader_node_cubemap();
+	
 void register_visual_shader_node_custom();
+	
 void register_visual_shader_node_derivative_func();
+	
 void register_visual_shader_node_determinant();
+	
 void register_visual_shader_node_distance_fade();
+	
 void register_visual_shader_node_dot_product();
+	
 void register_visual_shader_node_float_func();
+	
 void register_visual_shader_node_float_op();
+	
 void register_visual_shader_node_fresnel();
+	
 void register_visual_shader_node_if();
+	
 void register_visual_shader_node_input();
+	
 void register_visual_shader_node_int_func();
+	
 void register_visual_shader_node_int_op();
+	
 void register_visual_shader_node_is();
+	
 void register_visual_shader_node_linear_scene_depth();
+	
 void register_visual_shader_node_mix();
+	
 void register_visual_shader_node_multiply_add();
+	
 void register_visual_shader_node_outer_product();
+	
 void register_visual_shader_node_output();
+	
 void register_visual_shader_node_parameter();
+	
 void register_visual_shader_node_parameter_ref();
+	
 void register_visual_shader_node_particle_accelerator();
+	
 void register_visual_shader_node_particle_cone_velocity();
+	
 void register_visual_shader_node_particle_emit();
+	
 void register_visual_shader_node_particle_emitter();
+	
 void register_visual_shader_node_particle_multiply_by_axis_angle();
+	
 void register_visual_shader_node_particle_randomness();
+	
 void register_visual_shader_node_proximity_fade();
+	
 void register_visual_shader_node_random_range();
+	
 void register_visual_shader_node_remap();
+	
 void register_visual_shader_node_reroute();
+	
 void register_visual_shader_node_resizable_base();
+	
 void register_visual_shader_node_rotation_by_axis();
+	
 void register_visual_shader_node_sdf_raymarch();
+	
 void register_visual_shader_node_sdf_to_screen_uv();
+	
 void register_visual_shader_node_sample3d();
+	
 void register_visual_shader_node_screen_normal_world_space();
+	
 void register_visual_shader_node_screen_uv_to_sdf();
+	
 void register_visual_shader_node_smooth_step();
+	
 void register_visual_shader_node_step();
+	
 void register_visual_shader_node_switch();
+	
 void register_visual_shader_node_texture();
+	
 void register_visual_shader_node_texture_sdf();
+	
 void register_visual_shader_node_texture_sdf_normal();
+	
 void register_visual_shader_node_transform_compose();
+	
 void register_visual_shader_node_transform_decompose();
+	
 void register_visual_shader_node_transform_func();
+	
 void register_visual_shader_node_transform_op();
+	
 void register_visual_shader_node_transform_vec_mult();
+	
 void register_visual_shader_node_u_int_func();
+	
 void register_visual_shader_node_u_int_op();
+	
 void register_visual_shader_node_uv_func();
+	
 void register_visual_shader_node_uv_polar_coord();
+	
 void register_visual_shader_node_varying();
+	
 void register_visual_shader_node_vector_base();
+	
 void register_visual_shader_node_world_position_from_depth();
+	
 void register_text_server_advanced();
+	
 void register_text_server_dummy();
+	
 void register_xr_body_tracker();
+	
 void register_xr_controller_tracker();
+	
 void register_xr_hand_tracker();
+	
 void register_button();
+	
 void register_link_button();
+	
 void register_texture_button();
+	
 void register_aspect_ratio_container();
+	
 void register_box_container();
+	
 void register_center_container();
+	
 void register_editor_property();
+	
 void register_flow_container();
+	
 void register_foldable_container();
+	
 void register_graph_element();
+	
 void register_grid_container();
+	
 void register_margin_container();
+	
 void register_panel_container();
+	
 void register_scroll_container();
+	
 void register_split_container();
+	
 void register_sub_viewport_container();
+	
 void register_tab_container();
+	
 void register_editor_spin_slider();
+	
 void register_progress_bar();
+	
 void register_scroll_bar();
+	
 void register_slider();
+	
 void register_spin_box();
+	
 void register_texture_progress_bar();
+	
 void register_h_separator();
+	
 void register_v_separator();
+	
 void register_code_edit();
+	
 void register_area2d();
+	
 void register_physics_body2d();
+	
 void register_damped_spring_joint2d();
+	
 void register_groove_joint2d();
+	
 void register_pin_joint2d();
+	
 void register_directional_light2d();
+	
 void register_point_light2d();
+	
 void register_visible_on_screen_enabler2d();
+	
 void register_character_body3d();
+	
 void register_physical_bone3d();
+	
 void register_rigid_body3d();
+	
 void register_static_body3d();
+	
 void register_aim_modifier3d();
+	
 void register_convert_transform_modifier3d();
+	
 void register_copy_transform_modifier3d();
+	
 void register_gpu_particles_attractor_box3d();
+	
 void register_gpu_particles_attractor_sphere3d();
+	
 void register_gpu_particles_attractor_vector_field3d();
+	
 void register_gpu_particles_collision_box3d();
+	
 void register_gpu_particles_collision_height_field3d();
+	
 void register_gpu_particles_collision_sdf3d();
+	
 void register_gpu_particles_collision_sphere3d();
+	
 void register_cpu_particles3d();
+	
 void register_csg_shape3d();
+	
 void register_gpu_particles3d();
+	
 void register_label3d();
+	
 void register_mesh_instance3d();
+	
 void register_multi_mesh_instance3d();
+	
 void register_sprite_base3d();
+	
 void register_directional_light3d();
+	
 void register_omni_light3d();
+	
 void register_spot_light3d();
+	
 void register_visible_on_screen_enabler3d();
+	
 void register_confirmation_dialog();
+	
 void register_popup_menu();
+	
 void register_popup_panel();
+	
 void register_animation_node_add2();
+	
 void register_animation_node_add3();
+	
 void register_animation_node_blend2();
+	
 void register_animation_node_blend3();
+	
 void register_animation_node_one_shot();
+	
 void register_animation_node_sub2();
+	
 void register_animation_node_transition();
+	
 void register_animation_node_animation();
+	
 void register_animation_node_blend_space1_d();
+	
 void register_animation_node_blend_space2d();
+	
 void register_animation_node_blend_tree();
+	
 void register_animation_node_state_machine();
+	
 void register_audio_effect_eq10();
+	
 void register_audio_effect_eq21();
+	
 void register_audio_effect_eq6();
+	
 void register_audio_effect_band_limit_filter();
+	
 void register_audio_effect_band_pass_filter();
+	
 void register_audio_effect_high_pass_filter();
+	
 void register_audio_effect_high_shelf_filter();
+	
 void register_audio_effect_low_pass_filter();
+	
 void register_audio_effect_low_shelf_filter();
+	
 void register_audio_effect_notch_filter();
+	
 void register_input_event_screen_drag();
+	
 void register_input_event_screen_touch();
+	
 void register_input_event_with_modifiers();
+	
 void register_orm_material3d();
+	
 void register_standard_material3d();
+	
 void register_box_mesh();
+	
 void register_capsule_mesh();
+	
 void register_cylinder_mesh();
+	
 void register_plane_mesh();
+	
 void register_point_mesh();
+	
 void register_prism_mesh();
+	
 void register_ribbon_trail_mesh();
+	
 void register_sphere_mesh();
+	
 void register_text_mesh();
+	
 void register_torus_mesh();
+	
 void register_tube_trail_mesh();
+	
 void register_open_xr_analog_threshold_modifier();
+	
 void register_open_xr_dpad_binding_modifier();
+	
 void register_gd_script_syntax_highlighter();
+	
 void register_animated_texture();
+	
 void register_atlas_texture();
+	
 void register_camera_texture();
+	
 void register_canvas_texture();
+	
 void register_compressed_texture2d();
+	
 void register_curve_texture();
+	
 void register_curve_xyz_texture();
+	
 void register_dpi_texture();
+	
 void register_external_texture();
+	
 void register_gradient_texture1_d();
+	
 void register_gradient_texture2d();
+	
 void register_image_texture();
+	
 void register_mesh_texture();
+	
 void register_noise_texture2d();
+	
 void register_placeholder_texture2d();
+	
 void register_portable_compressed_texture2d();
+	
 void register_texture2drd();
+	
 void register_viewport_texture();
+	
 void register_compressed_texture3d();
+	
 void register_image_texture3d();
+	
 void register_noise_texture3d();
+	
 void register_placeholder_texture3d();
+	
 void register_texture3drd();
+	
 void register_compressed_texture_layered();
+	
 void register_image_texture_layered();
+	
 void register_placeholder_texture_layered();
+	
 void register_texture_layered_rd();
+	
 void register_visual_shader_node_boolean_constant();
+	
 void register_visual_shader_node_color_constant();
+	
 void register_visual_shader_node_float_constant();
+	
 void register_visual_shader_node_int_constant();
+	
 void register_visual_shader_node_transform_constant();
+	
 void register_visual_shader_node_u_int_constant();
+	
 void register_visual_shader_node_vec2_constant();
+	
 void register_visual_shader_node_vec3_constant();
+	
 void register_visual_shader_node_vec4_constant();
+	
 void register_visual_shader_node_particle_output();
+	
 void register_visual_shader_node_boolean_parameter();
+	
 void register_visual_shader_node_color_parameter();
+	
 void register_visual_shader_node_float_parameter();
+	
 void register_visual_shader_node_int_parameter();
+	
 void register_visual_shader_node_texture_parameter();
+	
 void register_visual_shader_node_transform_parameter();
+	
 void register_visual_shader_node_u_int_parameter();
+	
 void register_visual_shader_node_vec2_parameter();
+	
 void register_visual_shader_node_vec3_parameter();
+	
 void register_visual_shader_node_vec4_parameter();
+	
 void register_visual_shader_node_particle_box_emitter();
+	
 void register_visual_shader_node_particle_mesh_emitter();
+	
 void register_visual_shader_node_particle_ring_emitter();
+	
 void register_visual_shader_node_particle_sphere_emitter();
+	
 void register_visual_shader_node_curve_texture();
+	
 void register_visual_shader_node_curve_xyz_texture();
+	
 void register_visual_shader_node_frame();
+	
 void register_visual_shader_node_group_base();
+	
 void register_visual_shader_node_texture2d_array();
+	
 void register_visual_shader_node_texture3d();
+	
 void register_visual_shader_node_varying_getter();
+	
 void register_visual_shader_node_varying_setter();
+	
 void register_visual_shader_node_face_forward();
+	
 void register_visual_shader_node_vector_compose();
+	
 void register_visual_shader_node_vector_decompose();
+	
 void register_visual_shader_node_vector_distance();
+	
 void register_visual_shader_node_vector_func();
+	
 void register_visual_shader_node_vector_len();
+	
 void register_visual_shader_node_vector_op();
+	
 void register_visual_shader_node_vector_refract();
+	
 void register_check_box();
+	
 void register_check_button();
+	
 void register_color_picker_button();
+	
 void register_menu_button();
+	
 void register_option_button();
+	
 void register_h_box_container();
+	
 void register_v_box_container();
+	
 void register_h_flow_container();
+	
 void register_v_flow_container();
+	
 void register_graph_frame();
+	
 void register_graph_node();
+	
 void register_open_xr_binding_modifier_editor();
+	
 void register_script_editor();
+	
 void register_editor_inspector();
+	
 void register_h_split_container();
+	
 void register_v_split_container();
+	
 void register_h_scroll_bar();
+	
 void register_v_scroll_bar();
+	
 void register_h_slider();
+	
 void register_v_slider();
+	
 void register_character_body2d();
+	
 void register_rigid_body2d();
+	
 void register_static_body2d();
+	
 void register_vehicle_body3d();
+	
 void register_animatable_body3d();
+	
 void register_csg_combiner3d();
+	
 void register_csg_primitive3d();
+	
 void register_soft_body3d();
+	
 void register_animated_sprite3d();
+	
 void register_sprite3d();
+	
 void register_editor_command_palette();
+	
 void register_editor_file_dialog();
+	
 void register_file_dialog();
+	
 void register_script_create_dialog();
+	
 void register_input_event_gesture();
+	
 void register_input_event_key();
+	
 void register_input_event_mouse();
+	
 void register_quad_mesh();
+	
 void register_compressed_cubemap();
+	
 void register_compressed_cubemap_array();
+	
 void register_compressed_texture2d_array();
+	
 void register_cubemap();
+	
 void register_cubemap_array();
+	
 void register_texture2d_array();
+	
 void register_placeholder_cubemap();
+	
 void register_placeholder_cubemap_array();
+	
 void register_placeholder_texture2d_array();
+	
 void register_texture2d_array_rd();
+	
 void register_texture_cubemap_array_rd();
+	
 void register_texture_cubemap_rd();
+	
 void register_visual_shader_node_cubemap_parameter();
+	
 void register_visual_shader_node_texture2d_array_parameter();
+	
 void register_visual_shader_node_texture2d_parameter();
+	
 void register_visual_shader_node_texture3d_parameter();
+	
 void register_visual_shader_node_texture_parameter_triplanar();
+	
 void register_visual_shader_node_comment();
+	
 void register_visual_shader_node_expression();
+	
 void register_editor_resource_picker();
+	
 void register_editor_toaster();
+	
 void register_open_xr_interaction_profile_editor_base();
+	
 void register_color_picker();
+	
 void register_file_system_dock();
+	
 void register_script_editor_base();
+	
 void register_physical_bone2d();
+	
 void register_animatable_body2d();
+	
 void register_csg_box3d();
+	
 void register_csg_cylinder3d();
+	
 void register_csg_mesh3d();
+	
 void register_csg_polygon3d();
+	
 void register_csg_sphere3d();
+	
 void register_csg_torus3d();
+	
 void register_input_event_magnify_gesture();
+	
 void register_input_event_pan_gesture();
+	
 void register_input_event_mouse_button();
+	
 void register_input_event_mouse_motion();
+	
 void register_visual_shader_node_global_expression();
+	
 void register_editor_script_picker();
+	
 void register_open_xr_interaction_profile_editor();
 void register_classes();
 #endif // __REGISTER_CLASSES_H__

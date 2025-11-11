@@ -23,12 +23,12 @@
 {{ include_path }}
 
 {% macro norm_type(tp) %}
-	{% if tp == 'float' %}double
-	{% elif tp=='Object'%}
+	{%- if tp == 'float' -%}double
+	{%- elif tp=='Object' -%}
 	Object *
-	{% else %}
-	{{tp}}
-	{% endif %}
+	{%- else -%}
+	{{-tp-}}
+	{%- endif -%}
 {% endmacro %}
 
 using namespace godot;
@@ -43,7 +43,7 @@ static void {{ cls_name_lower }}_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef {{ cls_name_lower }}_class_def = {
 	"{{ cls_name }}",
-	.finalizer = {{ cls_name_lower }}_class_finalizer
+	{{ cls_name_lower }}_class_finalizer
 };
 
 static JSValue {{ cls_name_lower }}_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -119,7 +119,7 @@ void define_{{ cls_name_lower }}_property(JSContext *ctx, JSValue obj) {
 
 static int js_{{ cls_name_lower }}_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["{{cls_name}}"] = JS_NewClassID(&class_id);
+	classes["{{cls_name}}"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "{{cls_name}}";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &{{ cls_name_lower }}_class_def);
@@ -160,7 +160,7 @@ static void {{cls_name_lower}}_proxy_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef {{cls_name_lower}}_proxy_def = {
 	"{{cls_name}}Proxy",
-	.finalizer = {{cls_name_lower}}_proxy_finalizer
+	{{cls_name_lower}}_proxy_finalizer
 };
 
 
@@ -233,7 +233,7 @@ void define_{{ cls_name_lower }}_proxy_property(JSContext *ctx, JSValue obj) {
 
 static int js_{{ cls_name_lower }}_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["{{cls_name}}Proxy"] = JS_NewClassID(&class_id);
+	classes["{{cls_name}}Proxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "{{cls_name}}Proxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &{{ cls_name_lower }}_proxy_def);

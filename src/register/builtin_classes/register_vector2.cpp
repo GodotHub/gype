@@ -21,7 +21,7 @@ static void vector2_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef vector2_class_def = {
 	"Vector2",
-	.finalizer = vector2_class_finalizer
+	 vector2_class_finalizer
 };
 
 static JSValue vector2_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -37,16 +37,20 @@ static JSValue vector2_class_constructor(JSContext *ctx, JSValueConst new_target
 		instance = Vector2();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR2))) {
-		Vector2 v0 = VariantAdapter(argv[0]).get();
+			Vector2
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Vector2(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR2I))) {
-		Vector2i v0 = VariantAdapter(argv[0]).get();
+			Vector2i
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Vector2(v0);
 	}
 	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::FLOAT))) {
-		double v0 = VariantAdapter(argv[0]).get();
-		double v1 = VariantAdapter(argv[1]).get();
+		double
+ v0 = VariantAdapter(argv[0]).get();
+		double
+ v1 = VariantAdapter(argv[1]).get();
 		instance = Vector2(v0, v1);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -293,7 +297,7 @@ void define_vector2_property(JSContext *ctx, JSValue obj) {
 
 static int js_vector2_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Vector2"] = JS_NewClassID(&class_id);
+	classes["Vector2"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Vector2";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &vector2_class_def);
@@ -326,7 +330,7 @@ static void vector2_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef vector2_proxy_def = {
-	"Vector2Proxy",
+	.class_name = "Vector2Proxy",
 	.finalizer = vector2_proxy_finalizer
 };
 
@@ -884,7 +888,7 @@ void define_vector2_proxy_property(JSContext *ctx, JSValue obj) {
 
 static int js_vector2_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Vector2Proxy"] = JS_NewClassID(&class_id);
+	classes["Vector2Proxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Vector2Proxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &vector2_proxy_def);

@@ -22,7 +22,7 @@ static void utility_functions_class_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef utility_functions_class_def = {
-	"UtilityFunctions",
+	.class_name = "UtilityFunctions",
 	.finalizer = utility_functions_class_finalizer
 };
 
@@ -505,7 +505,7 @@ static const JSCFunctionListEntry utility_functions_class_funcs[] = {
 };
 
 static int js_utility_functions_class_init(JSContext *ctx) {
-	JSClassID class_id = JS_NewClassID(&classes["UtilityFunctions"]);
+	JSClassID class_id = JS_NewClassID(js_runtime(), &classes["UtilityFunctions"]);
 	classes["UtilityFunctions"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &utility_functions_class_def);
 

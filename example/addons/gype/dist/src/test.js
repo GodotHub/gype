@@ -32,13 +32,21 @@ var __runInitializers = (this && this.__runInitializers) || function (thisArg, i
     }
     return useValue ? value : void 0;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __setFunctionName = (this && this.__setFunctionName) || function (f, name, prefix) {
     if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
     return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
 };
 import { Button } from "@godot/classes/button";
 import { GodotClass, to_promise } from "@godot/core/class_defined";
-import * as os from "os";
 let test = (() => {
     let _classDecorators = [GodotClass];
     let _classDescriptor;
@@ -49,7 +57,13 @@ let test = (() => {
         test() { }
         _enter_tree() { }
         _ready() {
-            os.setTimeout(() => { }, 0);
+            return __awaiter(this, void 0, void 0, function* () {
+                yield new Promise((resolve, reject) => {
+                    resolve("hello");
+                }).then((res) => {
+                    GD.print(res);
+                });
+            });
         }
         _process(delta) { }
     };

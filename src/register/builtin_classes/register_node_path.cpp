@@ -21,7 +21,7 @@ static void node_path_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef node_path_class_def = {
 	"NodePath",
-	.finalizer = node_path_class_finalizer
+	node_path_class_finalizer
 };
 
 static JSValue node_path_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -37,11 +37,13 @@ static JSValue node_path_class_constructor(JSContext *ctx, JSValueConst new_targ
 		instance = NodePath();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::NODE_PATH))) {
-		NodePath v0 = VariantAdapter(argv[0]).get();
+			NodePath
+ v0 = VariantAdapter(argv[0]).get();
 		instance = NodePath(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::STRING))) {
-		String v0 = VariantAdapter(argv[0]).get();
+			String
+ v0 = VariantAdapter(argv[0]).get();
 		instance = NodePath(v0);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -106,7 +108,7 @@ static const JSCFunctionListEntry node_path_class_proto_funcs[] = {
 
 static int js_node_path_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["NodePath"] = JS_NewClassID(&class_id);
+	classes["NodePath"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "NodePath";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &node_path_class_def);
@@ -139,7 +141,7 @@ static void node_path_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef node_path_proxy_def = {
-	"NodePathProxy",
+	.class_name = "NodePathProxy",
 	.finalizer = node_path_proxy_finalizer
 };
 
@@ -287,7 +289,7 @@ static const JSCFunctionListEntry node_path_proxy_proto_funcs[] = {
 
 static int js_node_path_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["NodePathProxy"] = JS_NewClassID(&class_id);
+	classes["NodePathProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "NodePathProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &node_path_proxy_def);

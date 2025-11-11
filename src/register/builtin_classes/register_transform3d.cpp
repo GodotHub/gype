@@ -22,7 +22,7 @@ static void transform3d_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef transform3d_class_def = {
 	"Transform3D",
-	.finalizer = transform3d_class_finalizer
+	transform3d_class_finalizer
 };
 
 static JSValue transform3d_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -38,23 +38,31 @@ static JSValue transform3d_class_constructor(JSContext *ctx, JSValueConst new_ta
 		instance = Transform3D();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::TRANSFORM3D))) {
-		Transform3D v0 = VariantAdapter(argv[0]).get();
+			Transform3D
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Transform3D(v0);
 	}
 	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::BASIS))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR3))) {
-		Basis v0 = VariantAdapter(argv[0]).get();
-		Vector3 v1 = VariantAdapter(argv[1]).get();
+			Basis
+ v0 = VariantAdapter(argv[0]).get();
+			Vector3
+ v1 = VariantAdapter(argv[1]).get();
 		instance = Transform3D(v0, v1);
 	}
 	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[2],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[3],Variant::Type::VECTOR3))) {
-		Vector3 v0 = VariantAdapter(argv[0]).get();
-		Vector3 v1 = VariantAdapter(argv[1]).get();
-		Vector3 v2 = VariantAdapter(argv[2]).get();
-		Vector3 v3 = VariantAdapter(argv[3]).get();
+			Vector3
+ v0 = VariantAdapter(argv[0]).get();
+			Vector3
+ v1 = VariantAdapter(argv[1]).get();
+			Vector3
+ v2 = VariantAdapter(argv[2]).get();
+			Vector3
+ v3 = VariantAdapter(argv[3]).get();
 		instance = Transform3D(v0, v1, v2, v3);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PROJECTION))) {
-		Projection v0 = VariantAdapter(argv[0]).get();
+			Projection
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Transform3D(v0);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -161,7 +169,7 @@ void define_transform3d_property(JSContext *ctx, JSValue obj) {
 
 static int js_transform3d_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Transform3D"] = JS_NewClassID(&class_id);
+	classes["Transform3D"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Transform3D";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &transform3d_class_def);
@@ -194,7 +202,7 @@ static void transform3d_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef transform3d_proxy_def = {
-	"Transform3DProxy",
+	.class_name = "Transform3DProxy",
 	.finalizer = transform3d_proxy_finalizer
 };
 
@@ -408,7 +416,7 @@ void define_transform3d_proxy_property(JSContext *ctx, JSValue obj) {
 
 static int js_transform3d_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Transform3DProxy"] = JS_NewClassID(&class_id);
+	classes["Transform3DProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Transform3DProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &transform3d_proxy_def);

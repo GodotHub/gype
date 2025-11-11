@@ -24,7 +24,7 @@ static void string_name_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef string_name_class_def = {
 	"StringName",
-	.finalizer = string_name_class_finalizer
+	string_name_class_finalizer
 };
 
 static JSValue string_name_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -40,11 +40,13 @@ static JSValue string_name_class_constructor(JSContext *ctx, JSValueConst new_ta
 		instance = StringName();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::STRING_NAME))) {
-		StringName v0 = VariantAdapter(argv[0]).get();
+			StringName
+ v0 = VariantAdapter(argv[0]).get();
 		instance = StringName(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::STRING))) {
-		String v0 = VariantAdapter(argv[0]).get();
+			String
+ v0 = VariantAdapter(argv[0]).get();
 		instance = StringName(v0);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -505,7 +507,7 @@ static const JSCFunctionListEntry string_name_class_proto_funcs[] = {
 
 static int js_string_name_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["StringName"] = JS_NewClassID(&class_id);
+	classes["StringName"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "StringName";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &string_name_class_def);
@@ -538,7 +540,7 @@ static void string_name_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef string_name_proxy_def = {
-	"StringNameProxy",
+	.class_name = "StringNameProxy",
 	.finalizer = string_name_proxy_finalizer
 };
 
@@ -1676,7 +1678,7 @@ static const JSCFunctionListEntry string_name_proxy_proto_funcs[] = {
 
 static int js_string_name_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["StringNameProxy"] = JS_NewClassID(&class_id);
+	classes["StringNameProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "StringNameProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &string_name_proxy_def);

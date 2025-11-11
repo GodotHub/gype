@@ -22,7 +22,7 @@ static void packed_string_array_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef packed_string_array_class_def = {
 	"PackedStringArray",
-	.finalizer = packed_string_array_class_finalizer
+	packed_string_array_class_finalizer
 };
 
 static JSValue packed_string_array_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -38,11 +38,13 @@ static JSValue packed_string_array_class_constructor(JSContext *ctx, JSValueCons
 		instance = PackedStringArray();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PACKED_STRING_ARRAY))) {
-		PackedStringArray v0 = VariantAdapter(argv[0]).get();
+			PackedStringArray
+ v0 = VariantAdapter(argv[0]).get();
 		instance = PackedStringArray(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::ARRAY))) {
-		Array v0 = VariantAdapter(argv[0]).get();
+			Array
+ v0 = VariantAdapter(argv[0]).get();
 		instance = PackedStringArray(v0);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -162,7 +164,7 @@ static const JSCFunctionListEntry packed_string_array_class_proto_funcs[] = {
 
 static int js_packed_string_array_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["PackedStringArray"] = JS_NewClassID(&class_id);
+	classes["PackedStringArray"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "PackedStringArray";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &packed_string_array_class_def);
@@ -195,7 +197,7 @@ static void packed_string_array_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef packed_string_array_proxy_def = {
-	"PackedStringArrayProxy",
+	.class_name = "PackedStringArrayProxy",
 	.finalizer = packed_string_array_proxy_finalizer
 };
 
@@ -428,7 +430,7 @@ static const JSCFunctionListEntry packed_string_array_proxy_proto_funcs[] = {
 
 static int js_packed_string_array_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["PackedStringArrayProxy"] = JS_NewClassID(&class_id);
+	classes["PackedStringArrayProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "PackedStringArrayProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &packed_string_array_proxy_def);

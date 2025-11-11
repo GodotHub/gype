@@ -42,7 +42,7 @@ static void {{snake_name}}_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef {{snake_name}}_class_def = {
 	"_{{clazz_name}}",
-	.finalizer = {{snake_name}}_class_finalizer
+	{{snake_name}}_class_finalizer
 };
 
 static JSValue {{snake_name}}_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -113,6 +113,12 @@ static const JSCFunctionListEntry {{snake_name}}_class_static_funcs[] = {
 	{% endfor %}
 };
 {% endif %}
+
+{% set inherits = cls['inherits'] %}
+{% if cls['inherits'] == 'Object' %}
+	{% set inherits = 'GodotObject' %}
+{% endif %}
+
 
 static int js_{{snake_name}}_class_init(JSContext *ctx) {
 	JSClassID class_id = classes["{{ clazz_name }}"];

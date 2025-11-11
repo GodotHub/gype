@@ -1,18 +1,18 @@
 #include "support/module_loader.hpp"
 #include "support/typescript.hpp"
-#include "utils/str_helper.hpp"
+
+#include <quickjs-libc.h>
 #include <quickjs.h>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/variant/string.hpp>
-#include <godot_cpp/variant/utility_functions.hpp>
-#include <optional>
 #include <string>
 
 using namespace godot;
 
-JSModuleDef *module_loader(JSContext *ctx, const char *module_name, void *opaque) {
+static JSModuleDef *script_loader(JSContext *ctx, const char *module_name) {
 	char filepath[1024];
 	sprintf(filepath, "%s.js", module_name);
+
 	String path(filepath);
 	if (path.begins_with("@res")) {
 		path = path.replace("@res", "res://");
@@ -21,11 +21,6 @@ JSModuleDef *module_loader(JSContext *ctx, const char *module_name, void *opaque
 		sprintf(p, "%saddons/gype/godot", TypeScript::dist_path);
 		path = path.replace("@godot", p);
 	}
-
-	// String class_name(path.get_file().get_basename());
-	// if (!(registered_classes()->has(class_name))) {
-	// 	(*register_func_map())[class_name]();
-	// }
 
 	Ref<TypeScript> script = ResourceLoader::get_singleton()->load(path);
 	if (script.is_null()) {
@@ -49,4 +44,15 @@ JSModuleDef *module_loader(JSContext *ctx, const char *module_name, void *opaque
 	JSModuleDef *m = (JSModuleDef *)JS_VALUE_GET_PTR(func_val);
 	JS_FreeValue(ctx, func_val);
 	return m;
+}
+
+JSModuleDef *module_loader(JSContext *ctx, const char *module_name, void *opaque) {
+	if (StringName(module_name).begins_with("qjs:")) {
+		static JSModuleDef *os_module = js_init_module_os(ctx, "qjs:os");
+		return os_module;
+	} else if (StringName(module_name).begins_with("@godot/classes")) {
+		return NULL;
+	} else {
+		return script_loader(ctx, module_name);
+	}
 }

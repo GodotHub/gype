@@ -25,7 +25,7 @@ static void projection_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef projection_class_def = {
 	"Projection",
-	.finalizer = projection_class_finalizer
+	projection_class_finalizer
 };
 
 static JSValue projection_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -41,18 +41,24 @@ static JSValue projection_class_constructor(JSContext *ctx, JSValueConst new_tar
 		instance = Projection();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PROJECTION))) {
-		Projection v0 = VariantAdapter(argv[0]).get();
+			Projection
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Projection(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::TRANSFORM3D))) {
-		Transform3D v0 = VariantAdapter(argv[0]).get();
+			Transform3D
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Projection(v0);
 	}
 	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR4))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR4))&&(VariantAdapter::can_cast(argv[2],Variant::Type::VECTOR4))&&(VariantAdapter::can_cast(argv[3],Variant::Type::VECTOR4))) {
-		Vector4 v0 = VariantAdapter(argv[0]).get();
-		Vector4 v1 = VariantAdapter(argv[1]).get();
-		Vector4 v2 = VariantAdapter(argv[2]).get();
-		Vector4 v3 = VariantAdapter(argv[3]).get();
+			Vector4
+ v0 = VariantAdapter(argv[0]).get();
+			Vector4
+ v1 = VariantAdapter(argv[1]).get();
+			Vector4
+ v2 = VariantAdapter(argv[2]).get();
+			Vector4
+ v3 = VariantAdapter(argv[3]).get();
 		instance = Projection(v0, v1, v2, v3);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -243,7 +249,7 @@ void define_projection_property(JSContext *ctx, JSValue obj) {
 
 static int js_projection_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Projection"] = JS_NewClassID(&class_id);
+	classes["Projection"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Projection";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &projection_class_def);
@@ -276,7 +282,7 @@ static void projection_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef projection_proxy_def = {
-	"ProjectionProxy",
+	.class_name = "ProjectionProxy",
 	.finalizer = projection_proxy_finalizer
 };
 
@@ -479,14 +485,14 @@ static JSValue projection_proxy_get_x(JSContext *ctx, JSValueConst this_val, int
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
     ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
     Projection ret = proxy->getter();
-    return VariantAdapter(ret.columns[0]);
+	return VariantAdapter(ret.columns[0]);
 }
 static JSValue projection_proxy_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
     ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
     VariantAdapter x(argv[0]);
     Projection wrapped = proxy->getter();
-    wrapped.columns[0] = x.get();
+	wrapped.columns[0] = x.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
@@ -494,14 +500,14 @@ static JSValue projection_proxy_get_y(JSContext *ctx, JSValueConst this_val, int
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
     ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
     Projection ret = proxy->getter();
-    return VariantAdapter(ret.columns[1]);
+	return VariantAdapter(ret.columns[1]);
 }
 static JSValue projection_proxy_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
     ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
     VariantAdapter y(argv[0]);
     Projection wrapped = proxy->getter();
-    wrapped.columns[1] = y.get();
+	wrapped.columns[1] = y.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
@@ -509,14 +515,14 @@ static JSValue projection_proxy_get_z(JSContext *ctx, JSValueConst this_val, int
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
     ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
     Projection ret = proxy->getter();
-    return VariantAdapter(ret.columns[2]);
+	return VariantAdapter(ret.columns[2]);
 }
 static JSValue projection_proxy_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
     ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
     VariantAdapter z(argv[0]);
     Projection wrapped = proxy->getter();
-    wrapped.columns[2] = z.get();
+	wrapped.columns[2] = z.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
@@ -524,14 +530,14 @@ static JSValue projection_proxy_get_w(JSContext *ctx, JSValueConst this_val, int
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
     ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
     Projection ret = proxy->getter();
-    return VariantAdapter(ret.columns[3]);
+	return VariantAdapter(ret.columns[3]);
 }
 static JSValue projection_proxy_set_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
     ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
     VariantAdapter w(argv[0]);
     Projection wrapped = proxy->getter();
-    wrapped.columns[3] = w.get();
+	wrapped.columns[3] = w.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
@@ -598,7 +604,7 @@ void define_projection_proxy_property(JSContext *ctx, JSValue obj) {
 
 static int js_projection_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["ProjectionProxy"] = JS_NewClassID(&class_id);
+	classes["ProjectionProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "ProjectionProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &projection_proxy_def);

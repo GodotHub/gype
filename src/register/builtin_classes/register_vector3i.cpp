@@ -21,7 +21,7 @@ static void vector3i_class_finalizer(JSRuntime *rt, JSValue val) {
 
 static JSClassDef vector3i_class_def = {
 	"Vector3i",
-	.finalizer = vector3i_class_finalizer
+	vector3i_class_finalizer
 };
 
 static JSValue vector3i_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
@@ -37,17 +37,22 @@ static JSValue vector3i_class_constructor(JSContext *ctx, JSValueConst new_targe
 		instance = Vector3i();
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3I))) {
-		Vector3i v0 = VariantAdapter(argv[0]).get();
+			Vector3i
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Vector3i(v0);
 	}
 	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))) {
-		Vector3 v0 = VariantAdapter(argv[0]).get();
+			Vector3
+ v0 = VariantAdapter(argv[0]).get();
 		instance = Vector3i(v0);
 	}
 	if (argc == 3&&(VariantAdapter::can_cast(argv[0],Variant::Type::INT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::INT))&&(VariantAdapter::can_cast(argv[2],Variant::Type::INT))) {
-		int v0 = VariantAdapter(argv[0]).get();
-		int v1 = VariantAdapter(argv[1]).get();
-		int v2 = VariantAdapter(argv[2]).get();
+			int
+ v0 = VariantAdapter(argv[0]).get();
+			int
+ v1 = VariantAdapter(argv[1]).get();
+			int
+ v2 = VariantAdapter(argv[2]).get();
 		instance = Vector3i(v0, v1, v2);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -182,7 +187,7 @@ void define_vector3i_property(JSContext *ctx, JSValue obj) {
 
 static int js_vector3i_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Vector3i"] = JS_NewClassID(&class_id);
+	classes["Vector3i"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Vector3i";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &vector3i_class_def);
@@ -215,7 +220,7 @@ static void vector3i_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef vector3i_proxy_def = {
-	"Vector3iProxy",
+	.class_name = "Vector3iProxy",
 	.finalizer = vector3i_proxy_finalizer
 };
 
@@ -481,7 +486,7 @@ void define_vector3i_proxy_property(JSContext *ctx, JSValue obj) {
 
 static int js_vector3i_proxy_init(JSContext *ctx) {
 	JSClassID class_id = 0;
-	classes["Vector3iProxy"] = JS_NewClassID(&class_id);
+	classes["Vector3iProxy"] = JS_NewClassID(js_runtime(), &class_id);
 	classes_by_id[class_id] = "Vector3iProxy";
 
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &vector3i_proxy_def);

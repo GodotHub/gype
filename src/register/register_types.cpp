@@ -18,15 +18,14 @@
 
 using namespace godot;
 
-void init_quickjs() {
-	js_std_init_handlers(js_runtime());
+static void init_quickjs() {
 	JS_SetModuleLoaderFunc(js_runtime(), NULL, module_loader, NULL);
 	register_builtin_classes();
 	register_classes();
 	register_utility_functions();
 }
 
-void init_ts_support() {
+static void init_ts_support() {
 	GDREGISTER_CLASS(TypeScriptLoader);
 	GDREGISTER_CLASS(TypeScriptSaver);
 	GDREGISTER_CLASS(TypeScriptLanguage);
@@ -41,8 +40,8 @@ void initialize_gype_types(ModuleInitializationLevel p_level) {
 		init_quickjs();
 	}
 	if (p_level == ModuleInitializationLevel::MODULE_INITIALIZATION_LEVEL_SCENE) {
-		init_ts_support();
 		GDREGISTER_CLASS(EventLoop);
+		init_ts_support();
 	}
 	if (p_level == ModuleInitializationLevel::MODULE_INITIALIZATION_LEVEL_EDITOR) {
 		GDREGISTER_CLASS(GypePlugin);

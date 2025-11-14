@@ -1,5 +1,9 @@
 declare global {
-    export interface StringName {
+    export class StringName {
+        constructor(): StringName;
+        constructor(_from: GDString | StringName | string): StringName;
+        constructor(_from: GDString | StringName | string): StringName;
+    
 
         casecmp_to(to: GDString | StringName | string): number;
         nocasecmp_to(to: GDString | StringName | string): number;
@@ -111,20 +115,7 @@ declare global {
         to_multibyte_char_buffer(encoding: GDString | StringName | string = ""): PackedByteArray;
         hex_decode(): PackedByteArray;
         hash(): number;
-    }
-
-    /**
-    * A global constructor and namespace for the StringName type.
-    *
-    * Use `new StringName(...)` to create a new instance.
-    * Access static members like `StringName.ZERO`.
-    */
-    export declare const StringName: {
-        new(): StringName;
-        new(_from: GDString | StringName | string): StringName;
-        new(_from: GDString | StringName | string): StringName;
-
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -185,7 +176,7 @@ declare global {
         // module(PackedColorArray): GDString
         // module(PackedVector4Array): GDString
         */
-    };
+    }
 }
 
 export {};

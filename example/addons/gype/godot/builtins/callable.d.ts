@@ -1,7 +1,9 @@
-import type { GodotObject } from "@godot/classes/godot_object";
-
 declare global {
-    export interface Callable {
+    export class Callable {
+        constructor(): Callable;
+        constructor(_from: Callable): Callable;
+        constructor(object: GodotObject, method: GDString | StringName | string): Callable;
+        constructor(object: GodotObject, method: Function): Callable;    
 
         create(variant: any, method: GDString | StringName | string): Callable;
         callv(arguments: GDArray): any;
@@ -24,20 +26,7 @@ declare global {
         rpc(...args: any[]): void;
         rpc_id(peerId: number, ...args: any[]): void;
         bind(...args: any[]): Callable;
-    }
-
-    /**
-    * A global constructor and namespace for the Callable type.
-    *
-    * Use `new Callable(...)` to create a new instance.
-    * Access static members like `Callable.ZERO`.
-    */
-    export declare const Callable: {
-        new(): Callable;
-        new(_from: Callable): Callable;
-        new(object: GodotObject, method: GDString | StringName | string): Callable;
-        new(object: GodotObject, method: Function): Callable;
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -47,7 +36,7 @@ declare global {
         // in_op(Dictionary): boolean
         // in_op(GDArray): boolean
         */
-    };
+    }
 }
 
 export {};

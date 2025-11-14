@@ -37,16 +37,13 @@ static JSValue aabb_class_constructor(JSContext *ctx, JSValueConst new_target, i
 	if (argc == 0) {
 		instance = AABB();
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::AABB))) {
-			AABB
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::AABB)) {
+		AABB v0 = VariantAdapter(argv[0]).get();
 		instance = AABB(v0);
 	}
-	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR3))) {
-			Vector3
- v0 = VariantAdapter(argv[0]).get();
-			Vector3
- v1 = VariantAdapter(argv[1]).get();
+	if (argc == 2&&VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR3)&&VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR3)) {
+		Vector3 v0 = VariantAdapter(argv[0]).get();
+		Vector3 v1 = VariantAdapter(argv[1]).get();
 		instance = AABB(v0, v1);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -136,30 +133,39 @@ static JSValue aabb_class_intersects_ray(JSContext *ctx, JSValueConst this_val, 
 }
 
 static JSValue aabb_class_get_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	AABB val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]))->get();
+	AABB val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]))->get();
 	return VariantAdapter(val.position);
+	
 }
 static JSValue aabb_class_set_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	AABB val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]))->get();
-	val.position = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]));
+    AABB val = adapter->get();
+    val.position = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue aabb_class_get_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	AABB val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]))->get();
+	AABB val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]))->get();
 	return VariantAdapter(val.size);
+	
 }
 static JSValue aabb_class_set_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	AABB val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]))->get();
-	val.size = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]));
+    AABB val = adapter->get();
+    val.size = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue aabb_class_get_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	AABB val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]))->get();
+	AABB val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]))->get();
 	return VariantAdapter(val.get_end());
+	
 }
 static JSValue aabb_class_set_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	AABB val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]))->get();
-	val.set_end(VariantAdapter(*argv).get());
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]));
+    AABB val = adapter->get();
+    val.set_end(VariantAdapter(*argv).get());
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 
@@ -191,7 +197,7 @@ static const JSCFunctionListEntry aabb_class_proto_funcs[] = {
 	JS_CFUNC_DEF("intersects_ray", 2, &aabb_class_intersects_ray),
 };
 
-void define_aabb_property(JSContext *ctx, JSValue obj) {
+static void define_aabb_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
 			ctx,
 			obj,
@@ -233,7 +239,7 @@ static int js_aabb_class_init(JSContext *ctx) {
 	return 0;
 }
 
-void js_init_aabb_module(JSContext *ctx) {
+static void js_init_aabb_module(JSContext *ctx) {
 	js_aabb_class_init(ctx);
 }
 
@@ -250,8 +256,8 @@ static void aabb_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef aabb_proxy_def = {
-	.class_name = "AABBProxy",
-	.finalizer = aabb_proxy_finalizer
+	"AABBProxy",
+	aabb_proxy_finalizer
 };
 
 
@@ -282,8 +288,8 @@ static JSValue aabb_proxy_constructor(JSContext *ctx, JSValueConst new_target, i
 
 static JSValue aabb_proxy_abs(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::abs, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -291,8 +297,8 @@ static JSValue aabb_proxy_abs(JSContext *ctx, JSValueConst this_val, int argc, J
 }
 static JSValue aabb_proxy_get_center(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::get_center, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -300,8 +306,8 @@ static JSValue aabb_proxy_get_center(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue aabb_proxy_get_volume(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::get_volume, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -309,8 +315,8 @@ static JSValue aabb_proxy_get_volume(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue aabb_proxy_has_volume(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::has_volume, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -318,8 +324,8 @@ static JSValue aabb_proxy_has_volume(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue aabb_proxy_has_surface(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::has_surface, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -327,8 +333,8 @@ static JSValue aabb_proxy_has_surface(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue aabb_proxy_has_point(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::has_point, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -336,8 +342,8 @@ static JSValue aabb_proxy_has_point(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue aabb_proxy_is_equal_approx(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::is_equal_approx, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -345,8 +351,8 @@ static JSValue aabb_proxy_is_equal_approx(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue aabb_proxy_is_finite(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::is_finite, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -354,8 +360,8 @@ static JSValue aabb_proxy_is_finite(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue aabb_proxy_intersects(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::intersects, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -363,8 +369,8 @@ static JSValue aabb_proxy_intersects(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue aabb_proxy_encloses(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::encloses, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -372,8 +378,8 @@ static JSValue aabb_proxy_encloses(JSContext *ctx, JSValueConst this_val, int ar
 }
 static JSValue aabb_proxy_intersects_plane(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::intersects_plane, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -381,8 +387,8 @@ static JSValue aabb_proxy_intersects_plane(JSContext *ctx, JSValueConst this_val
 }
 static JSValue aabb_proxy_intersection(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::intersection, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -390,8 +396,8 @@ static JSValue aabb_proxy_intersection(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue aabb_proxy_merge(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::merge, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -399,8 +405,8 @@ static JSValue aabb_proxy_merge(JSContext *ctx, JSValueConst this_val, int argc,
 }
 static JSValue aabb_proxy_expand(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::expand, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -408,8 +414,8 @@ static JSValue aabb_proxy_expand(JSContext *ctx, JSValueConst this_val, int argc
 }
 static JSValue aabb_proxy_grow(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::grow, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -417,8 +423,8 @@ static JSValue aabb_proxy_grow(JSContext *ctx, JSValueConst this_val, int argc, 
 }
 static JSValue aabb_proxy_get_support(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::get_support, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -426,8 +432,8 @@ static JSValue aabb_proxy_get_support(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue aabb_proxy_get_longest_axis(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::get_longest_axis, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -435,8 +441,8 @@ static JSValue aabb_proxy_get_longest_axis(JSContext *ctx, JSValueConst this_val
 }
 static JSValue aabb_proxy_get_longest_axis_index(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::get_longest_axis_index, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -444,8 +450,8 @@ static JSValue aabb_proxy_get_longest_axis_index(JSContext *ctx, JSValueConst th
 }
 static JSValue aabb_proxy_get_longest_axis_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::get_longest_axis_size, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -453,8 +459,8 @@ static JSValue aabb_proxy_get_longest_axis_size(JSContext *ctx, JSValueConst thi
 }
 static JSValue aabb_proxy_get_shortest_axis(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::get_shortest_axis, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -462,8 +468,8 @@ static JSValue aabb_proxy_get_shortest_axis(JSContext *ctx, JSValueConst this_va
 }
 static JSValue aabb_proxy_get_shortest_axis_index(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::get_shortest_axis_index, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -471,8 +477,8 @@ static JSValue aabb_proxy_get_shortest_axis_index(JSContext *ctx, JSValueConst t
 }
 static JSValue aabb_proxy_get_shortest_axis_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::get_shortest_axis_size, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -480,8 +486,8 @@ static JSValue aabb_proxy_get_shortest_axis_size(JSContext *ctx, JSValueConst th
 }
 static JSValue aabb_proxy_get_endpoint(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::get_endpoint, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -489,8 +495,8 @@ static JSValue aabb_proxy_get_endpoint(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue aabb_proxy_intersects_segment(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&AABB::intersects_segment_bind, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -498,23 +504,23 @@ static JSValue aabb_proxy_intersects_segment(JSContext *ctx, JSValueConst this_v
 }
 static JSValue aabb_proxy_intersects_ray(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&AABB::intersects_ray_bind, ctx, this_val, argc, argv);
+    JSValue ret = call_builtin_const_method_ret(&AABB::intersects_ray_bind, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
     return ret;
 }
 
 static JSValue aabb_proxy_get_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
     AABB ret = proxy->getter();
     return VariantAdapter(ret.position);
 }
 static JSValue aabb_proxy_set_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
     VariantAdapter position(argv[0]);
     AABB wrapped = proxy->getter();
     wrapped.position = position.get();
@@ -523,13 +529,13 @@ static JSValue aabb_proxy_set_position(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue aabb_proxy_get_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
     AABB ret = proxy->getter();
     return VariantAdapter(ret.size);
 }
 static JSValue aabb_proxy_set_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
     VariantAdapter size(argv[0]);
     AABB wrapped = proxy->getter();
     wrapped.size = size.get();
@@ -538,16 +544,16 @@ static JSValue aabb_proxy_set_size(JSContext *ctx, JSValueConst this_val, int ar
 }
 static JSValue aabb_proxy_get_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
     AABB ret = proxy->getter();
     return VariantAdapter(ret.get_end());
 }
 static JSValue aabb_proxy_set_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["AABBProxy"]);
-    ObjectProxy<AABB> *proxy = reinterpret_cast<ObjectProxy<AABB> *>(opaque);
+    ObjectProxy<AABB> *proxy = static_cast<ObjectProxy<AABB> *>(opaque);
     VariantAdapter end(argv[0]);
     AABB wrapped = proxy->getter();
-	wrapped.set_end(end.get());
+    wrapped.set_end(end.get());
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }

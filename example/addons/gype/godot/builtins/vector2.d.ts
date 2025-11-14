@@ -1,5 +1,17 @@
 declare global {
-    export interface Vector2 {
+    export class Vector2 {
+        constructor(): Vector2;
+        constructor(_from: Vector2): Vector2;
+        constructor(_from: Vector2i): Vector2;
+        constructor(x: number, y: number): Vector2;
+        readonly ZERO: Vector2;
+        readonly ONE: Vector2;
+        readonly INF: Vector2;
+        readonly LEFT: Vector2;
+        readonly RIGHT: Vector2;
+        readonly UP: Vector2;
+        readonly DOWN: Vector2;
+    
         x: number;
         y: number;
 
@@ -51,28 +63,7 @@ declare global {
         max(_with: Vector2): Vector2;
         maxf(_with: number): Vector2;
         from_angle(angle: number): Vector2;
-    }
-
-    /**
-    * A global constructor and namespace for the Vector2 type.
-    *
-    * Use `new Vector2(...)` to create a new instance.
-    * Access static members like `Vector2.ZERO`.
-    */
-    export declare const Vector2: {
-        new(): Vector2;
-        new(_from: Vector2): Vector2;
-        new(_from: Vector2i): Vector2;
-        new(x: number, y: number): Vector2;
-
-        readonly ZERO: Vector2;
-        readonly ONE: Vector2;
-        readonly INF: Vector2;
-        readonly LEFT: Vector2;
-        readonly RIGHT: Vector2;
-        readonly UP: Vector2;
-        readonly DOWN: Vector2;
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -98,7 +89,7 @@ declare global {
         // in_op(GDArray): boolean
         // in_op(PackedVector2Array): boolean
         */
-    };
+    }
 }
 
 export {};

@@ -36,48 +36,35 @@ static JSValue plane_class_constructor(JSContext *ctx, JSValueConst new_target, 
 	if (argc == 0) {
 		instance = Plane();
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PLANE))) {
-			Plane
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::PLANE)) {
+		Plane v0 = VariantAdapter(argv[0]).get();
 		instance = Plane(v0);
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))) {
-			Vector3
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR3)) {
+		Vector3 v0 = VariantAdapter(argv[0]).get();
 		instance = Plane(v0);
 	}
-	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::FLOAT))) {
-			Vector3
- v0 = VariantAdapter(argv[0]).get();
-		double
- v1 = VariantAdapter(argv[1]).get();
+	if (argc == 2&&VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR3)&&JS_IsNumber(argv[1])) {
+		Vector3 v0 = VariantAdapter(argv[0]).get();
+		double v1 = VariantAdapter(argv[1]).get();
 		instance = Plane(v0, v1);
 	}
-	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR3))) {
-			Vector3
- v0 = VariantAdapter(argv[0]).get();
-			Vector3
- v1 = VariantAdapter(argv[1]).get();
+	if (argc == 2&&VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR3)&&VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR3)) {
+		Vector3 v0 = VariantAdapter(argv[0]).get();
+		Vector3 v1 = VariantAdapter(argv[1]).get();
 		instance = Plane(v0, v1);
 	}
-	if (argc == 3&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[2],Variant::Type::VECTOR3))) {
-			Vector3
- v0 = VariantAdapter(argv[0]).get();
-			Vector3
- v1 = VariantAdapter(argv[1]).get();
-			Vector3
- v2 = VariantAdapter(argv[2]).get();
+	if (argc == 3&&VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR3)&&VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR3)&&VariantAdapter::can_cast(argv[2], Variant::Type::VECTOR3)) {
+		Vector3 v0 = VariantAdapter(argv[0]).get();
+		Vector3 v1 = VariantAdapter(argv[1]).get();
+		Vector3 v2 = VariantAdapter(argv[2]).get();
 		instance = Plane(v0, v1, v2);
 	}
-	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[2],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[3],Variant::Type::FLOAT))) {
-		double
- v0 = VariantAdapter(argv[0]).get();
-		double
- v1 = VariantAdapter(argv[1]).get();
-		double
- v2 = VariantAdapter(argv[2]).get();
-		double
- v3 = VariantAdapter(argv[3]).get();
+	if (argc == 4&&JS_IsNumber(argv[0])&&JS_IsNumber(argv[1])&&JS_IsNumber(argv[2])&&JS_IsNumber(argv[3])) {
+		double v0 = VariantAdapter(argv[0]).get();
+		double v1 = VariantAdapter(argv[1]).get();
+		double v2 = VariantAdapter(argv[2]).get();
+		double v3 = VariantAdapter(argv[3]).get();
 		instance = Plane(v0, v1, v2, v3);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -125,48 +112,63 @@ static JSValue plane_class_intersects_segment(JSContext *ctx, JSValueConst this_
 }
 
 static JSValue plane_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Plane val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]))->get();
+	Plane val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]))->get();
 	return VariantAdapter(val.normal.x);
+	
 }
 static JSValue plane_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Plane val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]))->get();
-	val.normal.x = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]));
+    Plane val = adapter->get();
+    val.normal.x = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue plane_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Plane val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]))->get();
+	Plane val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]))->get();
 	return VariantAdapter(val.normal.y);
+	
 }
 static JSValue plane_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Plane val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]))->get();
-	val.normal.y = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]));
+    Plane val = adapter->get();
+    val.normal.y = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue plane_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Plane val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]))->get();
+	Plane val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]))->get();
 	return VariantAdapter(val.normal.z);
+	
 }
 static JSValue plane_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Plane val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]))->get();
-	val.normal.z = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]));
+    Plane val = adapter->get();
+    val.normal.z = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue plane_class_get_d(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Plane val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]))->get();
+	Plane val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]))->get();
 	return VariantAdapter(val.d);
+	
 }
 static JSValue plane_class_set_d(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Plane val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]))->get();
-	val.d = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]));
+    Plane val = adapter->get();
+    val.d = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue plane_class_get_normal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Plane val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]))->get();
+	Plane val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]))->get();
 	return VariantAdapter(val.normal);
+	
 }
 static JSValue plane_class_set_normal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Plane val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]))->get();
-	val.normal = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Plane"]));
+    Plane val = adapter->get();
+    val.normal = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 
@@ -184,7 +186,7 @@ static const JSCFunctionListEntry plane_class_proto_funcs[] = {
 	JS_CFUNC_DEF("intersects_segment", 2, &plane_class_intersects_segment),
 };
 
-void define_plane_property(JSContext *ctx, JSValue obj) {
+static void define_plane_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
 			ctx,
 			obj,
@@ -240,7 +242,7 @@ static int js_plane_class_init(JSContext *ctx) {
 	return 0;
 }
 
-void js_init_plane_module(JSContext *ctx) {
+static void js_init_plane_module(JSContext *ctx) {
 	js_plane_class_init(ctx);
 }
 
@@ -257,8 +259,8 @@ static void plane_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef plane_proxy_def = {
-	.class_name = "PlaneProxy",
-	.finalizer = plane_proxy_finalizer
+	"PlaneProxy",
+	plane_proxy_finalizer
 };
 
 
@@ -289,8 +291,8 @@ static JSValue plane_proxy_constructor(JSContext *ctx, JSValueConst new_target, 
 
 static JSValue plane_proxy_normalized(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Plane::normalized, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -298,8 +300,8 @@ static JSValue plane_proxy_normalized(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue plane_proxy_get_center(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Plane::get_center, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -307,8 +309,8 @@ static JSValue plane_proxy_get_center(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue plane_proxy_is_equal_approx(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Plane::is_equal_approx, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -316,8 +318,8 @@ static JSValue plane_proxy_is_equal_approx(JSContext *ctx, JSValueConst this_val
 }
 static JSValue plane_proxy_is_finite(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Plane::is_finite, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -325,8 +327,8 @@ static JSValue plane_proxy_is_finite(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue plane_proxy_is_point_over(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Plane::is_point_over, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -334,8 +336,8 @@ static JSValue plane_proxy_is_point_over(JSContext *ctx, JSValueConst this_val, 
 }
 static JSValue plane_proxy_distance_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Plane::distance_to, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -343,8 +345,8 @@ static JSValue plane_proxy_distance_to(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue plane_proxy_has_point(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Plane::has_point, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -352,8 +354,8 @@ static JSValue plane_proxy_has_point(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue plane_proxy_project(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Plane::project, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -361,8 +363,8 @@ static JSValue plane_proxy_project(JSContext *ctx, JSValueConst this_val, int ar
 }
 static JSValue plane_proxy_intersect_3(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Plane::intersect_3_bind, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -370,92 +372,92 @@ static JSValue plane_proxy_intersect_3(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue plane_proxy_intersects_ray(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&Plane::intersects_ray_bind, ctx, this_val, argc, argv);
+    JSValue ret = call_builtin_const_method_ret(&Plane::intersects_ray_bind, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
     return ret;
 }
 static JSValue plane_proxy_intersects_segment(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&Plane::intersects_segment_bind, ctx, this_val, argc, argv);
+    JSValue ret = call_builtin_const_method_ret(&Plane::intersects_segment_bind, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
     return ret;
 }
 
 static JSValue plane_proxy_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
     Plane ret = proxy->getter();
-	return VariantAdapter(ret.normal.x);
+    return VariantAdapter(ret.normal.x);
 }
 static JSValue plane_proxy_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
     VariantAdapter x(argv[0]);
     Plane wrapped = proxy->getter();
-	wrapped.normal.x = x.get();
+    wrapped.normal.x = x.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
 static JSValue plane_proxy_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
     Plane ret = proxy->getter();
-	return VariantAdapter(ret.normal.y);
+    return VariantAdapter(ret.normal.y);
 }
 static JSValue plane_proxy_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
     VariantAdapter y(argv[0]);
     Plane wrapped = proxy->getter();
-	wrapped.normal.y = y.get();
+    wrapped.normal.y = y.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
 static JSValue plane_proxy_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
     Plane ret = proxy->getter();
-	return VariantAdapter(ret.normal.z);
+    return VariantAdapter(ret.normal.z);
 }
 static JSValue plane_proxy_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
     VariantAdapter z(argv[0]);
     Plane wrapped = proxy->getter();
-	wrapped.normal.z = z.get();
+    wrapped.normal.z = z.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
 static JSValue plane_proxy_get_d(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
     Plane ret = proxy->getter();
-	return VariantAdapter(ret.d);
+    return VariantAdapter(ret.d);
 }
 static JSValue plane_proxy_set_d(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
     VariantAdapter d(argv[0]);
     Plane wrapped = proxy->getter();
-	wrapped.d = d.get();
+    wrapped.d = d.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
 static JSValue plane_proxy_get_normal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
     Plane ret = proxy->getter();
     return VariantAdapter(ret.normal);
 }
 static JSValue plane_proxy_set_normal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["PlaneProxy"]);
-    ObjectProxy<Plane> *proxy = reinterpret_cast<ObjectProxy<Plane> *>(opaque);
+    ObjectProxy<Plane> *proxy = static_cast<ObjectProxy<Plane> *>(opaque);
     VariantAdapter normal(argv[0]);
     Plane wrapped = proxy->getter();
     wrapped.normal = normal.get();

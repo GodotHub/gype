@@ -1,5 +1,20 @@
 declare global {
-    export interface Vector3i {
+    export class Vector3i {
+        constructor(): Vector3i;
+        constructor(_from: Vector3i): Vector3i;
+        constructor(_from: Vector3): Vector3i;
+        constructor(x: number, y: number, z: number): Vector3i;
+        readonly ZERO: Vector3i;
+        readonly ONE: Vector3i;
+        readonly MIN: Vector3i;
+        readonly MAX: Vector3i;
+        readonly LEFT: Vector3i;
+        readonly RIGHT: Vector3i;
+        readonly UP: Vector3i;
+        readonly DOWN: Vector3i;
+        readonly FORWARD: Vector3i;
+        readonly BACK: Vector3i;
+    
         x: number;
         y: number;
         z: number;
@@ -20,31 +35,7 @@ declare global {
         mini(_with: number): Vector3i;
         max(_with: Vector3i): Vector3i;
         maxi(_with: number): Vector3i;
-    }
-
-    /**
-    * A global constructor and namespace for the Vector3i type.
-    *
-    * Use `new Vector3i(...)` to create a new instance.
-    * Access static members like `Vector3i.ZERO`.
-    */
-    export declare const Vector3i: {
-        new(): Vector3i;
-        new(_from: Vector3i): Vector3i;
-        new(_from: Vector3): Vector3i;
-        new(x: number, y: number, z: number): Vector3i;
-
-        readonly ZERO: Vector3i;
-        readonly ONE: Vector3i;
-        readonly MIN: Vector3i;
-        readonly MAX: Vector3i;
-        readonly LEFT: Vector3i;
-        readonly RIGHT: Vector3i;
-        readonly UP: Vector3i;
-        readonly DOWN: Vector3i;
-        readonly FORWARD: Vector3i;
-        readonly BACK: Vector3i;
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -70,7 +61,7 @@ declare global {
         // in_op(Dictionary): boolean
         // in_op(GDArray): boolean
         */
-    };
+    }
 }
 
 export {};

@@ -11,11 +11,14 @@
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/script_editor.hpp>
 #include <godot_cpp/variant/variant.hpp>
+#include <format>
 
 using namespace godot;
 
-const char *TypeScript::symbol_mask = "GodotClass";
+const char *TypeScript::class_symbol_mask = "GodotClass";
+const char *TypeScript::signal_symbol_mask = "GodotSignal";
 const char *TypeScript::dist_path = "res://addons/gype/dist/";
+
 
 bool TypeScript::_editor_can_reload_from_file() {
 	return true;
@@ -29,7 +32,7 @@ bool TypeScript::_can_instantiate() const {
 }
 
 Ref<Script> TypeScript::_get_base_script() const {
-	const_cast<TypeScript *>(this)->analyze();
+	this->analyze();
 	if (!base_class_name.is_empty() && !ClassDB::class_exists(base_class_name)) {
 		// 如果基类不是内置类，那么它应该是另一个脚本。
 		// 我们需要从 TypeScriptLanguage 的全局类注册表中查找它。
@@ -65,7 +68,7 @@ bool TypeScript::_inherits_script(const Ref<Script> &p_script) const {
 }
 
 StringName TypeScript::_get_instance_base_type() const {
-	const_cast<TypeScript *>(this)->analyze();
+	this->analyze();
 	return base_class_name;
 }
 
@@ -95,7 +98,7 @@ String TypeScript::get_dist_source_code() const {
 	return file->get_as_text();
 }
 
-void TypeScript::analyze() {
+void TypeScript::analyze() const {
 	if (is_valid_cache && !dirty) {
 		return;
 	}
@@ -125,36 +128,46 @@ void TypeScript::analyze() {
 
 	TSTree *tree = ts_parser_parse_string(parser, NULL, c_code, origin_string.length());
 
-	const char *query_string = R"xxx(
-    (export_statement
-      (decorator (identifier) @decorator.class)
-      (class_declaration
-        name: (type_identifier) @class.name
-        (class_heritage (extends_clause (identifier) @base.name))?
-        body: (class_body
-          [
-            (public_field_definition
-              (decorator (call_expression (identifier) @decorator.member))
-              name: (property_identifier) @prop.name
-              type: (type_annotation)? @prop.type
-            ) @member.property
-            (method_definition
-              (accessibility_modifier)? @method.accessibility
-              "static"? @method.static
-              name: (property_identifier) @method.name
-              parameters: (formal_parameters) @method.parameters
-            ) @member.method
-          ]
-        )
-      )
-    )
-    (#eq? @decorator.class "GodotClass")
-    (comment) @comment.tool
-    )xxx";
+	const std::string query_string = std::format(R"xxx(
+	(export_statement
+	  (decorator (identifier) @decorator.class)
+	  (class_declaration
+	    name: (type_identifier) @class.name
+	    (class_heritage (extends_clause (identifier) @base.name))?
+	    body: (class_body
+	      [
+	        (public_field_definition
+	          (decorator
+	            [
+	              (identifier) @decorator.member
+	              (call_expression (identifier) @decorator.member)
+	            ]
+	          )+
+	          name: (property_identifier) @prop.name
+	          type: (type_annotation)? @prop.type
+	        ) @member.property
+
+	        (method_definition
+	          (accessibility_modifier)? @method.accessibility
+	          "static"? @method.static
+	          name: (property_identifier) @method.name
+	          parameters: (formal_parameters) @method.parameters
+	        ) @member.method
+	      ]
+	    )
+	  )
+	)
+
+	; 19. 过滤条件：只保留 @decorator.class 的文本内容等于 "GodotClass" 的匹配结果
+	(#eq? @decorator.class "{}")
+
+	; 20. 额外模式：捕获可能是工具脚本的注释
+	(comment) @comment.tool
+    )xxx", class_symbol_mask);
 
 	uint32_t error_offset;
 	TSQueryError error;
-	TSQuery *query = ts_query_new(lang, query_string, strlen(query_string), &error_offset, &error);
+	TSQuery *query = ts_query_new(lang, query_string.c_str(), strlen(query_string.c_str()), &error_offset, &error);
 
 	if (!query) {
 		ERR_PRINT("Tree-sitter query failed to compile.");
@@ -214,7 +227,7 @@ void TypeScript::analyze() {
 					pi.type = Variant::NIL;
 					pi.usage = PROPERTY_USAGE_DEFAULT;
 					properties[prop_name] = pi;
-				} else if (decorator_name == "Signal") {
+				} else if (decorator_name == signal_symbol_mask) {
 					MethodInfo mi;
 					mi.name = prop_name;
 					// TODO: 解析信号的参数
@@ -249,14 +262,15 @@ void TypeScript::analyze() {
 }
 
 void TypeScript::compile(bool force) {
-	int exit_code = 0;
+	ERR_FAIL_COND_EDMSG(!FileAccess::file_exists("res://tsconfig.json"), "tsconfig.json file does not exist.");
 	if (dirty) {
+		int exit_code = 0;
 		if (force) {
 			exit_code = OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json", "--force" });
 		} else {
 			exit_code = OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json" });
 		}
-		ERR_FAIL_COND_EDMSG(exit_code == -1, "Error executing tsc.");
+		ERR_FAIL_COND_EDMSG(exit_code == -1, "error executing tsc.");
 	}
 	analyze();
 	dirty = false;
@@ -301,12 +315,12 @@ String TypeScript::_get_class_icon_path() const {
 }
 
 bool TypeScript::_has_method(const StringName &p_method) const {
-	const_cast<TypeScript *>(this)->analyze();
+	this->analyze();
 	return methods.has(p_method) || ClassDB::class_has_method(base_class_name, p_method, true);
 }
 
 bool TypeScript::_has_static_method(const StringName &p_method) const {
-	const_cast<TypeScript *>(this)->analyze();
+	this->analyze();
 	return static_methods.has(p_method);
 }
 
@@ -315,7 +329,7 @@ Variant TypeScript::_get_script_method_argument_count(const StringName &p_method
 }
 
 Dictionary TypeScript::_get_method_info(const StringName &p_method) const {
-	const_cast<TypeScript *>(this)->analyze();
+	this->analyze();
 	if (methods.has(p_method)) {
 		return methods[p_method];
 	}
@@ -323,13 +337,13 @@ Dictionary TypeScript::_get_method_info(const StringName &p_method) const {
 }
 
 bool TypeScript::_is_tool() const {
-	const_cast<TypeScript *>(this)->analyze();
+	this->analyze();
 	return is_tool;
 }
 
 bool TypeScript::_is_valid() const {
 	return true;
-}
+} 
 
 bool TypeScript::_is_abstract() const {
 	return false;
@@ -340,12 +354,12 @@ ScriptLanguage *TypeScript::_get_language() const {
 }
 
 bool TypeScript::_has_script_signal(const StringName &p_signal) const {
-	const_cast<TypeScript *>(this)->analyze();
+	this->analyze();
 	return signals.has(p_signal);
 }
 
 TypedArray<Dictionary> TypeScript::_get_script_signal_list() const {
-	const_cast<TypeScript *>(this)->analyze();
+	this->analyze();
 	TypedArray<Dictionary> list;
 	for (const KeyValue<StringName, MethodInfo> &E : signals) {
 		list.push_back(Dictionary(E.value));
@@ -366,7 +380,7 @@ void TypeScript::_update_exports() {
 }
 
 TypedArray<Dictionary> TypeScript::_get_script_method_list() const {
-	const_cast<TypeScript *>(this)->analyze();
+	this->analyze();
 	TypedArray<Dictionary> list;
 	for (const KeyValue<StringName, MethodInfo> &E : methods) {
 		list.push_back(Dictionary(E.value));
@@ -375,7 +389,7 @@ TypedArray<Dictionary> TypeScript::_get_script_method_list() const {
 }
 
 TypedArray<Dictionary> TypeScript::_get_script_property_list() const {
-	const_cast<TypeScript *>(this)->analyze();
+	this->analyze();
 	TypedArray<Dictionary> list;
 	for (const KeyValue<StringName, PropertyInfo> &E : properties) {
 		list.push_back(Dictionary(E.value));
@@ -391,7 +405,7 @@ Dictionary TypeScript::_get_constants() const {
 }
 
 TypedArray<StringName> TypeScript::_get_members() const {
-	const_cast<TypeScript *>(this)->analyze();
+	this->analyze();
 	TypedArray<StringName> members;
 	for (const KeyValue<StringName, PropertyInfo> &E : properties) {
 		members.push_back(E.key);

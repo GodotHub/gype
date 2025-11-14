@@ -1,5 +1,25 @@
 declare global {
-    export interface Vector3 {
+    export class Vector3 {
+        constructor(): Vector3;
+        constructor(_from: Vector3): Vector3;
+        constructor(_from: Vector3i): Vector3;
+        constructor(x: number, y: number, z: number): Vector3;
+        readonly ZERO: Vector3;
+        readonly ONE: Vector3;
+        readonly INF: Vector3;
+        readonly LEFT: Vector3;
+        readonly RIGHT: Vector3;
+        readonly UP: Vector3;
+        readonly DOWN: Vector3;
+        readonly FORWARD: Vector3;
+        readonly BACK: Vector3;
+        readonly MODEL_LEFT: Vector3;
+        readonly MODEL_RIGHT: Vector3;
+        readonly MODEL_TOP: Vector3;
+        readonly MODEL_BOTTOM: Vector3;
+        readonly MODEL_FRONT: Vector3;
+        readonly MODEL_REAR: Vector3;
+    
         x: number;
         y: number;
         z: number;
@@ -52,36 +72,7 @@ declare global {
         max(_with: Vector3): Vector3;
         maxf(_with: number): Vector3;
         octahedron_decode(uv: Vector2): Vector3;
-    }
-
-    /**
-    * A global constructor and namespace for the Vector3 type.
-    *
-    * Use `new Vector3(...)` to create a new instance.
-    * Access static members like `Vector3.ZERO`.
-    */
-    export declare const Vector3: {
-        new(): Vector3;
-        new(_from: Vector3): Vector3;
-        new(_from: Vector3i): Vector3;
-        new(x: number, y: number, z: number): Vector3;
-
-        readonly ZERO: Vector3;
-        readonly ONE: Vector3;
-        readonly INF: Vector3;
-        readonly LEFT: Vector3;
-        readonly RIGHT: Vector3;
-        readonly UP: Vector3;
-        readonly DOWN: Vector3;
-        readonly FORWARD: Vector3;
-        readonly BACK: Vector3;
-        readonly MODEL_LEFT: Vector3;
-        readonly MODEL_RIGHT: Vector3;
-        readonly MODEL_TOP: Vector3;
-        readonly MODEL_BOTTOM: Vector3;
-        readonly MODEL_FRONT: Vector3;
-        readonly MODEL_REAR: Vector3;
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -109,7 +100,7 @@ declare global {
         // in_op(GDArray): boolean
         // in_op(PackedVector3Array): boolean
         */
-    };
+    }
 }
 
 export {};

@@ -1,4 +1,6 @@
 #include "support/module_loader.hpp"
+
+#include "godot_cpp/classes/dir_access.hpp"
 #include "support/typescript.hpp"
 
 #include <quickjs-libc.h>
@@ -47,10 +49,8 @@ static JSModuleDef *script_loader(JSContext *ctx, const char *module_name) {
 }
 
 JSModuleDef *module_loader(JSContext *ctx, const char *module_name, void *opaque) {
-	if (StringName(module_name).begins_with("qjs:")) {
-		static JSModuleDef *os_module = js_init_module_os(ctx, "qjs:os");
-		return os_module;
-	} else if (StringName(module_name).begins_with("@godot/classes")) {
+	
+	if (StringName(module_name).begins_with("@godot/classes")) {
 		return NULL;
 	} else {
 		return script_loader(ctx, module_name);

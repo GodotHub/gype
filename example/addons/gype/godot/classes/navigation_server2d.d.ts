@@ -1,0 +1,182 @@
+
+import type { Callable } from '@godot/builtins/callable';
+import type { GodotObject } from '@godot/classes/godot_object';
+import type { NavigationMeshSourceGeometryData2D } from '@godot/classes/navigation_mesh_source_geometry_data2d';
+import type { NavigationPathQueryParameters2D } from '@godot/classes/navigation_path_query_parameters2d';
+import type { NavigationPathQueryResult2D } from '@godot/classes/navigation_path_query_result2d';
+import type { NavigationPolygon } from '@godot/classes/navigation_polygon';
+import type { Node } from '@godot/classes/node';
+import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
+import type { RID } from '@godot/builtins/rid';
+import type { Rect2 } from '@godot/builtins/rect2';
+import type { Signal } from '@godot/builtins/signal';
+import type { Transform2D } from '@godot/builtins/transform2d';
+import type { Vector2 } from '@godot/builtins/vector2';
+
+
+export declare class NavigationServer2D extends GodotObject {
+
+
+    public get_maps(): Array<any>;
+    public map_create(): RID;
+    public map_set_active(map: RID, active: boolean): void;
+    public map_is_active(map: RID): boolean;
+    public map_set_cell_size(map: RID, cellSize: number): void;
+    public map_get_cell_size(map: RID): number;
+    public map_set_merge_rasterizer_cell_scale(map: RID, scale: number): void;
+    public map_get_merge_rasterizer_cell_scale(map: RID): number;
+    public map_set_use_edge_connections(map: RID, enabled: boolean): void;
+    public map_get_use_edge_connections(map: RID): boolean;
+    public map_set_edge_connection_margin(map: RID, margin: number): void;
+    public map_get_edge_connection_margin(map: RID): number;
+    public map_set_link_connection_radius(map: RID, radius: number): void;
+    public map_get_link_connection_radius(map: RID): number;
+    public map_get_path(map: RID, origin: Vector2, destination: Vector2, optimize: boolean, navigationLayers: number = 1): PackedVector2Array;
+    public map_get_closest_point(map: RID, toPoint: Vector2): Vector2;
+    public map_get_closest_point_owner(map: RID, toPoint: Vector2): RID;
+    public map_get_links(map: RID): Array<any>;
+    public map_get_regions(map: RID): Array<any>;
+    public map_get_agents(map: RID): Array<any>;
+    public map_get_obstacles(map: RID): Array<any>;
+    public map_force_update(map: RID): void;
+    public map_get_iteration_id(map: RID): number;
+    public map_set_use_async_iterations(map: RID, enabled: boolean): void;
+    public map_get_use_async_iterations(map: RID): boolean;
+    public map_get_random_point(map: RID, navigationLayers: number, uniformly: boolean): Vector2;
+    public query_path(parameters: NavigationPathQueryParameters2D, result: NavigationPathQueryResult2D, callback: Callable = Callable()): void;
+    public region_create(): RID;
+    public region_get_iteration_id(region: RID): number;
+    public region_set_use_async_iterations(region: RID, enabled: boolean): void;
+    public region_get_use_async_iterations(region: RID): boolean;
+    public region_set_enabled(region: RID, enabled: boolean): void;
+    public region_get_enabled(region: RID): boolean;
+    public region_set_use_edge_connections(region: RID, enabled: boolean): void;
+    public region_get_use_edge_connections(region: RID): boolean;
+    public region_set_enter_cost(region: RID, enterCost: number): void;
+    public region_get_enter_cost(region: RID): number;
+    public region_set_travel_cost(region: RID, travelCost: number): void;
+    public region_get_travel_cost(region: RID): number;
+    public region_set_owner_id(region: RID, ownerId: number): void;
+    public region_get_owner_id(region: RID): number;
+    public region_owns_point(region: RID, point: Vector2): boolean;
+    public region_set_map(region: RID, map: RID): void;
+    public region_get_map(region: RID): RID;
+    public region_set_navigation_layers(region: RID, navigationLayers: number): void;
+    public region_get_navigation_layers(region: RID): number;
+    public region_set_transform(region: RID, transform: Transform2D): void;
+    public region_get_transform(region: RID): Transform2D;
+    public region_set_navigation_polygon(region: RID, navigationPolygon: NavigationPolygon): void;
+    public region_get_connections_count(region: RID): number;
+    public region_get_connection_pathway_start(region: RID, connection: number): Vector2;
+    public region_get_connection_pathway_end(region: RID, connection: number): Vector2;
+    public region_get_closest_point(region: RID, toPoint: Vector2): Vector2;
+    public region_get_random_point(region: RID, navigationLayers: number, uniformly: boolean): Vector2;
+    public region_get_bounds(region: RID): Rect2;
+    public link_create(): RID;
+    public link_get_iteration_id(link: RID): number;
+    public link_set_map(link: RID, map: RID): void;
+    public link_get_map(link: RID): RID;
+    public link_set_enabled(link: RID, enabled: boolean): void;
+    public link_get_enabled(link: RID): boolean;
+    public link_set_bidirectional(link: RID, bidirectional: boolean): void;
+    public link_is_bidirectional(link: RID): boolean;
+    public link_set_navigation_layers(link: RID, navigationLayers: number): void;
+    public link_get_navigation_layers(link: RID): number;
+    public link_set_start_position(link: RID, position: Vector2): void;
+    public link_get_start_position(link: RID): Vector2;
+    public link_set_end_position(link: RID, position: Vector2): void;
+    public link_get_end_position(link: RID): Vector2;
+    public link_set_enter_cost(link: RID, enterCost: number): void;
+    public link_get_enter_cost(link: RID): number;
+    public link_set_travel_cost(link: RID, travelCost: number): void;
+    public link_get_travel_cost(link: RID): number;
+    public link_set_owner_id(link: RID, ownerId: number): void;
+    public link_get_owner_id(link: RID): number;
+    public agent_create(): RID;
+    public agent_set_avoidance_enabled(agent: RID, enabled: boolean): void;
+    public agent_get_avoidance_enabled(agent: RID): boolean;
+    public agent_set_map(agent: RID, map: RID): void;
+    public agent_get_map(agent: RID): RID;
+    public agent_set_paused(agent: RID, paused: boolean): void;
+    public agent_get_paused(agent: RID): boolean;
+    public agent_set_neighbor_distance(agent: RID, distance: number): void;
+    public agent_get_neighbor_distance(agent: RID): number;
+    public agent_set_max_neighbors(agent: RID, count: number): void;
+    public agent_get_max_neighbors(agent: RID): number;
+    public agent_set_time_horizon_agents(agent: RID, timeHorizon: number): void;
+    public agent_get_time_horizon_agents(agent: RID): number;
+    public agent_set_time_horizon_obstacles(agent: RID, timeHorizon: number): void;
+    public agent_get_time_horizon_obstacles(agent: RID): number;
+    public agent_set_radius(agent: RID, radius: number): void;
+    public agent_get_radius(agent: RID): number;
+    public agent_set_max_speed(agent: RID, maxSpeed: number): void;
+    public agent_get_max_speed(agent: RID): number;
+    public agent_set_velocity_forced(agent: RID, velocity: Vector2): void;
+    public agent_set_velocity(agent: RID, velocity: Vector2): void;
+    public agent_get_velocity(agent: RID): Vector2;
+    public agent_set_position(agent: RID, position: Vector2): void;
+    public agent_get_position(agent: RID): Vector2;
+    public agent_is_map_changed(agent: RID): boolean;
+    public agent_set_avoidance_callback(agent: RID, callback: Callable): void;
+    public agent_has_avoidance_callback(agent: RID): boolean;
+    public agent_set_avoidance_layers(agent: RID, layers: number): void;
+    public agent_get_avoidance_layers(agent: RID): number;
+    public agent_set_avoidance_mask(agent: RID, mask: number): void;
+    public agent_get_avoidance_mask(agent: RID): number;
+    public agent_set_avoidance_priority(agent: RID, priority: number): void;
+    public agent_get_avoidance_priority(agent: RID): number;
+    public obstacle_create(): RID;
+    public obstacle_set_avoidance_enabled(obstacle: RID, enabled: boolean): void;
+    public obstacle_get_avoidance_enabled(obstacle: RID): boolean;
+    public obstacle_set_map(obstacle: RID, map: RID): void;
+    public obstacle_get_map(obstacle: RID): RID;
+    public obstacle_set_paused(obstacle: RID, paused: boolean): void;
+    public obstacle_get_paused(obstacle: RID): boolean;
+    public obstacle_set_radius(obstacle: RID, radius: number): void;
+    public obstacle_get_radius(obstacle: RID): number;
+    public obstacle_set_velocity(obstacle: RID, velocity: Vector2): void;
+    public obstacle_get_velocity(obstacle: RID): Vector2;
+    public obstacle_set_position(obstacle: RID, position: Vector2): void;
+    public obstacle_get_position(obstacle: RID): Vector2;
+    public obstacle_set_vertices(obstacle: RID, vertices: PackedVector2Array): void;
+    public obstacle_get_vertices(obstacle: RID): PackedVector2Array;
+    public obstacle_set_avoidance_layers(obstacle: RID, layers: number): void;
+    public obstacle_get_avoidance_layers(obstacle: RID): number;
+    public parse_source_geometry_data(navigationPolygon: NavigationPolygon, sourceGeometryData: NavigationMeshSourceGeometryData2D, rootNode: Node, callback: Callable = Callable()): void;
+    public bake_from_source_geometry_data(navigationPolygon: NavigationPolygon, sourceGeometryData: NavigationMeshSourceGeometryData2D, callback: Callable = Callable()): void;
+    public bake_from_source_geometry_data_async(navigationPolygon: NavigationPolygon, sourceGeometryData: NavigationMeshSourceGeometryData2D, callback: Callable = Callable()): void;
+    public is_baking_navigation_polygon(navigationPolygon: NavigationPolygon): boolean;
+    public source_geometry_parser_create(): RID;
+    public source_geometry_parser_set_callback(parser: RID, callback: Callable): void;
+    public simplify_path(path: PackedVector2Array, epsilon: number): PackedVector2Array;
+    public free_rid(rid: RID): void;
+    public set_active(active: boolean): void;
+    public set_debug_enabled(enabled: boolean): void;
+    public get_debug_enabled(): boolean;
+    public get_process_info(processInfo: number): number;
+
+    
+    public readonly map_changed: Signal<(map: RID) => void>;
+    public readonly navigation_debug_changed: Signal<() => void>;
+    public readonly avoidance_debug_changed: Signal<() => void>;
+
+    public static readonly ProcessInfo: {
+        INFO_ACTIVE_MAPS: 0;
+        INFO_REGION_COUNT: 1;
+        INFO_AGENT_COUNT: 2;
+        INFO_LINK_COUNT: 3;
+        INFO_POLYGON_COUNT: 4;
+        INFO_EDGE_COUNT: 5;
+        INFO_EDGE_MERGE_COUNT: 6;
+        INFO_EDGE_CONNECTION_COUNT: 7;
+        INFO_EDGE_FREE_COUNT: 8;
+        INFO_OBSTACLE_COUNT: 9;
+    };
+}
+
+
+/**
+ * A singleton instance of NavigationServer2D.
+ * This is a global variable, available from anywhere.
+ */
+export const NavigationServer2D: NavigationServer2D;

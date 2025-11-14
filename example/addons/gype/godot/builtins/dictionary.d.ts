@@ -1,5 +1,9 @@
 declare global {
-    export interface Dictionary {
+    export class Dictionary {
+        constructor(): Dictionary;
+        constructor(_from: Dictionary): Dictionary;
+        constructor(base: Dictionary, keyType: number, keyClassName: GDString | StringName | string, keyScript: any, valueType: number, valueClassName: GDString | StringName | string, valueScript: any): Dictionary;
+    
 
         size(): number;
         is_empty(): boolean;
@@ -35,20 +39,7 @@ declare global {
         make_read_only(): void;
         is_read_only(): boolean;
         recursive_equal(dictionary: Dictionary, recursionCount: number): boolean;
-    }
-
-    /**
-    * A global constructor and namespace for the Dictionary type.
-    *
-    * Use `new Dictionary(...)` to create a new instance.
-    * Access static members like `Dictionary.ZERO`.
-    */
-    export declare const Dictionary: {
-        new(): Dictionary;
-        new(_from: Dictionary): Dictionary;
-        new(base: Dictionary, keyType: number, keyClassName: GDString | StringName | string, keyScript: any, valueType: number, valueClassName: GDString | StringName | string, valueScript: any): Dictionary;
-
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -58,7 +49,7 @@ declare global {
         // in_op(Dictionary): boolean
         // in_op(GDArray): boolean
         */
-    };
+    }
 }
 
 export {};

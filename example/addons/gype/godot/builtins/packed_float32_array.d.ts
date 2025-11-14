@@ -1,5 +1,9 @@
 declare global {
-    export interface PackedFloat32Array {
+    export class PackedFloat32Array {
+        constructor(): PackedFloat32Array;
+        constructor(_from: PackedFloat32Array): PackedFloat32Array;
+        constructor(_from: GDArray): PackedFloat32Array;
+    
 
         get(index: number): number;
         set(index: number, value: number): void;
@@ -24,20 +28,7 @@ declare global {
         rfind(value: number, _from: number = -1): number;
         count(value: number): number;
         erase(value: number): boolean;
-    }
-
-    /**
-    * A global constructor and namespace for the PackedFloat32Array type.
-    *
-    * Use `new PackedFloat32Array(...)` to create a new instance.
-    * Access static members like `PackedFloat32Array.ZERO`.
-    */
-    export declare const PackedFloat32Array: {
-        new(): PackedFloat32Array;
-        new(_from: PackedFloat32Array): PackedFloat32Array;
-        new(_from: GDArray): PackedFloat32Array;
-
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -48,7 +39,7 @@ declare global {
         // not_equals(PackedFloat32Array): boolean
         // add(PackedFloat32Array): PackedFloat32Array
         */
-    };
+    }
 }
 
 export {};

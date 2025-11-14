@@ -36,14 +36,12 @@ static JSValue node_path_class_constructor(JSContext *ctx, JSValueConst new_targ
 	if (argc == 0) {
 		instance = NodePath();
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::NODE_PATH))) {
-			NodePath
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&JS_IsString(argv[0])) {
+		NodePath v0 = VariantAdapter(argv[0]).get();
 		instance = NodePath(v0);
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::STRING))) {
-			String
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&JS_IsString(argv[0])) {
+		String v0 = VariantAdapter(argv[0]).get();
 		instance = NodePath(v0);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -124,7 +122,7 @@ static int js_node_path_class_init(JSContext *ctx) {
 	return 0;
 }
 
-void js_init_node_path_module(JSContext *ctx) {
+static void js_init_node_path_module(JSContext *ctx) {
 	js_node_path_class_init(ctx);
 }
 
@@ -141,8 +139,8 @@ static void node_path_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef node_path_proxy_def = {
-	.class_name = "NodePathProxy",
-	.finalizer = node_path_proxy_finalizer
+	"NodePathProxy",
+	node_path_proxy_finalizer
 };
 
 
@@ -173,8 +171,8 @@ static JSValue node_path_proxy_constructor(JSContext *ctx, JSValueConst new_targ
 
 static JSValue node_path_proxy_is_absolute(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["NodePathProxy"]);
-    ObjectProxy<NodePath> *proxy = reinterpret_cast<ObjectProxy<NodePath> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<NodePath> *proxy = static_cast<ObjectProxy<NodePath> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&NodePath::is_absolute, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -182,8 +180,8 @@ static JSValue node_path_proxy_is_absolute(JSContext *ctx, JSValueConst this_val
 }
 static JSValue node_path_proxy_get_name_count(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["NodePathProxy"]);
-    ObjectProxy<NodePath> *proxy = reinterpret_cast<ObjectProxy<NodePath> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<NodePath> *proxy = static_cast<ObjectProxy<NodePath> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&NodePath::get_name_count, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -191,8 +189,8 @@ static JSValue node_path_proxy_get_name_count(JSContext *ctx, JSValueConst this_
 }
 static JSValue node_path_proxy_get_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["NodePathProxy"]);
-    ObjectProxy<NodePath> *proxy = reinterpret_cast<ObjectProxy<NodePath> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<NodePath> *proxy = static_cast<ObjectProxy<NodePath> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&NodePath::get_name, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -200,8 +198,8 @@ static JSValue node_path_proxy_get_name(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue node_path_proxy_get_subname_count(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["NodePathProxy"]);
-    ObjectProxy<NodePath> *proxy = reinterpret_cast<ObjectProxy<NodePath> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<NodePath> *proxy = static_cast<ObjectProxy<NodePath> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&NodePath::get_subname_count, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -209,8 +207,8 @@ static JSValue node_path_proxy_get_subname_count(JSContext *ctx, JSValueConst th
 }
 static JSValue node_path_proxy_hash(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["NodePathProxy"]);
-    ObjectProxy<NodePath> *proxy = reinterpret_cast<ObjectProxy<NodePath> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<NodePath> *proxy = static_cast<ObjectProxy<NodePath> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&NodePath::hash, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -218,8 +216,8 @@ static JSValue node_path_proxy_hash(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue node_path_proxy_get_subname(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["NodePathProxy"]);
-    ObjectProxy<NodePath> *proxy = reinterpret_cast<ObjectProxy<NodePath> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<NodePath> *proxy = static_cast<ObjectProxy<NodePath> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&NodePath::get_subname, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -227,8 +225,8 @@ static JSValue node_path_proxy_get_subname(JSContext *ctx, JSValueConst this_val
 }
 static JSValue node_path_proxy_get_concatenated_names(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["NodePathProxy"]);
-    ObjectProxy<NodePath> *proxy = reinterpret_cast<ObjectProxy<NodePath> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<NodePath> *proxy = static_cast<ObjectProxy<NodePath> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&NodePath::get_concatenated_names, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -236,8 +234,8 @@ static JSValue node_path_proxy_get_concatenated_names(JSContext *ctx, JSValueCon
 }
 static JSValue node_path_proxy_get_concatenated_subnames(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["NodePathProxy"]);
-    ObjectProxy<NodePath> *proxy = reinterpret_cast<ObjectProxy<NodePath> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<NodePath> *proxy = static_cast<ObjectProxy<NodePath> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&NodePath::get_concatenated_subnames, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -245,8 +243,8 @@ static JSValue node_path_proxy_get_concatenated_subnames(JSContext *ctx, JSValue
 }
 static JSValue node_path_proxy_slice(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["NodePathProxy"]);
-    ObjectProxy<NodePath> *proxy = reinterpret_cast<ObjectProxy<NodePath> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<NodePath> *proxy = static_cast<ObjectProxy<NodePath> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&NodePath::slice, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -254,8 +252,8 @@ static JSValue node_path_proxy_slice(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue node_path_proxy_get_as_property_path(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["NodePathProxy"]);
-    ObjectProxy<NodePath> *proxy = reinterpret_cast<ObjectProxy<NodePath> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<NodePath> *proxy = static_cast<ObjectProxy<NodePath> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&NodePath::get_as_property_path, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -263,8 +261,8 @@ static JSValue node_path_proxy_get_as_property_path(JSContext *ctx, JSValueConst
 }
 static JSValue node_path_proxy_is_empty(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["NodePathProxy"]);
-    ObjectProxy<NodePath> *proxy = reinterpret_cast<ObjectProxy<NodePath> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<NodePath> *proxy = static_cast<ObjectProxy<NodePath> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&NodePath::is_empty, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);

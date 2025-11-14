@@ -1,5 +1,19 @@
 declare global {
-    export interface GDArray {
+    export class GDArray {
+        constructor(): GDArray;
+        constructor(_from: GDArray): GDArray;
+        constructor(base: GDArray, _type: number, className: GDString | StringName | string, script: any): GDArray;
+        constructor(_from: PackedByteArray): GDArray;
+        constructor(_from: PackedInt32Array): GDArray;
+        constructor(_from: PackedInt64Array): GDArray;
+        constructor(_from: PackedFloat32Array): GDArray;
+        constructor(_from: PackedFloat64Array): GDArray;
+        constructor(_from: PackedStringArray): GDArray;
+        constructor(_from: PackedVector2Array): GDArray;
+        constructor(_from: PackedVector3Array): GDArray;
+        constructor(_from: PackedColorArray): GDArray;
+        constructor(_from: PackedVector4Array): GDArray;
+    
 
         size(): number;
         is_empty(): boolean;
@@ -52,30 +66,7 @@ declare global {
         get_typed_script(): any;
         make_read_only(): void;
         is_read_only(): boolean;
-    }
-
-    /**
-    * A global constructor and namespace for the GDArray type.
-    *
-    * Use `new GDArray(...)` to create a new instance.
-    * Access static members like `GDArray.ZERO`.
-    */
-    export declare const GDArray: {
-        new(): GDArray;
-        new(_from: GDArray): GDArray;
-        new(base: GDArray, _type: number, className: GDString | StringName | string, script: any): GDArray;
-        new(_from: PackedByteArray): GDArray;
-        new(_from: PackedInt32Array): GDArray;
-        new(_from: PackedInt64Array): GDArray;
-        new(_from: PackedFloat32Array): GDArray;
-        new(_from: PackedFloat64Array): GDArray;
-        new(_from: PackedStringArray): GDArray;
-        new(_from: PackedVector2Array): GDArray;
-        new(_from: PackedVector3Array): GDArray;
-        new(_from: PackedColorArray): GDArray;
-        new(_from: PackedVector4Array): GDArray;
-
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -90,7 +81,7 @@ declare global {
         // add(GDArray): GDArray
         // in_op(GDArray): boolean
         */
-    };
+    }
 }
 
 export {};

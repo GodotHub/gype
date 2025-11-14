@@ -12,9 +12,8 @@
 #include <vector>
 
 namespace godot {
-
 namespace internal {
-Callable *create_callable_ptr_from_ccmp(CallableCustomMethodPointerBase *p_callable_method_pointer);
+Callable create_callable_from_ccmp(CallableCustomMethodPointerBase *p_callable_method_pointer);
 } //namespace internal
 
 class CallableJSMethodPointer : public CallableCustomMethodPointerBase {
@@ -23,18 +22,37 @@ class CallableJSMethodPointer : public CallableCustomMethodPointerBase {
 
 public:
 	virtual ObjectID get_object() const override {
-		uint32_t id = JS_GetClassID(instance);
-		Object *obj = static_cast<VariantAdapter *>(JS_GetOpaque(instance, id))->get();
+		if (JS_IsUndefined(instance) || !JS_IsObject(instance)) {
+			return ObjectID();
+		}
+		
+		JSClassID class_id = JS_GetClassID(instance);
+		if (!classes_by_id.has(class_id)) {
+			return ObjectID();
+		}
+
+		VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(instance, class_id));
+		if (!adapter) {
+			return ObjectID();
+		}
+
+		Object *obj = adapter->get();
+		if (!obj) {
+			return ObjectID();
+		}
+
 		return ObjectID(obj->get_instance_id());
 	}
+
 	virtual int get_argument_count(bool &r_is_valid) const override;
 	virtual void call(const Variant **p_arguments, int p_argcount, Variant &r_return_value, GDExtensionCallError &r_call_error) const override;
 
 	CallableJSMethodPointer(JSValue instance, JSValue function);
+	~CallableJSMethodPointer();
 };
 
-Callable *create_custom_javascript_callable(JSValue instance, JSValue function);
-
+Callable create_custom_javascript_callable(JSValue instance, JSValue function);
+Callable create_custom_javascript_callable(JSValue function);
 } //namespace godot
 
 #endif // __CALLABLE_JSMETHOD_POINTER_H__

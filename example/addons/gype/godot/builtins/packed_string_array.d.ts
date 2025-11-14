@@ -1,5 +1,9 @@
 declare global {
-    export interface PackedStringArray {
+    export class PackedStringArray {
+        constructor(): PackedStringArray;
+        constructor(_from: PackedStringArray): PackedStringArray;
+        constructor(_from: GDArray): PackedStringArray;
+    
 
         get(index: number): GDString;
         set(index: number, value: GDString | StringName | string): void;
@@ -24,20 +28,7 @@ declare global {
         rfind(value: GDString | StringName | string, _from: number = -1): number;
         count(value: GDString | StringName | string): number;
         erase(value: GDString | StringName | string): boolean;
-    }
-
-    /**
-    * A global constructor and namespace for the PackedStringArray type.
-    *
-    * Use `new PackedStringArray(...)` to create a new instance.
-    * Access static members like `PackedStringArray.ZERO`.
-    */
-    export declare const PackedStringArray: {
-        new(): PackedStringArray;
-        new(_from: PackedStringArray): PackedStringArray;
-        new(_from: GDArray): PackedStringArray;
-
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -48,7 +39,7 @@ declare global {
         // not_equals(PackedStringArray): boolean
         // add(PackedStringArray): PackedStringArray
         */
-    };
+    }
 }
 
 export {};

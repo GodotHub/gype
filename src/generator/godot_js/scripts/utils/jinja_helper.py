@@ -97,8 +97,14 @@ def variant_type_cond(arguments):
         ltype = arg['type']
         if ltype == 'float':
             ltype = 'double'
-        if arg['type'] != 'Variant':
-            condition = f'(VariantAdapter::can_cast(argv[{i}],Variant::Type::{camel_to_snake(arg['type']).upper()}))'
+        if arg['type'] == 'StringName' or arg['type'] == 'String' or arg['type'] == 'NodePath':
+            condition = f'JS_IsString(argv[{i}])'
+        elif arg['type'] == 'int' or arg['type'] == 'float':
+            condition = f'JS_IsNumber(argv[{i}])'
+        elif arg['type'] == 'bool':
+            condition = f'JS_IsBool(argv[{i}])'
+        elif arg['type'] != 'Variant':
+            condition = f'VariantAdapter::can_cast(argv[{i}], Variant::Type::{camel_to_snake(arg['type']).upper()})'
         conditions.append(condition)
 
     # 将所有条件用 '&&' 连接，并在开头加上 '&&' 以简化模板中的if语句
@@ -223,8 +229,8 @@ def get_proxy_method_call_expression(method, class_name):
     method_name = method['name']
     has_return = method.get('return_type') or method.get('return_value')
     code = f'void *opaque = JS_GetOpaque(this_val, classes["{class_name}Proxy"]);\n'
-    code += f'    ObjectProxy<{class_name}> *proxy = reinterpret_cast<ObjectProxy<{class_name}> *>(opaque);\n'
-    code += f'    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);\n'
+    code += f'    ObjectProxy<{class_name}> *proxy = static_cast<ObjectProxy<{class_name}> *>(opaque);\n'
+    code += f'    Object *wrapped = proxy->wrapped;\n'
     code += f'    this_val = VariantAdapter(wrapped);\n'
     # 1. 处理 VarArg 方法
     if method.get('is_vararg'):
@@ -301,7 +307,7 @@ def get_property_proxy_accessor_expression(class_name, member, access_type):
     """为属性生成 getter 或 setter 的 C++ 表达式。"""
     member_name = member['name']
     code = f'void *opaque = JS_GetOpaque(this_val, classes["{class_name}Proxy"]);\n'
-    code += f'    ObjectProxy<{class_name}> *proxy = reinterpret_cast<ObjectProxy<{class_name}> *>(opaque);\n'
+    code += f'    ObjectProxy<{class_name}> *proxy = static_cast<ObjectProxy<{class_name}> *>(opaque);\n'
     if access_type == 'get':
         getter = member.get('getter_name')
         member_type = member['type']

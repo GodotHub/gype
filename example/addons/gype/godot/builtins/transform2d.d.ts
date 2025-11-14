@@ -1,5 +1,14 @@
 declare global {
-    export interface Transform2D {
+    export class Transform2D {
+        constructor(): Transform2D;
+        constructor(_from: Transform2D): Transform2D;
+        constructor(rotation: number, position: Vector2): Transform2D;
+        constructor(rotation: number, scale: Vector2, skew: number, position: Vector2): Transform2D;
+        constructor(xAxis: Vector2, yAxis: Vector2, origin: Vector2): Transform2D;
+        readonly IDENTITY: Transform2D;
+        readonly FLIP_X: Transform2D;
+        readonly FLIP_Y: Transform2D;
+    
         x: Vector2;
         y: Vector2;
         origin: Vector2;
@@ -25,25 +34,7 @@ declare global {
         is_equal_approx(xform: Transform2D): boolean;
         is_finite(): boolean;
         looking_at(target: Vector2 = Vector2(0, 0)): Transform2D;
-    }
-
-    /**
-    * A global constructor and namespace for the Transform2D type.
-    *
-    * Use `new Transform2D(...)` to create a new instance.
-    * Access static members like `Transform2D.ZERO`.
-    */
-    export declare const Transform2D: {
-        new(): Transform2D;
-        new(_from: Transform2D): Transform2D;
-        new(rotation: number, position: Vector2): Transform2D;
-        new(rotation: number, scale: Vector2, skew: number, position: Vector2): Transform2D;
-        new(xAxis: Vector2, yAxis: Vector2, origin: Vector2): Transform2D;
-
-        readonly IDENTITY: Transform2D;
-        readonly FLIP_X: Transform2D;
-        readonly FLIP_Y: Transform2D;
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -61,7 +52,7 @@ declare global {
         // in_op(GDArray): boolean
         // multiply(PackedVector2Array): PackedVector2Array
         */
-    };
+    }
 }
 
 export {};

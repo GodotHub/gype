@@ -14,58 +14,80 @@ using namespace godot;
 
 // ... (Your type traits are fine, no changes needed here) ...
 template <typename T>
-struct is_const_ref : std::false_type {};
+struct is_const_ref : std::false_type {
+};
+
 template <typename T>
-struct is_const_ref<const Ref<T> &> : std::true_type {};
+struct is_const_ref<const Ref<T> &> : std::true_type {
+};
+
 template <typename T>
 constexpr bool is_const_ref_v = is_const_ref<T>::value;
+
 template <typename T>
-struct is_ref : std::false_type {};
+struct is_ref : std::false_type {
+};
+
 template <typename T>
-struct is_ref<Ref<T>> : std::true_type {};
+struct is_ref<Ref<T>> : std::true_type {
+};
+
 template <typename T>
 constexpr bool is_ref_v = is_ref<T>::value;
 template <typename T>
 struct ref_extract_type;
+
 template <typename T>
 struct ref_extract_type<Ref<T>> {
 	using type = T;
 };
+
 template <typename T>
 using ref_extract_type_t = typename ref_extract_type<T>::type;
 template <typename T>
 struct const_ref_extract_type;
+
 template <typename T>
 struct const_ref_extract_type<const Ref<T> &> {
 	using type = T;
 };
+
 template <typename T>
 using const_ref_extract_type_t = typename const_ref_extract_type<T>::type;
+
 template <typename T>
-struct is_bitfield : std::false_type {};
+struct is_bitfield : std::false_type {
+};
+
 template <template <typename> class Template, typename T>
-struct is_bitfield<Template<T>> : std::is_same<Template<T>, godot::BitField<T>> {};
+struct is_bitfield<Template<T>> : std::is_same<Template<T>, godot::BitField<T>> {
+};
+
 template <typename T>
 constexpr bool is_bitfield_v = is_bitfield<T>::value;
 template <typename T>
 struct FuncTraits;
+
 template <typename R, typename T, typename... P>
 struct FuncTraits<R (T::*)(P...)> {
 	using ReturnType = R;
 	using ArgTypes = std::tuple<P...>;
 	using Type = T;
 };
+
 template <typename R, typename T, typename... P>
 struct FuncTraits<R (T::*)(P...) const> {
 	using ReturnType = R;
 	using ArgTypes = std::tuple<P...>;
 	using Type = T;
 };
+
 template <typename T, typename... P>
 struct FuncTraits<void (T::*)(P...) const> {
 	using ArgTypes = std::tuple<P...>;
 	using Type = T;
 };
+
 template <typename R, typename... P>
 struct FuncTraits<R (*)(P...)> {
 	using ReturnType = R;
@@ -77,7 +99,7 @@ std::enable_if_t<is_const_ref_v<T>, const_ref_extract_type_t<T> *>
 convert(JSContext *ctx, JSValueConst v) {
 	JSClassID class_id = 0;
 	auto *adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(v, &class_id));
-	return static_cast<const_ref_extract_type_t<T> *>(adapter->variant.operator Object *());
+	return static_cast<const_ref_extract_type_t<T> *>(adapter->get().operator Object *());
 }
 
 template <typename T>
@@ -85,12 +107,12 @@ std::enable_if_t<is_ref_v<T>, ref_extract_type_t<T> *>
 convert(JSContext *ctx, JSValueConst v) {
 	JSClassID class_id = 0;
 	auto *adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(v, &class_id));
-	return static_cast<ref_extract_type_t<T> *>(adapter->variant.operator Object *());
+	return static_cast<ref_extract_type_t<T> *>(adapter->get().operator Object *());
 }
 
 template <typename T>
 std::enable_if_t<!is_const_ref_v<T> && !is_ref_v<T> && std::is_reference_v<T>,
-		std::remove_const_t<std::remove_reference_t<T>>>
+	std::remove_const_t<std::remove_reference_t<T>>>
 convert(JSContext *ctx, JSValueConst v) {
 	return VariantAdapter(v).get();
 }
@@ -107,8 +129,9 @@ std::enable_if_t<std::is_pointer_v<T> && std::is_base_of_v<Object, std::remove_p
 convert(JSContext *ctx, JSValueConst v) {
 	JSClassID class_id = 0;
 	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(v, &class_id));
-	return static_cast<T>(adapter->variant.operator Object *());
+	return static_cast<T>(adapter->get().operator Object *());
 }
+
 template <typename T>
 std::enable_if_t<std::is_base_of_v<Object, T>, T *>
 convert(JSContext *ctx, JSValueConst v) {
@@ -116,17 +139,20 @@ convert(JSContext *ctx, JSValueConst v) {
 	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(v, &class_id));
 	return static_cast<T *>(adapter->get().operator godot::Object *());
 }
+
 template <typename T>
 std::enable_if_t<is_bitfield_v<T>, T>
 convert(JSContext *ctx, JSValueConst v) {
 	return VariantAdapter(v).get().operator int64_t();
 }
+
 template <typename T>
 std::enable_if_t<!std::is_pointer_v<T> &&
-				!is_ref_v<T> && !is_const_ref_v<T> &&
-				!std::is_reference_v<T> &&
-				std::is_constructible_v<Variant, T>,
-		T>
+	!is_ref_v<T> && !is_const_ref_v<T> &&
+	!std::is_reference_v<T> &&
+	!std::is_base_of_v<Object, T> &&
+	std::is_constructible_v<Variant, T>,
+	T>
 convert(JSContext *ctx, JSValueConst v) {
 	if constexpr (std::is_enum_v<T>) {
 		return T(VariantAdapter(v).get().operator int64_t());
@@ -136,14 +162,13 @@ convert(JSContext *ctx, JSValueConst v) {
 		return VariantAdapter(v).get();
 	}
 }
+
 template <typename T>
-void *native_ptr(T variant) {
-	if constexpr (std::is_pointer_v<T> && std::is_base_of_v<Object, T>) {
-		return variant->operator godot::Object *()->_native_ptr();
-	} else if constexpr (std::is_pointer_v<T>) {
-		return variant->_native_ptr();
+GDExtensionTypePtr native_ptr(T v) {
+	if constexpr (std::is_pointer_v<T>) {
+		return v->_native_ptr();
 	} else {
-		return variant._native_ptr();
+		return v._native_ptr();
 	}
 }
 
@@ -165,7 +190,7 @@ JSValue call_builtin_method_no_ret_impl(void (T::*Func)(P...), JSContext *ctx, J
 		if (!adapter) {
 			return JS_UNDEFINED;
 		}
-		T callee = adapter->variant; // Get reference from the variant
+		T callee = adapter->get(); // Get reference from the variant
 		std::invoke(Func, callee, convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])...);
 	}
 	return JS_UNDEFINED;
@@ -211,7 +236,7 @@ JSValue call_builtin_method_ret_impl(R (T::*Func)(P...), JSContext *ctx, JSValue
 		if (!adapter) {
 			return JS_UNDEFINED;
 		}
-		T callee = adapter->variant; // Get reference from the variant
+		T callee = adapter->get(); // Get reference from the variant
 		return VariantAdapter(std::invoke(Func, callee, convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])...));
 	}
 }
@@ -274,7 +299,7 @@ JSValue call_builtin_vararg_method_no_ret_impl(void (T::*Func)(P...), JSContext 
 	if (!adapter) {
 		return JS_UNDEFINED;
 	}
-	T &callee = adapter->variant;
+	T callee = adapter->get();
 
 	constexpr int fixed_argc = sizeof...(P) - 1;
 	std::vector<Variant> variant_args;
@@ -329,13 +354,13 @@ JSValue call_builtin_const_no_fixed_vararg_method_no_ret(void (T::*Func)(void *o
 
 template <typename T, typename R>
 JSValue call_builtin_free_opaque_no_fixed_vararg_method_ret_impl(R (*Func)(void *, const std::vector<Variant> &), JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	auto callee = convert<T>(ctx, this_val);
-	GDExtensionTypePtr vopaque = native_ptr(callee);
+	T callee = convert<T>(ctx, this_val);
+	GDExtensionTypePtr opaque = native_ptr(callee);
 	std::vector<Variant> variant_args;
 	for (int i = 0; i < argc; ++i) {
 		variant_args.push_back(VariantAdapter(argv[i]).get());
 	}
-	return VariantAdapter((*Func)(vopaque, variant_args));
+	return VariantAdapter((*Func)(opaque, variant_args));
 }
 
 template <typename T, typename R>
@@ -346,13 +371,13 @@ JSValue call_builtin_free_opaque_no_fixed_vararg_method_ret(R (*Func)(void *, co
 
 template <typename T>
 JSValue call_builtin_free_opaque_no_fixed_vararg_method_no_ret_impl(void (*Func)(void *, const std::vector<Variant> &), JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	auto callee = convert<T>(ctx, this_val);
-	GDExtensionTypePtr vopaque = native_ptr(callee);
+	T callee = convert<T>(ctx, this_val);
+	GDExtensionTypePtr opaque = native_ptr(callee);
 	std::vector<Variant> variant_args;
 	for (int i = 0; i < argc; ++i) {
 		variant_args.push_back(VariantAdapter(argv[i]).get());
 	}
-	(*Func)(vopaque, variant_args);
+	(*Func)(opaque, variant_args);
 	return JS_UNDEFINED;
 }
 
@@ -407,7 +432,7 @@ JSValue call_builtin_vararg_method_ret_impl(R (T::*Func)(P...), JSContext *ctx, 
 	if (!adapter) {
 		return JS_UNDEFINED;
 	}
-	T &callee = adapter->variant;
+	T callee = adapter->get();
 
 	constexpr int fixed_argc = sizeof...(P) - 1;
 	std::vector<Variant> variant_args;
@@ -507,7 +532,6 @@ JSValue call_builtin_static_vararg_method_ret_impl(R (*Func)(P...), JSContext *c
 
 template <typename R, typename... P>
 JSValue call_builtin_static_vararg_method_ret(R (*Func)(P...), JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	// FIX: Removed incorrect std::forward
 	return call_builtin_static_vararg_method_ret_impl(Func, ctx, this_val, argc, argv, std::make_index_sequence<sizeof...(P) - 1>());
 }
 
@@ -533,5 +557,6 @@ JSValue call_builtin_free_owner_vararg_method_ret(R (*Func)(void *, P...), JSCon
 	// FIX: Removed incorrect std::forward
 	return call_builtin_free_owner_vararg_method_ret_impl(Func, ctx, this_val, argc, argv, std::make_index_sequence<sizeof...(P) - 1>());
 }
+
 
 #endif // __FUNC_UTILS_H__

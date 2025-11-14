@@ -39,14 +39,12 @@ static JSValue string_name_class_constructor(JSContext *ctx, JSValueConst new_ta
 	if (argc == 0) {
 		instance = StringName();
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::STRING_NAME))) {
-			StringName
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&JS_IsString(argv[0])) {
+		StringName v0 = VariantAdapter(argv[0]).get();
 		instance = StringName(v0);
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::STRING))) {
-			String
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&JS_IsString(argv[0])) {
+		String v0 = VariantAdapter(argv[0]).get();
 		instance = StringName(v0);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -523,7 +521,7 @@ static int js_string_name_class_init(JSContext *ctx) {
 	return 0;
 }
 
-void js_init_string_name_module(JSContext *ctx) {
+static void js_init_string_name_module(JSContext *ctx) {
 	js_string_name_class_init(ctx);
 }
 
@@ -540,8 +538,8 @@ static void string_name_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef string_name_proxy_def = {
-	.class_name = "StringNameProxy",
-	.finalizer = string_name_proxy_finalizer
+	"StringNameProxy",
+	string_name_proxy_finalizer
 };
 
 
@@ -572,8 +570,8 @@ static JSValue string_name_proxy_constructor(JSContext *ctx, JSValueConst new_ta
 
 static JSValue string_name_proxy_casecmp_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::casecmp_to, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -581,8 +579,8 @@ static JSValue string_name_proxy_casecmp_to(JSContext *ctx, JSValueConst this_va
 }
 static JSValue string_name_proxy_nocasecmp_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::nocasecmp_to, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -590,8 +588,8 @@ static JSValue string_name_proxy_nocasecmp_to(JSContext *ctx, JSValueConst this_
 }
 static JSValue string_name_proxy_naturalcasecmp_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::naturalcasecmp_to, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -599,8 +597,8 @@ static JSValue string_name_proxy_naturalcasecmp_to(JSContext *ctx, JSValueConst 
 }
 static JSValue string_name_proxy_naturalnocasecmp_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::naturalnocasecmp_to, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -608,8 +606,8 @@ static JSValue string_name_proxy_naturalnocasecmp_to(JSContext *ctx, JSValueCons
 }
 static JSValue string_name_proxy_filecasecmp_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::filecasecmp_to, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -617,8 +615,8 @@ static JSValue string_name_proxy_filecasecmp_to(JSContext *ctx, JSValueConst thi
 }
 static JSValue string_name_proxy_filenocasecmp_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::filenocasecmp_to, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -626,8 +624,8 @@ static JSValue string_name_proxy_filenocasecmp_to(JSContext *ctx, JSValueConst t
 }
 static JSValue string_name_proxy_length(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::length, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -635,8 +633,8 @@ static JSValue string_name_proxy_length(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue string_name_proxy_substr(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::substr, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -644,8 +642,8 @@ static JSValue string_name_proxy_substr(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue string_name_proxy_get_slice(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::get_slice, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -653,8 +651,8 @@ static JSValue string_name_proxy_get_slice(JSContext *ctx, JSValueConst this_val
 }
 static JSValue string_name_proxy_get_slicec(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::get_slicec, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -662,8 +660,8 @@ static JSValue string_name_proxy_get_slicec(JSContext *ctx, JSValueConst this_va
 }
 static JSValue string_name_proxy_get_slice_count(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::get_slice_count, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -671,8 +669,8 @@ static JSValue string_name_proxy_get_slice_count(JSContext *ctx, JSValueConst th
 }
 static JSValue string_name_proxy_find(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::find, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -680,8 +678,8 @@ static JSValue string_name_proxy_find(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue string_name_proxy_findn(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::findn, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -689,8 +687,8 @@ static JSValue string_name_proxy_findn(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue string_name_proxy_count(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::count, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -698,8 +696,8 @@ static JSValue string_name_proxy_count(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue string_name_proxy_countn(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::countn, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -707,8 +705,8 @@ static JSValue string_name_proxy_countn(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue string_name_proxy_rfind(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::rfind, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -716,8 +714,8 @@ static JSValue string_name_proxy_rfind(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue string_name_proxy_rfindn(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::rfindn, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -725,8 +723,8 @@ static JSValue string_name_proxy_rfindn(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue string_name_proxy_match(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::match, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -734,8 +732,8 @@ static JSValue string_name_proxy_match(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue string_name_proxy_matchn(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::matchn, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -743,8 +741,8 @@ static JSValue string_name_proxy_matchn(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue string_name_proxy_begins_with(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::begins_with, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -752,8 +750,8 @@ static JSValue string_name_proxy_begins_with(JSContext *ctx, JSValueConst this_v
 }
 static JSValue string_name_proxy_ends_with(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::ends_with, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -761,8 +759,8 @@ static JSValue string_name_proxy_ends_with(JSContext *ctx, JSValueConst this_val
 }
 static JSValue string_name_proxy_is_subsequence_of(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::is_subsequence_of, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -770,8 +768,8 @@ static JSValue string_name_proxy_is_subsequence_of(JSContext *ctx, JSValueConst 
 }
 static JSValue string_name_proxy_is_subsequence_ofn(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::is_subsequence_ofn, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -779,8 +777,8 @@ static JSValue string_name_proxy_is_subsequence_ofn(JSContext *ctx, JSValueConst
 }
 static JSValue string_name_proxy_bigrams(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::bigrams, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -788,8 +786,8 @@ static JSValue string_name_proxy_bigrams(JSContext *ctx, JSValueConst this_val, 
 }
 static JSValue string_name_proxy_similarity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::similarity, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -797,8 +795,8 @@ static JSValue string_name_proxy_similarity(JSContext *ctx, JSValueConst this_va
 }
 static JSValue string_name_proxy_format(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::format, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -806,8 +804,8 @@ static JSValue string_name_proxy_format(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue string_name_proxy_replace(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::replace, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -815,8 +813,8 @@ static JSValue string_name_proxy_replace(JSContext *ctx, JSValueConst this_val, 
 }
 static JSValue string_name_proxy_replacen(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::replacen, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -824,8 +822,8 @@ static JSValue string_name_proxy_replacen(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue string_name_proxy_replace_char(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::replace_char, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -833,8 +831,8 @@ static JSValue string_name_proxy_replace_char(JSContext *ctx, JSValueConst this_
 }
 static JSValue string_name_proxy_replace_chars(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::replace_chars, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -842,8 +840,8 @@ static JSValue string_name_proxy_replace_chars(JSContext *ctx, JSValueConst this
 }
 static JSValue string_name_proxy_remove_char(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::remove_char, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -851,8 +849,8 @@ static JSValue string_name_proxy_remove_char(JSContext *ctx, JSValueConst this_v
 }
 static JSValue string_name_proxy_remove_chars(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::remove_chars, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -860,8 +858,8 @@ static JSValue string_name_proxy_remove_chars(JSContext *ctx, JSValueConst this_
 }
 static JSValue string_name_proxy_repeat(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::repeat, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -869,8 +867,8 @@ static JSValue string_name_proxy_repeat(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue string_name_proxy_reverse(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::reverse, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -878,8 +876,8 @@ static JSValue string_name_proxy_reverse(JSContext *ctx, JSValueConst this_val, 
 }
 static JSValue string_name_proxy_insert(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::insert, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -887,8 +885,8 @@ static JSValue string_name_proxy_insert(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue string_name_proxy_erase(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::erase, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -896,8 +894,8 @@ static JSValue string_name_proxy_erase(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue string_name_proxy_capitalize(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::capitalize, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -905,8 +903,8 @@ static JSValue string_name_proxy_capitalize(JSContext *ctx, JSValueConst this_va
 }
 static JSValue string_name_proxy_to_camel_case(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::to_camel_case, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -914,8 +912,8 @@ static JSValue string_name_proxy_to_camel_case(JSContext *ctx, JSValueConst this
 }
 static JSValue string_name_proxy_to_pascal_case(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::to_pascal_case, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -923,8 +921,8 @@ static JSValue string_name_proxy_to_pascal_case(JSContext *ctx, JSValueConst thi
 }
 static JSValue string_name_proxy_to_snake_case(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::to_snake_case, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -932,8 +930,8 @@ static JSValue string_name_proxy_to_snake_case(JSContext *ctx, JSValueConst this
 }
 static JSValue string_name_proxy_to_kebab_case(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::to_kebab_case, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -941,8 +939,8 @@ static JSValue string_name_proxy_to_kebab_case(JSContext *ctx, JSValueConst this
 }
 static JSValue string_name_proxy_split(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::split, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -950,8 +948,8 @@ static JSValue string_name_proxy_split(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue string_name_proxy_rsplit(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::rsplit, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -959,8 +957,8 @@ static JSValue string_name_proxy_rsplit(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue string_name_proxy_split_floats(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::split_floats, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -968,8 +966,8 @@ static JSValue string_name_proxy_split_floats(JSContext *ctx, JSValueConst this_
 }
 static JSValue string_name_proxy_join(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::join, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -977,8 +975,8 @@ static JSValue string_name_proxy_join(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue string_name_proxy_to_upper(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::to_upper, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -986,8 +984,8 @@ static JSValue string_name_proxy_to_upper(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue string_name_proxy_to_lower(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::to_lower, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -995,8 +993,8 @@ static JSValue string_name_proxy_to_lower(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue string_name_proxy_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::left, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1004,8 +1002,8 @@ static JSValue string_name_proxy_left(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue string_name_proxy_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::right, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1013,8 +1011,8 @@ static JSValue string_name_proxy_right(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue string_name_proxy_strip_edges(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::strip_edges, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1022,8 +1020,8 @@ static JSValue string_name_proxy_strip_edges(JSContext *ctx, JSValueConst this_v
 }
 static JSValue string_name_proxy_strip_escapes(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::strip_escapes, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1031,8 +1029,8 @@ static JSValue string_name_proxy_strip_escapes(JSContext *ctx, JSValueConst this
 }
 static JSValue string_name_proxy_lstrip(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::lstrip, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1040,8 +1038,8 @@ static JSValue string_name_proxy_lstrip(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue string_name_proxy_rstrip(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::rstrip, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1049,8 +1047,8 @@ static JSValue string_name_proxy_rstrip(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue string_name_proxy_get_extension(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::get_extension, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1058,8 +1056,8 @@ static JSValue string_name_proxy_get_extension(JSContext *ctx, JSValueConst this
 }
 static JSValue string_name_proxy_get_basename(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::get_basename, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1067,8 +1065,8 @@ static JSValue string_name_proxy_get_basename(JSContext *ctx, JSValueConst this_
 }
 static JSValue string_name_proxy_path_join(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::path_join, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1076,8 +1074,8 @@ static JSValue string_name_proxy_path_join(JSContext *ctx, JSValueConst this_val
 }
 static JSValue string_name_proxy_unicode_at(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::unicode_at, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1085,8 +1083,8 @@ static JSValue string_name_proxy_unicode_at(JSContext *ctx, JSValueConst this_va
 }
 static JSValue string_name_proxy_indent(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::indent, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1094,8 +1092,8 @@ static JSValue string_name_proxy_indent(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue string_name_proxy_dedent(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::dedent, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1103,8 +1101,8 @@ static JSValue string_name_proxy_dedent(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue string_name_proxy_md5_text(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::md5_text, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1112,8 +1110,8 @@ static JSValue string_name_proxy_md5_text(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue string_name_proxy_sha1_text(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::sha1_text, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1121,8 +1119,8 @@ static JSValue string_name_proxy_sha1_text(JSContext *ctx, JSValueConst this_val
 }
 static JSValue string_name_proxy_sha256_text(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::sha256_text, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1130,8 +1128,8 @@ static JSValue string_name_proxy_sha256_text(JSContext *ctx, JSValueConst this_v
 }
 static JSValue string_name_proxy_md5_buffer(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::md5_buffer, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1139,8 +1137,8 @@ static JSValue string_name_proxy_md5_buffer(JSContext *ctx, JSValueConst this_va
 }
 static JSValue string_name_proxy_sha1_buffer(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::sha1_buffer, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1148,8 +1146,8 @@ static JSValue string_name_proxy_sha1_buffer(JSContext *ctx, JSValueConst this_v
 }
 static JSValue string_name_proxy_sha256_buffer(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::sha256_buffer, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1157,8 +1155,8 @@ static JSValue string_name_proxy_sha256_buffer(JSContext *ctx, JSValueConst this
 }
 static JSValue string_name_proxy_is_empty(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::is_empty, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1166,8 +1164,8 @@ static JSValue string_name_proxy_is_empty(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue string_name_proxy_contains(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::contains, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1175,8 +1173,8 @@ static JSValue string_name_proxy_contains(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue string_name_proxy_containsn(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::containsn, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1184,8 +1182,8 @@ static JSValue string_name_proxy_containsn(JSContext *ctx, JSValueConst this_val
 }
 static JSValue string_name_proxy_is_absolute_path(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::is_absolute_path, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1193,8 +1191,8 @@ static JSValue string_name_proxy_is_absolute_path(JSContext *ctx, JSValueConst t
 }
 static JSValue string_name_proxy_is_relative_path(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::is_relative_path, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1202,8 +1200,8 @@ static JSValue string_name_proxy_is_relative_path(JSContext *ctx, JSValueConst t
 }
 static JSValue string_name_proxy_simplify_path(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::simplify_path, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1211,8 +1209,8 @@ static JSValue string_name_proxy_simplify_path(JSContext *ctx, JSValueConst this
 }
 static JSValue string_name_proxy_get_base_dir(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::get_base_dir, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1220,8 +1218,8 @@ static JSValue string_name_proxy_get_base_dir(JSContext *ctx, JSValueConst this_
 }
 static JSValue string_name_proxy_get_file(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::get_file, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1229,8 +1227,8 @@ static JSValue string_name_proxy_get_file(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue string_name_proxy_xml_escape(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::xml_escape, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1238,8 +1236,8 @@ static JSValue string_name_proxy_xml_escape(JSContext *ctx, JSValueConst this_va
 }
 static JSValue string_name_proxy_xml_unescape(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::xml_unescape, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1247,8 +1245,8 @@ static JSValue string_name_proxy_xml_unescape(JSContext *ctx, JSValueConst this_
 }
 static JSValue string_name_proxy_uri_encode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::uri_encode, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1256,8 +1254,8 @@ static JSValue string_name_proxy_uri_encode(JSContext *ctx, JSValueConst this_va
 }
 static JSValue string_name_proxy_uri_decode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::uri_decode, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1265,8 +1263,8 @@ static JSValue string_name_proxy_uri_decode(JSContext *ctx, JSValueConst this_va
 }
 static JSValue string_name_proxy_uri_file_decode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::uri_file_decode, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1274,8 +1272,8 @@ static JSValue string_name_proxy_uri_file_decode(JSContext *ctx, JSValueConst th
 }
 static JSValue string_name_proxy_c_escape(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::c_escape, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1283,8 +1281,8 @@ static JSValue string_name_proxy_c_escape(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue string_name_proxy_c_unescape(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::c_unescape, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1292,8 +1290,8 @@ static JSValue string_name_proxy_c_unescape(JSContext *ctx, JSValueConst this_va
 }
 static JSValue string_name_proxy_json_escape(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::json_escape, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1301,8 +1299,8 @@ static JSValue string_name_proxy_json_escape(JSContext *ctx, JSValueConst this_v
 }
 static JSValue string_name_proxy_validate_node_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::validate_node_name, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1310,8 +1308,8 @@ static JSValue string_name_proxy_validate_node_name(JSContext *ctx, JSValueConst
 }
 static JSValue string_name_proxy_validate_filename(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::validate_filename, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1319,8 +1317,8 @@ static JSValue string_name_proxy_validate_filename(JSContext *ctx, JSValueConst 
 }
 static JSValue string_name_proxy_is_valid_ascii_identifier(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::is_valid_ascii_identifier, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1328,8 +1326,8 @@ static JSValue string_name_proxy_is_valid_ascii_identifier(JSContext *ctx, JSVal
 }
 static JSValue string_name_proxy_is_valid_unicode_identifier(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::is_valid_unicode_identifier, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1337,8 +1335,8 @@ static JSValue string_name_proxy_is_valid_unicode_identifier(JSContext *ctx, JSV
 }
 static JSValue string_name_proxy_is_valid_identifier(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::is_valid_identifier, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1346,8 +1344,8 @@ static JSValue string_name_proxy_is_valid_identifier(JSContext *ctx, JSValueCons
 }
 static JSValue string_name_proxy_is_valid_int(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::is_valid_int, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1355,8 +1353,8 @@ static JSValue string_name_proxy_is_valid_int(JSContext *ctx, JSValueConst this_
 }
 static JSValue string_name_proxy_is_valid_float(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::is_valid_float, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1364,8 +1362,8 @@ static JSValue string_name_proxy_is_valid_float(JSContext *ctx, JSValueConst thi
 }
 static JSValue string_name_proxy_is_valid_hex_number(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::is_valid_hex_number, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1373,8 +1371,8 @@ static JSValue string_name_proxy_is_valid_hex_number(JSContext *ctx, JSValueCons
 }
 static JSValue string_name_proxy_is_valid_html_color(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::is_valid_html_color, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1382,8 +1380,8 @@ static JSValue string_name_proxy_is_valid_html_color(JSContext *ctx, JSValueCons
 }
 static JSValue string_name_proxy_is_valid_ip_address(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::is_valid_ip_address, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1391,8 +1389,8 @@ static JSValue string_name_proxy_is_valid_ip_address(JSContext *ctx, JSValueCons
 }
 static JSValue string_name_proxy_is_valid_filename(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::is_valid_filename, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1400,8 +1398,8 @@ static JSValue string_name_proxy_is_valid_filename(JSContext *ctx, JSValueConst 
 }
 static JSValue string_name_proxy_to_int(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::to_int, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1409,8 +1407,8 @@ static JSValue string_name_proxy_to_int(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue string_name_proxy_to_float(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::to_float, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1418,8 +1416,8 @@ static JSValue string_name_proxy_to_float(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue string_name_proxy_hex_to_int(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::hex_to_int, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1427,8 +1425,8 @@ static JSValue string_name_proxy_hex_to_int(JSContext *ctx, JSValueConst this_va
 }
 static JSValue string_name_proxy_bin_to_int(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::bin_to_int, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1436,8 +1434,8 @@ static JSValue string_name_proxy_bin_to_int(JSContext *ctx, JSValueConst this_va
 }
 static JSValue string_name_proxy_lpad(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::lpad, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1445,8 +1443,8 @@ static JSValue string_name_proxy_lpad(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue string_name_proxy_rpad(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::rpad, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1454,8 +1452,8 @@ static JSValue string_name_proxy_rpad(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue string_name_proxy_pad_decimals(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::pad_decimals, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1463,8 +1461,8 @@ static JSValue string_name_proxy_pad_decimals(JSContext *ctx, JSValueConst this_
 }
 static JSValue string_name_proxy_pad_zeros(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::pad_zeros, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1472,8 +1470,8 @@ static JSValue string_name_proxy_pad_zeros(JSContext *ctx, JSValueConst this_val
 }
 static JSValue string_name_proxy_trim_prefix(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::trim_prefix, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1481,8 +1479,8 @@ static JSValue string_name_proxy_trim_prefix(JSContext *ctx, JSValueConst this_v
 }
 static JSValue string_name_proxy_trim_suffix(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::trim_suffix, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1490,8 +1488,8 @@ static JSValue string_name_proxy_trim_suffix(JSContext *ctx, JSValueConst this_v
 }
 static JSValue string_name_proxy_to_ascii_buffer(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::to_ascii_buffer, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1499,8 +1497,8 @@ static JSValue string_name_proxy_to_ascii_buffer(JSContext *ctx, JSValueConst th
 }
 static JSValue string_name_proxy_to_utf8_buffer(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::to_utf8_buffer, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1508,8 +1506,8 @@ static JSValue string_name_proxy_to_utf8_buffer(JSContext *ctx, JSValueConst thi
 }
 static JSValue string_name_proxy_to_utf16_buffer(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::to_utf16_buffer, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1517,8 +1515,8 @@ static JSValue string_name_proxy_to_utf16_buffer(JSContext *ctx, JSValueConst th
 }
 static JSValue string_name_proxy_to_utf32_buffer(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::to_utf32_buffer, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1526,8 +1524,8 @@ static JSValue string_name_proxy_to_utf32_buffer(JSContext *ctx, JSValueConst th
 }
 static JSValue string_name_proxy_to_wchar_buffer(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::to_wchar_buffer, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1535,8 +1533,8 @@ static JSValue string_name_proxy_to_wchar_buffer(JSContext *ctx, JSValueConst th
 }
 static JSValue string_name_proxy_to_multibyte_char_buffer(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::to_multibyte_char_buffer, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1544,8 +1542,8 @@ static JSValue string_name_proxy_to_multibyte_char_buffer(JSContext *ctx, JSValu
 }
 static JSValue string_name_proxy_hex_decode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::hex_decode, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -1553,8 +1551,8 @@ static JSValue string_name_proxy_hex_decode(JSContext *ctx, JSValueConst this_va
 }
 static JSValue string_name_proxy_hash(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["StringNameProxy"]);
-    ObjectProxy<StringName> *proxy = reinterpret_cast<ObjectProxy<StringName> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<StringName> *proxy = static_cast<ObjectProxy<StringName> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&StringName::hash, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);

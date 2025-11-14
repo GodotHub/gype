@@ -8,6 +8,7 @@
 #include <quickjs.h>
 #include <godot_cpp/variant/string.hpp>
 
+
 using namespace godot;
 
 static void color_class_finalizer(JSRuntime *rt, JSValue val) {
@@ -35,48 +36,35 @@ static JSValue color_class_constructor(JSContext *ctx, JSValueConst new_target, 
 	if (argc == 0) {
 		instance = Color();
 	}
-	if (argc == 1 && (VariantAdapter::can_cast(argv[0], Variant::Type::COLOR))) {
-		Color
-				v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1 && VariantAdapter::can_cast(argv[0], Variant::Type::COLOR)) {
+		Color v0 = VariantAdapter(argv[0]).get();
 		instance = Color(v0);
 	}
-	if (argc == 2 && (VariantAdapter::can_cast(argv[0], Variant::Type::COLOR)) && (VariantAdapter::can_cast(argv[1], Variant::Type::FLOAT))) {
-		Color
-				v0 = VariantAdapter(argv[0]).get();
-		double
-				v1 = VariantAdapter(argv[1]).get();
+	if (argc == 2 && VariantAdapter::can_cast(argv[0], Variant::Type::COLOR) && JS_IsNumber(argv[1])) {
+		Color v0 = VariantAdapter(argv[0]).get();
+		double v1 = VariantAdapter(argv[1]).get();
 		instance = Color(v0, v1);
 	}
-	if (argc == 3 && (VariantAdapter::can_cast(argv[0], Variant::Type::FLOAT)) && (VariantAdapter::can_cast(argv[1], Variant::Type::FLOAT)) && (VariantAdapter::can_cast(argv[2], Variant::Type::FLOAT))) {
-		double
-				v0 = VariantAdapter(argv[0]).get();
-		double
-				v1 = VariantAdapter(argv[1]).get();
-		double
-				v2 = VariantAdapter(argv[2]).get();
+	if (argc == 3 && JS_IsNumber(argv[0]) && JS_IsNumber(argv[1]) && JS_IsNumber(argv[2])) {
+		double v0 = VariantAdapter(argv[0]).get();
+		double v1 = VariantAdapter(argv[1]).get();
+		double v2 = VariantAdapter(argv[2]).get();
 		instance = Color(v0, v1, v2);
 	}
-	if (argc == 4 && (VariantAdapter::can_cast(argv[0], Variant::Type::FLOAT)) && (VariantAdapter::can_cast(argv[1], Variant::Type::FLOAT)) && (VariantAdapter::can_cast(argv[2], Variant::Type::FLOAT)) && (VariantAdapter::can_cast(argv[3], Variant::Type::FLOAT))) {
-		double
-				v0 = VariantAdapter(argv[0]).get();
-		double
-				v1 = VariantAdapter(argv[1]).get();
-		double
-				v2 = VariantAdapter(argv[2]).get();
-		double
-				v3 = VariantAdapter(argv[3]).get();
+	if (argc == 4 && JS_IsNumber(argv[0]) && JS_IsNumber(argv[1]) && JS_IsNumber(argv[2]) && JS_IsNumber(argv[3])) {
+		double v0 = VariantAdapter(argv[0]).get();
+		double v1 = VariantAdapter(argv[1]).get();
+		double v2 = VariantAdapter(argv[2]).get();
+		double v3 = VariantAdapter(argv[3]).get();
 		instance = Color(v0, v1, v2, v3);
 	}
-	if (argc == 1 && (VariantAdapter::can_cast(argv[0], Variant::Type::STRING))) {
-		String
-				v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1 && JS_IsString(argv[0])) {
+		String v0 = VariantAdapter(argv[0]).get();
 		instance = Color(v0);
 	}
-	if (argc == 2 && (VariantAdapter::can_cast(argv[0], Variant::Type::STRING)) && (VariantAdapter::can_cast(argv[1], Variant::Type::FLOAT))) {
-		String
-				v0 = VariantAdapter(argv[0]).get();
-		double
-				v1 = VariantAdapter(argv[1]).get();
+	if (argc == 2 && JS_IsString(argv[0]) && JS_IsNumber(argv[1])) {
+		String v0 = VariantAdapter(argv[0]).get();
+		double v1 = VariantAdapter(argv[1]).get();
 		instance = Color(v0, v1);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -89,211 +77,291 @@ static JSValue color_class_constructor(JSContext *ctx, JSValueConst new_target, 
 	JS_SetOpaque(obj, adapter);
 	return obj;
 }
+
 static JSValue color_class_to_argb32(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::to_argb32, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_to_abgr32(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::to_abgr32, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_to_rgba32(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::to_rgba32, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_to_argb64(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::to_argb64, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_to_abgr64(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::to_abgr64, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_to_rgba64(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::to_rgba64, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_to_html(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::to_html, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_clamp(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::clamp, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_inverted(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::inverted, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_lerp(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::lerp, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_lightened(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::lightened, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_darkened(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::darkened, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_blend(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::blend, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_get_luminance(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::get_luminance, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_srgb_to_linear(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::srgb_to_linear, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_linear_to_srgb(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::linear_to_srgb, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_is_equal_approx(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Color::is_equal_approx, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_hex(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::hex, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_hex64(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::hex64, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_html(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::html, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_html_is_valid(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::html_is_valid, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_from_string(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::from_string, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_from_hsv(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::from_hsv, ctx, this_val, argc, argv);
 }
-//static JSValue color_class_from_ok_hsl(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-//	return call_builtin_static_method_ret(&Color::from_ok_hsl, ctx, this_val, argc, argv);
-//}
+
+// static JSValue color_class_from_ok_hsl(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	return call_builtin_static_method_ret(&Color::from_ok_hsl, ctx, this_val, argc, argv);
+// }
 static JSValue color_class_from_rgbe9995(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::from_rgbe9995, ctx, this_val, argc, argv);
 }
+
 static JSValue color_class_from_rgba8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::from_rgba8, ctx, this_val, argc, argv);
 }
 
 static JSValue color_class_get_r(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	Color val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
 	return VariantAdapter(val.r);
 }
+
 static JSValue color_class_set_r(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]));
+	Color val = adapter->get();
 	val.r = VariantAdapter(*argv).get();
+	adapter->set(val);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_class_get_g(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	Color val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
 	return VariantAdapter(val.g);
 }
+
 static JSValue color_class_set_g(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]));
+	Color val = adapter->get();
 	val.g = VariantAdapter(*argv).get();
+	adapter->set(val);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_class_get_b(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	Color val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
 	return VariantAdapter(val.b);
 }
+
 static JSValue color_class_set_b(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]));
+	Color val = adapter->get();
 	val.b = VariantAdapter(*argv).get();
+	adapter->set(val);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_class_get_a(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	Color val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
 	return VariantAdapter(val.a);
 }
+
 static JSValue color_class_set_a(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]));
+	Color val = adapter->get();
 	val.a = VariantAdapter(*argv).get();
+	adapter->set(val);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_class_get_r8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	Color val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
 	return VariantAdapter(val.get_r8());
 }
+
 static JSValue color_class_set_r8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]));
+	Color val = adapter->get();
 	val.set_r8(VariantAdapter(*argv).get());
+	adapter->set(val);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_class_get_g8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	Color val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
 	return VariantAdapter(val.get_g8());
 }
+
 static JSValue color_class_set_g8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]));
+	Color val = adapter->get();
 	val.set_g8(VariantAdapter(*argv).get());
+	adapter->set(val);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_class_get_b8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	Color val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
 	return VariantAdapter(val.get_b8());
 }
+
 static JSValue color_class_set_b8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]));
+	Color val = adapter->get();
 	val.set_b8(VariantAdapter(*argv).get());
+	adapter->set(val);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_class_get_a8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	Color val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
 	return VariantAdapter(val.get_a8());
 }
+
 static JSValue color_class_set_a8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]));
+	Color val = adapter->get();
 	val.set_a8(VariantAdapter(*argv).get());
+	adapter->set(val);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_class_get_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	Color val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
 	return VariantAdapter(val.get_h());
 }
+
 static JSValue color_class_set_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]));
+	Color val = adapter->get();
 	val.set_h(VariantAdapter(*argv).get());
+	adapter->set(val);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_class_get_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	Color val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
 	return VariantAdapter(val.get_s());
 }
+
 static JSValue color_class_set_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]));
+	Color val = adapter->get();
 	val.set_s(VariantAdapter(*argv).get());
+	adapter->set(val);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_class_get_v(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	Color val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
 	return VariantAdapter(val.get_v());
 }
+
 static JSValue color_class_set_v(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]));
+	Color val = adapter->get();
 	val.set_v(VariantAdapter(*argv).get());
+	adapter->set(val);
 	return JS_UNDEFINED;
 }
-/*static JSValue color_class_get_ok_hsl_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
-	return VariantAdapter(val.ok_hsl_h);
-}
-static JSValue color_class_set_ok_hsl_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
-	val.ok_hsl_h = VariantAdapter(*argv).get();
-	return JS_UNDEFINED;
-}
-static JSValue color_class_get_ok_hsl_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
-	return VariantAdapter(val.ok_hsl_s);
-}
-static JSValue color_class_set_ok_hsl_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
-	val.ok_hsl_s = VariantAdapter(*argv).get();
-	return JS_UNDEFINED;
-}
-static JSValue color_class_get_ok_hsl_l(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
-	return VariantAdapter(val.ok_hsl_l);
-}
-static JSValue color_class_set_ok_hsl_l(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Color val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
-	val.ok_hsl_l = VariantAdapter(*argv).get();
-	return JS_UNDEFINED;
-}*/
+
+// static JSValue color_class_get_ok_hsl_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	Color val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+// 	return VariantAdapter(val.ok_hsl_h);
+// }
+//
+// static JSValue color_class_set_ok_hsl_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]));
+// 	Color val = adapter->get();
+// 	val.ok_hsl_h = VariantAdapter(*argv).get();
+// 	adapter->set(val);
+// 	return JS_UNDEFINED;
+// }
+//
+// static JSValue color_class_get_ok_hsl_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	Color val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+// 	return VariantAdapter(val.ok_hsl_s);
+// }
+//
+// static JSValue color_class_set_ok_hsl_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]));
+// 	Color val = adapter->get();
+// 	val.ok_hsl_s = VariantAdapter(*argv).get();
+// 	adapter->set(val);
+// 	return JS_UNDEFINED;
+// }
+//
+// static JSValue color_class_get_ok_hsl_l(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	Color val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]))->get();
+// 	return VariantAdapter(val.ok_hsl_l);
+// }
+//
+// static JSValue color_class_set_ok_hsl_l(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Color"]));
+// 	Color val = adapter->get();
+// 	val.ok_hsl_l = VariantAdapter(*argv).get();
+// 	adapter->set(val);
+// 	return JS_UNDEFINED;
+// }
 
 static const JSCFunctionListEntry color_class_proto_funcs[] = {
 	JS_CFUNC_DEF("to_argb32", 0, &color_class_to_argb32),
@@ -319,12 +387,12 @@ static const JSCFunctionListEntry color_class_proto_funcs[] = {
 	JS_CFUNC_DEF("html_is_valid", 1, &color_class_html_is_valid),
 	JS_CFUNC_DEF("from_string", 2, &color_class_from_string),
 	JS_CFUNC_DEF("from_hsv", 4, &color_class_from_hsv),
-	//JS_CFUNC_DEF("from_ok_hsl", 4, &color_class_from_ok_hsl),
+	// JS_CFUNC_DEF("from_ok_hsl", 4, &color_class_from_ok_hsl),
 	JS_CFUNC_DEF("from_rgbe9995", 1, &color_class_from_rgbe9995),
 	JS_CFUNC_DEF("from_rgba8", 4, &color_class_from_rgba8),
 };
 
-void define_color_property(JSContext *ctx, JSValue obj) {
+static void define_color_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
 			ctx,
 			obj,
@@ -402,27 +470,27 @@ void define_color_property(JSContext *ctx, JSValue obj) {
 			JS_NewCFunction(ctx, color_class_get_v, "get_v", 0),
 			JS_NewCFunction(ctx, color_class_set_v, "set_v", 1),
 			JS_PROP_GETSET);
-	/*JS_DefinePropertyGetSet(
-			ctx,
-			obj,
-			JS_NewAtom(ctx, "ok_hsl_h"),
-			JS_NewCFunction(ctx, color_class_get_ok_hsl_h, "get_ok_hsl_h", 0),
-			JS_NewCFunction(ctx, color_class_set_ok_hsl_h, "set_ok_hsl_h", 1),
-			JS_PROP_GETSET);
-	JS_DefinePropertyGetSet(
-			ctx,
-			obj,
-			JS_NewAtom(ctx, "ok_hsl_s"),
-			JS_NewCFunction(ctx, color_class_get_ok_hsl_s, "get_ok_hsl_s", 0),
-			JS_NewCFunction(ctx, color_class_set_ok_hsl_s, "set_ok_hsl_s", 1),
-			JS_PROP_GETSET);
-	JS_DefinePropertyGetSet(
-			ctx,
-			obj,
-			JS_NewAtom(ctx, "ok_hsl_l"),
-			JS_NewCFunction(ctx, color_class_get_ok_hsl_l, "get_ok_hsl_l", 0),
-			JS_NewCFunction(ctx, color_class_set_ok_hsl_l, "set_ok_hsl_l", 1),
-			JS_PROP_GETSET);*/
+	// JS_DefinePropertyGetSet(
+	// 		ctx,
+	// 		obj,
+	// 		JS_NewAtom(ctx, "ok_hsl_h"),
+	// 		JS_NewCFunction(ctx, color_class_get_ok_hsl_h, "get_ok_hsl_h", 0),
+	// 		JS_NewCFunction(ctx, color_class_set_ok_hsl_h, "set_ok_hsl_h", 1),
+	// 		JS_PROP_GETSET);
+	// JS_DefinePropertyGetSet(
+	// 		ctx,
+	// 		obj,
+	// 		JS_NewAtom(ctx, "ok_hsl_s"),
+	// 		JS_NewCFunction(ctx, color_class_get_ok_hsl_s, "get_ok_hsl_s", 0),
+	// 		JS_NewCFunction(ctx, color_class_set_ok_hsl_s, "set_ok_hsl_s", 1),
+	// 		JS_PROP_GETSET);
+	// JS_DefinePropertyGetSet(
+	// 		ctx,
+	// 		obj,
+	// 		JS_NewAtom(ctx, "ok_hsl_l"),
+	// 		JS_NewCFunction(ctx, color_class_get_ok_hsl_l, "get_ok_hsl_l", 0),
+	// 		JS_NewCFunction(ctx, color_class_set_ok_hsl_l, "set_ok_hsl_l", 1),
+	// 		JS_PROP_GETSET);
 }
 
 static int js_color_class_init(JSContext *ctx) {
@@ -445,7 +513,7 @@ static int js_color_class_init(JSContext *ctx) {
 	return 0;
 }
 
-void js_init_color_module(JSContext *ctx) {
+static void js_init_color_module(JSContext *ctx) {
 	js_color_class_init(ctx);
 }
 
@@ -462,9 +530,10 @@ static void color_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef color_proxy_def = {
-	.class_name = "ColorProxy",
-	.finalizer = color_proxy_finalizer
+	"ColorProxy",
+	color_proxy_finalizer
 };
+
 
 static JSValue color_proxy_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
 	JSClassID class_id = classes["ColorProxy"];
@@ -493,395 +562,447 @@ static JSValue color_proxy_constructor(JSContext *ctx, JSValueConst new_target, 
 
 static JSValue color_proxy_to_argb32(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::to_argb32, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_to_abgr32(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::to_abgr32, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_to_rgba32(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::to_rgba32, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_to_argb64(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::to_argb64, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_to_abgr64(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::to_abgr64, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_to_rgba64(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::to_rgba64, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_to_html(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::to_html, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_clamp(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::clamp, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_inverted(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::inverted, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_lerp(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::lerp, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_lightened(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::lightened, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_darkened(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::darkened, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_blend(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::blend, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_get_luminance(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::get_luminance, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_srgb_to_linear(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::srgb_to_linear, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_linear_to_srgb(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::linear_to_srgb, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_is_equal_approx(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-	Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+	Object *wrapped = proxy->wrapped;
 	this_val = VariantAdapter(wrapped);
 	JSValue ret = call_builtin_const_method_ret(&Color::is_equal_approx, ctx, this_val, argc, argv);
 	JS_FreeValue(ctx, this_val);
 	return ret;
 }
+
 static JSValue color_proxy_hex(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::hex, ctx, this_val, argc, argv);
 }
+
 static JSValue color_proxy_hex64(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::hex64, ctx, this_val, argc, argv);
 }
+
 static JSValue color_proxy_html(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::html, ctx, this_val, argc, argv);
 }
+
 static JSValue color_proxy_html_is_valid(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::html_is_valid, ctx, this_val, argc, argv);
 }
+
 static JSValue color_proxy_from_string(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::from_string, ctx, this_val, argc, argv);
 }
+
 static JSValue color_proxy_from_hsv(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::from_hsv, ctx, this_val, argc, argv);
 }
-//static JSValue color_proxy_from_ok_hsl(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-//	return call_builtin_static_method_ret(&Color::from_ok_hsl, ctx, this_val, argc, argv);
-//}
+
+// static JSValue color_proxy_from_ok_hsl(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	return call_builtin_static_method_ret(&Color::from_ok_hsl, ctx, this_val, argc, argv);
+// }
+
 static JSValue color_proxy_from_rgbe9995(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::from_rgbe9995, ctx, this_val, argc, argv);
 }
+
 static JSValue color_proxy_from_rgba8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Color::from_rgba8, ctx, this_val, argc, argv);
 }
 
 static JSValue color_proxy_get_r(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	Color ret = proxy->getter();
 	return VariantAdapter(ret.r);
 }
+
 static JSValue color_proxy_set_r(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	VariantAdapter r(argv[0]);
 	Color wrapped = proxy->getter();
 	wrapped.r = r.get();
 	proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_proxy_get_g(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	Color ret = proxy->getter();
 	return VariantAdapter(ret.g);
 }
+
 static JSValue color_proxy_set_g(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	VariantAdapter g(argv[0]);
 	Color wrapped = proxy->getter();
 	wrapped.g = g.get();
 	proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_proxy_get_b(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	Color ret = proxy->getter();
 	return VariantAdapter(ret.b);
 }
+
 static JSValue color_proxy_set_b(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	VariantAdapter b(argv[0]);
 	Color wrapped = proxy->getter();
 	wrapped.b = b.get();
 	proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_proxy_get_a(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	Color ret = proxy->getter();
 	return VariantAdapter(ret.a);
 }
+
 static JSValue color_proxy_set_a(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	VariantAdapter a(argv[0]);
 	Color wrapped = proxy->getter();
 	wrapped.a = a.get();
 	proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_proxy_get_r8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	Color ret = proxy->getter();
 	return VariantAdapter(ret.get_r8());
 }
+
 static JSValue color_proxy_set_r8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	VariantAdapter r8(argv[0]);
 	Color wrapped = proxy->getter();
 	wrapped.set_r8(r8.get());
 	proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_proxy_get_g8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	Color ret = proxy->getter();
 	return VariantAdapter(ret.get_g8());
 }
+
 static JSValue color_proxy_set_g8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	VariantAdapter g8(argv[0]);
 	Color wrapped = proxy->getter();
 	wrapped.set_g8(g8.get());
 	proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_proxy_get_b8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	Color ret = proxy->getter();
 	return VariantAdapter(ret.get_b8());
 }
+
 static JSValue color_proxy_set_b8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	VariantAdapter b8(argv[0]);
 	Color wrapped = proxy->getter();
 	wrapped.set_b8(b8.get());
 	proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_proxy_get_a8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	Color ret = proxy->getter();
 	return VariantAdapter(ret.get_a8());
 }
+
 static JSValue color_proxy_set_a8(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	VariantAdapter a8(argv[0]);
 	Color wrapped = proxy->getter();
 	wrapped.set_a8(a8.get());
 	proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_proxy_get_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	Color ret = proxy->getter();
 	return VariantAdapter(ret.get_h());
 }
+
 static JSValue color_proxy_set_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	VariantAdapter h(argv[0]);
 	Color wrapped = proxy->getter();
 	wrapped.set_h(h.get());
 	proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_proxy_get_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	Color ret = proxy->getter();
 	return VariantAdapter(ret.get_s());
 }
+
 static JSValue color_proxy_set_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	VariantAdapter s(argv[0]);
 	Color wrapped = proxy->getter();
 	wrapped.set_s(s.get());
 	proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
+
 static JSValue color_proxy_get_v(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	Color ret = proxy->getter();
 	return VariantAdapter(ret.get_v());
 }
+
 static JSValue color_proxy_set_v(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
+	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
 	VariantAdapter v(argv[0]);
 	Color wrapped = proxy->getter();
 	wrapped.set_v(v.get());
 	proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
-//static JSValue color_proxy_get_ok_hsl_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-//	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-//	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-//	Color ret = proxy->getter();
-//	return VariantAdapter(ret.ok_hsl_h);
-//}
-//static JSValue color_proxy_set_ok_hsl_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-//	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-//	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-//	VariantAdapter ok_hsl_h(argv[0]);
-//	Color wrapped = proxy->getter();
-//	wrapped.ok_hsl_h = ok_hsl_h.get();
-//	proxy->setter(wrapped);
-//	return JS_UNDEFINED;
-//}
-//static JSValue color_proxy_get_ok_hsl_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-//	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-//	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-//	Color ret = proxy->getter();
-//	return VariantAdapter(ret.ok_hsl_s);
-//}
-//static JSValue color_proxy_set_ok_hsl_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-//	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-//	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-//	VariantAdapter ok_hsl_s(argv[0]);
-//	Color wrapped = proxy->getter();
-//	wrapped.ok_hsl_s = ok_hsl_s.get();
-//	proxy->setter(wrapped);
-//	return JS_UNDEFINED;
-//}
-//static JSValue color_proxy_get_ok_hsl_l(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-//	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-//	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-//	Color ret = proxy->getter();
-//	return VariantAdapter(ret.ok_hsl_l);
-//}
-//static JSValue color_proxy_set_ok_hsl_l(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-//	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
-//	ObjectProxy<Color> *proxy = reinterpret_cast<ObjectProxy<Color> *>(opaque);
-//	VariantAdapter ok_hsl_l(argv[0]);
-//	Color wrapped = proxy->getter();
-//	wrapped.ok_hsl_l = ok_hsl_l.get();
-//	proxy->setter(wrapped);
-//	return JS_UNDEFINED;
-//}
+
+// static JSValue color_proxy_get_ok_hsl_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
+// 	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+// 	Color ret = proxy->getter();
+// 	return VariantAdapter(ret.ok_hsl_h);
+// }
+//
+// static JSValue color_proxy_set_ok_hsl_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
+// 	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+// 	VariantAdapter ok_hsl_h(argv[0]);
+// 	Color wrapped = proxy->getter();
+// 	wrapped.ok_hsl_h = ok_hsl_h.get();
+// 	proxy->setter(wrapped);
+// 	return JS_UNDEFINED;
+// }
+//
+// static JSValue color_proxy_get_ok_hsl_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
+// 	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+// 	Color ret = proxy->getter();
+// 	return VariantAdapter(ret.ok_hsl_s);
+// }
+//
+// static JSValue color_proxy_set_ok_hsl_s(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
+// 	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+// 	VariantAdapter ok_hsl_s(argv[0]);
+// 	Color wrapped = proxy->getter();
+// 	wrapped.ok_hsl_s = ok_hsl_s.get();
+// 	proxy->setter(wrapped);
+// 	return JS_UNDEFINED;
+// }
+//
+// static JSValue color_proxy_get_ok_hsl_l(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
+// 	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+// 	Color ret = proxy->getter();
+// 	return VariantAdapter(ret.ok_hsl_l);
+// }
+//
+// static JSValue color_proxy_set_ok_hsl_l(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	void *opaque = JS_GetOpaque(this_val, classes["ColorProxy"]);
+// 	ObjectProxy<Color> *proxy = static_cast<ObjectProxy<Color> *>(opaque);
+// 	VariantAdapter ok_hsl_l(argv[0]);
+// 	Color wrapped = proxy->getter();
+// 	wrapped.ok_hsl_l = ok_hsl_l.get();
+// 	proxy->setter(wrapped);
+// 	return JS_UNDEFINED;
+// }
 
 static const JSCFunctionListEntry color_proxy_proto_funcs[] = {
 	JS_CFUNC_DEF("to_argb32", 0, &color_proxy_to_argb32),
@@ -907,7 +1028,7 @@ static const JSCFunctionListEntry color_proxy_proto_funcs[] = {
 	JS_CFUNC_DEF("html_is_valid", 1, &color_proxy_html_is_valid),
 	JS_CFUNC_DEF("from_string", 2, &color_proxy_from_string),
 	JS_CFUNC_DEF("from_hsv", 4, &color_proxy_from_hsv),
-	//JS_CFUNC_DEF("from_ok_hsl", 4, &color_proxy_from_ok_hsl),
+	// JS_CFUNC_DEF("from_ok_hsl", 4, &color_proxy_from_ok_hsl),
 	JS_CFUNC_DEF("from_rgbe9995", 1, &color_proxy_from_rgbe9995),
 	JS_CFUNC_DEF("from_rgba8", 4, &color_proxy_from_rgba8),
 };
@@ -990,27 +1111,27 @@ void define_color_proxy_property(JSContext *ctx, JSValue obj) {
 			JS_NewCFunction(ctx, color_proxy_get_v, "get_v", 0),
 			JS_NewCFunction(ctx, color_proxy_set_v, "set_v", 1),
 			JS_PROP_GETSET);
-	/*JS_DefinePropertyGetSet(
-			ctx,
-			obj,
-			JS_NewAtom(ctx, "ok_hsl_h"),
-			JS_NewCFunction(ctx, color_proxy_get_ok_hsl_h, "get_ok_hsl_h", 0),
-			JS_NewCFunction(ctx, color_proxy_set_ok_hsl_h, "set_ok_hsl_h", 1),
-			JS_PROP_GETSET);
-	JS_DefinePropertyGetSet(
-			ctx,
-			obj,
-			JS_NewAtom(ctx, "ok_hsl_s"),
-			JS_NewCFunction(ctx, color_proxy_get_ok_hsl_s, "get_ok_hsl_s", 0),
-			JS_NewCFunction(ctx, color_proxy_set_ok_hsl_s, "set_ok_hsl_s", 1),
-			JS_PROP_GETSET);
-	JS_DefinePropertyGetSet(
-			ctx,
-			obj,
-			JS_NewAtom(ctx, "ok_hsl_l"),
-			JS_NewCFunction(ctx, color_proxy_get_ok_hsl_l, "get_ok_hsl_l", 0),
-			JS_NewCFunction(ctx, color_proxy_set_ok_hsl_l, "set_ok_hsl_l", 1),
-			JS_PROP_GETSET);*/
+	// JS_DefinePropertyGetSet(
+	// 		ctx,
+	// 		obj,
+	// 		JS_NewAtom(ctx, "ok_hsl_h"),
+	// 		JS_NewCFunction(ctx, color_proxy_get_ok_hsl_h, "get_ok_hsl_h", 0),
+	// 		JS_NewCFunction(ctx, color_proxy_set_ok_hsl_h, "set_ok_hsl_h", 1),
+	// 		JS_PROP_GETSET);
+	// JS_DefinePropertyGetSet(
+	// 		ctx,
+	// 		obj,
+	// 		JS_NewAtom(ctx, "ok_hsl_s"),
+	// 		JS_NewCFunction(ctx, color_proxy_get_ok_hsl_s, "get_ok_hsl_s", 0),
+	// 		JS_NewCFunction(ctx, color_proxy_set_ok_hsl_s, "set_ok_hsl_s", 1),
+	// 		JS_PROP_GETSET);
+	// JS_DefinePropertyGetSet(
+	// 		ctx,
+	// 		obj,
+	// 		JS_NewAtom(ctx, "ok_hsl_l"),
+	// 		JS_NewCFunction(ctx, color_proxy_get_ok_hsl_l, "get_ok_hsl_l", 0),
+	// 		JS_NewCFunction(ctx, color_proxy_set_ok_hsl_l, "set_ok_hsl_l", 1),
+	// 		JS_PROP_GETSET);
 }
 
 static int js_color_proxy_init(JSContext *ctx) {

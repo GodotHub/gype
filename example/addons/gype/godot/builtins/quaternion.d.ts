@@ -1,5 +1,13 @@
 declare global {
-    export interface Quaternion {
+    export class Quaternion {
+        constructor(): Quaternion;
+        constructor(_from: Quaternion): Quaternion;
+        constructor(_from: Basis): Quaternion;
+        constructor(axis: Vector3, angle: number): Quaternion;
+        constructor(arcFrom: Vector3, arcTo: Vector3): Quaternion;
+        constructor(x: number, y: number, z: number, w: number): Quaternion;
+        readonly IDENTITY: Quaternion;
+    
         x: number;
         y: number;
         z: number;
@@ -24,24 +32,7 @@ declare global {
         from_euler(euler: Vector3): Quaternion;
         get_axis(): Vector3;
         get_angle(): number;
-    }
-
-    /**
-    * A global constructor and namespace for the Quaternion type.
-    *
-    * Use `new Quaternion(...)` to create a new instance.
-    * Access static members like `Quaternion.ZERO`.
-    */
-    export declare const Quaternion: {
-        new(): Quaternion;
-        new(_from: Quaternion): Quaternion;
-        new(_from: Basis): Quaternion;
-        new(axis: Vector3, angle: number): Quaternion;
-        new(arcFrom: Vector3, arcTo: Vector3): Quaternion;
-        new(x: number, y: number, z: number, w: number): Quaternion;
-
-        readonly IDENTITY: Quaternion;
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -61,7 +52,7 @@ declare global {
         // in_op(Dictionary): boolean
         // in_op(GDArray): boolean
         */
-    };
+    }
 }
 
 export {};

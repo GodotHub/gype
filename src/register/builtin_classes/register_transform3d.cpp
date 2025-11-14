@@ -37,32 +37,24 @@ static JSValue transform3d_class_constructor(JSContext *ctx, JSValueConst new_ta
 	if (argc == 0) {
 		instance = Transform3D();
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::TRANSFORM3D))) {
-			Transform3D
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::TRANSFORM3D)) {
+		Transform3D v0 = VariantAdapter(argv[0]).get();
 		instance = Transform3D(v0);
 	}
-	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::BASIS))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR3))) {
-			Basis
- v0 = VariantAdapter(argv[0]).get();
-			Vector3
- v1 = VariantAdapter(argv[1]).get();
+	if (argc == 2&&VariantAdapter::can_cast(argv[0], Variant::Type::BASIS)&&VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR3)) {
+		Basis v0 = VariantAdapter(argv[0]).get();
+		Vector3 v1 = VariantAdapter(argv[1]).get();
 		instance = Transform3D(v0, v1);
 	}
-	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[2],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[3],Variant::Type::VECTOR3))) {
-			Vector3
- v0 = VariantAdapter(argv[0]).get();
-			Vector3
- v1 = VariantAdapter(argv[1]).get();
-			Vector3
- v2 = VariantAdapter(argv[2]).get();
-			Vector3
- v3 = VariantAdapter(argv[3]).get();
+	if (argc == 4&&VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR3)&&VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR3)&&VariantAdapter::can_cast(argv[2], Variant::Type::VECTOR3)&&VariantAdapter::can_cast(argv[3], Variant::Type::VECTOR3)) {
+		Vector3 v0 = VariantAdapter(argv[0]).get();
+		Vector3 v1 = VariantAdapter(argv[1]).get();
+		Vector3 v2 = VariantAdapter(argv[2]).get();
+		Vector3 v3 = VariantAdapter(argv[3]).get();
 		instance = Transform3D(v0, v1, v2, v3);
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PROJECTION))) {
-			Projection
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::PROJECTION)) {
+		Projection v0 = VariantAdapter(argv[0]).get();
 		instance = Transform3D(v0);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -116,21 +108,27 @@ static JSValue transform3d_class_is_finite(JSContext *ctx, JSValueConst this_val
 }
 
 static JSValue transform3d_class_get_basis(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform3D val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform3D"]))->get();
+	Transform3D val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform3D"]))->get();
 	return VariantAdapter(val.basis);
+	
 }
 static JSValue transform3d_class_set_basis(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform3D val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform3D"]))->get();
-	val.basis = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform3D"]));
+    Transform3D val = adapter->get();
+    val.basis = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue transform3d_class_get_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform3D val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform3D"]))->get();
+	Transform3D val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform3D"]))->get();
 	return VariantAdapter(val.origin);
+	
 }
 static JSValue transform3d_class_set_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform3D val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform3D"]))->get();
-	val.origin = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform3D"]));
+    Transform3D val = adapter->get();
+    val.origin = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 
@@ -150,7 +148,7 @@ static const JSCFunctionListEntry transform3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_finite", 0, &transform3d_class_is_finite),
 };
 
-void define_transform3d_property(JSContext *ctx, JSValue obj) {
+static void define_transform3d_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
 			ctx,
 			obj,
@@ -185,7 +183,7 @@ static int js_transform3d_class_init(JSContext *ctx) {
 	return 0;
 }
 
-void js_init_transform3d_module(JSContext *ctx) {
+static void js_init_transform3d_module(JSContext *ctx) {
 	js_transform3d_class_init(ctx);
 }
 
@@ -202,8 +200,8 @@ static void transform3d_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef transform3d_proxy_def = {
-	.class_name = "Transform3DProxy",
-	.finalizer = transform3d_proxy_finalizer
+	"Transform3DProxy",
+	transform3d_proxy_finalizer
 };
 
 
@@ -234,8 +232,8 @@ static JSValue transform3d_proxy_constructor(JSContext *ctx, JSValueConst new_ta
 
 static JSValue transform3d_proxy_inverse(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform3D::inverse, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -243,8 +241,8 @@ static JSValue transform3d_proxy_inverse(JSContext *ctx, JSValueConst this_val, 
 }
 static JSValue transform3d_proxy_affine_inverse(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform3D::affine_inverse, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -252,8 +250,8 @@ static JSValue transform3d_proxy_affine_inverse(JSContext *ctx, JSValueConst thi
 }
 static JSValue transform3d_proxy_orthonormalized(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform3D::orthonormalized, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -261,8 +259,8 @@ static JSValue transform3d_proxy_orthonormalized(JSContext *ctx, JSValueConst th
 }
 static JSValue transform3d_proxy_rotated(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform3D::rotated, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -270,8 +268,8 @@ static JSValue transform3d_proxy_rotated(JSContext *ctx, JSValueConst this_val, 
 }
 static JSValue transform3d_proxy_rotated_local(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform3D::rotated_local, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -279,8 +277,8 @@ static JSValue transform3d_proxy_rotated_local(JSContext *ctx, JSValueConst this
 }
 static JSValue transform3d_proxy_scaled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform3D::scaled, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -288,8 +286,8 @@ static JSValue transform3d_proxy_scaled(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue transform3d_proxy_scaled_local(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform3D::scaled_local, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -297,8 +295,8 @@ static JSValue transform3d_proxy_scaled_local(JSContext *ctx, JSValueConst this_
 }
 static JSValue transform3d_proxy_translated(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform3D::translated, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -306,8 +304,8 @@ static JSValue transform3d_proxy_translated(JSContext *ctx, JSValueConst this_va
 }
 static JSValue transform3d_proxy_translated_local(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform3D::translated_local, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -315,8 +313,8 @@ static JSValue transform3d_proxy_translated_local(JSContext *ctx, JSValueConst t
 }
 static JSValue transform3d_proxy_looking_at(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform3D::looking_at, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -324,8 +322,8 @@ static JSValue transform3d_proxy_looking_at(JSContext *ctx, JSValueConst this_va
 }
 static JSValue transform3d_proxy_interpolate_with(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform3D::interpolate_with, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -333,8 +331,8 @@ static JSValue transform3d_proxy_interpolate_with(JSContext *ctx, JSValueConst t
 }
 static JSValue transform3d_proxy_is_equal_approx(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform3D::is_equal_approx, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -342,8 +340,8 @@ static JSValue transform3d_proxy_is_equal_approx(JSContext *ctx, JSValueConst th
 }
 static JSValue transform3d_proxy_is_finite(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform3D::is_finite, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -352,13 +350,13 @@ static JSValue transform3d_proxy_is_finite(JSContext *ctx, JSValueConst this_val
 
 static JSValue transform3d_proxy_get_basis(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
     Transform3D ret = proxy->getter();
     return VariantAdapter(ret.basis);
 }
 static JSValue transform3d_proxy_set_basis(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
     VariantAdapter basis(argv[0]);
     Transform3D wrapped = proxy->getter();
     wrapped.basis = basis.get();
@@ -367,13 +365,13 @@ static JSValue transform3d_proxy_set_basis(JSContext *ctx, JSValueConst this_val
 }
 static JSValue transform3d_proxy_get_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
     Transform3D ret = proxy->getter();
     return VariantAdapter(ret.origin);
 }
 static JSValue transform3d_proxy_set_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform3DProxy"]);
-    ObjectProxy<Transform3D> *proxy = reinterpret_cast<ObjectProxy<Transform3D> *>(opaque);
+    ObjectProxy<Transform3D> *proxy = static_cast<ObjectProxy<Transform3D> *>(opaque);
     VariantAdapter origin(argv[0]);
     Transform3D wrapped = proxy->getter();
     wrapped.origin = origin.get();

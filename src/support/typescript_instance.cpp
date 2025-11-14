@@ -77,7 +77,7 @@ TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, TypeScript *scrip
 }
 
 godot::TypeScriptInstance::~TypeScriptInstance() {
-	// TODO remove instance
+	internal::gdextension_interface_object_free_instance_binding(gd_binding->_owner, internal::token);
 }
 
 JSModuleDef *godot::TypeScriptInstance::get_module(const char *path) {
@@ -172,6 +172,8 @@ GDExtensionInt TypeScriptInstance::get_method_argument_count(GDExtensionConstStr
 
 void TypeScriptInstance::call(GDExtensionConstStringNamePtr p_method, const GDExtensionConstVariantPtr *p_args, GDExtensionInt p_argument_count, GDExtensionVariantPtr r_return, GDExtensionCallError *r_error) {
 	// BINDING_VALID(gd_binding);
+	Object *o = internal::get_object_instance_binding(p_godot_object->_owner);
+	UtilityFunctions::print(o);
 	JSValue js_instance = js_binding;
 	JSValue prototype = JS_GetPrototype(js_context(), js_instance);
 	const char *method = to_chars(*reinterpret_cast<const StringName *>(p_method));
@@ -255,8 +257,7 @@ GDExtensionScriptLanguagePtr TypeScriptInstance::get_language() {
 }
 
 Object *TypeScriptInstance::get_binding() {
-	gd_binding = gd_binding ? gd_binding : internal::get_object_instance_binding(p_godot_object->_owner);
-	return gd_binding;
+	return internal::get_object_instance_binding(p_godot_object->_owner);
 }
 
 static void notification_bind(JSValue instance, JSValue prototype, int32_t p_what, GDExtensionBool p_reversed) {

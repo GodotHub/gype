@@ -3,6 +3,7 @@
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/core/error_macros.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
+#include "support/callable_jsmethod_pointer.hpp"
 
 using namespace godot;
 
@@ -274,6 +275,7 @@ JSValue variant_to_jsvalue(const Variant &val) {
 			JS_Eval(js_context(), code, strlen(code), "<eval>", JS_EVAL_TYPE_MODULE);
 			JSValue wrapper = JS_NewObjectClass(js_context(), classes[class_name]);
 			JS_SetOpaque(wrapper, adapter);
+			JSClassID class_id = 0;
 			return wrapper;
 		}
 		default: {
@@ -368,11 +370,11 @@ godot::Variant js_obj_to_variant(JSValue val) {
 	PROXY_TO_VARIANT_CASE(PackedVector3Array)
 	PROXY_TO_VARIANT_CASE(PackedVector4Array)
 	PROXY_TO_VARIANT_CASE(PackedColorArray)
-	PROXY_TO_VARIANT_CASE(PackedStringArray)
-	else {
-		return reinterpret_cast<VariantAdapter *>(JS_GetOpaque(val, class_id))->get();
+	PROXY_TO_VARIANT_CASE(PackedStringArray) else {
+		return static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id))->get();
 	}
 }
+
 godot::Variant jsvalue_to_variant(JSValue val) {
 	int tag = JS_VALUE_GET_TAG(val);
 	switch (tag) {
@@ -380,21 +382,31 @@ godot::Variant jsvalue_to_variant(JSValue val) {
 			int64_t i;
 			ERR_FAIL_COND_V(JS_ToInt64(js_context(), &i, val), godot::Variant());
 			return i;
-		} break;
+		}
+		break;
 		case JS_TAG_FLOAT64: {
 			double d;
 			ERR_FAIL_COND_V(JS_ToFloat64(js_context(), &d, val), godot::Variant());
 			return d;
-		} break;
+		}
+		break;
 		case JS_TAG_BOOL: {
 			return JS_ToBool(js_context(), val);
-		} break;
+		}
+		break;
 		case JS_TAG_STRING: {
 			return JS_ToCString(js_context(), val);
-		} break;
+		}
+		break;
 		case JS_TAG_OBJECT: {
-			return js_obj_to_variant(val);
-		} break;
+			if (JS_IsFunction(js_context(), val)) {
+				JS_DupValue(js_context(), val);
+				return create_custom_javascript_callable(val);
+			} else {
+				return js_obj_to_variant(val);
+			}
+		}
+		break;
 		case JS_TAG_UNDEFINED:
 		case JS_TAG_NULL:
 		case JS_TAG_UNINITIALIZED:

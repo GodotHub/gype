@@ -1,5 +1,9 @@
 declare global {
-    export interface AABB {
+    export class AABB {
+        constructor(): AABB;
+        constructor(_from: AABB): AABB;
+        constructor(position: Vector3, size: Vector3): AABB;
+    
         position: Vector3;
         size: Vector3;
         end: Vector3;
@@ -29,20 +33,7 @@ declare global {
         get_endpoint(idx: number): Vector3;
         intersects_segment(_from: Vector3, to: Vector3): any;
         intersects_ray(_from: Vector3, dir: Vector3): any;
-    }
-
-    /**
-    * A global constructor and namespace for the AABB type.
-    *
-    * Use `new AABB(...)` to create a new instance.
-    * Access static members like `AABB.ZERO`.
-    */
-    export declare const AABB: {
-        new(): AABB;
-        new(_from: AABB): AABB;
-        new(position: Vector3, size: Vector3): AABB;
-
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -53,7 +44,7 @@ declare global {
         // in_op(Dictionary): boolean
         // in_op(GDArray): boolean
         */
-    };
+    }
 }
 
 export {};

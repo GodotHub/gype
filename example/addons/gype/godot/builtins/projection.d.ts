@@ -1,5 +1,12 @@
 declare global {
-    export interface Projection {
+    export class Projection {
+        constructor(): Projection;
+        constructor(_from: Projection): Projection;
+        constructor(_from: Transform3D): Projection;
+        constructor(xAxis: Vector4, yAxis: Vector4, zAxis: Vector4, wAxis: Vector4): Projection;
+        readonly IDENTITY: Projection;
+        readonly ZERO: Projection;
+    
         x: Vector4;
         y: Vector4;
         z: Vector4;
@@ -31,23 +38,7 @@ declare global {
         inverse(): Projection;
         get_pixels_per_meter(forPixelWidth: number): number;
         get_lod_multiplier(): number;
-    }
-
-    /**
-    * A global constructor and namespace for the Projection type.
-    *
-    * Use `new Projection(...)` to create a new instance.
-    * Access static members like `Projection.ZERO`.
-    */
-    export declare const Projection: {
-        new(): Projection;
-        new(_from: Projection): Projection;
-        new(_from: Transform3D): Projection;
-        new(xAxis: Vector4, yAxis: Vector4, zAxis: Vector4, wAxis: Vector4): Projection;
-
-        readonly IDENTITY: Projection;
-        readonly ZERO: Projection;
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -59,7 +50,7 @@ declare global {
         // in_op(Dictionary): boolean
         // in_op(GDArray): boolean
         */
-    };
+    }
 }
 
 export {};

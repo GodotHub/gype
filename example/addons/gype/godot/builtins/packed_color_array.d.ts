@@ -1,5 +1,9 @@
 declare global {
-    export interface PackedColorArray {
+    export class PackedColorArray {
+        constructor(): PackedColorArray;
+        constructor(_from: PackedColorArray): PackedColorArray;
+        constructor(_from: GDArray): PackedColorArray;
+    
 
         get(index: number): Color;
         set(index: number, value: Color): void;
@@ -24,20 +28,7 @@ declare global {
         rfind(value: Color, _from: number = -1): number;
         count(value: Color): number;
         erase(value: Color): boolean;
-    }
-
-    /**
-    * A global constructor and namespace for the PackedColorArray type.
-    *
-    * Use `new PackedColorArray(...)` to create a new instance.
-    * Access static members like `PackedColorArray.ZERO`.
-    */
-    export declare const PackedColorArray: {
-        new(): PackedColorArray;
-        new(_from: PackedColorArray): PackedColorArray;
-        new(_from: GDArray): PackedColorArray;
-
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -48,7 +39,7 @@ declare global {
         // not_equals(PackedColorArray): boolean
         // add(PackedColorArray): PackedColorArray
         */
-    };
+    }
 }
 
 export {};

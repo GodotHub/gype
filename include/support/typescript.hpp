@@ -48,7 +48,8 @@ class TypeScript : public ScriptExtension {
 
 public:
 	static const char *dist_path;
-	static const char *symbol_mask;
+	static const char *class_symbol_mask;
+	static const char *signal_symbol_mask;
 
 	bool _editor_can_reload_from_file();
 	void _placeholder_erased(void *p_placeholder);
@@ -102,7 +103,7 @@ private:
 	void remove_dist_internal(const String &path);
 	String get_dist_source_code() const;
 	void compile(bool force = false);
-	void analyze();
+	void analyze() const;
 };
 
 } // namespace godot

@@ -1,5 +1,15 @@
 declare global {
-    export interface Basis {
+    export class Basis {
+        constructor(): Basis;
+        constructor(_from: Basis): Basis;
+        constructor(_from: Quaternion): Basis;
+        constructor(axis: Vector3, angle: number): Basis;
+        constructor(xAxis: Vector3, yAxis: Vector3, zAxis: Vector3): Basis;
+        readonly IDENTITY: Basis;
+        readonly FLIP_X: Basis;
+        readonly FLIP_Y: Basis;
+        readonly FLIP_Z: Basis;
+    
         x: Vector3;
         y: Vector3;
         z: Vector3;
@@ -24,26 +34,7 @@ declare global {
         looking_at(target: Vector3, up: Vector3 = Vector3(0, 1, 0), useModelFront: boolean = false): Basis;
         from_scale(scale: Vector3): Basis;
         from_euler(euler: Vector3, order: number = 2): Basis;
-    }
-
-    /**
-    * A global constructor and namespace for the Basis type.
-    *
-    * Use `new Basis(...)` to create a new instance.
-    * Access static members like `Basis.ZERO`.
-    */
-    export declare const Basis: {
-        new(): Basis;
-        new(_from: Basis): Basis;
-        new(_from: Quaternion): Basis;
-        new(axis: Vector3, angle: number): Basis;
-        new(xAxis: Vector3, yAxis: Vector3, zAxis: Vector3): Basis;
-
-        readonly IDENTITY: Basis;
-        readonly FLIP_X: Basis;
-        readonly FLIP_Y: Basis;
-        readonly FLIP_Z: Basis;
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -59,7 +50,7 @@ declare global {
         // in_op(Dictionary): boolean
         // in_op(GDArray): boolean
         */
-    };
+    }
 }
 
 export {};

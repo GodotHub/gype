@@ -1,63 +1,12 @@
 declare global {
-    export interface Color {
-        r: number;
-        g: number;
-        b: number;
-        a: number;
-        r8: number;
-        g8: number;
-        b8: number;
-        a8: number;
-        h: number;
-        s: number;
-        v: number;
-        ok_hsl_h: number;
-        ok_hsl_s: number;
-        ok_hsl_l: number;
-
-        to_argb32(): number;
-        to_abgr32(): number;
-        to_rgba32(): number;
-        to_argb64(): number;
-        to_abgr64(): number;
-        to_rgba64(): number;
-        to_html(withAlpha: boolean = true): GDString;
-        clamp(min: Color = Color(0, 0, 0, 0), max: Color = Color(1, 1, 1, 1)): Color;
-        inverted(): Color;
-        lerp(to: Color, weight: number): Color;
-        lightened(amount: number): Color;
-        darkened(amount: number): Color;
-        blend(over: Color): Color;
-        get_luminance(): number;
-        srgb_to_linear(): Color;
-        linear_to_srgb(): Color;
-        is_equal_approx(to: Color): boolean;
-        hex(hex: number): Color;
-        hex64(hex: number): Color;
-        html(rgba: GDString | StringName | string): Color;
-        html_is_valid(color: GDString | StringName | string): boolean;
-        from_string(str: GDString | StringName | string, _default: Color): Color;
-        from_hsv(h: number, s: number, v: number, alpha: number = 1.0): Color;
-        from_ok_hsl(h: number, s: number, l: number, alpha: number = 1.0): Color;
-        from_rgbe9995(rgbe: number): Color;
-        from_rgba8(r8: number, g8: number, b8: number, a8: number = 255): Color;
-    }
-
-    /**
-    * A global constructor and namespace for the Color type.
-    *
-    * Use `new Color(...)` to create a new instance.
-    * Access static members like `Color.ZERO`.
-    */
-    export declare const Color: {
-        new(): Color;
-        new(_from: Color): Color;
-        new(_from: Color, alpha: number): Color;
-        new(r: number, g: number, b: number): Color;
-        new(r: number, g: number, b: number, a: number): Color;
-        new(code: GDString | StringName | string): Color;
-        new(code: GDString | StringName | string, alpha: number): Color;
-
+    export class Color {
+        constructor(): Color;
+        constructor(_from: Color): Color;
+        constructor(_from: Color, alpha: number): Color;
+        constructor(r: number, g: number, b: number): Color;
+        constructor(r: number, g: number, b: number, a: number): Color;
+        constructor(code: GDString | StringName | string): Color;
+        constructor(code: GDString | StringName | string, alpha: number): Color;
         readonly ALICE_BLUE: Color;
         readonly ANTIQUE_WHITE: Color;
         readonly AQUA: Color;
@@ -204,7 +153,49 @@ declare global {
         readonly WHITE_SMOKE: Color;
         readonly YELLOW: Color;
         readonly YELLOW_GREEN: Color;
+    
+        r: number;
+        g: number;
+        b: number;
+        a: number;
+        r8: number;
+        g8: number;
+        b8: number;
+        a8: number;
+        h: number;
+        s: number;
+        v: number;
+        ok_hsl_h: number;
+        ok_hsl_s: number;
+        ok_hsl_l: number;
 
+        to_argb32(): number;
+        to_abgr32(): number;
+        to_rgba32(): number;
+        to_argb64(): number;
+        to_abgr64(): number;
+        to_rgba64(): number;
+        to_html(withAlpha: boolean = true): GDString;
+        clamp(min: Color = Color(0, 0, 0, 0), max: Color = Color(1, 1, 1, 1)): Color;
+        inverted(): Color;
+        lerp(to: Color, weight: number): Color;
+        lightened(amount: number): Color;
+        darkened(amount: number): Color;
+        blend(over: Color): Color;
+        get_luminance(): number;
+        srgb_to_linear(): Color;
+        linear_to_srgb(): Color;
+        is_equal_approx(to: Color): boolean;
+        hex(hex: number): Color;
+        hex64(hex: number): Color;
+        html(rgba: GDString | StringName | string): Color;
+        html_is_valid(color: GDString | StringName | string): boolean;
+        from_string(str: GDString | StringName | string, _default: Color): Color;
+        from_hsv(h: number, s: number, v: number, alpha: number = 1.0): Color;
+        from_ok_hsl(h: number, s: number, l: number, alpha: number = 1.0): Color;
+        from_rgbe9995(rgbe: number): Color;
+        from_rgba8(r8: number, g8: number, b8: number, a8: number = 255): Color;
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -225,7 +216,7 @@ declare global {
         // in_op(GDArray): boolean
         // in_op(PackedColorArray): boolean
         */
-    };
+    }
 }
 
 export {};

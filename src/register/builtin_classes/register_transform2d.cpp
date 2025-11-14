@@ -36,36 +36,26 @@ static JSValue transform2d_class_constructor(JSContext *ctx, JSValueConst new_ta
 	if (argc == 0) {
 		instance = Transform2D();
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::TRANSFORM2D))) {
-			Transform2D
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::TRANSFORM2D)) {
+		Transform2D v0 = VariantAdapter(argv[0]).get();
 		instance = Transform2D(v0);
 	}
-	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR2))) {
-		double
- v0 = VariantAdapter(argv[0]).get();
-			Vector2
- v1 = VariantAdapter(argv[1]).get();
+	if (argc == 2&&JS_IsNumber(argv[0])&&VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR2)) {
+		double v0 = VariantAdapter(argv[0]).get();
+		Vector2 v1 = VariantAdapter(argv[1]).get();
 		instance = Transform2D(v0, v1);
 	}
-	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR2))&&(VariantAdapter::can_cast(argv[2],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[3],Variant::Type::VECTOR2))) {
-		double
- v0 = VariantAdapter(argv[0]).get();
-			Vector2
- v1 = VariantAdapter(argv[1]).get();
-		double
- v2 = VariantAdapter(argv[2]).get();
-			Vector2
- v3 = VariantAdapter(argv[3]).get();
+	if (argc == 4&&JS_IsNumber(argv[0])&&VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR2)&&JS_IsNumber(argv[2])&&VariantAdapter::can_cast(argv[3], Variant::Type::VECTOR2)) {
+		double v0 = VariantAdapter(argv[0]).get();
+		Vector2 v1 = VariantAdapter(argv[1]).get();
+		double v2 = VariantAdapter(argv[2]).get();
+		Vector2 v3 = VariantAdapter(argv[3]).get();
 		instance = Transform2D(v0, v1, v2, v3);
 	}
-	if (argc == 3&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR2))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR2))&&(VariantAdapter::can_cast(argv[2],Variant::Type::VECTOR2))) {
-			Vector2
- v0 = VariantAdapter(argv[0]).get();
-			Vector2
- v1 = VariantAdapter(argv[1]).get();
-			Vector2
- v2 = VariantAdapter(argv[2]).get();
+	if (argc == 3&&VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR2)&&VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR2)&&VariantAdapter::can_cast(argv[2], Variant::Type::VECTOR2)) {
+		Vector2 v0 = VariantAdapter(argv[0]).get();
+		Vector2 v1 = VariantAdapter(argv[1]).get();
+		Vector2 v2 = VariantAdapter(argv[2]).get();
 		instance = Transform2D(v0, v1, v2);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -143,30 +133,39 @@ static JSValue transform2d_class_looking_at(JSContext *ctx, JSValueConst this_va
 }
 
 static JSValue transform2d_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform2D val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]))->get();
+	Transform2D val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]))->get();
 	return VariantAdapter(val.columns[0]);
+	
 }
 static JSValue transform2d_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform2D val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]))->get();
-	val.columns[0] = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]));
+    Transform2D val = adapter->get();
+    val.columns[0] = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue transform2d_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform2D val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]))->get();
+	Transform2D val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]))->get();
 	return VariantAdapter(val.columns[1]);
+	
 }
 static JSValue transform2d_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform2D val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]))->get();
-	val.columns[1] = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]));
+    Transform2D val = adapter->get();
+    val.columns[1] = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
-//static JSValue transform2d_class_get_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-//	Transform2D val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]))->get();
-//	return VariantAdapter(val.origin);
-//}
+// static JSValue transform2d_class_get_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	Transform2D val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]))->get();
+// 	return VariantAdapter(val.origin);
+// 	
+// }
 static JSValue transform2d_class_set_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Transform2D val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]))->get();
-	val.set_origin(VariantAdapter(*argv).get());
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]));
+    Transform2D val = adapter->get();
+    val.set_origin(VariantAdapter(*argv).get());
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 
@@ -194,7 +193,7 @@ static const JSCFunctionListEntry transform2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("looking_at", 1, &transform2d_class_looking_at),
 };
 
-void define_transform2d_property(JSContext *ctx, JSValue obj) {
+static void define_transform2d_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
 			ctx,
 			obj,
@@ -236,7 +235,7 @@ static int js_transform2d_class_init(JSContext *ctx) {
 	return 0;
 }
 
-void js_init_transform2d_module(JSContext *ctx) {
+static void js_init_transform2d_module(JSContext *ctx) {
 	js_transform2d_class_init(ctx);
 }
 
@@ -253,8 +252,8 @@ static void transform2d_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef transform2d_proxy_def = {
-	.class_name = "Transform2DProxy",
-	.finalizer = transform2d_proxy_finalizer
+	"Transform2DProxy",
+	transform2d_proxy_finalizer
 };
 
 
@@ -285,8 +284,8 @@ static JSValue transform2d_proxy_constructor(JSContext *ctx, JSValueConst new_ta
 
 static JSValue transform2d_proxy_inverse(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::inverse, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -294,8 +293,8 @@ static JSValue transform2d_proxy_inverse(JSContext *ctx, JSValueConst this_val, 
 }
 static JSValue transform2d_proxy_affine_inverse(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::affine_inverse, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -303,8 +302,8 @@ static JSValue transform2d_proxy_affine_inverse(JSContext *ctx, JSValueConst thi
 }
 static JSValue transform2d_proxy_get_rotation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::get_rotation, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -312,8 +311,8 @@ static JSValue transform2d_proxy_get_rotation(JSContext *ctx, JSValueConst this_
 }
 static JSValue transform2d_proxy_get_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::get_origin, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -321,8 +320,8 @@ static JSValue transform2d_proxy_get_origin(JSContext *ctx, JSValueConst this_va
 }
 static JSValue transform2d_proxy_get_scale(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::get_scale, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -330,8 +329,8 @@ static JSValue transform2d_proxy_get_scale(JSContext *ctx, JSValueConst this_val
 }
 static JSValue transform2d_proxy_get_skew(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::get_skew, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -339,8 +338,8 @@ static JSValue transform2d_proxy_get_skew(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue transform2d_proxy_orthonormalized(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::orthonormalized, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -348,8 +347,8 @@ static JSValue transform2d_proxy_orthonormalized(JSContext *ctx, JSValueConst th
 }
 static JSValue transform2d_proxy_rotated(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::rotated, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -357,8 +356,8 @@ static JSValue transform2d_proxy_rotated(JSContext *ctx, JSValueConst this_val, 
 }
 static JSValue transform2d_proxy_rotated_local(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::rotated_local, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -366,8 +365,8 @@ static JSValue transform2d_proxy_rotated_local(JSContext *ctx, JSValueConst this
 }
 static JSValue transform2d_proxy_scaled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::scaled, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -375,8 +374,8 @@ static JSValue transform2d_proxy_scaled(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue transform2d_proxy_scaled_local(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::scaled_local, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -384,8 +383,8 @@ static JSValue transform2d_proxy_scaled_local(JSContext *ctx, JSValueConst this_
 }
 static JSValue transform2d_proxy_translated(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::translated, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -393,8 +392,8 @@ static JSValue transform2d_proxy_translated(JSContext *ctx, JSValueConst this_va
 }
 static JSValue transform2d_proxy_translated_local(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::translated_local, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -402,8 +401,8 @@ static JSValue transform2d_proxy_translated_local(JSContext *ctx, JSValueConst t
 }
 static JSValue transform2d_proxy_determinant(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::determinant, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -411,8 +410,8 @@ static JSValue transform2d_proxy_determinant(JSContext *ctx, JSValueConst this_v
 }
 static JSValue transform2d_proxy_basis_xform(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::basis_xform, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -420,8 +419,8 @@ static JSValue transform2d_proxy_basis_xform(JSContext *ctx, JSValueConst this_v
 }
 static JSValue transform2d_proxy_basis_xform_inv(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::basis_xform_inv, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -429,8 +428,8 @@ static JSValue transform2d_proxy_basis_xform_inv(JSContext *ctx, JSValueConst th
 }
 static JSValue transform2d_proxy_interpolate_with(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::interpolate_with, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -438,8 +437,8 @@ static JSValue transform2d_proxy_interpolate_with(JSContext *ctx, JSValueConst t
 }
 static JSValue transform2d_proxy_is_conformal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::is_conformal, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -447,8 +446,8 @@ static JSValue transform2d_proxy_is_conformal(JSContext *ctx, JSValueConst this_
 }
 static JSValue transform2d_proxy_is_equal_approx(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::is_equal_approx, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -456,8 +455,8 @@ static JSValue transform2d_proxy_is_equal_approx(JSContext *ctx, JSValueConst th
 }
 static JSValue transform2d_proxy_is_finite(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::is_finite, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -465,8 +464,8 @@ static JSValue transform2d_proxy_is_finite(JSContext *ctx, JSValueConst this_val
 }
 static JSValue transform2d_proxy_looking_at(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Transform2D::looking_at, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -475,46 +474,46 @@ static JSValue transform2d_proxy_looking_at(JSContext *ctx, JSValueConst this_va
 
 static JSValue transform2d_proxy_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
     Transform2D ret = proxy->getter();
-	return VariantAdapter(ret.columns[0]);
+    return VariantAdapter(ret.columns[0]);
 }
 static JSValue transform2d_proxy_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
     VariantAdapter x(argv[0]);
     Transform2D wrapped = proxy->getter();
-	wrapped.columns[0] = x.get();
+    wrapped.columns[0] = x.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
 static JSValue transform2d_proxy_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
     Transform2D ret = proxy->getter();
-	return VariantAdapter(ret.columns[1]);
+    return VariantAdapter(ret.columns[1]);
 }
 static JSValue transform2d_proxy_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
     VariantAdapter y(argv[0]);
     Transform2D wrapped = proxy->getter();
-	wrapped.columns[1] = y.get();
+    wrapped.columns[1] = y.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
-//static JSValue transform2d_proxy_get_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-//	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-//    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
-//    Transform2D ret = proxy->getter();
-//    return VariantAdapter(ret.origin);
-//}
+// static JSValue transform2d_proxy_get_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+// 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
+//     ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
+//     Transform2D ret = proxy->getter();
+//     return VariantAdapter(ret.origin);
+// }
 static JSValue transform2d_proxy_set_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Transform2DProxy"]);
-    ObjectProxy<Transform2D> *proxy = reinterpret_cast<ObjectProxy<Transform2D> *>(opaque);
+    ObjectProxy<Transform2D> *proxy = static_cast<ObjectProxy<Transform2D> *>(opaque);
     VariantAdapter origin(argv[0]);
     Transform2D wrapped = proxy->getter();
-	wrapped.set_origin(origin.get());
+    wrapped.set_origin(origin.get());
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }

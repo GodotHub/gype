@@ -40,25 +40,19 @@ static JSValue projection_class_constructor(JSContext *ctx, JSValueConst new_tar
 	if (argc == 0) {
 		instance = Projection();
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::PROJECTION))) {
-			Projection
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::PROJECTION)) {
+		Projection v0 = VariantAdapter(argv[0]).get();
 		instance = Projection(v0);
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::TRANSFORM3D))) {
-			Transform3D
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::TRANSFORM3D)) {
+		Transform3D v0 = VariantAdapter(argv[0]).get();
 		instance = Projection(v0);
 	}
-	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR4))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR4))&&(VariantAdapter::can_cast(argv[2],Variant::Type::VECTOR4))&&(VariantAdapter::can_cast(argv[3],Variant::Type::VECTOR4))) {
-			Vector4
- v0 = VariantAdapter(argv[0]).get();
-			Vector4
- v1 = VariantAdapter(argv[1]).get();
-			Vector4
- v2 = VariantAdapter(argv[2]).get();
-			Vector4
- v3 = VariantAdapter(argv[3]).get();
+	if (argc == 4&&VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR4)&&VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR4)&&VariantAdapter::can_cast(argv[2], Variant::Type::VECTOR4)&&VariantAdapter::can_cast(argv[3], Variant::Type::VECTOR4)) {
+		Vector4 v0 = VariantAdapter(argv[0]).get();
+		Vector4 v1 = VariantAdapter(argv[1]).get();
+		Vector4 v2 = VariantAdapter(argv[2]).get();
+		Vector4 v3 = VariantAdapter(argv[3]).get();
 		instance = Projection(v0, v1, v2, v3);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -151,39 +145,51 @@ static JSValue projection_class_get_lod_multiplier(JSContext *ctx, JSValueConst 
 }
 
 static JSValue projection_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
+	Projection val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
 	return VariantAdapter(val.columns[0]);
+	
 }
 static JSValue projection_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
-	val.columns[0] = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]));
+    Projection val = adapter->get();
+    val.columns[0] = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue projection_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
+	Projection val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
 	return VariantAdapter(val.columns[1]);
+	
 }
 static JSValue projection_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
-	val.columns[1] = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]));
+    Projection val = adapter->get();
+    val.columns[1] = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue projection_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
+	Projection val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
 	return VariantAdapter(val.columns[2]);
+	
 }
 static JSValue projection_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
-	val.columns[2] = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]));
+    Projection val = adapter->get();
+    val.columns[2] = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue projection_class_get_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
+	Projection val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
 	return VariantAdapter(val.columns[3]);
+	
 }
 static JSValue projection_class_set_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Projection val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
-	val.columns[3] = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]));
+    Projection val = adapter->get();
+    val.columns[3] = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 
@@ -216,7 +222,7 @@ static const JSCFunctionListEntry projection_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_lod_multiplier", 0, &projection_class_get_lod_multiplier),
 };
 
-void define_projection_property(JSContext *ctx, JSValue obj) {
+static void define_projection_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
 			ctx,
 			obj,
@@ -265,7 +271,7 @@ static int js_projection_class_init(JSContext *ctx) {
 	return 0;
 }
 
-void js_init_projection_module(JSContext *ctx) {
+static void js_init_projection_module(JSContext *ctx) {
 	js_projection_class_init(ctx);
 }
 
@@ -282,8 +288,8 @@ static void projection_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef projection_proxy_def = {
-	.class_name = "ProjectionProxy",
-	.finalizer = projection_proxy_finalizer
+	"ProjectionProxy",
+	projection_proxy_finalizer
 };
 
 
@@ -344,8 +350,8 @@ static JSValue projection_proxy_create_fit_aabb(JSContext *ctx, JSValueConst thi
 }
 static JSValue projection_proxy_determinant(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Projection::determinant, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -353,8 +359,8 @@ static JSValue projection_proxy_determinant(JSContext *ctx, JSValueConst this_va
 }
 static JSValue projection_proxy_perspective_znear_adjusted(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Projection::perspective_znear_adjusted, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -362,8 +368,8 @@ static JSValue projection_proxy_perspective_znear_adjusted(JSContext *ctx, JSVal
 }
 static JSValue projection_proxy_get_projection_plane(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Projection::get_projection_plane, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -371,8 +377,8 @@ static JSValue projection_proxy_get_projection_plane(JSContext *ctx, JSValueCons
 }
 static JSValue projection_proxy_flipped_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Projection::flipped_y, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -380,8 +386,8 @@ static JSValue projection_proxy_flipped_y(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue projection_proxy_jitter_offseted(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Projection::jitter_offseted, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -392,8 +398,8 @@ static JSValue projection_proxy_get_fovy(JSContext *ctx, JSValueConst this_val, 
 }
 static JSValue projection_proxy_get_z_far(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Projection::get_z_far, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -401,8 +407,8 @@ static JSValue projection_proxy_get_z_far(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue projection_proxy_get_z_near(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Projection::get_z_near, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -410,8 +416,8 @@ static JSValue projection_proxy_get_z_near(JSContext *ctx, JSValueConst this_val
 }
 static JSValue projection_proxy_get_aspect(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Projection::get_aspect, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -419,8 +425,8 @@ static JSValue projection_proxy_get_aspect(JSContext *ctx, JSValueConst this_val
 }
 static JSValue projection_proxy_get_fov(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Projection::get_fov, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -428,8 +434,8 @@ static JSValue projection_proxy_get_fov(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue projection_proxy_is_orthogonal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Projection::is_orthogonal, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -437,8 +443,8 @@ static JSValue projection_proxy_is_orthogonal(JSContext *ctx, JSValueConst this_
 }
 static JSValue projection_proxy_get_viewport_half_extents(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Projection::get_viewport_half_extents, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -446,8 +452,8 @@ static JSValue projection_proxy_get_viewport_half_extents(JSContext *ctx, JSValu
 }
 static JSValue projection_proxy_get_far_plane_half_extents(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Projection::get_far_plane_half_extents, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -455,8 +461,8 @@ static JSValue projection_proxy_get_far_plane_half_extents(JSContext *ctx, JSVal
 }
 static JSValue projection_proxy_inverse(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Projection::inverse, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -464,8 +470,8 @@ static JSValue projection_proxy_inverse(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue projection_proxy_get_pixels_per_meter(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Projection::get_pixels_per_meter, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -473,8 +479,8 @@ static JSValue projection_proxy_get_pixels_per_meter(JSContext *ctx, JSValueCons
 }
 static JSValue projection_proxy_get_lod_multiplier(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Projection::get_lod_multiplier, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -483,61 +489,61 @@ static JSValue projection_proxy_get_lod_multiplier(JSContext *ctx, JSValueConst 
 
 static JSValue projection_proxy_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
     Projection ret = proxy->getter();
-	return VariantAdapter(ret.columns[0]);
+    return VariantAdapter(ret.columns[0]);
 }
 static JSValue projection_proxy_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
     VariantAdapter x(argv[0]);
     Projection wrapped = proxy->getter();
-	wrapped.columns[0] = x.get();
+    wrapped.columns[0] = x.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
 static JSValue projection_proxy_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
     Projection ret = proxy->getter();
-	return VariantAdapter(ret.columns[1]);
+    return VariantAdapter(ret.columns[1]);
 }
 static JSValue projection_proxy_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
     VariantAdapter y(argv[0]);
     Projection wrapped = proxy->getter();
-	wrapped.columns[1] = y.get();
+    wrapped.columns[1] = y.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
 static JSValue projection_proxy_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
     Projection ret = proxy->getter();
-	return VariantAdapter(ret.columns[2]);
+    return VariantAdapter(ret.columns[2]);
 }
 static JSValue projection_proxy_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
     VariantAdapter z(argv[0]);
     Projection wrapped = proxy->getter();
-	wrapped.columns[2] = z.get();
+    wrapped.columns[2] = z.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
 static JSValue projection_proxy_get_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
     Projection ret = proxy->getter();
-	return VariantAdapter(ret.columns[3]);
+    return VariantAdapter(ret.columns[3]);
 }
 static JSValue projection_proxy_set_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["ProjectionProxy"]);
-    ObjectProxy<Projection> *proxy = reinterpret_cast<ObjectProxy<Projection> *>(opaque);
+    ObjectProxy<Projection> *proxy = static_cast<ObjectProxy<Projection> *>(opaque);
     VariantAdapter w(argv[0]);
     Projection wrapped = proxy->getter();
-	wrapped.columns[3] = w.get();
+    wrapped.columns[3] = w.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }

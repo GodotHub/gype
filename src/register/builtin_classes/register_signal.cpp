@@ -34,21 +34,18 @@ static JSValue signal_class_constructor(JSContext *ctx, JSValueConst new_target,
 	if (JS_IsException(obj)) {
 		return obj;
 	}
-	
+
 	Signal instance;
 	if (argc == 0) {
 		instance = Signal();
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::SIGNAL))) {
-			Signal
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1 && VariantAdapter::can_cast(argv[0], Variant::Type::SIGNAL)) {
+		Signal v0 = VariantAdapter(argv[0]).get();
 		instance = Signal(v0);
 	}
-	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::OBJECT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::STRING_NAME))) {
-			Object *
- v0 = VariantAdapter(argv[0]).get();
-			StringName
- v1 = VariantAdapter(argv[1]).get();
+	if (argc == 2 && VariantAdapter::can_cast(argv[0], Variant::Type::OBJECT) && JS_IsString(argv[1])) {
+		Object *v0 = VariantAdapter(argv[0]).get();
+		StringName v1 = VariantAdapter(argv[1]).get();
 		instance = Signal(v0, v1);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -61,34 +58,44 @@ static JSValue signal_class_constructor(JSContext *ctx, JSValueConst new_target,
 	JS_SetOpaque(obj, adapter);
 	return obj;
 }
+
 static JSValue signal_class_is_null(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Signal::is_null, ctx, this_val, argc, argv);
 }
+
 static JSValue signal_class_get_object(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Signal::get_object, ctx, this_val, argc, argv);
 }
+
 static JSValue signal_class_get_object_id(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Signal::get_object_id, ctx, this_val, argc, argv);
 }
+
 static JSValue signal_class_get_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Signal::get_name, ctx, this_val, argc, argv);
 }
+
 static JSValue signal_class_connect(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_method_ret(&Signal::connect, ctx, this_val, argc, argv);
 }
+
 static JSValue signal_class_disconnect(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Signal::disconnect, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
+
 static JSValue signal_class_is_connected(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Signal::is_connected, ctx, this_val, argc, argv);
 }
+
 static JSValue signal_class_get_connections(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Signal::get_connections, ctx, this_val, argc, argv);
 }
+
 static JSValue signal_class_has_connections(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Signal::has_connections, ctx, this_val, argc, argv);
 }
+
 static JSValue signal_class_emit(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_free_opaque_no_fixed_vararg_method_no_ret<Signal>(&js_emit, ctx, this_val, argc, argv);
 }
@@ -116,7 +123,8 @@ static int js_signal_class_init(JSContext *ctx) {
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &signal_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	JS_SetPropertyFunctionList(ctx, proto, signal_class_proto_funcs, _countof(signal_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);
+	JS_SetPropertyFunctionList(ctx, proto, signal_class_proto_funcs, _countof(signal_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, signal_class_constructor, "Signal", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
 
@@ -126,7 +134,7 @@ static int js_signal_class_init(JSContext *ctx) {
 	return 0;
 }
 
-void js_init_signal_module(JSContext *ctx) {
+static void js_init_signal_module(JSContext *ctx) {
 	js_signal_class_init(ctx);
 }
 
@@ -143,8 +151,8 @@ static void signal_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef signal_proxy_def = {
-	.class_name = "SignalProxy",
-	.finalizer = signal_proxy_finalizer
+	"SignalProxy",
+	signal_proxy_finalizer
 };
 
 
@@ -175,84 +183,93 @@ static JSValue signal_proxy_constructor(JSContext *ctx, JSValueConst new_target,
 
 static JSValue signal_proxy_is_null(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["SignalProxy"]);
-    ObjectProxy<Signal> *proxy = reinterpret_cast<ObjectProxy<Signal> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Signal::is_null, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Signal> *proxy = static_cast<ObjectProxy<Signal> *>(opaque);
+	Object *wrapped = proxy->wrapped;
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Signal::is_null, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue signal_proxy_get_object(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["SignalProxy"]);
-    ObjectProxy<Signal> *proxy = reinterpret_cast<ObjectProxy<Signal> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Signal::get_object, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Signal> *proxy = static_cast<ObjectProxy<Signal> *>(opaque);
+	Object *wrapped = proxy->wrapped;
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Signal::get_object, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue signal_proxy_get_object_id(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["SignalProxy"]);
-    ObjectProxy<Signal> *proxy = reinterpret_cast<ObjectProxy<Signal> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Signal::get_object_id, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Signal> *proxy = static_cast<ObjectProxy<Signal> *>(opaque);
+	Object *wrapped = proxy->wrapped;
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Signal::get_object_id, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue signal_proxy_get_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["SignalProxy"]);
-    ObjectProxy<Signal> *proxy = reinterpret_cast<ObjectProxy<Signal> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Signal::get_name, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Signal> *proxy = static_cast<ObjectProxy<Signal> *>(opaque);
+	Object *wrapped = proxy->wrapped;
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Signal::get_name, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue signal_proxy_connect(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["SignalProxy"]);
-    ObjectProxy<Signal> *proxy = reinterpret_cast<ObjectProxy<Signal> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_method_ret(&Signal::connect, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Signal> *proxy = static_cast<ObjectProxy<Signal> *>(opaque);
+	Object *wrapped = proxy->wrapped;
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_method_ret(&Signal::connect, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue signal_proxy_disconnect(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_method_no_ret(&Signal::disconnect, ctx, this_val, argc, argv);
-    return JS_UNDEFINED;
+	return JS_UNDEFINED;
 }
+
 static JSValue signal_proxy_is_connected(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["SignalProxy"]);
-    ObjectProxy<Signal> *proxy = reinterpret_cast<ObjectProxy<Signal> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Signal::is_connected, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Signal> *proxy = static_cast<ObjectProxy<Signal> *>(opaque);
+	Object *wrapped = proxy->wrapped;
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Signal::is_connected, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue signal_proxy_get_connections(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["SignalProxy"]);
-    ObjectProxy<Signal> *proxy = reinterpret_cast<ObjectProxy<Signal> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Signal::get_connections, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Signal> *proxy = static_cast<ObjectProxy<Signal> *>(opaque);
+	Object *wrapped = proxy->wrapped;
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Signal::get_connections, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue signal_proxy_has_connections(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["SignalProxy"]);
-    ObjectProxy<Signal> *proxy = reinterpret_cast<ObjectProxy<Signal> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
-    this_val = VariantAdapter(wrapped);
-    JSValue ret = call_builtin_const_method_ret(&Signal::has_connections, ctx, this_val, argc, argv);
-    JS_FreeValue(ctx, this_val);
-    return ret;
+	ObjectProxy<Signal> *proxy = static_cast<ObjectProxy<Signal> *>(opaque);
+	Object *wrapped = proxy->wrapped;
+	this_val = VariantAdapter(wrapped);
+	JSValue ret = call_builtin_const_method_ret(&Signal::has_connections, ctx, this_val, argc, argv);
+	JS_FreeValue(ctx, this_val);
+	return ret;
 }
+
 static JSValue signal_proxy_emit(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	call_builtin_free_opaque_no_fixed_vararg_method_no_ret<Signal>(&js_emit, ctx, this_val, argc, argv);
-JS_FreeValue(ctx, this_val);
-    return JS_UNDEFINED;
+	JS_FreeValue(ctx, this_val);
+	return JS_UNDEFINED;
 }
 
 

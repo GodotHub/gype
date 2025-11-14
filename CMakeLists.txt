@@ -17,6 +17,7 @@ set(GYPE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/example/addons/gype/extension")
 file(GLOB_RECURSE 
     SOURCES 
         "src/*.cpp"
+        "include/utils/func_utils.hpp"
 )
 
 add_library(gype SHARED ${SOURCES})

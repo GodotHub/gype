@@ -36,25 +36,19 @@ static JSValue vector4_class_constructor(JSContext *ctx, JSValueConst new_target
 	if (argc == 0) {
 		instance = Vector4();
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR4))) {
-			Vector4
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR4)) {
+		Vector4 v0 = VariantAdapter(argv[0]).get();
 		instance = Vector4(v0);
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR4I))) {
-			Vector4i
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR4I)) {
+		Vector4i v0 = VariantAdapter(argv[0]).get();
 		instance = Vector4(v0);
 	}
-	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[2],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[3],Variant::Type::FLOAT))) {
-		double
- v0 = VariantAdapter(argv[0]).get();
-		double
- v1 = VariantAdapter(argv[1]).get();
-		double
- v2 = VariantAdapter(argv[2]).get();
-		double
- v3 = VariantAdapter(argv[3]).get();
+	if (argc == 4&&JS_IsNumber(argv[0])&&JS_IsNumber(argv[1])&&JS_IsNumber(argv[2])&&JS_IsNumber(argv[3])) {
+		double v0 = VariantAdapter(argv[0]).get();
+		double v1 = VariantAdapter(argv[1]).get();
+		double v2 = VariantAdapter(argv[2]).get();
+		double v3 = VariantAdapter(argv[3]).get();
 		instance = Vector4(v0, v1, v2, v3);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -165,39 +159,51 @@ static JSValue vector4_class_maxf(JSContext *ctx, JSValueConst this_val, int arg
 }
 
 static JSValue vector4_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector4 val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
+	Vector4 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
 	return VariantAdapter(val.x);
+	
 }
 static JSValue vector4_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector4 val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
-	val.x = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]));
+    Vector4 val = adapter->get();
+    val.x = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue vector4_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector4 val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
+	Vector4 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
 	return VariantAdapter(val.y);
+	
 }
 static JSValue vector4_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector4 val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
-	val.y = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]));
+    Vector4 val = adapter->get();
+    val.y = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue vector4_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector4 val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
+	Vector4 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
 	return VariantAdapter(val.z);
+	
 }
 static JSValue vector4_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector4 val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
-	val.z = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]));
+    Vector4 val = adapter->get();
+    val.z = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue vector4_class_get_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector4 val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
+	Vector4 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
 	return VariantAdapter(val.w);
+	
 }
 static JSValue vector4_class_set_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Vector4 val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
-	val.w = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]));
+    Vector4 val = adapter->get();
+    val.w = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 
@@ -236,7 +242,7 @@ static const JSCFunctionListEntry vector4_class_proto_funcs[] = {
 	JS_CFUNC_DEF("maxf", 1, &vector4_class_maxf),
 };
 
-void define_vector4_property(JSContext *ctx, JSValue obj) {
+static void define_vector4_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
 			ctx,
 			obj,
@@ -285,7 +291,7 @@ static int js_vector4_class_init(JSContext *ctx) {
 	return 0;
 }
 
-void js_init_vector4_module(JSContext *ctx) {
+static void js_init_vector4_module(JSContext *ctx) {
 	js_vector4_class_init(ctx);
 }
 
@@ -302,8 +308,8 @@ static void vector4_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef vector4_proxy_def = {
-	.class_name = "Vector4Proxy",
-	.finalizer = vector4_proxy_finalizer
+	"Vector4Proxy",
+	vector4_proxy_finalizer
 };
 
 
@@ -334,8 +340,8 @@ static JSValue vector4_proxy_constructor(JSContext *ctx, JSValueConst new_target
 
 static JSValue vector4_proxy_min_axis_index(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::min_axis_index, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -343,8 +349,8 @@ static JSValue vector4_proxy_min_axis_index(JSContext *ctx, JSValueConst this_va
 }
 static JSValue vector4_proxy_max_axis_index(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::max_axis_index, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -352,8 +358,8 @@ static JSValue vector4_proxy_max_axis_index(JSContext *ctx, JSValueConst this_va
 }
 static JSValue vector4_proxy_length(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::length, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -361,8 +367,8 @@ static JSValue vector4_proxy_length(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue vector4_proxy_length_squared(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::length_squared, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -370,8 +376,8 @@ static JSValue vector4_proxy_length_squared(JSContext *ctx, JSValueConst this_va
 }
 static JSValue vector4_proxy_abs(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::abs, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -379,8 +385,8 @@ static JSValue vector4_proxy_abs(JSContext *ctx, JSValueConst this_val, int argc
 }
 static JSValue vector4_proxy_sign(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::sign, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -388,8 +394,8 @@ static JSValue vector4_proxy_sign(JSContext *ctx, JSValueConst this_val, int arg
 }
 static JSValue vector4_proxy_floor(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::floor, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -397,8 +403,8 @@ static JSValue vector4_proxy_floor(JSContext *ctx, JSValueConst this_val, int ar
 }
 static JSValue vector4_proxy_ceil(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::ceil, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -406,8 +412,8 @@ static JSValue vector4_proxy_ceil(JSContext *ctx, JSValueConst this_val, int arg
 }
 static JSValue vector4_proxy_round(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::round, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -415,8 +421,8 @@ static JSValue vector4_proxy_round(JSContext *ctx, JSValueConst this_val, int ar
 }
 static JSValue vector4_proxy_lerp(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::lerp, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -424,8 +430,8 @@ static JSValue vector4_proxy_lerp(JSContext *ctx, JSValueConst this_val, int arg
 }
 static JSValue vector4_proxy_cubic_interpolate(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::cubic_interpolate, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -433,8 +439,8 @@ static JSValue vector4_proxy_cubic_interpolate(JSContext *ctx, JSValueConst this
 }
 static JSValue vector4_proxy_cubic_interpolate_in_time(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::cubic_interpolate_in_time, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -442,8 +448,8 @@ static JSValue vector4_proxy_cubic_interpolate_in_time(JSContext *ctx, JSValueCo
 }
 static JSValue vector4_proxy_posmod(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::posmod, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -451,8 +457,8 @@ static JSValue vector4_proxy_posmod(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue vector4_proxy_posmodv(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::posmodv, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -460,8 +466,8 @@ static JSValue vector4_proxy_posmodv(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue vector4_proxy_snapped(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::snapped, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -469,8 +475,8 @@ static JSValue vector4_proxy_snapped(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue vector4_proxy_snappedf(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::snappedf, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -478,8 +484,8 @@ static JSValue vector4_proxy_snappedf(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue vector4_proxy_clamp(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::clamp, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -487,8 +493,8 @@ static JSValue vector4_proxy_clamp(JSContext *ctx, JSValueConst this_val, int ar
 }
 static JSValue vector4_proxy_clampf(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::clampf, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -496,8 +502,8 @@ static JSValue vector4_proxy_clampf(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue vector4_proxy_normalized(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::normalized, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -505,8 +511,8 @@ static JSValue vector4_proxy_normalized(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue vector4_proxy_is_normalized(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::is_normalized, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -514,8 +520,8 @@ static JSValue vector4_proxy_is_normalized(JSContext *ctx, JSValueConst this_val
 }
 static JSValue vector4_proxy_direction_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::direction_to, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -523,8 +529,8 @@ static JSValue vector4_proxy_direction_to(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue vector4_proxy_distance_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::distance_to, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -532,8 +538,8 @@ static JSValue vector4_proxy_distance_to(JSContext *ctx, JSValueConst this_val, 
 }
 static JSValue vector4_proxy_distance_squared_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::distance_squared_to, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -541,8 +547,8 @@ static JSValue vector4_proxy_distance_squared_to(JSContext *ctx, JSValueConst th
 }
 static JSValue vector4_proxy_dot(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::dot, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -550,8 +556,8 @@ static JSValue vector4_proxy_dot(JSContext *ctx, JSValueConst this_val, int argc
 }
 static JSValue vector4_proxy_inverse(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::inverse, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -559,8 +565,8 @@ static JSValue vector4_proxy_inverse(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue vector4_proxy_is_equal_approx(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::is_equal_approx, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -568,8 +574,8 @@ static JSValue vector4_proxy_is_equal_approx(JSContext *ctx, JSValueConst this_v
 }
 static JSValue vector4_proxy_is_zero_approx(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::is_zero_approx, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -577,8 +583,8 @@ static JSValue vector4_proxy_is_zero_approx(JSContext *ctx, JSValueConst this_va
 }
 static JSValue vector4_proxy_is_finite(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::is_finite, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -586,8 +592,8 @@ static JSValue vector4_proxy_is_finite(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue vector4_proxy_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::min, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -595,8 +601,8 @@ static JSValue vector4_proxy_min(JSContext *ctx, JSValueConst this_val, int argc
 }
 static JSValue vector4_proxy_minf(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::minf, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -604,8 +610,8 @@ static JSValue vector4_proxy_minf(JSContext *ctx, JSValueConst this_val, int arg
 }
 static JSValue vector4_proxy_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::max, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -613,8 +619,8 @@ static JSValue vector4_proxy_max(JSContext *ctx, JSValueConst this_val, int argc
 }
 static JSValue vector4_proxy_maxf(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Vector4::maxf, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -623,13 +629,13 @@ static JSValue vector4_proxy_maxf(JSContext *ctx, JSValueConst this_val, int arg
 
 static JSValue vector4_proxy_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
     Vector4 ret = proxy->getter();
     return VariantAdapter(ret.x);
 }
 static JSValue vector4_proxy_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
     VariantAdapter x(argv[0]);
     Vector4 wrapped = proxy->getter();
     wrapped.x = x.get();
@@ -638,13 +644,13 @@ static JSValue vector4_proxy_set_x(JSContext *ctx, JSValueConst this_val, int ar
 }
 static JSValue vector4_proxy_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
     Vector4 ret = proxy->getter();
     return VariantAdapter(ret.y);
 }
 static JSValue vector4_proxy_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
     VariantAdapter y(argv[0]);
     Vector4 wrapped = proxy->getter();
     wrapped.y = y.get();
@@ -653,13 +659,13 @@ static JSValue vector4_proxy_set_y(JSContext *ctx, JSValueConst this_val, int ar
 }
 static JSValue vector4_proxy_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
     Vector4 ret = proxy->getter();
     return VariantAdapter(ret.z);
 }
 static JSValue vector4_proxy_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
     VariantAdapter z(argv[0]);
     Vector4 wrapped = proxy->getter();
     wrapped.z = z.get();
@@ -668,13 +674,13 @@ static JSValue vector4_proxy_set_z(JSContext *ctx, JSValueConst this_val, int ar
 }
 static JSValue vector4_proxy_get_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
     Vector4 ret = proxy->getter();
     return VariantAdapter(ret.w);
 }
 static JSValue vector4_proxy_set_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Vector4Proxy"]);
-    ObjectProxy<Vector4> *proxy = reinterpret_cast<ObjectProxy<Vector4> *>(opaque);
+    ObjectProxy<Vector4> *proxy = static_cast<ObjectProxy<Vector4> *>(opaque);
     VariantAdapter w(argv[0]);
     Vector4 wrapped = proxy->getter();
     wrapped.w = w.get();

@@ -36,39 +36,29 @@ static JSValue quaternion_class_constructor(JSContext *ctx, JSValueConst new_tar
 	if (argc == 0) {
 		instance = Quaternion();
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::QUATERNION))) {
-			Quaternion
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::QUATERNION)) {
+		Quaternion v0 = VariantAdapter(argv[0]).get();
 		instance = Quaternion(v0);
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::BASIS))) {
-			Basis
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::BASIS)) {
+		Basis v0 = VariantAdapter(argv[0]).get();
 		instance = Quaternion(v0);
 	}
-	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::FLOAT))) {
-			Vector3
- v0 = VariantAdapter(argv[0]).get();
-		double
- v1 = VariantAdapter(argv[1]).get();
+	if (argc == 2&&VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR3)&&JS_IsNumber(argv[1])) {
+		Vector3 v0 = VariantAdapter(argv[0]).get();
+		double v1 = VariantAdapter(argv[1]).get();
 		instance = Quaternion(v0, v1);
 	}
-	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR3))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR3))) {
-			Vector3
- v0 = VariantAdapter(argv[0]).get();
-			Vector3
- v1 = VariantAdapter(argv[1]).get();
+	if (argc == 2&&VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR3)&&VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR3)) {
+		Vector3 v0 = VariantAdapter(argv[0]).get();
+		Vector3 v1 = VariantAdapter(argv[1]).get();
 		instance = Quaternion(v0, v1);
 	}
-	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[2],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[3],Variant::Type::FLOAT))) {
-		double
- v0 = VariantAdapter(argv[0]).get();
-		double
- v1 = VariantAdapter(argv[1]).get();
-		double
- v2 = VariantAdapter(argv[2]).get();
-		double
- v3 = VariantAdapter(argv[3]).get();
+	if (argc == 4&&JS_IsNumber(argv[0])&&JS_IsNumber(argv[1])&&JS_IsNumber(argv[2])&&JS_IsNumber(argv[3])) {
+		double v0 = VariantAdapter(argv[0]).get();
+		double v1 = VariantAdapter(argv[1]).get();
+		double v2 = VariantAdapter(argv[2]).get();
+		double v3 = VariantAdapter(argv[3]).get();
 		instance = Quaternion(v0, v1, v2, v3);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -140,39 +130,51 @@ static JSValue quaternion_class_get_angle(JSContext *ctx, JSValueConst this_val,
 }
 
 static JSValue quaternion_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]))->get();
+	Quaternion val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]))->get();
 	return VariantAdapter(val.x);
+	
 }
 static JSValue quaternion_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]))->get();
-	val.x = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]));
+    Quaternion val = adapter->get();
+    val.x = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue quaternion_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]))->get();
+	Quaternion val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]))->get();
 	return VariantAdapter(val.y);
+	
 }
 static JSValue quaternion_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]))->get();
-	val.y = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]));
+    Quaternion val = adapter->get();
+    val.y = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue quaternion_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]))->get();
+	Quaternion val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]))->get();
 	return VariantAdapter(val.z);
+	
 }
 static JSValue quaternion_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]))->get();
-	val.z = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]));
+    Quaternion val = adapter->get();
+    val.z = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue quaternion_class_get_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]))->get();
+	Quaternion val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]))->get();
 	return VariantAdapter(val.w);
+	
 }
 static JSValue quaternion_class_set_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Quaternion val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]))->get();
-	val.w = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Quaternion"]));
+    Quaternion val = adapter->get();
+    val.w = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 
@@ -198,7 +200,7 @@ static const JSCFunctionListEntry quaternion_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_angle", 0, &quaternion_class_get_angle),
 };
 
-void define_quaternion_property(JSContext *ctx, JSValue obj) {
+static void define_quaternion_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
 			ctx,
 			obj,
@@ -247,7 +249,7 @@ static int js_quaternion_class_init(JSContext *ctx) {
 	return 0;
 }
 
-void js_init_quaternion_module(JSContext *ctx) {
+static void js_init_quaternion_module(JSContext *ctx) {
 	js_quaternion_class_init(ctx);
 }
 
@@ -264,8 +266,8 @@ static void quaternion_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef quaternion_proxy_def = {
-	.class_name = "QuaternionProxy",
-	.finalizer = quaternion_proxy_finalizer
+	"QuaternionProxy",
+	quaternion_proxy_finalizer
 };
 
 
@@ -296,8 +298,8 @@ static JSValue quaternion_proxy_constructor(JSContext *ctx, JSValueConst new_tar
 
 static JSValue quaternion_proxy_length(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::length, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -305,8 +307,8 @@ static JSValue quaternion_proxy_length(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue quaternion_proxy_length_squared(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::length_squared, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -314,8 +316,8 @@ static JSValue quaternion_proxy_length_squared(JSContext *ctx, JSValueConst this
 }
 static JSValue quaternion_proxy_normalized(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::normalized, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -323,8 +325,8 @@ static JSValue quaternion_proxy_normalized(JSContext *ctx, JSValueConst this_val
 }
 static JSValue quaternion_proxy_is_normalized(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::is_normalized, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -332,8 +334,8 @@ static JSValue quaternion_proxy_is_normalized(JSContext *ctx, JSValueConst this_
 }
 static JSValue quaternion_proxy_is_equal_approx(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::is_equal_approx, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -341,8 +343,8 @@ static JSValue quaternion_proxy_is_equal_approx(JSContext *ctx, JSValueConst thi
 }
 static JSValue quaternion_proxy_is_finite(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::is_finite, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -350,8 +352,8 @@ static JSValue quaternion_proxy_is_finite(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue quaternion_proxy_inverse(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::inverse, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -359,8 +361,8 @@ static JSValue quaternion_proxy_inverse(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue quaternion_proxy_log(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::log, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -368,8 +370,8 @@ static JSValue quaternion_proxy_log(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue quaternion_proxy_exp(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::exp, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -377,8 +379,8 @@ static JSValue quaternion_proxy_exp(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue quaternion_proxy_angle_to(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::angle_to, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -386,8 +388,8 @@ static JSValue quaternion_proxy_angle_to(JSContext *ctx, JSValueConst this_val, 
 }
 static JSValue quaternion_proxy_dot(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::dot, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -395,8 +397,8 @@ static JSValue quaternion_proxy_dot(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue quaternion_proxy_slerp(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::slerp, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -404,8 +406,8 @@ static JSValue quaternion_proxy_slerp(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue quaternion_proxy_slerpni(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::slerpni, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -413,8 +415,8 @@ static JSValue quaternion_proxy_slerpni(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue quaternion_proxy_spherical_cubic_interpolate(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::spherical_cubic_interpolate, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -422,8 +424,8 @@ static JSValue quaternion_proxy_spherical_cubic_interpolate(JSContext *ctx, JSVa
 }
 static JSValue quaternion_proxy_spherical_cubic_interpolate_in_time(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::spherical_cubic_interpolate_in_time, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -431,8 +433,8 @@ static JSValue quaternion_proxy_spherical_cubic_interpolate_in_time(JSContext *c
 }
 static JSValue quaternion_proxy_get_euler(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::get_euler, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -443,8 +445,8 @@ static JSValue quaternion_proxy_from_euler(JSContext *ctx, JSValueConst this_val
 }
 static JSValue quaternion_proxy_get_axis(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::get_axis, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -452,8 +454,8 @@ static JSValue quaternion_proxy_get_axis(JSContext *ctx, JSValueConst this_val, 
 }
 static JSValue quaternion_proxy_get_angle(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Quaternion::get_angle, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -462,13 +464,13 @@ static JSValue quaternion_proxy_get_angle(JSContext *ctx, JSValueConst this_val,
 
 static JSValue quaternion_proxy_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
     Quaternion ret = proxy->getter();
     return VariantAdapter(ret.x);
 }
 static JSValue quaternion_proxy_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
     VariantAdapter x(argv[0]);
     Quaternion wrapped = proxy->getter();
     wrapped.x = x.get();
@@ -477,13 +479,13 @@ static JSValue quaternion_proxy_set_x(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue quaternion_proxy_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
     Quaternion ret = proxy->getter();
     return VariantAdapter(ret.y);
 }
 static JSValue quaternion_proxy_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
     VariantAdapter y(argv[0]);
     Quaternion wrapped = proxy->getter();
     wrapped.y = y.get();
@@ -492,13 +494,13 @@ static JSValue quaternion_proxy_set_y(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue quaternion_proxy_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
     Quaternion ret = proxy->getter();
     return VariantAdapter(ret.z);
 }
 static JSValue quaternion_proxy_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
     VariantAdapter z(argv[0]);
     Quaternion wrapped = proxy->getter();
     wrapped.z = z.get();
@@ -507,13 +509,13 @@ static JSValue quaternion_proxy_set_z(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue quaternion_proxy_get_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
     Quaternion ret = proxy->getter();
     return VariantAdapter(ret.w);
 }
 static JSValue quaternion_proxy_set_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["QuaternionProxy"]);
-    ObjectProxy<Quaternion> *proxy = reinterpret_cast<ObjectProxy<Quaternion> *>(opaque);
+    ObjectProxy<Quaternion> *proxy = static_cast<ObjectProxy<Quaternion> *>(opaque);
     VariantAdapter w(argv[0]);
     Quaternion wrapped = proxy->getter();
     wrapped.w = w.get();

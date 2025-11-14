@@ -63,6 +63,11 @@ static JSValue {{ cls_name_lower }}_class_constructor(JSContext *ctx, JSValueCon
 		instance = {{cls_name}}({{put_args(ctor.arguments)}});
 	}
 {% endfor %}
+{% if cls_name == 'Callable' %}
+if (argc == 2&&JS_IsObject(argv[0])&&JS_IsFunction(ctx, argv[1])) {
+    instance = create_custom_javascript_callable(argv[0], argv[1]);
+}
+{% endif %}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
 	if (!adapter) {
@@ -84,12 +89,15 @@ static JSValue {{cls_name_lower}}_class_{{method.name}}(JSContext *ctx, JSValueC
 {# Generate property accessors #}
 {% for member in cls.members %}
 static JSValue {{ cls_name_lower }}_class_get_{{ member.name }}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	{{ cls_name }} val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["{{ cls_name }}"]))->get();
+	{{ cls_name }} val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["{{ cls_name }}"]))->get();
 	{{ get_property_accessor_expression(member, 'get') }}
+	
 }
 static JSValue {{ cls_name_lower }}_class_set_{{ member.name }}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	{{ cls_name }} val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["{{ cls_name }}"]))->get();
-	{{ get_property_accessor_expression(member, 'set') }}
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["{{cls_name}}"]));
+    {{ cls_name }} val = adapter->get();
+    {{ get_property_accessor_expression(member, 'set') }}
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 {% endfor %}
@@ -104,7 +112,7 @@ static const JSCFunctionListEntry {{ cls_name_lower }}_class_proto_funcs[] = {
 {% endif %}
 
 {% if cls.members %}
-void define_{{ cls_name_lower }}_property(JSContext *ctx, JSValue obj) {
+static void define_{{ cls_name_lower }}_property(JSContext *ctx, JSValue obj) {
 {% for member in cls.members %}
 	JS_DefinePropertyGetSet(
 			ctx,
@@ -142,7 +150,7 @@ static int js_{{ cls_name_lower }}_class_init(JSContext *ctx) {
 	return 0;
 }
 
-void js_init_{{ cls_name_lower }}_module(JSContext *ctx) {
+static void js_init_{{ cls_name_lower }}_module(JSContext *ctx) {
 	js_{{ cls_name_lower }}_class_init(ctx);
 }
 

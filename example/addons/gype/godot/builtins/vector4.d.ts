@@ -1,5 +1,13 @@
 declare global {
-    export interface Vector4 {
+    export class Vector4 {
+        constructor(): Vector4;
+        constructor(_from: Vector4): Vector4;
+        constructor(_from: Vector4i): Vector4;
+        constructor(x: number, y: number, z: number, w: number): Vector4;
+        readonly ZERO: Vector4;
+        readonly ONE: Vector4;
+        readonly INF: Vector4;
+    
         x: number;
         y: number;
         z: number;
@@ -37,24 +45,7 @@ declare global {
         minf(_with: number): Vector4;
         max(_with: Vector4): Vector4;
         maxf(_with: number): Vector4;
-    }
-
-    /**
-    * A global constructor and namespace for the Vector4 type.
-    *
-    * Use `new Vector4(...)` to create a new instance.
-    * Access static members like `Vector4.ZERO`.
-    */
-    export declare const Vector4: {
-        new(): Vector4;
-        new(_from: Vector4): Vector4;
-        new(_from: Vector4i): Vector4;
-        new(x: number, y: number, z: number, w: number): Vector4;
-
-        readonly ZERO: Vector4;
-        readonly ONE: Vector4;
-        readonly INF: Vector4;
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -80,7 +71,7 @@ declare global {
         // in_op(GDArray): boolean
         // in_op(PackedVector4Array): boolean
         */
-    };
+    }
 }
 
 export {};

@@ -150,6 +150,8 @@ def ts_connect_args(args: list) -> str:
             arg_type = "GDString | StringName | string"
         elif arg_type == 'NodePath':
             arg_type = "NodePath | GDString | string"
+        elif arg_type == "Callable":
+            arg_type = "Callable | Function"
 
         default_value = arg.get("default_value", None)
 

@@ -1,0 +1,25 @@
+
+import type { GDString } from '@godot/builtins/gd_string';
+import type { RefCounted } from '@godot/classes/ref_counted';
+import type { StringName } from '@godot/builtins/string_name';
+
+
+export declare class XRTracker extends RefCounted {
+
+    
+    /**     * The raw type is 'int'     */
+    public type: number;    
+    /**     * The raw type is 'String'     */
+    public name: StringName;    
+    /**     * The raw type is 'String'     */
+    public description: GDString;
+    public get_tracker_type(): number;
+    public set_tracker_type(_type: number): void;
+    public get_tracker_name(): StringName;
+    public set_tracker_name(name: GDString | StringName | string): void;
+    public get_tracker_desc(): GDString;
+    public set_tracker_desc(description: GDString | StringName | string): void;
+
+
+}
+

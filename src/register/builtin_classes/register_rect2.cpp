@@ -36,32 +36,24 @@ static JSValue rect2_class_constructor(JSContext *ctx, JSValueConst new_target, 
 	if (argc == 0) {
 		instance = Rect2();
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::RECT2))) {
-			Rect2
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::RECT2)) {
+		Rect2 v0 = VariantAdapter(argv[0]).get();
 		instance = Rect2(v0);
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::RECT2I))) {
-			Rect2i
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::RECT2I)) {
+		Rect2i v0 = VariantAdapter(argv[0]).get();
 		instance = Rect2(v0);
 	}
-	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::VECTOR2))&&(VariantAdapter::can_cast(argv[1],Variant::Type::VECTOR2))) {
-			Vector2
- v0 = VariantAdapter(argv[0]).get();
-			Vector2
- v1 = VariantAdapter(argv[1]).get();
+	if (argc == 2&&VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR2)&&VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR2)) {
+		Vector2 v0 = VariantAdapter(argv[0]).get();
+		Vector2 v1 = VariantAdapter(argv[1]).get();
 		instance = Rect2(v0, v1);
 	}
-	if (argc == 4&&(VariantAdapter::can_cast(argv[0],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[2],Variant::Type::FLOAT))&&(VariantAdapter::can_cast(argv[3],Variant::Type::FLOAT))) {
-		double
- v0 = VariantAdapter(argv[0]).get();
-		double
- v1 = VariantAdapter(argv[1]).get();
-		double
- v2 = VariantAdapter(argv[2]).get();
-		double
- v3 = VariantAdapter(argv[3]).get();
+	if (argc == 4&&JS_IsNumber(argv[0])&&JS_IsNumber(argv[1])&&JS_IsNumber(argv[2])&&JS_IsNumber(argv[3])) {
+		double v0 = VariantAdapter(argv[0]).get();
+		double v1 = VariantAdapter(argv[1]).get();
+		double v2 = VariantAdapter(argv[2]).get();
+		double v3 = VariantAdapter(argv[3]).get();
 		instance = Rect2(v0, v1, v2, v3);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -124,30 +116,39 @@ static JSValue rect2_class_abs(JSContext *ctx, JSValueConst this_val, int argc, 
 }
 
 static JSValue rect2_class_get_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Rect2 val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]))->get();
+	Rect2 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]))->get();
 	return VariantAdapter(val.position);
+	
 }
 static JSValue rect2_class_set_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Rect2 val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]))->get();
-	val.position = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]));
+    Rect2 val = adapter->get();
+    val.position = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue rect2_class_get_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Rect2 val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]))->get();
+	Rect2 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]))->get();
 	return VariantAdapter(val.size);
+	
 }
 static JSValue rect2_class_set_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Rect2 val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]))->get();
-	val.size = VariantAdapter(*argv).get();
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]));
+    Rect2 val = adapter->get();
+    val.size = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue rect2_class_get_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Rect2 val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]))->get();
+	Rect2 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]))->get();
 	return VariantAdapter(val.get_end());
+	
 }
 static JSValue rect2_class_set_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	Rect2 val = reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]))->get();
-	val.set_end(VariantAdapter(*argv).get());
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]));
+    Rect2 val = adapter->get();
+    val.set_end(VariantAdapter(*argv).get());
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
 
@@ -170,7 +171,7 @@ static const JSCFunctionListEntry rect2_class_proto_funcs[] = {
 	JS_CFUNC_DEF("abs", 0, &rect2_class_abs),
 };
 
-void define_rect2_property(JSContext *ctx, JSValue obj) {
+static void define_rect2_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
 			ctx,
 			obj,
@@ -212,7 +213,7 @@ static int js_rect2_class_init(JSContext *ctx) {
 	return 0;
 }
 
-void js_init_rect2_module(JSContext *ctx) {
+static void js_init_rect2_module(JSContext *ctx) {
 	js_rect2_class_init(ctx);
 }
 
@@ -229,8 +230,8 @@ static void rect2_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef rect2_proxy_def = {
-	.class_name = "Rect2Proxy",
-	.finalizer = rect2_proxy_finalizer
+	"Rect2Proxy",
+	rect2_proxy_finalizer
 };
 
 
@@ -261,8 +262,8 @@ static JSValue rect2_proxy_constructor(JSContext *ctx, JSValueConst new_target, 
 
 static JSValue rect2_proxy_get_center(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::get_center, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -270,8 +271,8 @@ static JSValue rect2_proxy_get_center(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue rect2_proxy_get_area(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::get_area, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -279,8 +280,8 @@ static JSValue rect2_proxy_get_area(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue rect2_proxy_has_area(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::has_area, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -288,8 +289,8 @@ static JSValue rect2_proxy_has_area(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue rect2_proxy_has_point(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::has_point, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -297,8 +298,8 @@ static JSValue rect2_proxy_has_point(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue rect2_proxy_is_equal_approx(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::is_equal_approx, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -306,8 +307,8 @@ static JSValue rect2_proxy_is_equal_approx(JSContext *ctx, JSValueConst this_val
 }
 static JSValue rect2_proxy_is_finite(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::is_finite, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -315,8 +316,8 @@ static JSValue rect2_proxy_is_finite(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue rect2_proxy_intersects(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::intersects, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -324,8 +325,8 @@ static JSValue rect2_proxy_intersects(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue rect2_proxy_encloses(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::encloses, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -333,8 +334,8 @@ static JSValue rect2_proxy_encloses(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue rect2_proxy_intersection(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::intersection, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -342,8 +343,8 @@ static JSValue rect2_proxy_intersection(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue rect2_proxy_merge(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::merge, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -351,8 +352,8 @@ static JSValue rect2_proxy_merge(JSContext *ctx, JSValueConst this_val, int argc
 }
 static JSValue rect2_proxy_expand(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::expand, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -360,8 +361,8 @@ static JSValue rect2_proxy_expand(JSContext *ctx, JSValueConst this_val, int arg
 }
 static JSValue rect2_proxy_get_support(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::get_support, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -369,8 +370,8 @@ static JSValue rect2_proxy_get_support(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue rect2_proxy_grow(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::grow, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -378,8 +379,8 @@ static JSValue rect2_proxy_grow(JSContext *ctx, JSValueConst this_val, int argc,
 }
 static JSValue rect2_proxy_grow_side(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::grow_side, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -387,8 +388,8 @@ static JSValue rect2_proxy_grow_side(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue rect2_proxy_grow_individual(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::grow_individual, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -396,8 +397,8 @@ static JSValue rect2_proxy_grow_individual(JSContext *ctx, JSValueConst this_val
 }
 static JSValue rect2_proxy_abs(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Rect2::abs, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -406,13 +407,13 @@ static JSValue rect2_proxy_abs(JSContext *ctx, JSValueConst this_val, int argc, 
 
 static JSValue rect2_proxy_get_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
     Rect2 ret = proxy->getter();
     return VariantAdapter(ret.position);
 }
 static JSValue rect2_proxy_set_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
     VariantAdapter position(argv[0]);
     Rect2 wrapped = proxy->getter();
     wrapped.position = position.get();
@@ -421,13 +422,13 @@ static JSValue rect2_proxy_set_position(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue rect2_proxy_get_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
     Rect2 ret = proxy->getter();
     return VariantAdapter(ret.size);
 }
 static JSValue rect2_proxy_set_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
     VariantAdapter size(argv[0]);
     Rect2 wrapped = proxy->getter();
     wrapped.size = size.get();
@@ -436,16 +437,16 @@ static JSValue rect2_proxy_set_size(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue rect2_proxy_get_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
     Rect2 ret = proxy->getter();
     return VariantAdapter(ret.get_end());
 }
 static JSValue rect2_proxy_set_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2Proxy"]);
-    ObjectProxy<Rect2> *proxy = reinterpret_cast<ObjectProxy<Rect2> *>(opaque);
+    ObjectProxy<Rect2> *proxy = static_cast<ObjectProxy<Rect2> *>(opaque);
     VariantAdapter end(argv[0]);
     Rect2 wrapped = proxy->getter();
-	wrapped.set_end(end.get());
+    wrapped.set_end(end.get());
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }

@@ -1,5 +1,9 @@
 declare global {
-    export interface PackedVector4Array {
+    export class PackedVector4Array {
+        constructor(): PackedVector4Array;
+        constructor(_from: PackedVector4Array): PackedVector4Array;
+        constructor(_from: GDArray): PackedVector4Array;
+    
 
         get(index: number): Vector4;
         set(index: number, value: Vector4): void;
@@ -24,20 +28,7 @@ declare global {
         rfind(value: Vector4, _from: number = -1): number;
         count(value: Vector4): number;
         erase(value: Vector4): boolean;
-    }
-
-    /**
-    * A global constructor and namespace for the PackedVector4Array type.
-    *
-    * Use `new PackedVector4Array(...)` to create a new instance.
-    * Access static members like `PackedVector4Array.ZERO`.
-    */
-    export declare const PackedVector4Array: {
-        new(): PackedVector4Array;
-        new(_from: PackedVector4Array): PackedVector4Array;
-        new(_from: GDArray): PackedVector4Array;
-
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -48,7 +39,7 @@ declare global {
         // not_equals(PackedVector4Array): boolean
         // add(PackedVector4Array): PackedVector4Array
         */
-    };
+    }
 }
 
 export {};

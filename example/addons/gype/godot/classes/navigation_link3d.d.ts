@@ -1,0 +1,50 @@
+
+import type { Node3D } from '@godot/classes/node3d';
+import type { RID } from '@godot/builtins/rid';
+import type { Vector3 } from '@godot/builtins/vector3';
+
+
+export declare class NavigationLink3D extends Node3D {
+
+    
+    /**     * The raw type is 'bool'     */
+    public enabled: boolean;    
+    /**     * The raw type is 'bool'     */
+    public bidirectional: boolean;    
+    /**     * The raw type is 'int'     */
+    public navigation_layers: number;    
+    /**     * The raw type is 'Vector3'     */
+    public start_position: Vector3;    
+    /**     * The raw type is 'Vector3'     */
+    public end_position: Vector3;    
+    /**     * The raw type is 'float'     */
+    public enter_cost: number;    
+    /**     * The raw type is 'float'     */
+    public travel_cost: number;
+    public get_rid(): RID;
+    public set_enabled(enabled: boolean): void;
+    public is_enabled(): boolean;
+    public set_navigation_map(navigationMap: RID): void;
+    public get_navigation_map(): RID;
+    public set_bidirectional(bidirectional: boolean): void;
+    public is_bidirectional(): boolean;
+    public set_navigation_layers(navigationLayers: number): void;
+    public get_navigation_layers(): number;
+    public set_navigation_layer_value(layerNumber: number, value: boolean): void;
+    public get_navigation_layer_value(layerNumber: number): boolean;
+    public set_start_position(position: Vector3): void;
+    public get_start_position(): Vector3;
+    public set_end_position(position: Vector3): void;
+    public get_end_position(): Vector3;
+    public set_global_start_position(position: Vector3): void;
+    public get_global_start_position(): Vector3;
+    public set_global_end_position(position: Vector3): void;
+    public get_global_end_position(): Vector3;
+    public set_enter_cost(enterCost: number): void;
+    public get_enter_cost(): number;
+    public set_travel_cost(travelCost: number): void;
+    public get_travel_cost(): number;
+
+
+}
+

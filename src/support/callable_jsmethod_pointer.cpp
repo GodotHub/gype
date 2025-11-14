@@ -1,7 +1,6 @@
 #include "support/callable_jsmethod_pointer.hpp"
 
 namespace godot {
-
 static void custom_callable_mp_call(void *p_userdata, const GDExtensionConstVariantPtr *p_args, GDExtensionInt p_argument_count, GDExtensionVariantPtr r_return, GDExtensionCallError *r_error) {
 	CallableCustomMethodPointerBase *callable_method_pointer = (CallableCustomMethodPointerBase *)p_userdata;
 	callable_method_pointer->call((const Variant **)p_args, p_argument_count, *(Variant *)r_return, *r_error);
@@ -53,9 +52,16 @@ static GDExtensionInt custom_callable_mp_get_argument_count_func(void *p_userdat
 	return ret;
 }
 
-Callable *create_custom_javascript_callable(JSValue instance, JSValue function) {
+Callable create_custom_javascript_callable(JSValue instance, JSValue function) {
 	CallableJSMethodPointer *ccmp = memnew(CallableJSMethodPointer(instance, function));
-	return ::internal::create_callable_ptr_from_ccmp(ccmp);
+	JS_DupValue(js_context(), instance);
+	JS_DupValue(js_context(), function);
+	return ::internal::create_callable_from_ccmp(ccmp);
+}
+
+Callable create_custom_javascript_callable(JSValue function) {
+	CallableJSMethodPointer *ccmp = memnew(CallableJSMethodPointer(JS_UNDEFINED, function));
+	return ::internal::create_callable_from_ccmp(ccmp);
 }
 
 int CallableJSMethodPointer::get_argument_count(bool &r_is_valid) const {
@@ -83,9 +89,13 @@ CallableJSMethodPointer::CallableJSMethodPointer(JSValue instance, JSValue funct
 	this->function = function;
 }
 
-namespace internal {
+CallableJSMethodPointer::~CallableJSMethodPointer() {
+	JS_FreeValue(js_context(), function);
+	JS_FreeValue(js_context(), instance);
+}
 
-Callable *create_callable_ptr_from_ccmp(CallableCustomMethodPointerBase *p_callable_method_pointer) {
+namespace internal {
+Callable create_callable_from_ccmp(CallableCustomMethodPointerBase *p_callable_method_pointer) {
 	GDExtensionCallableCustomInfo2 info = {};
 	info.callable_userdata = p_callable_method_pointer;
 	info.token = internal::token;
@@ -98,10 +108,9 @@ Callable *create_callable_ptr_from_ccmp(CallableCustomMethodPointerBase *p_calla
 	info.less_than_func = &custom_callable_mp_less_than_func;
 	info.get_argument_count_func = &custom_callable_mp_get_argument_count_func;
 
-	Callable *callable = memnew(Callable);
-	::godot::internal::gdextension_interface_callable_custom_create2(callable->_native_ptr(), &info);
+	Callable callable;
+	::godot::internal::gdextension_interface_callable_custom_create2(callable._native_ptr(), &info);
 	return callable;
 }
 } // namespace internal
-
 } //namespace godot

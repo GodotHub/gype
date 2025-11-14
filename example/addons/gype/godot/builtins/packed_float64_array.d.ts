@@ -1,5 +1,9 @@
 declare global {
-    export interface PackedFloat64Array {
+    export class PackedFloat64Array {
+        constructor(): PackedFloat64Array;
+        constructor(_from: PackedFloat64Array): PackedFloat64Array;
+        constructor(_from: GDArray): PackedFloat64Array;
+    
 
         get(index: number): number;
         set(index: number, value: number): void;
@@ -24,20 +28,7 @@ declare global {
         rfind(value: number, _from: number = -1): number;
         count(value: number): number;
         erase(value: number): boolean;
-    }
-
-    /**
-    * A global constructor and namespace for the PackedFloat64Array type.
-    *
-    * Use `new PackedFloat64Array(...)` to create a new instance.
-    * Access static members like `PackedFloat64Array.ZERO`.
-    */
-    export declare const PackedFloat64Array: {
-        new(): PackedFloat64Array;
-        new(_from: PackedFloat64Array): PackedFloat64Array;
-        new(_from: GDArray): PackedFloat64Array;
-
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -48,7 +39,7 @@ declare global {
         // not_equals(PackedFloat64Array): boolean
         // add(PackedFloat64Array): PackedFloat64Array
         */
-    };
+    }
 }
 
 export {};

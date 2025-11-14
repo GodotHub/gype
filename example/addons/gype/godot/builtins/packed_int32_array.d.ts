@@ -1,5 +1,9 @@
 declare global {
-    export interface PackedInt32Array {
+    export class PackedInt32Array {
+        constructor(): PackedInt32Array;
+        constructor(_from: PackedInt32Array): PackedInt32Array;
+        constructor(_from: GDArray): PackedInt32Array;
+    
 
         get(index: number): number;
         set(index: number, value: number): void;
@@ -24,20 +28,7 @@ declare global {
         rfind(value: number, _from: number = -1): number;
         count(value: number): number;
         erase(value: number): boolean;
-    }
-
-    /**
-    * A global constructor and namespace for the PackedInt32Array type.
-    *
-    * Use `new PackedInt32Array(...)` to create a new instance.
-    * Access static members like `PackedInt32Array.ZERO`.
-    */
-    export declare const PackedInt32Array: {
-        new(): PackedInt32Array;
-        new(_from: PackedInt32Array): PackedInt32Array;
-        new(_from: GDArray): PackedInt32Array;
-
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -48,7 +39,7 @@ declare global {
         // not_equals(PackedInt32Array): boolean
         // add(PackedInt32Array): PackedInt32Array
         */
-    };
+    }
 }
 
 export {};

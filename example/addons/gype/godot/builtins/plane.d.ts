@@ -1,5 +1,16 @@
 declare global {
-    export interface Plane {
+    export class Plane {
+        constructor(): Plane;
+        constructor(_from: Plane): Plane;
+        constructor(normal: Vector3): Plane;
+        constructor(normal: Vector3, d: number): Plane;
+        constructor(normal: Vector3, point: Vector3): Plane;
+        constructor(point1: Vector3, point2: Vector3, point3: Vector3): Plane;
+        constructor(a: number, b: number, c: number, d: number): Plane;
+        readonly PLANE_YZ: Plane;
+        readonly PLANE_XZ: Plane;
+        readonly PLANE_XY: Plane;
+    
         x: number;
         y: number;
         z: number;
@@ -17,27 +28,7 @@ declare global {
         intersect_3(b: Plane, c: Plane): any;
         intersects_ray(_from: Vector3, dir: Vector3): any;
         intersects_segment(_from: Vector3, to: Vector3): any;
-    }
-
-    /**
-    * A global constructor and namespace for the Plane type.
-    *
-    * Use `new Plane(...)` to create a new instance.
-    * Access static members like `Plane.ZERO`.
-    */
-    export declare const Plane: {
-        new(): Plane;
-        new(_from: Plane): Plane;
-        new(normal: Vector3): Plane;
-        new(normal: Vector3, d: number): Plane;
-        new(normal: Vector3, point: Vector3): Plane;
-        new(point1: Vector3, point2: Vector3, point3: Vector3): Plane;
-        new(a: number, b: number, c: number, d: number): Plane;
-
-        readonly PLANE_YZ: Plane;
-        readonly PLANE_XZ: Plane;
-        readonly PLANE_XY: Plane;
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -50,7 +41,7 @@ declare global {
         // in_op(Dictionary): boolean
         // in_op(GDArray): boolean
         */
-    };
+    }
 }
 
 export {};

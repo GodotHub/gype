@@ -1,19 +1,19 @@
-import { Button } from "@godot/classes/button";
-import { GodotClass, to_promise } from "@godot/core/class_defined";
+import {Button} from "@godot/classes/button";
+import {GodotClass, GodotSignal, to_promise} from "@godot/core/class_defined";
 
 @GodotClass
-export class test extends Button {
-  public test() {}
+export class Test extends Button {
+  @GodotSignal
+  private test_signal!: Signal;
 
-  public _enter_tree(): void {}
+  public _enter_tree(): void {
 
-  public async _ready(): Promise<void> {
-    await new Promise((resolve, reject) => {
-      resolve("hello");
-    }).then((res) => {
-      GD.print(res);
-    });
   }
 
-  public _process(delta: number): void {}
+  public _ready(): void {
+    this.test_signal.emit();
+  }
+
+  public _process(delta: number): void {
+  }
 }

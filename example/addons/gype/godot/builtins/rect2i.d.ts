@@ -1,5 +1,11 @@
 declare global {
-    export interface Rect2i {
+    export class Rect2i {
+        constructor(): Rect2i;
+        constructor(_from: Rect2i): Rect2i;
+        constructor(_from: Rect2): Rect2i;
+        constructor(position: Vector2i, size: Vector2i): Rect2i;
+        constructor(x: number, y: number, width: number, height: number): Rect2i;
+    
         position: Vector2i;
         size: Vector2i;
         end: Vector2i;
@@ -17,22 +23,7 @@ declare global {
         grow_side(side: number, amount: number): Rect2i;
         grow_individual(left: number, top: number, right: number, bottom: number): Rect2i;
         abs(): Rect2i;
-    }
-
-    /**
-    * A global constructor and namespace for the Rect2i type.
-    *
-    * Use `new Rect2i(...)` to create a new instance.
-    * Access static members like `Rect2i.ZERO`.
-    */
-    export declare const Rect2i: {
-        new(): Rect2i;
-        new(_from: Rect2i): Rect2i;
-        new(_from: Rect2): Rect2i;
-        new(position: Vector2i, size: Vector2i): Rect2i;
-        new(x: number, y: number, width: number, height: number): Rect2i;
-
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -42,7 +33,7 @@ declare global {
         // in_op(Dictionary): boolean
         // in_op(GDArray): boolean
         */
-    };
+    }
 }
 
 export {};

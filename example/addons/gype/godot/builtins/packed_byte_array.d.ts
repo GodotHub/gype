@@ -1,5 +1,9 @@
 declare global {
-    export interface PackedByteArray {
+    export class PackedByteArray {
+        constructor(): PackedByteArray;
+        constructor(_from: PackedByteArray): PackedByteArray;
+        constructor(_from: GDArray): PackedByteArray;
+    
 
         get(index: number): number;
         set(index: number, value: number): void;
@@ -70,20 +74,7 @@ declare global {
         encode_float(byteOffset: number, value: number): void;
         encode_double(byteOffset: number, value: number): void;
         encode_var(byteOffset: number, value: any, allowObjects: boolean = false): number;
-    }
-
-    /**
-    * A global constructor and namespace for the PackedByteArray type.
-    *
-    * Use `new PackedByteArray(...)` to create a new instance.
-    * Access static members like `PackedByteArray.ZERO`.
-    */
-    export declare const PackedByteArray: {
-        new(): PackedByteArray;
-        new(_from: PackedByteArray): PackedByteArray;
-        new(_from: GDArray): PackedByteArray;
-
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -94,7 +85,7 @@ declare global {
         // not_equals(PackedByteArray): boolean
         // add(PackedByteArray): PackedByteArray
         */
-    };
+    }
 }
 
 export {};

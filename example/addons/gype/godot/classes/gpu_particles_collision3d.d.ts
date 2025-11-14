@@ -1,0 +1,15 @@
+
+import type { VisualInstance3D } from '@godot/classes/visual_instance3d';
+
+
+export declare class GPUParticlesCollision3D extends VisualInstance3D {
+
+    
+    /**     * The raw type is 'int'     */
+    public cull_mask: number;
+    public set_cull_mask(mask: number): void;
+    public get_cull_mask(): number;
+
+
+}
+

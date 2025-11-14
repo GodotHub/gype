@@ -1,5 +1,18 @@
 declare global {
-    export interface Vector2i {
+    export class Vector2i {
+        constructor(): Vector2i;
+        constructor(_from: Vector2i): Vector2i;
+        constructor(_from: Vector2): Vector2i;
+        constructor(x: number, y: number): Vector2i;
+        readonly ZERO: Vector2i;
+        readonly ONE: Vector2i;
+        readonly MIN: Vector2i;
+        readonly MAX: Vector2i;
+        readonly LEFT: Vector2i;
+        readonly RIGHT: Vector2i;
+        readonly UP: Vector2i;
+        readonly DOWN: Vector2i;
+    
         x: number;
         y: number;
 
@@ -20,29 +33,7 @@ declare global {
         mini(_with: number): Vector2i;
         max(_with: Vector2i): Vector2i;
         maxi(_with: number): Vector2i;
-    }
-
-    /**
-    * A global constructor and namespace for the Vector2i type.
-    *
-    * Use `new Vector2i(...)` to create a new instance.
-    * Access static members like `Vector2i.ZERO`.
-    */
-    export declare const Vector2i: {
-        new(): Vector2i;
-        new(_from: Vector2i): Vector2i;
-        new(_from: Vector2): Vector2i;
-        new(x: number, y: number): Vector2i;
-
-        readonly ZERO: Vector2i;
-        readonly ONE: Vector2i;
-        readonly MIN: Vector2i;
-        readonly MAX: Vector2i;
-        readonly LEFT: Vector2i;
-        readonly RIGHT: Vector2i;
-        readonly UP: Vector2i;
-        readonly DOWN: Vector2i;
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -68,7 +59,7 @@ declare global {
         // in_op(Dictionary): boolean
         // in_op(GDArray): boolean
         */
-    };
+    }
 }
 
 export {};

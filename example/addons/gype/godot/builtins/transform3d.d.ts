@@ -1,5 +1,15 @@
 declare global {
-    export interface Transform3D {
+    export class Transform3D {
+        constructor(): Transform3D;
+        constructor(_from: Transform3D): Transform3D;
+        constructor(basis: Basis, origin: Vector3): Transform3D;
+        constructor(xAxis: Vector3, yAxis: Vector3, zAxis: Vector3, origin: Vector3): Transform3D;
+        constructor(_from: Projection): Transform3D;
+        readonly IDENTITY: Transform3D;
+        readonly FLIP_X: Transform3D;
+        readonly FLIP_Y: Transform3D;
+        readonly FLIP_Z: Transform3D;
+    
         basis: Basis;
         origin: Vector3;
 
@@ -16,26 +26,7 @@ declare global {
         interpolate_with(xform: Transform3D, weight: number): Transform3D;
         is_equal_approx(xform: Transform3D): boolean;
         is_finite(): boolean;
-    }
-
-    /**
-    * A global constructor and namespace for the Transform3D type.
-    *
-    * Use `new Transform3D(...)` to create a new instance.
-    * Access static members like `Transform3D.ZERO`.
-    */
-    export declare const Transform3D: {
-        new(): Transform3D;
-        new(_from: Transform3D): Transform3D;
-        new(basis: Basis, origin: Vector3): Transform3D;
-        new(xAxis: Vector3, yAxis: Vector3, zAxis: Vector3, origin: Vector3): Transform3D;
-        new(_from: Projection): Transform3D;
-
-        readonly IDENTITY: Transform3D;
-        readonly FLIP_X: Transform3D;
-        readonly FLIP_Y: Transform3D;
-        readonly FLIP_Z: Transform3D;
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -54,7 +45,7 @@ declare global {
         // in_op(GDArray): boolean
         // multiply(PackedVector3Array): PackedVector3Array
         */
-    };
+    }
 }
 
 export {};

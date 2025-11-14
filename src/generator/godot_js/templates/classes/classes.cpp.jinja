@@ -271,6 +271,20 @@ static void define_{{js_snake_name}}_enum(JSContext *ctx, JSValue proto) {
 	{% endfor %}
 }
 
+{% macro check_inherits(i) %}
+{% if cls['inherits'] == 'Object' %}
+{{- camel_to_snake('GodotObject') -}}
+{% else %}
+{{- camel_to_snake(cls['inherits']) -}}
+{% endif %}
+{% endmacro %}
+{% macro base_class(c) %}
+{%- if c == 'Object' -%}
+GodotObject
+{%- else -%}
+{{-c-}}
+{%- endif -%}
+{% endmacro %}
 static int js_{{js_snake_name}}_class_init(JSContext *ctx, JSModuleDef *m) {	
 	JSClassID class_id = 0;
 	class_id = JS_NewClassID(js_runtime(), &class_id);
@@ -280,7 +294,7 @@ static int js_{{js_snake_name}}_class_init(JSContext *ctx, JSModuleDef *m) {
 
 	JSValue proto = JS_NewObjectClass(ctx, class_id);
 	{% if cls['inherits'] %}
-	JSValue base_class = JS_GetClassProto(ctx, classes["{{cls['inherits']}}"]);
+	JSValue base_class = JS_GetClassProto(ctx, classes["{{ base_class(cls['inherits']) }}"]);
 	JS_SetPrototype(ctx, proto, base_class);
 	{% endif %}
 	JS_SetClassProto(ctx, class_id, proto);
@@ -299,14 +313,6 @@ static int js_{{js_snake_name}}_class_init(JSContext *ctx, JSModuleDef *m) {
 
 	return 0;
 }
-
-{% macro check_inherits(i) %}
-{% if cls['inherits'] == 'Object' %}
-{{-camel_to_snake('GodotObject')-}}
-{% else %}
-{{- camel_to_snake(cls['inherits']) -}}
-{% endif %}
-{% endmacro %}
 
 JSModuleDef *_js_init_{{ js_snake_name }}_module(JSContext *ctx, const char *module_name) {
 	// 需要提前完成import依赖

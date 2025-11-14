@@ -9,6 +9,7 @@
 #include <quickjs.h>
 #include <godot_cpp/variant/array.hpp>
 #include <godot_cpp/variant/string_name.hpp>
+#include <support/callable_jsmethod_pointer.hpp>
 
 
 using namespace godot;
@@ -38,17 +39,17 @@ static JSValue callable_class_constructor(JSContext *ctx, JSValueConst new_targe
 	if (argc == 0) {
 		instance = Callable();
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::CALLABLE))) {
-			Callable
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::CALLABLE)) {
+		Callable v0 = VariantAdapter(argv[0]).get();
 		instance = Callable(v0);
 	}
-	if (argc == 2&&(VariantAdapter::can_cast(argv[0],Variant::Type::OBJECT))&&(VariantAdapter::can_cast(argv[1],Variant::Type::STRING_NAME))) {
-			Object *
- v0 = VariantAdapter(argv[0]).get();
-			StringName
- v1 = VariantAdapter(argv[1]).get();
+	if (argc == 2&&VariantAdapter::can_cast(argv[0], Variant::Type::OBJECT)&&JS_IsString(argv[1])) {
+		Object * v0 = VariantAdapter(argv[0]).get();
+		StringName v1 = VariantAdapter(argv[1]).get();
 		instance = Callable(v0, v1);
+	}
+	if (argc == 2&&JS_IsObject(argv[0])&&JS_IsFunction(ctx, argv[1])) {
+		instance = create_custom_javascript_callable(argv[0], argv[1]);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
 
@@ -168,7 +169,7 @@ static int js_callable_class_init(JSContext *ctx) {
 	return 0;
 }
 
-void js_init_callable_module(JSContext *ctx) {
+static void js_init_callable_module(JSContext *ctx) {
 	js_callable_class_init(ctx);
 }
 
@@ -185,8 +186,8 @@ static void callable_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef callable_proxy_def = {
-	.class_name = "CallableProxy",
-	.finalizer = callable_proxy_finalizer
+	"CallableProxy",
+	callable_proxy_finalizer
 };
 
 
@@ -220,8 +221,8 @@ static JSValue callable_proxy_create(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue callable_proxy_callv(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Callable::callv, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -229,8 +230,8 @@ static JSValue callable_proxy_callv(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue callable_proxy_is_null(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Callable::is_null, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -238,8 +239,8 @@ static JSValue callable_proxy_is_null(JSContext *ctx, JSValueConst this_val, int
 }
 static JSValue callable_proxy_is_custom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Callable::is_custom, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -247,8 +248,8 @@ static JSValue callable_proxy_is_custom(JSContext *ctx, JSValueConst this_val, i
 }
 static JSValue callable_proxy_is_standard(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Callable::is_standard, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -256,8 +257,8 @@ static JSValue callable_proxy_is_standard(JSContext *ctx, JSValueConst this_val,
 }
 static JSValue callable_proxy_is_valid(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Callable::is_valid, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -265,8 +266,8 @@ static JSValue callable_proxy_is_valid(JSContext *ctx, JSValueConst this_val, in
 }
 static JSValue callable_proxy_get_object(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Callable::get_object, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -274,8 +275,8 @@ static JSValue callable_proxy_get_object(JSContext *ctx, JSValueConst this_val, 
 }
 static JSValue callable_proxy_get_object_id(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Callable::get_object_id, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -283,8 +284,8 @@ static JSValue callable_proxy_get_object_id(JSContext *ctx, JSValueConst this_va
 }
 static JSValue callable_proxy_get_method(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Callable::get_method, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -292,8 +293,8 @@ static JSValue callable_proxy_get_method(JSContext *ctx, JSValueConst this_val, 
 }
 static JSValue callable_proxy_get_argument_count(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Callable::get_argument_count, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -301,8 +302,8 @@ static JSValue callable_proxy_get_argument_count(JSContext *ctx, JSValueConst th
 }
 static JSValue callable_proxy_get_bound_arguments_count(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Callable::get_bound_arguments_count, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -310,8 +311,8 @@ static JSValue callable_proxy_get_bound_arguments_count(JSContext *ctx, JSValueC
 }
 static JSValue callable_proxy_get_bound_arguments(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Callable::get_bound_arguments, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -319,8 +320,8 @@ static JSValue callable_proxy_get_bound_arguments(JSContext *ctx, JSValueConst t
 }
 static JSValue callable_proxy_get_unbound_arguments_count(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Callable::get_unbound_arguments_count, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -328,8 +329,8 @@ static JSValue callable_proxy_get_unbound_arguments_count(JSContext *ctx, JSValu
 }
 static JSValue callable_proxy_hash(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Callable::hash, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -337,8 +338,8 @@ static JSValue callable_proxy_hash(JSContext *ctx, JSValueConst this_val, int ar
 }
 static JSValue callable_proxy_bindv(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_method_ret(&Callable::bindv, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -346,8 +347,8 @@ static JSValue callable_proxy_bindv(JSContext *ctx, JSValueConst this_val, int a
 }
 static JSValue callable_proxy_unbind(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&Callable::unbind, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -355,8 +356,8 @@ static JSValue callable_proxy_unbind(JSContext *ctx, JSValueConst this_val, int 
 }
 static JSValue callable_proxy_call(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
 JSValue ret = call_builtin_free_opaque_no_fixed_vararg_method_ret<Callable>(&js_call, ctx, this_val, argc, argv);
 JS_FreeValue(ctx, this_val);
@@ -379,8 +380,8 @@ JS_FreeValue(ctx, this_val);
 }
 static JSValue callable_proxy_bind(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["CallableProxy"]);
-    ObjectProxy<Callable> *proxy = reinterpret_cast<ObjectProxy<Callable> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<Callable> *proxy = static_cast<ObjectProxy<Callable> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
 JSValue ret = call_builtin_free_opaque_no_fixed_vararg_method_ret<Callable>(&js_bind, ctx, this_val, argc, argv);
 JS_FreeValue(ctx, this_val);

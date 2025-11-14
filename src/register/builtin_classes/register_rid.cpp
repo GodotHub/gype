@@ -36,9 +36,8 @@ static JSValue rid_class_constructor(JSContext *ctx, JSValueConst new_target, in
 	if (argc == 0) {
 		instance = RID();
 	}
-	if (argc == 1&&(VariantAdapter::can_cast(argv[0],Variant::Type::RID))) {
-			RID
- v0 = VariantAdapter(argv[0]).get();
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::RID)) {
+		RID v0 = VariantAdapter(argv[0]).get();
 		instance = RID(v0);
 	}
 	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
@@ -83,7 +82,7 @@ static int js_rid_class_init(JSContext *ctx) {
 	return 0;
 }
 
-void js_init_rid_module(JSContext *ctx) {
+static void js_init_rid_module(JSContext *ctx) {
 	js_rid_class_init(ctx);
 }
 
@@ -100,8 +99,8 @@ static void rid_proxy_finalizer(JSRuntime *rt, JSValue val) {
 }
 
 static JSClassDef rid_proxy_def = {
-	.class_name = "RIDProxy",
-	.finalizer = rid_proxy_finalizer
+	"RIDProxy",
+	rid_proxy_finalizer
 };
 
 
@@ -132,8 +131,8 @@ static JSValue rid_proxy_constructor(JSContext *ctx, JSValueConst new_target, in
 
 static JSValue rid_proxy_is_valid(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["RIDProxy"]);
-    ObjectProxy<RID> *proxy = reinterpret_cast<ObjectProxy<RID> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<RID> *proxy = static_cast<ObjectProxy<RID> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&RID::is_valid, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);
@@ -141,8 +140,8 @@ static JSValue rid_proxy_is_valid(JSContext *ctx, JSValueConst this_val, int arg
 }
 static JSValue rid_proxy_get_id(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["RIDProxy"]);
-    ObjectProxy<RID> *proxy = reinterpret_cast<ObjectProxy<RID> *>(opaque);
-    Object *wrapped = reinterpret_cast<Object *>(proxy->wrapped);
+    ObjectProxy<RID> *proxy = static_cast<ObjectProxy<RID> *>(opaque);
+    Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
     JSValue ret = call_builtin_const_method_ret(&RID::get_id, ctx, this_val, argc, argv);
     JS_FreeValue(ctx, this_val);

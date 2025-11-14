@@ -1,5 +1,10 @@
 declare global {
-    export interface GDString {
+    export class GDString {
+        constructor(): GDString;
+        constructor(_from: GDString | StringName | string): GDString;
+        constructor(_from: GDString | StringName | string): GDString;
+        constructor(_from: NodePath | GDString | string): GDString;
+    
 
         casecmp_to(to: GDString | StringName | string): number;
         nocasecmp_to(to: GDString | StringName | string): number;
@@ -117,21 +122,7 @@ declare global {
         num_uint64(_number: number, base: number = 10, capitalizeHex: boolean = false): GDString;
         chr(code: number): GDString;
         humanize_size(size: number): GDString;
-    }
-
-    /**
-    * A global constructor and namespace for the GDString type.
-    *
-    * Use `new GDString(...)` to create a new instance.
-    * Access static members like `GDString.ZERO`.
-    */
-    export declare const GDString: {
-        new(): GDString;
-        new(_from: GDString | StringName | string): GDString;
-        new(_from: GDString | StringName | string): GDString;
-        new(_from: NodePath | GDString | string): GDString;
-
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -192,7 +183,7 @@ declare global {
         // module(PackedColorArray): GDString
         // module(PackedVector4Array): GDString
         */
-    };
+    }
 }
 
 export {};

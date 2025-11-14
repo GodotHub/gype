@@ -1,5 +1,9 @@
 declare global {
-    export interface PackedVector3Array {
+    export class PackedVector3Array {
+        constructor(): PackedVector3Array;
+        constructor(_from: PackedVector3Array): PackedVector3Array;
+        constructor(_from: GDArray): PackedVector3Array;
+    
 
         get(index: number): Vector3;
         set(index: number, value: Vector3): void;
@@ -24,20 +28,7 @@ declare global {
         rfind(value: Vector3, _from: number = -1): number;
         count(value: Vector3): number;
         erase(value: Vector3): boolean;
-    }
-
-    /**
-    * A global constructor and namespace for the PackedVector3Array type.
-    *
-    * Use `new PackedVector3Array(...)` to create a new instance.
-    * Access static members like `PackedVector3Array.ZERO`.
-    */
-    export declare const PackedVector3Array: {
-        new(): PackedVector3Array;
-        new(_from: PackedVector3Array): PackedVector3Array;
-        new(_from: GDArray): PackedVector3Array;
-
-
+        
         /*
         // equals(any): boolean
         // not_equals(any): boolean
@@ -49,7 +40,7 @@ declare global {
         // not_equals(PackedVector3Array): boolean
         // add(PackedVector3Array): PackedVector3Array
         */
-    };
+    }
 }
 
 export {};

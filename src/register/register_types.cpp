@@ -14,6 +14,7 @@
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/resource_saver.hpp>
 #include <utils/quickjs_helper.hpp>
+#include <godot_cpp/classes/editor_plugin.hpp>
 
 
 using namespace godot;

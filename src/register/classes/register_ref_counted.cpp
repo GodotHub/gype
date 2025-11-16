@@ -15,55 +15,59 @@ static void ref_counted_class_finalizer(JSRuntime *rt, JSValue val) {
 	JSClassID class_id = classes["RefCounted"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 		memdelete(opaque_ptr);
 	}
 }
 
 static JSClassDef ref_counted_class_def = {
-    "RefCounted",
-    ref_counted_class_finalizer
+	"RefCounted",
+	ref_counted_class_finalizer
 };
 
 static JSValue ref_counted_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-    JSClassID class_id = classes["RefCounted"];
-    JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
-    JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
+	JSClassID class_id = classes["RefCounted"];
+	JSValue proto = JS_GetPropertyStr(ctx, new_target, "prototype");
+	JSValue obj = JS_NewObjectProtoClass(ctx, proto, class_id);
 	if (is_exception(ctx, obj)) {
 		return obj;
 	}
 
-    RefCounted *instance;
+	RefCounted *instance;
 	VariantAdapter *adapter;
 	JSClassID opaque_id;
-    // Allow constructing from an existing native pointer
-    if (argc == 1 && VariantAdapter::can_cast(argv[0], Variant::Type::OBJECT)) {
+	// Allow constructing from an existing native pointer
+	if (argc == 1 && VariantAdapter::can_cast(argv[0], Variant::Type::OBJECT)) {
 		adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(*argv, &opaque_id));
 		instance = static_cast<RefCounted *>(VariantAdapter(*argv).get().operator Object *());
-    } else {
-        instance = memnew(RefCounted);
-	 	adapter = memnew(VariantAdapter(instance, true));
-    }
+	} else {
+		instance = memnew(RefCounted);
+		adapter = memnew(VariantAdapter(instance, true));
+	}
 
-    if (!instance) {
-        JS_FreeValue(ctx, obj);
-        return JS_EXCEPTION;
-    }
-    JS_SetOpaque(obj, adapter);
-    return obj;
+	if (!instance) {
+		JS_FreeValue(ctx, obj);
+		return JS_EXCEPTION;
+	}
+	JS_SetOpaque(obj, adapter);
+	return obj;
 }
 
 static JSValue ref_counted_class_init_ref(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&RefCounted::init_ref, ctx, this_val, argc, argv);
 };
+
 static JSValue ref_counted_class_reference(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&RefCounted::reference, ctx, this_val, argc, argv);
 };
+
 static JSValue ref_counted_class_unreference(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&RefCounted::unreference, ctx, this_val, argc, argv);
 };
+
 static JSValue ref_counted_class_get_reference_count(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&RefCounted::get_reference_count, ctx, this_val, argc, argv);
@@ -77,15 +81,13 @@ static const JSCFunctionListEntry ref_counted_class_proto_funcs[] = {
 };
 
 
-
-
 static void define_ref_counted_property(JSContext *ctx, JSValue proto) {
 }
 
 static void define_ref_counted_enum(JSContext *ctx, JSValue proto) {
 }
 
-static int js_ref_counted_class_init(JSContext *ctx, JSModuleDef *m) {	
+static int js_ref_counted_class_init(JSContext *ctx, JSModuleDef *m) {
 	JSClassID class_id = 0;
 	class_id = JS_NewClassID(js_runtime(), &class_id);
 	classes["RefCounted"] = class_id;

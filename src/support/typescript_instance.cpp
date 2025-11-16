@@ -172,8 +172,6 @@ GDExtensionInt TypeScriptInstance::get_method_argument_count(GDExtensionConstStr
 
 void TypeScriptInstance::call(GDExtensionConstStringNamePtr p_method, const GDExtensionConstVariantPtr *p_args, GDExtensionInt p_argument_count, GDExtensionVariantPtr r_return, GDExtensionCallError *r_error) {
 	// BINDING_VALID(gd_binding);
-	Object *o = internal::get_object_instance_binding(p_godot_object->_owner);
-	UtilityFunctions::print(o);
 	JSValue js_instance = js_binding;
 	JSValue prototype = JS_GetPrototype(js_context(), js_instance);
 	const char *method = to_chars(*reinterpret_cast<const StringName *>(p_method));

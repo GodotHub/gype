@@ -25,7 +25,6 @@
 
 	
 void register_godot_object();
-void register_object();
 	
 void register_audio_server();
 	

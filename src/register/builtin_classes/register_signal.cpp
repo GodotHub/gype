@@ -87,7 +87,7 @@ static JSValue signal_class_disconnect(JSContext *ctx, JSValueConst this_val, in
 static JSValue signal_class_is_connected(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Signal::is_connected, ctx, this_val, argc, argv);
 }
-
+  
 static JSValue signal_class_get_connections(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Signal::get_connections, ctx, this_val, argc, argv);
 }

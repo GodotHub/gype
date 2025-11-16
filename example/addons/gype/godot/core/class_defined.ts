@@ -84,11 +84,10 @@ export function GodotSignal(
   }
 }
 
-
 const _resolvers = new Set();
 
 export function to_promise(signal: Signal): Promise<void> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject): void => {
     const resolver = new Resolver(resolve);
     signal.connect(resolver.callback, 4);
   });

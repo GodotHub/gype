@@ -30,7 +30,26 @@
 	{{-tp-}}
 	{%- endif -%}
 {% endmacro %}
-
+{%- endmacro -%}
+{% macro process_method(m) %}
+{% if cls_name == "Plane" %}
+    {% if m.name == "intersects_segment" or m.name == "intersects_ray" %}
+    static JSValue {{cls_name_lower}}_class_{{method.name}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+        {{ get_method_call_expression(method + "_bind", cls_name) }}
+    }
+    {% endif %}
+{% elif cls_name == "AABB" %}
+    {% if m.name == "intersect_3" or m.name == "intersects_ray" or m.name == "intersects_segment" %}
+    static JSValue {{cls_name_lower}}_class_{{method.name}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+        {{ get_method_call_expression(method + "_bind", cls_name) }}
+    }
+    {% endif %}
+{% else %}
+static JSValue {{cls_name_lower}}_class_{{method.name}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	{{ get_method_call_expression(method, cls_name) }}
+}
+{% endif %}
+{% endmacro %}
 using namespace godot;
 
 static void {{ cls_name_lower }}_class_finalizer(JSRuntime *rt, JSValue val) {
@@ -81,9 +100,7 @@ if (argc == 2&&JS_IsObject(argv[0])&&JS_IsFunction(ctx, argv[1])) {
 {% if all_methods or cls.members %}
 {# Generate method wrappers #}
 {% for method in all_methods %}
-static JSValue {{cls_name_lower}}_class_{{method.name}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	{{ get_method_call_expression(method, cls_name) }}
-}
+{{ process_method(method) }}
 {% endfor %}
 
 {# Generate property accessors #}
@@ -91,7 +108,6 @@ static JSValue {{cls_name_lower}}_class_{{method.name}}(JSContext *ctx, JSValueC
 static JSValue {{ cls_name_lower }}_class_get_{{ member.name }}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	{{ cls_name }} val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["{{ cls_name }}"]))->get();
 	{{ get_property_accessor_expression(member, 'get') }}
-	
 }
 static JSValue {{ cls_name_lower }}_class_set_{{ member.name }}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["{{cls_name}}"]));

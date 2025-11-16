@@ -6,8 +6,9 @@ export class Test extends Button {
   @GodotSignal
   private test_signal!: Signal;
 
-  public _enter_tree(): void {
-
+  public async _enter_tree(): Promise<void> {
+    await to_promise(this.test_signal);
+    GD.print("Test signal");
   }
 
   public _ready(): void {

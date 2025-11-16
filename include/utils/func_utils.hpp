@@ -164,11 +164,11 @@ convert(JSContext *ctx, JSValueConst v) {
 }
 
 template <typename T>
-GDExtensionTypePtr native_ptr(T v) {
+auto native_ptr(T v) {
 	if constexpr (std::is_pointer_v<T>) {
 		return v->_native_ptr();
 	} else {
-		return v._native_ptr();
+		return v._native_ptr(); 
 	}
 }
 
@@ -250,7 +250,7 @@ JSValue call_builtin_method_ret(R (T::*Func)(P...), JSContext *ctx, JSValueConst
 template <typename R, typename T, typename... P, std::size_t... Is>
 JSValue call_builtin_const_method_ret_impl(R (T::*Func)(P...) const, JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, std::index_sequence<Is...>) {
 	if constexpr (std::is_base_of_v<Object, T>) {
-		const T *callee = convert<T *>(ctx, this_val);
+		T *callee = convert<T *>(ctx, this_val);
 		if (!callee) {
 			return JS_UNDEFINED;
 		}
@@ -355,12 +355,11 @@ JSValue call_builtin_const_no_fixed_vararg_method_no_ret(void (T::*Func)(void *o
 template <typename T, typename R>
 JSValue call_builtin_free_opaque_no_fixed_vararg_method_ret_impl(R (*Func)(void *, const std::vector<Variant> &), JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	T callee = convert<T>(ctx, this_val);
-	GDExtensionTypePtr opaque = native_ptr(callee);
 	std::vector<Variant> variant_args;
 	for (int i = 0; i < argc; ++i) {
 		variant_args.push_back(VariantAdapter(argv[i]).get());
 	}
-	return VariantAdapter((*Func)(opaque, variant_args));
+	return VariantAdapter((*Func)(callee._native_ptr(), variant_args));
 }
 
 template <typename T, typename R>
@@ -372,12 +371,11 @@ JSValue call_builtin_free_opaque_no_fixed_vararg_method_ret(R (*Func)(void *, co
 template <typename T>
 JSValue call_builtin_free_opaque_no_fixed_vararg_method_no_ret_impl(void (*Func)(void *, const std::vector<Variant> &), JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	T callee = convert<T>(ctx, this_val);
-	GDExtensionTypePtr opaque = native_ptr(callee);
 	std::vector<Variant> variant_args;
-	for (int i = 0; i < argc; ++i) {
+	for (int i = 0; i < argc; ++i) { 
 		variant_args.push_back(VariantAdapter(argv[i]).get());
 	}
-	(*Func)(opaque, variant_args);
+	(*Func)(callee._native_ptr(), variant_args);
 	return JS_UNDEFINED;
 }
 
@@ -390,13 +388,12 @@ JSValue call_builtin_free_opaque_no_fixed_vararg_method_no_ret(void (*Func)(void
 template <typename T, typename R, typename... P, std::size_t... Is>
 JSValue call_builtin_free_opaque_vararg_method_ret_impl(R (*Func)(void *, P...), JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, std::index_sequence<Is...>) {
 	auto callee = convert<T>(ctx, this_val);
-	GDExtensionTypePtr vopaque = native_ptr(callee);
 	constexpr int fixed_argc = sizeof...(P) - 1;
 	std::vector<Variant> variant_args;
 	for (int i = fixed_argc; i < argc; ++i) {
 		variant_args.push_back(VariantAdapter(argv[i]).get());
 	}
-	return VariantAdapter((*Func)(vopaque, convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])..., variant_args));
+	return VariantAdapter((*Func)(callee._native_ptr(), convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])..., variant_args));
 }
 
 template <typename T, typename R, typename... P>
@@ -408,13 +405,12 @@ JSValue call_builtin_free_opaque_vararg_method_ret(R (*Func)(void *, P...), JSCo
 template <typename T, typename... P, std::size_t... Is>
 JSValue call_builtin_free_opaque_vararg_method_no_ret_impl(void (*Func)(void *, P...), JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, std::index_sequence<Is...>) {
 	auto callee = convert<T>(ctx, this_val);
-	GDExtensionTypePtr vopaque = native_ptr(callee);
 	constexpr int fixed_argc = sizeof...(P) - 1;
 	std::vector<Variant> variant_args;
 	for (int i = fixed_argc; i < argc; ++i) {
 		variant_args.push_back(VariantAdapter(argv[i]).get());
 	}
-	(*Func)(vopaque, convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])..., variant_args);
+	(*Func)(callee._native_ptr(), convert<std::tuple_element_t<Is, std::tuple<P...>>>(ctx, argv[Is])..., variant_args);
 	return JS_UNDEFINED;
 }
 
@@ -557,6 +553,5 @@ JSValue call_builtin_free_owner_vararg_method_ret(R (*Func)(void *, P...), JSCon
 	// FIX: Removed incorrect std::forward
 	return call_builtin_free_owner_vararg_method_ret_impl(Func, ctx, this_val, argc, argv, std::make_index_sequence<sizeof...(P) - 1>());
 }
-
 
 #endif // __FUNC_UTILS_H__

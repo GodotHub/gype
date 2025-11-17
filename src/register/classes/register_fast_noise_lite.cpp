@@ -460,7 +460,7 @@ static void define_fast_noise_lite_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_fast_noise_lite_enum(JSContext *ctx, JSValue proto) {
+static void define_fast_noise_lite_enum(JSContext *ctx, JSValue ctor) {
 	JSValue NoiseType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, NoiseType_obj, "TYPE_VALUE", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, NoiseType_obj, "TYPE_VALUE_CUBIC", JS_NewInt64(ctx, 4));
@@ -468,19 +468,19 @@ static void define_fast_noise_lite_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, NoiseType_obj, "TYPE_CELLULAR", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, NoiseType_obj, "TYPE_SIMPLEX", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, NoiseType_obj, "TYPE_SIMPLEX_SMOOTH", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "NoiseType", NoiseType_obj);
+	JS_SetPropertyStr(ctx, ctor, "NoiseType", NoiseType_obj);
 	JSValue FractalType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FractalType_obj, "FRACTAL_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FractalType_obj, "FRACTAL_FBM", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, FractalType_obj, "FRACTAL_RIDGED", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, FractalType_obj, "FRACTAL_PING_PONG", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "FractalType", FractalType_obj);
+	JS_SetPropertyStr(ctx, ctor, "FractalType", FractalType_obj);
 	JSValue CellularDistanceFunction_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CellularDistanceFunction_obj, "DISTANCE_EUCLIDEAN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CellularDistanceFunction_obj, "DISTANCE_EUCLIDEAN_SQUARED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, CellularDistanceFunction_obj, "DISTANCE_MANHATTAN", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, CellularDistanceFunction_obj, "DISTANCE_HYBRID", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "CellularDistanceFunction", CellularDistanceFunction_obj);
+	JS_SetPropertyStr(ctx, ctor, "CellularDistanceFunction", CellularDistanceFunction_obj);
 	JSValue CellularReturnType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CellularReturnType_obj, "RETURN_CELL_VALUE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CellularReturnType_obj, "RETURN_DISTANCE", JS_NewInt64(ctx, 1));
@@ -489,17 +489,17 @@ static void define_fast_noise_lite_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, CellularReturnType_obj, "RETURN_DISTANCE2_SUB", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, CellularReturnType_obj, "RETURN_DISTANCE2_MUL", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, CellularReturnType_obj, "RETURN_DISTANCE2_DIV", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "CellularReturnType", CellularReturnType_obj);
+	JS_SetPropertyStr(ctx, ctor, "CellularReturnType", CellularReturnType_obj);
 	JSValue DomainWarpType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DomainWarpType_obj, "DOMAIN_WARP_SIMPLEX", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DomainWarpType_obj, "DOMAIN_WARP_SIMPLEX_REDUCED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DomainWarpType_obj, "DOMAIN_WARP_BASIC_GRID", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "DomainWarpType", DomainWarpType_obj);
+	JS_SetPropertyStr(ctx, ctor, "DomainWarpType", DomainWarpType_obj);
 	JSValue DomainWarpFractalType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DomainWarpFractalType_obj, "DOMAIN_WARP_FRACTAL_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DomainWarpFractalType_obj, "DOMAIN_WARP_FRACTAL_PROGRESSIVE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DomainWarpFractalType_obj, "DOMAIN_WARP_FRACTAL_INDEPENDENT", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "DomainWarpFractalType", DomainWarpFractalType_obj);
+	JS_SetPropertyStr(ctx, ctor, "DomainWarpFractalType", DomainWarpFractalType_obj);
 }
 
 static int js_fast_noise_lite_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -515,9 +515,9 @@ static int js_fast_noise_lite_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_fast_noise_lite_property(ctx, proto);
-	define_fast_noise_lite_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, fast_noise_lite_class_proto_funcs, _countof(fast_noise_lite_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, fast_noise_lite_class_constructor, "FastNoiseLite", 0, JS_CFUNC_constructor, 0);
+	define_fast_noise_lite_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "FastNoiseLite", ctor);
 

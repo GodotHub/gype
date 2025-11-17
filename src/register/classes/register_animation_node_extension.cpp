@@ -70,7 +70,7 @@ static const JSCFunctionListEntry animation_node_extension_class_static_funcs[] 
 static void define_animation_node_extension_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_animation_node_extension_enum(JSContext *ctx, JSValue proto) {
+static void define_animation_node_extension_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_animation_node_extension_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -86,9 +86,9 @@ static int js_animation_node_extension_class_init(JSContext *ctx, JSModuleDef *m
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_animation_node_extension_property(ctx, proto);
-	define_animation_node_extension_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, animation_node_extension_class_constructor, "AnimationNodeExtension", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, animation_node_extension_class_static_funcs, _countof(animation_node_extension_class_static_funcs));
+	define_animation_node_extension_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AnimationNodeExtension", ctor);
 

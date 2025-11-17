@@ -237,19 +237,19 @@ static void define_camera_feed_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_camera_feed_enum(JSContext *ctx, JSValue proto) {
+static void define_camera_feed_enum(JSContext *ctx, JSValue ctor) {
 	JSValue FeedDataType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FeedDataType_obj, "FEED_NOIMAGE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FeedDataType_obj, "FEED_RGB", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, FeedDataType_obj, "FEED_YCBCR", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, FeedDataType_obj, "FEED_YCBCR_SEP", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, FeedDataType_obj, "FEED_EXTERNAL", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "FeedDataType", FeedDataType_obj);
+	JS_SetPropertyStr(ctx, ctor, "FeedDataType", FeedDataType_obj);
 	JSValue FeedPosition_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FeedPosition_obj, "FEED_UNSPECIFIED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FeedPosition_obj, "FEED_FRONT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, FeedPosition_obj, "FEED_BACK", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "FeedPosition", FeedPosition_obj);
+	JS_SetPropertyStr(ctx, ctor, "FeedPosition", FeedPosition_obj);
 }
 
 static int js_camera_feed_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -265,9 +265,9 @@ static int js_camera_feed_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_camera_feed_property(ctx, proto);
-	define_camera_feed_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, camera_feed_class_proto_funcs, _countof(camera_feed_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, camera_feed_class_constructor, "CameraFeed", 0, JS_CFUNC_constructor, 0);
+	define_camera_feed_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CameraFeed", ctor);
 

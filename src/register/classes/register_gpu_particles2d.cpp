@@ -615,19 +615,19 @@ static void define_gpu_particles2d_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_gpu_particles2d_enum(JSContext *ctx, JSValue proto) {
+static void define_gpu_particles2d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue DrawOrder_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DrawOrder_obj, "DRAW_ORDER_INDEX", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DrawOrder_obj, "DRAW_ORDER_LIFETIME", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DrawOrder_obj, "DRAW_ORDER_REVERSE_LIFETIME", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "DrawOrder", DrawOrder_obj);
+	JS_SetPropertyStr(ctx, ctor, "DrawOrder", DrawOrder_obj);
 	JSValue EmitFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, EmitFlags_obj, "EMIT_FLAG_POSITION", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, EmitFlags_obj, "EMIT_FLAG_ROTATION_SCALE", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, EmitFlags_obj, "EMIT_FLAG_VELOCITY", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, EmitFlags_obj, "EMIT_FLAG_COLOR", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, EmitFlags_obj, "EMIT_FLAG_CUSTOM", JS_NewInt64(ctx, 16));
-	JS_SetPropertyStr(ctx, proto, "EmitFlags", EmitFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "EmitFlags", EmitFlags_obj);
 }
 
 static int js_gpu_particles2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -643,9 +643,9 @@ static int js_gpu_particles2d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_gpu_particles2d_property(ctx, proto);
-	define_gpu_particles2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, gpu_particles2d_class_proto_funcs, _countof(gpu_particles2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, gpu_particles2d_class_constructor, "GPUParticles2D", 0, JS_CFUNC_constructor, 0);
+	define_gpu_particles2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GPUParticles2D", ctor);
 

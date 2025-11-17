@@ -142,7 +142,7 @@ static void define_dpi_texture_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_dpi_texture_enum(JSContext *ctx, JSValue proto) {
+static void define_dpi_texture_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_dpi_texture_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -158,10 +158,10 @@ static int js_dpi_texture_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_dpi_texture_property(ctx, proto);
-	define_dpi_texture_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, dpi_texture_class_proto_funcs, _countof(dpi_texture_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, dpi_texture_class_constructor, "DPITexture", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, dpi_texture_class_static_funcs, _countof(dpi_texture_class_static_funcs));
+	define_dpi_texture_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "DPITexture", ctor);
 

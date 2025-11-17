@@ -80,12 +80,12 @@ static void define_visual_shader_node_sample3d_property(JSContext *ctx, JSValue 
     );
 }
 
-static void define_visual_shader_node_sample3d_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_sample3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Source_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Source_obj, "SOURCE_TEXTURE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Source_obj, "SOURCE_PORT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Source_obj, "SOURCE_MAX", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "Source", Source_obj);
+	JS_SetPropertyStr(ctx, ctor, "Source", Source_obj);
 }
 
 static int js_visual_shader_node_sample3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -101,9 +101,9 @@ static int js_visual_shader_node_sample3d_class_init(JSContext *ctx, JSModuleDef
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_sample3d_property(ctx, proto);
-	define_visual_shader_node_sample3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, visual_shader_node_sample3d_class_proto_funcs, _countof(visual_shader_node_sample3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_sample3d_class_constructor, "VisualShaderNodeSample3D", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_sample3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeSample3D", ctor);
 

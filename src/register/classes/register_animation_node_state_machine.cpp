@@ -218,12 +218,12 @@ static void define_animation_node_state_machine_property(JSContext *ctx, JSValue
     );
 }
 
-static void define_animation_node_state_machine_enum(JSContext *ctx, JSValue proto) {
+static void define_animation_node_state_machine_enum(JSContext *ctx, JSValue ctor) {
 	JSValue StateMachineType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, StateMachineType_obj, "STATE_MACHINE_TYPE_ROOT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, StateMachineType_obj, "STATE_MACHINE_TYPE_NESTED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, StateMachineType_obj, "STATE_MACHINE_TYPE_GROUPED", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "StateMachineType", StateMachineType_obj);
+	JS_SetPropertyStr(ctx, ctor, "StateMachineType", StateMachineType_obj);
 }
 
 static int js_animation_node_state_machine_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -239,9 +239,9 @@ static int js_animation_node_state_machine_class_init(JSContext *ctx, JSModuleDe
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_animation_node_state_machine_property(ctx, proto);
-	define_animation_node_state_machine_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, animation_node_state_machine_class_proto_funcs, _countof(animation_node_state_machine_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, animation_node_state_machine_class_constructor, "AnimationNodeStateMachine", 0, JS_CFUNC_constructor, 0);
+	define_animation_node_state_machine_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AnimationNodeStateMachine", ctor);
 

@@ -379,7 +379,7 @@ static void define_system_font_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_system_font_enum(JSContext *ctx, JSValue proto) {
+static void define_system_font_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_system_font_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -395,9 +395,9 @@ static int js_system_font_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_system_font_property(ctx, proto);
-	define_system_font_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, system_font_class_proto_funcs, _countof(system_font_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, system_font_class_constructor, "SystemFont", 0, JS_CFUNC_constructor, 0);
+	define_system_font_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SystemFont", ctor);
 

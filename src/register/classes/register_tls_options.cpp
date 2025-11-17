@@ -108,7 +108,7 @@ static const JSCFunctionListEntry tls_options_class_static_funcs[] = {
 static void define_tls_options_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_tls_options_enum(JSContext *ctx, JSValue proto) {
+static void define_tls_options_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_tls_options_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -124,10 +124,10 @@ static int js_tls_options_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_tls_options_property(ctx, proto);
-	define_tls_options_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, tls_options_class_proto_funcs, _countof(tls_options_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, tls_options_class_constructor, "TLSOptions", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, tls_options_class_static_funcs, _countof(tls_options_class_static_funcs));
+	define_tls_options_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TLSOptions", ctor);
 

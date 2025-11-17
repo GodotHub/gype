@@ -232,7 +232,7 @@ static void define_file_system_dock_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_file_system_dock_enum(JSContext *ctx, JSValue proto) {
+static void define_file_system_dock_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_file_system_dock_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -248,9 +248,9 @@ static int js_file_system_dock_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_file_system_dock_property(ctx, proto);
-	define_file_system_dock_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, file_system_dock_class_proto_funcs, _countof(file_system_dock_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, file_system_dock_class_constructor, "FileSystemDock", 0, JS_CFUNC_constructor, 0);
+	define_file_system_dock_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "FileSystemDock", ctor);
 

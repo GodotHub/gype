@@ -96,7 +96,7 @@ static void define_shortcut_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_shortcut_enum(JSContext *ctx, JSValue proto) {
+static void define_shortcut_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_shortcut_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -112,9 +112,9 @@ static int js_shortcut_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_shortcut_property(ctx, proto);
-	define_shortcut_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, shortcut_class_proto_funcs, _countof(shortcut_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, shortcut_class_constructor, "Shortcut", 0, JS_CFUNC_constructor, 0);
+	define_shortcut_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Shortcut", ctor);
 

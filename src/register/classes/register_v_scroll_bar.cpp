@@ -60,7 +60,7 @@ static JSValue v_scroll_bar_class_constructor(JSContext *ctx, JSValueConst new_t
 static void define_v_scroll_bar_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_v_scroll_bar_enum(JSContext *ctx, JSValue proto) {
+static void define_v_scroll_bar_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_v_scroll_bar_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_v_scroll_bar_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_v_scroll_bar_property(ctx, proto);
-	define_v_scroll_bar_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, v_scroll_bar_class_constructor, "VScrollBar", 0, JS_CFUNC_constructor, 0);
+	define_v_scroll_bar_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VScrollBar", ctor);
 

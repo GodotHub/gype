@@ -80,7 +80,7 @@ static void define_visual_shader_node_float_func_property(JSContext *ctx, JSValu
     );
 }
 
-static void define_visual_shader_node_float_func_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_float_func_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Function_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Function_obj, "FUNC_SIN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Function_obj, "FUNC_COS", JS_NewInt64(ctx, 1));
@@ -115,7 +115,7 @@ static void define_visual_shader_node_float_func_enum(JSContext *ctx, JSValue pr
 	JS_SetPropertyStr(ctx, Function_obj, "FUNC_TRUNC", JS_NewInt64(ctx, 30));
 	JS_SetPropertyStr(ctx, Function_obj, "FUNC_ONEMINUS", JS_NewInt64(ctx, 31));
 	JS_SetPropertyStr(ctx, Function_obj, "FUNC_MAX", JS_NewInt64(ctx, 32));
-	JS_SetPropertyStr(ctx, proto, "Function", Function_obj);
+	JS_SetPropertyStr(ctx, ctor, "Function", Function_obj);
 }
 
 static int js_visual_shader_node_float_func_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -131,9 +131,9 @@ static int js_visual_shader_node_float_func_class_init(JSContext *ctx, JSModuleD
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_float_func_property(ctx, proto);
-	define_visual_shader_node_float_func_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, visual_shader_node_float_func_class_proto_funcs, _countof(visual_shader_node_float_func_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_float_func_class_constructor, "VisualShaderNodeFloatFunc", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_float_func_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeFloatFunc", ctor);
 

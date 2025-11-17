@@ -737,17 +737,17 @@ static void define_tree_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_tree_enum(JSContext *ctx, JSValue proto) {
+static void define_tree_enum(JSContext *ctx, JSValue ctor) {
 	JSValue SelectMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SelectMode_obj, "SELECT_SINGLE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SelectMode_obj, "SELECT_ROW", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, SelectMode_obj, "SELECT_MULTI", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "SelectMode", SelectMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "SelectMode", SelectMode_obj);
 	JSValue DropModeFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DropModeFlags_obj, "DROP_MODE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DropModeFlags_obj, "DROP_MODE_ON_ITEM", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DropModeFlags_obj, "DROP_MODE_INBETWEEN", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "DropModeFlags", DropModeFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "DropModeFlags", DropModeFlags_obj);
 }
 
 static int js_tree_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -763,9 +763,9 @@ static int js_tree_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_tree_property(ctx, proto);
-	define_tree_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, tree_class_proto_funcs, _countof(tree_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, tree_class_constructor, "Tree", 0, JS_CFUNC_constructor, 0);
+	define_tree_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Tree", ctor);
 

@@ -344,7 +344,7 @@ static void define_input_event_screen_drag_property(JSContext *ctx, JSValue prot
     );
 }
 
-static void define_input_event_screen_drag_enum(JSContext *ctx, JSValue proto) {
+static void define_input_event_screen_drag_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_input_event_screen_drag_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -360,9 +360,9 @@ static int js_input_event_screen_drag_class_init(JSContext *ctx, JSModuleDef *m)
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_input_event_screen_drag_property(ctx, proto);
-	define_input_event_screen_drag_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, input_event_screen_drag_class_proto_funcs, _countof(input_event_screen_drag_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, input_event_screen_drag_class_constructor, "InputEventScreenDrag", 0, JS_CFUNC_constructor, 0);
+	define_input_event_screen_drag_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "InputEventScreenDrag", ctor);
 

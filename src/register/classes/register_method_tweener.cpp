@@ -77,7 +77,7 @@ static const JSCFunctionListEntry method_tweener_class_proto_funcs[] = {
 static void define_method_tweener_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_method_tweener_enum(JSContext *ctx, JSValue proto) {
+static void define_method_tweener_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_method_tweener_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -93,9 +93,9 @@ static int js_method_tweener_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_method_tweener_property(ctx, proto);
-	define_method_tweener_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, method_tweener_class_proto_funcs, _countof(method_tweener_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, method_tweener_class_constructor, "MethodTweener", 0, JS_CFUNC_constructor, 0);
+	define_method_tweener_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "MethodTweener", ctor);
 

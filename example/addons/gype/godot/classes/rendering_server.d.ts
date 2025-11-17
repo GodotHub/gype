@@ -265,7 +265,7 @@ export declare class RenderingServer extends GodotObject {
     public fog_volume_set_material(fogVolume: RID, material: RID): void;
     public visibility_notifier_create(): RID;
     public visibility_notifier_set_aabb(notifier: RID, aabb: AABB): void;
-    public visibility_notifier_set_callbacks(notifier: RID, enterCallable: Callable, exitCallable: Callable): void;
+    public visibility_notifier_set_callbacks(notifier: RID, enterCallable: Callable | Function, exitCallable: Callable | Function): void;
     public occluder_create(): RID;
     public occluder_set_mesh(occluder: RID, vertices: PackedVector3Array, indices: PackedInt32Array): void;
     public camera_create(): RID;
@@ -338,7 +338,7 @@ export declare class RenderingServer extends GodotObject {
     public sky_bake_panorama(sky: RID, energy: number, bakeIrradiance: boolean, size: Vector2i): Image;
     public compositor_effect_create(): RID;
     public compositor_effect_set_enabled(effect: RID, enabled: boolean): void;
-    public compositor_effect_set_callback(effect: RID, callbackType: number, callback: Callable): void;
+    public compositor_effect_set_callback(effect: RID, callbackType: number, callback: Callable | Function): void;
     public compositor_effect_set_flag(effect: RID, flag: number, _set: boolean): void;
     public compositor_create(): RID;
     public compositor_set_compositor_effects(compositor: RID, effects: Array<any>): void;
@@ -477,7 +477,7 @@ export declare class RenderingServer extends GodotObject {
     public canvas_item_get_instance_shader_parameter(instance: RID, parameter: GDString | StringName | string): any;
     public canvas_item_get_instance_shader_parameter_default_value(instance: RID, parameter: GDString | StringName | string): any;
     public canvas_item_get_instance_shader_parameter_list(instance: RID): Array<any>;
-    public canvas_item_set_visibility_notifier(item: RID, enable: boolean, area: Rect2, enterCallable: Callable, exitCallable: Callable): void;
+    public canvas_item_set_visibility_notifier(item: RID, enable: boolean, area: Rect2, enterCallable: Callable | Function, exitCallable: Callable | Function): void;
     public canvas_item_set_canvas_group_mode(item: RID, mode: number, clearMargin: number = 5.0, fitEmpty: boolean = false, fitMargin: number = 0.0, blurMipmaps: boolean = false): void;
     public debug_canvas_item_get_rect(item: RID): Rect2;
     public canvas_light_create(): RID;
@@ -525,7 +525,7 @@ export declare class RenderingServer extends GodotObject {
     public global_shader_parameter_get(name: GDString | StringName | string): any;
     public global_shader_parameter_get_type(name: GDString | StringName | string): number;
     public free_rid(rid: RID): void;
-    public request_frame_drawn_callback(callable: Callable): void;
+    public request_frame_drawn_callback(callable: Callable | Function): void;
     public has_changed(): boolean;
     public get_rendering_info(info: number): number;
     public get_video_adapter_name(): GDString;
@@ -551,7 +551,7 @@ export declare class RenderingServer extends GodotObject {
     public get_rendering_device(): RenderingDevice;
     public create_local_rendering_device(): RenderingDevice;
     public is_on_render_thread(): boolean;
-    public call_on_render_thread(callable: Callable): void;
+    public call_on_render_thread(callable: Callable | Function): void;
     public has_feature(feature: number): boolean;
 
     

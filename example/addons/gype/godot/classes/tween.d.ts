@@ -17,8 +17,8 @@ export declare class Tween extends RefCounted {
 
     public tween_property(object: GodotObject, property: NodePath | GDString | string, finalVal: any, duration: number): PropertyTweener;
     public tween_interval(time: number): IntervalTweener;
-    public tween_callback(callback: Callable): CallbackTweener;
-    public tween_method(method: Callable, _from: any, to: any, duration: number): MethodTweener;
+    public tween_callback(callback: Callable | Function): CallbackTweener;
+    public tween_method(method: Callable | Function, _from: any, to: any, duration: number): MethodTweener;
     public tween_subtween(subtween: Tween): SubtweenTweener;
     public custom_step(delta: number): boolean;
     public stop(): void;

@@ -60,11 +60,11 @@ static JSValue resource_importer_class_constructor(JSContext *ctx, JSValueConst 
 static void define_resource_importer_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_resource_importer_enum(JSContext *ctx, JSValue proto) {
+static void define_resource_importer_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ImportOrder_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ImportOrder_obj, "IMPORT_ORDER_DEFAULT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ImportOrder_obj, "IMPORT_ORDER_SCENE", JS_NewInt64(ctx, 100));
-	JS_SetPropertyStr(ctx, proto, "ImportOrder", ImportOrder_obj);
+	JS_SetPropertyStr(ctx, ctor, "ImportOrder", ImportOrder_obj);
 }
 
 static int js_resource_importer_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -80,8 +80,8 @@ static int js_resource_importer_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_resource_importer_property(ctx, proto);
-	define_resource_importer_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, resource_importer_class_constructor, "ResourceImporter", 0, JS_CFUNC_constructor, 0);
+	define_resource_importer_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ResourceImporter", ctor);
 

@@ -969,7 +969,7 @@ static void define_line_edit_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_line_edit_enum(JSContext *ctx, JSValue proto) {
+static void define_line_edit_enum(JSContext *ctx, JSValue ctor) {
 	JSValue MenuItems_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, MenuItems_obj, "MENU_CUT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, MenuItems_obj, "MENU_COPY", JS_NewInt64(ctx, 1));
@@ -1003,7 +1003,7 @@ static void define_line_edit_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, MenuItems_obj, "MENU_INSERT_SHY", JS_NewInt64(ctx, 29));
 	JS_SetPropertyStr(ctx, MenuItems_obj, "MENU_EMOJI_AND_SYMBOL", JS_NewInt64(ctx, 30));
 	JS_SetPropertyStr(ctx, MenuItems_obj, "MENU_MAX", JS_NewInt64(ctx, 31));
-	JS_SetPropertyStr(ctx, proto, "MenuItems", MenuItems_obj);
+	JS_SetPropertyStr(ctx, ctor, "MenuItems", MenuItems_obj);
 	JSValue VirtualKeyboardType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, VirtualKeyboardType_obj, "KEYBOARD_TYPE_DEFAULT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, VirtualKeyboardType_obj, "KEYBOARD_TYPE_MULTILINE", JS_NewInt64(ctx, 1));
@@ -1013,7 +1013,7 @@ static void define_line_edit_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, VirtualKeyboardType_obj, "KEYBOARD_TYPE_EMAIL_ADDRESS", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, VirtualKeyboardType_obj, "KEYBOARD_TYPE_PASSWORD", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, VirtualKeyboardType_obj, "KEYBOARD_TYPE_URL", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "VirtualKeyboardType", VirtualKeyboardType_obj);
+	JS_SetPropertyStr(ctx, ctor, "VirtualKeyboardType", VirtualKeyboardType_obj);
 }
 
 static int js_line_edit_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -1029,9 +1029,9 @@ static int js_line_edit_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_line_edit_property(ctx, proto);
-	define_line_edit_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, line_edit_class_proto_funcs, _countof(line_edit_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, line_edit_class_constructor, "LineEdit", 0, JS_CFUNC_constructor, 0);
+	define_line_edit_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "LineEdit", ctor);
 

@@ -450,21 +450,21 @@ static void define_camera3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_camera3d_enum(JSContext *ctx, JSValue proto) {
+static void define_camera3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ProjectionType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ProjectionType_obj, "PROJECTION_PERSPECTIVE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ProjectionType_obj, "PROJECTION_ORTHOGONAL", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ProjectionType_obj, "PROJECTION_FRUSTUM", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "ProjectionType", ProjectionType_obj);
+	JS_SetPropertyStr(ctx, ctor, "ProjectionType", ProjectionType_obj);
 	JSValue KeepAspect_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, KeepAspect_obj, "KEEP_WIDTH", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, KeepAspect_obj, "KEEP_HEIGHT", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "KeepAspect", KeepAspect_obj);
+	JS_SetPropertyStr(ctx, ctor, "KeepAspect", KeepAspect_obj);
 	JSValue DopplerTracking_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DopplerTracking_obj, "DOPPLER_TRACKING_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DopplerTracking_obj, "DOPPLER_TRACKING_IDLE_STEP", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DopplerTracking_obj, "DOPPLER_TRACKING_PHYSICS_STEP", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "DopplerTracking", DopplerTracking_obj);
+	JS_SetPropertyStr(ctx, ctor, "DopplerTracking", DopplerTracking_obj);
 }
 
 static int js_camera3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -480,9 +480,9 @@ static int js_camera3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_camera3d_property(ctx, proto);
-	define_camera3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, camera3d_class_proto_funcs, _countof(camera3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, camera3d_class_constructor, "Camera3D", 0, JS_CFUNC_constructor, 0);
+	define_camera3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Camera3D", ctor);
 

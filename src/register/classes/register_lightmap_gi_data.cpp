@@ -155,12 +155,12 @@ static void define_lightmap_gi_data_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_lightmap_gi_data_enum(JSContext *ctx, JSValue proto) {
+static void define_lightmap_gi_data_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ShadowmaskMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ShadowmaskMode_obj, "SHADOWMASK_MODE_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ShadowmaskMode_obj, "SHADOWMASK_MODE_REPLACE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ShadowmaskMode_obj, "SHADOWMASK_MODE_OVERLAY", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "ShadowmaskMode", ShadowmaskMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "ShadowmaskMode", ShadowmaskMode_obj);
 }
 
 static int js_lightmap_gi_data_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -176,9 +176,9 @@ static int js_lightmap_gi_data_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_lightmap_gi_data_property(ctx, proto);
-	define_lightmap_gi_data_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, lightmap_gi_data_class_proto_funcs, _countof(lightmap_gi_data_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, lightmap_gi_data_class_constructor, "LightmapGIData", 0, JS_CFUNC_constructor, 0);
+	define_lightmap_gi_data_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "LightmapGIData", ctor);
 

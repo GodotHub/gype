@@ -58,10 +58,14 @@ static JSValue rid_class_get_id(JSContext *ctx, JSValueConst this_val, int argc,
 }
 
 
+
+
 static const JSCFunctionListEntry rid_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_valid", 0, &rid_class_is_valid),
 	JS_CFUNC_DEF("get_id", 0, &rid_class_get_id),
 };
+
+
 
 
 static int js_rid_class_init(JSContext *ctx) {
@@ -73,12 +77,14 @@ static int js_rid_class_init(JSContext *ctx) {
 
 	JSValue proto = JS_NewObject(ctx);
 	JS_SetClassProto(ctx, class_id, proto);	JS_SetPropertyFunctionList(ctx, proto, rid_class_proto_funcs, _countof(rid_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, rid_class_constructor, "RID", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "RID", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -172,6 +178,7 @@ static int js_rid_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "RIDProxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

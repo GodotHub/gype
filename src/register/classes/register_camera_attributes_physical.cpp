@@ -211,7 +211,7 @@ static void define_camera_attributes_physical_property(JSContext *ctx, JSValue p
     );
 }
 
-static void define_camera_attributes_physical_enum(JSContext *ctx, JSValue proto) {
+static void define_camera_attributes_physical_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_camera_attributes_physical_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -227,9 +227,9 @@ static int js_camera_attributes_physical_class_init(JSContext *ctx, JSModuleDef 
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_camera_attributes_physical_property(ctx, proto);
-	define_camera_attributes_physical_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, camera_attributes_physical_class_proto_funcs, _countof(camera_attributes_physical_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, camera_attributes_physical_class_constructor, "CameraAttributesPhysical", 0, JS_CFUNC_constructor, 0);
+	define_camera_attributes_physical_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CameraAttributesPhysical", ctor);
 

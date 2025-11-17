@@ -80,7 +80,7 @@ static void define_visual_shader_node_switch_property(JSContext *ctx, JSValue pr
     );
 }
 
-static void define_visual_shader_node_switch_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_switch_enum(JSContext *ctx, JSValue ctor) {
 	JSValue OpType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, OpType_obj, "OP_TYPE_FLOAT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, OpType_obj, "OP_TYPE_INT", JS_NewInt64(ctx, 1));
@@ -91,7 +91,7 @@ static void define_visual_shader_node_switch_enum(JSContext *ctx, JSValue proto)
 	JS_SetPropertyStr(ctx, OpType_obj, "OP_TYPE_BOOLEAN", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, OpType_obj, "OP_TYPE_TRANSFORM", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, OpType_obj, "OP_TYPE_MAX", JS_NewInt64(ctx, 8));
-	JS_SetPropertyStr(ctx, proto, "OpType", OpType_obj);
+	JS_SetPropertyStr(ctx, ctor, "OpType", OpType_obj);
 }
 
 static int js_visual_shader_node_switch_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -107,9 +107,9 @@ static int js_visual_shader_node_switch_class_init(JSContext *ctx, JSModuleDef *
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_switch_property(ctx, proto);
-	define_visual_shader_node_switch_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, visual_shader_node_switch_class_proto_funcs, _countof(visual_shader_node_switch_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_switch_class_constructor, "VisualShaderNodeSwitch", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_switch_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeSwitch", ctor);
 

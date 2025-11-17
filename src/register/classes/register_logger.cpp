@@ -61,13 +61,13 @@ static JSValue logger_class_constructor(JSContext *ctx, JSValueConst new_target,
 static void define_logger_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_logger_enum(JSContext *ctx, JSValue proto) {
+static void define_logger_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ErrorType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ErrorType_obj, "ERROR_TYPE_ERROR", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ErrorType_obj, "ERROR_TYPE_WARNING", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ErrorType_obj, "ERROR_TYPE_SCRIPT", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ErrorType_obj, "ERROR_TYPE_SHADER", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "ErrorType", ErrorType_obj);
+	JS_SetPropertyStr(ctx, ctor, "ErrorType", ErrorType_obj);
 }
 
 static int js_logger_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -83,8 +83,8 @@ static int js_logger_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_logger_property(ctx, proto);
-	define_logger_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, logger_class_constructor, "Logger", 0, JS_CFUNC_constructor, 0);
+	define_logger_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Logger", ctor);
 

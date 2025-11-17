@@ -108,7 +108,7 @@ static const JSCFunctionListEntry noise_class_proto_funcs[] = {
 static void define_noise_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_noise_enum(JSContext *ctx, JSValue proto) {
+static void define_noise_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_noise_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -124,9 +124,9 @@ static int js_noise_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_noise_property(ctx, proto);
-	define_noise_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, noise_class_proto_funcs, _countof(noise_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, noise_class_constructor, "Noise", 0, JS_CFUNC_constructor, 0);
+	define_noise_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Noise", ctor);
 

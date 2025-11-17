@@ -116,7 +116,7 @@ static void define_rd_shader_file_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_rd_shader_file_enum(JSContext *ctx, JSValue proto) {
+static void define_rd_shader_file_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_rd_shader_file_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -132,9 +132,9 @@ static int js_rd_shader_file_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_rd_shader_file_property(ctx, proto);
-	define_rd_shader_file_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, rd_shader_file_class_proto_funcs, _countof(rd_shader_file_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, rd_shader_file_class_constructor, "RDShaderFile", 0, JS_CFUNC_constructor, 0);
+	define_rd_shader_file_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "RDShaderFile", ctor);
 

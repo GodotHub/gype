@@ -60,7 +60,7 @@ static JSValue audio_stream_playback_synchronized_class_constructor(JSContext *c
 static void define_audio_stream_playback_synchronized_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_audio_stream_playback_synchronized_enum(JSContext *ctx, JSValue proto) {
+static void define_audio_stream_playback_synchronized_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_audio_stream_playback_synchronized_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_audio_stream_playback_synchronized_class_init(JSContext *ctx, JSMo
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_audio_stream_playback_synchronized_property(ctx, proto);
-	define_audio_stream_playback_synchronized_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, audio_stream_playback_synchronized_class_constructor, "AudioStreamPlaybackSynchronized", 0, JS_CFUNC_constructor, 0);
+	define_audio_stream_playback_synchronized_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioStreamPlaybackSynchronized", ctor);
 

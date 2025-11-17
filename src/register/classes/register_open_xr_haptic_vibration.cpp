@@ -116,7 +116,7 @@ static void define_open_xr_haptic_vibration_property(JSContext *ctx, JSValue pro
     );
 }
 
-static void define_open_xr_haptic_vibration_enum(JSContext *ctx, JSValue proto) {
+static void define_open_xr_haptic_vibration_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_open_xr_haptic_vibration_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -132,9 +132,9 @@ static int js_open_xr_haptic_vibration_class_init(JSContext *ctx, JSModuleDef *m
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_open_xr_haptic_vibration_property(ctx, proto);
-	define_open_xr_haptic_vibration_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, open_xr_haptic_vibration_class_proto_funcs, _countof(open_xr_haptic_vibration_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, open_xr_haptic_vibration_class_constructor, "OpenXRHapticVibration", 0, JS_CFUNC_constructor, 0);
+	define_open_xr_haptic_vibration_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "OpenXRHapticVibration", ctor);
 

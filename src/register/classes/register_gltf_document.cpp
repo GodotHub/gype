@@ -266,17 +266,17 @@ static void define_gltf_document_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_gltf_document_enum(JSContext *ctx, JSValue proto) {
+static void define_gltf_document_enum(JSContext *ctx, JSValue ctor) {
 	JSValue RootNodeMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, RootNodeMode_obj, "ROOT_NODE_MODE_SINGLE_ROOT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, RootNodeMode_obj, "ROOT_NODE_MODE_KEEP_ROOT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, RootNodeMode_obj, "ROOT_NODE_MODE_MULTI_ROOT", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "RootNodeMode", RootNodeMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "RootNodeMode", RootNodeMode_obj);
 	JSValue VisibilityMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, VisibilityMode_obj, "VISIBILITY_MODE_INCLUDE_REQUIRED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, VisibilityMode_obj, "VISIBILITY_MODE_INCLUDE_OPTIONAL", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, VisibilityMode_obj, "VISIBILITY_MODE_EXCLUDE", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "VisibilityMode", VisibilityMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "VisibilityMode", VisibilityMode_obj);
 }
 
 static int js_gltf_document_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -292,10 +292,10 @@ static int js_gltf_document_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_gltf_document_property(ctx, proto);
-	define_gltf_document_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, gltf_document_class_proto_funcs, _countof(gltf_document_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, gltf_document_class_constructor, "GLTFDocument", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, gltf_document_class_static_funcs, _countof(gltf_document_class_static_funcs));
+	define_gltf_document_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GLTFDocument", ctor);
 

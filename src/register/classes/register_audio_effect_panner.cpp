@@ -80,7 +80,7 @@ static void define_audio_effect_panner_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_audio_effect_panner_enum(JSContext *ctx, JSValue proto) {
+static void define_audio_effect_panner_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_audio_effect_panner_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -96,9 +96,9 @@ static int js_audio_effect_panner_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_audio_effect_panner_property(ctx, proto);
-	define_audio_effect_panner_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, audio_effect_panner_class_proto_funcs, _countof(audio_effect_panner_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, audio_effect_panner_class_constructor, "AudioEffectPanner", 0, JS_CFUNC_constructor, 0);
+	define_audio_effect_panner_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioEffectPanner", ctor);
 

@@ -379,14 +379,14 @@ static void define_color_picker_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_color_picker_enum(JSContext *ctx, JSValue proto) {
+static void define_color_picker_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ColorModeType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ColorModeType_obj, "MODE_RGB", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ColorModeType_obj, "MODE_HSV", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ColorModeType_obj, "MODE_RAW", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ColorModeType_obj, "MODE_LINEAR", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ColorModeType_obj, "MODE_OKHSL", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "ColorModeType", ColorModeType_obj);
+	JS_SetPropertyStr(ctx, ctor, "ColorModeType", ColorModeType_obj);
 	JSValue PickerShapeType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PickerShapeType_obj, "SHAPE_HSV_RECTANGLE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PickerShapeType_obj, "SHAPE_HSV_WHEEL", JS_NewInt64(ctx, 1));
@@ -395,7 +395,7 @@ static void define_color_picker_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, PickerShapeType_obj, "SHAPE_NONE", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, PickerShapeType_obj, "SHAPE_OK_HS_RECTANGLE", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, PickerShapeType_obj, "SHAPE_OK_HL_RECTANGLE", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "PickerShapeType", PickerShapeType_obj);
+	JS_SetPropertyStr(ctx, ctor, "PickerShapeType", PickerShapeType_obj);
 }
 
 static int js_color_picker_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -411,9 +411,9 @@ static int js_color_picker_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_color_picker_property(ctx, proto);
-	define_color_picker_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, color_picker_class_proto_funcs, _countof(color_picker_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, color_picker_class_constructor, "ColorPicker", 0, JS_CFUNC_constructor, 0);
+	define_color_picker_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ColorPicker", ctor);
 

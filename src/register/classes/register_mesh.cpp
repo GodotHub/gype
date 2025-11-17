@@ -164,14 +164,14 @@ static void define_mesh_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_mesh_enum(JSContext *ctx, JSValue proto) {
+static void define_mesh_enum(JSContext *ctx, JSValue ctor) {
 	JSValue PrimitiveType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PrimitiveType_obj, "PRIMITIVE_POINTS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PrimitiveType_obj, "PRIMITIVE_LINES", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, PrimitiveType_obj, "PRIMITIVE_LINE_STRIP", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, PrimitiveType_obj, "PRIMITIVE_TRIANGLES", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, PrimitiveType_obj, "PRIMITIVE_TRIANGLE_STRIP", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "PrimitiveType", PrimitiveType_obj);
+	JS_SetPropertyStr(ctx, ctor, "PrimitiveType", PrimitiveType_obj);
 	JSValue ArrayType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ArrayType_obj, "ARRAY_VERTEX", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ArrayType_obj, "ARRAY_NORMAL", JS_NewInt64(ctx, 1));
@@ -187,7 +187,7 @@ static void define_mesh_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, ArrayType_obj, "ARRAY_WEIGHTS", JS_NewInt64(ctx, 11));
 	JS_SetPropertyStr(ctx, ArrayType_obj, "ARRAY_INDEX", JS_NewInt64(ctx, 12));
 	JS_SetPropertyStr(ctx, ArrayType_obj, "ARRAY_MAX", JS_NewInt64(ctx, 13));
-	JS_SetPropertyStr(ctx, proto, "ArrayType", ArrayType_obj);
+	JS_SetPropertyStr(ctx, ctor, "ArrayType", ArrayType_obj);
 	JSValue ArrayCustomFormat_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ArrayCustomFormat_obj, "ARRAY_CUSTOM_RGBA8_UNORM", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ArrayCustomFormat_obj, "ARRAY_CUSTOM_RGBA8_SNORM", JS_NewInt64(ctx, 1));
@@ -198,7 +198,7 @@ static void define_mesh_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, ArrayCustomFormat_obj, "ARRAY_CUSTOM_RGB_FLOAT", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, ArrayCustomFormat_obj, "ARRAY_CUSTOM_RGBA_FLOAT", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, ArrayCustomFormat_obj, "ARRAY_CUSTOM_MAX", JS_NewInt64(ctx, 8));
-	JS_SetPropertyStr(ctx, proto, "ArrayCustomFormat", ArrayCustomFormat_obj);
+	JS_SetPropertyStr(ctx, ctor, "ArrayCustomFormat", ArrayCustomFormat_obj);
 	JSValue ArrayFormat_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ArrayFormat_obj, "ARRAY_FORMAT_VERTEX", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ArrayFormat_obj, "ARRAY_FORMAT_NORMAL", JS_NewInt64(ctx, 2));
@@ -227,11 +227,11 @@ static void define_mesh_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, ArrayFormat_obj, "ARRAY_FLAG_USE_8_BONE_WEIGHTS", JS_NewInt64(ctx, 134217728));
 	JS_SetPropertyStr(ctx, ArrayFormat_obj, "ARRAY_FLAG_USES_EMPTY_VERTEX_ARRAY", JS_NewInt64(ctx, 268435456));
 	JS_SetPropertyStr(ctx, ArrayFormat_obj, "ARRAY_FLAG_COMPRESS_ATTRIBUTES", JS_NewInt64(ctx, 536870912));
-	JS_SetPropertyStr(ctx, proto, "ArrayFormat", ArrayFormat_obj);
+	JS_SetPropertyStr(ctx, ctor, "ArrayFormat", ArrayFormat_obj);
 	JSValue BlendShapeMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BlendShapeMode_obj, "BLEND_SHAPE_MODE_NORMALIZED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BlendShapeMode_obj, "BLEND_SHAPE_MODE_RELATIVE", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "BlendShapeMode", BlendShapeMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "BlendShapeMode", BlendShapeMode_obj);
 }
 
 static int js_mesh_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -247,9 +247,9 @@ static int js_mesh_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_mesh_property(ctx, proto);
-	define_mesh_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, mesh_class_proto_funcs, _countof(mesh_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, mesh_class_constructor, "Mesh", 0, JS_CFUNC_constructor, 0);
+	define_mesh_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Mesh", ctor);
 

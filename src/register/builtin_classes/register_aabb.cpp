@@ -135,7 +135,6 @@ static JSValue aabb_class_intersects_ray(JSContext *ctx, JSValueConst this_val, 
 static JSValue aabb_class_get_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	AABB val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]))->get();
 	return VariantAdapter(val.position);
-	
 }
 static JSValue aabb_class_set_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]));
@@ -147,7 +146,6 @@ static JSValue aabb_class_set_position(JSContext *ctx, JSValueConst this_val, in
 static JSValue aabb_class_get_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	AABB val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]))->get();
 	return VariantAdapter(val.size);
-	
 }
 static JSValue aabb_class_set_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]));
@@ -159,7 +157,6 @@ static JSValue aabb_class_set_size(JSContext *ctx, JSValueConst this_val, int ar
 static JSValue aabb_class_get_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	AABB val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]))->get();
 	return VariantAdapter(val.get_end());
-	
 }
 static JSValue aabb_class_set_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["AABB"]));
@@ -168,6 +165,8 @@ static JSValue aabb_class_set_end(JSContext *ctx, JSValueConst this_val, int arg
     adapter->set(val);
 	return JS_UNDEFINED;
 }
+
+
 
 static const JSCFunctionListEntry aabb_class_proto_funcs[] = {
 	JS_CFUNC_DEF("abs", 0, &aabb_class_abs),
@@ -197,6 +196,7 @@ static const JSCFunctionListEntry aabb_class_proto_funcs[] = {
 	JS_CFUNC_DEF("intersects_ray", 2, &aabb_class_intersects_ray),
 };
 
+
 static void define_aabb_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
 			ctx,
@@ -221,6 +221,7 @@ static void define_aabb_property(JSContext *ctx, JSValue obj) {
 			JS_PROP_GETSET);
 }
 
+
 static int js_aabb_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["AABB"] = JS_NewClassID(js_runtime(), &class_id);
@@ -229,13 +230,16 @@ static int js_aabb_class_init(JSContext *ctx) {
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &aabb_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	define_aabb_property(ctx, proto);	JS_SetPropertyFunctionList(ctx, proto, aabb_class_proto_funcs, _countof(aabb_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);	define_aabb_property(ctx, proto);
+	JS_SetPropertyFunctionList(ctx, proto, aabb_class_proto_funcs, _countof(aabb_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, aabb_class_constructor, "AABB", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "AABB", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -628,6 +632,7 @@ static int js_aabb_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "AABBProxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

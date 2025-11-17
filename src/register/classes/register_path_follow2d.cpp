@@ -188,7 +188,7 @@ static void define_path_follow2d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_path_follow2d_enum(JSContext *ctx, JSValue proto) {
+static void define_path_follow2d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_path_follow2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -204,9 +204,9 @@ static int js_path_follow2d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_path_follow2d_property(ctx, proto);
-	define_path_follow2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, path_follow2d_class_proto_funcs, _countof(path_follow2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, path_follow2d_class_constructor, "PathFollow2D", 0, JS_CFUNC_constructor, 0);
+	define_path_follow2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "PathFollow2D", ctor);
 

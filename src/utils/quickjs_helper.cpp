@@ -391,7 +391,7 @@ godot::Variant jsvalue_to_variant(JSValue val) {
 		}
 		break;
 		case JS_TAG_BOOL: {
-			return JS_ToBool(js_context(), val);
+			return static_cast<bool>(JS_ToBool(js_context(), val));
 		}
 		break;
 		case JS_TAG_STRING: {

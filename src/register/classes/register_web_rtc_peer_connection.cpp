@@ -175,7 +175,7 @@ static void define_web_rtc_peer_connection_property(JSContext *ctx, JSValue prot
 		JS_PROP_GETSET);
 }
 
-static void define_web_rtc_peer_connection_enum(JSContext *ctx, JSValue proto) {
+static void define_web_rtc_peer_connection_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ConnectionState_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ConnectionState_obj, "STATE_NEW", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ConnectionState_obj, "STATE_CONNECTING", JS_NewInt64(ctx, 1));
@@ -183,12 +183,12 @@ static void define_web_rtc_peer_connection_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, ConnectionState_obj, "STATE_DISCONNECTED", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, ConnectionState_obj, "STATE_FAILED", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, ConnectionState_obj, "STATE_CLOSED", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "ConnectionState", ConnectionState_obj);
+	JS_SetPropertyStr(ctx, ctor, "ConnectionState", ConnectionState_obj);
 	JSValue GatheringState_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, GatheringState_obj, "GATHERING_STATE_NEW", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, GatheringState_obj, "GATHERING_STATE_GATHERING", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, GatheringState_obj, "GATHERING_STATE_COMPLETE", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "GatheringState", GatheringState_obj);
+	JS_SetPropertyStr(ctx, ctor, "GatheringState", GatheringState_obj);
 	JSValue SignalingState_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SignalingState_obj, "SIGNALING_STATE_STABLE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SignalingState_obj, "SIGNALING_STATE_HAVE_LOCAL_OFFER", JS_NewInt64(ctx, 1));
@@ -196,7 +196,7 @@ static void define_web_rtc_peer_connection_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, SignalingState_obj, "SIGNALING_STATE_HAVE_LOCAL_PRANSWER", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, SignalingState_obj, "SIGNALING_STATE_HAVE_REMOTE_PRANSWER", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, SignalingState_obj, "SIGNALING_STATE_CLOSED", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "SignalingState", SignalingState_obj);
+	JS_SetPropertyStr(ctx, ctor, "SignalingState", SignalingState_obj);
 }
 
 static int js_web_rtc_peer_connection_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -212,10 +212,10 @@ static int js_web_rtc_peer_connection_class_init(JSContext *ctx, JSModuleDef *m)
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_web_rtc_peer_connection_property(ctx, proto);
-	define_web_rtc_peer_connection_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, web_rtc_peer_connection_class_proto_funcs, _countof(web_rtc_peer_connection_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, web_rtc_peer_connection_class_constructor, "WebRTCPeerConnection", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, web_rtc_peer_connection_class_static_funcs, _countof(web_rtc_peer_connection_class_static_funcs));
+	define_web_rtc_peer_connection_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "WebRTCPeerConnection", ctor);
 

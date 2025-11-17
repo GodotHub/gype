@@ -80,7 +80,7 @@ static void define_fbx_state_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_fbx_state_enum(JSContext *ctx, JSValue proto) {
+static void define_fbx_state_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_fbx_state_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -96,9 +96,9 @@ static int js_fbx_state_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_fbx_state_property(ctx, proto);
-	define_fbx_state_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, fbx_state_class_proto_funcs, _countof(fbx_state_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, fbx_state_class_constructor, "FBXState", 0, JS_CFUNC_constructor, 0);
+	define_fbx_state_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "FBXState", ctor);
 

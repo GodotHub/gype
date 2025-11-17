@@ -60,7 +60,7 @@ static JSValue h_slider_class_constructor(JSContext *ctx, JSValueConst new_targe
 static void define_h_slider_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_h_slider_enum(JSContext *ctx, JSValue proto) {
+static void define_h_slider_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_h_slider_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_h_slider_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_h_slider_property(ctx, proto);
-	define_h_slider_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, h_slider_class_constructor, "HSlider", 0, JS_CFUNC_constructor, 0);
+	define_h_slider_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "HSlider", ctor);
 

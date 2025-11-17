@@ -98,7 +98,7 @@ static void define_cylinder_shape3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_cylinder_shape3d_enum(JSContext *ctx, JSValue proto) {
+static void define_cylinder_shape3d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_cylinder_shape3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -114,9 +114,9 @@ static int js_cylinder_shape3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_cylinder_shape3d_property(ctx, proto);
-	define_cylinder_shape3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, cylinder_shape3d_class_proto_funcs, _countof(cylinder_shape3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, cylinder_shape3d_class_constructor, "CylinderShape3D", 0, JS_CFUNC_constructor, 0);
+	define_cylinder_shape3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CylinderShape3D", ctor);
 

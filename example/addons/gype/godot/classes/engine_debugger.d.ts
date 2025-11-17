@@ -18,7 +18,7 @@ export declare class EngineDebugger extends GodotObject {
     public has_profiler(name: GDString | StringName | string): boolean;
     public profiler_add_frame_data(name: GDString | StringName | string, data: GDArray): void;
     public profiler_enable(name: GDString | StringName | string, enable: boolean, arguments: GDArray = []): void;
-    public register_message_capture(name: GDString | StringName | string, callable: Callable): void;
+    public register_message_capture(name: GDString | StringName | string, callable: Callable | Function): void;
     public unregister_message_capture(name: GDString | StringName | string): void;
     public has_capture(name: GDString | StringName | string): boolean;
     public line_poll(): void;

@@ -118,12 +118,12 @@ static void define_back_buffer_copy_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_back_buffer_copy_enum(JSContext *ctx, JSValue proto) {
+static void define_back_buffer_copy_enum(JSContext *ctx, JSValue ctor) {
 	JSValue CopyMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CopyMode_obj, "COPY_MODE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CopyMode_obj, "COPY_MODE_RECT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, CopyMode_obj, "COPY_MODE_VIEWPORT", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "CopyMode", CopyMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "CopyMode", CopyMode_obj);
 }
 
 static int js_back_buffer_copy_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -139,9 +139,9 @@ static int js_back_buffer_copy_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_back_buffer_copy_property(ctx, proto);
-	define_back_buffer_copy_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, back_buffer_copy_class_proto_funcs, _countof(back_buffer_copy_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, back_buffer_copy_class_constructor, "BackBufferCopy", 0, JS_CFUNC_constructor, 0);
+	define_back_buffer_copy_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "BackBufferCopy", ctor);
 

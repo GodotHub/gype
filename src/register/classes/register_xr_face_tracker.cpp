@@ -111,7 +111,7 @@ static void define_xr_face_tracker_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_xr_face_tracker_enum(JSContext *ctx, JSValue proto) {
+static void define_xr_face_tracker_enum(JSContext *ctx, JSValue ctor) {
 	JSValue BlendShapeEntry_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BlendShapeEntry_obj, "FT_EYE_LOOK_OUT_RIGHT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BlendShapeEntry_obj, "FT_EYE_LOOK_IN_RIGHT", JS_NewInt64(ctx, 1));
@@ -257,7 +257,7 @@ static void define_xr_face_tracker_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, BlendShapeEntry_obj, "FT_MOUTH_TIGHTENER", JS_NewInt64(ctx, 141));
 	JS_SetPropertyStr(ctx, BlendShapeEntry_obj, "FT_MOUTH_PRESS", JS_NewInt64(ctx, 142));
 	JS_SetPropertyStr(ctx, BlendShapeEntry_obj, "FT_MAX", JS_NewInt64(ctx, 143));
-	JS_SetPropertyStr(ctx, proto, "BlendShapeEntry", BlendShapeEntry_obj);
+	JS_SetPropertyStr(ctx, ctor, "BlendShapeEntry", BlendShapeEntry_obj);
 }
 
 static int js_xr_face_tracker_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -273,9 +273,9 @@ static int js_xr_face_tracker_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_xr_face_tracker_property(ctx, proto);
-	define_xr_face_tracker_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, xr_face_tracker_class_proto_funcs, _countof(xr_face_tracker_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, xr_face_tracker_class_constructor, "XRFaceTracker", 0, JS_CFUNC_constructor, 0);
+	define_xr_face_tracker_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "XRFaceTracker", ctor);
 

@@ -282,17 +282,17 @@ static void define_animation_node_state_machine_transition_property(JSContext *c
 		JS_PROP_GETSET);
 }
 
-static void define_animation_node_state_machine_transition_enum(JSContext *ctx, JSValue proto) {
+static void define_animation_node_state_machine_transition_enum(JSContext *ctx, JSValue ctor) {
 	JSValue SwitchMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SwitchMode_obj, "SWITCH_MODE_IMMEDIATE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SwitchMode_obj, "SWITCH_MODE_SYNC", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, SwitchMode_obj, "SWITCH_MODE_AT_END", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "SwitchMode", SwitchMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "SwitchMode", SwitchMode_obj);
 	JSValue AdvanceMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AdvanceMode_obj, "ADVANCE_MODE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AdvanceMode_obj, "ADVANCE_MODE_ENABLED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AdvanceMode_obj, "ADVANCE_MODE_AUTO", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "AdvanceMode", AdvanceMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "AdvanceMode", AdvanceMode_obj);
 }
 
 static int js_animation_node_state_machine_transition_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -308,9 +308,9 @@ static int js_animation_node_state_machine_transition_class_init(JSContext *ctx,
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_animation_node_state_machine_transition_property(ctx, proto);
-	define_animation_node_state_machine_transition_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, animation_node_state_machine_transition_class_proto_funcs, _countof(animation_node_state_machine_transition_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, animation_node_state_machine_transition_class_constructor, "AnimationNodeStateMachineTransition", 0, JS_CFUNC_constructor, 0);
+	define_animation_node_state_machine_transition_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AnimationNodeStateMachineTransition", ctor);
 

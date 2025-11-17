@@ -78,7 +78,7 @@ static const JSCFunctionListEntry instance_placeholder_class_proto_funcs[] = {
 static void define_instance_placeholder_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_instance_placeholder_enum(JSContext *ctx, JSValue proto) {
+static void define_instance_placeholder_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_instance_placeholder_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -94,9 +94,9 @@ static int js_instance_placeholder_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_instance_placeholder_property(ctx, proto);
-	define_instance_placeholder_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, instance_placeholder_class_proto_funcs, _countof(instance_placeholder_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, instance_placeholder_class_constructor, "InstancePlaceholder", 0, JS_CFUNC_constructor, 0);
+	define_instance_placeholder_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "InstancePlaceholder", ctor);
 

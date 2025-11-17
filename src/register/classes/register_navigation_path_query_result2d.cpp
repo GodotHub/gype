@@ -220,11 +220,11 @@ static void define_navigation_path_query_result2d_property(JSContext *ctx, JSVal
     );
 }
 
-static void define_navigation_path_query_result2d_enum(JSContext *ctx, JSValue proto) {
+static void define_navigation_path_query_result2d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue PathSegmentType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PathSegmentType_obj, "PATH_SEGMENT_TYPE_REGION", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PathSegmentType_obj, "PATH_SEGMENT_TYPE_LINK", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "PathSegmentType", PathSegmentType_obj);
+	JS_SetPropertyStr(ctx, ctor, "PathSegmentType", PathSegmentType_obj);
 }
 
 static int js_navigation_path_query_result2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -240,9 +240,9 @@ static int js_navigation_path_query_result2d_class_init(JSContext *ctx, JSModule
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_navigation_path_query_result2d_property(ctx, proto);
-	define_navigation_path_query_result2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, navigation_path_query_result2d_class_proto_funcs, _countof(navigation_path_query_result2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, navigation_path_query_result2d_class_constructor, "NavigationPathQueryResult2D", 0, JS_CFUNC_constructor, 0);
+	define_navigation_path_query_result2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "NavigationPathQueryResult2D", ctor);
 

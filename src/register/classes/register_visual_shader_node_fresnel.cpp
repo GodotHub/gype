@@ -60,7 +60,7 @@ static JSValue visual_shader_node_fresnel_class_constructor(JSContext *ctx, JSVa
 static void define_visual_shader_node_fresnel_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_visual_shader_node_fresnel_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_fresnel_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_visual_shader_node_fresnel_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_visual_shader_node_fresnel_class_init(JSContext *ctx, JSModuleDef 
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_fresnel_property(ctx, proto);
-	define_visual_shader_node_fresnel_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_fresnel_class_constructor, "VisualShaderNodeFresnel", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_fresnel_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeFresnel", ctor);
 

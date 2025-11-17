@@ -219,7 +219,7 @@ static void define_world3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_world3d_enum(JSContext *ctx, JSValue proto) {
+static void define_world3d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_world3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -235,9 +235,9 @@ static int js_world3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_world3d_property(ctx, proto);
-	define_world3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, world3d_class_proto_funcs, _countof(world3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, world3d_class_constructor, "World3D", 0, JS_CFUNC_constructor, 0);
+	define_world3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "World3D", ctor);
 

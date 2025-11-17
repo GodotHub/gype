@@ -410,21 +410,21 @@ static void define_csg_polygon3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_csg_polygon3d_enum(JSContext *ctx, JSValue proto) {
+static void define_csg_polygon3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Mode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Mode_obj, "MODE_DEPTH", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Mode_obj, "MODE_SPIN", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Mode_obj, "MODE_PATH", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "Mode", Mode_obj);
+	JS_SetPropertyStr(ctx, ctor, "Mode", Mode_obj);
 	JSValue PathRotation_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PathRotation_obj, "PATH_ROTATION_POLYGON", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PathRotation_obj, "PATH_ROTATION_PATH", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, PathRotation_obj, "PATH_ROTATION_PATH_FOLLOW", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "PathRotation", PathRotation_obj);
+	JS_SetPropertyStr(ctx, ctor, "PathRotation", PathRotation_obj);
 	JSValue PathIntervalType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PathIntervalType_obj, "PATH_INTERVAL_DISTANCE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PathIntervalType_obj, "PATH_INTERVAL_SUBDIVIDE", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "PathIntervalType", PathIntervalType_obj);
+	JS_SetPropertyStr(ctx, ctor, "PathIntervalType", PathIntervalType_obj);
 }
 
 static int js_csg_polygon3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -440,9 +440,9 @@ static int js_csg_polygon3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_csg_polygon3d_property(ctx, proto);
-	define_csg_polygon3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, csg_polygon3d_class_proto_funcs, _countof(csg_polygon3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, csg_polygon3d_class_constructor, "CSGPolygon3D", 0, JS_CFUNC_constructor, 0);
+	define_csg_polygon3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CSGPolygon3D", ctor);
 

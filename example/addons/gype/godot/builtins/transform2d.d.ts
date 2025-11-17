@@ -5,9 +5,9 @@ declare global {
         constructor(rotation: number, position: Vector2): Transform2D;
         constructor(rotation: number, scale: Vector2, skew: number, position: Vector2): Transform2D;
         constructor(xAxis: Vector2, yAxis: Vector2, origin: Vector2): Transform2D;
-        readonly IDENTITY: Transform2D;
-        readonly FLIP_X: Transform2D;
-        readonly FLIP_Y: Transform2D;
+        readonly static IDENTITY: Transform2D;
+        readonly static FLIP_X: Transform2D;
+        readonly static FLIP_Y: Transform2D;
     
         x: Vector2;
         y: Vector2;

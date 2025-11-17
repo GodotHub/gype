@@ -2,6 +2,7 @@
 import type { ButtonGroup } from '@godot/classes/button_group';
 import type { Control } from '@godot/classes/control';
 import type { Shortcut } from '@godot/classes/shortcut';
+import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class BaseButton extends Control {
@@ -54,10 +55,10 @@ export declare class BaseButton extends Control {
     public get_button_group(): ButtonGroup;
 
     
-    public readonly pressed: Signal;
-    public readonly button_up: Signal;
-    public readonly button_down: Signal;
-    public readonly toggled: Signal;
+    public readonly pressed: Signal<() => void>;
+    public readonly button_up: Signal<() => void>;
+    public readonly button_down: Signal<() => void>;
+    public readonly toggled: Signal<(toggledOn: boolean) => void>;
 
     public static readonly DrawMode: {
         DRAW_NORMAL: 0;

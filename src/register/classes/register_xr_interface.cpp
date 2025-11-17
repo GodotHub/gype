@@ -251,7 +251,7 @@ static void define_xr_interface_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_xr_interface_enum(JSContext *ctx, JSValue proto) {
+static void define_xr_interface_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Capabilities_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Capabilities_obj, "XR_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Capabilities_obj, "XR_MONO", JS_NewInt64(ctx, 1));
@@ -260,14 +260,14 @@ static void define_xr_interface_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Capabilities_obj, "XR_VR", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, Capabilities_obj, "XR_AR", JS_NewInt64(ctx, 16));
 	JS_SetPropertyStr(ctx, Capabilities_obj, "XR_EXTERNAL", JS_NewInt64(ctx, 32));
-	JS_SetPropertyStr(ctx, proto, "Capabilities", Capabilities_obj);
+	JS_SetPropertyStr(ctx, ctor, "Capabilities", Capabilities_obj);
 	JSValue TrackingStatus_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TrackingStatus_obj, "XR_NORMAL_TRACKING", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TrackingStatus_obj, "XR_EXCESSIVE_MOTION", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TrackingStatus_obj, "XR_INSUFFICIENT_FEATURES", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, TrackingStatus_obj, "XR_UNKNOWN_TRACKING", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, TrackingStatus_obj, "XR_NOT_TRACKING", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "TrackingStatus", TrackingStatus_obj);
+	JS_SetPropertyStr(ctx, ctor, "TrackingStatus", TrackingStatus_obj);
 	JSValue PlayAreaMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PlayAreaMode_obj, "XR_PLAY_AREA_UNKNOWN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PlayAreaMode_obj, "XR_PLAY_AREA_3DOF", JS_NewInt64(ctx, 1));
@@ -275,17 +275,17 @@ static void define_xr_interface_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, PlayAreaMode_obj, "XR_PLAY_AREA_ROOMSCALE", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, PlayAreaMode_obj, "XR_PLAY_AREA_STAGE", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, PlayAreaMode_obj, "XR_PLAY_AREA_CUSTOM", JS_NewInt64(ctx, 2147483647));
-	JS_SetPropertyStr(ctx, proto, "PlayAreaMode", PlayAreaMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "PlayAreaMode", PlayAreaMode_obj);
 	JSValue EnvironmentBlendMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, EnvironmentBlendMode_obj, "XR_ENV_BLEND_MODE_OPAQUE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, EnvironmentBlendMode_obj, "XR_ENV_BLEND_MODE_ADDITIVE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, EnvironmentBlendMode_obj, "XR_ENV_BLEND_MODE_ALPHA_BLEND", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "EnvironmentBlendMode", EnvironmentBlendMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "EnvironmentBlendMode", EnvironmentBlendMode_obj);
 	JSValue VRSTextureFormat_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, VRSTextureFormat_obj, "XR_VRS_TEXTURE_FORMAT_UNIFIED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, VRSTextureFormat_obj, "XR_VRS_TEXTURE_FORMAT_FRAGMENT_SHADING_RATE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, VRSTextureFormat_obj, "XR_VRS_TEXTURE_FORMAT_FRAGMENT_DENSITY_MAP", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "VRSTextureFormat", VRSTextureFormat_obj);
+	JS_SetPropertyStr(ctx, ctor, "VRSTextureFormat", VRSTextureFormat_obj);
 }
 
 static int js_xr_interface_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -301,9 +301,9 @@ static int js_xr_interface_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_xr_interface_property(ctx, proto);
-	define_xr_interface_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, xr_interface_class_proto_funcs, _countof(xr_interface_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, xr_interface_class_constructor, "XRInterface", 0, JS_CFUNC_constructor, 0);
+	define_xr_interface_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "XRInterface", ctor);
 

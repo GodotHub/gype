@@ -60,7 +60,7 @@ static JSValue v_box_container_class_constructor(JSContext *ctx, JSValueConst ne
 static void define_v_box_container_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_v_box_container_enum(JSContext *ctx, JSValue proto) {
+static void define_v_box_container_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_v_box_container_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_v_box_container_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_v_box_container_property(ctx, proto);
-	define_v_box_container_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, v_box_container_class_constructor, "VBoxContainer", 0, JS_CFUNC_constructor, 0);
+	define_v_box_container_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VBoxContainer", ctor);
 

@@ -272,7 +272,7 @@ export declare class Control extends CanvasItem {
     public set_clip_contents(enable: boolean): void;
     public is_clipping_contents(): boolean;
     public grab_click_focus(): void;
-    public set_drag_forwarding(dragFunc: Callable, canDrofunc: Callable, drofunc: Callable): void;
+    public set_drag_forwarding(dragFunc: Callable | Function, canDrofunc: Callable | Function, drofunc: Callable | Function): void;
     public set_drag_preview(control: Control): void;
     public is_drag_successful(): boolean;
     public warp_mouse(position: Vector2): void;

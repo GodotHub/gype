@@ -450,7 +450,7 @@ static void define_grid_map_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_grid_map_enum(JSContext *ctx, JSValue proto) {
+static void define_grid_map_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_grid_map_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -466,9 +466,9 @@ static int js_grid_map_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_grid_map_property(ctx, proto);
-	define_grid_map_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, grid_map_class_proto_funcs, _countof(grid_map_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, grid_map_class_constructor, "GridMap", 0, JS_CFUNC_constructor, 0);
+	define_grid_map_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GridMap", ctor);
 

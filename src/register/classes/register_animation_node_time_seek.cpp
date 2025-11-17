@@ -80,7 +80,7 @@ static void define_animation_node_time_seek_property(JSContext *ctx, JSValue pro
     );
 }
 
-static void define_animation_node_time_seek_enum(JSContext *ctx, JSValue proto) {
+static void define_animation_node_time_seek_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_animation_node_time_seek_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -96,9 +96,9 @@ static int js_animation_node_time_seek_class_init(JSContext *ctx, JSModuleDef *m
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_animation_node_time_seek_property(ctx, proto);
-	define_animation_node_time_seek_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, animation_node_time_seek_class_proto_funcs, _countof(animation_node_time_seek_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, animation_node_time_seek_class_constructor, "AnimationNodeTimeSeek", 0, JS_CFUNC_constructor, 0);
+	define_animation_node_time_seek_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AnimationNodeTimeSeek", ctor);
 

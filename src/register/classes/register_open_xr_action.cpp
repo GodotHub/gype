@@ -157,13 +157,13 @@ static void define_open_xr_action_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_open_xr_action_enum(JSContext *ctx, JSValue proto) {
+static void define_open_xr_action_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ActionType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ActionType_obj, "OPENXR_ACTION_BOOL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ActionType_obj, "OPENXR_ACTION_FLOAT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ActionType_obj, "OPENXR_ACTION_VECTOR2", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ActionType_obj, "OPENXR_ACTION_POSE", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "ActionType", ActionType_obj);
+	JS_SetPropertyStr(ctx, ctor, "ActionType", ActionType_obj);
 }
 
 static int js_open_xr_action_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -179,9 +179,9 @@ static int js_open_xr_action_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_open_xr_action_property(ctx, proto);
-	define_open_xr_action_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, open_xr_action_class_proto_funcs, _countof(open_xr_action_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, open_xr_action_class_constructor, "OpenXRAction", 0, JS_CFUNC_constructor, 0);
+	define_open_xr_action_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "OpenXRAction", ctor);
 

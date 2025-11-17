@@ -133,7 +133,7 @@ static const JSCFunctionListEntry physics_test_motion_result3d_class_proto_funcs
 static void define_physics_test_motion_result3d_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_physics_test_motion_result3d_enum(JSContext *ctx, JSValue proto) {
+static void define_physics_test_motion_result3d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_physics_test_motion_result3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -149,9 +149,9 @@ static int js_physics_test_motion_result3d_class_init(JSContext *ctx, JSModuleDe
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_physics_test_motion_result3d_property(ctx, proto);
-	define_physics_test_motion_result3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, physics_test_motion_result3d_class_proto_funcs, _countof(physics_test_motion_result3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, physics_test_motion_result3d_class_constructor, "PhysicsTestMotionResult3D", 0, JS_CFUNC_constructor, 0);
+	define_physics_test_motion_result3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "PhysicsTestMotionResult3D", ctor);
 

@@ -62,7 +62,7 @@ static JSValue script_language_extension_class_constructor(JSContext *ctx, JSVal
 static void define_script_language_extension_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_script_language_extension_enum(JSContext *ctx, JSValue proto) {
+static void define_script_language_extension_enum(JSContext *ctx, JSValue ctor) {
 	JSValue LookupResultType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LookupResultType_obj, "LOOKUP_RESULT_SCRIPT_LOCATION", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LookupResultType_obj, "LOOKUP_RESULT_CLASS", JS_NewInt64(ctx, 1));
@@ -76,13 +76,13 @@ static void define_script_language_extension_enum(JSContext *ctx, JSValue proto)
 	JS_SetPropertyStr(ctx, LookupResultType_obj, "LOOKUP_RESULT_LOCAL_CONSTANT", JS_NewInt64(ctx, 9));
 	JS_SetPropertyStr(ctx, LookupResultType_obj, "LOOKUP_RESULT_LOCAL_VARIABLE", JS_NewInt64(ctx, 10));
 	JS_SetPropertyStr(ctx, LookupResultType_obj, "LOOKUP_RESULT_MAX", JS_NewInt64(ctx, 11));
-	JS_SetPropertyStr(ctx, proto, "LookupResultType", LookupResultType_obj);
+	JS_SetPropertyStr(ctx, ctor, "LookupResultType", LookupResultType_obj);
 	JSValue CodeCompletionLocation_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CodeCompletionLocation_obj, "LOCATION_LOCAL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CodeCompletionLocation_obj, "LOCATION_PARENT_MASK", JS_NewInt64(ctx, 256));
 	JS_SetPropertyStr(ctx, CodeCompletionLocation_obj, "LOCATION_OTHER_USER_CODE", JS_NewInt64(ctx, 512));
 	JS_SetPropertyStr(ctx, CodeCompletionLocation_obj, "LOCATION_OTHER", JS_NewInt64(ctx, 1024));
-	JS_SetPropertyStr(ctx, proto, "CodeCompletionLocation", CodeCompletionLocation_obj);
+	JS_SetPropertyStr(ctx, ctor, "CodeCompletionLocation", CodeCompletionLocation_obj);
 	JSValue CodeCompletionKind_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CodeCompletionKind_obj, "CODE_COMPLETION_KIND_CLASS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CodeCompletionKind_obj, "CODE_COMPLETION_KIND_FUNCTION", JS_NewInt64(ctx, 1));
@@ -95,7 +95,7 @@ static void define_script_language_extension_enum(JSContext *ctx, JSValue proto)
 	JS_SetPropertyStr(ctx, CodeCompletionKind_obj, "CODE_COMPLETION_KIND_FILE_PATH", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, CodeCompletionKind_obj, "CODE_COMPLETION_KIND_PLAIN_TEXT", JS_NewInt64(ctx, 9));
 	JS_SetPropertyStr(ctx, CodeCompletionKind_obj, "CODE_COMPLETION_KIND_MAX", JS_NewInt64(ctx, 10));
-	JS_SetPropertyStr(ctx, proto, "CodeCompletionKind", CodeCompletionKind_obj);
+	JS_SetPropertyStr(ctx, ctor, "CodeCompletionKind", CodeCompletionKind_obj);
 }
 
 static int js_script_language_extension_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -111,8 +111,8 @@ static int js_script_language_extension_class_init(JSContext *ctx, JSModuleDef *
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_script_language_extension_property(ctx, proto);
-	define_script_language_extension_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, script_language_extension_class_constructor, "ScriptLanguageExtension", 0, JS_CFUNC_constructor, 0);
+	define_script_language_extension_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ScriptLanguageExtension", ctor);
 

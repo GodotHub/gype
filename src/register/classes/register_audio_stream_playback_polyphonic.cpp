@@ -88,7 +88,7 @@ static const JSCFunctionListEntry audio_stream_playback_polyphonic_class_proto_f
 static void define_audio_stream_playback_polyphonic_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_audio_stream_playback_polyphonic_enum(JSContext *ctx, JSValue proto) {
+static void define_audio_stream_playback_polyphonic_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_audio_stream_playback_polyphonic_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -104,9 +104,9 @@ static int js_audio_stream_playback_polyphonic_class_init(JSContext *ctx, JSModu
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_audio_stream_playback_polyphonic_property(ctx, proto);
-	define_audio_stream_playback_polyphonic_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, audio_stream_playback_polyphonic_class_proto_funcs, _countof(audio_stream_playback_polyphonic_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, audio_stream_playback_polyphonic_class_constructor, "AudioStreamPlaybackPolyphonic", 0, JS_CFUNC_constructor, 0);
+	define_audio_stream_playback_polyphonic_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioStreamPlaybackPolyphonic", ctor);
 

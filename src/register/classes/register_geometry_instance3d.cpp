@@ -381,30 +381,30 @@ static void define_geometry_instance3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_geometry_instance3d_enum(JSContext *ctx, JSValue proto) {
+static void define_geometry_instance3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ShadowCastingSetting_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ShadowCastingSetting_obj, "SHADOW_CASTING_SETTING_OFF", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ShadowCastingSetting_obj, "SHADOW_CASTING_SETTING_ON", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ShadowCastingSetting_obj, "SHADOW_CASTING_SETTING_DOUBLE_SIDED", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ShadowCastingSetting_obj, "SHADOW_CASTING_SETTING_SHADOWS_ONLY", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "ShadowCastingSetting", ShadowCastingSetting_obj);
+	JS_SetPropertyStr(ctx, ctor, "ShadowCastingSetting", ShadowCastingSetting_obj);
 	JSValue GIMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, GIMode_obj, "GI_MODE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, GIMode_obj, "GI_MODE_STATIC", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, GIMode_obj, "GI_MODE_DYNAMIC", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "GIMode", GIMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "GIMode", GIMode_obj);
 	JSValue LightmapScale_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LightmapScale_obj, "LIGHTMAP_SCALE_1X", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LightmapScale_obj, "LIGHTMAP_SCALE_2X", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, LightmapScale_obj, "LIGHTMAP_SCALE_4X", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, LightmapScale_obj, "LIGHTMAP_SCALE_8X", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, LightmapScale_obj, "LIGHTMAP_SCALE_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "LightmapScale", LightmapScale_obj);
+	JS_SetPropertyStr(ctx, ctor, "LightmapScale", LightmapScale_obj);
 	JSValue VisibilityRangeFadeMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, VisibilityRangeFadeMode_obj, "VISIBILITY_RANGE_FADE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, VisibilityRangeFadeMode_obj, "VISIBILITY_RANGE_FADE_SELF", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, VisibilityRangeFadeMode_obj, "VISIBILITY_RANGE_FADE_DEPENDENCIES", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "VisibilityRangeFadeMode", VisibilityRangeFadeMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "VisibilityRangeFadeMode", VisibilityRangeFadeMode_obj);
 }
 
 static int js_geometry_instance3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -420,9 +420,9 @@ static int js_geometry_instance3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_geometry_instance3d_property(ctx, proto);
-	define_geometry_instance3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, geometry_instance3d_class_proto_funcs, _countof(geometry_instance3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, geometry_instance3d_class_constructor, "GeometryInstance3D", 0, JS_CFUNC_constructor, 0);
+	define_geometry_instance3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GeometryInstance3D", ctor);
 

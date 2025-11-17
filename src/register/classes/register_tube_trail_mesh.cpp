@@ -207,7 +207,7 @@ static void define_tube_trail_mesh_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_tube_trail_mesh_enum(JSContext *ctx, JSValue proto) {
+static void define_tube_trail_mesh_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_tube_trail_mesh_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -223,9 +223,9 @@ static int js_tube_trail_mesh_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_tube_trail_mesh_property(ctx, proto);
-	define_tube_trail_mesh_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, tube_trail_mesh_class_proto_funcs, _countof(tube_trail_mesh_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, tube_trail_mesh_class_constructor, "TubeTrailMesh", 0, JS_CFUNC_constructor, 0);
+	define_tube_trail_mesh_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TubeTrailMesh", ctor);
 

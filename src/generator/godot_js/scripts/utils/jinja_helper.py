@@ -159,12 +159,12 @@ def set_type(type):
         return 'number'
     elif is_bool(type):
         return 'boolean'
-    elif is_enum(type):
+    elif type.startswith('enum::'):
         return 'number'
-    elif type.find('typedarray:') != -1:
-        return 'GDArray'
+    elif type.find('typedarray::') != -1:
+        return 'GDArray | Array'
     elif type == 'Array':
-        return 'GDArray'
+        return 'GDArray | Array'
     elif type == 'Variant':
         return 'any'
     elif type == 'Object':
@@ -187,7 +187,14 @@ def get_arg_count(method):
 def get_method_call_expression(method, class_name):
     method_name = method['name']
     has_return = method.get('return_type') or method.get('return_value')
-
+    
+    if class_name == 'AABB':
+        if method_name == "intersects_segment" or method_name == "intersects_ray":
+            method_name = method_name + '_bind'
+    if class_name == 'Plane':
+        if method_name == "intersect_3" or method_name == "intersects_ray" or method_name == "intersects_segment" :
+            method_name = method_name + '_bind'
+    
     # 1. 处理 VarArg 方法
     if method.get('is_vararg'):
         has_fixed_args = get_arg_count(method) > 0
@@ -232,6 +239,14 @@ def get_proxy_method_call_expression(method, class_name):
     code += f'    ObjectProxy<{class_name}> *proxy = static_cast<ObjectProxy<{class_name}> *>(opaque);\n'
     code += f'    Object *wrapped = proxy->wrapped;\n'
     code += f'    this_val = VariantAdapter(wrapped);\n'
+
+    if class_name == 'AABB':
+        if method_name == "intersects_segment" or method_name == "intersects_ray":
+            method_name = method_name + '_bind'
+    if class_name == 'Plane':
+        if method_name == "intersect_3" or method_name == "intersects_ray" or method_name == "intersects_segment" :
+            method_name = method_name + '_bind'
+    
     # 1. 处理 VarArg 方法
     if method.get('is_vararg'):
         has_fixed_args = get_arg_count(method) > 0
@@ -276,15 +291,12 @@ def get_proxy_method_call_expression(method, class_name):
                 '    return JS_UNDEFINED;')
 
 
-def get_property_accessor_expression(member, access_type):
+def get_property_accessor_expression(member, access_type, cls):
     """为属性生成 getter 或 setter 的 C++ 表达式。"""
     member_name = member['name']
 
     if access_type == 'get':
         getter = member.get('getter_name')
-        member_type = member['type']
-        if member_type == 'float':
-            member_type = 'double'
         if getter:
             return f'return VariantAdapter(val.{getter}());'
         else:
@@ -292,9 +304,6 @@ def get_property_accessor_expression(member, access_type):
 
     elif access_type == 'set':
         setter = member.get('setter_name')
-        member_type = member['type']
-        if member_type == 'float':
-            member_type = 'double'
         if setter:
             return f'val.{setter}(VariantAdapter(*argv)).get();'
         else:
@@ -593,6 +602,21 @@ def collect_ts_dependencies(cls: dict, all_classes: list, all_builtin_classes: l
         'signals': deps['signals'],
     }
 
+def define_constant_value(constant):
+    type = constant.get('type')
+    if is_pod_type(type):
+        if type.startswith('int') or type.startswith('uint'):
+            return f"JS_NewInt64(ctx, {constant.get('value')})"
+        elif type == 'float' or type == 'double' or type == 'real_t':
+            return f'JS_NewFloat64(ctx, {constant.get("value")})'
+        elif type == 'bool':
+            return f'JS_NewBool(ctx, {constant.get("value")})'
+        else:
+            return f'JS_UNDEFINED'
+    elif type == 'String' or type == 'StringName':
+        return f'JS_NewString(ctx, String({constant.get("value")}).utf8())'
+    else:
+        return f'JS_UNDEFINED'
 
 ALL_HELPERS = {
     'camel_to_snake': camel_to_snake,

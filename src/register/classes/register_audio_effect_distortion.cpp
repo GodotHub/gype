@@ -152,14 +152,14 @@ static void define_audio_effect_distortion_property(JSContext *ctx, JSValue prot
     );
 }
 
-static void define_audio_effect_distortion_enum(JSContext *ctx, JSValue proto) {
+static void define_audio_effect_distortion_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Mode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Mode_obj, "MODE_CLIP", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Mode_obj, "MODE_ATAN", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Mode_obj, "MODE_LOFI", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, Mode_obj, "MODE_OVERDRIVE", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, Mode_obj, "MODE_WAVESHAPE", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "Mode", Mode_obj);
+	JS_SetPropertyStr(ctx, ctor, "Mode", Mode_obj);
 }
 
 static int js_audio_effect_distortion_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -175,9 +175,9 @@ static int js_audio_effect_distortion_class_init(JSContext *ctx, JSModuleDef *m)
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_audio_effect_distortion_property(ctx, proto);
-	define_audio_effect_distortion_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, audio_effect_distortion_class_proto_funcs, _countof(audio_effect_distortion_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, audio_effect_distortion_class_constructor, "AudioEffectDistortion", 0, JS_CFUNC_constructor, 0);
+	define_audio_effect_distortion_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioEffectDistortion", ctor);
 

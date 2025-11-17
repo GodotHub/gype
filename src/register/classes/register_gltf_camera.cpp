@@ -173,7 +173,7 @@ static void define_gltf_camera_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_gltf_camera_enum(JSContext *ctx, JSValue proto) {
+static void define_gltf_camera_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_gltf_camera_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -189,10 +189,10 @@ static int js_gltf_camera_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_gltf_camera_property(ctx, proto);
-	define_gltf_camera_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, gltf_camera_class_proto_funcs, _countof(gltf_camera_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, gltf_camera_class_constructor, "GLTFCamera", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, gltf_camera_class_static_funcs, _countof(gltf_camera_class_static_funcs));
+	define_gltf_camera_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GLTFCamera", ctor);
 

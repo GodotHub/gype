@@ -295,12 +295,12 @@ static void define_resource_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_resource_enum(JSContext *ctx, JSValue proto) {
+static void define_resource_enum(JSContext *ctx, JSValue ctor) {
 	JSValue DeepDuplicateMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DeepDuplicateMode_obj, "DEEP_DUPLICATE_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DeepDuplicateMode_obj, "DEEP_DUPLICATE_INTERNAL", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DeepDuplicateMode_obj, "DEEP_DUPLICATE_ALL", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "DeepDuplicateMode", DeepDuplicateMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "DeepDuplicateMode", DeepDuplicateMode_obj);
 }
 
 static int js_resource_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -316,10 +316,10 @@ static int js_resource_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_resource_property(ctx, proto);
-	define_resource_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, resource_class_proto_funcs, _countof(resource_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, resource_class_constructor, "Resource", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, resource_class_static_funcs, _countof(resource_class_static_funcs));
+	define_resource_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Resource", ctor);
 

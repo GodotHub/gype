@@ -60,7 +60,7 @@ static JSValue skeleton_profile_humanoid_class_constructor(JSContext *ctx, JSVal
 static void define_skeleton_profile_humanoid_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_skeleton_profile_humanoid_enum(JSContext *ctx, JSValue proto) {
+static void define_skeleton_profile_humanoid_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_skeleton_profile_humanoid_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_skeleton_profile_humanoid_class_init(JSContext *ctx, JSModuleDef *
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_skeleton_profile_humanoid_property(ctx, proto);
-	define_skeleton_profile_humanoid_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, skeleton_profile_humanoid_class_constructor, "SkeletonProfileHumanoid", 0, JS_CFUNC_constructor, 0);
+	define_skeleton_profile_humanoid_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SkeletonProfileHumanoid", ctor);
 

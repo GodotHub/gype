@@ -60,7 +60,7 @@ static JSValue visual_shader_node_vector_distance_class_constructor(JSContext *c
 static void define_visual_shader_node_vector_distance_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_visual_shader_node_vector_distance_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_vector_distance_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_visual_shader_node_vector_distance_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_visual_shader_node_vector_distance_class_init(JSContext *ctx, JSMo
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_vector_distance_property(ctx, proto);
-	define_visual_shader_node_vector_distance_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_vector_distance_class_constructor, "VisualShaderNodeVectorDistance", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_vector_distance_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeVectorDistance", ctor);
 

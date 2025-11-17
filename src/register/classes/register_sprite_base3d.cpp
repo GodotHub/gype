@@ -433,7 +433,7 @@ static void define_sprite_base3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_sprite_base3d_enum(JSContext *ctx, JSValue proto) {
+static void define_sprite_base3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue DrawFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DrawFlags_obj, "FLAG_TRANSPARENT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DrawFlags_obj, "FLAG_SHADED", JS_NewInt64(ctx, 1));
@@ -441,13 +441,13 @@ static void define_sprite_base3d_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, DrawFlags_obj, "FLAG_DISABLE_DEPTH_TEST", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, DrawFlags_obj, "FLAG_FIXED_SIZE", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, DrawFlags_obj, "FLAG_MAX", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "DrawFlags", DrawFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "DrawFlags", DrawFlags_obj);
 	JSValue AlphaCutMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AlphaCutMode_obj, "ALPHA_CUT_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AlphaCutMode_obj, "ALPHA_CUT_DISCARD", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AlphaCutMode_obj, "ALPHA_CUT_OPAQUE_PREPASS", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, AlphaCutMode_obj, "ALPHA_CUT_HASH", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "AlphaCutMode", AlphaCutMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "AlphaCutMode", AlphaCutMode_obj);
 }
 
 static int js_sprite_base3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -463,9 +463,9 @@ static int js_sprite_base3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_sprite_base3d_property(ctx, proto);
-	define_sprite_base3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, sprite_base3d_class_proto_funcs, _countof(sprite_base3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, sprite_base3d_class_constructor, "SpriteBase3D", 0, JS_CFUNC_constructor, 0);
+	define_sprite_base3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SpriteBase3D", ctor);
 

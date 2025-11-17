@@ -67,11 +67,11 @@ static const JSCFunctionListEntry audio_effect_spectrum_analyzer_instance_class_
 static void define_audio_effect_spectrum_analyzer_instance_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_audio_effect_spectrum_analyzer_instance_enum(JSContext *ctx, JSValue proto) {
+static void define_audio_effect_spectrum_analyzer_instance_enum(JSContext *ctx, JSValue ctor) {
 	JSValue MagnitudeMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, MagnitudeMode_obj, "MAGNITUDE_AVERAGE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, MagnitudeMode_obj, "MAGNITUDE_MAX", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "MagnitudeMode", MagnitudeMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "MagnitudeMode", MagnitudeMode_obj);
 }
 
 static int js_audio_effect_spectrum_analyzer_instance_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -87,9 +87,9 @@ static int js_audio_effect_spectrum_analyzer_instance_class_init(JSContext *ctx,
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_audio_effect_spectrum_analyzer_instance_property(ctx, proto);
-	define_audio_effect_spectrum_analyzer_instance_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, audio_effect_spectrum_analyzer_instance_class_proto_funcs, _countof(audio_effect_spectrum_analyzer_instance_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, audio_effect_spectrum_analyzer_instance_class_constructor, "AudioEffectSpectrumAnalyzerInstance", 0, JS_CFUNC_constructor, 0);
+	define_audio_effect_spectrum_analyzer_instance_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioEffectSpectrumAnalyzerInstance", ctor);
 

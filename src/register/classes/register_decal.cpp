@@ -343,14 +343,14 @@ static void define_decal_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_decal_enum(JSContext *ctx, JSValue proto) {
+static void define_decal_enum(JSContext *ctx, JSValue ctor) {
 	JSValue DecalTexture_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DecalTexture_obj, "TEXTURE_ALBEDO", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DecalTexture_obj, "TEXTURE_NORMAL", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DecalTexture_obj, "TEXTURE_ORM", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, DecalTexture_obj, "TEXTURE_EMISSION", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, DecalTexture_obj, "TEXTURE_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "DecalTexture", DecalTexture_obj);
+	JS_SetPropertyStr(ctx, ctor, "DecalTexture", DecalTexture_obj);
 }
 
 static int js_decal_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -366,9 +366,9 @@ static int js_decal_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_decal_property(ctx, proto);
-	define_decal_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, decal_class_proto_funcs, _countof(decal_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, decal_class_constructor, "Decal", 0, JS_CFUNC_constructor, 0);
+	define_decal_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Decal", ctor);
 

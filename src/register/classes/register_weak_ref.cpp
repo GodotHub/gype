@@ -67,7 +67,7 @@ static const JSCFunctionListEntry weak_ref_class_proto_funcs[] = {
 static void define_weak_ref_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_weak_ref_enum(JSContext *ctx, JSValue proto) {
+static void define_weak_ref_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_weak_ref_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -83,9 +83,9 @@ static int js_weak_ref_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_weak_ref_property(ctx, proto);
-	define_weak_ref_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, weak_ref_class_proto_funcs, _countof(weak_ref_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, weak_ref_class_constructor, "WeakRef", 0, JS_CFUNC_constructor, 0);
+	define_weak_ref_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "WeakRef", ctor);
 

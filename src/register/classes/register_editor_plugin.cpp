@@ -434,7 +434,7 @@ static void define_editor_plugin_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_editor_plugin_enum(JSContext *ctx, JSValue proto) {
+static void define_editor_plugin_enum(JSContext *ctx, JSValue ctor) {
 	JSValue CustomControlContainer_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CustomControlContainer_obj, "CONTAINER_TOOLBAR", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CustomControlContainer_obj, "CONTAINER_SPATIAL_EDITOR_MENU", JS_NewInt64(ctx, 1));
@@ -448,7 +448,7 @@ static void define_editor_plugin_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, CustomControlContainer_obj, "CONTAINER_INSPECTOR_BOTTOM", JS_NewInt64(ctx, 9));
 	JS_SetPropertyStr(ctx, CustomControlContainer_obj, "CONTAINER_PROJECT_SETTING_TAB_LEFT", JS_NewInt64(ctx, 10));
 	JS_SetPropertyStr(ctx, CustomControlContainer_obj, "CONTAINER_PROJECT_SETTING_TAB_RIGHT", JS_NewInt64(ctx, 11));
-	JS_SetPropertyStr(ctx, proto, "CustomControlContainer", CustomControlContainer_obj);
+	JS_SetPropertyStr(ctx, ctor, "CustomControlContainer", CustomControlContainer_obj);
 	JSValue DockSlot_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DockSlot_obj, "DOCK_SLOT_LEFT_UL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DockSlot_obj, "DOCK_SLOT_LEFT_BL", JS_NewInt64(ctx, 1));
@@ -459,12 +459,12 @@ static void define_editor_plugin_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, DockSlot_obj, "DOCK_SLOT_RIGHT_UR", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, DockSlot_obj, "DOCK_SLOT_RIGHT_BR", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, DockSlot_obj, "DOCK_SLOT_MAX", JS_NewInt64(ctx, 8));
-	JS_SetPropertyStr(ctx, proto, "DockSlot", DockSlot_obj);
+	JS_SetPropertyStr(ctx, ctor, "DockSlot", DockSlot_obj);
 	JSValue AfterGUIInput_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AfterGUIInput_obj, "AFTER_GUI_INPUT_PASS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AfterGUIInput_obj, "AFTER_GUI_INPUT_STOP", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AfterGUIInput_obj, "AFTER_GUI_INPUT_CUSTOM", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "AfterGUIInput", AfterGUIInput_obj);
+	JS_SetPropertyStr(ctx, ctor, "AfterGUIInput", AfterGUIInput_obj);
 }
 
 static int js_editor_plugin_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -480,9 +480,9 @@ static int js_editor_plugin_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_editor_plugin_property(ctx, proto);
-	define_editor_plugin_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, editor_plugin_class_proto_funcs, _countof(editor_plugin_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, editor_plugin_class_constructor, "EditorPlugin", 0, JS_CFUNC_constructor, 0);
+	define_editor_plugin_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "EditorPlugin", ctor);
 

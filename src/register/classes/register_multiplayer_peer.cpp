@@ -205,17 +205,17 @@ static void define_multiplayer_peer_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_multiplayer_peer_enum(JSContext *ctx, JSValue proto) {
+static void define_multiplayer_peer_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ConnectionStatus_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ConnectionStatus_obj, "CONNECTION_DISCONNECTED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ConnectionStatus_obj, "CONNECTION_CONNECTING", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ConnectionStatus_obj, "CONNECTION_CONNECTED", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "ConnectionStatus", ConnectionStatus_obj);
+	JS_SetPropertyStr(ctx, ctor, "ConnectionStatus", ConnectionStatus_obj);
 	JSValue TransferMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TransferMode_obj, "TRANSFER_MODE_UNRELIABLE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TransferMode_obj, "TRANSFER_MODE_UNRELIABLE_ORDERED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TransferMode_obj, "TRANSFER_MODE_RELIABLE", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "TransferMode", TransferMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "TransferMode", TransferMode_obj);
 }
 
 static int js_multiplayer_peer_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -231,9 +231,9 @@ static int js_multiplayer_peer_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_multiplayer_peer_property(ctx, proto);
-	define_multiplayer_peer_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, multiplayer_peer_class_proto_funcs, _countof(multiplayer_peer_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, multiplayer_peer_class_constructor, "MultiplayerPeer", 0, JS_CFUNC_constructor, 0);
+	define_multiplayer_peer_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "MultiplayerPeer", ctor);
 

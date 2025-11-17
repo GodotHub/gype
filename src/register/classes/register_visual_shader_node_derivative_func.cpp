@@ -116,26 +116,26 @@ static void define_visual_shader_node_derivative_func_property(JSContext *ctx, J
     );
 }
 
-static void define_visual_shader_node_derivative_func_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_derivative_func_enum(JSContext *ctx, JSValue ctor) {
 	JSValue OpType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, OpType_obj, "OP_TYPE_SCALAR", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, OpType_obj, "OP_TYPE_VECTOR_2D", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, OpType_obj, "OP_TYPE_VECTOR_3D", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, OpType_obj, "OP_TYPE_VECTOR_4D", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, OpType_obj, "OP_TYPE_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "OpType", OpType_obj);
+	JS_SetPropertyStr(ctx, ctor, "OpType", OpType_obj);
 	JSValue Function_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Function_obj, "FUNC_SUM", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Function_obj, "FUNC_X", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Function_obj, "FUNC_Y", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, Function_obj, "FUNC_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "Function", Function_obj);
+	JS_SetPropertyStr(ctx, ctor, "Function", Function_obj);
 	JSValue Precision_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Precision_obj, "PRECISION_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Precision_obj, "PRECISION_COARSE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Precision_obj, "PRECISION_FINE", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, Precision_obj, "PRECISION_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "Precision", Precision_obj);
+	JS_SetPropertyStr(ctx, ctor, "Precision", Precision_obj);
 }
 
 static int js_visual_shader_node_derivative_func_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -151,9 +151,9 @@ static int js_visual_shader_node_derivative_func_class_init(JSContext *ctx, JSMo
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_derivative_func_property(ctx, proto);
-	define_visual_shader_node_derivative_func_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, visual_shader_node_derivative_func_class_proto_funcs, _countof(visual_shader_node_derivative_func_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_derivative_func_class_constructor, "VisualShaderNodeDerivativeFunc", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_derivative_func_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeDerivativeFunc", ctor);
 

@@ -60,7 +60,7 @@ static JSValue spring_bone_collision_plane3d_class_constructor(JSContext *ctx, J
 static void define_spring_bone_collision_plane3d_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_spring_bone_collision_plane3d_enum(JSContext *ctx, JSValue proto) {
+static void define_spring_bone_collision_plane3d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_spring_bone_collision_plane3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_spring_bone_collision_plane3d_class_init(JSContext *ctx, JSModuleD
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_spring_bone_collision_plane3d_property(ctx, proto);
-	define_spring_bone_collision_plane3d_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, spring_bone_collision_plane3d_class_constructor, "SpringBoneCollisionPlane3D", 0, JS_CFUNC_constructor, 0);
+	define_spring_bone_collision_plane3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SpringBoneCollisionPlane3D", ctor);
 

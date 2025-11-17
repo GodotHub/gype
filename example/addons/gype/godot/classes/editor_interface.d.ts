@@ -64,11 +64,11 @@ export declare class EditorInterface extends GodotObject {
     public popup_dialog_centered_clamped(dialog: Window, minsize: Vector2i = Vector2i(0, 0), fallbackRatio: number = 0.75): void;
     public get_current_feature_profile(): GDString;
     public set_current_feature_profile(profileName: GDString | StringName | string): void;
-    public popup_node_selector(callback: Callable, validTypes: Array<any> = Array[StringName]([]), currentValue: Node = null): void;
-    public popup_property_selector(object: GodotObject, callback: Callable, typeFilter: PackedInt32Array = PackedInt32Array(), currentValue: GDString | StringName | string = ""): void;
-    public popup_method_selector(object: GodotObject, callback: Callable, currentValue: GDString | StringName | string = ""): void;
-    public popup_quick_open(callback: Callable, baseTypes: Array<any> = Array[StringName]([])): void;
-    public popup_create_dialog(callback: Callable, baseType: GDString | StringName | string = "", currentType: GDString | StringName | string = "", dialogTitle: GDString | StringName | string = "", typeBlocklist: Array<any> = Array[StringName]([])): void;
+    public popup_node_selector(callback: Callable | Function, validTypes: Array<any> = Array[StringName]([]), currentValue: Node = null): void;
+    public popup_property_selector(object: GodotObject, callback: Callable | Function, typeFilter: PackedInt32Array = PackedInt32Array(), currentValue: GDString | StringName | string = ""): void;
+    public popup_method_selector(object: GodotObject, callback: Callable | Function, currentValue: GDString | StringName | string = ""): void;
+    public popup_quick_open(callback: Callable | Function, baseTypes: Array<any> = Array[StringName]([])): void;
+    public popup_create_dialog(callback: Callable | Function, baseType: GDString | StringName | string = "", currentType: GDString | StringName | string = "", dialogTitle: GDString | StringName | string = "", typeBlocklist: Array<any> = Array[StringName]([])): void;
     public get_file_system_dock(): FileSystemDock;
     public select_file(file: GDString | StringName | string): void;
     public get_selected_paths(): PackedStringArray;

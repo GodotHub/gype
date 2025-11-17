@@ -8,7 +8,7 @@ export declare class OpenXRFutureExtension extends OpenXRExtensionWrapper {
 
 
     public is_active(): boolean;
-    public register_future(future: number, onSuccess: Callable = Callable()): OpenXRFutureResult;
+    public register_future(future: number, onSuccess: Callable | Function = Callable()): OpenXRFutureResult;
     public cancel_future(future: number): void;
 
 

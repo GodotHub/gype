@@ -427,12 +427,12 @@ static void define_tile_map_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_tile_map_enum(JSContext *ctx, JSValue proto) {
+static void define_tile_map_enum(JSContext *ctx, JSValue ctor) {
 	JSValue VisibilityMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, VisibilityMode_obj, "VISIBILITY_MODE_DEFAULT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, VisibilityMode_obj, "VISIBILITY_MODE_FORCE_HIDE", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, VisibilityMode_obj, "VISIBILITY_MODE_FORCE_SHOW", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "VisibilityMode", VisibilityMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "VisibilityMode", VisibilityMode_obj);
 }
 
 static int js_tile_map_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -448,9 +448,9 @@ static int js_tile_map_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_tile_map_property(ctx, proto);
-	define_tile_map_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, tile_map_class_proto_funcs, _countof(tile_map_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, tile_map_class_constructor, "TileMap", 0, JS_CFUNC_constructor, 0);
+	define_tile_map_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TileMap", ctor);
 

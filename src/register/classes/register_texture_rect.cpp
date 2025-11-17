@@ -153,7 +153,7 @@ static void define_texture_rect_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_texture_rect_enum(JSContext *ctx, JSValue proto) {
+static void define_texture_rect_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ExpandMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ExpandMode_obj, "EXPAND_KEEP_SIZE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ExpandMode_obj, "EXPAND_IGNORE_SIZE", JS_NewInt64(ctx, 1));
@@ -161,7 +161,7 @@ static void define_texture_rect_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, ExpandMode_obj, "EXPAND_FIT_WIDTH_PROPORTIONAL", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, ExpandMode_obj, "EXPAND_FIT_HEIGHT", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, ExpandMode_obj, "EXPAND_FIT_HEIGHT_PROPORTIONAL", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "ExpandMode", ExpandMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "ExpandMode", ExpandMode_obj);
 	JSValue StretchMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, StretchMode_obj, "STRETCH_SCALE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, StretchMode_obj, "STRETCH_TILE", JS_NewInt64(ctx, 1));
@@ -170,7 +170,7 @@ static void define_texture_rect_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, StretchMode_obj, "STRETCH_KEEP_ASPECT", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, StretchMode_obj, "STRETCH_KEEP_ASPECT_CENTERED", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, StretchMode_obj, "STRETCH_KEEP_ASPECT_COVERED", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "StretchMode", StretchMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "StretchMode", StretchMode_obj);
 }
 
 static int js_texture_rect_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -186,9 +186,9 @@ static int js_texture_rect_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_texture_rect_property(ctx, proto);
-	define_texture_rect_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, texture_rect_class_proto_funcs, _countof(texture_rect_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, texture_rect_class_constructor, "TextureRect", 0, JS_CFUNC_constructor, 0);
+	define_texture_rect_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TextureRect", ctor);
 

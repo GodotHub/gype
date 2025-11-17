@@ -1902,7 +1902,7 @@ static void define_text_edit_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_text_edit_enum(JSContext *ctx, JSValue proto) {
+static void define_text_edit_enum(JSContext *ctx, JSValue ctor) {
 	JSValue MenuItems_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, MenuItems_obj, "MENU_CUT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, MenuItems_obj, "MENU_COPY", JS_NewInt64(ctx, 1));
@@ -1936,38 +1936,38 @@ static void define_text_edit_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, MenuItems_obj, "MENU_INSERT_SHY", JS_NewInt64(ctx, 29));
 	JS_SetPropertyStr(ctx, MenuItems_obj, "MENU_EMOJI_AND_SYMBOL", JS_NewInt64(ctx, 30));
 	JS_SetPropertyStr(ctx, MenuItems_obj, "MENU_MAX", JS_NewInt64(ctx, 31));
-	JS_SetPropertyStr(ctx, proto, "MenuItems", MenuItems_obj);
+	JS_SetPropertyStr(ctx, ctor, "MenuItems", MenuItems_obj);
 	JSValue EditAction_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, EditAction_obj, "ACTION_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, EditAction_obj, "ACTION_TYPING", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, EditAction_obj, "ACTION_BACKSPACE", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, EditAction_obj, "ACTION_DELETE", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "EditAction", EditAction_obj);
+	JS_SetPropertyStr(ctx, ctor, "EditAction", EditAction_obj);
 	JSValue SearchFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SearchFlags_obj, "SEARCH_MATCH_CASE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, SearchFlags_obj, "SEARCH_WHOLE_WORDS", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, SearchFlags_obj, "SEARCH_BACKWARDS", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "SearchFlags", SearchFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "SearchFlags", SearchFlags_obj);
 	JSValue CaretType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CaretType_obj, "CARET_TYPE_LINE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CaretType_obj, "CARET_TYPE_BLOCK", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "CaretType", CaretType_obj);
+	JS_SetPropertyStr(ctx, ctor, "CaretType", CaretType_obj);
 	JSValue SelectionMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SelectionMode_obj, "SELECTION_MODE_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SelectionMode_obj, "SELECTION_MODE_SHIFT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, SelectionMode_obj, "SELECTION_MODE_POINTER", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, SelectionMode_obj, "SELECTION_MODE_WORD", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, SelectionMode_obj, "SELECTION_MODE_LINE", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "SelectionMode", SelectionMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "SelectionMode", SelectionMode_obj);
 	JSValue LineWrappingMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LineWrappingMode_obj, "LINE_WRAPPING_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LineWrappingMode_obj, "LINE_WRAPPING_BOUNDARY", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "LineWrappingMode", LineWrappingMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "LineWrappingMode", LineWrappingMode_obj);
 	JSValue GutterType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, GutterType_obj, "GUTTER_TYPE_STRING", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, GutterType_obj, "GUTTER_TYPE_ICON", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, GutterType_obj, "GUTTER_TYPE_CUSTOM", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "GutterType", GutterType_obj);
+	JS_SetPropertyStr(ctx, ctor, "GutterType", GutterType_obj);
 }
 
 static int js_text_edit_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -1983,9 +1983,9 @@ static int js_text_edit_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_text_edit_property(ctx, proto);
-	define_text_edit_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, text_edit_class_proto_funcs, _countof(text_edit_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, text_edit_class_constructor, "TextEdit", 0, JS_CFUNC_constructor, 0);
+	define_text_edit_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TextEdit", ctor);
 

@@ -67,7 +67,7 @@ static const JSCFunctionListEntry visual_shader_node_custom_class_proto_funcs[] 
 static void define_visual_shader_node_custom_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_visual_shader_node_custom_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_custom_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_visual_shader_node_custom_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -83,9 +83,9 @@ static int js_visual_shader_node_custom_class_init(JSContext *ctx, JSModuleDef *
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_custom_property(ctx, proto);
-	define_visual_shader_node_custom_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, visual_shader_node_custom_class_proto_funcs, _countof(visual_shader_node_custom_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_custom_class_constructor, "VisualShaderNodeCustom", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_custom_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeCustom", ctor);
 

@@ -117,7 +117,7 @@ static void define_visual_shader_node_texture_property(JSContext *ctx, JSValue p
     );
 }
 
-static void define_visual_shader_node_texture_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_texture_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Source_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Source_obj, "SOURCE_TEXTURE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Source_obj, "SOURCE_SCREEN", JS_NewInt64(ctx, 1));
@@ -128,13 +128,13 @@ static void define_visual_shader_node_texture_enum(JSContext *ctx, JSValue proto
 	JS_SetPropertyStr(ctx, Source_obj, "SOURCE_3D_NORMAL", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, Source_obj, "SOURCE_ROUGHNESS", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, Source_obj, "SOURCE_MAX", JS_NewInt64(ctx, 8));
-	JS_SetPropertyStr(ctx, proto, "Source", Source_obj);
+	JS_SetPropertyStr(ctx, ctor, "Source", Source_obj);
 	JSValue TextureType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureType_obj, "TYPE_DATA", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextureType_obj, "TYPE_COLOR", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TextureType_obj, "TYPE_NORMAL_MAP", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, TextureType_obj, "TYPE_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "TextureType", TextureType_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureType", TextureType_obj);
 }
 
 static int js_visual_shader_node_texture_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -150,9 +150,9 @@ static int js_visual_shader_node_texture_class_init(JSContext *ctx, JSModuleDef 
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_texture_property(ctx, proto);
-	define_visual_shader_node_texture_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, visual_shader_node_texture_class_proto_funcs, _countof(visual_shader_node_texture_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_texture_class_constructor, "VisualShaderNodeTexture", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_texture_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeTexture", ctor);
 

@@ -379,27 +379,27 @@ static void define_a_star_grid2d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_a_star_grid2d_enum(JSContext *ctx, JSValue proto) {
+static void define_a_star_grid2d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Heuristic_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Heuristic_obj, "HEURISTIC_EUCLIDEAN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Heuristic_obj, "HEURISTIC_MANHATTAN", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Heuristic_obj, "HEURISTIC_OCTILE", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, Heuristic_obj, "HEURISTIC_CHEBYSHEV", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, Heuristic_obj, "HEURISTIC_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "Heuristic", Heuristic_obj);
+	JS_SetPropertyStr(ctx, ctor, "Heuristic", Heuristic_obj);
 	JSValue DiagonalMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DiagonalMode_obj, "DIAGONAL_MODE_ALWAYS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DiagonalMode_obj, "DIAGONAL_MODE_NEVER", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DiagonalMode_obj, "DIAGONAL_MODE_AT_LEAST_ONE_WALKABLE", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, DiagonalMode_obj, "DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, DiagonalMode_obj, "DIAGONAL_MODE_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "DiagonalMode", DiagonalMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "DiagonalMode", DiagonalMode_obj);
 	JSValue CellShape_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CellShape_obj, "CELL_SHAPE_SQUARE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CellShape_obj, "CELL_SHAPE_ISOMETRIC_RIGHT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, CellShape_obj, "CELL_SHAPE_ISOMETRIC_DOWN", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, CellShape_obj, "CELL_SHAPE_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "CellShape", CellShape_obj);
+	JS_SetPropertyStr(ctx, ctor, "CellShape", CellShape_obj);
 }
 
 static int js_a_star_grid2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -415,9 +415,9 @@ static int js_a_star_grid2d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_a_star_grid2d_property(ctx, proto);
-	define_a_star_grid2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, a_star_grid2d_class_proto_funcs, _countof(a_star_grid2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, a_star_grid2d_class_constructor, "AStarGrid2D", 0, JS_CFUNC_constructor, 0);
+	define_a_star_grid2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AStarGrid2D", ctor);
 

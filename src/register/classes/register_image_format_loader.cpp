@@ -60,12 +60,12 @@ static JSValue image_format_loader_class_constructor(JSContext *ctx, JSValueCons
 static void define_image_format_loader_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_image_format_loader_enum(JSContext *ctx, JSValue proto) {
+static void define_image_format_loader_enum(JSContext *ctx, JSValue ctor) {
 	JSValue LoaderFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LoaderFlags_obj, "FLAG_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LoaderFlags_obj, "FLAG_FORCE_LINEAR", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, LoaderFlags_obj, "FLAG_CONVERT_COLORS", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "LoaderFlags", LoaderFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "LoaderFlags", LoaderFlags_obj);
 }
 
 static int js_image_format_loader_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -81,8 +81,8 @@ static int js_image_format_loader_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_image_format_loader_property(ctx, proto);
-	define_image_format_loader_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, image_format_loader_class_constructor, "ImageFormatLoader", 0, JS_CFUNC_constructor, 0);
+	define_image_format_loader_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ImageFormatLoader", ctor);
 

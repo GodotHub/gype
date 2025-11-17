@@ -270,7 +270,7 @@ static void define_noise_texture2d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_noise_texture2d_enum(JSContext *ctx, JSValue proto) {
+static void define_noise_texture2d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_noise_texture2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -286,9 +286,9 @@ static int js_noise_texture2d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_noise_texture2d_property(ctx, proto);
-	define_noise_texture2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, noise_texture2d_class_proto_funcs, _countof(noise_texture2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, noise_texture2d_class_constructor, "NoiseTexture2D", 0, JS_CFUNC_constructor, 0);
+	define_noise_texture2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "NoiseTexture2D", ctor);
 

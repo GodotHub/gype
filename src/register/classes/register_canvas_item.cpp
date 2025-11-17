@@ -744,7 +744,7 @@ static void define_canvas_item_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_canvas_item_enum(JSContext *ctx, JSValue proto) {
+static void define_canvas_item_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TextureFilter_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureFilter_obj, "TEXTURE_FILTER_PARENT_NODE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextureFilter_obj, "TEXTURE_FILTER_NEAREST", JS_NewInt64(ctx, 1));
@@ -754,20 +754,20 @@ static void define_canvas_item_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, TextureFilter_obj, "TEXTURE_FILTER_NEAREST_WITH_MIPMAPS_ANISOTROPIC", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, TextureFilter_obj, "TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, TextureFilter_obj, "TEXTURE_FILTER_MAX", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "TextureFilter", TextureFilter_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureFilter", TextureFilter_obj);
 	JSValue TextureRepeat_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureRepeat_obj, "TEXTURE_REPEAT_PARENT_NODE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextureRepeat_obj, "TEXTURE_REPEAT_DISABLED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TextureRepeat_obj, "TEXTURE_REPEAT_ENABLED", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, TextureRepeat_obj, "TEXTURE_REPEAT_MIRROR", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, TextureRepeat_obj, "TEXTURE_REPEAT_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "TextureRepeat", TextureRepeat_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureRepeat", TextureRepeat_obj);
 	JSValue ClipChildrenMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ClipChildrenMode_obj, "CLIP_CHILDREN_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ClipChildrenMode_obj, "CLIP_CHILDREN_ONLY", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ClipChildrenMode_obj, "CLIP_CHILDREN_AND_DRAW", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ClipChildrenMode_obj, "CLIP_CHILDREN_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "ClipChildrenMode", ClipChildrenMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "ClipChildrenMode", ClipChildrenMode_obj);
 }
 
 static int js_canvas_item_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -783,9 +783,9 @@ static int js_canvas_item_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_canvas_item_property(ctx, proto);
-	define_canvas_item_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, canvas_item_class_proto_funcs, _countof(canvas_item_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, canvas_item_class_constructor, "CanvasItem", 0, JS_CFUNC_constructor, 0);
+	define_canvas_item_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CanvasItem", ctor);
 

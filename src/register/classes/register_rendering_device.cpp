@@ -661,7 +661,7 @@ static const JSCFunctionListEntry rendering_device_class_proto_funcs[] = {
 static void define_rendering_device_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
+static void define_rendering_device_enum(JSContext *ctx, JSValue ctor) {
 	JSValue DeviceType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DeviceType_obj, "DEVICE_TYPE_OTHER", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DeviceType_obj, "DEVICE_TYPE_INTEGRATED_GPU", JS_NewInt64(ctx, 1));
@@ -669,7 +669,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, DeviceType_obj, "DEVICE_TYPE_VIRTUAL_GPU", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, DeviceType_obj, "DEVICE_TYPE_CPU", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, DeviceType_obj, "DEVICE_TYPE_MAX", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "DeviceType", DeviceType_obj);
+	JS_SetPropertyStr(ctx, ctor, "DeviceType", DeviceType_obj);
 	JSValue DriverResource_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DriverResource_obj, "DRIVER_RESOURCE_LOGICAL_DEVICE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DriverResource_obj, "DRIVER_RESOURCE_PHYSICAL_DEVICE", JS_NewInt64(ctx, 1));
@@ -697,7 +697,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, DriverResource_obj, "DRIVER_RESOURCE_VULKAN_BUFFER", JS_NewInt64(ctx, 10));
 	JS_SetPropertyStr(ctx, DriverResource_obj, "DRIVER_RESOURCE_VULKAN_COMPUTE_PIPELINE", JS_NewInt64(ctx, 11));
 	JS_SetPropertyStr(ctx, DriverResource_obj, "DRIVER_RESOURCE_VULKAN_RENDER_PIPELINE", JS_NewInt64(ctx, 12));
-	JS_SetPropertyStr(ctx, proto, "DriverResource", DriverResource_obj);
+	JS_SetPropertyStr(ctx, ctor, "DriverResource", DriverResource_obj);
 	JSValue DataFormat_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DataFormat_obj, "DATA_FORMAT_R4G4_UNORM_PACK8", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DataFormat_obj, "DATA_FORMAT_R4G4B4A4_UNORM_PACK16", JS_NewInt64(ctx, 1));
@@ -932,7 +932,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, DataFormat_obj, "DATA_FORMAT_ASTC_12x10_SFLOAT_BLOCK", JS_NewInt64(ctx, 230));
 	JS_SetPropertyStr(ctx, DataFormat_obj, "DATA_FORMAT_ASTC_12x12_SFLOAT_BLOCK", JS_NewInt64(ctx, 231));
 	JS_SetPropertyStr(ctx, DataFormat_obj, "DATA_FORMAT_MAX", JS_NewInt64(ctx, 232));
-	JS_SetPropertyStr(ctx, proto, "DataFormat", DataFormat_obj);
+	JS_SetPropertyStr(ctx, ctor, "DataFormat", DataFormat_obj);
 	JSValue BarrierMask_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BarrierMask_obj, "BARRIER_MASK_VERTEX", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, BarrierMask_obj, "BARRIER_MASK_FRAGMENT", JS_NewInt64(ctx, 8));
@@ -941,7 +941,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, BarrierMask_obj, "BARRIER_MASK_RASTER", JS_NewInt64(ctx, 9));
 	JS_SetPropertyStr(ctx, BarrierMask_obj, "BARRIER_MASK_ALL_BARRIERS", JS_NewInt64(ctx, 32767));
 	JS_SetPropertyStr(ctx, BarrierMask_obj, "BARRIER_MASK_NO_BARRIER", JS_NewInt64(ctx, 32768));
-	JS_SetPropertyStr(ctx, proto, "BarrierMask", BarrierMask_obj);
+	JS_SetPropertyStr(ctx, ctor, "BarrierMask", BarrierMask_obj);
 	JSValue TextureType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureType_obj, "TEXTURE_TYPE_1D", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextureType_obj, "TEXTURE_TYPE_2D", JS_NewInt64(ctx, 1));
@@ -951,7 +951,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, TextureType_obj, "TEXTURE_TYPE_2D_ARRAY", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, TextureType_obj, "TEXTURE_TYPE_CUBE_ARRAY", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, TextureType_obj, "TEXTURE_TYPE_MAX", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "TextureType", TextureType_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureType", TextureType_obj);
 	JSValue TextureSamples_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureSamples_obj, "TEXTURE_SAMPLES_1", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextureSamples_obj, "TEXTURE_SAMPLES_2", JS_NewInt64(ctx, 1));
@@ -961,7 +961,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, TextureSamples_obj, "TEXTURE_SAMPLES_32", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, TextureSamples_obj, "TEXTURE_SAMPLES_64", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, TextureSamples_obj, "TEXTURE_SAMPLES_MAX", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "TextureSamples", TextureSamples_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureSamples", TextureSamples_obj);
 	JSValue TextureUsageBits_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureUsageBits_obj, "TEXTURE_USAGE_SAMPLING_BIT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TextureUsageBits_obj, "TEXTURE_USAGE_COLOR_ATTACHMENT_BIT", JS_NewInt64(ctx, 2));
@@ -973,7 +973,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, TextureUsageBits_obj, "TEXTURE_USAGE_CAN_COPY_FROM_BIT", JS_NewInt64(ctx, 128));
 	JS_SetPropertyStr(ctx, TextureUsageBits_obj, "TEXTURE_USAGE_CAN_COPY_TO_BIT", JS_NewInt64(ctx, 256));
 	JS_SetPropertyStr(ctx, TextureUsageBits_obj, "TEXTURE_USAGE_INPUT_ATTACHMENT_BIT", JS_NewInt64(ctx, 512));
-	JS_SetPropertyStr(ctx, proto, "TextureUsageBits", TextureUsageBits_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureUsageBits", TextureUsageBits_obj);
 	JSValue TextureSwizzle_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureSwizzle_obj, "TEXTURE_SWIZZLE_IDENTITY", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextureSwizzle_obj, "TEXTURE_SWIZZLE_ZERO", JS_NewInt64(ctx, 1));
@@ -983,16 +983,16 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, TextureSwizzle_obj, "TEXTURE_SWIZZLE_B", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, TextureSwizzle_obj, "TEXTURE_SWIZZLE_A", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, TextureSwizzle_obj, "TEXTURE_SWIZZLE_MAX", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "TextureSwizzle", TextureSwizzle_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureSwizzle", TextureSwizzle_obj);
 	JSValue TextureSliceType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureSliceType_obj, "TEXTURE_SLICE_2D", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextureSliceType_obj, "TEXTURE_SLICE_CUBEMAP", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TextureSliceType_obj, "TEXTURE_SLICE_3D", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "TextureSliceType", TextureSliceType_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureSliceType", TextureSliceType_obj);
 	JSValue SamplerFilter_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SamplerFilter_obj, "SAMPLER_FILTER_NEAREST", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SamplerFilter_obj, "SAMPLER_FILTER_LINEAR", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "SamplerFilter", SamplerFilter_obj);
+	JS_SetPropertyStr(ctx, ctor, "SamplerFilter", SamplerFilter_obj);
 	JSValue SamplerRepeatMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SamplerRepeatMode_obj, "SAMPLER_REPEAT_MODE_REPEAT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SamplerRepeatMode_obj, "SAMPLER_REPEAT_MODE_MIRRORED_REPEAT", JS_NewInt64(ctx, 1));
@@ -1000,7 +1000,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, SamplerRepeatMode_obj, "SAMPLER_REPEAT_MODE_CLAMP_TO_BORDER", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, SamplerRepeatMode_obj, "SAMPLER_REPEAT_MODE_MIRROR_CLAMP_TO_EDGE", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, SamplerRepeatMode_obj, "SAMPLER_REPEAT_MODE_MAX", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "SamplerRepeatMode", SamplerRepeatMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "SamplerRepeatMode", SamplerRepeatMode_obj);
 	JSValue SamplerBorderColor_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SamplerBorderColor_obj, "SAMPLER_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SamplerBorderColor_obj, "SAMPLER_BORDER_COLOR_INT_TRANSPARENT_BLACK", JS_NewInt64(ctx, 1));
@@ -1009,22 +1009,22 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, SamplerBorderColor_obj, "SAMPLER_BORDER_COLOR_FLOAT_OPAQUE_WHITE", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, SamplerBorderColor_obj, "SAMPLER_BORDER_COLOR_INT_OPAQUE_WHITE", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, SamplerBorderColor_obj, "SAMPLER_BORDER_COLOR_MAX", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "SamplerBorderColor", SamplerBorderColor_obj);
+	JS_SetPropertyStr(ctx, ctor, "SamplerBorderColor", SamplerBorderColor_obj);
 	JSValue VertexFrequency_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, VertexFrequency_obj, "VERTEX_FREQUENCY_VERTEX", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, VertexFrequency_obj, "VERTEX_FREQUENCY_INSTANCE", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "VertexFrequency", VertexFrequency_obj);
+	JS_SetPropertyStr(ctx, ctor, "VertexFrequency", VertexFrequency_obj);
 	JSValue IndexBufferFormat_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, IndexBufferFormat_obj, "INDEX_BUFFER_FORMAT_UINT16", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, IndexBufferFormat_obj, "INDEX_BUFFER_FORMAT_UINT32", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "IndexBufferFormat", IndexBufferFormat_obj);
+	JS_SetPropertyStr(ctx, ctor, "IndexBufferFormat", IndexBufferFormat_obj);
 	JSValue StorageBufferUsage_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, StorageBufferUsage_obj, "STORAGE_BUFFER_USAGE_DISPATCH_INDIRECT", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "StorageBufferUsage", StorageBufferUsage_obj);
+	JS_SetPropertyStr(ctx, ctor, "StorageBufferUsage", StorageBufferUsage_obj);
 	JSValue BufferCreationBits_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BufferCreationBits_obj, "BUFFER_CREATION_DEVICE_ADDRESS_BIT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, BufferCreationBits_obj, "BUFFER_CREATION_AS_STORAGE_BIT", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "BufferCreationBits", BufferCreationBits_obj);
+	JS_SetPropertyStr(ctx, ctor, "BufferCreationBits", BufferCreationBits_obj);
 	JSValue UniformType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, UniformType_obj, "UNIFORM_TYPE_SAMPLER", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, UniformType_obj, "UNIFORM_TYPE_SAMPLER_WITH_TEXTURE", JS_NewInt64(ctx, 1));
@@ -1037,7 +1037,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, UniformType_obj, "UNIFORM_TYPE_STORAGE_BUFFER", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, UniformType_obj, "UNIFORM_TYPE_INPUT_ATTACHMENT", JS_NewInt64(ctx, 9));
 	JS_SetPropertyStr(ctx, UniformType_obj, "UNIFORM_TYPE_MAX", JS_NewInt64(ctx, 10));
-	JS_SetPropertyStr(ctx, proto, "UniformType", UniformType_obj);
+	JS_SetPropertyStr(ctx, ctor, "UniformType", UniformType_obj);
 	JSValue RenderPrimitive_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, RenderPrimitive_obj, "RENDER_PRIMITIVE_POINTS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, RenderPrimitive_obj, "RENDER_PRIMITIVE_LINES", JS_NewInt64(ctx, 1));
@@ -1051,16 +1051,16 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, RenderPrimitive_obj, "RENDER_PRIMITIVE_TRIANGLE_STRIPS_WITH_RESTART_INDEX", JS_NewInt64(ctx, 9));
 	JS_SetPropertyStr(ctx, RenderPrimitive_obj, "RENDER_PRIMITIVE_TESSELATION_PATCH", JS_NewInt64(ctx, 10));
 	JS_SetPropertyStr(ctx, RenderPrimitive_obj, "RENDER_PRIMITIVE_MAX", JS_NewInt64(ctx, 11));
-	JS_SetPropertyStr(ctx, proto, "RenderPrimitive", RenderPrimitive_obj);
+	JS_SetPropertyStr(ctx, ctor, "RenderPrimitive", RenderPrimitive_obj);
 	JSValue PolygonCullMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PolygonCullMode_obj, "POLYGON_CULL_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PolygonCullMode_obj, "POLYGON_CULL_FRONT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, PolygonCullMode_obj, "POLYGON_CULL_BACK", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "PolygonCullMode", PolygonCullMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "PolygonCullMode", PolygonCullMode_obj);
 	JSValue PolygonFrontFace_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PolygonFrontFace_obj, "POLYGON_FRONT_FACE_CLOCKWISE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PolygonFrontFace_obj, "POLYGON_FRONT_FACE_COUNTER_CLOCKWISE", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "PolygonFrontFace", PolygonFrontFace_obj);
+	JS_SetPropertyStr(ctx, ctor, "PolygonFrontFace", PolygonFrontFace_obj);
 	JSValue StencilOperation_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, StencilOperation_obj, "STENCIL_OP_KEEP", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, StencilOperation_obj, "STENCIL_OP_ZERO", JS_NewInt64(ctx, 1));
@@ -1071,7 +1071,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, StencilOperation_obj, "STENCIL_OP_INCREMENT_AND_WRAP", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, StencilOperation_obj, "STENCIL_OP_DECREMENT_AND_WRAP", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, StencilOperation_obj, "STENCIL_OP_MAX", JS_NewInt64(ctx, 8));
-	JS_SetPropertyStr(ctx, proto, "StencilOperation", StencilOperation_obj);
+	JS_SetPropertyStr(ctx, ctor, "StencilOperation", StencilOperation_obj);
 	JSValue CompareOperator_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CompareOperator_obj, "COMPARE_OP_NEVER", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CompareOperator_obj, "COMPARE_OP_LESS", JS_NewInt64(ctx, 1));
@@ -1082,7 +1082,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, CompareOperator_obj, "COMPARE_OP_GREATER_OR_EQUAL", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, CompareOperator_obj, "COMPARE_OP_ALWAYS", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, CompareOperator_obj, "COMPARE_OP_MAX", JS_NewInt64(ctx, 8));
-	JS_SetPropertyStr(ctx, proto, "CompareOperator", CompareOperator_obj);
+	JS_SetPropertyStr(ctx, ctor, "CompareOperator", CompareOperator_obj);
 	JSValue LogicOperation_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LogicOperation_obj, "LOGIC_OP_CLEAR", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LogicOperation_obj, "LOGIC_OP_AND", JS_NewInt64(ctx, 1));
@@ -1101,7 +1101,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, LogicOperation_obj, "LOGIC_OP_NAND", JS_NewInt64(ctx, 14));
 	JS_SetPropertyStr(ctx, LogicOperation_obj, "LOGIC_OP_SET", JS_NewInt64(ctx, 15));
 	JS_SetPropertyStr(ctx, LogicOperation_obj, "LOGIC_OP_MAX", JS_NewInt64(ctx, 16));
-	JS_SetPropertyStr(ctx, proto, "LogicOperation", LogicOperation_obj);
+	JS_SetPropertyStr(ctx, ctor, "LogicOperation", LogicOperation_obj);
 	JSValue BlendFactor_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BlendFactor_obj, "BLEND_FACTOR_ZERO", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BlendFactor_obj, "BLEND_FACTOR_ONE", JS_NewInt64(ctx, 1));
@@ -1123,7 +1123,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, BlendFactor_obj, "BLEND_FACTOR_SRC1_ALPHA", JS_NewInt64(ctx, 17));
 	JS_SetPropertyStr(ctx, BlendFactor_obj, "BLEND_FACTOR_ONE_MINUS_SRC1_ALPHA", JS_NewInt64(ctx, 18));
 	JS_SetPropertyStr(ctx, BlendFactor_obj, "BLEND_FACTOR_MAX", JS_NewInt64(ctx, 19));
-	JS_SetPropertyStr(ctx, proto, "BlendFactor", BlendFactor_obj);
+	JS_SetPropertyStr(ctx, ctor, "BlendFactor", BlendFactor_obj);
 	JSValue BlendOperation_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BlendOperation_obj, "BLEND_OP_ADD", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BlendOperation_obj, "BLEND_OP_SUBTRACT", JS_NewInt64(ctx, 1));
@@ -1131,7 +1131,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, BlendOperation_obj, "BLEND_OP_MINIMUM", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, BlendOperation_obj, "BLEND_OP_MAXIMUM", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, BlendOperation_obj, "BLEND_OP_MAX", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "BlendOperation", BlendOperation_obj);
+	JS_SetPropertyStr(ctx, ctor, "BlendOperation", BlendOperation_obj);
 	JSValue PipelineDynamicStateFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PipelineDynamicStateFlags_obj, "DYNAMIC_STATE_LINE_WIDTH", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, PipelineDynamicStateFlags_obj, "DYNAMIC_STATE_DEPTH_BIAS", JS_NewInt64(ctx, 2));
@@ -1140,7 +1140,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, PipelineDynamicStateFlags_obj, "DYNAMIC_STATE_STENCIL_COMPARE_MASK", JS_NewInt64(ctx, 16));
 	JS_SetPropertyStr(ctx, PipelineDynamicStateFlags_obj, "DYNAMIC_STATE_STENCIL_WRITE_MASK", JS_NewInt64(ctx, 32));
 	JS_SetPropertyStr(ctx, PipelineDynamicStateFlags_obj, "DYNAMIC_STATE_STENCIL_REFERENCE", JS_NewInt64(ctx, 64));
-	JS_SetPropertyStr(ctx, proto, "PipelineDynamicStateFlags", PipelineDynamicStateFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "PipelineDynamicStateFlags", PipelineDynamicStateFlags_obj);
 	JSValue InitialAction_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, InitialAction_obj, "INITIAL_ACTION_LOAD", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, InitialAction_obj, "INITIAL_ACTION_CLEAR", JS_NewInt64(ctx, 1));
@@ -1151,14 +1151,14 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, InitialAction_obj, "INITIAL_ACTION_KEEP", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, InitialAction_obj, "INITIAL_ACTION_DROP", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, InitialAction_obj, "INITIAL_ACTION_CONTINUE", JS_NewInt64(ctx, 0));
-	JS_SetPropertyStr(ctx, proto, "InitialAction", InitialAction_obj);
+	JS_SetPropertyStr(ctx, ctor, "InitialAction", InitialAction_obj);
 	JSValue FinalAction_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FinalAction_obj, "FINAL_ACTION_STORE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FinalAction_obj, "FINAL_ACTION_DISCARD", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, FinalAction_obj, "FINAL_ACTION_MAX", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, FinalAction_obj, "FINAL_ACTION_READ", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FinalAction_obj, "FINAL_ACTION_CONTINUE", JS_NewInt64(ctx, 0));
-	JS_SetPropertyStr(ctx, proto, "FinalAction", FinalAction_obj);
+	JS_SetPropertyStr(ctx, ctor, "FinalAction", FinalAction_obj);
 	JSValue ShaderStage_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ShaderStage_obj, "SHADER_STAGE_VERTEX", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ShaderStage_obj, "SHADER_STAGE_FRAGMENT", JS_NewInt64(ctx, 1));
@@ -1171,22 +1171,22 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, ShaderStage_obj, "SHADER_STAGE_TESSELATION_CONTROL_BIT", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, ShaderStage_obj, "SHADER_STAGE_TESSELATION_EVALUATION_BIT", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, ShaderStage_obj, "SHADER_STAGE_COMPUTE_BIT", JS_NewInt64(ctx, 16));
-	JS_SetPropertyStr(ctx, proto, "ShaderStage", ShaderStage_obj);
+	JS_SetPropertyStr(ctx, ctor, "ShaderStage", ShaderStage_obj);
 	JSValue ShaderLanguage_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ShaderLanguage_obj, "SHADER_LANGUAGE_GLSL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ShaderLanguage_obj, "SHADER_LANGUAGE_HLSL", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "ShaderLanguage", ShaderLanguage_obj);
+	JS_SetPropertyStr(ctx, ctor, "ShaderLanguage", ShaderLanguage_obj);
 	JSValue PipelineSpecializationConstantType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PipelineSpecializationConstantType_obj, "PIPELINE_SPECIALIZATION_CONSTANT_TYPE_BOOL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PipelineSpecializationConstantType_obj, "PIPELINE_SPECIALIZATION_CONSTANT_TYPE_INT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, PipelineSpecializationConstantType_obj, "PIPELINE_SPECIALIZATION_CONSTANT_TYPE_FLOAT", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "PipelineSpecializationConstantType", PipelineSpecializationConstantType_obj);
+	JS_SetPropertyStr(ctx, ctor, "PipelineSpecializationConstantType", PipelineSpecializationConstantType_obj);
 	JSValue Features_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Features_obj, "SUPPORTS_METALFX_SPATIAL", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, Features_obj, "SUPPORTS_METALFX_TEMPORAL", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, Features_obj, "SUPPORTS_BUFFER_DEVICE_ADDRESS", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, Features_obj, "SUPPORTS_IMAGE_ATOMIC_32_BIT", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "Features", Features_obj);
+	JS_SetPropertyStr(ctx, ctor, "Features", Features_obj);
 	JSValue Limit_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Limit_obj, "LIMIT_MAX_BOUND_UNIFORM_SETS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Limit_obj, "LIMIT_MAX_FRAMEBUFFER_COLOR_ATTACHMENTS", JS_NewInt64(ctx, 1));
@@ -1227,12 +1227,12 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Limit_obj, "LIMIT_MAX_VIEWPORT_DIMENSIONS_Y", JS_NewInt64(ctx, 36));
 	JS_SetPropertyStr(ctx, Limit_obj, "LIMIT_METALFX_TEMPORAL_SCALER_MIN_SCALE", JS_NewInt64(ctx, 46));
 	JS_SetPropertyStr(ctx, Limit_obj, "LIMIT_METALFX_TEMPORAL_SCALER_MAX_SCALE", JS_NewInt64(ctx, 47));
-	JS_SetPropertyStr(ctx, proto, "Limit", Limit_obj);
+	JS_SetPropertyStr(ctx, ctor, "Limit", Limit_obj);
 	JSValue MemoryType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, MemoryType_obj, "MEMORY_TEXTURES", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, MemoryType_obj, "MEMORY_BUFFERS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, MemoryType_obj, "MEMORY_TOTAL", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "MemoryType", MemoryType_obj);
+	JS_SetPropertyStr(ctx, ctor, "MemoryType", MemoryType_obj);
 	JSValue BreadcrumbMarker_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BreadcrumbMarker_obj, "NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BreadcrumbMarker_obj, "REFLECTION_PROBES", JS_NewInt64(ctx, 65536));
@@ -1247,7 +1247,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, BreadcrumbMarker_obj, "BLIT_PASS", JS_NewInt64(ctx, 655360));
 	JS_SetPropertyStr(ctx, BreadcrumbMarker_obj, "UI_PASS", JS_NewInt64(ctx, 720896));
 	JS_SetPropertyStr(ctx, BreadcrumbMarker_obj, "DEBUG_PASS", JS_NewInt64(ctx, 786432));
-	JS_SetPropertyStr(ctx, proto, "BreadcrumbMarker", BreadcrumbMarker_obj);
+	JS_SetPropertyStr(ctx, ctor, "BreadcrumbMarker", BreadcrumbMarker_obj);
 	JSValue DrawFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DrawFlags_obj, "DRAW_DEFAULT_ALL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DrawFlags_obj, "DRAW_CLEAR_COLOR_0", JS_NewInt64(ctx, 1));
@@ -1276,7 +1276,7 @@ static void define_rendering_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, DrawFlags_obj, "DRAW_IGNORE_STENCIL", JS_NewInt64(ctx, 524288));
 	JS_SetPropertyStr(ctx, DrawFlags_obj, "DRAW_CLEAR_ALL", JS_NewInt64(ctx, 327935));
 	JS_SetPropertyStr(ctx, DrawFlags_obj, "DRAW_IGNORE_ALL", JS_NewInt64(ctx, 720640));
-	JS_SetPropertyStr(ctx, proto, "DrawFlags", DrawFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "DrawFlags", DrawFlags_obj);
 }
 
 static int js_rendering_device_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -1292,9 +1292,9 @@ static int js_rendering_device_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_rendering_device_property(ctx, proto);
-	define_rendering_device_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, rendering_device_class_proto_funcs, _countof(rendering_device_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, rendering_device_class_constructor, "RenderingDevice", 0, JS_CFUNC_constructor, 0);
+	define_rendering_device_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "RenderingDevice", ctor);
 

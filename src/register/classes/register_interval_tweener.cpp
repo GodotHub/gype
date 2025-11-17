@@ -60,7 +60,7 @@ static JSValue interval_tweener_class_constructor(JSContext *ctx, JSValueConst n
 static void define_interval_tweener_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_interval_tweener_enum(JSContext *ctx, JSValue proto) {
+static void define_interval_tweener_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_interval_tweener_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_interval_tweener_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_interval_tweener_property(ctx, proto);
-	define_interval_tweener_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, interval_tweener_class_constructor, "IntervalTweener", 0, JS_CFUNC_constructor, 0);
+	define_interval_tweener_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "IntervalTweener", ctor);
 

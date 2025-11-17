@@ -4,8 +4,8 @@ declare global {
         constructor(_from: Projection): Projection;
         constructor(_from: Transform3D): Projection;
         constructor(xAxis: Vector4, yAxis: Vector4, zAxis: Vector4, wAxis: Vector4): Projection;
-        readonly IDENTITY: Projection;
-        readonly ZERO: Projection;
+        readonly static IDENTITY: Projection;
+        readonly static ZERO: Projection;
     
         x: Vector4;
         y: Vector4;

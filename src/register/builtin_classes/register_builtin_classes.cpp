@@ -1,6 +1,7 @@
 #include "register/builtin_classes/register_builtin_classes.hpp"
 
 void register_builtin_classes() {
+	register_variant();
 	register_string();
 	register_proxy_string();
 	register_vector2();

@@ -89,6 +89,8 @@ static JSValue node_path_class_is_empty(JSContext *ctx, JSValueConst this_val, i
 }
 
 
+
+
 static const JSCFunctionListEntry node_path_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_absolute", 0, &node_path_class_is_absolute),
 	JS_CFUNC_DEF("get_name_count", 0, &node_path_class_get_name_count),
@@ -104,6 +106,8 @@ static const JSCFunctionListEntry node_path_class_proto_funcs[] = {
 };
 
 
+
+
 static int js_node_path_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["NodePath"] = JS_NewClassID(js_runtime(), &class_id);
@@ -113,12 +117,14 @@ static int js_node_path_class_init(JSContext *ctx) {
 
 	JSValue proto = JS_NewObject(ctx);
 	JS_SetClassProto(ctx, class_id, proto);	JS_SetPropertyFunctionList(ctx, proto, node_path_class_proto_funcs, _countof(node_path_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, node_path_class_constructor, "NodePath", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "NodePath", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -302,6 +308,7 @@ static int js_node_path_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "NodePathProxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

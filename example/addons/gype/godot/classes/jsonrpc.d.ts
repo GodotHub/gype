@@ -8,7 +8,7 @@ import type { GodotObject } from '@godot/classes/godot_object';
 export declare class JSONRPC extends GodotObject {
 
 
-    public set_method(name: GDString | StringName | string, callback: Callable): void;
+    public set_method(name: GDString | StringName | string, callback: Callable | Function): void;
     public process_action(action: any, recurse: boolean = false): any;
     public process_string(action: GDString | StringName | string): GDString;
     public make_request(method: GDString | StringName | string, params: any, id: any): Dictionary;

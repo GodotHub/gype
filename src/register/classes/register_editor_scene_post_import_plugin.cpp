@@ -79,7 +79,7 @@ static const JSCFunctionListEntry editor_scene_post_import_plugin_class_proto_fu
 static void define_editor_scene_post_import_plugin_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_editor_scene_post_import_plugin_enum(JSContext *ctx, JSValue proto) {
+static void define_editor_scene_post_import_plugin_enum(JSContext *ctx, JSValue ctor) {
 	JSValue InternalImportCategory_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, InternalImportCategory_obj, "INTERNAL_IMPORT_CATEGORY_NODE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, InternalImportCategory_obj, "INTERNAL_IMPORT_CATEGORY_MESH_3D_NODE", JS_NewInt64(ctx, 1));
@@ -89,7 +89,7 @@ static void define_editor_scene_post_import_plugin_enum(JSContext *ctx, JSValue 
 	JS_SetPropertyStr(ctx, InternalImportCategory_obj, "INTERNAL_IMPORT_CATEGORY_ANIMATION_NODE", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, InternalImportCategory_obj, "INTERNAL_IMPORT_CATEGORY_SKELETON_3D_NODE", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, InternalImportCategory_obj, "INTERNAL_IMPORT_CATEGORY_MAX", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "InternalImportCategory", InternalImportCategory_obj);
+	JS_SetPropertyStr(ctx, ctor, "InternalImportCategory", InternalImportCategory_obj);
 }
 
 static int js_editor_scene_post_import_plugin_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -105,9 +105,9 @@ static int js_editor_scene_post_import_plugin_class_init(JSContext *ctx, JSModul
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_editor_scene_post_import_plugin_property(ctx, proto);
-	define_editor_scene_post_import_plugin_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, editor_scene_post_import_plugin_class_proto_funcs, _countof(editor_scene_post_import_plugin_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, editor_scene_post_import_plugin_class_constructor, "EditorScenePostImportPlugin", 0, JS_CFUNC_constructor, 0);
+	define_editor_scene_post_import_plugin_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "EditorScenePostImportPlugin", ctor);
 

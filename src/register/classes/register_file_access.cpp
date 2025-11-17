@@ -362,20 +362,20 @@ static void define_file_access_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_file_access_enum(JSContext *ctx, JSValue proto) {
+static void define_file_access_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ModeFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ModeFlags_obj, "READ", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ModeFlags_obj, "WRITE", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ModeFlags_obj, "READ_WRITE", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, ModeFlags_obj, "WRITE_READ", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "ModeFlags", ModeFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "ModeFlags", ModeFlags_obj);
 	JSValue CompressionMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CompressionMode_obj, "COMPRESSION_FASTLZ", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CompressionMode_obj, "COMPRESSION_DEFLATE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, CompressionMode_obj, "COMPRESSION_ZSTD", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, CompressionMode_obj, "COMPRESSION_GZIP", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, CompressionMode_obj, "COMPRESSION_BROTLI", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "CompressionMode", CompressionMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "CompressionMode", CompressionMode_obj);
 	JSValue UnixPermissionFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, UnixPermissionFlags_obj, "UNIX_READ_OWNER", JS_NewInt64(ctx, 256));
 	JS_SetPropertyStr(ctx, UnixPermissionFlags_obj, "UNIX_WRITE_OWNER", JS_NewInt64(ctx, 128));
@@ -389,7 +389,7 @@ static void define_file_access_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, UnixPermissionFlags_obj, "UNIX_SET_USER_ID", JS_NewInt64(ctx, 2048));
 	JS_SetPropertyStr(ctx, UnixPermissionFlags_obj, "UNIX_SET_GROUP_ID", JS_NewInt64(ctx, 1024));
 	JS_SetPropertyStr(ctx, UnixPermissionFlags_obj, "UNIX_RESTRICTED_DELETE", JS_NewInt64(ctx, 512));
-	JS_SetPropertyStr(ctx, proto, "UnixPermissionFlags", UnixPermissionFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "UnixPermissionFlags", UnixPermissionFlags_obj);
 }
 
 static int js_file_access_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -405,10 +405,10 @@ static int js_file_access_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_file_access_property(ctx, proto);
-	define_file_access_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, file_access_class_proto_funcs, _countof(file_access_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, file_access_class_constructor, "FileAccess", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, file_access_class_static_funcs, _countof(file_access_class_static_funcs));
+	define_file_access_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "FileAccess", ctor);
 

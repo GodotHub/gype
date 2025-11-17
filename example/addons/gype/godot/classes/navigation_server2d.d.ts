@@ -43,7 +43,7 @@ export declare class NavigationServer2D extends GodotObject {
     public map_set_use_async_iterations(map: RID, enabled: boolean): void;
     public map_get_use_async_iterations(map: RID): boolean;
     public map_get_random_point(map: RID, navigationLayers: number, uniformly: boolean): Vector2;
-    public query_path(parameters: NavigationPathQueryParameters2D, result: NavigationPathQueryResult2D, callback: Callable = Callable()): void;
+    public query_path(parameters: NavigationPathQueryParameters2D, result: NavigationPathQueryResult2D, callback: Callable | Function = Callable()): void;
     public region_create(): RID;
     public region_get_iteration_id(region: RID): number;
     public region_set_use_async_iterations(region: RID, enabled: boolean): void;
@@ -117,7 +117,7 @@ export declare class NavigationServer2D extends GodotObject {
     public agent_set_position(agent: RID, position: Vector2): void;
     public agent_get_position(agent: RID): Vector2;
     public agent_is_map_changed(agent: RID): boolean;
-    public agent_set_avoidance_callback(agent: RID, callback: Callable): void;
+    public agent_set_avoidance_callback(agent: RID, callback: Callable | Function): void;
     public agent_has_avoidance_callback(agent: RID): boolean;
     public agent_set_avoidance_layers(agent: RID, layers: number): void;
     public agent_get_avoidance_layers(agent: RID): number;
@@ -142,12 +142,12 @@ export declare class NavigationServer2D extends GodotObject {
     public obstacle_get_vertices(obstacle: RID): PackedVector2Array;
     public obstacle_set_avoidance_layers(obstacle: RID, layers: number): void;
     public obstacle_get_avoidance_layers(obstacle: RID): number;
-    public parse_source_geometry_data(navigationPolygon: NavigationPolygon, sourceGeometryData: NavigationMeshSourceGeometryData2D, rootNode: Node, callback: Callable = Callable()): void;
-    public bake_from_source_geometry_data(navigationPolygon: NavigationPolygon, sourceGeometryData: NavigationMeshSourceGeometryData2D, callback: Callable = Callable()): void;
-    public bake_from_source_geometry_data_async(navigationPolygon: NavigationPolygon, sourceGeometryData: NavigationMeshSourceGeometryData2D, callback: Callable = Callable()): void;
+    public parse_source_geometry_data(navigationPolygon: NavigationPolygon, sourceGeometryData: NavigationMeshSourceGeometryData2D, rootNode: Node, callback: Callable | Function = Callable()): void;
+    public bake_from_source_geometry_data(navigationPolygon: NavigationPolygon, sourceGeometryData: NavigationMeshSourceGeometryData2D, callback: Callable | Function = Callable()): void;
+    public bake_from_source_geometry_data_async(navigationPolygon: NavigationPolygon, sourceGeometryData: NavigationMeshSourceGeometryData2D, callback: Callable | Function = Callable()): void;
     public is_baking_navigation_polygon(navigationPolygon: NavigationPolygon): boolean;
     public source_geometry_parser_create(): RID;
-    public source_geometry_parser_set_callback(parser: RID, callback: Callable): void;
+    public source_geometry_parser_set_callback(parser: RID, callback: Callable | Function): void;
     public simplify_path(path: PackedVector2Array, epsilon: number): PackedVector2Array;
     public free_rid(rid: RID): void;
     public set_active(active: boolean): void;

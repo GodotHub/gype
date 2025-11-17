@@ -85,7 +85,7 @@ static const JSCFunctionListEntry editor_context_menu_plugin_class_proto_funcs[]
 static void define_editor_context_menu_plugin_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_editor_context_menu_plugin_enum(JSContext *ctx, JSValue proto) {
+static void define_editor_context_menu_plugin_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ContextMenuSlot_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ContextMenuSlot_obj, "CONTEXT_SLOT_SCENE_TREE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ContextMenuSlot_obj, "CONTEXT_SLOT_FILESYSTEM", JS_NewInt64(ctx, 1));
@@ -94,7 +94,7 @@ static void define_editor_context_menu_plugin_enum(JSContext *ctx, JSValue proto
 	JS_SetPropertyStr(ctx, ContextMenuSlot_obj, "CONTEXT_SLOT_SCRIPT_EDITOR_CODE", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, ContextMenuSlot_obj, "CONTEXT_SLOT_SCENE_TABS", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, ContextMenuSlot_obj, "CONTEXT_SLOT_2D_EDITOR", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "ContextMenuSlot", ContextMenuSlot_obj);
+	JS_SetPropertyStr(ctx, ctor, "ContextMenuSlot", ContextMenuSlot_obj);
 }
 
 static int js_editor_context_menu_plugin_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -110,9 +110,9 @@ static int js_editor_context_menu_plugin_class_init(JSContext *ctx, JSModuleDef 
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_editor_context_menu_plugin_property(ctx, proto);
-	define_editor_context_menu_plugin_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, editor_context_menu_plugin_class_proto_funcs, _countof(editor_context_menu_plugin_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, editor_context_menu_plugin_class_constructor, "EditorContextMenuPlugin", 0, JS_CFUNC_constructor, 0);
+	define_editor_context_menu_plugin_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "EditorContextMenuPlugin", ctor);
 

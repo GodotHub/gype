@@ -6,7 +6,7 @@ declare global {
         constructor(axis: Vector3, angle: number): Quaternion;
         constructor(arcFrom: Vector3, arcTo: Vector3): Quaternion;
         constructor(x: number, y: number, z: number, w: number): Quaternion;
-        readonly IDENTITY: Quaternion;
+        readonly static IDENTITY: Quaternion;
     
         x: number;
         y: number;

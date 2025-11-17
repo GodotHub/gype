@@ -98,7 +98,7 @@ static void define_groove_joint2d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_groove_joint2d_enum(JSContext *ctx, JSValue proto) {
+static void define_groove_joint2d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_groove_joint2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -114,9 +114,9 @@ static int js_groove_joint2d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_groove_joint2d_property(ctx, proto);
-	define_groove_joint2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, groove_joint2d_class_proto_funcs, _countof(groove_joint2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, groove_joint2d_class_constructor, "GrooveJoint2D", 0, JS_CFUNC_constructor, 0);
+	define_groove_joint2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GrooveJoint2D", ctor);
 

@@ -305,12 +305,12 @@ static void define_style_box_texture_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_style_box_texture_enum(JSContext *ctx, JSValue proto) {
+static void define_style_box_texture_enum(JSContext *ctx, JSValue ctor) {
 	JSValue AxisStretchMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AxisStretchMode_obj, "AXIS_STRETCH_MODE_STRETCH", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AxisStretchMode_obj, "AXIS_STRETCH_MODE_TILE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AxisStretchMode_obj, "AXIS_STRETCH_MODE_TILE_FIT", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "AxisStretchMode", AxisStretchMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "AxisStretchMode", AxisStretchMode_obj);
 }
 
 static int js_style_box_texture_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -326,9 +326,9 @@ static int js_style_box_texture_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_style_box_texture_property(ctx, proto);
-	define_style_box_texture_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, style_box_texture_class_proto_funcs, _countof(style_box_texture_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, style_box_texture_class_constructor, "StyleBoxTexture", 0, JS_CFUNC_constructor, 0);
+	define_style_box_texture_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "StyleBoxTexture", ctor);
 

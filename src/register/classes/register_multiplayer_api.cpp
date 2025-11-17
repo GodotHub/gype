@@ -226,12 +226,12 @@ static void define_multiplayer_api_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_multiplayer_api_enum(JSContext *ctx, JSValue proto) {
+static void define_multiplayer_api_enum(JSContext *ctx, JSValue ctor) {
 	JSValue RPCMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, RPCMode_obj, "RPC_MODE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, RPCMode_obj, "RPC_MODE_ANY_PEER", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, RPCMode_obj, "RPC_MODE_AUTHORITY", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "RPCMode", RPCMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "RPCMode", RPCMode_obj);
 }
 
 static int js_multiplayer_api_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -247,10 +247,10 @@ static int js_multiplayer_api_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_multiplayer_api_property(ctx, proto);
-	define_multiplayer_api_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, multiplayer_api_class_proto_funcs, _countof(multiplayer_api_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, multiplayer_api_class_constructor, "MultiplayerAPI", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, multiplayer_api_class_static_funcs, _countof(multiplayer_api_class_static_funcs));
+	define_multiplayer_api_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "MultiplayerAPI", ctor);
 

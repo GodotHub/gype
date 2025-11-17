@@ -478,12 +478,12 @@ static void define_skeleton3d_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_skeleton3d_enum(JSContext *ctx, JSValue proto) {
+static void define_skeleton3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ModifierCallbackModeProcess_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ModifierCallbackModeProcess_obj, "MODIFIER_CALLBACK_MODE_PROCESS_PHYSICS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ModifierCallbackModeProcess_obj, "MODIFIER_CALLBACK_MODE_PROCESS_IDLE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ModifierCallbackModeProcess_obj, "MODIFIER_CALLBACK_MODE_PROCESS_MANUAL", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "ModifierCallbackModeProcess", ModifierCallbackModeProcess_obj);
+	JS_SetPropertyStr(ctx, ctor, "ModifierCallbackModeProcess", ModifierCallbackModeProcess_obj);
 }
 
 static int js_skeleton3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -499,9 +499,9 @@ static int js_skeleton3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_skeleton3d_property(ctx, proto);
-	define_skeleton3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, skeleton3d_class_proto_funcs, _countof(skeleton3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, skeleton3d_class_constructor, "Skeleton3D", 0, JS_CFUNC_constructor, 0);
+	define_skeleton3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Skeleton3D", ctor);
 

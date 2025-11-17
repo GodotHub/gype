@@ -286,11 +286,11 @@ static void define_touch_screen_button_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_touch_screen_button_enum(JSContext *ctx, JSValue proto) {
+static void define_touch_screen_button_enum(JSContext *ctx, JSValue ctor) {
 	JSValue VisibilityMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, VisibilityMode_obj, "VISIBILITY_ALWAYS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, VisibilityMode_obj, "VISIBILITY_TOUCHSCREEN_ONLY", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "VisibilityMode", VisibilityMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "VisibilityMode", VisibilityMode_obj);
 }
 
 static int js_touch_screen_button_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -306,9 +306,9 @@ static int js_touch_screen_button_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_touch_screen_button_property(ctx, proto);
-	define_touch_screen_button_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, touch_screen_button_class_proto_funcs, _countof(touch_screen_button_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, touch_screen_button_class_constructor, "TouchScreenButton", 0, JS_CFUNC_constructor, 0);
+	define_touch_screen_button_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TouchScreenButton", ctor);
 

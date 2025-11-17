@@ -207,7 +207,7 @@ static void define_open_xrip_binding_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_open_xrip_binding_enum(JSContext *ctx, JSValue proto) {
+static void define_open_xrip_binding_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_open_xrip_binding_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -223,9 +223,9 @@ static int js_open_xrip_binding_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_open_xrip_binding_property(ctx, proto);
-	define_open_xrip_binding_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, open_xrip_binding_class_proto_funcs, _countof(open_xrip_binding_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, open_xrip_binding_class_constructor, "OpenXRIPBinding", 0, JS_CFUNC_constructor, 0);
+	define_open_xrip_binding_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "OpenXRIPBinding", ctor);
 

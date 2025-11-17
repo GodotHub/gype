@@ -100,7 +100,7 @@ static void define_texture3drd_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_texture3drd_enum(JSContext *ctx, JSValue proto) {
+static void define_texture3drd_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_texture3drd_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -116,9 +116,9 @@ static int js_texture3drd_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_texture3drd_property(ctx, proto);
-	define_texture3drd_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, texture3drd_class_proto_funcs, _countof(texture3drd_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, texture3drd_class_constructor, "Texture3DRD", 0, JS_CFUNC_constructor, 0);
+	define_texture3drd_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Texture3DRD", ctor);
 

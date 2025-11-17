@@ -134,13 +134,13 @@ static void define_progress_bar_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_progress_bar_enum(JSContext *ctx, JSValue proto) {
+static void define_progress_bar_enum(JSContext *ctx, JSValue ctor) {
 	JSValue FillMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FillMode_obj, "FILL_BEGIN_TO_END", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FillMode_obj, "FILL_END_TO_BEGIN", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, FillMode_obj, "FILL_TOP_TO_BOTTOM", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, FillMode_obj, "FILL_BOTTOM_TO_TOP", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "FillMode", FillMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "FillMode", FillMode_obj);
 }
 
 static int js_progress_bar_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -156,9 +156,9 @@ static int js_progress_bar_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_progress_bar_property(ctx, proto);
-	define_progress_bar_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, progress_bar_class_proto_funcs, _countof(progress_bar_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, progress_bar_class_constructor, "ProgressBar", 0, JS_CFUNC_constructor, 0);
+	define_progress_bar_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ProgressBar", ctor);
 

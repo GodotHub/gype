@@ -60,14 +60,14 @@ static JSValue resource_format_loader_class_constructor(JSContext *ctx, JSValueC
 static void define_resource_format_loader_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_resource_format_loader_enum(JSContext *ctx, JSValue proto) {
+static void define_resource_format_loader_enum(JSContext *ctx, JSValue ctor) {
 	JSValue CacheMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CacheMode_obj, "CACHE_MODE_IGNORE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CacheMode_obj, "CACHE_MODE_REUSE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, CacheMode_obj, "CACHE_MODE_REPLACE", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, CacheMode_obj, "CACHE_MODE_IGNORE_DEEP", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, CacheMode_obj, "CACHE_MODE_REPLACE_DEEP", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "CacheMode", CacheMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "CacheMode", CacheMode_obj);
 }
 
 static int js_resource_format_loader_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -83,8 +83,8 @@ static int js_resource_format_loader_class_init(JSContext *ctx, JSModuleDef *m) 
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_resource_format_loader_property(ctx, proto);
-	define_resource_format_loader_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, resource_format_loader_class_constructor, "ResourceFormatLoader", 0, JS_CFUNC_constructor, 0);
+	define_resource_format_loader_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ResourceFormatLoader", ctor);
 

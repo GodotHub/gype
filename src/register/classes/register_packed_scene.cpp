@@ -84,13 +84,13 @@ static const JSCFunctionListEntry packed_scene_class_proto_funcs[] = {
 static void define_packed_scene_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_packed_scene_enum(JSContext *ctx, JSValue proto) {
+static void define_packed_scene_enum(JSContext *ctx, JSValue ctor) {
 	JSValue GenEditState_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, GenEditState_obj, "GEN_EDIT_STATE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, GenEditState_obj, "GEN_EDIT_STATE_INSTANCE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, GenEditState_obj, "GEN_EDIT_STATE_MAIN", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, GenEditState_obj, "GEN_EDIT_STATE_MAIN_INHERITED", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "GenEditState", GenEditState_obj);
+	JS_SetPropertyStr(ctx, ctor, "GenEditState", GenEditState_obj);
 }
 
 static int js_packed_scene_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -106,9 +106,9 @@ static int js_packed_scene_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_packed_scene_property(ctx, proto);
-	define_packed_scene_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, packed_scene_class_proto_funcs, _countof(packed_scene_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, packed_scene_class_constructor, "PackedScene", 0, JS_CFUNC_constructor, 0);
+	define_packed_scene_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "PackedScene", ctor);
 

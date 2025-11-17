@@ -186,13 +186,13 @@ static void define_slider_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_slider_enum(JSContext *ctx, JSValue proto) {
+static void define_slider_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TickPosition_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TickPosition_obj, "TICK_POSITION_BOTTOM_RIGHT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TickPosition_obj, "TICK_POSITION_TOP_LEFT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TickPosition_obj, "TICK_POSITION_BOTH", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, TickPosition_obj, "TICK_POSITION_CENTER", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "TickPosition", TickPosition_obj);
+	JS_SetPropertyStr(ctx, ctor, "TickPosition", TickPosition_obj);
 }
 
 static int js_slider_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -208,9 +208,9 @@ static int js_slider_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_slider_property(ctx, proto);
-	define_slider_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, slider_class_proto_funcs, _countof(slider_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, slider_class_constructor, "Slider", 0, JS_CFUNC_constructor, 0);
+	define_slider_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Slider", ctor);
 

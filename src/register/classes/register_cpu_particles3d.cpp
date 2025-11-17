@@ -1332,12 +1332,12 @@ static void define_cpu_particles3d_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_cpu_particles3d_enum(JSContext *ctx, JSValue proto) {
+static void define_cpu_particles3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue DrawOrder_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DrawOrder_obj, "DRAW_ORDER_INDEX", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DrawOrder_obj, "DRAW_ORDER_LIFETIME", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DrawOrder_obj, "DRAW_ORDER_VIEW_DEPTH", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "DrawOrder", DrawOrder_obj);
+	JS_SetPropertyStr(ctx, ctor, "DrawOrder", DrawOrder_obj);
 	JSValue Parameter_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Parameter_obj, "PARAM_INITIAL_LINEAR_VELOCITY", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Parameter_obj, "PARAM_ANGULAR_VELOCITY", JS_NewInt64(ctx, 1));
@@ -1352,13 +1352,13 @@ static void define_cpu_particles3d_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Parameter_obj, "PARAM_ANIM_SPEED", JS_NewInt64(ctx, 10));
 	JS_SetPropertyStr(ctx, Parameter_obj, "PARAM_ANIM_OFFSET", JS_NewInt64(ctx, 11));
 	JS_SetPropertyStr(ctx, Parameter_obj, "PARAM_MAX", JS_NewInt64(ctx, 12));
-	JS_SetPropertyStr(ctx, proto, "Parameter", Parameter_obj);
+	JS_SetPropertyStr(ctx, ctor, "Parameter", Parameter_obj);
 	JSValue ParticleFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ParticleFlags_obj, "PARTICLE_FLAG_ALIGN_Y_TO_VELOCITY", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ParticleFlags_obj, "PARTICLE_FLAG_ROTATE_Y", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ParticleFlags_obj, "PARTICLE_FLAG_DISABLE_Z", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ParticleFlags_obj, "PARTICLE_FLAG_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "ParticleFlags", ParticleFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "ParticleFlags", ParticleFlags_obj);
 	JSValue EmissionShape_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, EmissionShape_obj, "EMISSION_SHAPE_POINT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, EmissionShape_obj, "EMISSION_SHAPE_SPHERE", JS_NewInt64(ctx, 1));
@@ -1368,7 +1368,7 @@ static void define_cpu_particles3d_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, EmissionShape_obj, "EMISSION_SHAPE_DIRECTED_POINTS", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, EmissionShape_obj, "EMISSION_SHAPE_RING", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, EmissionShape_obj, "EMISSION_SHAPE_MAX", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "EmissionShape", EmissionShape_obj);
+	JS_SetPropertyStr(ctx, ctor, "EmissionShape", EmissionShape_obj);
 }
 
 static int js_cpu_particles3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -1384,9 +1384,9 @@ static int js_cpu_particles3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_cpu_particles3d_property(ctx, proto);
-	define_cpu_particles3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, cpu_particles3d_class_proto_funcs, _countof(cpu_particles3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, cpu_particles3d_class_constructor, "CPUParticles3D", 0, JS_CFUNC_constructor, 0);
+	define_cpu_particles3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CPUParticles3D", ctor);
 

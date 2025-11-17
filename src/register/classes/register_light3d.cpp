@@ -454,7 +454,7 @@ static void define_light3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_light3d_enum(JSContext *ctx, JSValue proto) {
+static void define_light3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Param_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_ENERGY", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_INDIRECT_ENERGY", JS_NewInt64(ctx, 1));
@@ -478,12 +478,12 @@ static void define_light3d_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_TRANSMITTANCE_BIAS", JS_NewInt64(ctx, 19));
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_INTENSITY", JS_NewInt64(ctx, 20));
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_MAX", JS_NewInt64(ctx, 21));
-	JS_SetPropertyStr(ctx, proto, "Param", Param_obj);
+	JS_SetPropertyStr(ctx, ctor, "Param", Param_obj);
 	JSValue BakeMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BakeMode_obj, "BAKE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BakeMode_obj, "BAKE_STATIC", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, BakeMode_obj, "BAKE_DYNAMIC", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "BakeMode", BakeMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "BakeMode", BakeMode_obj);
 }
 
 static int js_light3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -499,9 +499,9 @@ static int js_light3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_light3d_property(ctx, proto);
-	define_light3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, light3d_class_proto_funcs, _countof(light3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, light3d_class_constructor, "Light3D", 0, JS_CFUNC_constructor, 0);
+	define_light3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Light3D", ctor);
 

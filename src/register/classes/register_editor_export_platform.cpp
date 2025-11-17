@@ -199,20 +199,20 @@ static const JSCFunctionListEntry editor_export_platform_class_static_funcs[] = 
 static void define_editor_export_platform_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_editor_export_platform_enum(JSContext *ctx, JSValue proto) {
+static void define_editor_export_platform_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ExportMessageType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ExportMessageType_obj, "EXPORT_MESSAGE_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ExportMessageType_obj, "EXPORT_MESSAGE_INFO", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ExportMessageType_obj, "EXPORT_MESSAGE_WARNING", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ExportMessageType_obj, "EXPORT_MESSAGE_ERROR", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "ExportMessageType", ExportMessageType_obj);
+	JS_SetPropertyStr(ctx, ctor, "ExportMessageType", ExportMessageType_obj);
 	JSValue DebugFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DebugFlags_obj, "DEBUG_FLAG_DUMB_CLIENT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DebugFlags_obj, "DEBUG_FLAG_REMOTE_DEBUG", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, DebugFlags_obj, "DEBUG_FLAG_REMOTE_DEBUG_LOCALHOST", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, DebugFlags_obj, "DEBUG_FLAG_VIEW_COLLISIONS", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, DebugFlags_obj, "DEBUG_FLAG_VIEW_NAVIGATION", JS_NewInt64(ctx, 16));
-	JS_SetPropertyStr(ctx, proto, "DebugFlags", DebugFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "DebugFlags", DebugFlags_obj);
 }
 
 static int js_editor_export_platform_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -228,10 +228,10 @@ static int js_editor_export_platform_class_init(JSContext *ctx, JSModuleDef *m) 
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_editor_export_platform_property(ctx, proto);
-	define_editor_export_platform_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, editor_export_platform_class_proto_funcs, _countof(editor_export_platform_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, editor_export_platform_class_constructor, "EditorExportPlatform", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, editor_export_platform_class_static_funcs, _countof(editor_export_platform_class_static_funcs));
+	define_editor_export_platform_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "EditorExportPlatform", ctor);
 

@@ -225,17 +225,17 @@ static void define_animation_node_one_shot_property(JSContext *ctx, JSValue prot
     );
 }
 
-static void define_animation_node_one_shot_enum(JSContext *ctx, JSValue proto) {
+static void define_animation_node_one_shot_enum(JSContext *ctx, JSValue ctor) {
 	JSValue OneShotRequest_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, OneShotRequest_obj, "ONE_SHOT_REQUEST_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, OneShotRequest_obj, "ONE_SHOT_REQUEST_FIRE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, OneShotRequest_obj, "ONE_SHOT_REQUEST_ABORT", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, OneShotRequest_obj, "ONE_SHOT_REQUEST_FADE_OUT", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "OneShotRequest", OneShotRequest_obj);
+	JS_SetPropertyStr(ctx, ctor, "OneShotRequest", OneShotRequest_obj);
 	JSValue MixMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, MixMode_obj, "MIX_MODE_BLEND", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, MixMode_obj, "MIX_MODE_ADD", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "MixMode", MixMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "MixMode", MixMode_obj);
 }
 
 static int js_animation_node_one_shot_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -251,9 +251,9 @@ static int js_animation_node_one_shot_class_init(JSContext *ctx, JSModuleDef *m)
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_animation_node_one_shot_property(ctx, proto);
-	define_animation_node_one_shot_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, animation_node_one_shot_class_proto_funcs, _countof(animation_node_one_shot_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, animation_node_one_shot_class_constructor, "AnimationNodeOneShot", 0, JS_CFUNC_constructor, 0);
+	define_animation_node_one_shot_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AnimationNodeOneShot", ctor);
 

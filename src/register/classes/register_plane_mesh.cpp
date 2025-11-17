@@ -192,12 +192,12 @@ static void define_plane_mesh_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_plane_mesh_enum(JSContext *ctx, JSValue proto) {
+static void define_plane_mesh_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Orientation_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Orientation_obj, "FACE_X", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Orientation_obj, "FACE_Y", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Orientation_obj, "FACE_Z", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "Orientation", Orientation_obj);
+	JS_SetPropertyStr(ctx, ctor, "Orientation", Orientation_obj);
 }
 
 static int js_plane_mesh_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -213,9 +213,9 @@ static int js_plane_mesh_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_plane_mesh_property(ctx, proto);
-	define_plane_mesh_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, plane_mesh_class_proto_funcs, _countof(plane_mesh_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, plane_mesh_class_constructor, "PlaneMesh", 0, JS_CFUNC_constructor, 0);
+	define_plane_mesh_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "PlaneMesh", ctor);
 

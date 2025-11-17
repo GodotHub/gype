@@ -251,16 +251,16 @@ static void define_tween_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_tween_enum(JSContext *ctx, JSValue proto) {
+static void define_tween_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TweenProcessMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TweenProcessMode_obj, "TWEEN_PROCESS_PHYSICS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TweenProcessMode_obj, "TWEEN_PROCESS_IDLE", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "TweenProcessMode", TweenProcessMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "TweenProcessMode", TweenProcessMode_obj);
 	JSValue TweenPauseMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TweenPauseMode_obj, "TWEEN_PAUSE_BOUND", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TweenPauseMode_obj, "TWEEN_PAUSE_STOP", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TweenPauseMode_obj, "TWEEN_PAUSE_PROCESS", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "TweenPauseMode", TweenPauseMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "TweenPauseMode", TweenPauseMode_obj);
 	JSValue TransitionType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TransitionType_obj, "TRANS_LINEAR", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TransitionType_obj, "TRANS_SINE", JS_NewInt64(ctx, 1));
@@ -274,13 +274,13 @@ static void define_tween_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, TransitionType_obj, "TRANS_BOUNCE", JS_NewInt64(ctx, 9));
 	JS_SetPropertyStr(ctx, TransitionType_obj, "TRANS_BACK", JS_NewInt64(ctx, 10));
 	JS_SetPropertyStr(ctx, TransitionType_obj, "TRANS_SPRING", JS_NewInt64(ctx, 11));
-	JS_SetPropertyStr(ctx, proto, "TransitionType", TransitionType_obj);
+	JS_SetPropertyStr(ctx, ctor, "TransitionType", TransitionType_obj);
 	JSValue EaseType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, EaseType_obj, "EASE_IN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, EaseType_obj, "EASE_OUT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, EaseType_obj, "EASE_IN_OUT", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, EaseType_obj, "EASE_OUT_IN", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "EaseType", EaseType_obj);
+	JS_SetPropertyStr(ctx, ctor, "EaseType", EaseType_obj);
 }
 
 static int js_tween_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -296,10 +296,10 @@ static int js_tween_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_tween_property(ctx, proto);
-	define_tween_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, tween_class_proto_funcs, _countof(tween_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, tween_class_constructor, "Tween", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, tween_class_static_funcs, _countof(tween_class_static_funcs));
+	define_tween_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Tween", ctor);
 

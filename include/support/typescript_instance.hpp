@@ -21,6 +21,7 @@ class TypeScriptInstance {
 	JSValue js_binding;
 	Object *p_godot_object = nullptr;
 	TypeScript *script = nullptr;
+	JSValue module;
 	std::vector<GDExtensionPropertyInfo> properties;
 
 private:
@@ -28,7 +29,7 @@ private:
 	JSValue find_ns_property(JSModuleDef *md, const char *name);
 
 public:
-	static const char *symbol_mask;
+	static const char *class_symbol_mask;
 
 	GDExtensionBool set(GDExtensionConstStringNamePtr p_name, GDExtensionConstVariantPtr p_variant);
 	GDExtensionBool get(GDExtensionConstStringNamePtr p_name, GDExtensionVariantPtr r_ret);

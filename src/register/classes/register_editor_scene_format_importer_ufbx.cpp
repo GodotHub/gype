@@ -60,7 +60,7 @@ static JSValue editor_scene_format_importer_ufbx_class_constructor(JSContext *ct
 static void define_editor_scene_format_importer_ufbx_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_editor_scene_format_importer_ufbx_enum(JSContext *ctx, JSValue proto) {
+static void define_editor_scene_format_importer_ufbx_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_editor_scene_format_importer_ufbx_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_editor_scene_format_importer_ufbx_class_init(JSContext *ctx, JSMod
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_editor_scene_format_importer_ufbx_property(ctx, proto);
-	define_editor_scene_format_importer_ufbx_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, editor_scene_format_importer_ufbx_class_constructor, "EditorSceneFormatImporterUFBX", 0, JS_CFUNC_constructor, 0);
+	define_editor_scene_format_importer_ufbx_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "EditorSceneFormatImporterUFBX", ctor);
 

@@ -476,11 +476,11 @@ static void define_physical_bone3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_physical_bone3d_enum(JSContext *ctx, JSValue proto) {
+static void define_physical_bone3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue DampMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DampMode_obj, "DAMP_MODE_COMBINE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DampMode_obj, "DAMP_MODE_REPLACE", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "DampMode", DampMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "DampMode", DampMode_obj);
 	JSValue JointType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, JointType_obj, "JOINT_TYPE_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, JointType_obj, "JOINT_TYPE_PIN", JS_NewInt64(ctx, 1));
@@ -488,7 +488,7 @@ static void define_physical_bone3d_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, JointType_obj, "JOINT_TYPE_HINGE", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, JointType_obj, "JOINT_TYPE_SLIDER", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, JointType_obj, "JOINT_TYPE_6DOF", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "JointType", JointType_obj);
+	JS_SetPropertyStr(ctx, ctor, "JointType", JointType_obj);
 }
 
 static int js_physical_bone3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -504,9 +504,9 @@ static int js_physical_bone3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_physical_bone3d_property(ctx, proto);
-	define_physical_bone3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, physical_bone3d_class_proto_funcs, _countof(physical_bone3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, physical_bone3d_class_constructor, "PhysicalBone3D", 0, JS_CFUNC_constructor, 0);
+	define_physical_bone3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "PhysicalBone3D", ctor);
 

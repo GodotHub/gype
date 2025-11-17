@@ -44,7 +44,7 @@ class TypeScript : public ScriptExtension {
 	mutable HashMap<StringName, PropertyInfo> properties;
 	mutable HashMap<StringName, MethodInfo> signals;
 
-	HashSet<int64_t> instances;
+	HashSet<uint64_t> instances;
 
 public:
 	static const char *dist_path;

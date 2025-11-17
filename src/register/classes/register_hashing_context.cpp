@@ -77,12 +77,12 @@ static const JSCFunctionListEntry hashing_context_class_proto_funcs[] = {
 static void define_hashing_context_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_hashing_context_enum(JSContext *ctx, JSValue proto) {
+static void define_hashing_context_enum(JSContext *ctx, JSValue ctor) {
 	JSValue HashType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, HashType_obj, "HASH_MD5", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, HashType_obj, "HASH_SHA1", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, HashType_obj, "HASH_SHA256", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "HashType", HashType_obj);
+	JS_SetPropertyStr(ctx, ctor, "HashType", HashType_obj);
 }
 
 static int js_hashing_context_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -98,9 +98,9 @@ static int js_hashing_context_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_hashing_context_property(ctx, proto);
-	define_hashing_context_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, hashing_context_class_proto_funcs, _countof(hashing_context_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, hashing_context_class_constructor, "HashingContext", 0, JS_CFUNC_constructor, 0);
+	define_hashing_context_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "HashingContext", ctor);
 

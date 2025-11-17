@@ -410,6 +410,8 @@ static JSValue string_class_humanize_size(JSContext *ctx, JSValueConst this_val,
 }
 
 
+
+
 static const JSCFunctionListEntry string_class_proto_funcs[] = {
 	JS_CFUNC_DEF("casecmp_to", 1, &string_class_casecmp_to),
 	JS_CFUNC_DEF("nocasecmp_to", 1, &string_class_nocasecmp_to),
@@ -530,6 +532,8 @@ static const JSCFunctionListEntry string_class_proto_funcs[] = {
 };
 
 
+
+
 static int js_string_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["String"] = JS_NewClassID(js_runtime(), &class_id);
@@ -539,12 +543,14 @@ static int js_string_class_init(JSContext *ctx) {
 
 	JSValue proto = JS_NewObject(ctx);
 	JS_SetClassProto(ctx, class_id, proto);	JS_SetPropertyFunctionList(ctx, proto, string_class_proto_funcs, _countof(string_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, string_class_constructor, "GDString", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "GDString", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -1742,6 +1748,7 @@ static int js_string_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "StringProxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

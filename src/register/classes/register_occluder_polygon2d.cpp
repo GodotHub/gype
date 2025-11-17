@@ -137,12 +137,12 @@ static void define_occluder_polygon2d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_occluder_polygon2d_enum(JSContext *ctx, JSValue proto) {
+static void define_occluder_polygon2d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue CullMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CullMode_obj, "CULL_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CullMode_obj, "CULL_CLOCKWISE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, CullMode_obj, "CULL_COUNTER_CLOCKWISE", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "CullMode", CullMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "CullMode", CullMode_obj);
 }
 
 static int js_occluder_polygon2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -158,9 +158,9 @@ static int js_occluder_polygon2d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_occluder_polygon2d_property(ctx, proto);
-	define_occluder_polygon2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, occluder_polygon2d_class_proto_funcs, _countof(occluder_polygon2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, occluder_polygon2d_class_constructor, "OccluderPolygon2D", 0, JS_CFUNC_constructor, 0);
+	define_occluder_polygon2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "OccluderPolygon2D", ctor);
 

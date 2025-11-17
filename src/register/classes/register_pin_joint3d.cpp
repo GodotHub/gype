@@ -72,12 +72,12 @@ static const JSCFunctionListEntry pin_joint3d_class_proto_funcs[] = {
 static void define_pin_joint3d_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_pin_joint3d_enum(JSContext *ctx, JSValue proto) {
+static void define_pin_joint3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Param_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_BIAS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_DAMPING", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_IMPULSE_CLAMP", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "Param", Param_obj);
+	JS_SetPropertyStr(ctx, ctor, "Param", Param_obj);
 }
 
 static int js_pin_joint3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -93,9 +93,9 @@ static int js_pin_joint3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_pin_joint3d_property(ctx, proto);
-	define_pin_joint3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, pin_joint3d_class_proto_funcs, _countof(pin_joint3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, pin_joint3d_class_constructor, "PinJoint3D", 0, JS_CFUNC_constructor, 0);
+	define_pin_joint3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "PinJoint3D", ctor);
 

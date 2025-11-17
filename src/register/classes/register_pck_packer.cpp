@@ -82,7 +82,7 @@ static const JSCFunctionListEntry pck_packer_class_proto_funcs[] = {
 static void define_pck_packer_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_pck_packer_enum(JSContext *ctx, JSValue proto) {
+static void define_pck_packer_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_pck_packer_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -98,9 +98,9 @@ static int js_pck_packer_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_pck_packer_property(ctx, proto);
-	define_pck_packer_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, pck_packer_class_proto_funcs, _countof(pck_packer_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, pck_packer_class_constructor, "PCKPacker", 0, JS_CFUNC_constructor, 0);
+	define_pck_packer_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "PCKPacker", ctor);
 

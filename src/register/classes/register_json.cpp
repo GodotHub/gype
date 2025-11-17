@@ -118,7 +118,7 @@ static void define_json_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_json_enum(JSContext *ctx, JSValue proto) {
+static void define_json_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_json_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -134,10 +134,10 @@ static int js_json_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_json_property(ctx, proto);
-	define_json_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, json_class_proto_funcs, _countof(json_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, json_class_constructor, "JSON", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, json_class_static_funcs, _countof(json_class_static_funcs));
+	define_json_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "JSON", ctor);
 

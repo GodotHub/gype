@@ -368,11 +368,12 @@ JSValue call_builtin_free_opaque_no_fixed_vararg_method_ret(R (*Func)(void *, co
 	return call_builtin_free_opaque_no_fixed_vararg_method_ret_impl<T>(Func, ctx, this_val, argc, argv);
 }
 
-template <typename T>
-JSValue call_builtin_free_opaque_no_fixed_vararg_method_no_ret_impl(void (*Func)(void *, const std::vector<Variant> &), JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+template <typename T, typename... P>
+JSValue call_builtin_free_opaque_no_fixed_vararg_method_no_ret_impl(void (*Func)(void *, P...), JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	T callee = convert<T>(ctx, this_val);
+	constexpr int fixed_argc = sizeof...(P) - 1; 
 	std::vector<Variant> variant_args;
-	for (int i = 0; i < argc; ++i) { 
+	for (int i = fixed_argc; i < argc; ++i) {
 		variant_args.push_back(VariantAdapter(argv[i]).get());
 	}
 	(*Func)(callee._native_ptr(), variant_args);
@@ -380,7 +381,7 @@ JSValue call_builtin_free_opaque_no_fixed_vararg_method_no_ret_impl(void (*Func)
 }
 
 template <typename T, typename... P>
-JSValue call_builtin_free_opaque_no_fixed_vararg_method_no_ret(void (*Func)(void *, const std::vector<Variant> &), JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+JSValue call_builtin_free_opaque_no_fixed_vararg_method_no_ret(void (*Func)(void *, P...), JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	// FIX: Removed incorrect std::forward
 	return call_builtin_free_opaque_no_fixed_vararg_method_no_ret_impl<T>(Func, ctx, this_val, argc, argv);
 }

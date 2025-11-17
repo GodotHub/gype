@@ -296,11 +296,11 @@ static void define_mesh_convex_decomposition_settings_property(JSContext *ctx, J
     );
 }
 
-static void define_mesh_convex_decomposition_settings_enum(JSContext *ctx, JSValue proto) {
+static void define_mesh_convex_decomposition_settings_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Mode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Mode_obj, "CONVEX_DECOMPOSITION_MODE_VOXEL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Mode_obj, "CONVEX_DECOMPOSITION_MODE_TETRAHEDRON", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "Mode", Mode_obj);
+	JS_SetPropertyStr(ctx, ctor, "Mode", Mode_obj);
 }
 
 static int js_mesh_convex_decomposition_settings_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -316,9 +316,9 @@ static int js_mesh_convex_decomposition_settings_class_init(JSContext *ctx, JSMo
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_mesh_convex_decomposition_settings_property(ctx, proto);
-	define_mesh_convex_decomposition_settings_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, mesh_convex_decomposition_settings_class_proto_funcs, _countof(mesh_convex_decomposition_settings_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, mesh_convex_decomposition_settings_class_constructor, "MeshConvexDecompositionSettings", 0, JS_CFUNC_constructor, 0);
+	define_mesh_convex_decomposition_settings_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "MeshConvexDecompositionSettings", ctor);
 

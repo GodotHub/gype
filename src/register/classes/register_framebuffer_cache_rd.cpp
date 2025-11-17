@@ -67,7 +67,7 @@ static const JSCFunctionListEntry framebuffer_cache_rd_class_static_funcs[] = {
 static void define_framebuffer_cache_rd_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_framebuffer_cache_rd_enum(JSContext *ctx, JSValue proto) {
+static void define_framebuffer_cache_rd_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_framebuffer_cache_rd_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -83,9 +83,9 @@ static int js_framebuffer_cache_rd_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_framebuffer_cache_rd_property(ctx, proto);
-	define_framebuffer_cache_rd_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, framebuffer_cache_rd_class_constructor, "FramebufferCacheRD", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, framebuffer_cache_rd_class_static_funcs, _countof(framebuffer_cache_rd_class_static_funcs));
+	define_framebuffer_cache_rd_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "FramebufferCacheRD", ctor);
 

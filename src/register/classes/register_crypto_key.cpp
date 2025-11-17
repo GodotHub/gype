@@ -87,7 +87,7 @@ static const JSCFunctionListEntry crypto_key_class_proto_funcs[] = {
 static void define_crypto_key_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_crypto_key_enum(JSContext *ctx, JSValue proto) {
+static void define_crypto_key_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_crypto_key_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -103,9 +103,9 @@ static int js_crypto_key_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_crypto_key_property(ctx, proto);
-	define_crypto_key_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, crypto_key_class_proto_funcs, _countof(crypto_key_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, crypto_key_class_constructor, "CryptoKey", 0, JS_CFUNC_constructor, 0);
+	define_crypto_key_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CryptoKey", ctor);
 

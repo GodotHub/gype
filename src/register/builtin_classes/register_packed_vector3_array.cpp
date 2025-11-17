@@ -133,6 +133,8 @@ static JSValue packed_vector3_array_class_erase(JSContext *ctx, JSValueConst thi
 }
 
 
+
+
 static const JSCFunctionListEntry packed_vector3_array_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get", 1, &packed_vector3_array_class_get),
 	JS_CFUNC_DEF("set", 2, &packed_vector3_array_class_set),
@@ -160,6 +162,8 @@ static const JSCFunctionListEntry packed_vector3_array_class_proto_funcs[] = {
 };
 
 
+
+
 static int js_packed_vector3_array_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["PackedVector3Array"] = JS_NewClassID(js_runtime(), &class_id);
@@ -169,12 +173,14 @@ static int js_packed_vector3_array_class_init(JSContext *ctx) {
 
 	JSValue proto = JS_NewObject(ctx);
 	JS_SetClassProto(ctx, class_id, proto);	JS_SetPropertyFunctionList(ctx, proto, packed_vector3_array_class_proto_funcs, _countof(packed_vector3_array_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, packed_vector3_array_class_constructor, "PackedVector3Array", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "PackedVector3Array", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -443,6 +449,7 @@ static int js_packed_vector3_array_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "PackedVector3ArrayProxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

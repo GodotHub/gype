@@ -105,7 +105,7 @@ static void define_skeleton_modification2d_physical_bones_property(JSContext *ct
     );
 }
 
-static void define_skeleton_modification2d_physical_bones_enum(JSContext *ctx, JSValue proto) {
+static void define_skeleton_modification2d_physical_bones_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_skeleton_modification2d_physical_bones_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -121,9 +121,9 @@ static int js_skeleton_modification2d_physical_bones_class_init(JSContext *ctx, 
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_skeleton_modification2d_physical_bones_property(ctx, proto);
-	define_skeleton_modification2d_physical_bones_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, skeleton_modification2d_physical_bones_class_proto_funcs, _countof(skeleton_modification2d_physical_bones_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, skeleton_modification2d_physical_bones_class_constructor, "SkeletonModification2DPhysicalBones", 0, JS_CFUNC_constructor, 0);
+	define_skeleton_modification2d_physical_bones_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SkeletonModification2DPhysicalBones", ctor);
 

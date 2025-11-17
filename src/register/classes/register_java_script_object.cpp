@@ -60,7 +60,7 @@ static JSValue java_script_object_class_constructor(JSContext *ctx, JSValueConst
 static void define_java_script_object_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_java_script_object_enum(JSContext *ctx, JSValue proto) {
+static void define_java_script_object_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_java_script_object_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_java_script_object_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_java_script_object_property(ctx, proto);
-	define_java_script_object_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, java_script_object_class_constructor, "JavaScriptObject", 0, JS_CFUNC_constructor, 0);
+	define_java_script_object_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "JavaScriptObject", ctor);
 

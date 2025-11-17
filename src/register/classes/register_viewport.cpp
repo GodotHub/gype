@@ -1179,7 +1179,7 @@ static void define_viewport_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_viewport_enum(JSContext *ctx, JSValue proto) {
+static void define_viewport_enum(JSContext *ctx, JSValue ctor) {
 	JSValue PositionalShadowAtlasQuadrantSubdiv_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PositionalShadowAtlasQuadrantSubdiv_obj, "SHADOW_ATLAS_QUADRANT_SUBDIV_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PositionalShadowAtlasQuadrantSubdiv_obj, "SHADOW_ATLAS_QUADRANT_SUBDIV_1", JS_NewInt64(ctx, 1));
@@ -1189,7 +1189,7 @@ static void define_viewport_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, PositionalShadowAtlasQuadrantSubdiv_obj, "SHADOW_ATLAS_QUADRANT_SUBDIV_256", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, PositionalShadowAtlasQuadrantSubdiv_obj, "SHADOW_ATLAS_QUADRANT_SUBDIV_1024", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, PositionalShadowAtlasQuadrantSubdiv_obj, "SHADOW_ATLAS_QUADRANT_SUBDIV_MAX", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "PositionalShadowAtlasQuadrantSubdiv", PositionalShadowAtlasQuadrantSubdiv_obj);
+	JS_SetPropertyStr(ctx, ctor, "PositionalShadowAtlasQuadrantSubdiv", PositionalShadowAtlasQuadrantSubdiv_obj);
 	JSValue Scaling3DMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Scaling3DMode_obj, "SCALING_3D_MODE_BILINEAR", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Scaling3DMode_obj, "SCALING_3D_MODE_FSR", JS_NewInt64(ctx, 1));
@@ -1197,14 +1197,14 @@ static void define_viewport_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Scaling3DMode_obj, "SCALING_3D_MODE_METALFX_SPATIAL", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, Scaling3DMode_obj, "SCALING_3D_MODE_METALFX_TEMPORAL", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, Scaling3DMode_obj, "SCALING_3D_MODE_MAX", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "Scaling3DMode", Scaling3DMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "Scaling3DMode", Scaling3DMode_obj);
 	JSValue MSAA_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, MSAA_obj, "MSAA_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, MSAA_obj, "MSAA_2X", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, MSAA_obj, "MSAA_4X", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, MSAA_obj, "MSAA_8X", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, MSAA_obj, "MSAA_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "MSAA", MSAA_obj);
+	JS_SetPropertyStr(ctx, ctor, "MSAA", MSAA_obj);
 	JSValue AnisotropicFiltering_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AnisotropicFiltering_obj, "ANISOTROPY_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AnisotropicFiltering_obj, "ANISOTROPY_2X", JS_NewInt64(ctx, 1));
@@ -1212,25 +1212,25 @@ static void define_viewport_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, AnisotropicFiltering_obj, "ANISOTROPY_8X", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, AnisotropicFiltering_obj, "ANISOTROPY_16X", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, AnisotropicFiltering_obj, "ANISOTROPY_MAX", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "AnisotropicFiltering", AnisotropicFiltering_obj);
+	JS_SetPropertyStr(ctx, ctor, "AnisotropicFiltering", AnisotropicFiltering_obj);
 	JSValue ScreenSpaceAA_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ScreenSpaceAA_obj, "SCREEN_SPACE_AA_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ScreenSpaceAA_obj, "SCREEN_SPACE_AA_FXAA", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ScreenSpaceAA_obj, "SCREEN_SPACE_AA_SMAA", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ScreenSpaceAA_obj, "SCREEN_SPACE_AA_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "ScreenSpaceAA", ScreenSpaceAA_obj);
+	JS_SetPropertyStr(ctx, ctor, "ScreenSpaceAA", ScreenSpaceAA_obj);
 	JSValue RenderInfo_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, RenderInfo_obj, "RENDER_INFO_OBJECTS_IN_FRAME", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, RenderInfo_obj, "RENDER_INFO_PRIMITIVES_IN_FRAME", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, RenderInfo_obj, "RENDER_INFO_DRAW_CALLS_IN_FRAME", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, RenderInfo_obj, "RENDER_INFO_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "RenderInfo", RenderInfo_obj);
+	JS_SetPropertyStr(ctx, ctor, "RenderInfo", RenderInfo_obj);
 	JSValue RenderInfoType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, RenderInfoType_obj, "RENDER_INFO_TYPE_VISIBLE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, RenderInfoType_obj, "RENDER_INFO_TYPE_SHADOW", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, RenderInfoType_obj, "RENDER_INFO_TYPE_CANVAS", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, RenderInfoType_obj, "RENDER_INFO_TYPE_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "RenderInfoType", RenderInfoType_obj);
+	JS_SetPropertyStr(ctx, ctor, "RenderInfoType", RenderInfoType_obj);
 	JSValue DebugDraw_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DebugDraw_obj, "DEBUG_DRAW_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DebugDraw_obj, "DEBUG_DRAW_UNSHADED", JS_NewInt64(ctx, 1));
@@ -1259,45 +1259,45 @@ static void define_viewport_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, DebugDraw_obj, "DEBUG_DRAW_OCCLUDERS", JS_NewInt64(ctx, 24));
 	JS_SetPropertyStr(ctx, DebugDraw_obj, "DEBUG_DRAW_MOTION_VECTORS", JS_NewInt64(ctx, 25));
 	JS_SetPropertyStr(ctx, DebugDraw_obj, "DEBUG_DRAW_INTERNAL_BUFFER", JS_NewInt64(ctx, 26));
-	JS_SetPropertyStr(ctx, proto, "DebugDraw", DebugDraw_obj);
+	JS_SetPropertyStr(ctx, ctor, "DebugDraw", DebugDraw_obj);
 	JSValue DefaultCanvasItemTextureFilter_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DefaultCanvasItemTextureFilter_obj, "DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DefaultCanvasItemTextureFilter_obj, "DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_LINEAR", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DefaultCanvasItemTextureFilter_obj, "DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_LINEAR_WITH_MIPMAPS", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, DefaultCanvasItemTextureFilter_obj, "DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST_WITH_MIPMAPS", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, DefaultCanvasItemTextureFilter_obj, "DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "DefaultCanvasItemTextureFilter", DefaultCanvasItemTextureFilter_obj);
+	JS_SetPropertyStr(ctx, ctor, "DefaultCanvasItemTextureFilter", DefaultCanvasItemTextureFilter_obj);
 	JSValue DefaultCanvasItemTextureRepeat_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DefaultCanvasItemTextureRepeat_obj, "DEFAULT_CANVAS_ITEM_TEXTURE_REPEAT_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DefaultCanvasItemTextureRepeat_obj, "DEFAULT_CANVAS_ITEM_TEXTURE_REPEAT_ENABLED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DefaultCanvasItemTextureRepeat_obj, "DEFAULT_CANVAS_ITEM_TEXTURE_REPEAT_MIRROR", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, DefaultCanvasItemTextureRepeat_obj, "DEFAULT_CANVAS_ITEM_TEXTURE_REPEAT_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "DefaultCanvasItemTextureRepeat", DefaultCanvasItemTextureRepeat_obj);
+	JS_SetPropertyStr(ctx, ctor, "DefaultCanvasItemTextureRepeat", DefaultCanvasItemTextureRepeat_obj);
 	JSValue SDFOversize_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SDFOversize_obj, "SDF_OVERSIZE_100_PERCENT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SDFOversize_obj, "SDF_OVERSIZE_120_PERCENT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, SDFOversize_obj, "SDF_OVERSIZE_150_PERCENT", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, SDFOversize_obj, "SDF_OVERSIZE_200_PERCENT", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, SDFOversize_obj, "SDF_OVERSIZE_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "SDFOversize", SDFOversize_obj);
+	JS_SetPropertyStr(ctx, ctor, "SDFOversize", SDFOversize_obj);
 	JSValue SDFScale_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SDFScale_obj, "SDF_SCALE_100_PERCENT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SDFScale_obj, "SDF_SCALE_50_PERCENT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, SDFScale_obj, "SDF_SCALE_25_PERCENT", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, SDFScale_obj, "SDF_SCALE_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "SDFScale", SDFScale_obj);
+	JS_SetPropertyStr(ctx, ctor, "SDFScale", SDFScale_obj);
 	JSValue VRSMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, VRSMode_obj, "VRS_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, VRSMode_obj, "VRS_TEXTURE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, VRSMode_obj, "VRS_XR", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, VRSMode_obj, "VRS_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "VRSMode", VRSMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "VRSMode", VRSMode_obj);
 	JSValue VRSUpdateMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, VRSUpdateMode_obj, "VRS_UPDATE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, VRSUpdateMode_obj, "VRS_UPDATE_ONCE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, VRSUpdateMode_obj, "VRS_UPDATE_ALWAYS", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, VRSUpdateMode_obj, "VRS_UPDATE_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "VRSUpdateMode", VRSUpdateMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "VRSUpdateMode", VRSUpdateMode_obj);
 }
 
 static int js_viewport_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -1313,9 +1313,9 @@ static int js_viewport_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_viewport_property(ctx, proto);
-	define_viewport_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, viewport_class_proto_funcs, _countof(viewport_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, viewport_class_constructor, "Viewport", 0, JS_CFUNC_constructor, 0);
+	define_viewport_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Viewport", ctor);
 

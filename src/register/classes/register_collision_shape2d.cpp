@@ -173,7 +173,7 @@ static void define_collision_shape2d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_collision_shape2d_enum(JSContext *ctx, JSValue proto) {
+static void define_collision_shape2d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_collision_shape2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -189,9 +189,9 @@ static int js_collision_shape2d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_collision_shape2d_property(ctx, proto);
-	define_collision_shape2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, collision_shape2d_class_proto_funcs, _countof(collision_shape2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, collision_shape2d_class_constructor, "CollisionShape2D", 0, JS_CFUNC_constructor, 0);
+	define_collision_shape2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CollisionShape2D", ctor);
 

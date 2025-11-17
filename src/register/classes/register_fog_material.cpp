@@ -211,7 +211,7 @@ static void define_fog_material_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_fog_material_enum(JSContext *ctx, JSValue proto) {
+static void define_fog_material_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_fog_material_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -227,9 +227,9 @@ static int js_fog_material_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_fog_material_property(ctx, proto);
-	define_fog_material_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, fog_material_class_proto_funcs, _countof(fog_material_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, fog_material_class_constructor, "FogMaterial", 0, JS_CFUNC_constructor, 0);
+	define_fog_material_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "FogMaterial", ctor);
 

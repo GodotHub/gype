@@ -230,12 +230,12 @@ static void define_csg_shape3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_csg_shape3d_enum(JSContext *ctx, JSValue proto) {
+static void define_csg_shape3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Operation_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Operation_obj, "OPERATION_UNION", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Operation_obj, "OPERATION_INTERSECTION", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Operation_obj, "OPERATION_SUBTRACTION", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "Operation", Operation_obj);
+	JS_SetPropertyStr(ctx, ctor, "Operation", Operation_obj);
 }
 
 static int js_csg_shape3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -251,9 +251,9 @@ static int js_csg_shape3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_csg_shape3d_property(ctx, proto);
-	define_csg_shape3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, csg_shape3d_class_proto_funcs, _countof(csg_shape3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, csg_shape3d_class_constructor, "CSGShape3D", 0, JS_CFUNC_constructor, 0);
+	define_csg_shape3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CSGShape3D", ctor);
 

@@ -230,7 +230,7 @@ static const JSCFunctionListEntry surface_tool_class_proto_funcs[] = {
 static void define_surface_tool_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_surface_tool_enum(JSContext *ctx, JSValue proto) {
+static void define_surface_tool_enum(JSContext *ctx, JSValue ctor) {
 	JSValue CustomFormat_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CustomFormat_obj, "CUSTOM_RGBA8_UNORM", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CustomFormat_obj, "CUSTOM_RGBA8_SNORM", JS_NewInt64(ctx, 1));
@@ -241,11 +241,11 @@ static void define_surface_tool_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, CustomFormat_obj, "CUSTOM_RGB_FLOAT", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, CustomFormat_obj, "CUSTOM_RGBA_FLOAT", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, CustomFormat_obj, "CUSTOM_MAX", JS_NewInt64(ctx, 8));
-	JS_SetPropertyStr(ctx, proto, "CustomFormat", CustomFormat_obj);
+	JS_SetPropertyStr(ctx, ctor, "CustomFormat", CustomFormat_obj);
 	JSValue SkinWeightCount_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SkinWeightCount_obj, "SKIN_4_WEIGHTS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SkinWeightCount_obj, "SKIN_8_WEIGHTS", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "SkinWeightCount", SkinWeightCount_obj);
+	JS_SetPropertyStr(ctx, ctor, "SkinWeightCount", SkinWeightCount_obj);
 }
 
 static int js_surface_tool_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -261,9 +261,9 @@ static int js_surface_tool_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_surface_tool_property(ctx, proto);
-	define_surface_tool_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, surface_tool_class_proto_funcs, _countof(surface_tool_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, surface_tool_class_constructor, "SurfaceTool", 0, JS_CFUNC_constructor, 0);
+	define_surface_tool_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SurfaceTool", ctor);
 

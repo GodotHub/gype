@@ -20,7 +20,7 @@ using namespace godot;
 
 static void notification_bind(JSValue instance, JSValue prototype, int32_t p_what, GDExtensionBool p_reversed);
 
-const char *TypeScriptInstance::symbol_mask = "_GodotClass";
+const char *TypeScriptInstance::class_symbol_mask = "_GodotClass";
 
 #define BINDING_VALID_V(binding, ret) \
 	gd_binding = get_binding();       \
@@ -41,43 +41,114 @@ TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, TypeScript *scrip
 	gd_binding = internal::get_object_instance_binding(p_godot_object->_owner);
 	String code = script->get_dist_source_code();
 	std::string code_str = std::string(code.utf8().get_data());
-	JSValue ret = JS_Eval(js_context(), code_str.c_str(), code_str.size(), "<eval>", JS_EVAL_TYPE_MODULE | JS_EVAL_FLAG_COMPILE_ONLY);
-	ERR_FAIL_COND(is_exception(js_context(), ret));
-	JSModuleDef *md = (JSModuleDef *)JS_VALUE_GET_PTR(ret);
-	ret = JS_EvalFunction(js_context(), ret);
-	ERR_FAIL_COND(is_exception(js_context(), ret));
+	JSValue module = JS_Eval(js_context(), code_str.c_str(), code_str.size(), "<eval>", JS_EVAL_TYPE_MODULE | JS_EVAL_FLAG_COMPILE_ONLY);
+	
+    // 检查 module 是否异常，如果是，则提前返回，避免后续操作
+	if (is_exception(js_context(), module)) {
+        // 在返回前，需要释放 module（即使它是异常值也需要释放）
+        JS_FreeValue(js_context(), module);
+		ERR_FAIL_MSG("Failed to compile JS module.");
+        return;
+	}
+
+	JSModuleDef *md = (JSModuleDef *)JS_VALUE_GET_PTR(module);
+	JSValue module_eval = JS_EvalFunction(js_context(), module);
+	if (is_exception(js_context(), module_eval)) {
+        JS_FreeValue(js_context(), module_eval);
+        JS_FreeValue(js_context(), module); // 别忘了释放 module
+		ERR_FAIL_MSG("Failed to evaluate JS module.");
+        return;
+    }
+
 	JSValue ns = JS_GetModuleNamespace(js_context(), md);
-	ERR_FAIL_COND(is_exception(js_context(), ns));
-	JSPropertyEnum *props;
+    if (is_exception(js_context(), ns)) {
+        JS_FreeValue(js_context(), ns);
+        JS_FreeValue(js_context(), module_eval);
+        JS_FreeValue(js_context(), module);
+		ERR_FAIL_MSG("Failed to get module namespace.");
+        return;
+    }
+
+	JSPropertyEnum *props = nullptr; // 初始化为 nullptr
 	uint32_t len;
-	ERR_FAIL_COND_MSG(JS_GetOwnPropertyNames(js_context(), &props, &len, ns, JS_GPN_STRING_MASK) < 0, "Error getting module property\n");
+	if (JS_GetOwnPropertyNames(js_context(), &props, &len, ns, JS_GPN_STRING_MASK) < 0) {
+        // 错误处理：释放已分配的资源
+        JS_FreeValue(js_context(), ns);
+        JS_FreeValue(js_context(), module_eval);
+        JS_FreeValue(js_context(), module);
+		ERR_FAIL_MSG("Error getting module property names.");
+        return;
+    }
+
+    bool instance_created = false; // 标志位，用于跳出外层循环
 	for (uint32_t i = 0; i < len; i++) {
 		JSAtom class_atom = props[i].atom;
 		const char *prop_name = JS_AtomToCString(js_context(), class_atom);
-		ret = JS_GetPropertyStr(js_context(), ns, prop_name);
-		if (!is_exception(js_context(), ret) && JS_IsObject(ret)) {
-			JSValue clazz = ret;
-			JSPropertyEnum *class_props;
+		JSValue js_prop = JS_GetPropertyStr(js_context(), ns, prop_name);
+
+		if (!is_exception(js_context(), js_prop) && JS_IsObject(js_prop)) {
+			// 注意：clazz 只是 js_prop 的别名，不需要单独管理它的生命周期
+			JSValue clazz = js_prop;
+			JSPropertyEnum *class_props = nullptr; // 初始化为 nullptr
 			uint32_t class_len;
-			ERR_FAIL_COND_MSG(JS_GetOwnPropertyNames(js_context(), &class_props, &class_len, clazz, JS_GPN_SYMBOL_MASK) < 0, "Error getting class property\n");
+			if (JS_GetOwnPropertyNames(js_context(), &class_props, &class_len, clazz, JS_GPN_SYMBOL_MASK) < 0) {
+                // 错误处理：释放当前循环中获取的资源
+                JS_FreeValue(js_context(), js_prop);
+                JS_FreeAtom(js_context(), class_atom);
+                // 继续下一个循环，或者决定是否要终止整个过程
+                continue;
+            }
+
 			for (uint32_t j = 0; j < class_len; j++) {
 				JSAtom symbol = class_props[j].atom;
 				const char *symbol_name = JS_AtomToCString(js_context(), symbol);
-				ret = JS_GetProperty(js_context(), ret, symbol);
-				if (strcmp(symbol_mask, symbol_name) == 0) {
+				if (strcmp(class_symbol_mask, symbol_name) == 0) {
 					VariantAdapter *adapter = memnew(VariantAdapter(gd_binding));
 					JSValue constroctor_arg = *adapter;
 					js_binding = JS_CallConstructor(js_context(), clazz, 1, &constroctor_arg);
-					ERR_FAIL_COND(is_exception(js_context(), js_binding));
-					script->instances.insert(gd_binding->get_instance_id());
-				}
-			}
-		}
-	}
-}
+					memdelete(adapter); // adapter 仅用于传参，之后立即删除
 
+					if (!is_exception(js_context(), js_binding)) {
+						instance_created = true; // 成功创建
+					}
+				}
+				JS_FreeAtom(js_context(), symbol);
+                // 如果已经创建，可以跳出内层循环
+                if (instance_created) {
+                    break;
+                }
+			}
+            // 修复点 2：释放 JS_GetOwnPropertyNames 分配的 class_props 数组
+            js_free(js_context(), class_props);
+		}
+
+        // 修复点 3：确保 js_prop 和 class_atom 在每次循环结束时都被释放
+		JS_FreeAtom(js_context(), class_atom);
+		JS_FreeValue(js_context(), js_prop);
+
+        // 修复点 4：如果实例已创建，跳出外层循环
+        if (instance_created) {
+            break;
+        }
+	}
+
+    // 修复点 2：释放 JS_GetOwnPropertyNames 分配的 props 数组
+    js_free(js_context(), props);
+
+	// 修复点 1：取消注释，释放 module 对象
+	// JS_FreeValue(js_context(), module);
+	JS_FreeValue(js_context(), module_eval);
+	JS_FreeValue(js_context(), ns);
+
+    // 检查最终是否成功创建实例
+    if (!instance_created) {
+        ERR_FAIL_MSG("Could not find a matching class to instantiate in the module.");
+    } else {
+	    script->instances.insert(gd_binding->get_instance_id());
+    }
+}
 godot::TypeScriptInstance::~TypeScriptInstance() {
-	internal::gdextension_interface_object_free_instance_binding(gd_binding->_owner, internal::token);
+	JS_FreeValue(js_context(), js_binding);
 }
 
 JSModuleDef *godot::TypeScriptInstance::get_module(const char *path) {

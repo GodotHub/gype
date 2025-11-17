@@ -199,7 +199,7 @@ export declare class TextEdit extends Control {
     public set_search_text(searchText: GDString | StringName | string): void;
     public set_search_flags(flags: number): void;
     public search(text: GDString | StringName | string, flags: number, fromLine: number, fromColumn: number): Vector2i;
-    public set_tooltip_request_func(callback: Callable): void;
+    public set_tooltip_request_func(callback: Callable | Function): void;
     public get_local_mouse_pos(): Vector2;
     public get_word_at_pos(position: Vector2): GDString;
     public get_line_column_at_pos(position: Vector2i, clamline: boolean = true, clamcolumn: boolean = true): Vector2i;
@@ -335,7 +335,7 @@ export declare class TextEdit extends Control {
     public set_gutter_overwritable(gutter: number, overwritable: boolean): void;
     public is_gutter_overwritable(gutter: number): boolean;
     public merge_gutters(fromLine: number, toLine: number): void;
-    public set_gutter_custom_draw(column: number, drawCallback: Callable): void;
+    public set_gutter_custom_draw(column: number, drawCallback: Callable | Function): void;
     public get_total_gutter_width(): number;
     public set_line_gutter_metadata(line: number, gutter: number, metadata: any): void;
     public get_line_gutter_metadata(line: number, gutter: number): any;

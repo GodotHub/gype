@@ -289,12 +289,12 @@ static const JSCFunctionListEntry open_xrapi_extension_class_static_funcs[] = {
 static void define_open_xrapi_extension_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_open_xrapi_extension_enum(JSContext *ctx, JSValue proto) {
+static void define_open_xrapi_extension_enum(JSContext *ctx, JSValue ctor) {
 	JSValue OpenXRAlphaBlendModeSupport_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, OpenXRAlphaBlendModeSupport_obj, "OPENXR_ALPHA_BLEND_MODE_SUPPORT_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, OpenXRAlphaBlendModeSupport_obj, "OPENXR_ALPHA_BLEND_MODE_SUPPORT_REAL", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, OpenXRAlphaBlendModeSupport_obj, "OPENXR_ALPHA_BLEND_MODE_SUPPORT_EMULATING", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "OpenXRAlphaBlendModeSupport", OpenXRAlphaBlendModeSupport_obj);
+	JS_SetPropertyStr(ctx, ctor, "OpenXRAlphaBlendModeSupport", OpenXRAlphaBlendModeSupport_obj);
 }
 
 static int js_open_xrapi_extension_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -310,10 +310,10 @@ static int js_open_xrapi_extension_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_open_xrapi_extension_property(ctx, proto);
-	define_open_xrapi_extension_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, open_xrapi_extension_class_proto_funcs, _countof(open_xrapi_extension_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, open_xrapi_extension_class_constructor, "OpenXRAPIExtension", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, open_xrapi_extension_class_static_funcs, _countof(open_xrapi_extension_class_static_funcs));
+	define_open_xrapi_extension_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "OpenXRAPIExtension", ctor);
 

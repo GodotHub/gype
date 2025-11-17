@@ -109,7 +109,7 @@ static const JSCFunctionListEntry crypto_class_proto_funcs[] = {
 static void define_crypto_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_crypto_enum(JSContext *ctx, JSValue proto) {
+static void define_crypto_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_crypto_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -125,9 +125,9 @@ static int js_crypto_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_crypto_property(ctx, proto);
-	define_crypto_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, crypto_class_proto_funcs, _countof(crypto_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, crypto_class_constructor, "Crypto", 0, JS_CFUNC_constructor, 0);
+	define_crypto_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Crypto", ctor);
 

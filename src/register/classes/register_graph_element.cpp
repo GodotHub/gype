@@ -308,7 +308,7 @@ static void define_graph_element_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_graph_element_enum(JSContext *ctx, JSValue proto) {
+static void define_graph_element_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_graph_element_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -324,9 +324,9 @@ static int js_graph_element_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_graph_element_property(ctx, proto);
-	define_graph_element_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, graph_element_class_proto_funcs, _countof(graph_element_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, graph_element_class_constructor, "GraphElement", 0, JS_CFUNC_constructor, 0);
+	define_graph_element_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GraphElement", ctor);
 

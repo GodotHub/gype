@@ -232,12 +232,12 @@ static void define_nine_patch_rect_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_nine_patch_rect_enum(JSContext *ctx, JSValue proto) {
+static void define_nine_patch_rect_enum(JSContext *ctx, JSValue ctor) {
 	JSValue AxisStretchMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AxisStretchMode_obj, "AXIS_STRETCH_MODE_STRETCH", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AxisStretchMode_obj, "AXIS_STRETCH_MODE_TILE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AxisStretchMode_obj, "AXIS_STRETCH_MODE_TILE_FIT", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "AxisStretchMode", AxisStretchMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "AxisStretchMode", AxisStretchMode_obj);
 }
 
 static int js_nine_patch_rect_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -253,9 +253,9 @@ static int js_nine_patch_rect_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_nine_patch_rect_property(ctx, proto);
-	define_nine_patch_rect_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, nine_patch_rect_class_proto_funcs, _countof(nine_patch_rect_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, nine_patch_rect_class_constructor, "NinePatchRect", 0, JS_CFUNC_constructor, 0);
+	define_nine_patch_rect_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "NinePatchRect", ctor);
 

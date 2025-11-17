@@ -60,7 +60,7 @@ static JSValue text_server_advanced_class_constructor(JSContext *ctx, JSValueCon
 static void define_text_server_advanced_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_text_server_advanced_enum(JSContext *ctx, JSValue proto) {
+static void define_text_server_advanced_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_text_server_advanced_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_text_server_advanced_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_text_server_advanced_property(ctx, proto);
-	define_text_server_advanced_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, text_server_advanced_class_constructor, "TextServerAdvanced", 0, JS_CFUNC_constructor, 0);
+	define_text_server_advanced_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TextServerAdvanced", ctor);
 

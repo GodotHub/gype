@@ -367,7 +367,7 @@ static void define_gltf_skin_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_gltf_skin_enum(JSContext *ctx, JSValue proto) {
+static void define_gltf_skin_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_gltf_skin_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -383,9 +383,9 @@ static int js_gltf_skin_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_gltf_skin_property(ctx, proto);
-	define_gltf_skin_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, gltf_skin_class_proto_funcs, _countof(gltf_skin_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, gltf_skin_class_constructor, "GLTFSkin", 0, JS_CFUNC_constructor, 0);
+	define_gltf_skin_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GLTFSkin", ctor);
 

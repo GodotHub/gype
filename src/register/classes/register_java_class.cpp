@@ -77,7 +77,7 @@ static const JSCFunctionListEntry java_class_class_proto_funcs[] = {
 static void define_java_class_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_java_class_enum(JSContext *ctx, JSValue proto) {
+static void define_java_class_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_java_class_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -93,9 +93,9 @@ static int js_java_class_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_java_class_property(ctx, proto);
-	define_java_class_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, java_class_class_proto_funcs, _countof(java_class_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, java_class_class_constructor, "JavaClass", 0, JS_CFUNC_constructor, 0);
+	define_java_class_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "JavaClass", ctor);
 

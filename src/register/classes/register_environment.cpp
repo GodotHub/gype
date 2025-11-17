@@ -1833,7 +1833,7 @@ static void define_environment_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_environment_enum(JSContext *ctx, JSValue proto) {
+static void define_environment_enum(JSContext *ctx, JSValue ctor) {
 	JSValue BGMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BGMode_obj, "BG_CLEAR_COLOR", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BGMode_obj, "BG_COLOR", JS_NewInt64(ctx, 1));
@@ -1842,41 +1842,41 @@ static void define_environment_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, BGMode_obj, "BG_KEEP", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, BGMode_obj, "BG_CAMERA_FEED", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, BGMode_obj, "BG_MAX", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "BGMode", BGMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "BGMode", BGMode_obj);
 	JSValue AmbientSource_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AmbientSource_obj, "AMBIENT_SOURCE_BG", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AmbientSource_obj, "AMBIENT_SOURCE_DISABLED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AmbientSource_obj, "AMBIENT_SOURCE_COLOR", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, AmbientSource_obj, "AMBIENT_SOURCE_SKY", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "AmbientSource", AmbientSource_obj);
+	JS_SetPropertyStr(ctx, ctor, "AmbientSource", AmbientSource_obj);
 	JSValue ReflectionSource_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ReflectionSource_obj, "REFLECTION_SOURCE_BG", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ReflectionSource_obj, "REFLECTION_SOURCE_DISABLED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ReflectionSource_obj, "REFLECTION_SOURCE_SKY", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "ReflectionSource", ReflectionSource_obj);
+	JS_SetPropertyStr(ctx, ctor, "ReflectionSource", ReflectionSource_obj);
 	JSValue ToneMapper_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ToneMapper_obj, "TONE_MAPPER_LINEAR", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ToneMapper_obj, "TONE_MAPPER_REINHARDT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ToneMapper_obj, "TONE_MAPPER_FILMIC", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ToneMapper_obj, "TONE_MAPPER_ACES", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, ToneMapper_obj, "TONE_MAPPER_AGX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "ToneMapper", ToneMapper_obj);
+	JS_SetPropertyStr(ctx, ctor, "ToneMapper", ToneMapper_obj);
 	JSValue GlowBlendMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, GlowBlendMode_obj, "GLOW_BLEND_MODE_ADDITIVE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, GlowBlendMode_obj, "GLOW_BLEND_MODE_SCREEN", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, GlowBlendMode_obj, "GLOW_BLEND_MODE_SOFTLIGHT", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, GlowBlendMode_obj, "GLOW_BLEND_MODE_REPLACE", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, GlowBlendMode_obj, "GLOW_BLEND_MODE_MIX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "GlowBlendMode", GlowBlendMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "GlowBlendMode", GlowBlendMode_obj);
 	JSValue FogMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FogMode_obj, "FOG_MODE_EXPONENTIAL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FogMode_obj, "FOG_MODE_DEPTH", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "FogMode", FogMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "FogMode", FogMode_obj);
 	JSValue SDFGIYScale_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SDFGIYScale_obj, "SDFGI_Y_SCALE_50_PERCENT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SDFGIYScale_obj, "SDFGI_Y_SCALE_75_PERCENT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, SDFGIYScale_obj, "SDFGI_Y_SCALE_100_PERCENT", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "SDFGIYScale", SDFGIYScale_obj);
+	JS_SetPropertyStr(ctx, ctor, "SDFGIYScale", SDFGIYScale_obj);
 }
 
 static int js_environment_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -1892,9 +1892,9 @@ static int js_environment_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_environment_property(ctx, proto);
-	define_environment_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, environment_class_proto_funcs, _countof(environment_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, environment_class_constructor, "Environment", 0, JS_CFUNC_constructor, 0);
+	define_environment_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Environment", ctor);
 

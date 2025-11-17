@@ -134,18 +134,18 @@ static void define_aspect_ratio_container_property(JSContext *ctx, JSValue proto
     );
 }
 
-static void define_aspect_ratio_container_enum(JSContext *ctx, JSValue proto) {
+static void define_aspect_ratio_container_enum(JSContext *ctx, JSValue ctor) {
 	JSValue StretchMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, StretchMode_obj, "STRETCH_WIDTH_CONTROLS_HEIGHT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, StretchMode_obj, "STRETCH_HEIGHT_CONTROLS_WIDTH", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, StretchMode_obj, "STRETCH_FIT", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, StretchMode_obj, "STRETCH_COVER", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "StretchMode", StretchMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "StretchMode", StretchMode_obj);
 	JSValue AlignmentMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AlignmentMode_obj, "ALIGNMENT_BEGIN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AlignmentMode_obj, "ALIGNMENT_CENTER", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AlignmentMode_obj, "ALIGNMENT_END", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "AlignmentMode", AlignmentMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "AlignmentMode", AlignmentMode_obj);
 }
 
 static int js_aspect_ratio_container_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -161,9 +161,9 @@ static int js_aspect_ratio_container_class_init(JSContext *ctx, JSModuleDef *m) 
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_aspect_ratio_container_property(ctx, proto);
-	define_aspect_ratio_container_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, aspect_ratio_container_class_proto_funcs, _countof(aspect_ratio_container_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, aspect_ratio_container_class_constructor, "AspectRatioContainer", 0, JS_CFUNC_constructor, 0);
+	define_aspect_ratio_container_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AspectRatioContainer", ctor);
 

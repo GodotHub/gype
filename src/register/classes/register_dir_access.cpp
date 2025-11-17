@@ -272,7 +272,7 @@ static void define_dir_access_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_dir_access_enum(JSContext *ctx, JSValue proto) {
+static void define_dir_access_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_dir_access_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -288,10 +288,10 @@ static int js_dir_access_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_dir_access_property(ctx, proto);
-	define_dir_access_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, dir_access_class_proto_funcs, _countof(dir_access_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, dir_access_class_constructor, "DirAccess", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, dir_access_class_static_funcs, _countof(dir_access_class_static_funcs));
+	define_dir_access_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "DirAccess", ctor);
 

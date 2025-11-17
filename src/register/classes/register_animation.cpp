@@ -519,7 +519,7 @@ static void define_animation_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_animation_enum(JSContext *ctx, JSValue proto) {
+static void define_animation_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TrackType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TrackType_obj, "TYPE_VALUE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TrackType_obj, "TYPE_POSITION_3D", JS_NewInt64(ctx, 1));
@@ -530,34 +530,34 @@ static void define_animation_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, TrackType_obj, "TYPE_BEZIER", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, TrackType_obj, "TYPE_AUDIO", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, TrackType_obj, "TYPE_ANIMATION", JS_NewInt64(ctx, 8));
-	JS_SetPropertyStr(ctx, proto, "TrackType", TrackType_obj);
+	JS_SetPropertyStr(ctx, ctor, "TrackType", TrackType_obj);
 	JSValue InterpolationType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, InterpolationType_obj, "INTERPOLATION_NEAREST", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, InterpolationType_obj, "INTERPOLATION_LINEAR", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, InterpolationType_obj, "INTERPOLATION_CUBIC", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, InterpolationType_obj, "INTERPOLATION_LINEAR_ANGLE", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, InterpolationType_obj, "INTERPOLATION_CUBIC_ANGLE", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "InterpolationType", InterpolationType_obj);
+	JS_SetPropertyStr(ctx, ctor, "InterpolationType", InterpolationType_obj);
 	JSValue UpdateMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, UpdateMode_obj, "UPDATE_CONTINUOUS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, UpdateMode_obj, "UPDATE_DISCRETE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, UpdateMode_obj, "UPDATE_CAPTURE", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "UpdateMode", UpdateMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "UpdateMode", UpdateMode_obj);
 	JSValue LoopMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LoopMode_obj, "LOOP_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LoopMode_obj, "LOOP_LINEAR", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, LoopMode_obj, "LOOP_PINGPONG", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "LoopMode", LoopMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "LoopMode", LoopMode_obj);
 	JSValue LoopedFlag_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LoopedFlag_obj, "LOOPED_FLAG_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LoopedFlag_obj, "LOOPED_FLAG_END", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, LoopedFlag_obj, "LOOPED_FLAG_START", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "LoopedFlag", LoopedFlag_obj);
+	JS_SetPropertyStr(ctx, ctor, "LoopedFlag", LoopedFlag_obj);
 	JSValue FindMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FindMode_obj, "FIND_MODE_NEAREST", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FindMode_obj, "FIND_MODE_APPROX", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, FindMode_obj, "FIND_MODE_EXACT", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "FindMode", FindMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "FindMode", FindMode_obj);
 }
 
 static int js_animation_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -573,9 +573,9 @@ static int js_animation_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_animation_property(ctx, proto);
-	define_animation_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, animation_class_proto_funcs, _countof(animation_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, animation_class_constructor, "Animation", 0, JS_CFUNC_constructor, 0);
+	define_animation_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Animation", ctor);
 

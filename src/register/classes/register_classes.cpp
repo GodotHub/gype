@@ -2,6 +2,7 @@
 #include <cstdint>
 
 void register_classes() {
+    void register_variant();
 	register_godot_object();
 	register_audio_server();
 	register_camera_server();

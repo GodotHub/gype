@@ -103,7 +103,7 @@ static const JSCFunctionListEntry grid_map_editor_plugin_class_proto_funcs[] = {
 static void define_grid_map_editor_plugin_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_grid_map_editor_plugin_enum(JSContext *ctx, JSValue proto) {
+static void define_grid_map_editor_plugin_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_grid_map_editor_plugin_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -119,9 +119,9 @@ static int js_grid_map_editor_plugin_class_init(JSContext *ctx, JSModuleDef *m) 
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_grid_map_editor_plugin_property(ctx, proto);
-	define_grid_map_editor_plugin_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, grid_map_editor_plugin_class_proto_funcs, _countof(grid_map_editor_plugin_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, grid_map_editor_plugin_class_constructor, "GridMapEditorPlugin", 0, JS_CFUNC_constructor, 0);
+	define_grid_map_editor_plugin_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GridMapEditorPlugin", ctor);
 

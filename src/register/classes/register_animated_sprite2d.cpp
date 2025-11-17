@@ -423,7 +423,7 @@ static void define_animated_sprite2d_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_animated_sprite2d_enum(JSContext *ctx, JSValue proto) {
+static void define_animated_sprite2d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_animated_sprite2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -439,9 +439,9 @@ static int js_animated_sprite2d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_animated_sprite2d_property(ctx, proto);
-	define_animated_sprite2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, animated_sprite2d_class_proto_funcs, _countof(animated_sprite2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, animated_sprite2d_class_constructor, "AnimatedSprite2D", 0, JS_CFUNC_constructor, 0);
+	define_animated_sprite2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AnimatedSprite2D", ctor);
 

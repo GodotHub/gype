@@ -193,29 +193,29 @@ static void define_audio_stream_interactive_property(JSContext *ctx, JSValue pro
     );
 }
 
-static void define_audio_stream_interactive_enum(JSContext *ctx, JSValue proto) {
+static void define_audio_stream_interactive_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TransitionFromTime_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TransitionFromTime_obj, "TRANSITION_FROM_TIME_IMMEDIATE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TransitionFromTime_obj, "TRANSITION_FROM_TIME_NEXT_BEAT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TransitionFromTime_obj, "TRANSITION_FROM_TIME_NEXT_BAR", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, TransitionFromTime_obj, "TRANSITION_FROM_TIME_END", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "TransitionFromTime", TransitionFromTime_obj);
+	JS_SetPropertyStr(ctx, ctor, "TransitionFromTime", TransitionFromTime_obj);
 	JSValue TransitionToTime_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TransitionToTime_obj, "TRANSITION_TO_TIME_SAME_POSITION", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TransitionToTime_obj, "TRANSITION_TO_TIME_START", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "TransitionToTime", TransitionToTime_obj);
+	JS_SetPropertyStr(ctx, ctor, "TransitionToTime", TransitionToTime_obj);
 	JSValue FadeMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FadeMode_obj, "FADE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FadeMode_obj, "FADE_IN", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, FadeMode_obj, "FADE_OUT", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, FadeMode_obj, "FADE_CROSS", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, FadeMode_obj, "FADE_AUTOMATIC", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "FadeMode", FadeMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "FadeMode", FadeMode_obj);
 	JSValue AutoAdvanceMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AutoAdvanceMode_obj, "AUTO_ADVANCE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AutoAdvanceMode_obj, "AUTO_ADVANCE_ENABLED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AutoAdvanceMode_obj, "AUTO_ADVANCE_RETURN_TO_HOLD", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "AutoAdvanceMode", AutoAdvanceMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "AutoAdvanceMode", AutoAdvanceMode_obj);
 }
 
 static int js_audio_stream_interactive_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -231,9 +231,9 @@ static int js_audio_stream_interactive_class_init(JSContext *ctx, JSModuleDef *m
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_audio_stream_interactive_property(ctx, proto);
-	define_audio_stream_interactive_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, audio_stream_interactive_class_proto_funcs, _countof(audio_stream_interactive_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, audio_stream_interactive_class_constructor, "AudioStreamInteractive", 0, JS_CFUNC_constructor, 0);
+	define_audio_stream_interactive_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioStreamInteractive", ctor);
 

@@ -112,11 +112,11 @@ static void define_curve_texture_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_curve_texture_enum(JSContext *ctx, JSValue proto) {
+static void define_curve_texture_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TextureMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureMode_obj, "TEXTURE_MODE_RGB", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextureMode_obj, "TEXTURE_MODE_RED", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "TextureMode", TextureMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureMode", TextureMode_obj);
 }
 
 static int js_curve_texture_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -132,9 +132,9 @@ static int js_curve_texture_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_curve_texture_property(ctx, proto);
-	define_curve_texture_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, curve_texture_class_proto_funcs, _countof(curve_texture_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, curve_texture_class_constructor, "CurveTexture", 0, JS_CFUNC_constructor, 0);
+	define_curve_texture_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CurveTexture", ctor);
 

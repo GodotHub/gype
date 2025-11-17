@@ -7,6 +7,7 @@
 #define __REGISTER_BUILTIN_CLASSES_H__
 
 // Forward declarations for individual class registration functions
+void register_variant();
 {% for cls in classes %}
 void register_{{ camel_to_snake(cls.name) }}();
 void register_proxy_{{ camel_to_snake(cls.name) }}();

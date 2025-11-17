@@ -388,22 +388,22 @@ static void define_line2d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_line2d_enum(JSContext *ctx, JSValue proto) {
+static void define_line2d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue LineJointMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LineJointMode_obj, "LINE_JOINT_SHARP", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LineJointMode_obj, "LINE_JOINT_BEVEL", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, LineJointMode_obj, "LINE_JOINT_ROUND", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "LineJointMode", LineJointMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "LineJointMode", LineJointMode_obj);
 	JSValue LineCapMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LineCapMode_obj, "LINE_CAP_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LineCapMode_obj, "LINE_CAP_BOX", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, LineCapMode_obj, "LINE_CAP_ROUND", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "LineCapMode", LineCapMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "LineCapMode", LineCapMode_obj);
 	JSValue LineTextureMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LineTextureMode_obj, "LINE_TEXTURE_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LineTextureMode_obj, "LINE_TEXTURE_TILE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, LineTextureMode_obj, "LINE_TEXTURE_STRETCH", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "LineTextureMode", LineTextureMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "LineTextureMode", LineTextureMode_obj);
 }
 
 static int js_line2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -419,9 +419,9 @@ static int js_line2d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_line2d_property(ctx, proto);
-	define_line2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, line2d_class_proto_funcs, _countof(line2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, line2d_class_constructor, "Line2D", 0, JS_CFUNC_constructor, 0);
+	define_line2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Line2D", ctor);
 

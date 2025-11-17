@@ -245,7 +245,7 @@ static void define_stream_peer_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_stream_peer_enum(JSContext *ctx, JSValue proto) {
+static void define_stream_peer_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_stream_peer_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -261,9 +261,9 @@ static int js_stream_peer_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_stream_peer_property(ctx, proto);
-	define_stream_peer_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, stream_peer_class_proto_funcs, _countof(stream_peer_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, stream_peer_class_constructor, "StreamPeer", 0, JS_CFUNC_constructor, 0);
+	define_stream_peer_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "StreamPeer", ctor);
 

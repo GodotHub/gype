@@ -60,7 +60,7 @@ static JSValue multiplayer_peer_extension_class_constructor(JSContext *ctx, JSVa
 static void define_multiplayer_peer_extension_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_multiplayer_peer_extension_enum(JSContext *ctx, JSValue proto) {
+static void define_multiplayer_peer_extension_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_multiplayer_peer_extension_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_multiplayer_peer_extension_class_init(JSContext *ctx, JSModuleDef 
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_multiplayer_peer_extension_property(ctx, proto);
-	define_multiplayer_peer_extension_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, multiplayer_peer_extension_class_constructor, "MultiplayerPeerExtension", 0, JS_CFUNC_constructor, 0);
+	define_multiplayer_peer_extension_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "MultiplayerPeerExtension", ctor);
 

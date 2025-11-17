@@ -83,7 +83,7 @@ static const JSCFunctionListEntry expression_class_proto_funcs[] = {
 static void define_expression_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_expression_enum(JSContext *ctx, JSValue proto) {
+static void define_expression_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_expression_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -99,9 +99,9 @@ static int js_expression_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_expression_property(ctx, proto);
-	define_expression_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, expression_class_proto_funcs, _countof(expression_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, expression_class_constructor, "Expression", 0, JS_CFUNC_constructor, 0);
+	define_expression_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Expression", ctor);
 

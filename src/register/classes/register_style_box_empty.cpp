@@ -60,7 +60,7 @@ static JSValue style_box_empty_class_constructor(JSContext *ctx, JSValueConst ne
 static void define_style_box_empty_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_style_box_empty_enum(JSContext *ctx, JSValue proto) {
+static void define_style_box_empty_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_style_box_empty_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_style_box_empty_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_style_box_empty_property(ctx, proto);
-	define_style_box_empty_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, style_box_empty_class_constructor, "StyleBoxEmpty", 0, JS_CFUNC_constructor, 0);
+	define_style_box_empty_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "StyleBoxEmpty", ctor);
 

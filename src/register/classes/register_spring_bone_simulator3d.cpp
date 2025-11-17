@@ -504,7 +504,7 @@ static void define_spring_bone_simulator3d_property(JSContext *ctx, JSValue prot
     );
 }
 
-static void define_spring_bone_simulator3d_enum(JSContext *ctx, JSValue proto) {
+static void define_spring_bone_simulator3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue BoneDirection_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BoneDirection_obj, "BONE_DIRECTION_PLUS_X", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BoneDirection_obj, "BONE_DIRECTION_MINUS_X", JS_NewInt64(ctx, 1));
@@ -513,19 +513,19 @@ static void define_spring_bone_simulator3d_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, BoneDirection_obj, "BONE_DIRECTION_PLUS_Z", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, BoneDirection_obj, "BONE_DIRECTION_MINUS_Z", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, BoneDirection_obj, "BONE_DIRECTION_FROM_PARENT", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "BoneDirection", BoneDirection_obj);
+	JS_SetPropertyStr(ctx, ctor, "BoneDirection", BoneDirection_obj);
 	JSValue CenterFrom_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CenterFrom_obj, "CENTER_FROM_WORLD_ORIGIN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CenterFrom_obj, "CENTER_FROM_NODE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, CenterFrom_obj, "CENTER_FROM_BONE", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "CenterFrom", CenterFrom_obj);
+	JS_SetPropertyStr(ctx, ctor, "CenterFrom", CenterFrom_obj);
 	JSValue RotationAxis_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, RotationAxis_obj, "ROTATION_AXIS_X", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, RotationAxis_obj, "ROTATION_AXIS_Y", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, RotationAxis_obj, "ROTATION_AXIS_Z", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, RotationAxis_obj, "ROTATION_AXIS_ALL", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, RotationAxis_obj, "ROTATION_AXIS_CUSTOM", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "RotationAxis", RotationAxis_obj);
+	JS_SetPropertyStr(ctx, ctor, "RotationAxis", RotationAxis_obj);
 }
 
 static int js_spring_bone_simulator3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -541,9 +541,9 @@ static int js_spring_bone_simulator3d_class_init(JSContext *ctx, JSModuleDef *m)
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_spring_bone_simulator3d_property(ctx, proto);
-	define_spring_bone_simulator3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, spring_bone_simulator3d_class_proto_funcs, _countof(spring_bone_simulator3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, spring_bone_simulator3d_class_constructor, "SpringBoneSimulator3D", 0, JS_CFUNC_constructor, 0);
+	define_spring_bone_simulator3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SpringBoneSimulator3D", ctor);
 

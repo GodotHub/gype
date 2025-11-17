@@ -139,18 +139,18 @@ static void define_flow_container_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_flow_container_enum(JSContext *ctx, JSValue proto) {
+static void define_flow_container_enum(JSContext *ctx, JSValue ctor) {
 	JSValue AlignmentMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AlignmentMode_obj, "ALIGNMENT_BEGIN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AlignmentMode_obj, "ALIGNMENT_CENTER", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AlignmentMode_obj, "ALIGNMENT_END", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "AlignmentMode", AlignmentMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "AlignmentMode", AlignmentMode_obj);
 	JSValue LastWrapAlignmentMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LastWrapAlignmentMode_obj, "LAST_WRAP_ALIGNMENT_INHERIT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LastWrapAlignmentMode_obj, "LAST_WRAP_ALIGNMENT_BEGIN", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, LastWrapAlignmentMode_obj, "LAST_WRAP_ALIGNMENT_CENTER", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, LastWrapAlignmentMode_obj, "LAST_WRAP_ALIGNMENT_END", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "LastWrapAlignmentMode", LastWrapAlignmentMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "LastWrapAlignmentMode", LastWrapAlignmentMode_obj);
 }
 
 static int js_flow_container_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -166,9 +166,9 @@ static int js_flow_container_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_flow_container_property(ctx, proto);
-	define_flow_container_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, flow_container_class_proto_funcs, _countof(flow_container_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, flow_container_class_constructor, "FlowContainer", 0, JS_CFUNC_constructor, 0);
+	define_flow_container_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "FlowContainer", ctor);
 

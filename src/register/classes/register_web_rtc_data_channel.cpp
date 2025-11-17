@@ -140,17 +140,17 @@ static void define_web_rtc_data_channel_property(JSContext *ctx, JSValue proto) 
     );
 }
 
-static void define_web_rtc_data_channel_enum(JSContext *ctx, JSValue proto) {
+static void define_web_rtc_data_channel_enum(JSContext *ctx, JSValue ctor) {
 	JSValue WriteMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, WriteMode_obj, "WRITE_MODE_TEXT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, WriteMode_obj, "WRITE_MODE_BINARY", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "WriteMode", WriteMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "WriteMode", WriteMode_obj);
 	JSValue ChannelState_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ChannelState_obj, "STATE_CONNECTING", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ChannelState_obj, "STATE_OPEN", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ChannelState_obj, "STATE_CLOSING", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ChannelState_obj, "STATE_CLOSED", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "ChannelState", ChannelState_obj);
+	JS_SetPropertyStr(ctx, ctor, "ChannelState", ChannelState_obj);
 }
 
 static int js_web_rtc_data_channel_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -166,9 +166,9 @@ static int js_web_rtc_data_channel_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_web_rtc_data_channel_property(ctx, proto);
-	define_web_rtc_data_channel_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, web_rtc_data_channel_class_proto_funcs, _countof(web_rtc_data_channel_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, web_rtc_data_channel_class_constructor, "WebRTCDataChannel", 0, JS_CFUNC_constructor, 0);
+	define_web_rtc_data_channel_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "WebRTCDataChannel", ctor);
 

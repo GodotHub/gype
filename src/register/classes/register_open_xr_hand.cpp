@@ -172,27 +172,27 @@ static void define_open_xr_hand_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_open_xr_hand_enum(JSContext *ctx, JSValue proto) {
+static void define_open_xr_hand_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Hands_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Hands_obj, "HAND_LEFT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Hands_obj, "HAND_RIGHT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Hands_obj, "HAND_MAX", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "Hands", Hands_obj);
+	JS_SetPropertyStr(ctx, ctor, "Hands", Hands_obj);
 	JSValue MotionRange_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, MotionRange_obj, "MOTION_RANGE_UNOBSTRUCTED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, MotionRange_obj, "MOTION_RANGE_CONFORM_TO_CONTROLLER", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, MotionRange_obj, "MOTION_RANGE_MAX", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "MotionRange", MotionRange_obj);
+	JS_SetPropertyStr(ctx, ctor, "MotionRange", MotionRange_obj);
 	JSValue SkeletonRig_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SkeletonRig_obj, "SKELETON_RIG_OPENXR", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SkeletonRig_obj, "SKELETON_RIG_HUMANOID", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, SkeletonRig_obj, "SKELETON_RIG_MAX", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "SkeletonRig", SkeletonRig_obj);
+	JS_SetPropertyStr(ctx, ctor, "SkeletonRig", SkeletonRig_obj);
 	JSValue BoneUpdate_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BoneUpdate_obj, "BONE_UPDATE_FULL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BoneUpdate_obj, "BONE_UPDATE_ROTATION_ONLY", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, BoneUpdate_obj, "BONE_UPDATE_MAX", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "BoneUpdate", BoneUpdate_obj);
+	JS_SetPropertyStr(ctx, ctor, "BoneUpdate", BoneUpdate_obj);
 }
 
 static int js_open_xr_hand_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -208,9 +208,9 @@ static int js_open_xr_hand_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_open_xr_hand_property(ctx, proto);
-	define_open_xr_hand_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, open_xr_hand_class_proto_funcs, _countof(open_xr_hand_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, open_xr_hand_class_constructor, "OpenXRHand", 0, JS_CFUNC_constructor, 0);
+	define_open_xr_hand_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "OpenXRHand", ctor);
 

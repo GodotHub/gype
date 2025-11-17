@@ -89,7 +89,7 @@ static const JSCFunctionListEntry image_texture_class_static_funcs[] = {
 static void define_image_texture_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_image_texture_enum(JSContext *ctx, JSValue proto) {
+static void define_image_texture_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_image_texture_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -105,10 +105,10 @@ static int js_image_texture_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_image_texture_property(ctx, proto);
-	define_image_texture_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, image_texture_class_proto_funcs, _countof(image_texture_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, image_texture_class_constructor, "ImageTexture", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, image_texture_class_static_funcs, _countof(image_texture_class_static_funcs));
+	define_image_texture_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ImageTexture", ctor);
 

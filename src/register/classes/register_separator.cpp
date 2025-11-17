@@ -60,7 +60,7 @@ static JSValue separator_class_constructor(JSContext *ctx, JSValueConst new_targ
 static void define_separator_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_separator_enum(JSContext *ctx, JSValue proto) {
+static void define_separator_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_separator_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_separator_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_separator_property(ctx, proto);
-	define_separator_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, separator_class_constructor, "Separator", 0, JS_CFUNC_constructor, 0);
+	define_separator_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Separator", ctor);
 

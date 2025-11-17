@@ -116,7 +116,7 @@ static void define_vehicle_body3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_vehicle_body3d_enum(JSContext *ctx, JSValue proto) {
+static void define_vehicle_body3d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_vehicle_body3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -132,9 +132,9 @@ static int js_vehicle_body3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_vehicle_body3d_property(ctx, proto);
-	define_vehicle_body3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, vehicle_body3d_class_proto_funcs, _countof(vehicle_body3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, vehicle_body3d_class_constructor, "VehicleBody3D", 0, JS_CFUNC_constructor, 0);
+	define_vehicle_body3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VehicleBody3D", ctor);
 

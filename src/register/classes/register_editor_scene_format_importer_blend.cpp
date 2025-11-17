@@ -60,7 +60,7 @@ static JSValue editor_scene_format_importer_blend_class_constructor(JSContext *c
 static void define_editor_scene_format_importer_blend_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_editor_scene_format_importer_blend_enum(JSContext *ctx, JSValue proto) {
+static void define_editor_scene_format_importer_blend_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_editor_scene_format_importer_blend_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_editor_scene_format_importer_blend_class_init(JSContext *ctx, JSMo
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_editor_scene_format_importer_blend_property(ctx, proto);
-	define_editor_scene_format_importer_blend_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, editor_scene_format_importer_blend_class_constructor, "EditorSceneFormatImporterBlend", 0, JS_CFUNC_constructor, 0);
+	define_editor_scene_format_importer_blend_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "EditorSceneFormatImporterBlend", ctor);
 

@@ -77,7 +77,7 @@ static void define_main_loop_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_main_loop_enum(JSContext *ctx, JSValue proto) {
+static void define_main_loop_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_main_loop_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -93,8 +93,8 @@ static int js_main_loop_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_main_loop_property(ctx, proto);
-	define_main_loop_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, main_loop_class_constructor, "MainLoop", 0, JS_CFUNC_constructor, 0);
+	define_main_loop_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "MainLoop", ctor);
 

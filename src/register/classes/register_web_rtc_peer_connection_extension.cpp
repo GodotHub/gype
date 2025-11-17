@@ -61,7 +61,7 @@ static JSValue web_rtc_peer_connection_extension_class_constructor(JSContext *ct
 static void define_web_rtc_peer_connection_extension_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_web_rtc_peer_connection_extension_enum(JSContext *ctx, JSValue proto) {
+static void define_web_rtc_peer_connection_extension_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_web_rtc_peer_connection_extension_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -77,8 +77,8 @@ static int js_web_rtc_peer_connection_extension_class_init(JSContext *ctx, JSMod
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_web_rtc_peer_connection_extension_property(ctx, proto);
-	define_web_rtc_peer_connection_extension_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, web_rtc_peer_connection_extension_class_constructor, "WebRTCPeerConnectionExtension", 0, JS_CFUNC_constructor, 0);
+	define_web_rtc_peer_connection_extension_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "WebRTCPeerConnectionExtension", ctor);
 

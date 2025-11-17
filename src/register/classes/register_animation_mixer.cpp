@@ -503,21 +503,21 @@ static void define_animation_mixer_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_animation_mixer_enum(JSContext *ctx, JSValue proto) {
+static void define_animation_mixer_enum(JSContext *ctx, JSValue ctor) {
 	JSValue AnimationCallbackModeProcess_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AnimationCallbackModeProcess_obj, "ANIMATION_CALLBACK_MODE_PROCESS_PHYSICS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AnimationCallbackModeProcess_obj, "ANIMATION_CALLBACK_MODE_PROCESS_IDLE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AnimationCallbackModeProcess_obj, "ANIMATION_CALLBACK_MODE_PROCESS_MANUAL", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "AnimationCallbackModeProcess", AnimationCallbackModeProcess_obj);
+	JS_SetPropertyStr(ctx, ctor, "AnimationCallbackModeProcess", AnimationCallbackModeProcess_obj);
 	JSValue AnimationCallbackModeMethod_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AnimationCallbackModeMethod_obj, "ANIMATION_CALLBACK_MODE_METHOD_DEFERRED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AnimationCallbackModeMethod_obj, "ANIMATION_CALLBACK_MODE_METHOD_IMMEDIATE", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "AnimationCallbackModeMethod", AnimationCallbackModeMethod_obj);
+	JS_SetPropertyStr(ctx, ctor, "AnimationCallbackModeMethod", AnimationCallbackModeMethod_obj);
 	JSValue AnimationCallbackModeDiscrete_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AnimationCallbackModeDiscrete_obj, "ANIMATION_CALLBACK_MODE_DISCRETE_DOMINANT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AnimationCallbackModeDiscrete_obj, "ANIMATION_CALLBACK_MODE_DISCRETE_RECESSIVE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AnimationCallbackModeDiscrete_obj, "ANIMATION_CALLBACK_MODE_DISCRETE_FORCE_CONTINUOUS", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "AnimationCallbackModeDiscrete", AnimationCallbackModeDiscrete_obj);
+	JS_SetPropertyStr(ctx, ctor, "AnimationCallbackModeDiscrete", AnimationCallbackModeDiscrete_obj);
 }
 
 static int js_animation_mixer_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -533,9 +533,9 @@ static int js_animation_mixer_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_animation_mixer_property(ctx, proto);
-	define_animation_mixer_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, animation_mixer_class_proto_funcs, _countof(animation_mixer_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, animation_mixer_class_constructor, "AnimationMixer", 0, JS_CFUNC_constructor, 0);
+	define_animation_mixer_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AnimationMixer", ctor);
 

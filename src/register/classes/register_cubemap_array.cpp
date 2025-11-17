@@ -68,7 +68,7 @@ static const JSCFunctionListEntry cubemap_array_class_proto_funcs[] = {
 static void define_cubemap_array_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_cubemap_array_enum(JSContext *ctx, JSValue proto) {
+static void define_cubemap_array_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_cubemap_array_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -84,9 +84,9 @@ static int js_cubemap_array_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_cubemap_array_property(ctx, proto);
-	define_cubemap_array_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, cubemap_array_class_proto_funcs, _countof(cubemap_array_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, cubemap_array_class_constructor, "CubemapArray", 0, JS_CFUNC_constructor, 0);
+	define_cubemap_array_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CubemapArray", ctor);
 

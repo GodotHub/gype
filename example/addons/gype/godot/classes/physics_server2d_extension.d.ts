@@ -61,8 +61,8 @@ export declare class PhysicsServer2DExtension extends PhysicsServer2D {
     public _area_get_collision_mask(area: RID): number;
     public _area_set_monitorable(area: RID, monitorable: boolean): void;
     public _area_set_pickable(area: RID, pickable: boolean): void;
-    public _area_set_monitor_callback(area: RID, callback: Callable): void;
-    public _area_set_area_monitor_callback(area: RID, callback: Callable): void;
+    public _area_set_monitor_callback(area: RID, callback: Callable | Function): void;
+    public _area_set_area_monitor_callback(area: RID, callback: Callable | Function): void;
     public _body_create(): RID;
     public _body_set_space(body: RID, space: RID): void;
     public _body_get_space(body: RID): RID;
@@ -118,8 +118,8 @@ export declare class PhysicsServer2DExtension extends PhysicsServer2D {
     public _body_get_contacts_reported_depth_threshold(body: RID): number;
     public _body_set_omit_force_integration(body: RID, enable: boolean): void;
     public _body_is_omitting_force_integration(body: RID): boolean;
-    public _body_set_state_sync_callback(body: RID, callable: Callable): void;
-    public _body_set_force_integration_callback(body: RID, callable: Callable, userdata: any): void;
+    public _body_set_state_sync_callback(body: RID, callable: Callable | Function): void;
+    public _body_set_force_integration_callback(body: RID, callable: Callable | Function, userdata: any): void;
     public _body_collide_shape(body: RID, bodyShape: number, shape: RID, shapeXform: Transform2D, motion: Vector2, results: any, resultMax: number, resultCount: any): boolean;
     public _body_set_pickable(body: RID, pickable: boolean): void;
     public _body_get_direct_state(body: RID): PhysicsDirectBodyState2D;

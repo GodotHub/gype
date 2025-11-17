@@ -167,7 +167,7 @@ static const JSCFunctionListEntry visual_shader_node_group_base_class_proto_func
 static void define_visual_shader_node_group_base_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_visual_shader_node_group_base_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_group_base_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_visual_shader_node_group_base_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -183,9 +183,9 @@ static int js_visual_shader_node_group_base_class_init(JSContext *ctx, JSModuleD
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_group_base_property(ctx, proto);
-	define_visual_shader_node_group_base_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, visual_shader_node_group_base_class_proto_funcs, _countof(visual_shader_node_group_base_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_group_base_class_constructor, "VisualShaderNodeGroupBase", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_group_base_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeGroupBase", ctor);
 

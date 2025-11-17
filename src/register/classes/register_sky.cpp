@@ -117,7 +117,7 @@ static void define_sky_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_sky_enum(JSContext *ctx, JSValue proto) {
+static void define_sky_enum(JSContext *ctx, JSValue ctor) {
 	JSValue RadianceSize_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, RadianceSize_obj, "RADIANCE_SIZE_32", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, RadianceSize_obj, "RADIANCE_SIZE_64", JS_NewInt64(ctx, 1));
@@ -127,13 +127,13 @@ static void define_sky_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, RadianceSize_obj, "RADIANCE_SIZE_1024", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, RadianceSize_obj, "RADIANCE_SIZE_2048", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, RadianceSize_obj, "RADIANCE_SIZE_MAX", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "RadianceSize", RadianceSize_obj);
+	JS_SetPropertyStr(ctx, ctor, "RadianceSize", RadianceSize_obj);
 	JSValue ProcessMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ProcessMode_obj, "PROCESS_MODE_AUTOMATIC", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ProcessMode_obj, "PROCESS_MODE_QUALITY", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ProcessMode_obj, "PROCESS_MODE_INCREMENTAL", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ProcessMode_obj, "PROCESS_MODE_REALTIME", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "ProcessMode", ProcessMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "ProcessMode", ProcessMode_obj);
 }
 
 static int js_sky_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -149,9 +149,9 @@ static int js_sky_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_sky_property(ctx, proto);
-	define_sky_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, sky_class_proto_funcs, _countof(sky_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, sky_class_constructor, "Sky", 0, JS_CFUNC_constructor, 0);
+	define_sky_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Sky", ctor);
 

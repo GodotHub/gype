@@ -60,7 +60,7 @@ static JSValue editor_syntax_highlighter_class_constructor(JSContext *ctx, JSVal
 static void define_editor_syntax_highlighter_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_editor_syntax_highlighter_enum(JSContext *ctx, JSValue proto) {
+static void define_editor_syntax_highlighter_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_editor_syntax_highlighter_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_editor_syntax_highlighter_class_init(JSContext *ctx, JSModuleDef *
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_editor_syntax_highlighter_property(ctx, proto);
-	define_editor_syntax_highlighter_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, editor_syntax_highlighter_class_constructor, "EditorSyntaxHighlighter", 0, JS_CFUNC_constructor, 0);
+	define_editor_syntax_highlighter_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "EditorSyntaxHighlighter", ctor);
 

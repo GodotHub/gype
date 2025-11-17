@@ -82,7 +82,7 @@ static const JSCFunctionListEntry x509_certificate_class_proto_funcs[] = {
 static void define_x509_certificate_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_x509_certificate_enum(JSContext *ctx, JSValue proto) {
+static void define_x509_certificate_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_x509_certificate_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -98,9 +98,9 @@ static int js_x509_certificate_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_x509_certificate_property(ctx, proto);
-	define_x509_certificate_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, x509_certificate_class_proto_funcs, _countof(x509_certificate_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, x509_certificate_class_constructor, "X509Certificate", 0, JS_CFUNC_constructor, 0);
+	define_x509_certificate_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "X509Certificate", ctor);
 

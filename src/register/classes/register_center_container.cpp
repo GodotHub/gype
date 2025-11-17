@@ -80,7 +80,7 @@ static void define_center_container_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_center_container_enum(JSContext *ctx, JSValue proto) {
+static void define_center_container_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_center_container_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -96,9 +96,9 @@ static int js_center_container_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_center_container_property(ctx, proto);
-	define_center_container_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, center_container_class_proto_funcs, _countof(center_container_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, center_container_class_constructor, "CenterContainer", 0, JS_CFUNC_constructor, 0);
+	define_center_container_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CenterContainer", ctor);
 

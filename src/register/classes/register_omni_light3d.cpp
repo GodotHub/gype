@@ -80,11 +80,11 @@ static void define_omni_light3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_omni_light3d_enum(JSContext *ctx, JSValue proto) {
+static void define_omni_light3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ShadowMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ShadowMode_obj, "SHADOW_DUAL_PARABOLOID", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ShadowMode_obj, "SHADOW_CUBE", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "ShadowMode", ShadowMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "ShadowMode", ShadowMode_obj);
 }
 
 static int js_omni_light3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -100,9 +100,9 @@ static int js_omni_light3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_omni_light3d_property(ctx, proto);
-	define_omni_light3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, omni_light3d_class_proto_funcs, _countof(omni_light3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, omni_light3d_class_constructor, "OmniLight3D", 0, JS_CFUNC_constructor, 0);
+	define_omni_light3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "OmniLight3D", ctor);
 

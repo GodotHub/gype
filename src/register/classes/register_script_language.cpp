@@ -60,14 +60,14 @@ static JSValue script_language_class_constructor(JSContext *ctx, JSValueConst ne
 static void define_script_language_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_script_language_enum(JSContext *ctx, JSValue proto) {
+static void define_script_language_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ScriptNameCasing_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ScriptNameCasing_obj, "SCRIPT_NAME_CASING_AUTO", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ScriptNameCasing_obj, "SCRIPT_NAME_CASING_PASCAL_CASE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ScriptNameCasing_obj, "SCRIPT_NAME_CASING_SNAKE_CASE", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ScriptNameCasing_obj, "SCRIPT_NAME_CASING_KEBAB_CASE", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, ScriptNameCasing_obj, "SCRIPT_NAME_CASING_CAMEL_CASE", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "ScriptNameCasing", ScriptNameCasing_obj);
+	JS_SetPropertyStr(ctx, ctor, "ScriptNameCasing", ScriptNameCasing_obj);
 }
 
 static int js_script_language_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -83,8 +83,8 @@ static int js_script_language_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_script_language_property(ctx, proto);
-	define_script_language_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, script_language_class_constructor, "ScriptLanguage", 0, JS_CFUNC_constructor, 0);
+	define_script_language_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ScriptLanguage", ctor);
 

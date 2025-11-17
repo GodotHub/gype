@@ -60,7 +60,7 @@ static JSValue visual_shader_node_face_forward_class_constructor(JSContext *ctx,
 static void define_visual_shader_node_face_forward_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_visual_shader_node_face_forward_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_face_forward_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_visual_shader_node_face_forward_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_visual_shader_node_face_forward_class_init(JSContext *ctx, JSModul
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_face_forward_property(ctx, proto);
-	define_visual_shader_node_face_forward_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_face_forward_class_constructor, "VisualShaderNodeFaceForward", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_face_forward_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeFaceForward", ctor);
 

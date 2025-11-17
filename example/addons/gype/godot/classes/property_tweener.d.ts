@@ -11,7 +11,7 @@ export declare class PropertyTweener extends Tweener {
     public as_relative(): PropertyTweener;
     public set_trans(trans: number): PropertyTweener;
     public set_ease(ease: number): PropertyTweener;
-    public set_custom_interpolator(interpolatorMethod: Callable): PropertyTweener;
+    public set_custom_interpolator(interpolatorMethod: Callable | Function): PropertyTweener;
     public set_delay(delay: number): PropertyTweener;
 
 

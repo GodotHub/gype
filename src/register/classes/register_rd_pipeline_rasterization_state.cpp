@@ -260,7 +260,7 @@ static void define_rd_pipeline_rasterization_state_property(JSContext *ctx, JSVa
     );
 }
 
-static void define_rd_pipeline_rasterization_state_enum(JSContext *ctx, JSValue proto) {
+static void define_rd_pipeline_rasterization_state_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_rd_pipeline_rasterization_state_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -276,9 +276,9 @@ static int js_rd_pipeline_rasterization_state_class_init(JSContext *ctx, JSModul
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_rd_pipeline_rasterization_state_property(ctx, proto);
-	define_rd_pipeline_rasterization_state_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, rd_pipeline_rasterization_state_class_proto_funcs, _countof(rd_pipeline_rasterization_state_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, rd_pipeline_rasterization_state_class_constructor, "RDPipelineRasterizationState", 0, JS_CFUNC_constructor, 0);
+	define_rd_pipeline_rasterization_state_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "RDPipelineRasterizationState", ctor);
 

@@ -118,12 +118,12 @@ static void define_xr_body_tracker_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_xr_body_tracker_enum(JSContext *ctx, JSValue proto) {
+static void define_xr_body_tracker_enum(JSContext *ctx, JSValue ctor) {
 	JSValue BodyFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BodyFlags_obj, "BODY_FLAG_UPPER_BODY_SUPPORTED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, BodyFlags_obj, "BODY_FLAG_LOWER_BODY_SUPPORTED", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, BodyFlags_obj, "BODY_FLAG_HANDS_SUPPORTED", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "BodyFlags", BodyFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "BodyFlags", BodyFlags_obj);
 	JSValue Joint_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Joint_obj, "JOINT_ROOT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Joint_obj, "JOINT_HIPS", JS_NewInt64(ctx, 1));
@@ -213,13 +213,13 @@ static void define_xr_body_tracker_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Joint_obj, "JOINT_RIGHT_HEEL", JS_NewInt64(ctx, 85));
 	JS_SetPropertyStr(ctx, Joint_obj, "JOINT_RIGHT_MIDDLE_FOOT", JS_NewInt64(ctx, 86));
 	JS_SetPropertyStr(ctx, Joint_obj, "JOINT_MAX", JS_NewInt64(ctx, 87));
-	JS_SetPropertyStr(ctx, proto, "Joint", Joint_obj);
+	JS_SetPropertyStr(ctx, ctor, "Joint", Joint_obj);
 	JSValue JointFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, JointFlags_obj, "JOINT_FLAG_ORIENTATION_VALID", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, JointFlags_obj, "JOINT_FLAG_ORIENTATION_TRACKED", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, JointFlags_obj, "JOINT_FLAG_POSITION_VALID", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, JointFlags_obj, "JOINT_FLAG_POSITION_TRACKED", JS_NewInt64(ctx, 8));
-	JS_SetPropertyStr(ctx, proto, "JointFlags", JointFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "JointFlags", JointFlags_obj);
 }
 
 static int js_xr_body_tracker_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -235,9 +235,9 @@ static int js_xr_body_tracker_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_xr_body_tracker_property(ctx, proto);
-	define_xr_body_tracker_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, xr_body_tracker_class_proto_funcs, _countof(xr_body_tracker_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, xr_body_tracker_class_constructor, "XRBodyTracker", 0, JS_CFUNC_constructor, 0);
+	define_xr_body_tracker_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "XRBodyTracker", ctor);
 

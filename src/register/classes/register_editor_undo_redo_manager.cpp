@@ -163,12 +163,12 @@ static void define_editor_undo_redo_manager_property(JSContext *ctx, JSValue pro
 		JS_PROP_GETSET);
 }
 
-static void define_editor_undo_redo_manager_enum(JSContext *ctx, JSValue proto) {
+static void define_editor_undo_redo_manager_enum(JSContext *ctx, JSValue ctor) {
 	JSValue SpecialHistory_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SpecialHistory_obj, "GLOBAL_HISTORY", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SpecialHistory_obj, "REMOTE_HISTORY", JS_NewInt64(ctx, -9));
 	JS_SetPropertyStr(ctx, SpecialHistory_obj, "INVALID_HISTORY", JS_NewInt64(ctx, -99));
-	JS_SetPropertyStr(ctx, proto, "SpecialHistory", SpecialHistory_obj);
+	JS_SetPropertyStr(ctx, ctor, "SpecialHistory", SpecialHistory_obj);
 }
 
 static int js_editor_undo_redo_manager_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -184,9 +184,9 @@ static int js_editor_undo_redo_manager_class_init(JSContext *ctx, JSModuleDef *m
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_editor_undo_redo_manager_property(ctx, proto);
-	define_editor_undo_redo_manager_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, editor_undo_redo_manager_class_proto_funcs, _countof(editor_undo_redo_manager_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, editor_undo_redo_manager_class_constructor, "EditorUndoRedoManager", 0, JS_CFUNC_constructor, 0);
+	define_editor_undo_redo_manager_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "EditorUndoRedoManager", ctor);
 

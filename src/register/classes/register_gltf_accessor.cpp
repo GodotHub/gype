@@ -374,7 +374,7 @@ static void define_gltf_accessor_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_gltf_accessor_enum(JSContext *ctx, JSValue proto) {
+static void define_gltf_accessor_enum(JSContext *ctx, JSValue ctor) {
 	JSValue GLTFAccessorType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, GLTFAccessorType_obj, "TYPE_SCALAR", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, GLTFAccessorType_obj, "TYPE_VEC2", JS_NewInt64(ctx, 1));
@@ -383,7 +383,7 @@ static void define_gltf_accessor_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, GLTFAccessorType_obj, "TYPE_MAT2", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, GLTFAccessorType_obj, "TYPE_MAT3", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, GLTFAccessorType_obj, "TYPE_MAT4", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "GLTFAccessorType", GLTFAccessorType_obj);
+	JS_SetPropertyStr(ctx, ctor, "GLTFAccessorType", GLTFAccessorType_obj);
 	JSValue GLTFComponentType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, GLTFComponentType_obj, "COMPONENT_TYPE_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, GLTFComponentType_obj, "COMPONENT_TYPE_SIGNED_BYTE", JS_NewInt64(ctx, 5120));
@@ -397,7 +397,7 @@ static void define_gltf_accessor_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, GLTFComponentType_obj, "COMPONENT_TYPE_HALF_FLOAT", JS_NewInt64(ctx, 5131));
 	JS_SetPropertyStr(ctx, GLTFComponentType_obj, "COMPONENT_TYPE_SIGNED_LONG", JS_NewInt64(ctx, 5134));
 	JS_SetPropertyStr(ctx, GLTFComponentType_obj, "COMPONENT_TYPE_UNSIGNED_LONG", JS_NewInt64(ctx, 5135));
-	JS_SetPropertyStr(ctx, proto, "GLTFComponentType", GLTFComponentType_obj);
+	JS_SetPropertyStr(ctx, ctor, "GLTFComponentType", GLTFComponentType_obj);
 }
 
 static int js_gltf_accessor_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -413,9 +413,9 @@ static int js_gltf_accessor_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_gltf_accessor_property(ctx, proto);
-	define_gltf_accessor_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, gltf_accessor_class_proto_funcs, _countof(gltf_accessor_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, gltf_accessor_class_constructor, "GLTFAccessor", 0, JS_CFUNC_constructor, 0);
+	define_gltf_accessor_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GLTFAccessor", ctor);
 

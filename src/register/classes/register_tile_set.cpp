@@ -570,13 +570,13 @@ static void define_tile_set_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_tile_set_enum(JSContext *ctx, JSValue proto) {
+static void define_tile_set_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TileShape_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TileShape_obj, "TILE_SHAPE_SQUARE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TileShape_obj, "TILE_SHAPE_ISOMETRIC", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TileShape_obj, "TILE_SHAPE_HALF_OFFSET_SQUARE", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, TileShape_obj, "TILE_SHAPE_HEXAGON", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "TileShape", TileShape_obj);
+	JS_SetPropertyStr(ctx, ctor, "TileShape", TileShape_obj);
 	JSValue TileLayout_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TileLayout_obj, "TILE_LAYOUT_STACKED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TileLayout_obj, "TILE_LAYOUT_STACKED_OFFSET", JS_NewInt64(ctx, 1));
@@ -584,11 +584,11 @@ static void define_tile_set_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, TileLayout_obj, "TILE_LAYOUT_STAIRS_DOWN", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, TileLayout_obj, "TILE_LAYOUT_DIAMOND_RIGHT", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, TileLayout_obj, "TILE_LAYOUT_DIAMOND_DOWN", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "TileLayout", TileLayout_obj);
+	JS_SetPropertyStr(ctx, ctor, "TileLayout", TileLayout_obj);
 	JSValue TileOffsetAxis_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TileOffsetAxis_obj, "TILE_OFFSET_AXIS_HORIZONTAL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TileOffsetAxis_obj, "TILE_OFFSET_AXIS_VERTICAL", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "TileOffsetAxis", TileOffsetAxis_obj);
+	JS_SetPropertyStr(ctx, ctor, "TileOffsetAxis", TileOffsetAxis_obj);
 	JSValue CellNeighbor_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CellNeighbor_obj, "CELL_NEIGHBOR_RIGHT_SIDE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CellNeighbor_obj, "CELL_NEIGHBOR_RIGHT_CORNER", JS_NewInt64(ctx, 1));
@@ -606,12 +606,12 @@ static void define_tile_set_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, CellNeighbor_obj, "CELL_NEIGHBOR_TOP_CORNER", JS_NewInt64(ctx, 13));
 	JS_SetPropertyStr(ctx, CellNeighbor_obj, "CELL_NEIGHBOR_TOP_RIGHT_SIDE", JS_NewInt64(ctx, 14));
 	JS_SetPropertyStr(ctx, CellNeighbor_obj, "CELL_NEIGHBOR_TOP_RIGHT_CORNER", JS_NewInt64(ctx, 15));
-	JS_SetPropertyStr(ctx, proto, "CellNeighbor", CellNeighbor_obj);
+	JS_SetPropertyStr(ctx, ctor, "CellNeighbor", CellNeighbor_obj);
 	JSValue TerrainMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TerrainMode_obj, "TERRAIN_MODE_MATCH_CORNERS_AND_SIDES", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TerrainMode_obj, "TERRAIN_MODE_MATCH_CORNERS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TerrainMode_obj, "TERRAIN_MODE_MATCH_SIDES", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "TerrainMode", TerrainMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "TerrainMode", TerrainMode_obj);
 }
 
 static int js_tile_set_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -627,9 +627,9 @@ static int js_tile_set_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_tile_set_property(ctx, proto);
-	define_tile_set_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, tile_set_class_proto_funcs, _countof(tile_set_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, tile_set_class_constructor, "TileSet", 0, JS_CFUNC_constructor, 0);
+	define_tile_set_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TileSet", ctor);
 

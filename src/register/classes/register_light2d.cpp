@@ -382,17 +382,17 @@ static void define_light2d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_light2d_enum(JSContext *ctx, JSValue proto) {
+static void define_light2d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ShadowFilter_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ShadowFilter_obj, "SHADOW_FILTER_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ShadowFilter_obj, "SHADOW_FILTER_PCF5", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ShadowFilter_obj, "SHADOW_FILTER_PCF13", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "ShadowFilter", ShadowFilter_obj);
+	JS_SetPropertyStr(ctx, ctor, "ShadowFilter", ShadowFilter_obj);
 	JSValue BlendMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_ADD", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_SUB", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_MIX", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "BlendMode", BlendMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "BlendMode", BlendMode_obj);
 }
 
 static int js_light2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -408,9 +408,9 @@ static int js_light2d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_light2d_property(ctx, proto);
-	define_light2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, light2d_class_proto_funcs, _countof(light2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, light2d_class_constructor, "Light2D", 0, JS_CFUNC_constructor, 0);
+	define_light2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Light2D", ctor);
 

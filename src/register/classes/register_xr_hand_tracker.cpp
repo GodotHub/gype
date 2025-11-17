@@ -148,14 +148,14 @@ static void define_xr_hand_tracker_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_xr_hand_tracker_enum(JSContext *ctx, JSValue proto) {
+static void define_xr_hand_tracker_enum(JSContext *ctx, JSValue ctor) {
 	JSValue HandTrackingSource_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, HandTrackingSource_obj, "HAND_TRACKING_SOURCE_UNKNOWN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, HandTrackingSource_obj, "HAND_TRACKING_SOURCE_UNOBSTRUCTED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, HandTrackingSource_obj, "HAND_TRACKING_SOURCE_CONTROLLER", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, HandTrackingSource_obj, "HAND_TRACKING_SOURCE_NOT_TRACKED", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, HandTrackingSource_obj, "HAND_TRACKING_SOURCE_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "HandTrackingSource", HandTrackingSource_obj);
+	JS_SetPropertyStr(ctx, ctor, "HandTrackingSource", HandTrackingSource_obj);
 	JSValue HandJoint_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, HandJoint_obj, "HAND_JOINT_PALM", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, HandJoint_obj, "HAND_JOINT_WRIST", JS_NewInt64(ctx, 1));
@@ -184,7 +184,7 @@ static void define_xr_hand_tracker_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, HandJoint_obj, "HAND_JOINT_PINKY_FINGER_PHALANX_DISTAL", JS_NewInt64(ctx, 24));
 	JS_SetPropertyStr(ctx, HandJoint_obj, "HAND_JOINT_PINKY_FINGER_TIP", JS_NewInt64(ctx, 25));
 	JS_SetPropertyStr(ctx, HandJoint_obj, "HAND_JOINT_MAX", JS_NewInt64(ctx, 26));
-	JS_SetPropertyStr(ctx, proto, "HandJoint", HandJoint_obj);
+	JS_SetPropertyStr(ctx, ctor, "HandJoint", HandJoint_obj);
 	JSValue HandJointFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, HandJointFlags_obj, "HAND_JOINT_FLAG_ORIENTATION_VALID", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, HandJointFlags_obj, "HAND_JOINT_FLAG_ORIENTATION_TRACKED", JS_NewInt64(ctx, 2));
@@ -192,7 +192,7 @@ static void define_xr_hand_tracker_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, HandJointFlags_obj, "HAND_JOINT_FLAG_POSITION_TRACKED", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, HandJointFlags_obj, "HAND_JOINT_FLAG_LINEAR_VELOCITY_VALID", JS_NewInt64(ctx, 16));
 	JS_SetPropertyStr(ctx, HandJointFlags_obj, "HAND_JOINT_FLAG_ANGULAR_VELOCITY_VALID", JS_NewInt64(ctx, 32));
-	JS_SetPropertyStr(ctx, proto, "HandJointFlags", HandJointFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "HandJointFlags", HandJointFlags_obj);
 }
 
 static int js_xr_hand_tracker_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -208,9 +208,9 @@ static int js_xr_hand_tracker_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_xr_hand_tracker_property(ctx, proto);
-	define_xr_hand_tracker_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, xr_hand_tracker_class_proto_funcs, _countof(xr_hand_tracker_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, xr_hand_tracker_class_constructor, "XRHandTracker", 0, JS_CFUNC_constructor, 0);
+	define_xr_hand_tracker_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "XRHandTracker", ctor);
 

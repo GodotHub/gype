@@ -92,7 +92,7 @@ static const JSCFunctionListEntry zip_reader_class_proto_funcs[] = {
 static void define_zip_reader_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_zip_reader_enum(JSContext *ctx, JSValue proto) {
+static void define_zip_reader_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_zip_reader_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -108,9 +108,9 @@ static int js_zip_reader_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_zip_reader_property(ctx, proto);
-	define_zip_reader_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, zip_reader_class_proto_funcs, _countof(zip_reader_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, zip_reader_class_constructor, "ZIPReader", 0, JS_CFUNC_constructor, 0);
+	define_zip_reader_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ZIPReader", ctor);
 

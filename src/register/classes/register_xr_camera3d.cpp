@@ -60,7 +60,7 @@ static JSValue xr_camera3d_class_constructor(JSContext *ctx, JSValueConst new_ta
 static void define_xr_camera3d_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_xr_camera3d_enum(JSContext *ctx, JSValue proto) {
+static void define_xr_camera3d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_xr_camera3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_xr_camera3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_xr_camera3d_property(ctx, proto);
-	define_xr_camera3d_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, xr_camera3d_class_constructor, "XRCamera3D", 0, JS_CFUNC_constructor, 0);
+	define_xr_camera3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "XRCamera3D", ctor);
 

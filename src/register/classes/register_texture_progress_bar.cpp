@@ -421,7 +421,7 @@ static void define_texture_progress_bar_property(JSContext *ctx, JSValue proto) 
     );
 }
 
-static void define_texture_progress_bar_enum(JSContext *ctx, JSValue proto) {
+static void define_texture_progress_bar_enum(JSContext *ctx, JSValue ctor) {
 	JSValue FillMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FillMode_obj, "FILL_LEFT_TO_RIGHT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FillMode_obj, "FILL_RIGHT_TO_LEFT", JS_NewInt64(ctx, 1));
@@ -432,7 +432,7 @@ static void define_texture_progress_bar_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, FillMode_obj, "FILL_BILINEAR_LEFT_AND_RIGHT", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, FillMode_obj, "FILL_BILINEAR_TOP_AND_BOTTOM", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, FillMode_obj, "FILL_CLOCKWISE_AND_COUNTER_CLOCKWISE", JS_NewInt64(ctx, 8));
-	JS_SetPropertyStr(ctx, proto, "FillMode", FillMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "FillMode", FillMode_obj);
 }
 
 static int js_texture_progress_bar_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -448,9 +448,9 @@ static int js_texture_progress_bar_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_texture_progress_bar_property(ctx, proto);
-	define_texture_progress_bar_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, texture_progress_bar_class_proto_funcs, _countof(texture_progress_bar_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, texture_progress_bar_class_constructor, "TextureProgressBar", 0, JS_CFUNC_constructor, 0);
+	define_texture_progress_bar_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TextureProgressBar", ctor);
 

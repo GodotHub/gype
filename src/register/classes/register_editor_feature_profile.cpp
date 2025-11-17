@@ -117,7 +117,7 @@ static const JSCFunctionListEntry editor_feature_profile_class_proto_funcs[] = {
 static void define_editor_feature_profile_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_editor_feature_profile_enum(JSContext *ctx, JSValue proto) {
+static void define_editor_feature_profile_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Feature_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Feature_obj, "FEATURE_3D", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Feature_obj, "FEATURE_SCRIPT", JS_NewInt64(ctx, 1));
@@ -129,7 +129,7 @@ static void define_editor_feature_profile_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Feature_obj, "FEATURE_HISTORY_DOCK", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, Feature_obj, "FEATURE_GAME", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, Feature_obj, "FEATURE_MAX", JS_NewInt64(ctx, 9));
-	JS_SetPropertyStr(ctx, proto, "Feature", Feature_obj);
+	JS_SetPropertyStr(ctx, ctor, "Feature", Feature_obj);
 }
 
 static int js_editor_feature_profile_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -145,9 +145,9 @@ static int js_editor_feature_profile_class_init(JSContext *ctx, JSModuleDef *m) 
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_editor_feature_profile_property(ctx, proto);
-	define_editor_feature_profile_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, editor_feature_profile_class_proto_funcs, _countof(editor_feature_profile_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, editor_feature_profile_class_constructor, "EditorFeatureProfile", 0, JS_CFUNC_constructor, 0);
+	define_editor_feature_profile_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "EditorFeatureProfile", ctor);
 

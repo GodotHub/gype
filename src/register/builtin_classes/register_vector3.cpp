@@ -209,7 +209,6 @@ static JSValue vector3_class_octahedron_decode(JSContext *ctx, JSValueConst this
 static JSValue vector3_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Vector3 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector3"]))->get();
 	return VariantAdapter(val.x);
-	
 }
 static JSValue vector3_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector3"]));
@@ -221,7 +220,6 @@ static JSValue vector3_class_set_x(JSContext *ctx, JSValueConst this_val, int ar
 static JSValue vector3_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Vector3 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector3"]))->get();
 	return VariantAdapter(val.y);
-	
 }
 static JSValue vector3_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector3"]));
@@ -233,7 +231,6 @@ static JSValue vector3_class_set_y(JSContext *ctx, JSValueConst this_val, int ar
 static JSValue vector3_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Vector3 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector3"]))->get();
 	return VariantAdapter(val.z);
-	
 }
 static JSValue vector3_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector3"]));
@@ -241,6 +238,99 @@ static JSValue vector3_class_set_z(JSContext *ctx, JSValueConst this_val, int ar
     val.z = VariantAdapter(*argv).get();
     adapter->set(val);
 	return JS_UNDEFINED;
+}
+
+
+static JSValue vector3_get_constant_ZERO(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector3(0, 0, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector3_get_constant_ONE(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector3(1, 1, 1));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector3_get_constant_INF(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector3(INFINITY, INFINITY, INFINITY)
+);
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector3_get_constant_LEFT(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector3(-1, 0, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector3_get_constant_RIGHT(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector3(1, 0, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector3_get_constant_UP(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector3(0, 1, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector3_get_constant_DOWN(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector3(0, -1, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector3_get_constant_FORWARD(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector3(0, 0, -1));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector3_get_constant_BACK(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector3(0, 0, 1));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector3_get_constant_MODEL_LEFT(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector3(1, 0, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector3_get_constant_MODEL_RIGHT(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector3(-1, 0, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector3_get_constant_MODEL_TOP(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector3(0, 1, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector3_get_constant_MODEL_BOTTOM(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector3(0, -1, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector3_get_constant_MODEL_FRONT(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector3(0, 0, 1));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector3_get_constant_MODEL_REAR(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector3(0, 0, -1));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
 }
 
 static const JSCFunctionListEntry vector3_class_proto_funcs[] = {
@@ -294,6 +384,24 @@ static const JSCFunctionListEntry vector3_class_proto_funcs[] = {
 	JS_CFUNC_DEF("octahedron_decode", 1, &vector3_class_octahedron_decode),
 };
 
+static const JSCFunctionListEntry vector3_class_constants_funcs[] = {
+    JS_CGETSET_DEF("ZERO", &vector3_get_constant_ZERO, NULL),
+    JS_CGETSET_DEF("ONE", &vector3_get_constant_ONE, NULL),
+    JS_CGETSET_DEF("INF", &vector3_get_constant_INF, NULL),
+    JS_CGETSET_DEF("LEFT", &vector3_get_constant_LEFT, NULL),
+    JS_CGETSET_DEF("RIGHT", &vector3_get_constant_RIGHT, NULL),
+    JS_CGETSET_DEF("UP", &vector3_get_constant_UP, NULL),
+    JS_CGETSET_DEF("DOWN", &vector3_get_constant_DOWN, NULL),
+    JS_CGETSET_DEF("FORWARD", &vector3_get_constant_FORWARD, NULL),
+    JS_CGETSET_DEF("BACK", &vector3_get_constant_BACK, NULL),
+    JS_CGETSET_DEF("MODEL_LEFT", &vector3_get_constant_MODEL_LEFT, NULL),
+    JS_CGETSET_DEF("MODEL_RIGHT", &vector3_get_constant_MODEL_RIGHT, NULL),
+    JS_CGETSET_DEF("MODEL_TOP", &vector3_get_constant_MODEL_TOP, NULL),
+    JS_CGETSET_DEF("MODEL_BOTTOM", &vector3_get_constant_MODEL_BOTTOM, NULL),
+    JS_CGETSET_DEF("MODEL_FRONT", &vector3_get_constant_MODEL_FRONT, NULL),
+    JS_CGETSET_DEF("MODEL_REAR", &vector3_get_constant_MODEL_REAR, NULL),
+};
+
 static void define_vector3_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
 			ctx,
@@ -318,6 +426,7 @@ static void define_vector3_property(JSContext *ctx, JSValue obj) {
 			JS_PROP_GETSET);
 }
 
+
 static int js_vector3_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["Vector3"] = JS_NewClassID(js_runtime(), &class_id);
@@ -326,13 +435,17 @@ static int js_vector3_class_init(JSContext *ctx) {
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &vector3_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	define_vector3_property(ctx, proto);	JS_SetPropertyFunctionList(ctx, proto, vector3_class_proto_funcs, _countof(vector3_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);	define_vector3_property(ctx, proto);
+	JS_SetPropertyFunctionList(ctx, proto, vector3_class_proto_funcs, _countof(vector3_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, vector3_class_constructor, "Vector3", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	JS_SetPropertyFunctionList(ctx, ctor, vector3_class_constants_funcs, _countof(vector3_class_constants_funcs));
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Vector3", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -949,6 +1062,7 @@ static int js_vector3_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Vector3Proxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

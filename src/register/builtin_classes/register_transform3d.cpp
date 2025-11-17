@@ -110,7 +110,6 @@ static JSValue transform3d_class_is_finite(JSContext *ctx, JSValueConst this_val
 static JSValue transform3d_class_get_basis(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Transform3D val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform3D"]))->get();
 	return VariantAdapter(val.basis);
-	
 }
 static JSValue transform3d_class_set_basis(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform3D"]));
@@ -122,7 +121,6 @@ static JSValue transform3d_class_set_basis(JSContext *ctx, JSValueConst this_val
 static JSValue transform3d_class_get_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Transform3D val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform3D"]))->get();
 	return VariantAdapter(val.origin);
-	
 }
 static JSValue transform3d_class_set_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform3D"]));
@@ -130,6 +128,32 @@ static JSValue transform3d_class_set_origin(JSContext *ctx, JSValueConst this_va
     val.origin = VariantAdapter(*argv).get();
     adapter->set(val);
 	return JS_UNDEFINED;
+}
+
+
+static JSValue transform3d_get_constant_IDENTITY(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue transform3d_get_constant_FLIP_X(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue transform3d_get_constant_FLIP_Y(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Transform3D(1, 0, 0, 0, -1, 0, 0, 0, 1, 0, 0, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue transform3d_get_constant_FLIP_Z(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
 }
 
 static const JSCFunctionListEntry transform3d_class_proto_funcs[] = {
@@ -146,6 +170,13 @@ static const JSCFunctionListEntry transform3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("interpolate_with", 2, &transform3d_class_interpolate_with),
 	JS_CFUNC_DEF("is_equal_approx", 1, &transform3d_class_is_equal_approx),
 	JS_CFUNC_DEF("is_finite", 0, &transform3d_class_is_finite),
+};
+
+static const JSCFunctionListEntry transform3d_class_constants_funcs[] = {
+    JS_CGETSET_DEF("IDENTITY", &transform3d_get_constant_IDENTITY, NULL),
+    JS_CGETSET_DEF("FLIP_X", &transform3d_get_constant_FLIP_X, NULL),
+    JS_CGETSET_DEF("FLIP_Y", &transform3d_get_constant_FLIP_Y, NULL),
+    JS_CGETSET_DEF("FLIP_Z", &transform3d_get_constant_FLIP_Z, NULL),
 };
 
 static void define_transform3d_property(JSContext *ctx, JSValue obj) {
@@ -165,6 +196,7 @@ static void define_transform3d_property(JSContext *ctx, JSValue obj) {
 			JS_PROP_GETSET);
 }
 
+
 static int js_transform3d_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["Transform3D"] = JS_NewClassID(js_runtime(), &class_id);
@@ -173,13 +205,17 @@ static int js_transform3d_class_init(JSContext *ctx) {
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &transform3d_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	define_transform3d_property(ctx, proto);	JS_SetPropertyFunctionList(ctx, proto, transform3d_class_proto_funcs, _countof(transform3d_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);	define_transform3d_property(ctx, proto);
+	JS_SetPropertyFunctionList(ctx, proto, transform3d_class_proto_funcs, _countof(transform3d_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, transform3d_class_constructor, "Transform3D", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	JS_SetPropertyFunctionList(ctx, ctor, transform3d_class_constants_funcs, _countof(transform3d_class_constants_funcs));
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Transform3D", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -430,6 +466,7 @@ static int js_transform3d_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Transform3DProxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

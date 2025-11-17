@@ -60,7 +60,7 @@ static JSValue audio_bus_layout_class_constructor(JSContext *ctx, JSValueConst n
 static void define_audio_bus_layout_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_audio_bus_layout_enum(JSContext *ctx, JSValue proto) {
+static void define_audio_bus_layout_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_audio_bus_layout_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_audio_bus_layout_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_audio_bus_layout_property(ctx, proto);
-	define_audio_bus_layout_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, audio_bus_layout_class_constructor, "AudioBusLayout", 0, JS_CFUNC_constructor, 0);
+	define_audio_bus_layout_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioBusLayout", ctor);
 

@@ -1450,14 +1450,14 @@ static void define_window_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_window_enum(JSContext *ctx, JSValue proto) {
+static void define_window_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Mode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Mode_obj, "MODE_WINDOWED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Mode_obj, "MODE_MINIMIZED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Mode_obj, "MODE_MAXIMIZED", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, Mode_obj, "MODE_FULLSCREEN", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, Mode_obj, "MODE_EXCLUSIVE_FULLSCREEN", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "Mode", Mode_obj);
+	JS_SetPropertyStr(ctx, ctor, "Mode", Mode_obj);
 	JSValue Flags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Flags_obj, "FLAG_RESIZE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Flags_obj, "FLAG_BORDERLESS", JS_NewInt64(ctx, 1));
@@ -1473,23 +1473,23 @@ static void define_window_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Flags_obj, "FLAG_MINIMIZE_DISABLED", JS_NewInt64(ctx, 11));
 	JS_SetPropertyStr(ctx, Flags_obj, "FLAG_MAXIMIZE_DISABLED", JS_NewInt64(ctx, 12));
 	JS_SetPropertyStr(ctx, Flags_obj, "FLAG_MAX", JS_NewInt64(ctx, 13));
-	JS_SetPropertyStr(ctx, proto, "Flags", Flags_obj);
+	JS_SetPropertyStr(ctx, ctor, "Flags", Flags_obj);
 	JSValue ContentScaleMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ContentScaleMode_obj, "CONTENT_SCALE_MODE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ContentScaleMode_obj, "CONTENT_SCALE_MODE_CANVAS_ITEMS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ContentScaleMode_obj, "CONTENT_SCALE_MODE_VIEWPORT", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "ContentScaleMode", ContentScaleMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "ContentScaleMode", ContentScaleMode_obj);
 	JSValue ContentScaleAspect_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ContentScaleAspect_obj, "CONTENT_SCALE_ASPECT_IGNORE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ContentScaleAspect_obj, "CONTENT_SCALE_ASPECT_KEEP", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ContentScaleAspect_obj, "CONTENT_SCALE_ASPECT_KEEP_WIDTH", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ContentScaleAspect_obj, "CONTENT_SCALE_ASPECT_KEEP_HEIGHT", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, ContentScaleAspect_obj, "CONTENT_SCALE_ASPECT_EXPAND", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "ContentScaleAspect", ContentScaleAspect_obj);
+	JS_SetPropertyStr(ctx, ctor, "ContentScaleAspect", ContentScaleAspect_obj);
 	JSValue ContentScaleStretch_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ContentScaleStretch_obj, "CONTENT_SCALE_STRETCH_FRACTIONAL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ContentScaleStretch_obj, "CONTENT_SCALE_STRETCH_INTEGER", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "ContentScaleStretch", ContentScaleStretch_obj);
+	JS_SetPropertyStr(ctx, ctor, "ContentScaleStretch", ContentScaleStretch_obj);
 	JSValue LayoutDirection_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LayoutDirection_obj, "LAYOUT_DIRECTION_INHERITED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LayoutDirection_obj, "LAYOUT_DIRECTION_APPLICATION_LOCALE", JS_NewInt64(ctx, 1));
@@ -1498,7 +1498,7 @@ static void define_window_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, LayoutDirection_obj, "LAYOUT_DIRECTION_SYSTEM_LOCALE", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, LayoutDirection_obj, "LAYOUT_DIRECTION_MAX", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, LayoutDirection_obj, "LAYOUT_DIRECTION_LOCALE", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "LayoutDirection", LayoutDirection_obj);
+	JS_SetPropertyStr(ctx, ctor, "LayoutDirection", LayoutDirection_obj);
 	JSValue WindowInitialPosition_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, WindowInitialPosition_obj, "WINDOW_INITIAL_POSITION_ABSOLUTE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, WindowInitialPosition_obj, "WINDOW_INITIAL_POSITION_CENTER_PRIMARY_SCREEN", JS_NewInt64(ctx, 1));
@@ -1506,7 +1506,7 @@ static void define_window_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, WindowInitialPosition_obj, "WINDOW_INITIAL_POSITION_CENTER_OTHER_SCREEN", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, WindowInitialPosition_obj, "WINDOW_INITIAL_POSITION_CENTER_SCREEN_WITH_MOUSE_FOCUS", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, WindowInitialPosition_obj, "WINDOW_INITIAL_POSITION_CENTER_SCREEN_WITH_KEYBOARD_FOCUS", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "WindowInitialPosition", WindowInitialPosition_obj);
+	JS_SetPropertyStr(ctx, ctor, "WindowInitialPosition", WindowInitialPosition_obj);
 }
 
 static int js_window_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -1522,10 +1522,10 @@ static int js_window_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_window_property(ctx, proto);
-	define_window_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, window_class_proto_funcs, _countof(window_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, window_class_constructor, "Window", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, window_class_static_funcs, _countof(window_class_static_funcs));
+	define_window_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Window", ctor);
 

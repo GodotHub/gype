@@ -507,7 +507,7 @@ static void define_text_paragraph_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_text_paragraph_enum(JSContext *ctx, JSValue proto) {
+static void define_text_paragraph_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_text_paragraph_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -523,9 +523,9 @@ static int js_text_paragraph_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_text_paragraph_property(ctx, proto);
-	define_text_paragraph_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, text_paragraph_class_proto_funcs, _countof(text_paragraph_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, text_paragraph_class_constructor, "TextParagraph", 0, JS_CFUNC_constructor, 0);
+	define_text_paragraph_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TextParagraph", ctor);
 

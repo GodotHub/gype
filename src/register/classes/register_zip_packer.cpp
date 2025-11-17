@@ -105,18 +105,18 @@ static void define_zip_packer_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_zip_packer_enum(JSContext *ctx, JSValue proto) {
+static void define_zip_packer_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ZipAppend_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ZipAppend_obj, "APPEND_CREATE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ZipAppend_obj, "APPEND_CREATEAFTER", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ZipAppend_obj, "APPEND_ADDINZIP", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "ZipAppend", ZipAppend_obj);
+	JS_SetPropertyStr(ctx, ctor, "ZipAppend", ZipAppend_obj);
 	JSValue CompressionLevel_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CompressionLevel_obj, "COMPRESSION_DEFAULT", JS_NewInt64(ctx, -1));
 	JS_SetPropertyStr(ctx, CompressionLevel_obj, "COMPRESSION_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CompressionLevel_obj, "COMPRESSION_FAST", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, CompressionLevel_obj, "COMPRESSION_BEST", JS_NewInt64(ctx, 9));
-	JS_SetPropertyStr(ctx, proto, "CompressionLevel", CompressionLevel_obj);
+	JS_SetPropertyStr(ctx, ctor, "CompressionLevel", CompressionLevel_obj);
 }
 
 static int js_zip_packer_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -132,9 +132,9 @@ static int js_zip_packer_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_zip_packer_property(ctx, proto);
-	define_zip_packer_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, zip_packer_class_proto_funcs, _countof(zip_packer_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, zip_packer_class_constructor, "ZIPPacker", 0, JS_CFUNC_constructor, 0);
+	define_zip_packer_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ZIPPacker", ctor);
 

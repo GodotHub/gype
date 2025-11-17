@@ -207,7 +207,6 @@ static JSValue vector2_class_from_angle(JSContext *ctx, JSValueConst this_val, i
 static JSValue vector2_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Vector2 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector2"]))->get();
 	return VariantAdapter(val.x);
-	
 }
 static JSValue vector2_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector2"]));
@@ -219,7 +218,6 @@ static JSValue vector2_class_set_x(JSContext *ctx, JSValueConst this_val, int ar
 static JSValue vector2_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Vector2 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector2"]))->get();
 	return VariantAdapter(val.y);
-	
 }
 static JSValue vector2_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector2"]));
@@ -227,6 +225,50 @@ static JSValue vector2_class_set_y(JSContext *ctx, JSValueConst this_val, int ar
     val.y = VariantAdapter(*argv).get();
     adapter->set(val);
 	return JS_UNDEFINED;
+}
+
+
+static JSValue vector2_get_constant_ZERO(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector2(0, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector2_get_constant_ONE(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector2(1, 1));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector2_get_constant_INF(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector2(INFINITY, INFINITY));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector2_get_constant_LEFT(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector2(-1, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector2_get_constant_RIGHT(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector2(1, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector2_get_constant_UP(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector2(0, -1));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector2_get_constant_DOWN(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector2(0, 1));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
 }
 
 static const JSCFunctionListEntry vector2_class_proto_funcs[] = {
@@ -280,6 +322,16 @@ static const JSCFunctionListEntry vector2_class_proto_funcs[] = {
 	JS_CFUNC_DEF("from_angle", 1, &vector2_class_from_angle),
 };
 
+static const JSCFunctionListEntry vector2_class_constants_funcs[] = {
+    JS_CGETSET_DEF("ZERO", &vector2_get_constant_ZERO, NULL),
+    JS_CGETSET_DEF("ONE", &vector2_get_constant_ONE, NULL),
+    JS_CGETSET_DEF("INF", &vector2_get_constant_INF, NULL),
+    JS_CGETSET_DEF("LEFT", &vector2_get_constant_LEFT, NULL),
+    JS_CGETSET_DEF("RIGHT", &vector2_get_constant_RIGHT, NULL),
+    JS_CGETSET_DEF("UP", &vector2_get_constant_UP, NULL),
+    JS_CGETSET_DEF("DOWN", &vector2_get_constant_DOWN, NULL),
+};
+
 static void define_vector2_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
 			ctx,
@@ -297,6 +349,7 @@ static void define_vector2_property(JSContext *ctx, JSValue obj) {
 			JS_PROP_GETSET);
 }
 
+
 static int js_vector2_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["Vector2"] = JS_NewClassID(js_runtime(), &class_id);
@@ -305,13 +358,17 @@ static int js_vector2_class_init(JSContext *ctx) {
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &vector2_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	define_vector2_property(ctx, proto);	JS_SetPropertyFunctionList(ctx, proto, vector2_class_proto_funcs, _countof(vector2_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);	define_vector2_property(ctx, proto);
+	JS_SetPropertyFunctionList(ctx, proto, vector2_class_proto_funcs, _countof(vector2_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, vector2_class_constructor, "Vector2", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	JS_SetPropertyFunctionList(ctx, ctor, vector2_class_constants_funcs, _countof(vector2_class_constants_funcs));
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Vector2", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -906,6 +963,7 @@ static int js_vector2_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Vector2Proxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

@@ -519,12 +519,12 @@ static void define_tab_container_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_tab_container_enum(JSContext *ctx, JSValue proto) {
+static void define_tab_container_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TabPosition_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TabPosition_obj, "POSITION_TOP", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TabPosition_obj, "POSITION_BOTTOM", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TabPosition_obj, "POSITION_MAX", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "TabPosition", TabPosition_obj);
+	JS_SetPropertyStr(ctx, ctor, "TabPosition", TabPosition_obj);
 }
 
 static int js_tab_container_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -540,9 +540,9 @@ static int js_tab_container_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_tab_container_property(ctx, proto);
-	define_tab_container_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, tab_container_class_proto_funcs, _countof(tab_container_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, tab_container_class_constructor, "TabContainer", 0, JS_CFUNC_constructor, 0);
+	define_tab_container_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TabContainer", ctor);
 

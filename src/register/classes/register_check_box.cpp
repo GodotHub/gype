@@ -60,7 +60,7 @@ static JSValue check_box_class_constructor(JSContext *ctx, JSValueConst new_targ
 static void define_check_box_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_check_box_enum(JSContext *ctx, JSValue proto) {
+static void define_check_box_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_check_box_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_check_box_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_check_box_property(ctx, proto);
-	define_check_box_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, check_box_class_constructor, "CheckBox", 0, JS_CFUNC_constructor, 0);
+	define_check_box_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CheckBox", ctor);
 

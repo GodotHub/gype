@@ -392,16 +392,16 @@ static void define_reflection_probe_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_reflection_probe_enum(JSContext *ctx, JSValue proto) {
+static void define_reflection_probe_enum(JSContext *ctx, JSValue ctor) {
 	JSValue UpdateMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, UpdateMode_obj, "UPDATE_ONCE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, UpdateMode_obj, "UPDATE_ALWAYS", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "UpdateMode", UpdateMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "UpdateMode", UpdateMode_obj);
 	JSValue AmbientMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AmbientMode_obj, "AMBIENT_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AmbientMode_obj, "AMBIENT_ENVIRONMENT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AmbientMode_obj, "AMBIENT_COLOR", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "AmbientMode", AmbientMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "AmbientMode", AmbientMode_obj);
 }
 
 static int js_reflection_probe_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -417,9 +417,9 @@ static int js_reflection_probe_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_reflection_probe_property(ctx, proto);
-	define_reflection_probe_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, reflection_probe_class_proto_funcs, _countof(reflection_probe_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, reflection_probe_class_constructor, "ReflectionProbe", 0, JS_CFUNC_constructor, 0);
+	define_reflection_probe_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ReflectionProbe", ctor);
 

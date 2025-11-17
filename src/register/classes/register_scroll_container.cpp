@@ -276,14 +276,14 @@ static void define_scroll_container_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_scroll_container_enum(JSContext *ctx, JSValue proto) {
+static void define_scroll_container_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ScrollMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ScrollMode_obj, "SCROLL_MODE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ScrollMode_obj, "SCROLL_MODE_AUTO", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ScrollMode_obj, "SCROLL_MODE_SHOW_ALWAYS", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ScrollMode_obj, "SCROLL_MODE_SHOW_NEVER", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, ScrollMode_obj, "SCROLL_MODE_RESERVE", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "ScrollMode", ScrollMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "ScrollMode", ScrollMode_obj);
 }
 
 static int js_scroll_container_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -299,9 +299,9 @@ static int js_scroll_container_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_scroll_container_property(ctx, proto);
-	define_scroll_container_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, scroll_container_class_proto_funcs, _countof(scroll_container_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, scroll_container_class_constructor, "ScrollContainer", 0, JS_CFUNC_constructor, 0);
+	define_scroll_container_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ScrollContainer", ctor);
 

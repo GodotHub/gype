@@ -60,7 +60,7 @@ static JSValue audio_sample_playback_class_constructor(JSContext *ctx, JSValueCo
 static void define_audio_sample_playback_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_audio_sample_playback_enum(JSContext *ctx, JSValue proto) {
+static void define_audio_sample_playback_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_audio_sample_playback_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_audio_sample_playback_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_audio_sample_playback_property(ctx, proto);
-	define_audio_sample_playback_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, audio_sample_playback_class_constructor, "AudioSamplePlayback", 0, JS_CFUNC_constructor, 0);
+	define_audio_sample_playback_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioSamplePlayback", ctor);
 

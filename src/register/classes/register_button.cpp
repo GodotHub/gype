@@ -337,7 +337,7 @@ static void define_button_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_button_enum(JSContext *ctx, JSValue proto) {
+static void define_button_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_button_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -353,9 +353,9 @@ static int js_button_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_button_property(ctx, proto);
-	define_button_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, button_class_proto_funcs, _countof(button_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, button_class_constructor, "Button", 0, JS_CFUNC_constructor, 0);
+	define_button_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Button", ctor);
 

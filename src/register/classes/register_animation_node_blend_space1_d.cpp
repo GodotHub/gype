@@ -225,12 +225,12 @@ static void define_animation_node_blend_space1_d_property(JSContext *ctx, JSValu
     );
 }
 
-static void define_animation_node_blend_space1_d_enum(JSContext *ctx, JSValue proto) {
+static void define_animation_node_blend_space1_d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue BlendMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_INTERPOLATED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_DISCRETE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_DISCRETE_CARRY", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "BlendMode", BlendMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "BlendMode", BlendMode_obj);
 }
 
 static int js_animation_node_blend_space1_d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -246,9 +246,9 @@ static int js_animation_node_blend_space1_d_class_init(JSContext *ctx, JSModuleD
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_animation_node_blend_space1_d_property(ctx, proto);
-	define_animation_node_blend_space1_d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, animation_node_blend_space1_d_class_proto_funcs, _countof(animation_node_blend_space1_d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, animation_node_blend_space1_d_class_constructor, "AnimationNodeBlendSpace1D", 0, JS_CFUNC_constructor, 0);
+	define_animation_node_blend_space1_d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AnimationNodeBlendSpace1D", ctor);
 

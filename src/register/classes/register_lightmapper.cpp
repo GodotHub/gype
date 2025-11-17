@@ -60,7 +60,7 @@ static JSValue lightmapper_class_constructor(JSContext *ctx, JSValueConst new_ta
 static void define_lightmapper_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_lightmapper_enum(JSContext *ctx, JSValue proto) {
+static void define_lightmapper_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_lightmapper_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_lightmapper_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_lightmapper_property(ctx, proto);
-	define_lightmapper_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, lightmapper_class_constructor, "Lightmapper", 0, JS_CFUNC_constructor, 0);
+	define_lightmapper_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Lightmapper", ctor);
 

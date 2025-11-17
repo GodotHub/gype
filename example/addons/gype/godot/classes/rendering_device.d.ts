@@ -30,7 +30,7 @@ export declare class RenderingDevice extends GodotObject {
     public texture_create_from_extension(_type: number, format: number, samples: number, usageFlags: number, image: number, width: number, height: number, depth: number, layers: number, mipmaps: number = 1): RID;
     public texture_update(texture: RID, layer: number, data: PackedByteArray): number;
     public texture_get_data(texture: RID, layer: number): PackedByteArray;
-    public texture_get_data_async(texture: RID, layer: number, callback: Callable): number;
+    public texture_get_data_async(texture: RID, layer: number, callback: Callable | Function): number;
     public texture_is_format_supported_for_usage(format: number, usageFlags: number): boolean;
     public texture_is_shared(texture: RID): boolean;
     public texture_is_valid(texture: RID): boolean;
@@ -72,7 +72,7 @@ export declare class RenderingDevice extends GodotObject {
     public buffer_update(buffer: RID, offset: number, sizeBytes: number, data: PackedByteArray): number;
     public buffer_clear(buffer: RID, offset: number, sizeBytes: number): number;
     public buffer_get_data(buffer: RID, offsetBytes: number = 0, sizeBytes: number = 0): PackedByteArray;
-    public buffer_get_data_async(buffer: RID, callback: Callable, offsetBytes: number = 0, sizeBytes: number = 0): number;
+    public buffer_get_data_async(buffer: RID, callback: Callable | Function, offsetBytes: number = 0, sizeBytes: number = 0): number;
     public buffer_get_device_address(buffer: RID): number;
     public render_pipeline_create(shader: RID, framebufferFormat: number, vertexFormat: number, primitive: number, rasterizationState: RDPipelineRasterizationState, multisampleState: RDPipelineMultisampleState, stencilState: RDPipelineDepthStencilState, colorBlendState: RDPipelineColorBlendState, dynamicStateFlags: number = 0, forRenderPass: number = 0, specializationConstants: Array<any> = Array[RDPipelineSpecializationConstant]([])): RID;
     public render_pipeline_is_valid(renderPipeline: RID): boolean;

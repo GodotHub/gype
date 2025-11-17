@@ -67,7 +67,7 @@ static const JSCFunctionListEntry subtween_tweener_class_proto_funcs[] = {
 static void define_subtween_tweener_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_subtween_tweener_enum(JSContext *ctx, JSValue proto) {
+static void define_subtween_tweener_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_subtween_tweener_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -83,9 +83,9 @@ static int js_subtween_tweener_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_subtween_tweener_property(ctx, proto);
-	define_subtween_tweener_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, subtween_tweener_class_proto_funcs, _countof(subtween_tweener_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, subtween_tweener_class_constructor, "SubtweenTweener", 0, JS_CFUNC_constructor, 0);
+	define_subtween_tweener_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SubtweenTweener", ctor);
 

@@ -97,7 +97,7 @@ static void define_scene_tree_timer_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_scene_tree_timer_enum(JSContext *ctx, JSValue proto) {
+static void define_scene_tree_timer_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_scene_tree_timer_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -113,9 +113,9 @@ static int js_scene_tree_timer_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_scene_tree_timer_property(ctx, proto);
-	define_scene_tree_timer_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, scene_tree_timer_class_proto_funcs, _countof(scene_tree_timer_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, scene_tree_timer_class_constructor, "SceneTreeTimer", 0, JS_CFUNC_constructor, 0);
+	define_scene_tree_timer_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SceneTreeTimer", ctor);
 

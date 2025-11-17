@@ -237,17 +237,17 @@ static void define_gradient_texture2d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_gradient_texture2d_enum(JSContext *ctx, JSValue proto) {
+static void define_gradient_texture2d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Fill_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Fill_obj, "FILL_LINEAR", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Fill_obj, "FILL_RADIAL", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Fill_obj, "FILL_SQUARE", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "Fill", Fill_obj);
+	JS_SetPropertyStr(ctx, ctor, "Fill", Fill_obj);
 	JSValue Repeat_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Repeat_obj, "REPEAT_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Repeat_obj, "REPEAT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Repeat_obj, "REPEAT_MIRROR", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "Repeat", Repeat_obj);
+	JS_SetPropertyStr(ctx, ctor, "Repeat", Repeat_obj);
 }
 
 static int js_gradient_texture2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -263,9 +263,9 @@ static int js_gradient_texture2d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_gradient_texture2d_property(ctx, proto);
-	define_gradient_texture2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, gradient_texture2d_class_proto_funcs, _countof(gradient_texture2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, gradient_texture2d_class_constructor, "GradientTexture2D", 0, JS_CFUNC_constructor, 0);
+	define_gradient_texture2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GradientTexture2D", ctor);
 

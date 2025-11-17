@@ -161,7 +161,7 @@ static void define_visual_shader_node_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_visual_shader_node_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_enum(JSContext *ctx, JSValue ctor) {
 	JSValue PortType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PortType_obj, "PORT_TYPE_SCALAR", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PortType_obj, "PORT_TYPE_SCALAR_INT", JS_NewInt64(ctx, 1));
@@ -173,7 +173,7 @@ static void define_visual_shader_node_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, PortType_obj, "PORT_TYPE_TRANSFORM", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, PortType_obj, "PORT_TYPE_SAMPLER", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, PortType_obj, "PORT_TYPE_MAX", JS_NewInt64(ctx, 9));
-	JS_SetPropertyStr(ctx, proto, "PortType", PortType_obj);
+	JS_SetPropertyStr(ctx, ctor, "PortType", PortType_obj);
 }
 
 static int js_visual_shader_node_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -189,9 +189,9 @@ static int js_visual_shader_node_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_property(ctx, proto);
-	define_visual_shader_node_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, visual_shader_node_class_proto_funcs, _countof(visual_shader_node_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_class_constructor, "VisualShaderNode", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNode", ctor);
 

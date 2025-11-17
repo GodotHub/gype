@@ -170,6 +170,8 @@ static JSValue dictionary_class_recursive_equal(JSContext *ctx, JSValueConst thi
 }
 
 
+
+
 static const JSCFunctionListEntry dictionary_class_proto_funcs[] = {
 	JS_CFUNC_DEF("size", 0, &dictionary_class_size),
 	JS_CFUNC_DEF("is_empty", 0, &dictionary_class_is_empty),
@@ -208,6 +210,8 @@ static const JSCFunctionListEntry dictionary_class_proto_funcs[] = {
 };
 
 
+
+
 static int js_dictionary_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["Dictionary"] = JS_NewClassID(js_runtime(), &class_id);
@@ -217,12 +221,14 @@ static int js_dictionary_class_init(JSContext *ctx) {
 
 	JSValue proto = JS_NewObject(ctx);
 	JS_SetClassProto(ctx, class_id, proto);	JS_SetPropertyFunctionList(ctx, proto, dictionary_class_proto_funcs, _countof(dictionary_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, dictionary_class_constructor, "Dictionary", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Dictionary", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -611,6 +617,7 @@ static int js_dictionary_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "DictionaryProxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

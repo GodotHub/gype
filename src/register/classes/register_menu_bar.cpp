@@ -251,7 +251,7 @@ static void define_menu_bar_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_menu_bar_enum(JSContext *ctx, JSValue proto) {
+static void define_menu_bar_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_menu_bar_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -267,9 +267,9 @@ static int js_menu_bar_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_menu_bar_property(ctx, proto);
-	define_menu_bar_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, menu_bar_class_proto_funcs, _countof(menu_bar_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, menu_bar_class_constructor, "MenuBar", 0, JS_CFUNC_constructor, 0);
+	define_menu_bar_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "MenuBar", ctor);
 

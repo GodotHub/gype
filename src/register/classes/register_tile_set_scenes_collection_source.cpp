@@ -118,7 +118,7 @@ static const JSCFunctionListEntry tile_set_scenes_collection_source_class_proto_
 static void define_tile_set_scenes_collection_source_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_tile_set_scenes_collection_source_enum(JSContext *ctx, JSValue proto) {
+static void define_tile_set_scenes_collection_source_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_tile_set_scenes_collection_source_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -134,9 +134,9 @@ static int js_tile_set_scenes_collection_source_class_init(JSContext *ctx, JSMod
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_tile_set_scenes_collection_source_property(ctx, proto);
-	define_tile_set_scenes_collection_source_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, tile_set_scenes_collection_source_class_proto_funcs, _countof(tile_set_scenes_collection_source_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, tile_set_scenes_collection_source_class_constructor, "TileSetScenesCollectionSource", 0, JS_CFUNC_constructor, 0);
+	define_tile_set_scenes_collection_source_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TileSetScenesCollectionSource", ctor);
 

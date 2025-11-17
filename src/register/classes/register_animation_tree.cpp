@@ -184,12 +184,12 @@ static void define_animation_tree_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_animation_tree_enum(JSContext *ctx, JSValue proto) {
+static void define_animation_tree_enum(JSContext *ctx, JSValue ctor) {
 	JSValue AnimationProcessCallback_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AnimationProcessCallback_obj, "ANIMATION_PROCESS_PHYSICS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AnimationProcessCallback_obj, "ANIMATION_PROCESS_IDLE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AnimationProcessCallback_obj, "ANIMATION_PROCESS_MANUAL", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "AnimationProcessCallback", AnimationProcessCallback_obj);
+	JS_SetPropertyStr(ctx, ctor, "AnimationProcessCallback", AnimationProcessCallback_obj);
 }
 
 static int js_animation_tree_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -205,9 +205,9 @@ static int js_animation_tree_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_animation_tree_property(ctx, proto);
-	define_animation_tree_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, animation_tree_class_proto_funcs, _countof(animation_tree_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, animation_tree_class_constructor, "AnimationTree", 0, JS_CFUNC_constructor, 0);
+	define_animation_tree_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AnimationTree", ctor);
 

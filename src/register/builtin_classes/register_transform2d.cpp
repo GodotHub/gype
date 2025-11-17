@@ -135,7 +135,6 @@ static JSValue transform2d_class_looking_at(JSContext *ctx, JSValueConst this_va
 static JSValue transform2d_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Transform2D val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]))->get();
 	return VariantAdapter(val.columns[0]);
-	
 }
 static JSValue transform2d_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]));
@@ -147,7 +146,6 @@ static JSValue transform2d_class_set_x(JSContext *ctx, JSValueConst this_val, in
 static JSValue transform2d_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Transform2D val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]))->get();
 	return VariantAdapter(val.columns[1]);
-	
 }
 static JSValue transform2d_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]));
@@ -159,7 +157,6 @@ static JSValue transform2d_class_set_y(JSContext *ctx, JSValueConst this_val, in
 // static JSValue transform2d_class_get_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 // 	Transform2D val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]))->get();
 // 	return VariantAdapter(val.origin);
-// 	
 // }
 static JSValue transform2d_class_set_origin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Transform2D"]));
@@ -167,6 +164,26 @@ static JSValue transform2d_class_set_origin(JSContext *ctx, JSValueConst this_va
     val.set_origin(VariantAdapter(*argv).get());
     adapter->set(val);
 	return JS_UNDEFINED;
+}
+
+
+static JSValue transform2d_get_constant_IDENTITY(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Transform2D(1, 0, 0, 1, 0, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue transform2d_get_constant_FLIP_X(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Transform2D(-1, 0, 0, 1, 0, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue transform2d_get_constant_FLIP_Y(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Transform2D(1, 0, 0, -1, 0, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
 }
 
 static const JSCFunctionListEntry transform2d_class_proto_funcs[] = {
@@ -193,6 +210,12 @@ static const JSCFunctionListEntry transform2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("looking_at", 1, &transform2d_class_looking_at),
 };
 
+static const JSCFunctionListEntry transform2d_class_constants_funcs[] = {
+    JS_CGETSET_DEF("IDENTITY", &transform2d_get_constant_IDENTITY, NULL),
+    JS_CGETSET_DEF("FLIP_X", &transform2d_get_constant_FLIP_X, NULL),
+    JS_CGETSET_DEF("FLIP_Y", &transform2d_get_constant_FLIP_Y, NULL),
+};
+
 static void define_transform2d_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
 			ctx,
@@ -217,6 +240,7 @@ static void define_transform2d_property(JSContext *ctx, JSValue obj) {
 			JS_PROP_GETSET);
 }
 
+
 static int js_transform2d_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["Transform2D"] = JS_NewClassID(js_runtime(), &class_id);
@@ -225,13 +249,17 @@ static int js_transform2d_class_init(JSContext *ctx) {
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &transform2d_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	define_transform2d_property(ctx, proto);	JS_SetPropertyFunctionList(ctx, proto, transform2d_class_proto_funcs, _countof(transform2d_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);	define_transform2d_property(ctx, proto);
+	JS_SetPropertyFunctionList(ctx, proto, transform2d_class_proto_funcs, _countof(transform2d_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, transform2d_class_constructor, "Transform2D", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	JS_SetPropertyFunctionList(ctx, ctor, transform2d_class_constants_funcs, _countof(transform2d_class_constants_funcs));
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Transform2D", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -584,6 +612,7 @@ static int js_transform2d_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Transform2DProxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

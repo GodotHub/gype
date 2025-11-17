@@ -91,5 +91,5 @@ GDExtensionScriptLanguagePtr get_language_func(GDExtensionScriptInstanceDataPtr 
 
 void free_func(GDExtensionScriptInstanceDataPtr p_instance) {
 	TypeScriptInstance *instance = reinterpret_cast<TypeScriptInstance *>(p_instance);
-	Memory::free_static(instance);
+	memdelete(instance);
 }

@@ -60,7 +60,7 @@ static JSValue gltf_document_extension_convert_importer_mesh_class_constructor(J
 static void define_gltf_document_extension_convert_importer_mesh_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_gltf_document_extension_convert_importer_mesh_enum(JSContext *ctx, JSValue proto) {
+static void define_gltf_document_extension_convert_importer_mesh_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_gltf_document_extension_convert_importer_mesh_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_gltf_document_extension_convert_importer_mesh_class_init(JSContext
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_gltf_document_extension_convert_importer_mesh_property(ctx, proto);
-	define_gltf_document_extension_convert_importer_mesh_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, gltf_document_extension_convert_importer_mesh_class_constructor, "GLTFDocumentExtensionConvertImporterMesh", 0, JS_CFUNC_constructor, 0);
+	define_gltf_document_extension_convert_importer_mesh_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GLTFDocumentExtensionConvertImporterMesh", ctor);
 

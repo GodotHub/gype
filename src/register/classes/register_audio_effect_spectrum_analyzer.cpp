@@ -116,7 +116,7 @@ static void define_audio_effect_spectrum_analyzer_property(JSContext *ctx, JSVal
     );
 }
 
-static void define_audio_effect_spectrum_analyzer_enum(JSContext *ctx, JSValue proto) {
+static void define_audio_effect_spectrum_analyzer_enum(JSContext *ctx, JSValue ctor) {
 	JSValue FFTSize_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FFTSize_obj, "FFT_SIZE_256", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FFTSize_obj, "FFT_SIZE_512", JS_NewInt64(ctx, 1));
@@ -124,7 +124,7 @@ static void define_audio_effect_spectrum_analyzer_enum(JSContext *ctx, JSValue p
 	JS_SetPropertyStr(ctx, FFTSize_obj, "FFT_SIZE_2048", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, FFTSize_obj, "FFT_SIZE_4096", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, FFTSize_obj, "FFT_SIZE_MAX", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "FFTSize", FFTSize_obj);
+	JS_SetPropertyStr(ctx, ctor, "FFTSize", FFTSize_obj);
 }
 
 static int js_audio_effect_spectrum_analyzer_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -140,9 +140,9 @@ static int js_audio_effect_spectrum_analyzer_class_init(JSContext *ctx, JSModule
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_audio_effect_spectrum_analyzer_property(ctx, proto);
-	define_audio_effect_spectrum_analyzer_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, audio_effect_spectrum_analyzer_class_proto_funcs, _countof(audio_effect_spectrum_analyzer_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, audio_effect_spectrum_analyzer_class_constructor, "AudioEffectSpectrumAnalyzer", 0, JS_CFUNC_constructor, 0);
+	define_audio_effect_spectrum_analyzer_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioEffectSpectrumAnalyzer", ctor);
 

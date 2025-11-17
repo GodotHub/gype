@@ -130,7 +130,6 @@ static JSValue basis_class_from_euler(JSContext *ctx, JSValueConst this_val, int
 static JSValue basis_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Basis val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Basis"]))->get();
 	return VariantAdapter(val.rows[0]);
-	
 }
 static JSValue basis_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Basis"]));
@@ -142,7 +141,6 @@ static JSValue basis_class_set_x(JSContext *ctx, JSValueConst this_val, int argc
 static JSValue basis_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Basis val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Basis"]))->get();
 	return VariantAdapter(val.rows[1]);
-	
 }
 static JSValue basis_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Basis"]));
@@ -154,7 +152,6 @@ static JSValue basis_class_set_y(JSContext *ctx, JSValueConst this_val, int argc
 static JSValue basis_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Basis val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Basis"]))->get();
 	return VariantAdapter(val.rows[2]);
-	
 }
 static JSValue basis_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Basis"]));
@@ -162,6 +159,32 @@ static JSValue basis_class_set_z(JSContext *ctx, JSValueConst this_val, int argc
     val.rows[2] = VariantAdapter(*argv).get();
     adapter->set(val);
 	return JS_UNDEFINED;
+}
+
+
+static JSValue basis_get_constant_IDENTITY(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Basis(1, 0, 0, 0, 1, 0, 0, 0, 1));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue basis_get_constant_FLIP_X(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Basis(-1, 0, 0, 0, 1, 0, 0, 0, 1));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue basis_get_constant_FLIP_Y(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Basis(1, 0, 0, 0, -1, 0, 0, 0, 1));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue basis_get_constant_FLIP_Z(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Basis(1, 0, 0, 0, 1, 0, 0, 0, -1));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
 }
 
 static const JSCFunctionListEntry basis_class_proto_funcs[] = {
@@ -185,6 +208,13 @@ static const JSCFunctionListEntry basis_class_proto_funcs[] = {
 	JS_CFUNC_DEF("looking_at", 3, &basis_class_looking_at),
 	JS_CFUNC_DEF("from_scale", 1, &basis_class_from_scale),
 	JS_CFUNC_DEF("from_euler", 2, &basis_class_from_euler),
+};
+
+static const JSCFunctionListEntry basis_class_constants_funcs[] = {
+    JS_CGETSET_DEF("IDENTITY", &basis_get_constant_IDENTITY, NULL),
+    JS_CGETSET_DEF("FLIP_X", &basis_get_constant_FLIP_X, NULL),
+    JS_CGETSET_DEF("FLIP_Y", &basis_get_constant_FLIP_Y, NULL),
+    JS_CGETSET_DEF("FLIP_Z", &basis_get_constant_FLIP_Z, NULL),
 };
 
 static void define_basis_property(JSContext *ctx, JSValue obj) {
@@ -211,6 +241,7 @@ static void define_basis_property(JSContext *ctx, JSValue obj) {
 			JS_PROP_GETSET);
 }
 
+
 static int js_basis_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["Basis"] = JS_NewClassID(js_runtime(), &class_id);
@@ -219,13 +250,17 @@ static int js_basis_class_init(JSContext *ctx) {
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &basis_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	define_basis_property(ctx, proto);	JS_SetPropertyFunctionList(ctx, proto, basis_class_proto_funcs, _countof(basis_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);	define_basis_property(ctx, proto);
+	JS_SetPropertyFunctionList(ctx, proto, basis_class_proto_funcs, _countof(basis_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, basis_class_constructor, "Basis", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	JS_SetPropertyFunctionList(ctx, ctor, basis_class_constants_funcs, _countof(basis_class_constants_funcs));
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Basis", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -550,6 +585,7 @@ static int js_basis_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "BasisProxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

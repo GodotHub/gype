@@ -435,7 +435,7 @@ static const JSCFunctionListEntry image_class_static_funcs[] = {
 static void define_image_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_image_enum(JSContext *ctx, JSValue proto) {
+static void define_image_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Format_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Format_obj, "FORMAT_L8", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Format_obj, "FORMAT_LA8", JS_NewInt64(ctx, 1));
@@ -477,19 +477,19 @@ static void define_image_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Format_obj, "FORMAT_ASTC_8x8", JS_NewInt64(ctx, 37));
 	JS_SetPropertyStr(ctx, Format_obj, "FORMAT_ASTC_8x8_HDR", JS_NewInt64(ctx, 38));
 	JS_SetPropertyStr(ctx, Format_obj, "FORMAT_MAX", JS_NewInt64(ctx, 39));
-	JS_SetPropertyStr(ctx, proto, "Format", Format_obj);
+	JS_SetPropertyStr(ctx, ctor, "Format", Format_obj);
 	JSValue Interpolation_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Interpolation_obj, "INTERPOLATE_NEAREST", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Interpolation_obj, "INTERPOLATE_BILINEAR", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Interpolation_obj, "INTERPOLATE_CUBIC", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, Interpolation_obj, "INTERPOLATE_TRILINEAR", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, Interpolation_obj, "INTERPOLATE_LANCZOS", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "Interpolation", Interpolation_obj);
+	JS_SetPropertyStr(ctx, ctor, "Interpolation", Interpolation_obj);
 	JSValue AlphaMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AlphaMode_obj, "ALPHA_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AlphaMode_obj, "ALPHA_BIT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AlphaMode_obj, "ALPHA_BLEND", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "AlphaMode", AlphaMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "AlphaMode", AlphaMode_obj);
 	JSValue CompressMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CompressMode_obj, "COMPRESS_S3TC", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CompressMode_obj, "COMPRESS_ETC", JS_NewInt64(ctx, 1));
@@ -497,7 +497,7 @@ static void define_image_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, CompressMode_obj, "COMPRESS_BPTC", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, CompressMode_obj, "COMPRESS_ASTC", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, CompressMode_obj, "COMPRESS_MAX", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "CompressMode", CompressMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "CompressMode", CompressMode_obj);
 	JSValue UsedChannels_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, UsedChannels_obj, "USED_CHANNELS_L", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, UsedChannels_obj, "USED_CHANNELS_LA", JS_NewInt64(ctx, 1));
@@ -505,16 +505,16 @@ static void define_image_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, UsedChannels_obj, "USED_CHANNELS_RG", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, UsedChannels_obj, "USED_CHANNELS_RGB", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, UsedChannels_obj, "USED_CHANNELS_RGBA", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "UsedChannels", UsedChannels_obj);
+	JS_SetPropertyStr(ctx, ctor, "UsedChannels", UsedChannels_obj);
 	JSValue CompressSource_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CompressSource_obj, "COMPRESS_SOURCE_GENERIC", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CompressSource_obj, "COMPRESS_SOURCE_SRGB", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, CompressSource_obj, "COMPRESS_SOURCE_NORMAL", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "CompressSource", CompressSource_obj);
+	JS_SetPropertyStr(ctx, ctor, "CompressSource", CompressSource_obj);
 	JSValue ASTCFormat_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ASTCFormat_obj, "ASTC_FORMAT_4x4", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ASTCFormat_obj, "ASTC_FORMAT_8x8", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "ASTCFormat", ASTCFormat_obj);
+	JS_SetPropertyStr(ctx, ctor, "ASTCFormat", ASTCFormat_obj);
 }
 
 static int js_image_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -530,10 +530,10 @@ static int js_image_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_image_property(ctx, proto);
-	define_image_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, image_class_proto_funcs, _countof(image_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, image_class_constructor, "Image", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, image_class_static_funcs, _countof(image_class_static_funcs));
+	define_image_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Image", ctor);
 

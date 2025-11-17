@@ -93,7 +93,7 @@ static void define_array_occluder3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_array_occluder3d_enum(JSContext *ctx, JSValue proto) {
+static void define_array_occluder3d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_array_occluder3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -109,9 +109,9 @@ static int js_array_occluder3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_array_occluder3d_property(ctx, proto);
-	define_array_occluder3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, array_occluder3d_class_proto_funcs, _countof(array_occluder3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, array_occluder3d_class_constructor, "ArrayOccluder3D", 0, JS_CFUNC_constructor, 0);
+	define_array_occluder3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ArrayOccluder3D", ctor);
 

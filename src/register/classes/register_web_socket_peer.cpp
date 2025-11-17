@@ -294,17 +294,17 @@ static void define_web_socket_peer_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_web_socket_peer_enum(JSContext *ctx, JSValue proto) {
+static void define_web_socket_peer_enum(JSContext *ctx, JSValue ctor) {
 	JSValue WriteMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, WriteMode_obj, "WRITE_MODE_TEXT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, WriteMode_obj, "WRITE_MODE_BINARY", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "WriteMode", WriteMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "WriteMode", WriteMode_obj);
 	JSValue State_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, State_obj, "STATE_CONNECTING", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, State_obj, "STATE_OPEN", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, State_obj, "STATE_CLOSING", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, State_obj, "STATE_CLOSED", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "State", State_obj);
+	JS_SetPropertyStr(ctx, ctor, "State", State_obj);
 }
 
 static int js_web_socket_peer_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -320,9 +320,9 @@ static int js_web_socket_peer_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_web_socket_peer_property(ctx, proto);
-	define_web_socket_peer_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, web_socket_peer_class_proto_funcs, _countof(web_socket_peer_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, web_socket_peer_class_constructor, "WebSocketPeer", 0, JS_CFUNC_constructor, 0);
+	define_web_socket_peer_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "WebSocketPeer", ctor);
 

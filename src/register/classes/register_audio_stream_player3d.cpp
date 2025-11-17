@@ -527,18 +527,18 @@ static void define_audio_stream_player3d_property(JSContext *ctx, JSValue proto)
 		JS_PROP_GETSET);
 }
 
-static void define_audio_stream_player3d_enum(JSContext *ctx, JSValue proto) {
+static void define_audio_stream_player3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue AttenuationModel_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AttenuationModel_obj, "ATTENUATION_INVERSE_DISTANCE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AttenuationModel_obj, "ATTENUATION_INVERSE_SQUARE_DISTANCE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AttenuationModel_obj, "ATTENUATION_LOGARITHMIC", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, AttenuationModel_obj, "ATTENUATION_DISABLED", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "AttenuationModel", AttenuationModel_obj);
+	JS_SetPropertyStr(ctx, ctor, "AttenuationModel", AttenuationModel_obj);
 	JSValue DopplerTracking_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DopplerTracking_obj, "DOPPLER_TRACKING_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DopplerTracking_obj, "DOPPLER_TRACKING_IDLE_STEP", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DopplerTracking_obj, "DOPPLER_TRACKING_PHYSICS_STEP", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "DopplerTracking", DopplerTracking_obj);
+	JS_SetPropertyStr(ctx, ctor, "DopplerTracking", DopplerTracking_obj);
 }
 
 static int js_audio_stream_player3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -554,9 +554,9 @@ static int js_audio_stream_player3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_audio_stream_player3d_property(ctx, proto);
-	define_audio_stream_player3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, audio_stream_player3d_class_proto_funcs, _countof(audio_stream_player3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, audio_stream_player3d_class_constructor, "AudioStreamPlayer3D", 0, JS_CFUNC_constructor, 0);
+	define_audio_stream_player3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioStreamPlayer3D", ctor);
 

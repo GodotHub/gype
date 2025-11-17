@@ -149,7 +149,7 @@ static void define_portable_compressed_texture2d_property(JSContext *ctx, JSValu
     );
 }
 
-static void define_portable_compressed_texture2d_enum(JSContext *ctx, JSValue proto) {
+static void define_portable_compressed_texture2d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue CompressionMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CompressionMode_obj, "COMPRESSION_MODE_LOSSLESS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CompressionMode_obj, "COMPRESSION_MODE_LOSSY", JS_NewInt64(ctx, 1));
@@ -158,7 +158,7 @@ static void define_portable_compressed_texture2d_enum(JSContext *ctx, JSValue pr
 	JS_SetPropertyStr(ctx, CompressionMode_obj, "COMPRESSION_MODE_ETC2", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, CompressionMode_obj, "COMPRESSION_MODE_BPTC", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, CompressionMode_obj, "COMPRESSION_MODE_ASTC", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "CompressionMode", CompressionMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "CompressionMode", CompressionMode_obj);
 }
 
 static int js_portable_compressed_texture2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -174,10 +174,10 @@ static int js_portable_compressed_texture2d_class_init(JSContext *ctx, JSModuleD
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_portable_compressed_texture2d_property(ctx, proto);
-	define_portable_compressed_texture2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, portable_compressed_texture2d_class_proto_funcs, _countof(portable_compressed_texture2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, portable_compressed_texture2d_class_constructor, "PortableCompressedTexture2D", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, portable_compressed_texture2d_class_static_funcs, _countof(portable_compressed_texture2d_class_static_funcs));
+	define_portable_compressed_texture2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "PortableCompressedTexture2D", ctor);
 

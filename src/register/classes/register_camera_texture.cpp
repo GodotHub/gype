@@ -116,7 +116,7 @@ static void define_camera_texture_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_camera_texture_enum(JSContext *ctx, JSValue proto) {
+static void define_camera_texture_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_camera_texture_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -132,9 +132,9 @@ static int js_camera_texture_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_camera_texture_property(ctx, proto);
-	define_camera_texture_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, camera_texture_class_proto_funcs, _countof(camera_texture_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, camera_texture_class_constructor, "CameraTexture", 0, JS_CFUNC_constructor, 0);
+	define_camera_texture_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CameraTexture", ctor);
 

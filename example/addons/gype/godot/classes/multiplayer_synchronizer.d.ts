@@ -34,8 +34,8 @@ export declare class MultiplayerSynchronizer extends Node {
     public update_visibility(forPeer: number = 0): void;
     public set_visibility_public(visible: boolean): void;
     public is_visibility_public(): boolean;
-    public add_visibility_filter(filter: Callable): void;
-    public remove_visibility_filter(filter: Callable): void;
+    public add_visibility_filter(filter: Callable | Function): void;
+    public remove_visibility_filter(filter: Callable | Function): void;
     public set_visibility_for(peer: number, visible: boolean): void;
     public get_visibility_for(peer: number): boolean;
 

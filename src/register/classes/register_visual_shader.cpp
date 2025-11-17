@@ -201,7 +201,7 @@ static void define_visual_shader_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_visual_shader_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Type_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Type_obj, "TYPE_VERTEX", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Type_obj, "TYPE_FRAGMENT", JS_NewInt64(ctx, 1));
@@ -214,12 +214,12 @@ static void define_visual_shader_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Type_obj, "TYPE_SKY", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, Type_obj, "TYPE_FOG", JS_NewInt64(ctx, 9));
 	JS_SetPropertyStr(ctx, Type_obj, "TYPE_MAX", JS_NewInt64(ctx, 10));
-	JS_SetPropertyStr(ctx, proto, "Type", Type_obj);
+	JS_SetPropertyStr(ctx, ctor, "Type", Type_obj);
 	JSValue VaryingMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, VaryingMode_obj, "VARYING_MODE_VERTEX_TO_FRAG_LIGHT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, VaryingMode_obj, "VARYING_MODE_FRAG_TO_LIGHT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, VaryingMode_obj, "VARYING_MODE_MAX", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "VaryingMode", VaryingMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "VaryingMode", VaryingMode_obj);
 	JSValue VaryingType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, VaryingType_obj, "VARYING_TYPE_FLOAT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, VaryingType_obj, "VARYING_TYPE_INT", JS_NewInt64(ctx, 1));
@@ -230,7 +230,7 @@ static void define_visual_shader_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, VaryingType_obj, "VARYING_TYPE_BOOLEAN", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, VaryingType_obj, "VARYING_TYPE_TRANSFORM", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, VaryingType_obj, "VARYING_TYPE_MAX", JS_NewInt64(ctx, 8));
-	JS_SetPropertyStr(ctx, proto, "VaryingType", VaryingType_obj);
+	JS_SetPropertyStr(ctx, ctor, "VaryingType", VaryingType_obj);
 }
 
 static int js_visual_shader_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -246,9 +246,9 @@ static int js_visual_shader_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_property(ctx, proto);
-	define_visual_shader_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, visual_shader_class_proto_funcs, _countof(visual_shader_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_class_constructor, "VisualShader", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShader", ctor);
 

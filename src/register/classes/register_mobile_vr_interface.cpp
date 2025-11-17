@@ -262,7 +262,7 @@ static void define_mobile_vr_interface_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_mobile_vr_interface_enum(JSContext *ctx, JSValue proto) {
+static void define_mobile_vr_interface_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_mobile_vr_interface_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -278,9 +278,9 @@ static int js_mobile_vr_interface_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_mobile_vr_interface_property(ctx, proto);
-	define_mobile_vr_interface_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, mobile_vr_interface_class_proto_funcs, _countof(mobile_vr_interface_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, mobile_vr_interface_class_constructor, "MobileVRInterface", 0, JS_CFUNC_constructor, 0);
+	define_mobile_vr_interface_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "MobileVRInterface", ctor);
 

@@ -152,20 +152,20 @@ static void define_visual_shader_node_texture_parameter_property(JSContext *ctx,
     );
 }
 
-static void define_visual_shader_node_texture_parameter_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_texture_parameter_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TextureType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureType_obj, "TYPE_DATA", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextureType_obj, "TYPE_COLOR", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TextureType_obj, "TYPE_NORMAL_MAP", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, TextureType_obj, "TYPE_ANISOTROPY", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, TextureType_obj, "TYPE_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "TextureType", TextureType_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureType", TextureType_obj);
 	JSValue ColorDefault_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ColorDefault_obj, "COLOR_DEFAULT_WHITE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ColorDefault_obj, "COLOR_DEFAULT_BLACK", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ColorDefault_obj, "COLOR_DEFAULT_TRANSPARENT", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ColorDefault_obj, "COLOR_DEFAULT_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "ColorDefault", ColorDefault_obj);
+	JS_SetPropertyStr(ctx, ctor, "ColorDefault", ColorDefault_obj);
 	JSValue TextureFilter_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureFilter_obj, "FILTER_DEFAULT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextureFilter_obj, "FILTER_NEAREST", JS_NewInt64(ctx, 1));
@@ -175,20 +175,20 @@ static void define_visual_shader_node_texture_parameter_enum(JSContext *ctx, JSV
 	JS_SetPropertyStr(ctx, TextureFilter_obj, "FILTER_NEAREST_MIPMAP_ANISOTROPIC", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, TextureFilter_obj, "FILTER_LINEAR_MIPMAP_ANISOTROPIC", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, TextureFilter_obj, "FILTER_MAX", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "TextureFilter", TextureFilter_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureFilter", TextureFilter_obj);
 	JSValue TextureRepeat_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureRepeat_obj, "REPEAT_DEFAULT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextureRepeat_obj, "REPEAT_ENABLED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TextureRepeat_obj, "REPEAT_DISABLED", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, TextureRepeat_obj, "REPEAT_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "TextureRepeat", TextureRepeat_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureRepeat", TextureRepeat_obj);
 	JSValue TextureSource_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureSource_obj, "SOURCE_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextureSource_obj, "SOURCE_SCREEN", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TextureSource_obj, "SOURCE_DEPTH", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, TextureSource_obj, "SOURCE_NORMAL_ROUGHNESS", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, TextureSource_obj, "SOURCE_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "TextureSource", TextureSource_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureSource", TextureSource_obj);
 }
 
 static int js_visual_shader_node_texture_parameter_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -204,9 +204,9 @@ static int js_visual_shader_node_texture_parameter_class_init(JSContext *ctx, JS
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_texture_parameter_property(ctx, proto);
-	define_visual_shader_node_texture_parameter_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, visual_shader_node_texture_parameter_class_proto_funcs, _countof(visual_shader_node_texture_parameter_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_texture_parameter_class_constructor, "VisualShaderNodeTextureParameter", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_texture_parameter_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeTextureParameter", ctor);
 

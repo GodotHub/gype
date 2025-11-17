@@ -426,24 +426,24 @@ static void define_open_xr_composition_layer_property(JSContext *ctx, JSValue pr
     );
 }
 
-static void define_open_xr_composition_layer_enum(JSContext *ctx, JSValue proto) {
+static void define_open_xr_composition_layer_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Filter_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Filter_obj, "FILTER_NEAREST", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Filter_obj, "FILTER_LINEAR", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Filter_obj, "FILTER_CUBIC", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "Filter", Filter_obj);
+	JS_SetPropertyStr(ctx, ctor, "Filter", Filter_obj);
 	JSValue MipmapMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, MipmapMode_obj, "MIPMAP_MODE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, MipmapMode_obj, "MIPMAP_MODE_NEAREST", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, MipmapMode_obj, "MIPMAP_MODE_LINEAR", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "MipmapMode", MipmapMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "MipmapMode", MipmapMode_obj);
 	JSValue Wrap_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Wrap_obj, "WRAP_CLAMP_TO_BORDER", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Wrap_obj, "WRAP_CLAMP_TO_EDGE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Wrap_obj, "WRAP_REPEAT", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, Wrap_obj, "WRAP_MIRRORED_REPEAT", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, Wrap_obj, "WRAP_MIRROR_CLAMP_TO_EDGE", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "Wrap", Wrap_obj);
+	JS_SetPropertyStr(ctx, ctor, "Wrap", Wrap_obj);
 	JSValue Swizzle_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Swizzle_obj, "SWIZZLE_RED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Swizzle_obj, "SWIZZLE_GREEN", JS_NewInt64(ctx, 1));
@@ -451,7 +451,7 @@ static void define_open_xr_composition_layer_enum(JSContext *ctx, JSValue proto)
 	JS_SetPropertyStr(ctx, Swizzle_obj, "SWIZZLE_ALPHA", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, Swizzle_obj, "SWIZZLE_ZERO", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, Swizzle_obj, "SWIZZLE_ONE", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "Swizzle", Swizzle_obj);
+	JS_SetPropertyStr(ctx, ctor, "Swizzle", Swizzle_obj);
 }
 
 static int js_open_xr_composition_layer_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -467,9 +467,9 @@ static int js_open_xr_composition_layer_class_init(JSContext *ctx, JSModuleDef *
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_open_xr_composition_layer_property(ctx, proto);
-	define_open_xr_composition_layer_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, open_xr_composition_layer_class_proto_funcs, _countof(open_xr_composition_layer_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, open_xr_composition_layer_class_constructor, "OpenXRCompositionLayer", 0, JS_CFUNC_constructor, 0);
+	define_open_xr_composition_layer_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "OpenXRCompositionLayer", ctor);
 

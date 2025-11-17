@@ -4,14 +4,14 @@ declare global {
         constructor(_from: Vector2i): Vector2i;
         constructor(_from: Vector2): Vector2i;
         constructor(x: number, y: number): Vector2i;
-        readonly ZERO: Vector2i;
-        readonly ONE: Vector2i;
-        readonly MIN: Vector2i;
-        readonly MAX: Vector2i;
-        readonly LEFT: Vector2i;
-        readonly RIGHT: Vector2i;
-        readonly UP: Vector2i;
-        readonly DOWN: Vector2i;
+        readonly static ZERO: Vector2i;
+        readonly static ONE: Vector2i;
+        readonly static MIN: Vector2i;
+        readonly static MAX: Vector2i;
+        readonly static LEFT: Vector2i;
+        readonly static RIGHT: Vector2i;
+        readonly static UP: Vector2i;
+        readonly static DOWN: Vector2i;
     
         x: number;
         y: number;

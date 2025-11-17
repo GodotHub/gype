@@ -5,10 +5,10 @@ declare global {
         constructor(_from: Quaternion): Basis;
         constructor(axis: Vector3, angle: number): Basis;
         constructor(xAxis: Vector3, yAxis: Vector3, zAxis: Vector3): Basis;
-        readonly IDENTITY: Basis;
-        readonly FLIP_X: Basis;
-        readonly FLIP_Y: Basis;
-        readonly FLIP_Z: Basis;
+        readonly static IDENTITY: Basis;
+        readonly static FLIP_X: Basis;
+        readonly static FLIP_Y: Basis;
+        readonly static FLIP_Z: Basis;
     
         x: Vector3;
         y: Vector3;

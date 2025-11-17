@@ -118,7 +118,6 @@ static JSValue rect2_class_abs(JSContext *ctx, JSValueConst this_val, int argc, 
 static JSValue rect2_class_get_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Rect2 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]))->get();
 	return VariantAdapter(val.position);
-	
 }
 static JSValue rect2_class_set_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]));
@@ -130,7 +129,6 @@ static JSValue rect2_class_set_position(JSContext *ctx, JSValueConst this_val, i
 static JSValue rect2_class_get_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Rect2 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]))->get();
 	return VariantAdapter(val.size);
-	
 }
 static JSValue rect2_class_set_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]));
@@ -142,7 +140,6 @@ static JSValue rect2_class_set_size(JSContext *ctx, JSValueConst this_val, int a
 static JSValue rect2_class_get_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Rect2 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]))->get();
 	return VariantAdapter(val.get_end());
-	
 }
 static JSValue rect2_class_set_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2"]));
@@ -151,6 +148,8 @@ static JSValue rect2_class_set_end(JSContext *ctx, JSValueConst this_val, int ar
     adapter->set(val);
 	return JS_UNDEFINED;
 }
+
+
 
 static const JSCFunctionListEntry rect2_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_center", 0, &rect2_class_get_center),
@@ -170,6 +169,7 @@ static const JSCFunctionListEntry rect2_class_proto_funcs[] = {
 	JS_CFUNC_DEF("grow_individual", 4, &rect2_class_grow_individual),
 	JS_CFUNC_DEF("abs", 0, &rect2_class_abs),
 };
+
 
 static void define_rect2_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
@@ -195,6 +195,7 @@ static void define_rect2_property(JSContext *ctx, JSValue obj) {
 			JS_PROP_GETSET);
 }
 
+
 static int js_rect2_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["Rect2"] = JS_NewClassID(js_runtime(), &class_id);
@@ -203,13 +204,16 @@ static int js_rect2_class_init(JSContext *ctx) {
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &rect2_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	define_rect2_property(ctx, proto);	JS_SetPropertyFunctionList(ctx, proto, rect2_class_proto_funcs, _countof(rect2_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);	define_rect2_property(ctx, proto);
+	JS_SetPropertyFunctionList(ctx, proto, rect2_class_proto_funcs, _countof(rect2_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, rect2_class_constructor, "Rect2", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Rect2", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -512,6 +516,7 @@ static int js_rect2_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Rect2Proxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

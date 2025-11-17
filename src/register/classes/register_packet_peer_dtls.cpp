@@ -84,14 +84,14 @@ static const JSCFunctionListEntry packet_peer_dtls_class_proto_funcs[] = {
 static void define_packet_peer_dtls_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_packet_peer_dtls_enum(JSContext *ctx, JSValue proto) {
+static void define_packet_peer_dtls_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Status_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Status_obj, "STATUS_DISCONNECTED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Status_obj, "STATUS_HANDSHAKING", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Status_obj, "STATUS_CONNECTED", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, Status_obj, "STATUS_ERROR", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, Status_obj, "STATUS_ERROR_HOSTNAME_MISMATCH", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "Status", Status_obj);
+	JS_SetPropertyStr(ctx, ctor, "Status", Status_obj);
 }
 
 static int js_packet_peer_dtls_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -107,9 +107,9 @@ static int js_packet_peer_dtls_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_packet_peer_dtls_property(ctx, proto);
-	define_packet_peer_dtls_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, packet_peer_dtls_class_proto_funcs, _countof(packet_peer_dtls_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, packet_peer_dtls_class_constructor, "PacketPeerDTLS", 0, JS_CFUNC_constructor, 0);
+	define_packet_peer_dtls_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "PacketPeerDTLS", ctor);
 

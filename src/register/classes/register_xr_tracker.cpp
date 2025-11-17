@@ -156,7 +156,7 @@ static void define_xr_tracker_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_xr_tracker_enum(JSContext *ctx, JSValue proto) {
+static void define_xr_tracker_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_xr_tracker_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -172,9 +172,9 @@ static int js_xr_tracker_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_xr_tracker_property(ctx, proto);
-	define_xr_tracker_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, xr_tracker_class_proto_funcs, _countof(xr_tracker_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, xr_tracker_class_constructor, "XRTracker", 0, JS_CFUNC_constructor, 0);
+	define_xr_tracker_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "XRTracker", ctor);
 

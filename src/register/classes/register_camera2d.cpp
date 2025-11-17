@@ -588,15 +588,15 @@ static void define_camera2d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_camera2d_enum(JSContext *ctx, JSValue proto) {
+static void define_camera2d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue AnchorMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AnchorMode_obj, "ANCHOR_MODE_FIXED_TOP_LEFT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AnchorMode_obj, "ANCHOR_MODE_DRAG_CENTER", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "AnchorMode", AnchorMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "AnchorMode", AnchorMode_obj);
 	JSValue Camera2DProcessCallback_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Camera2DProcessCallback_obj, "CAMERA2D_PROCESS_PHYSICS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Camera2DProcessCallback_obj, "CAMERA2D_PROCESS_IDLE", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "Camera2DProcessCallback", Camera2DProcessCallback_obj);
+	JS_SetPropertyStr(ctx, ctor, "Camera2DProcessCallback", Camera2DProcessCallback_obj);
 }
 
 static int js_camera2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -612,9 +612,9 @@ static int js_camera2d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_camera2d_property(ctx, proto);
-	define_camera2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, camera2d_class_proto_funcs, _countof(camera2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, camera2d_class_constructor, "Camera2D", 0, JS_CFUNC_constructor, 0);
+	define_camera2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Camera2D", ctor);
 

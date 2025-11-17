@@ -33,7 +33,7 @@ export declare class SceneMultiplayer extends MultiplayerAPI {
     public get_authenticating_peers(): PackedInt32Array;
     public send_auth(id: number, data: PackedByteArray): number;
     public complete_auth(id: number): number;
-    public set_auth_callback(callback: Callable): void;
+    public set_auth_callback(callback: Callable | Function): void;
     public get_auth_callback(): Callable;
     public set_auth_timeout(timeout: number): void;
     public get_auth_timeout(): number;

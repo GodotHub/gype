@@ -290,7 +290,7 @@ static void define_upnp_device_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_upnp_device_enum(JSContext *ctx, JSValue proto) {
+static void define_upnp_device_enum(JSContext *ctx, JSValue ctor) {
 	JSValue IGDStatus_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, IGDStatus_obj, "IGD_STATUS_OK", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, IGDStatus_obj, "IGD_STATUS_HTTP_ERROR", JS_NewInt64(ctx, 1));
@@ -302,7 +302,7 @@ static void define_upnp_device_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, IGDStatus_obj, "IGD_STATUS_INVALID_CONTROL", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, IGDStatus_obj, "IGD_STATUS_MALLOC_ERROR", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, IGDStatus_obj, "IGD_STATUS_UNKNOWN_ERROR", JS_NewInt64(ctx, 9));
-	JS_SetPropertyStr(ctx, proto, "IGDStatus", IGDStatus_obj);
+	JS_SetPropertyStr(ctx, ctor, "IGDStatus", IGDStatus_obj);
 }
 
 static int js_upnp_device_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -318,9 +318,9 @@ static int js_upnp_device_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_upnp_device_property(ctx, proto);
-	define_upnp_device_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, upnp_device_class_proto_funcs, _countof(upnp_device_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, upnp_device_class_constructor, "UPNPDevice", 0, JS_CFUNC_constructor, 0);
+	define_upnp_device_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "UPNPDevice", ctor);
 

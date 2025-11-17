@@ -71,7 +71,7 @@ static const JSCFunctionListEntry resource_importer_ogg_vorbis_class_static_func
 static void define_resource_importer_ogg_vorbis_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_resource_importer_ogg_vorbis_enum(JSContext *ctx, JSValue proto) {
+static void define_resource_importer_ogg_vorbis_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_resource_importer_ogg_vorbis_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -87,9 +87,9 @@ static int js_resource_importer_ogg_vorbis_class_init(JSContext *ctx, JSModuleDe
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_resource_importer_ogg_vorbis_property(ctx, proto);
-	define_resource_importer_ogg_vorbis_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, resource_importer_ogg_vorbis_class_constructor, "ResourceImporterOggVorbis", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, resource_importer_ogg_vorbis_class_static_funcs, _countof(resource_importer_ogg_vorbis_class_static_funcs));
+	define_resource_importer_ogg_vorbis_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ResourceImporterOggVorbis", ctor);
 

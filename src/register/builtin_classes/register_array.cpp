@@ -268,6 +268,8 @@ static JSValue array_class_is_read_only(JSContext *ctx, JSValueConst this_val, i
 }
 
 
+
+
 static const JSCFunctionListEntry array_class_proto_funcs[] = {
 	JS_CFUNC_DEF("size", 0, &array_class_size),
 	JS_CFUNC_DEF("is_empty", 0, &array_class_is_empty),
@@ -323,6 +325,8 @@ static const JSCFunctionListEntry array_class_proto_funcs[] = {
 };
 
 
+
+
 static int js_array_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["Array"] = JS_NewClassID(js_runtime(), &class_id);
@@ -332,12 +336,14 @@ static int js_array_class_init(JSContext *ctx) {
 
 	JSValue proto = JS_NewObject(ctx);
 	JS_SetClassProto(ctx, class_id, proto);	JS_SetPropertyFunctionList(ctx, proto, array_class_proto_funcs, _countof(array_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, array_class_constructor, "Array", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Array", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -846,6 +852,7 @@ static int js_array_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "ArrayProxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

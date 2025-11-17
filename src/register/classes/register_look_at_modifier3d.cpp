@@ -699,12 +699,12 @@ static void define_look_at_modifier3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_look_at_modifier3d_enum(JSContext *ctx, JSValue proto) {
+static void define_look_at_modifier3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue OriginFrom_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, OriginFrom_obj, "ORIGIN_FROM_SELF", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, OriginFrom_obj, "ORIGIN_FROM_SPECIFIC_BONE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, OriginFrom_obj, "ORIGIN_FROM_EXTERNAL_NODE", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "OriginFrom", OriginFrom_obj);
+	JS_SetPropertyStr(ctx, ctor, "OriginFrom", OriginFrom_obj);
 }
 
 static int js_look_at_modifier3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -720,9 +720,9 @@ static int js_look_at_modifier3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_look_at_modifier3d_property(ctx, proto);
-	define_look_at_modifier3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, look_at_modifier3d_class_proto_funcs, _countof(look_at_modifier3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, look_at_modifier3d_class_constructor, "LookAtModifier3D", 0, JS_CFUNC_constructor, 0);
+	define_look_at_modifier3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "LookAtModifier3D", ctor);
 

@@ -116,17 +116,17 @@ static void define_directional_light3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_directional_light3d_enum(JSContext *ctx, JSValue proto) {
+static void define_directional_light3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ShadowMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ShadowMode_obj, "SHADOW_ORTHOGONAL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ShadowMode_obj, "SHADOW_PARALLEL_2_SPLITS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ShadowMode_obj, "SHADOW_PARALLEL_4_SPLITS", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "ShadowMode", ShadowMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "ShadowMode", ShadowMode_obj);
 	JSValue SkyMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SkyMode_obj, "SKY_MODE_LIGHT_AND_SKY", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SkyMode_obj, "SKY_MODE_LIGHT_ONLY", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, SkyMode_obj, "SKY_MODE_SKY_ONLY", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "SkyMode", SkyMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "SkyMode", SkyMode_obj);
 }
 
 static int js_directional_light3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -142,9 +142,9 @@ static int js_directional_light3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_directional_light3d_property(ctx, proto);
-	define_directional_light3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, directional_light3d_class_proto_funcs, _countof(directional_light3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, directional_light3d_class_constructor, "DirectionalLight3D", 0, JS_CFUNC_constructor, 0);
+	define_directional_light3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "DirectionalLight3D", ctor);
 

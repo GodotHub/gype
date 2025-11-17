@@ -136,17 +136,17 @@ static void define_xr_body_modifier3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_xr_body_modifier3d_enum(JSContext *ctx, JSValue proto) {
+static void define_xr_body_modifier3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue BodyUpdate_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BodyUpdate_obj, "BODY_UPDATE_UPPER_BODY", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, BodyUpdate_obj, "BODY_UPDATE_LOWER_BODY", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, BodyUpdate_obj, "BODY_UPDATE_HANDS", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "BodyUpdate", BodyUpdate_obj);
+	JS_SetPropertyStr(ctx, ctor, "BodyUpdate", BodyUpdate_obj);
 	JSValue BoneUpdate_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BoneUpdate_obj, "BONE_UPDATE_FULL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BoneUpdate_obj, "BONE_UPDATE_ROTATION_ONLY", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, BoneUpdate_obj, "BONE_UPDATE_MAX", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "BoneUpdate", BoneUpdate_obj);
+	JS_SetPropertyStr(ctx, ctor, "BoneUpdate", BoneUpdate_obj);
 }
 
 static int js_xr_body_modifier3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -162,9 +162,9 @@ static int js_xr_body_modifier3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_xr_body_modifier3d_property(ctx, proto);
-	define_xr_body_modifier3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, xr_body_modifier3d_class_proto_funcs, _countof(xr_body_modifier3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, xr_body_modifier3d_class_constructor, "XRBodyModifier3D", 0, JS_CFUNC_constructor, 0);
+	define_xr_body_modifier3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "XRBodyModifier3D", ctor);
 

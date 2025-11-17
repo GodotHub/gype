@@ -1647,7 +1647,7 @@ static void define_particle_process_material_property(JSContext *ctx, JSValue pr
 		JS_PROP_GETSET);
 }
 
-static void define_particle_process_material_enum(JSContext *ctx, JSValue proto) {
+static void define_particle_process_material_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Parameter_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Parameter_obj, "PARAM_INITIAL_LINEAR_VELOCITY", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Parameter_obj, "PARAM_ANGULAR_VELOCITY", JS_NewInt64(ctx, 1));
@@ -1668,14 +1668,14 @@ static void define_particle_process_material_enum(JSContext *ctx, JSValue proto)
 	JS_SetPropertyStr(ctx, Parameter_obj, "PARAM_TURB_VEL_INFLUENCE", JS_NewInt64(ctx, 13));
 	JS_SetPropertyStr(ctx, Parameter_obj, "PARAM_TURB_INIT_DISPLACEMENT", JS_NewInt64(ctx, 14));
 	JS_SetPropertyStr(ctx, Parameter_obj, "PARAM_TURB_INFLUENCE_OVER_LIFE", JS_NewInt64(ctx, 12));
-	JS_SetPropertyStr(ctx, proto, "Parameter", Parameter_obj);
+	JS_SetPropertyStr(ctx, ctor, "Parameter", Parameter_obj);
 	JSValue ParticleFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ParticleFlags_obj, "PARTICLE_FLAG_ALIGN_Y_TO_VELOCITY", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ParticleFlags_obj, "PARTICLE_FLAG_ROTATE_Y", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ParticleFlags_obj, "PARTICLE_FLAG_DISABLE_Z", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ParticleFlags_obj, "PARTICLE_FLAG_DAMPING_AS_FRICTION", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, ParticleFlags_obj, "PARTICLE_FLAG_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "ParticleFlags", ParticleFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "ParticleFlags", ParticleFlags_obj);
 	JSValue EmissionShape_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, EmissionShape_obj, "EMISSION_SHAPE_POINT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, EmissionShape_obj, "EMISSION_SHAPE_SPHERE", JS_NewInt64(ctx, 1));
@@ -1685,7 +1685,7 @@ static void define_particle_process_material_enum(JSContext *ctx, JSValue proto)
 	JS_SetPropertyStr(ctx, EmissionShape_obj, "EMISSION_SHAPE_DIRECTED_POINTS", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, EmissionShape_obj, "EMISSION_SHAPE_RING", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, EmissionShape_obj, "EMISSION_SHAPE_MAX", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "EmissionShape", EmissionShape_obj);
+	JS_SetPropertyStr(ctx, ctor, "EmissionShape", EmissionShape_obj);
 	JSValue SubEmitterMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SubEmitterMode_obj, "SUB_EMITTER_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SubEmitterMode_obj, "SUB_EMITTER_CONSTANT", JS_NewInt64(ctx, 1));
@@ -1693,13 +1693,13 @@ static void define_particle_process_material_enum(JSContext *ctx, JSValue proto)
 	JS_SetPropertyStr(ctx, SubEmitterMode_obj, "SUB_EMITTER_AT_COLLISION", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, SubEmitterMode_obj, "SUB_EMITTER_AT_START", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, SubEmitterMode_obj, "SUB_EMITTER_MAX", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "SubEmitterMode", SubEmitterMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "SubEmitterMode", SubEmitterMode_obj);
 	JSValue CollisionMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CollisionMode_obj, "COLLISION_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CollisionMode_obj, "COLLISION_RIGID", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, CollisionMode_obj, "COLLISION_HIDE_ON_CONTACT", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, CollisionMode_obj, "COLLISION_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "CollisionMode", CollisionMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "CollisionMode", CollisionMode_obj);
 }
 
 static int js_particle_process_material_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -1715,9 +1715,9 @@ static int js_particle_process_material_class_init(JSContext *ctx, JSModuleDef *
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_particle_process_material_property(ctx, proto);
-	define_particle_process_material_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, particle_process_material_class_proto_funcs, _countof(particle_process_material_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, particle_process_material_class_constructor, "ParticleProcessMaterial", 0, JS_CFUNC_constructor, 0);
+	define_particle_process_material_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ParticleProcessMaterial", ctor);
 

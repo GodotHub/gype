@@ -119,7 +119,7 @@ static void define_concave_polygon_shape3d_property(JSContext *ctx, JSValue prot
     );
 }
 
-static void define_concave_polygon_shape3d_enum(JSContext *ctx, JSValue proto) {
+static void define_concave_polygon_shape3d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_concave_polygon_shape3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -135,9 +135,9 @@ static int js_concave_polygon_shape3d_class_init(JSContext *ctx, JSModuleDef *m)
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_concave_polygon_shape3d_property(ctx, proto);
-	define_concave_polygon_shape3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, concave_polygon_shape3d_class_proto_funcs, _countof(concave_polygon_shape3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, concave_polygon_shape3d_class_constructor, "ConcavePolygonShape3D", 0, JS_CFUNC_constructor, 0);
+	define_concave_polygon_shape3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ConcavePolygonShape3D", ctor);
 

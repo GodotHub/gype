@@ -304,12 +304,12 @@ static void define_split_container_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_split_container_enum(JSContext *ctx, JSValue proto) {
+static void define_split_container_enum(JSContext *ctx, JSValue ctor) {
 	JSValue DraggerVisibility_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DraggerVisibility_obj, "DRAGGER_VISIBLE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DraggerVisibility_obj, "DRAGGER_HIDDEN", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DraggerVisibility_obj, "DRAGGER_HIDDEN_COLLAPSED", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "DraggerVisibility", DraggerVisibility_obj);
+	JS_SetPropertyStr(ctx, ctor, "DraggerVisibility", DraggerVisibility_obj);
 }
 
 static int js_split_container_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -325,9 +325,9 @@ static int js_split_container_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_split_container_property(ctx, proto);
-	define_split_container_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, split_container_class_proto_funcs, _countof(split_container_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, split_container_class_constructor, "SplitContainer", 0, JS_CFUNC_constructor, 0);
+	define_split_container_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SplitContainer", ctor);
 

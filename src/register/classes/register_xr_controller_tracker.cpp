@@ -60,7 +60,7 @@ static JSValue xr_controller_tracker_class_constructor(JSContext *ctx, JSValueCo
 static void define_xr_controller_tracker_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_xr_controller_tracker_enum(JSContext *ctx, JSValue proto) {
+static void define_xr_controller_tracker_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_xr_controller_tracker_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_xr_controller_tracker_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_xr_controller_tracker_property(ctx, proto);
-	define_xr_controller_tracker_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, xr_controller_tracker_class_constructor, "XRControllerTracker", 0, JS_CFUNC_constructor, 0);
+	define_xr_controller_tracker_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "XRControllerTracker", ctor);
 

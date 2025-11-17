@@ -244,7 +244,7 @@ static void define_texture_button_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_texture_button_enum(JSContext *ctx, JSValue proto) {
+static void define_texture_button_enum(JSContext *ctx, JSValue ctor) {
 	JSValue StretchMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, StretchMode_obj, "STRETCH_SCALE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, StretchMode_obj, "STRETCH_TILE", JS_NewInt64(ctx, 1));
@@ -253,7 +253,7 @@ static void define_texture_button_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, StretchMode_obj, "STRETCH_KEEP_ASPECT", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, StretchMode_obj, "STRETCH_KEEP_ASPECT_CENTERED", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, StretchMode_obj, "STRETCH_KEEP_ASPECT_COVERED", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "StretchMode", StretchMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "StretchMode", StretchMode_obj);
 }
 
 static int js_texture_button_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -269,9 +269,9 @@ static int js_texture_button_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_texture_button_property(ctx, proto);
-	define_texture_button_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, texture_button_class_proto_funcs, _countof(texture_button_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, texture_button_class_constructor, "TextureButton", 0, JS_CFUNC_constructor, 0);
+	define_texture_button_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TextureButton", ctor);
 

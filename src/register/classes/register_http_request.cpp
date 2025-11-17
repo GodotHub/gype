@@ -271,7 +271,7 @@ static void define_http_request_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_http_request_enum(JSContext *ctx, JSValue proto) {
+static void define_http_request_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Result_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Result_obj, "RESULT_SUCCESS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Result_obj, "RESULT_CHUNKED_BODY_SIZE_MISMATCH", JS_NewInt64(ctx, 1));
@@ -287,7 +287,7 @@ static void define_http_request_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Result_obj, "RESULT_DOWNLOAD_FILE_WRITE_ERROR", JS_NewInt64(ctx, 11));
 	JS_SetPropertyStr(ctx, Result_obj, "RESULT_REDIRECT_LIMIT_REACHED", JS_NewInt64(ctx, 12));
 	JS_SetPropertyStr(ctx, Result_obj, "RESULT_TIMEOUT", JS_NewInt64(ctx, 13));
-	JS_SetPropertyStr(ctx, proto, "Result", Result_obj);
+	JS_SetPropertyStr(ctx, ctor, "Result", Result_obj);
 }
 
 static int js_http_request_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -303,9 +303,9 @@ static int js_http_request_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_http_request_property(ctx, proto);
-	define_http_request_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, http_request_class_proto_funcs, _countof(http_request_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, http_request_class_constructor, "HTTPRequest", 0, JS_CFUNC_constructor, 0);
+	define_http_request_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "HTTPRequest", ctor);
 

@@ -1228,12 +1228,12 @@ static const JSCFunctionListEntry text_server_class_proto_funcs[] = {
 static void define_text_server_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_text_server_enum(JSContext *ctx, JSValue proto) {
+static void define_text_server_enum(JSContext *ctx, JSValue ctor) {
 	JSValue FontAntialiasing_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FontAntialiasing_obj, "FONT_ANTIALIASING_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FontAntialiasing_obj, "FONT_ANTIALIASING_GRAY", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, FontAntialiasing_obj, "FONT_ANTIALIASING_LCD", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "FontAntialiasing", FontAntialiasing_obj);
+	JS_SetPropertyStr(ctx, ctor, "FontAntialiasing", FontAntialiasing_obj);
 	JSValue FontLCDSubpixelLayout_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FontLCDSubpixelLayout_obj, "FONT_LCD_SUBPIXEL_LAYOUT_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FontLCDSubpixelLayout_obj, "FONT_LCD_SUBPIXEL_LAYOUT_HRGB", JS_NewInt64(ctx, 1));
@@ -1241,17 +1241,17 @@ static void define_text_server_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, FontLCDSubpixelLayout_obj, "FONT_LCD_SUBPIXEL_LAYOUT_VRGB", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, FontLCDSubpixelLayout_obj, "FONT_LCD_SUBPIXEL_LAYOUT_VBGR", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, FontLCDSubpixelLayout_obj, "FONT_LCD_SUBPIXEL_LAYOUT_MAX", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "FontLCDSubpixelLayout", FontLCDSubpixelLayout_obj);
+	JS_SetPropertyStr(ctx, ctor, "FontLCDSubpixelLayout", FontLCDSubpixelLayout_obj);
 	JSValue Direction_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Direction_obj, "DIRECTION_AUTO", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Direction_obj, "DIRECTION_LTR", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Direction_obj, "DIRECTION_RTL", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, Direction_obj, "DIRECTION_INHERITED", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "Direction", Direction_obj);
+	JS_SetPropertyStr(ctx, ctor, "Direction", Direction_obj);
 	JSValue Orientation_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Orientation_obj, "ORIENTATION_HORIZONTAL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Orientation_obj, "ORIENTATION_VERTICAL", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "Orientation", Orientation_obj);
+	JS_SetPropertyStr(ctx, ctor, "Orientation", Orientation_obj);
 	JSValue JustificationFlag_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, JustificationFlag_obj, "JUSTIFICATION_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, JustificationFlag_obj, "JUSTIFICATION_KASHIDA", JS_NewInt64(ctx, 1));
@@ -1262,13 +1262,13 @@ static void define_text_server_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, JustificationFlag_obj, "JUSTIFICATION_SKIP_LAST_LINE", JS_NewInt64(ctx, 32));
 	JS_SetPropertyStr(ctx, JustificationFlag_obj, "JUSTIFICATION_SKIP_LAST_LINE_WITH_VISIBLE_CHARS", JS_NewInt64(ctx, 64));
 	JS_SetPropertyStr(ctx, JustificationFlag_obj, "JUSTIFICATION_DO_NOT_SKIP_SINGLE_LINE", JS_NewInt64(ctx, 128));
-	JS_SetPropertyStr(ctx, proto, "JustificationFlag", JustificationFlag_obj);
+	JS_SetPropertyStr(ctx, ctor, "JustificationFlag", JustificationFlag_obj);
 	JSValue AutowrapMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AutowrapMode_obj, "AUTOWRAP_OFF", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AutowrapMode_obj, "AUTOWRAP_ARBITRARY", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AutowrapMode_obj, "AUTOWRAP_WORD", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, AutowrapMode_obj, "AUTOWRAP_WORD_SMART", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "AutowrapMode", AutowrapMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "AutowrapMode", AutowrapMode_obj);
 	JSValue LineBreakFlag_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LineBreakFlag_obj, "BREAK_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LineBreakFlag_obj, "BREAK_MANDATORY", JS_NewInt64(ctx, 1));
@@ -1279,14 +1279,14 @@ static void define_text_server_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, LineBreakFlag_obj, "BREAK_TRIM_INDENT", JS_NewInt64(ctx, 32));
 	JS_SetPropertyStr(ctx, LineBreakFlag_obj, "BREAK_TRIM_START_EDGE_SPACES", JS_NewInt64(ctx, 64));
 	JS_SetPropertyStr(ctx, LineBreakFlag_obj, "BREAK_TRIM_END_EDGE_SPACES", JS_NewInt64(ctx, 128));
-	JS_SetPropertyStr(ctx, proto, "LineBreakFlag", LineBreakFlag_obj);
+	JS_SetPropertyStr(ctx, ctor, "LineBreakFlag", LineBreakFlag_obj);
 	JSValue VisibleCharactersBehavior_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, VisibleCharactersBehavior_obj, "VC_CHARS_BEFORE_SHAPING", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, VisibleCharactersBehavior_obj, "VC_CHARS_AFTER_SHAPING", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, VisibleCharactersBehavior_obj, "VC_GLYPHS_AUTO", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, VisibleCharactersBehavior_obj, "VC_GLYPHS_LTR", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, VisibleCharactersBehavior_obj, "VC_GLYPHS_RTL", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "VisibleCharactersBehavior", VisibleCharactersBehavior_obj);
+	JS_SetPropertyStr(ctx, ctor, "VisibleCharactersBehavior", VisibleCharactersBehavior_obj);
 	JSValue OverrunBehavior_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, OverrunBehavior_obj, "OVERRUN_NO_TRIMMING", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, OverrunBehavior_obj, "OVERRUN_TRIM_CHAR", JS_NewInt64(ctx, 1));
@@ -1295,7 +1295,7 @@ static void define_text_server_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, OverrunBehavior_obj, "OVERRUN_TRIM_WORD_ELLIPSIS", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, OverrunBehavior_obj, "OVERRUN_TRIM_ELLIPSIS_FORCE", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, OverrunBehavior_obj, "OVERRUN_TRIM_WORD_ELLIPSIS_FORCE", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "OverrunBehavior", OverrunBehavior_obj);
+	JS_SetPropertyStr(ctx, ctor, "OverrunBehavior", OverrunBehavior_obj);
 	JSValue TextOverrunFlag_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextOverrunFlag_obj, "OVERRUN_NO_TRIM", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextOverrunFlag_obj, "OVERRUN_TRIM", JS_NewInt64(ctx, 1));
@@ -1303,7 +1303,7 @@ static void define_text_server_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, TextOverrunFlag_obj, "OVERRUN_ADD_ELLIPSIS", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, TextOverrunFlag_obj, "OVERRUN_ENFORCE_ELLIPSIS", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, TextOverrunFlag_obj, "OVERRUN_JUSTIFICATION_AWARE", JS_NewInt64(ctx, 16));
-	JS_SetPropertyStr(ctx, proto, "TextOverrunFlag", TextOverrunFlag_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextOverrunFlag", TextOverrunFlag_obj);
 	JSValue GraphemeFlag_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, GraphemeFlag_obj, "GRAPHEME_IS_VALID", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, GraphemeFlag_obj, "GRAPHEME_IS_RTL", JS_NewInt64(ctx, 2));
@@ -1319,12 +1319,12 @@ static void define_text_server_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, GraphemeFlag_obj, "GRAPHEME_IS_SAFE_TO_INSERT_TATWEEL", JS_NewInt64(ctx, 2048));
 	JS_SetPropertyStr(ctx, GraphemeFlag_obj, "GRAPHEME_IS_EMBEDDED_OBJECT", JS_NewInt64(ctx, 4096));
 	JS_SetPropertyStr(ctx, GraphemeFlag_obj, "GRAPHEME_IS_SOFT_HYPHEN", JS_NewInt64(ctx, 8192));
-	JS_SetPropertyStr(ctx, proto, "GraphemeFlag", GraphemeFlag_obj);
+	JS_SetPropertyStr(ctx, ctor, "GraphemeFlag", GraphemeFlag_obj);
 	JSValue Hinting_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Hinting_obj, "HINTING_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Hinting_obj, "HINTING_LIGHT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Hinting_obj, "HINTING_NORMAL", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "Hinting", Hinting_obj);
+	JS_SetPropertyStr(ctx, ctor, "Hinting", Hinting_obj);
 	JSValue SubpixelPositioning_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SubpixelPositioning_obj, "SUBPIXEL_POSITIONING_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SubpixelPositioning_obj, "SUBPIXEL_POSITIONING_AUTO", JS_NewInt64(ctx, 1));
@@ -1332,7 +1332,7 @@ static void define_text_server_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, SubpixelPositioning_obj, "SUBPIXEL_POSITIONING_ONE_QUARTER", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, SubpixelPositioning_obj, "SUBPIXEL_POSITIONING_ONE_HALF_MAX_SIZE", JS_NewInt64(ctx, 20));
 	JS_SetPropertyStr(ctx, SubpixelPositioning_obj, "SUBPIXEL_POSITIONING_ONE_QUARTER_MAX_SIZE", JS_NewInt64(ctx, 16));
-	JS_SetPropertyStr(ctx, proto, "SubpixelPositioning", SubpixelPositioning_obj);
+	JS_SetPropertyStr(ctx, ctor, "SubpixelPositioning", SubpixelPositioning_obj);
 	JSValue Feature_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Feature_obj, "FEATURE_SIMPLE_LAYOUT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Feature_obj, "FEATURE_BIDI_LAYOUT", JS_NewInt64(ctx, 2));
@@ -1349,24 +1349,24 @@ static void define_text_server_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Feature_obj, "FEATURE_USE_SUPPORT_DATA", JS_NewInt64(ctx, 4096));
 	JS_SetPropertyStr(ctx, Feature_obj, "FEATURE_UNICODE_IDENTIFIERS", JS_NewInt64(ctx, 8192));
 	JS_SetPropertyStr(ctx, Feature_obj, "FEATURE_UNICODE_SECURITY", JS_NewInt64(ctx, 16384));
-	JS_SetPropertyStr(ctx, proto, "Feature", Feature_obj);
+	JS_SetPropertyStr(ctx, ctor, "Feature", Feature_obj);
 	JSValue ContourPointTag_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ContourPointTag_obj, "CONTOUR_CURVE_TAG_ON", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ContourPointTag_obj, "CONTOUR_CURVE_TAG_OFF_CONIC", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ContourPointTag_obj, "CONTOUR_CURVE_TAG_OFF_CUBIC", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "ContourPointTag", ContourPointTag_obj);
+	JS_SetPropertyStr(ctx, ctor, "ContourPointTag", ContourPointTag_obj);
 	JSValue SpacingType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SpacingType_obj, "SPACING_GLYPH", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SpacingType_obj, "SPACING_SPACE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, SpacingType_obj, "SPACING_TOP", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, SpacingType_obj, "SPACING_BOTTOM", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, SpacingType_obj, "SPACING_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "SpacingType", SpacingType_obj);
+	JS_SetPropertyStr(ctx, ctor, "SpacingType", SpacingType_obj);
 	JSValue FontStyle_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FontStyle_obj, "FONT_BOLD", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, FontStyle_obj, "FONT_ITALIC", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, FontStyle_obj, "FONT_FIXED_WIDTH", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "FontStyle", FontStyle_obj);
+	JS_SetPropertyStr(ctx, ctor, "FontStyle", FontStyle_obj);
 	JSValue StructuredTextParser_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, StructuredTextParser_obj, "STRUCTURED_TEXT_DEFAULT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, StructuredTextParser_obj, "STRUCTURED_TEXT_URI", JS_NewInt64(ctx, 1));
@@ -1375,12 +1375,12 @@ static void define_text_server_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, StructuredTextParser_obj, "STRUCTURED_TEXT_LIST", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, StructuredTextParser_obj, "STRUCTURED_TEXT_GDSCRIPT", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, StructuredTextParser_obj, "STRUCTURED_TEXT_CUSTOM", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "StructuredTextParser", StructuredTextParser_obj);
+	JS_SetPropertyStr(ctx, ctor, "StructuredTextParser", StructuredTextParser_obj);
 	JSValue FixedSizeScaleMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FixedSizeScaleMode_obj, "FIXED_SIZE_SCALE_DISABLE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FixedSizeScaleMode_obj, "FIXED_SIZE_SCALE_INTEGER_ONLY", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, FixedSizeScaleMode_obj, "FIXED_SIZE_SCALE_ENABLED", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "FixedSizeScaleMode", FixedSizeScaleMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "FixedSizeScaleMode", FixedSizeScaleMode_obj);
 }
 
 static int js_text_server_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -1396,9 +1396,9 @@ static int js_text_server_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_text_server_property(ctx, proto);
-	define_text_server_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, text_server_class_proto_funcs, _countof(text_server_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, text_server_class_constructor, "TextServer", 0, JS_CFUNC_constructor, 0);
+	define_text_server_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TextServer", ctor);
 

@@ -189,7 +189,7 @@ static void define_compositor_effect_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_compositor_effect_enum(JSContext *ctx, JSValue proto) {
+static void define_compositor_effect_enum(JSContext *ctx, JSValue ctor) {
 	JSValue EffectCallbackType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, EffectCallbackType_obj, "EFFECT_CALLBACK_TYPE_PRE_OPAQUE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, EffectCallbackType_obj, "EFFECT_CALLBACK_TYPE_POST_OPAQUE", JS_NewInt64(ctx, 1));
@@ -197,7 +197,7 @@ static void define_compositor_effect_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, EffectCallbackType_obj, "EFFECT_CALLBACK_TYPE_PRE_TRANSPARENT", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, EffectCallbackType_obj, "EFFECT_CALLBACK_TYPE_POST_TRANSPARENT", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, EffectCallbackType_obj, "EFFECT_CALLBACK_TYPE_MAX", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "EffectCallbackType", EffectCallbackType_obj);
+	JS_SetPropertyStr(ctx, ctor, "EffectCallbackType", EffectCallbackType_obj);
 }
 
 static int js_compositor_effect_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -213,9 +213,9 @@ static int js_compositor_effect_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_compositor_effect_property(ctx, proto);
-	define_compositor_effect_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, compositor_effect_class_proto_funcs, _countof(compositor_effect_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, compositor_effect_class_constructor, "CompositorEffect", 0, JS_CFUNC_constructor, 0);
+	define_compositor_effect_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CompositorEffect", ctor);
 

@@ -60,7 +60,7 @@ static JSValue texture_class_constructor(JSContext *ctx, JSValueConst new_target
 static void define_texture_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_texture_enum(JSContext *ctx, JSValue proto) {
+static void define_texture_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_texture_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_texture_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_texture_property(ctx, proto);
-	define_texture_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, texture_class_constructor, "Texture", 0, JS_CFUNC_constructor, 0);
+	define_texture_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Texture", ctor);
 

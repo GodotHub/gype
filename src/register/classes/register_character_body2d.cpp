@@ -463,16 +463,16 @@ static void define_character_body2d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_character_body2d_enum(JSContext *ctx, JSValue proto) {
+static void define_character_body2d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue MotionMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, MotionMode_obj, "MOTION_MODE_GROUNDED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, MotionMode_obj, "MOTION_MODE_FLOATING", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "MotionMode", MotionMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "MotionMode", MotionMode_obj);
 	JSValue PlatformOnLeave_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PlatformOnLeave_obj, "PLATFORM_ON_LEAVE_ADD_VELOCITY", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PlatformOnLeave_obj, "PLATFORM_ON_LEAVE_ADD_UPWARD_VELOCITY", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, PlatformOnLeave_obj, "PLATFORM_ON_LEAVE_DO_NOTHING", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "PlatformOnLeave", PlatformOnLeave_obj);
+	JS_SetPropertyStr(ctx, ctor, "PlatformOnLeave", PlatformOnLeave_obj);
 }
 
 static int js_character_body2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -488,9 +488,9 @@ static int js_character_body2d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_character_body2d_property(ctx, proto);
-	define_character_body2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, character_body2d_class_proto_funcs, _countof(character_body2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, character_body2d_class_constructor, "CharacterBody2D", 0, JS_CFUNC_constructor, 0);
+	define_character_body2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CharacterBody2D", ctor);
 

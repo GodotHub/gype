@@ -31,6 +31,7 @@ export function GodotSignal(...args) {
     const decoratorLogic = (context, signalArgs) => {
         const propertyKey = context.name;
         context.addInitializer(function () {
+            // const godotArgs = signalArgs.flatMap(arg => [arg.name, arg.type]);
             this.add_user_signal(propertyKey, signalArgs);
             const signalValue = new Signal(this, propertyKey);
             Object.defineProperty(this, propertyKey, {

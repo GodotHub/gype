@@ -169,12 +169,12 @@ static void define_audio_stream_randomizer_property(JSContext *ctx, JSValue prot
     );
 }
 
-static void define_audio_stream_randomizer_enum(JSContext *ctx, JSValue proto) {
+static void define_audio_stream_randomizer_enum(JSContext *ctx, JSValue ctor) {
 	JSValue PlaybackMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PlaybackMode_obj, "PLAYBACK_RANDOM_NO_REPEATS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PlaybackMode_obj, "PLAYBACK_RANDOM", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, PlaybackMode_obj, "PLAYBACK_SEQUENTIAL", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "PlaybackMode", PlaybackMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "PlaybackMode", PlaybackMode_obj);
 }
 
 static int js_audio_stream_randomizer_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -190,9 +190,9 @@ static int js_audio_stream_randomizer_class_init(JSContext *ctx, JSModuleDef *m)
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_audio_stream_randomizer_property(ctx, proto);
-	define_audio_stream_randomizer_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, audio_stream_randomizer_class_proto_funcs, _countof(audio_stream_randomizer_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, audio_stream_randomizer_class_constructor, "AudioStreamRandomizer", 0, JS_CFUNC_constructor, 0);
+	define_audio_stream_randomizer_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioStreamRandomizer", ctor);
 

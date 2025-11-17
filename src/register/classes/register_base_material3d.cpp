@@ -2061,7 +2061,7 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_base_material3d_enum(JSContext *ctx, JSValue proto) {
+static void define_base_material3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TextureParam_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureParam_obj, "TEXTURE_ALBEDO", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextureParam_obj, "TEXTURE_METALLIC", JS_NewInt64(ctx, 1));
@@ -2083,7 +2083,7 @@ static void define_base_material3d_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, TextureParam_obj, "TEXTURE_DETAIL_NORMAL", JS_NewInt64(ctx, 16));
 	JS_SetPropertyStr(ctx, TextureParam_obj, "TEXTURE_ORM", JS_NewInt64(ctx, 17));
 	JS_SetPropertyStr(ctx, TextureParam_obj, "TEXTURE_MAX", JS_NewInt64(ctx, 19));
-	JS_SetPropertyStr(ctx, proto, "TextureParam", TextureParam_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureParam", TextureParam_obj);
 	JSValue TextureFilter_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureFilter_obj, "TEXTURE_FILTER_NEAREST", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextureFilter_obj, "TEXTURE_FILTER_LINEAR", JS_NewInt64(ctx, 1));
@@ -2092,11 +2092,11 @@ static void define_base_material3d_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, TextureFilter_obj, "TEXTURE_FILTER_NEAREST_WITH_MIPMAPS_ANISOTROPIC", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, TextureFilter_obj, "TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, TextureFilter_obj, "TEXTURE_FILTER_MAX", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "TextureFilter", TextureFilter_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureFilter", TextureFilter_obj);
 	JSValue DetailUV_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DetailUV_obj, "DETAIL_UV_1", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DetailUV_obj, "DETAIL_UV_2", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "DetailUV", DetailUV_obj);
+	JS_SetPropertyStr(ctx, ctor, "DetailUV", DetailUV_obj);
 	JSValue Transparency_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Transparency_obj, "TRANSPARENCY_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Transparency_obj, "TRANSPARENCY_ALPHA", JS_NewInt64(ctx, 1));
@@ -2104,13 +2104,13 @@ static void define_base_material3d_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Transparency_obj, "TRANSPARENCY_ALPHA_HASH", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, Transparency_obj, "TRANSPARENCY_ALPHA_DEPTH_PRE_PASS", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, Transparency_obj, "TRANSPARENCY_MAX", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "Transparency", Transparency_obj);
+	JS_SetPropertyStr(ctx, ctor, "Transparency", Transparency_obj);
 	JSValue ShadingMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ShadingMode_obj, "SHADING_MODE_UNSHADED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ShadingMode_obj, "SHADING_MODE_PER_PIXEL", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ShadingMode_obj, "SHADING_MODE_PER_VERTEX", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ShadingMode_obj, "SHADING_MODE_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "ShadingMode", ShadingMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "ShadingMode", ShadingMode_obj);
 	JSValue Feature_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Feature_obj, "FEATURE_EMISSION", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Feature_obj, "FEATURE_NORMAL_MAPPING", JS_NewInt64(ctx, 1));
@@ -2126,33 +2126,33 @@ static void define_base_material3d_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Feature_obj, "FEATURE_DETAIL", JS_NewInt64(ctx, 11));
 	JS_SetPropertyStr(ctx, Feature_obj, "FEATURE_BENT_NORMAL_MAPPING", JS_NewInt64(ctx, 12));
 	JS_SetPropertyStr(ctx, Feature_obj, "FEATURE_MAX", JS_NewInt64(ctx, 13));
-	JS_SetPropertyStr(ctx, proto, "Feature", Feature_obj);
+	JS_SetPropertyStr(ctx, ctor, "Feature", Feature_obj);
 	JSValue BlendMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_MIX", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_ADD", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_SUB", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_MUL", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_PREMULT_ALPHA", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "BlendMode", BlendMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "BlendMode", BlendMode_obj);
 	JSValue AlphaAntiAliasing_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AlphaAntiAliasing_obj, "ALPHA_ANTIALIASING_OFF", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AlphaAntiAliasing_obj, "ALPHA_ANTIALIASING_ALPHA_TO_COVERAGE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AlphaAntiAliasing_obj, "ALPHA_ANTIALIASING_ALPHA_TO_COVERAGE_AND_TO_ONE", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "AlphaAntiAliasing", AlphaAntiAliasing_obj);
+	JS_SetPropertyStr(ctx, ctor, "AlphaAntiAliasing", AlphaAntiAliasing_obj);
 	JSValue DepthDrawMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DepthDrawMode_obj, "DEPTH_DRAW_OPAQUE_ONLY", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DepthDrawMode_obj, "DEPTH_DRAW_ALWAYS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DepthDrawMode_obj, "DEPTH_DRAW_DISABLED", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "DepthDrawMode", DepthDrawMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "DepthDrawMode", DepthDrawMode_obj);
 	JSValue DepthTest_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DepthTest_obj, "DEPTH_TEST_DEFAULT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DepthTest_obj, "DEPTH_TEST_INVERTED", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "DepthTest", DepthTest_obj);
+	JS_SetPropertyStr(ctx, ctor, "DepthTest", DepthTest_obj);
 	JSValue CullMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CullMode_obj, "CULL_BACK", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CullMode_obj, "CULL_FRONT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, CullMode_obj, "CULL_DISABLED", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "CullMode", CullMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "CullMode", CullMode_obj);
 	JSValue Flags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Flags_obj, "FLAG_DISABLE_DEPTH_TEST", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Flags_obj, "FLAG_ALBEDO_FROM_VERTEX_COLOR", JS_NewInt64(ctx, 1));
@@ -2180,52 +2180,52 @@ static void define_base_material3d_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Flags_obj, "FLAG_USE_Z_CLIP_SCALE", JS_NewInt64(ctx, 23));
 	JS_SetPropertyStr(ctx, Flags_obj, "FLAG_USE_FOV_OVERRIDE", JS_NewInt64(ctx, 24));
 	JS_SetPropertyStr(ctx, Flags_obj, "FLAG_MAX", JS_NewInt64(ctx, 25));
-	JS_SetPropertyStr(ctx, proto, "Flags", Flags_obj);
+	JS_SetPropertyStr(ctx, ctor, "Flags", Flags_obj);
 	JSValue DiffuseMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DiffuseMode_obj, "DIFFUSE_BURLEY", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DiffuseMode_obj, "DIFFUSE_LAMBERT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DiffuseMode_obj, "DIFFUSE_LAMBERT_WRAP", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, DiffuseMode_obj, "DIFFUSE_TOON", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "DiffuseMode", DiffuseMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "DiffuseMode", DiffuseMode_obj);
 	JSValue SpecularMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SpecularMode_obj, "SPECULAR_SCHLICK_GGX", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SpecularMode_obj, "SPECULAR_TOON", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, SpecularMode_obj, "SPECULAR_DISABLED", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "SpecularMode", SpecularMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "SpecularMode", SpecularMode_obj);
 	JSValue BillboardMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BillboardMode_obj, "BILLBOARD_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BillboardMode_obj, "BILLBOARD_ENABLED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, BillboardMode_obj, "BILLBOARD_FIXED_Y", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, BillboardMode_obj, "BILLBOARD_PARTICLES", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "BillboardMode", BillboardMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "BillboardMode", BillboardMode_obj);
 	JSValue TextureChannel_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextureChannel_obj, "TEXTURE_CHANNEL_RED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextureChannel_obj, "TEXTURE_CHANNEL_GREEN", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TextureChannel_obj, "TEXTURE_CHANNEL_BLUE", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, TextureChannel_obj, "TEXTURE_CHANNEL_ALPHA", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, TextureChannel_obj, "TEXTURE_CHANNEL_GRAYSCALE", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "TextureChannel", TextureChannel_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextureChannel", TextureChannel_obj);
 	JSValue EmissionOperator_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, EmissionOperator_obj, "EMISSION_OP_ADD", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, EmissionOperator_obj, "EMISSION_OP_MULTIPLY", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "EmissionOperator", EmissionOperator_obj);
+	JS_SetPropertyStr(ctx, ctor, "EmissionOperator", EmissionOperator_obj);
 	JSValue DistanceFadeMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DistanceFadeMode_obj, "DISTANCE_FADE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DistanceFadeMode_obj, "DISTANCE_FADE_PIXEL_ALPHA", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DistanceFadeMode_obj, "DISTANCE_FADE_PIXEL_DITHER", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, DistanceFadeMode_obj, "DISTANCE_FADE_OBJECT_DITHER", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "DistanceFadeMode", DistanceFadeMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "DistanceFadeMode", DistanceFadeMode_obj);
 	JSValue StencilMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, StencilMode_obj, "STENCIL_MODE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, StencilMode_obj, "STENCIL_MODE_OUTLINE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, StencilMode_obj, "STENCIL_MODE_XRAY", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, StencilMode_obj, "STENCIL_MODE_CUSTOM", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "StencilMode", StencilMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "StencilMode", StencilMode_obj);
 	JSValue StencilFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, StencilFlags_obj, "STENCIL_FLAG_READ", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, StencilFlags_obj, "STENCIL_FLAG_WRITE", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, StencilFlags_obj, "STENCIL_FLAG_WRITE_DEPTH_FAIL", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "StencilFlags", StencilFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "StencilFlags", StencilFlags_obj);
 	JSValue StencilCompare_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, StencilCompare_obj, "STENCIL_COMPARE_ALWAYS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, StencilCompare_obj, "STENCIL_COMPARE_LESS", JS_NewInt64(ctx, 1));
@@ -2234,7 +2234,7 @@ static void define_base_material3d_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, StencilCompare_obj, "STENCIL_COMPARE_GREATER", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, StencilCompare_obj, "STENCIL_COMPARE_NOT_EQUAL", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, StencilCompare_obj, "STENCIL_COMPARE_GREATER_OR_EQUAL", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "StencilCompare", StencilCompare_obj);
+	JS_SetPropertyStr(ctx, ctor, "StencilCompare", StencilCompare_obj);
 }
 
 static int js_base_material3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -2250,9 +2250,9 @@ static int js_base_material3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_base_material3d_property(ctx, proto);
-	define_base_material3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, base_material3d_class_proto_funcs, _countof(base_material3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, base_material3d_class_constructor, "BaseMaterial3D", 0, JS_CFUNC_constructor, 0);
+	define_base_material3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "BaseMaterial3D", ctor);
 

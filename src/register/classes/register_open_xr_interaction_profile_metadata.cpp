@@ -82,7 +82,7 @@ static const JSCFunctionListEntry open_xr_interaction_profile_metadata_class_pro
 static void define_open_xr_interaction_profile_metadata_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_open_xr_interaction_profile_metadata_enum(JSContext *ctx, JSValue proto) {
+static void define_open_xr_interaction_profile_metadata_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_open_xr_interaction_profile_metadata_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -98,9 +98,9 @@ static int js_open_xr_interaction_profile_metadata_class_init(JSContext *ctx, JS
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_open_xr_interaction_profile_metadata_property(ctx, proto);
-	define_open_xr_interaction_profile_metadata_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, open_xr_interaction_profile_metadata_class_proto_funcs, _countof(open_xr_interaction_profile_metadata_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, open_xr_interaction_profile_metadata_class_constructor, "OpenXRInteractionProfileMetadata", 0, JS_CFUNC_constructor, 0);
+	define_open_xr_interaction_profile_metadata_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "OpenXRInteractionProfileMetadata", ctor);
 

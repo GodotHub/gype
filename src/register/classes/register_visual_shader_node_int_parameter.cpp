@@ -209,14 +209,14 @@ static void define_visual_shader_node_int_parameter_property(JSContext *ctx, JSV
     );
 }
 
-static void define_visual_shader_node_int_parameter_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_int_parameter_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Hint_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Hint_obj, "HINT_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Hint_obj, "HINT_RANGE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Hint_obj, "HINT_RANGE_STEP", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, Hint_obj, "HINT_ENUM", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, Hint_obj, "HINT_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "Hint", Hint_obj);
+	JS_SetPropertyStr(ctx, ctor, "Hint", Hint_obj);
 }
 
 static int js_visual_shader_node_int_parameter_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -232,9 +232,9 @@ static int js_visual_shader_node_int_parameter_class_init(JSContext *ctx, JSModu
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_int_parameter_property(ctx, proto);
-	define_visual_shader_node_int_parameter_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, visual_shader_node_int_parameter_class_proto_funcs, _countof(visual_shader_node_int_parameter_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_int_parameter_class_constructor, "VisualShaderNodeIntParameter", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_int_parameter_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeIntParameter", ctor);
 

@@ -97,14 +97,14 @@ static const JSCFunctionListEntry jsonrpc_class_proto_funcs[] = {
 static void define_jsonrpc_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_jsonrpc_enum(JSContext *ctx, JSValue proto) {
+static void define_jsonrpc_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ErrorCode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ErrorCode_obj, "PARSE_ERROR", JS_NewInt64(ctx, -32700));
 	JS_SetPropertyStr(ctx, ErrorCode_obj, "INVALID_REQUEST", JS_NewInt64(ctx, -32600));
 	JS_SetPropertyStr(ctx, ErrorCode_obj, "METHOD_NOT_FOUND", JS_NewInt64(ctx, -32601));
 	JS_SetPropertyStr(ctx, ErrorCode_obj, "INVALID_PARAMS", JS_NewInt64(ctx, -32602));
 	JS_SetPropertyStr(ctx, ErrorCode_obj, "INTERNAL_ERROR", JS_NewInt64(ctx, -32603));
-	JS_SetPropertyStr(ctx, proto, "ErrorCode", ErrorCode_obj);
+	JS_SetPropertyStr(ctx, ctor, "ErrorCode", ErrorCode_obj);
 }
 
 static int js_jsonrpc_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -120,9 +120,9 @@ static int js_jsonrpc_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_jsonrpc_property(ctx, proto);
-	define_jsonrpc_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, jsonrpc_class_proto_funcs, _countof(jsonrpc_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, jsonrpc_class_constructor, "JSONRPC", 0, JS_CFUNC_constructor, 0);
+	define_jsonrpc_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "JSONRPC", ctor);
 

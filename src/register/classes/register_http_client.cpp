@@ -198,7 +198,7 @@ static void define_http_client_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_http_client_enum(JSContext *ctx, JSValue proto) {
+static void define_http_client_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Method_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Method_obj, "METHOD_GET", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Method_obj, "METHOD_HEAD", JS_NewInt64(ctx, 1));
@@ -210,7 +210,7 @@ static void define_http_client_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Method_obj, "METHOD_CONNECT", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, Method_obj, "METHOD_PATCH", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, Method_obj, "METHOD_MAX", JS_NewInt64(ctx, 9));
-	JS_SetPropertyStr(ctx, proto, "Method", Method_obj);
+	JS_SetPropertyStr(ctx, ctor, "Method", Method_obj);
 	JSValue Status_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Status_obj, "STATUS_DISCONNECTED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Status_obj, "STATUS_RESOLVING", JS_NewInt64(ctx, 1));
@@ -222,7 +222,7 @@ static void define_http_client_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Status_obj, "STATUS_BODY", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, Status_obj, "STATUS_CONNECTION_ERROR", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, Status_obj, "STATUS_TLS_HANDSHAKE_ERROR", JS_NewInt64(ctx, 9));
-	JS_SetPropertyStr(ctx, proto, "Status", Status_obj);
+	JS_SetPropertyStr(ctx, ctor, "Status", Status_obj);
 	JSValue ResponseCode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ResponseCode_obj, "RESPONSE_CONTINUE", JS_NewInt64(ctx, 100));
 	JS_SetPropertyStr(ctx, ResponseCode_obj, "RESPONSE_SWITCHING_PROTOCOLS", JS_NewInt64(ctx, 101));
@@ -285,7 +285,7 @@ static void define_http_client_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, ResponseCode_obj, "RESPONSE_LOOP_DETECTED", JS_NewInt64(ctx, 508));
 	JS_SetPropertyStr(ctx, ResponseCode_obj, "RESPONSE_NOT_EXTENDED", JS_NewInt64(ctx, 510));
 	JS_SetPropertyStr(ctx, ResponseCode_obj, "RESPONSE_NETWORK_AUTH_REQUIRED", JS_NewInt64(ctx, 511));
-	JS_SetPropertyStr(ctx, proto, "ResponseCode", ResponseCode_obj);
+	JS_SetPropertyStr(ctx, ctor, "ResponseCode", ResponseCode_obj);
 }
 
 static int js_http_client_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -301,9 +301,9 @@ static int js_http_client_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_http_client_property(ctx, proto);
-	define_http_client_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, http_client_class_proto_funcs, _countof(http_client_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, http_client_class_constructor, "HTTPClient", 0, JS_CFUNC_constructor, 0);
+	define_http_client_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "HTTPClient", ctor);
 

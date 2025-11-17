@@ -5,10 +5,10 @@ declare global {
         constructor(basis: Basis, origin: Vector3): Transform3D;
         constructor(xAxis: Vector3, yAxis: Vector3, zAxis: Vector3, origin: Vector3): Transform3D;
         constructor(_from: Projection): Transform3D;
-        readonly IDENTITY: Transform3D;
-        readonly FLIP_X: Transform3D;
-        readonly FLIP_Y: Transform3D;
-        readonly FLIP_Z: Transform3D;
+        readonly static IDENTITY: Transform3D;
+        readonly static FLIP_X: Transform3D;
+        readonly static FLIP_Y: Transform3D;
+        readonly static FLIP_Z: Transform3D;
     
         basis: Basis;
         origin: Vector3;

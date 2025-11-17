@@ -93,12 +93,12 @@ static const JSCFunctionListEntry thread_class_static_funcs[] = {
 static void define_thread_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_thread_enum(JSContext *ctx, JSValue proto) {
+static void define_thread_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Priority_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Priority_obj, "PRIORITY_LOW", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Priority_obj, "PRIORITY_NORMAL", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Priority_obj, "PRIORITY_HIGH", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "Priority", Priority_obj);
+	JS_SetPropertyStr(ctx, ctor, "Priority", Priority_obj);
 }
 
 static int js_thread_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -114,10 +114,10 @@ static int js_thread_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_thread_property(ctx, proto);
-	define_thread_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, thread_class_proto_funcs, _countof(thread_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, thread_class_constructor, "Thread", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, thread_class_static_funcs, _countof(thread_class_static_funcs));
+	define_thread_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Thread", ctor);
 

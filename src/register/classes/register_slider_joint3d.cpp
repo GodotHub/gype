@@ -72,7 +72,7 @@ static const JSCFunctionListEntry slider_joint3d_class_proto_funcs[] = {
 static void define_slider_joint3d_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_slider_joint3d_enum(JSContext *ctx, JSValue proto) {
+static void define_slider_joint3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Param_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_LINEAR_LIMIT_UPPER", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_LINEAR_LIMIT_LOWER", JS_NewInt64(ctx, 1));
@@ -97,7 +97,7 @@ static void define_slider_joint3d_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_ANGULAR_ORTHOGONAL_RESTITUTION", JS_NewInt64(ctx, 20));
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_ANGULAR_ORTHOGONAL_DAMPING", JS_NewInt64(ctx, 21));
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_MAX", JS_NewInt64(ctx, 22));
-	JS_SetPropertyStr(ctx, proto, "Param", Param_obj);
+	JS_SetPropertyStr(ctx, ctor, "Param", Param_obj);
 }
 
 static int js_slider_joint3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -113,9 +113,9 @@ static int js_slider_joint3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_slider_joint3d_property(ctx, proto);
-	define_slider_joint3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, slider_joint3d_class_proto_funcs, _countof(slider_joint3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, slider_joint3d_class_constructor, "SliderJoint3D", 0, JS_CFUNC_constructor, 0);
+	define_slider_joint3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SliderJoint3D", ctor);
 

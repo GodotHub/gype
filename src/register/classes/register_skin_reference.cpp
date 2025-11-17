@@ -73,7 +73,7 @@ static const JSCFunctionListEntry skin_reference_class_proto_funcs[] = {
 static void define_skin_reference_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_skin_reference_enum(JSContext *ctx, JSValue proto) {
+static void define_skin_reference_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_skin_reference_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -89,9 +89,9 @@ static int js_skin_reference_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_skin_reference_property(ctx, proto);
-	define_skin_reference_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, skin_reference_class_proto_funcs, _countof(skin_reference_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, skin_reference_class_constructor, "SkinReference", 0, JS_CFUNC_constructor, 0);
+	define_skin_reference_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SkinReference", ctor);
 

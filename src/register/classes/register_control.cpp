@@ -1614,23 +1614,23 @@ static void define_control_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_control_enum(JSContext *ctx, JSValue proto) {
+static void define_control_enum(JSContext *ctx, JSValue ctor) {
 	JSValue FocusMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FocusMode_obj, "FOCUS_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FocusMode_obj, "FOCUS_CLICK", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, FocusMode_obj, "FOCUS_ALL", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, FocusMode_obj, "FOCUS_ACCESSIBILITY", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "FocusMode", FocusMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "FocusMode", FocusMode_obj);
 	JSValue FocusBehaviorRecursive_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FocusBehaviorRecursive_obj, "FOCUS_BEHAVIOR_INHERITED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FocusBehaviorRecursive_obj, "FOCUS_BEHAVIOR_DISABLED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, FocusBehaviorRecursive_obj, "FOCUS_BEHAVIOR_ENABLED", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "FocusBehaviorRecursive", FocusBehaviorRecursive_obj);
+	JS_SetPropertyStr(ctx, ctor, "FocusBehaviorRecursive", FocusBehaviorRecursive_obj);
 	JSValue MouseBehaviorRecursive_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, MouseBehaviorRecursive_obj, "MOUSE_BEHAVIOR_INHERITED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, MouseBehaviorRecursive_obj, "MOUSE_BEHAVIOR_DISABLED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, MouseBehaviorRecursive_obj, "MOUSE_BEHAVIOR_ENABLED", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "MouseBehaviorRecursive", MouseBehaviorRecursive_obj);
+	JS_SetPropertyStr(ctx, ctor, "MouseBehaviorRecursive", MouseBehaviorRecursive_obj);
 	JSValue CursorShape_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CursorShape_obj, "CURSOR_ARROW", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CursorShape_obj, "CURSOR_IBEAM", JS_NewInt64(ctx, 1));
@@ -1649,7 +1649,7 @@ static void define_control_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, CursorShape_obj, "CURSOR_VSPLIT", JS_NewInt64(ctx, 14));
 	JS_SetPropertyStr(ctx, CursorShape_obj, "CURSOR_HSPLIT", JS_NewInt64(ctx, 15));
 	JS_SetPropertyStr(ctx, CursorShape_obj, "CURSOR_HELP", JS_NewInt64(ctx, 16));
-	JS_SetPropertyStr(ctx, proto, "CursorShape", CursorShape_obj);
+	JS_SetPropertyStr(ctx, ctor, "CursorShape", CursorShape_obj);
 	JSValue LayoutPreset_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LayoutPreset_obj, "PRESET_TOP_LEFT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LayoutPreset_obj, "PRESET_TOP_RIGHT", JS_NewInt64(ctx, 1));
@@ -1667,13 +1667,13 @@ static void define_control_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, LayoutPreset_obj, "PRESET_VCENTER_WIDE", JS_NewInt64(ctx, 13));
 	JS_SetPropertyStr(ctx, LayoutPreset_obj, "PRESET_HCENTER_WIDE", JS_NewInt64(ctx, 14));
 	JS_SetPropertyStr(ctx, LayoutPreset_obj, "PRESET_FULL_RECT", JS_NewInt64(ctx, 15));
-	JS_SetPropertyStr(ctx, proto, "LayoutPreset", LayoutPreset_obj);
+	JS_SetPropertyStr(ctx, ctor, "LayoutPreset", LayoutPreset_obj);
 	JSValue LayoutPresetMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LayoutPresetMode_obj, "PRESET_MODE_MINSIZE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LayoutPresetMode_obj, "PRESET_MODE_KEEP_WIDTH", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, LayoutPresetMode_obj, "PRESET_MODE_KEEP_HEIGHT", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, LayoutPresetMode_obj, "PRESET_MODE_KEEP_SIZE", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "LayoutPresetMode", LayoutPresetMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "LayoutPresetMode", LayoutPresetMode_obj);
 	JSValue SizeFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SizeFlags_obj, "SIZE_SHRINK_BEGIN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SizeFlags_obj, "SIZE_FILL", JS_NewInt64(ctx, 1));
@@ -1681,21 +1681,21 @@ static void define_control_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, SizeFlags_obj, "SIZE_EXPAND_FILL", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, SizeFlags_obj, "SIZE_SHRINK_CENTER", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, SizeFlags_obj, "SIZE_SHRINK_END", JS_NewInt64(ctx, 8));
-	JS_SetPropertyStr(ctx, proto, "SizeFlags", SizeFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "SizeFlags", SizeFlags_obj);
 	JSValue MouseFilter_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, MouseFilter_obj, "MOUSE_FILTER_STOP", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, MouseFilter_obj, "MOUSE_FILTER_PASS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, MouseFilter_obj, "MOUSE_FILTER_IGNORE", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "MouseFilter", MouseFilter_obj);
+	JS_SetPropertyStr(ctx, ctor, "MouseFilter", MouseFilter_obj);
 	JSValue GrowDirection_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, GrowDirection_obj, "GROW_DIRECTION_BEGIN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, GrowDirection_obj, "GROW_DIRECTION_END", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, GrowDirection_obj, "GROW_DIRECTION_BOTH", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "GrowDirection", GrowDirection_obj);
+	JS_SetPropertyStr(ctx, ctor, "GrowDirection", GrowDirection_obj);
 	JSValue Anchor_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Anchor_obj, "ANCHOR_BEGIN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Anchor_obj, "ANCHOR_END", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "Anchor", Anchor_obj);
+	JS_SetPropertyStr(ctx, ctor, "Anchor", Anchor_obj);
 	JSValue LayoutDirection_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LayoutDirection_obj, "LAYOUT_DIRECTION_INHERITED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LayoutDirection_obj, "LAYOUT_DIRECTION_APPLICATION_LOCALE", JS_NewInt64(ctx, 1));
@@ -1704,13 +1704,13 @@ static void define_control_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, LayoutDirection_obj, "LAYOUT_DIRECTION_SYSTEM_LOCALE", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, LayoutDirection_obj, "LAYOUT_DIRECTION_MAX", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, LayoutDirection_obj, "LAYOUT_DIRECTION_LOCALE", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "LayoutDirection", LayoutDirection_obj);
+	JS_SetPropertyStr(ctx, ctor, "LayoutDirection", LayoutDirection_obj);
 	JSValue TextDirection_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TextDirection_obj, "TEXT_DIRECTION_INHERITED", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, TextDirection_obj, "TEXT_DIRECTION_AUTO", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TextDirection_obj, "TEXT_DIRECTION_LTR", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TextDirection_obj, "TEXT_DIRECTION_RTL", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "TextDirection", TextDirection_obj);
+	JS_SetPropertyStr(ctx, ctor, "TextDirection", TextDirection_obj);
 }
 
 static int js_control_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -1726,9 +1726,9 @@ static int js_control_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_control_property(ctx, proto);
-	define_control_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, control_class_proto_funcs, _countof(control_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, control_class_constructor, "Control", 0, JS_CFUNC_constructor, 0);
+	define_control_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Control", ctor);
 

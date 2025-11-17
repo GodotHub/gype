@@ -114,7 +114,7 @@ static const JSCFunctionListEntry reg_ex_class_static_funcs[] = {
 static void define_reg_ex_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_reg_ex_enum(JSContext *ctx, JSValue proto) {
+static void define_reg_ex_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_reg_ex_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -130,10 +130,10 @@ static int js_reg_ex_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_reg_ex_property(ctx, proto);
-	define_reg_ex_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, reg_ex_class_proto_funcs, _countof(reg_ex_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, reg_ex_class_constructor, "RegEx", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, reg_ex_class_static_funcs, _countof(reg_ex_class_static_funcs));
+	define_reg_ex_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "RegEx", ctor);
 

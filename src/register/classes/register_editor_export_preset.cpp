@@ -187,25 +187,25 @@ static const JSCFunctionListEntry editor_export_preset_class_proto_funcs[] = {
 static void define_editor_export_preset_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_editor_export_preset_enum(JSContext *ctx, JSValue proto) {
+static void define_editor_export_preset_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ExportFilter_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ExportFilter_obj, "EXPORT_ALL_RESOURCES", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ExportFilter_obj, "EXPORT_SELECTED_SCENES", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ExportFilter_obj, "EXPORT_SELECTED_RESOURCES", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ExportFilter_obj, "EXCLUDE_SELECTED_RESOURCES", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, ExportFilter_obj, "EXPORT_CUSTOMIZED", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "ExportFilter", ExportFilter_obj);
+	JS_SetPropertyStr(ctx, ctor, "ExportFilter", ExportFilter_obj);
 	JSValue FileExportMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FileExportMode_obj, "MODE_FILE_NOT_CUSTOMIZED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FileExportMode_obj, "MODE_FILE_STRIP", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, FileExportMode_obj, "MODE_FILE_KEEP", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, FileExportMode_obj, "MODE_FILE_REMOVE", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "FileExportMode", FileExportMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "FileExportMode", FileExportMode_obj);
 	JSValue ScriptExportMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ScriptExportMode_obj, "MODE_SCRIPT_TEXT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ScriptExportMode_obj, "MODE_SCRIPT_BINARY_TOKENS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ScriptExportMode_obj, "MODE_SCRIPT_BINARY_TOKENS_COMPRESSED", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "ScriptExportMode", ScriptExportMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "ScriptExportMode", ScriptExportMode_obj);
 }
 
 static int js_editor_export_preset_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -221,9 +221,9 @@ static int js_editor_export_preset_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_editor_export_preset_property(ctx, proto);
-	define_editor_export_preset_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, editor_export_preset_class_proto_funcs, _countof(editor_export_preset_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, editor_export_preset_class_constructor, "EditorExportPreset", 0, JS_CFUNC_constructor, 0);
+	define_editor_export_preset_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "EditorExportPreset", ctor);
 

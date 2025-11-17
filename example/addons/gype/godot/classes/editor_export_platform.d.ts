@@ -20,7 +20,7 @@ export declare class EditorExportPlatform extends RefCounted {
     public save_pack_patch(preset: EditorExportPreset, debug: boolean, path: GDString | StringName | string): Dictionary;
     public save_zip_patch(preset: EditorExportPreset, debug: boolean, path: GDString | StringName | string): Dictionary;
     public gen_export_flags(flags: number): PackedStringArray;
-    public export_project_files(preset: EditorExportPreset, debug: boolean, saveCb: Callable, sharedCb: Callable = Callable()): number;
+    public export_project_files(preset: EditorExportPreset, debug: boolean, saveCb: Callable | Function, sharedCb: Callable | Function = Callable()): number;
     public export_project(preset: EditorExportPreset, debug: boolean, path: GDString | StringName | string, flags: number = 0): number;
     public export_pack(preset: EditorExportPreset, debug: boolean, path: GDString | StringName | string, flags: number = 0): number;
     public export_zip(preset: EditorExportPreset, debug: boolean, path: GDString | StringName | string, flags: number = 0): number;

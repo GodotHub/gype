@@ -122,7 +122,7 @@ static const JSCFunctionListEntry generic6_dof_joint3d_class_proto_funcs[] = {
 static void define_generic6_dof_joint3d_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_generic6_dof_joint3d_enum(JSContext *ctx, JSValue proto) {
+static void define_generic6_dof_joint3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Param_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_LINEAR_LOWER_LIMIT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_LINEAR_UPPER_LIMIT", JS_NewInt64(ctx, 1));
@@ -147,7 +147,7 @@ static void define_generic6_dof_joint3d_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_ANGULAR_SPRING_DAMPING", JS_NewInt64(ctx, 20));
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_ANGULAR_SPRING_EQUILIBRIUM_POINT", JS_NewInt64(ctx, 21));
 	JS_SetPropertyStr(ctx, Param_obj, "PARAM_MAX", JS_NewInt64(ctx, 22));
-	JS_SetPropertyStr(ctx, proto, "Param", Param_obj);
+	JS_SetPropertyStr(ctx, ctor, "Param", Param_obj);
 	JSValue Flag_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Flag_obj, "FLAG_ENABLE_LINEAR_LIMIT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Flag_obj, "FLAG_ENABLE_ANGULAR_LIMIT", JS_NewInt64(ctx, 1));
@@ -156,7 +156,7 @@ static void define_generic6_dof_joint3d_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Flag_obj, "FLAG_ENABLE_MOTOR", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, Flag_obj, "FLAG_ENABLE_LINEAR_MOTOR", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, Flag_obj, "FLAG_MAX", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "Flag", Flag_obj);
+	JS_SetPropertyStr(ctx, ctor, "Flag", Flag_obj);
 }
 
 static int js_generic6_dof_joint3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -172,9 +172,9 @@ static int js_generic6_dof_joint3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_generic6_dof_joint3d_property(ctx, proto);
-	define_generic6_dof_joint3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, generic6_dof_joint3d_class_proto_funcs, _countof(generic6_dof_joint3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, generic6_dof_joint3d_class_constructor, "Generic6DOFJoint3D", 0, JS_CFUNC_constructor, 0);
+	define_generic6_dof_joint3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Generic6DOFJoint3D", ctor);
 

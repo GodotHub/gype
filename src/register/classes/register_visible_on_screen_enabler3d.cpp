@@ -118,12 +118,12 @@ static void define_visible_on_screen_enabler3d_property(JSContext *ctx, JSValue 
     );
 }
 
-static void define_visible_on_screen_enabler3d_enum(JSContext *ctx, JSValue proto) {
+static void define_visible_on_screen_enabler3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue EnableMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, EnableMode_obj, "ENABLE_MODE_INHERIT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, EnableMode_obj, "ENABLE_MODE_ALWAYS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, EnableMode_obj, "ENABLE_MODE_WHEN_PAUSED", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "EnableMode", EnableMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "EnableMode", EnableMode_obj);
 }
 
 static int js_visible_on_screen_enabler3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -139,9 +139,9 @@ static int js_visible_on_screen_enabler3d_class_init(JSContext *ctx, JSModuleDef
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visible_on_screen_enabler3d_property(ctx, proto);
-	define_visible_on_screen_enabler3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, visible_on_screen_enabler3d_class_proto_funcs, _countof(visible_on_screen_enabler3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, visible_on_screen_enabler3d_class_constructor, "VisibleOnScreenEnabler3D", 0, JS_CFUNC_constructor, 0);
+	define_visible_on_screen_enabler3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisibleOnScreenEnabler3D", ctor);
 

@@ -341,14 +341,14 @@ static void define_godot_object_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_godot_object_enum(JSContext *ctx, JSValue proto) {
+static void define_godot_object_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ConnectFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ConnectFlags_obj, "CONNECT_DEFERRED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ConnectFlags_obj, "CONNECT_PERSIST", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ConnectFlags_obj, "CONNECT_ONE_SHOT", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, ConnectFlags_obj, "CONNECT_REFERENCE_COUNTED", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, ConnectFlags_obj, "CONNECT_APPEND_SOURCE_OBJECT", JS_NewInt64(ctx, 16));
-	JS_SetPropertyStr(ctx, proto, "ConnectFlags", ConnectFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "ConnectFlags", ConnectFlags_obj);
 }
 
 static int js_godot_object_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -362,9 +362,9 @@ static int js_godot_object_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_godot_object_property(ctx, proto);
-	define_godot_object_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, godot_object_class_proto_funcs, _countof(godot_object_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, godot_object_class_constructor, "GodotObject", 0, JS_CFUNC_constructor, 0);
+	define_godot_object_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GodotObject", ctor);
 

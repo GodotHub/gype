@@ -77,7 +77,7 @@ static const JSCFunctionListEntry mutex_class_proto_funcs[] = {
 static void define_mutex_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_mutex_enum(JSContext *ctx, JSValue proto) {
+static void define_mutex_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_mutex_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -93,9 +93,9 @@ static int js_mutex_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_mutex_property(ctx, proto);
-	define_mutex_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, mutex_class_proto_funcs, _countof(mutex_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, mutex_class_constructor, "Mutex", 0, JS_CFUNC_constructor, 0);
+	define_mutex_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Mutex", ctor);
 

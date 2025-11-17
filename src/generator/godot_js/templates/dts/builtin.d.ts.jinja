@@ -21,7 +21,7 @@ declare global {
 
         {# STATIC CONSTANTS (from cls.constants) #}
         {% for constant in cls.constants %}
-        readonly {{ constant.name }}: {{ class_name }};
+        readonly static {{ constant.name }}: {{ class_name }};
         {% endfor %}
     
         {# INSTANCE PROPERTIES (from cls.members) #}

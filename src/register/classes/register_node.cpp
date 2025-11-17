@@ -1033,45 +1033,45 @@ static void define_node_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_node_enum(JSContext *ctx, JSValue proto) {
+static void define_node_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ProcessMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ProcessMode_obj, "PROCESS_MODE_INHERIT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ProcessMode_obj, "PROCESS_MODE_PAUSABLE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ProcessMode_obj, "PROCESS_MODE_WHEN_PAUSED", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ProcessMode_obj, "PROCESS_MODE_ALWAYS", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, ProcessMode_obj, "PROCESS_MODE_DISABLED", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "ProcessMode", ProcessMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "ProcessMode", ProcessMode_obj);
 	JSValue ProcessThreadGroup_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ProcessThreadGroup_obj, "PROCESS_THREAD_GROUP_INHERIT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ProcessThreadGroup_obj, "PROCESS_THREAD_GROUP_MAIN_THREAD", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ProcessThreadGroup_obj, "PROCESS_THREAD_GROUP_SUB_THREAD", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "ProcessThreadGroup", ProcessThreadGroup_obj);
+	JS_SetPropertyStr(ctx, ctor, "ProcessThreadGroup", ProcessThreadGroup_obj);
 	JSValue ProcessThreadMessages_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ProcessThreadMessages_obj, "FLAG_PROCESS_THREAD_MESSAGES", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ProcessThreadMessages_obj, "FLAG_PROCESS_THREAD_MESSAGES_PHYSICS", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ProcessThreadMessages_obj, "FLAG_PROCESS_THREAD_MESSAGES_ALL", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "ProcessThreadMessages", ProcessThreadMessages_obj);
+	JS_SetPropertyStr(ctx, ctor, "ProcessThreadMessages", ProcessThreadMessages_obj);
 	JSValue PhysicsInterpolationMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PhysicsInterpolationMode_obj, "PHYSICS_INTERPOLATION_MODE_INHERIT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PhysicsInterpolationMode_obj, "PHYSICS_INTERPOLATION_MODE_ON", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, PhysicsInterpolationMode_obj, "PHYSICS_INTERPOLATION_MODE_OFF", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "PhysicsInterpolationMode", PhysicsInterpolationMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "PhysicsInterpolationMode", PhysicsInterpolationMode_obj);
 	JSValue DuplicateFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DuplicateFlags_obj, "DUPLICATE_SIGNALS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DuplicateFlags_obj, "DUPLICATE_GROUPS", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, DuplicateFlags_obj, "DUPLICATE_SCRIPTS", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, DuplicateFlags_obj, "DUPLICATE_USE_INSTANTIATION", JS_NewInt64(ctx, 8));
-	JS_SetPropertyStr(ctx, proto, "DuplicateFlags", DuplicateFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "DuplicateFlags", DuplicateFlags_obj);
 	JSValue InternalMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, InternalMode_obj, "INTERNAL_MODE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, InternalMode_obj, "INTERNAL_MODE_FRONT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, InternalMode_obj, "INTERNAL_MODE_BACK", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "InternalMode", InternalMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "InternalMode", InternalMode_obj);
 	JSValue AutoTranslateMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AutoTranslateMode_obj, "AUTO_TRANSLATE_MODE_INHERIT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, AutoTranslateMode_obj, "AUTO_TRANSLATE_MODE_ALWAYS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AutoTranslateMode_obj, "AUTO_TRANSLATE_MODE_DISABLED", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "AutoTranslateMode", AutoTranslateMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "AutoTranslateMode", AutoTranslateMode_obj);
 }
 
 static int js_node_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -1087,10 +1087,10 @@ static int js_node_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_node_property(ctx, proto);
-	define_node_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, node_class_proto_funcs, _countof(node_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, node_class_constructor, "Node", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, node_class_static_funcs, _countof(node_class_static_funcs));
+	define_node_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Node", ctor);
 

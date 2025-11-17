@@ -154,27 +154,27 @@ static const JSCFunctionListEntry e_net_connection_class_proto_funcs[] = {
 static void define_e_net_connection_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_e_net_connection_enum(JSContext *ctx, JSValue proto) {
+static void define_e_net_connection_enum(JSContext *ctx, JSValue ctor) {
 	JSValue CompressionMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CompressionMode_obj, "COMPRESS_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CompressionMode_obj, "COMPRESS_RANGE_CODER", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, CompressionMode_obj, "COMPRESS_FASTLZ", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, CompressionMode_obj, "COMPRESS_ZLIB", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, CompressionMode_obj, "COMPRESS_ZSTD", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "CompressionMode", CompressionMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "CompressionMode", CompressionMode_obj);
 	JSValue EventType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, EventType_obj, "EVENT_ERROR", JS_NewInt64(ctx, -1));
 	JS_SetPropertyStr(ctx, EventType_obj, "EVENT_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, EventType_obj, "EVENT_CONNECT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, EventType_obj, "EVENT_DISCONNECT", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, EventType_obj, "EVENT_RECEIVE", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "EventType", EventType_obj);
+	JS_SetPropertyStr(ctx, ctor, "EventType", EventType_obj);
 	JSValue HostStatistic_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, HostStatistic_obj, "HOST_TOTAL_SENT_DATA", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, HostStatistic_obj, "HOST_TOTAL_SENT_PACKETS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, HostStatistic_obj, "HOST_TOTAL_RECEIVED_DATA", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, HostStatistic_obj, "HOST_TOTAL_RECEIVED_PACKETS", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "HostStatistic", HostStatistic_obj);
+	JS_SetPropertyStr(ctx, ctor, "HostStatistic", HostStatistic_obj);
 }
 
 static int js_e_net_connection_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -190,9 +190,9 @@ static int js_e_net_connection_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_e_net_connection_property(ctx, proto);
-	define_e_net_connection_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, e_net_connection_class_proto_funcs, _countof(e_net_connection_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, e_net_connection_class_constructor, "ENetConnection", 0, JS_CFUNC_constructor, 0);
+	define_e_net_connection_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ENetConnection", ctor);
 

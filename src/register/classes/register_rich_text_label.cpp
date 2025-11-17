@@ -1146,23 +1146,23 @@ static void define_rich_text_label_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_rich_text_label_enum(JSContext *ctx, JSValue proto) {
+static void define_rich_text_label_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ListType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ListType_obj, "LIST_NUMBERS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ListType_obj, "LIST_LETTERS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ListType_obj, "LIST_ROMAN", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ListType_obj, "LIST_DOTS", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "ListType", ListType_obj);
+	JS_SetPropertyStr(ctx, ctor, "ListType", ListType_obj);
 	JSValue MenuItems_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, MenuItems_obj, "MENU_COPY", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, MenuItems_obj, "MENU_SELECT_ALL", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, MenuItems_obj, "MENU_MAX", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "MenuItems", MenuItems_obj);
+	JS_SetPropertyStr(ctx, ctor, "MenuItems", MenuItems_obj);
 	JSValue MetaUnderline_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, MetaUnderline_obj, "META_UNDERLINE_NEVER", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, MetaUnderline_obj, "META_UNDERLINE_ALWAYS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, MetaUnderline_obj, "META_UNDERLINE_ON_HOVER", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "MetaUnderline", MetaUnderline_obj);
+	JS_SetPropertyStr(ctx, ctor, "MetaUnderline", MetaUnderline_obj);
 	JSValue ImageUpdateMask_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ImageUpdateMask_obj, "UPDATE_TEXTURE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ImageUpdateMask_obj, "UPDATE_SIZE", JS_NewInt64(ctx, 2));
@@ -1172,7 +1172,7 @@ static void define_rich_text_label_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, ImageUpdateMask_obj, "UPDATE_PAD", JS_NewInt64(ctx, 32));
 	JS_SetPropertyStr(ctx, ImageUpdateMask_obj, "UPDATE_TOOLTIP", JS_NewInt64(ctx, 64));
 	JS_SetPropertyStr(ctx, ImageUpdateMask_obj, "UPDATE_WIDTH_IN_PERCENT", JS_NewInt64(ctx, 128));
-	JS_SetPropertyStr(ctx, proto, "ImageUpdateMask", ImageUpdateMask_obj);
+	JS_SetPropertyStr(ctx, ctor, "ImageUpdateMask", ImageUpdateMask_obj);
 }
 
 static int js_rich_text_label_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -1188,9 +1188,9 @@ static int js_rich_text_label_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_rich_text_label_property(ctx, proto);
-	define_rich_text_label_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, rich_text_label_class_proto_funcs, _countof(rich_text_label_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, rich_text_label_class_constructor, "RichTextLabel", 0, JS_CFUNC_constructor, 0);
+	define_rich_text_label_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "RichTextLabel", ctor);
 

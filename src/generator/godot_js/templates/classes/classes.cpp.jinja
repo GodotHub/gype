@@ -53,6 +53,7 @@ TypedArray<{{-e[12:]-}}>
 {%- else -%}
 {{-e-}}
 {%- endif -%}
+{% endmacro %}
 using namespace godot;
 
 static void {{ js_snake_name }}_class_finalizer(JSRuntime *rt, JSValue val) {
@@ -260,13 +261,13 @@ static void define_{{js_snake_name}}_property(JSContext *ctx, JSValue proto) {
 	{% endfor %}
 }
 
-static void define_{{js_snake_name}}_enum(JSContext *ctx, JSValue proto) {
+static void define_{{js_snake_name}}_enum(JSContext *ctx, JSValue ctor) {
 	{% for enum in cls['enums'] %}
 	JSValue {{enum['name']}}_obj = JS_NewObject(ctx);
 		{% for value in enum['values'] %}
 	JS_SetPropertyStr(ctx, {{enum['name']}}_obj, "{{value['name']}}", JS_NewInt64(ctx, {{value['value']}}));
 		{% endfor %}
-	JS_SetPropertyStr(ctx, proto, "{{enum['name']}}", {{enum['name']}}_obj);
+	JS_SetPropertyStr(ctx, ctor, "{{enum['name']}}", {{enum['name']}}_obj);
 	{% endfor %}
 }
 
@@ -299,7 +300,6 @@ static int js_{{js_snake_name}}_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_{{js_snake_name}}_property(ctx, proto);
-	define_{{js_snake_name}}_enum(ctx, proto);
 		{% if instance_methods or vararg_methods %}
 	JS_SetPropertyFunctionList(ctx, proto, {{js_snake_name}}_class_proto_funcs, _countof({{js_snake_name}}_class_proto_funcs));
 		{% endif %}
@@ -307,6 +307,7 @@ static int js_{{js_snake_name}}_class_init(JSContext *ctx, JSModuleDef *m) {
 	{% if static_methods %}
 	JS_SetPropertyFunctionList(ctx, ctor, {{js_snake_name}}_class_static_funcs, _countof({{js_snake_name}}_class_static_funcs));
 	{% endif %}
+	define_{{js_snake_name}}_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "{{ js_class_name }}", ctor);
 

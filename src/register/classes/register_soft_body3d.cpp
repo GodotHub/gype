@@ -375,11 +375,11 @@ static void define_soft_body3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_soft_body3d_enum(JSContext *ctx, JSValue proto) {
+static void define_soft_body3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue DisableMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DisableMode_obj, "DISABLE_MODE_REMOVE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DisableMode_obj, "DISABLE_MODE_KEEP_ACTIVE", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "DisableMode", DisableMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "DisableMode", DisableMode_obj);
 }
 
 static int js_soft_body3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -395,9 +395,9 @@ static int js_soft_body3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_soft_body3d_property(ctx, proto);
-	define_soft_body3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, soft_body3d_class_proto_funcs, _countof(soft_body3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, soft_body3d_class_constructor, "SoftBody3D", 0, JS_CFUNC_constructor, 0);
+	define_soft_body3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SoftBody3D", ctor);
 

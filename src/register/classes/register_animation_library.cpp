@@ -166,7 +166,7 @@ static void define_animation_library_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_animation_library_enum(JSContext *ctx, JSValue proto) {
+static void define_animation_library_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_animation_library_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -182,9 +182,9 @@ static int js_animation_library_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_animation_library_property(ctx, proto);
-	define_animation_library_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, animation_library_class_proto_funcs, _countof(animation_library_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, animation_library_class_constructor, "AnimationLibrary", 0, JS_CFUNC_constructor, 0);
+	define_animation_library_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AnimationLibrary", ctor);
 

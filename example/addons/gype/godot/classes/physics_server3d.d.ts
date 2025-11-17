@@ -58,8 +58,8 @@ export declare class PhysicsServer3D extends GodotObject {
     public area_get_transform(area: RID): Transform3D;
     public area_attach_object_instance_id(area: RID, id: number): void;
     public area_get_object_instance_id(area: RID): number;
-    public area_set_monitor_callback(area: RID, callback: Callable): void;
-    public area_set_area_monitor_callback(area: RID, callback: Callable): void;
+    public area_set_monitor_callback(area: RID, callback: Callable | Function): void;
+    public area_set_area_monitor_callback(area: RID, callback: Callable | Function): void;
     public area_set_monitorable(area: RID, monitorable: boolean): void;
     public area_set_ray_pickable(area: RID, enable: boolean): void;
     public body_create(): RID;
@@ -113,8 +113,8 @@ export declare class PhysicsServer3D extends GodotObject {
     public body_get_max_contacts_reported(body: RID): number;
     public body_set_omit_force_integration(body: RID, enable: boolean): void;
     public body_is_omitting_force_integration(body: RID): boolean;
-    public body_set_state_sync_callback(body: RID, callable: Callable): void;
-    public body_set_force_integration_callback(body: RID, callable: Callable, userdata: any = null): void;
+    public body_set_state_sync_callback(body: RID, callable: Callable | Function): void;
+    public body_set_force_integration_callback(body: RID, callable: Callable | Function, userdata: any = null): void;
     public body_set_ray_pickable(body: RID, enable: boolean): void;
     public body_test_motion(body: RID, parameters: PhysicsTestMotionParameters3D, result: PhysicsTestMotionResult3D = null): boolean;
     public body_get_direct_state(body: RID): PhysicsDirectBodyState3D;

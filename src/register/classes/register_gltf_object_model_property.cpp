@@ -201,7 +201,7 @@ static void define_gltf_object_model_property_property(JSContext *ctx, JSValue p
     );
 }
 
-static void define_gltf_object_model_property_enum(JSContext *ctx, JSValue proto) {
+static void define_gltf_object_model_property_enum(JSContext *ctx, JSValue ctor) {
 	JSValue GLTFObjectModelType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, GLTFObjectModelType_obj, "GLTF_OBJECT_MODEL_TYPE_UNKNOWN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, GLTFObjectModelType_obj, "GLTF_OBJECT_MODEL_TYPE_BOOL", JS_NewInt64(ctx, 1));
@@ -214,7 +214,7 @@ static void define_gltf_object_model_property_enum(JSContext *ctx, JSValue proto
 	JS_SetPropertyStr(ctx, GLTFObjectModelType_obj, "GLTF_OBJECT_MODEL_TYPE_FLOAT3X3", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, GLTFObjectModelType_obj, "GLTF_OBJECT_MODEL_TYPE_FLOAT4X4", JS_NewInt64(ctx, 9));
 	JS_SetPropertyStr(ctx, GLTFObjectModelType_obj, "GLTF_OBJECT_MODEL_TYPE_INT", JS_NewInt64(ctx, 10));
-	JS_SetPropertyStr(ctx, proto, "GLTFObjectModelType", GLTFObjectModelType_obj);
+	JS_SetPropertyStr(ctx, ctor, "GLTFObjectModelType", GLTFObjectModelType_obj);
 }
 
 static int js_gltf_object_model_property_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -230,9 +230,9 @@ static int js_gltf_object_model_property_class_init(JSContext *ctx, JSModuleDef 
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_gltf_object_model_property_property(ctx, proto);
-	define_gltf_object_model_property_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, gltf_object_model_property_class_proto_funcs, _countof(gltf_object_model_property_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, gltf_object_model_property_class_constructor, "GLTFObjectModelProperty", 0, JS_CFUNC_constructor, 0);
+	define_gltf_object_model_property_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GLTFObjectModelProperty", ctor);
 

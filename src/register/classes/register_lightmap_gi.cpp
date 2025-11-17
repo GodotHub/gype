@@ -481,20 +481,20 @@ static void define_lightmap_gi_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_lightmap_gi_enum(JSContext *ctx, JSValue proto) {
+static void define_lightmap_gi_enum(JSContext *ctx, JSValue ctor) {
 	JSValue BakeQuality_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BakeQuality_obj, "BAKE_QUALITY_LOW", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BakeQuality_obj, "BAKE_QUALITY_MEDIUM", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, BakeQuality_obj, "BAKE_QUALITY_HIGH", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, BakeQuality_obj, "BAKE_QUALITY_ULTRA", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "BakeQuality", BakeQuality_obj);
+	JS_SetPropertyStr(ctx, ctor, "BakeQuality", BakeQuality_obj);
 	JSValue GenerateProbes_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, GenerateProbes_obj, "GENERATE_PROBES_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, GenerateProbes_obj, "GENERATE_PROBES_SUBDIV_4", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, GenerateProbes_obj, "GENERATE_PROBES_SUBDIV_8", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, GenerateProbes_obj, "GENERATE_PROBES_SUBDIV_16", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, GenerateProbes_obj, "GENERATE_PROBES_SUBDIV_32", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "GenerateProbes", GenerateProbes_obj);
+	JS_SetPropertyStr(ctx, ctor, "GenerateProbes", GenerateProbes_obj);
 	JSValue BakeError_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BakeError_obj, "BAKE_ERROR_OK", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BakeError_obj, "BAKE_ERROR_NO_SCENE_ROOT", JS_NewInt64(ctx, 1));
@@ -508,13 +508,13 @@ static void define_lightmap_gi_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, BakeError_obj, "BAKE_ERROR_TEXTURE_SIZE_TOO_SMALL", JS_NewInt64(ctx, 9));
 	JS_SetPropertyStr(ctx, BakeError_obj, "BAKE_ERROR_LIGHTMAP_TOO_SMALL", JS_NewInt64(ctx, 10));
 	JS_SetPropertyStr(ctx, BakeError_obj, "BAKE_ERROR_ATLAS_TOO_SMALL", JS_NewInt64(ctx, 11));
-	JS_SetPropertyStr(ctx, proto, "BakeError", BakeError_obj);
+	JS_SetPropertyStr(ctx, ctor, "BakeError", BakeError_obj);
 	JSValue EnvironmentMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, EnvironmentMode_obj, "ENVIRONMENT_MODE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, EnvironmentMode_obj, "ENVIRONMENT_MODE_SCENE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, EnvironmentMode_obj, "ENVIRONMENT_MODE_CUSTOM_SKY", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, EnvironmentMode_obj, "ENVIRONMENT_MODE_CUSTOM_COLOR", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "EnvironmentMode", EnvironmentMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "EnvironmentMode", EnvironmentMode_obj);
 }
 
 static int js_lightmap_gi_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -530,9 +530,9 @@ static int js_lightmap_gi_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_lightmap_gi_property(ctx, proto);
-	define_lightmap_gi_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, lightmap_gi_class_proto_funcs, _countof(lightmap_gi_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, lightmap_gi_class_constructor, "LightmapGI", 0, JS_CFUNC_constructor, 0);
+	define_lightmap_gi_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "LightmapGI", ctor);
 

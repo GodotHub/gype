@@ -292,7 +292,7 @@ static void define_range_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_range_enum(JSContext *ctx, JSValue proto) {
+static void define_range_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_range_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -308,9 +308,9 @@ static int js_range_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_range_property(ctx, proto);
-	define_range_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, range_class_proto_funcs, _countof(range_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, range_class_constructor, "Range", 0, JS_CFUNC_constructor, 0);
+	define_range_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Range", ctor);
 

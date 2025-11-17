@@ -127,7 +127,7 @@ static const JSCFunctionListEntry bone_constraint3d_class_proto_funcs[] = {
 static void define_bone_constraint3d_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_bone_constraint3d_enum(JSContext *ctx, JSValue proto) {
+static void define_bone_constraint3d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_bone_constraint3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -143,9 +143,9 @@ static int js_bone_constraint3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_bone_constraint3d_property(ctx, proto);
-	define_bone_constraint3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, bone_constraint3d_class_proto_funcs, _countof(bone_constraint3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, bone_constraint3d_class_constructor, "BoneConstraint3D", 0, JS_CFUNC_constructor, 0);
+	define_bone_constraint3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "BoneConstraint3D", ctor);
 

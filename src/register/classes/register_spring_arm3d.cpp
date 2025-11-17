@@ -155,7 +155,7 @@ static void define_spring_arm3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_spring_arm3d_enum(JSContext *ctx, JSValue proto) {
+static void define_spring_arm3d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_spring_arm3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -171,9 +171,9 @@ static int js_spring_arm3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_spring_arm3d_property(ctx, proto);
-	define_spring_arm3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, spring_arm3d_class_proto_funcs, _countof(spring_arm3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, spring_arm3d_class_constructor, "SpringArm3D", 0, JS_CFUNC_constructor, 0);
+	define_spring_arm3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SpringArm3D", ctor);
 

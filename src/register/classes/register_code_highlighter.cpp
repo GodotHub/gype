@@ -398,7 +398,7 @@ static void define_code_highlighter_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_code_highlighter_enum(JSContext *ctx, JSValue proto) {
+static void define_code_highlighter_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_code_highlighter_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -414,9 +414,9 @@ static int js_code_highlighter_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_code_highlighter_property(ctx, proto);
-	define_code_highlighter_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, code_highlighter_class_proto_funcs, _countof(code_highlighter_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, code_highlighter_class_constructor, "CodeHighlighter", 0, JS_CFUNC_constructor, 0);
+	define_code_highlighter_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CodeHighlighter", ctor);
 

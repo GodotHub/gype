@@ -100,7 +100,7 @@ static void define_color_rect_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_color_rect_enum(JSContext *ctx, JSValue proto) {
+static void define_color_rect_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_color_rect_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -116,9 +116,9 @@ static int js_color_rect_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_color_rect_property(ctx, proto);
-	define_color_rect_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, color_rect_class_proto_funcs, _countof(color_rect_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, color_rect_class_constructor, "ColorRect", 0, JS_CFUNC_constructor, 0);
+	define_color_rect_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ColorRect", ctor);
 

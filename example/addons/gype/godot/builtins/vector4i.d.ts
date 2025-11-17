@@ -4,10 +4,10 @@ declare global {
         constructor(_from: Vector4i): Vector4i;
         constructor(_from: Vector4): Vector4i;
         constructor(x: number, y: number, z: number, w: number): Vector4i;
-        readonly ZERO: Vector4i;
-        readonly ONE: Vector4i;
-        readonly MIN: Vector4i;
-        readonly MAX: Vector4i;
+        readonly static ZERO: Vector4i;
+        readonly static ONE: Vector4i;
+        readonly static MIN: Vector4i;
+        readonly static MAX: Vector4i;
     
         x: number;
         y: number;

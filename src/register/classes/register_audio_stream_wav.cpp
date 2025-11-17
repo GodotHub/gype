@@ -262,19 +262,19 @@ static void define_audio_stream_wav_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_audio_stream_wav_enum(JSContext *ctx, JSValue proto) {
+static void define_audio_stream_wav_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Format_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Format_obj, "FORMAT_8_BITS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Format_obj, "FORMAT_16_BITS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Format_obj, "FORMAT_IMA_ADPCM", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, Format_obj, "FORMAT_QOA", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "Format", Format_obj);
+	JS_SetPropertyStr(ctx, ctor, "Format", Format_obj);
 	JSValue LoopMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LoopMode_obj, "LOOP_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LoopMode_obj, "LOOP_FORWARD", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, LoopMode_obj, "LOOP_PINGPONG", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, LoopMode_obj, "LOOP_BACKWARD", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "LoopMode", LoopMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "LoopMode", LoopMode_obj);
 }
 
 static int js_audio_stream_wav_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -290,10 +290,10 @@ static int js_audio_stream_wav_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_audio_stream_wav_property(ctx, proto);
-	define_audio_stream_wav_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, audio_stream_wav_class_proto_funcs, _countof(audio_stream_wav_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, audio_stream_wav_class_constructor, "AudioStreamWAV", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, audio_stream_wav_class_static_funcs, _countof(audio_stream_wav_class_static_funcs));
+	define_audio_stream_wav_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioStreamWAV", ctor);
 

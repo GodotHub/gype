@@ -213,7 +213,7 @@ static void define_gltf_skeleton_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_gltf_skeleton_enum(JSContext *ctx, JSValue proto) {
+static void define_gltf_skeleton_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_gltf_skeleton_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -229,9 +229,9 @@ static int js_gltf_skeleton_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_gltf_skeleton_property(ctx, proto);
-	define_gltf_skeleton_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, gltf_skeleton_class_proto_funcs, _countof(gltf_skeleton_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, gltf_skeleton_class_constructor, "GLTFSkeleton", 0, JS_CFUNC_constructor, 0);
+	define_gltf_skeleton_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GLTFSkeleton", ctor);
 

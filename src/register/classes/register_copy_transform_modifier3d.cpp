@@ -202,19 +202,19 @@ static const JSCFunctionListEntry copy_transform_modifier3d_class_proto_funcs[] 
 static void define_copy_transform_modifier3d_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_copy_transform_modifier3d_enum(JSContext *ctx, JSValue proto) {
+static void define_copy_transform_modifier3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TransformFlag_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TransformFlag_obj, "TRANSFORM_FLAG_POSITION", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TransformFlag_obj, "TRANSFORM_FLAG_ROTATION", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, TransformFlag_obj, "TRANSFORM_FLAG_SCALE", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, TransformFlag_obj, "TRANSFORM_FLAG_ALL", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "TransformFlag", TransformFlag_obj);
+	JS_SetPropertyStr(ctx, ctor, "TransformFlag", TransformFlag_obj);
 	JSValue AxisFlag_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, AxisFlag_obj, "AXIS_FLAG_X", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, AxisFlag_obj, "AXIS_FLAG_Y", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, AxisFlag_obj, "AXIS_FLAG_Z", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, AxisFlag_obj, "AXIS_FLAG_ALL", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "AxisFlag", AxisFlag_obj);
+	JS_SetPropertyStr(ctx, ctor, "AxisFlag", AxisFlag_obj);
 }
 
 static int js_copy_transform_modifier3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -230,9 +230,9 @@ static int js_copy_transform_modifier3d_class_init(JSContext *ctx, JSModuleDef *
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_copy_transform_modifier3d_property(ctx, proto);
-	define_copy_transform_modifier3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, copy_transform_modifier3d_class_proto_funcs, _countof(copy_transform_modifier3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, copy_transform_modifier3d_class_constructor, "CopyTransformModifier3D", 0, JS_CFUNC_constructor, 0);
+	define_copy_transform_modifier3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CopyTransformModifier3D", ctor);
 

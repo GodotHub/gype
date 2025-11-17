@@ -268,12 +268,12 @@ static void define_link_button_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_link_button_enum(JSContext *ctx, JSValue proto) {
+static void define_link_button_enum(JSContext *ctx, JSValue ctor) {
 	JSValue UnderlineMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, UnderlineMode_obj, "UNDERLINE_MODE_ALWAYS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, UnderlineMode_obj, "UNDERLINE_MODE_ON_HOVER", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, UnderlineMode_obj, "UNDERLINE_MODE_NEVER", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "UnderlineMode", UnderlineMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "UnderlineMode", UnderlineMode_obj);
 }
 
 static int js_link_button_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -289,9 +289,9 @@ static int js_link_button_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_link_button_property(ctx, proto);
-	define_link_button_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, link_button_class_proto_funcs, _countof(link_button_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, link_button_class_constructor, "LinkButton", 0, JS_CFUNC_constructor, 0);
+	define_link_button_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "LinkButton", ctor);
 

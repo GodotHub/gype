@@ -60,7 +60,7 @@ static JSValue web_rtc_data_channel_extension_class_constructor(JSContext *ctx, 
 static void define_web_rtc_data_channel_extension_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_web_rtc_data_channel_extension_enum(JSContext *ctx, JSValue proto) {
+static void define_web_rtc_data_channel_extension_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_web_rtc_data_channel_extension_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_web_rtc_data_channel_extension_class_init(JSContext *ctx, JSModule
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_web_rtc_data_channel_extension_property(ctx, proto);
-	define_web_rtc_data_channel_extension_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, web_rtc_data_channel_extension_class_constructor, "WebRTCDataChannelExtension", 0, JS_CFUNC_constructor, 0);
+	define_web_rtc_data_channel_extension_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "WebRTCDataChannelExtension", ctor);
 

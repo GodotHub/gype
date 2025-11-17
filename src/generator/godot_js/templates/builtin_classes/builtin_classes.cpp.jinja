@@ -30,26 +30,7 @@
 	{{-tp-}}
 	{%- endif -%}
 {% endmacro %}
-{%- endmacro -%}
-{% macro process_method(m) %}
-{% if cls_name == "Plane" %}
-    {% if m.name == "intersects_segment" or m.name == "intersects_ray" %}
-    static JSValue {{cls_name_lower}}_class_{{method.name}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-        {{ get_method_call_expression(method + "_bind", cls_name) }}
-    }
-    {% endif %}
-{% elif cls_name == "AABB" %}
-    {% if m.name == "intersect_3" or m.name == "intersects_ray" or m.name == "intersects_segment" %}
-    static JSValue {{cls_name_lower}}_class_{{method.name}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-        {{ get_method_call_expression(method + "_bind", cls_name) }}
-    }
-    {% endif %}
-{% else %}
-static JSValue {{cls_name_lower}}_class_{{method.name}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	{{ get_method_call_expression(method, cls_name) }}
-}
-{% endif %}
-{% endmacro %}
+
 using namespace godot;
 
 static void {{ cls_name_lower }}_class_finalizer(JSRuntime *rt, JSValue val) {
@@ -100,21 +81,46 @@ if (argc == 2&&JS_IsObject(argv[0])&&JS_IsFunction(ctx, argv[1])) {
 {% if all_methods or cls.members %}
 {# Generate method wrappers #}
 {% for method in all_methods %}
-{{ process_method(method) }}
+static JSValue {{cls_name_lower}}_class_{{method.name}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
+	{{ get_method_call_expression(method, cls_name) }}
+}
 {% endfor %}
 
 {# Generate property accessors #}
 {% for member in cls.members %}
 static JSValue {{ cls_name_lower }}_class_get_{{ member.name }}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	{{ cls_name }} val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["{{ cls_name }}"]))->get();
-	{{ get_property_accessor_expression(member, 'get') }}
+	{{ get_property_accessor_expression(member, 'get', cls) }}
 }
 static JSValue {{ cls_name_lower }}_class_set_{{ member.name }}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["{{cls_name}}"]));
     {{ cls_name }} val = adapter->get();
-    {{ get_property_accessor_expression(member, 'set') }}
+    {{ get_property_accessor_expression(member, 'set', cls) }}
     adapter->set(val);
 	return JS_UNDEFINED;
+}
+{% endfor %}
+{% endif %}
+
+{% macro norm_constant(value) %}
+{%- if value == 'Vector2(inf, inf)' -%}
+Vector2(INFINITY, INFINITY)
+{%- elif value == 'Vector3(inf, inf, inf)' %}
+Vector3(INFINITY, INFINITY, INFINITY)
+{% elif value == 'Vector4(inf, inf, inf, inf)' %}
+Vector4(INFINITY, INFINITY, INFINITY, INFINITY)
+{%- else -%}
+{{ value -}}
+{% endif -%}
+{% endmacro %}
+
+{% if cls['constants'] %}
+{% for constant in cls['constants'] %}
+static JSValue {{ cls_name_lower }}_get_constant_{{ constant['name'] }}(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue({{ norm_constant(constant['value']) }});
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
 }
 {% endfor %}
 {% endif %}
@@ -123,6 +129,14 @@ static JSValue {{ cls_name_lower }}_class_set_{{ member.name }}(JSContext *ctx, 
 static const JSCFunctionListEntry {{ cls_name_lower }}_class_proto_funcs[] = {
 {% for method in all_methods %}
 	JS_CFUNC_DEF("{{ method.name }}", {{ get_arg_count(method) }}, &{{ cls_name_lower }}_class_{{ method.name }}),
+{% endfor %}
+};
+{% endif %}
+
+{% if cls['constants'] %}
+static const JSCFunctionListEntry {{ cls_name_lower }}_class_constants_funcs[] = {
+{% for constant in cls['constants'] %}
+    JS_CGETSET_DEF("{{ constant['name'] }}", &{{ cls_name_lower }}_get_constant_{{ constant['name'] }}, NULL),
 {% endfor %}
 };
 {% endif %}
@@ -141,6 +155,7 @@ static void define_{{ cls_name_lower }}_property(JSContext *ctx, JSValue obj) {
 }
 {% endif %}
 
+
 static int js_{{ cls_name_lower }}_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["{{cls_name}}"] = JS_NewClassID(js_runtime(), &class_id);
@@ -152,17 +167,20 @@ static int js_{{ cls_name_lower }}_class_init(JSContext *ctx) {
 	JS_SetClassProto(ctx, class_id, proto);
 {%- if cls.members %}
 	define_{{ cls_name_lower }}_property(ctx, proto);
-{%- endif %}
+{% endif %}
 {%- if all_methods %}
 	JS_SetPropertyFunctionList(ctx, proto, {{ cls_name_lower }}_class_proto_funcs, _countof({{ cls_name_lower }}_class_proto_funcs));
-{%- endif %}
+{% endif %}
 
 	JSValue ctor = JS_NewCFunction2(ctx, {{ cls_name_lower }}_class_constructor, "{{ jsname }}", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+{% if cls['constants'] %}
+	JS_SetPropertyFunctionList(ctx, ctor, {{ cls_name_lower }}_class_constants_funcs, _countof({{ cls_name_lower }}_class_constants_funcs));
+{% endif %}
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "{{ jsname }}", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -277,6 +295,7 @@ static int js_{{ cls_name_lower }}_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "{{ cls_name }}Proxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

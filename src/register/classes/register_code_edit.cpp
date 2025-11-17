@@ -891,7 +891,7 @@ static void define_code_edit_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_code_edit_enum(JSContext *ctx, JSValue proto) {
+static void define_code_edit_enum(JSContext *ctx, JSValue ctor) {
 	JSValue CodeCompletionKind_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CodeCompletionKind_obj, "KIND_CLASS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CodeCompletionKind_obj, "KIND_FUNCTION", JS_NewInt64(ctx, 1));
@@ -903,13 +903,13 @@ static void define_code_edit_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, CodeCompletionKind_obj, "KIND_NODE_PATH", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, CodeCompletionKind_obj, "KIND_FILE_PATH", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, CodeCompletionKind_obj, "KIND_PLAIN_TEXT", JS_NewInt64(ctx, 9));
-	JS_SetPropertyStr(ctx, proto, "CodeCompletionKind", CodeCompletionKind_obj);
+	JS_SetPropertyStr(ctx, ctor, "CodeCompletionKind", CodeCompletionKind_obj);
 	JSValue CodeCompletionLocation_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CodeCompletionLocation_obj, "LOCATION_LOCAL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CodeCompletionLocation_obj, "LOCATION_PARENT_MASK", JS_NewInt64(ctx, 256));
 	JS_SetPropertyStr(ctx, CodeCompletionLocation_obj, "LOCATION_OTHER_USER_CODE", JS_NewInt64(ctx, 512));
 	JS_SetPropertyStr(ctx, CodeCompletionLocation_obj, "LOCATION_OTHER", JS_NewInt64(ctx, 1024));
-	JS_SetPropertyStr(ctx, proto, "CodeCompletionLocation", CodeCompletionLocation_obj);
+	JS_SetPropertyStr(ctx, ctor, "CodeCompletionLocation", CodeCompletionLocation_obj);
 }
 
 static int js_code_edit_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -925,9 +925,9 @@ static int js_code_edit_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_code_edit_property(ctx, proto);
-	define_code_edit_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, code_edit_class_proto_funcs, _countof(code_edit_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, code_edit_class_constructor, "CodeEdit", 0, JS_CFUNC_constructor, 0);
+	define_code_edit_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CodeEdit", ctor);
 

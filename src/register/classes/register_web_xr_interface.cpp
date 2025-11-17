@@ -558,13 +558,13 @@ static void define_web_xr_interface_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_web_xr_interface_enum(JSContext *ctx, JSValue proto) {
+static void define_web_xr_interface_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TargetRayMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TargetRayMode_obj, "TARGET_RAY_MODE_UNKNOWN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TargetRayMode_obj, "TARGET_RAY_MODE_GAZE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TargetRayMode_obj, "TARGET_RAY_MODE_TRACKED_POINTER", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, TargetRayMode_obj, "TARGET_RAY_MODE_SCREEN", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "TargetRayMode", TargetRayMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "TargetRayMode", TargetRayMode_obj);
 }
 
 static int js_web_xr_interface_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -580,9 +580,9 @@ static int js_web_xr_interface_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_web_xr_interface_property(ctx, proto);
-	define_web_xr_interface_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, web_xr_interface_class_proto_funcs, _countof(web_xr_interface_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, web_xr_interface_class_constructor, "WebXRInterface", 0, JS_CFUNC_constructor, 0);
+	define_web_xr_interface_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "WebXRInterface", ctor);
 

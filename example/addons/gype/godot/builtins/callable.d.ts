@@ -1,7 +1,7 @@
 declare global {
     export class Callable {
         constructor(): Callable;
-        constructor(_from: Callable): Callable;
+        constructor(_from: Callable | Function): Callable;
         constructor(object: GodotObject, method: GDString | StringName | string): Callable;
         constructor(object: GodotObject, method: Function): Callable;    
 

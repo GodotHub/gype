@@ -12,8 +12,8 @@ export declare class EditorContextMenuPlugin extends RefCounted {
 
 
     public _popup_menu(paths: PackedStringArray): void;
-    public add_menu_shortcut(shortcut: Shortcut, callback: Callable): void;
-    public add_context_menu_item(name: GDString | StringName | string, callback: Callable, icon: Texture2D = null): void;
+    public add_menu_shortcut(shortcut: Shortcut, callback: Callable | Function): void;
+    public add_context_menu_item(name: GDString | StringName | string, callback: Callable | Function, icon: Texture2D = null): void;
     public add_context_menu_item_from_shortcut(name: GDString | StringName | string, shortcut: Shortcut, icon: Texture2D = null): void;
     public add_context_submenu_item(name: GDString | StringName | string, menu: PopupMenu, icon: Texture2D = null): void;
 

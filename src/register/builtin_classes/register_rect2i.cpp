@@ -31,25 +31,25 @@ static JSValue rect2i_class_constructor(JSContext *ctx, JSValueConst new_target,
 	if (JS_IsException(obj)) {
 		return obj;
 	}
-
+	
 	Rect2i instance;
 	if (argc == 0) {
 		instance = Rect2i();
 	}
-	if (argc == 1 && VariantAdapter::can_cast(argv[0], Variant::Type::RECT2I)) {
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::RECT2I)) {
 		Rect2i v0 = VariantAdapter(argv[0]).get();
 		instance = Rect2i(v0);
 	}
-	if (argc == 1 && VariantAdapter::can_cast(argv[0], Variant::Type::RECT2)) {
+	if (argc == 1&&VariantAdapter::can_cast(argv[0], Variant::Type::RECT2)) {
 		Rect2 v0 = VariantAdapter(argv[0]).get();
 		instance = Rect2i(v0);
 	}
-	if (argc == 2 && VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR2I) && VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR2I)) {
+	if (argc == 2&&VariantAdapter::can_cast(argv[0], Variant::Type::VECTOR2I)&&VariantAdapter::can_cast(argv[1], Variant::Type::VECTOR2I)) {
 		Vector2i v0 = VariantAdapter(argv[0]).get();
 		Vector2i v1 = VariantAdapter(argv[1]).get();
 		instance = Rect2i(v0, v1);
 	}
-	if (argc == 4 && JS_IsNumber(argv[0]) && JS_IsNumber(argv[1]) && JS_IsNumber(argv[2]) && JS_IsNumber(argv[3])) {
+	if (argc == 4&&JS_IsNumber(argv[0])&&JS_IsNumber(argv[1])&&JS_IsNumber(argv[2])&&JS_IsNumber(argv[3])) {
 		int v0 = VariantAdapter(argv[0]).get();
 		int v1 = VariantAdapter(argv[1]).get();
 		int v2 = VariantAdapter(argv[2]).get();
@@ -66,55 +66,42 @@ static JSValue rect2i_class_constructor(JSContext *ctx, JSValueConst new_target,
 	JS_SetOpaque(obj, adapter);
 	return obj;
 }
-
 static JSValue rect2i_class_get_center(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Rect2i::get_center, ctx, this_val, argc, argv);
 }
-
 static JSValue rect2i_class_get_area(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Rect2i::get_area, ctx, this_val, argc, argv);
 }
-
 static JSValue rect2i_class_has_area(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Rect2i::has_area, ctx, this_val, argc, argv);
 }
-
 static JSValue rect2i_class_has_point(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Rect2i::has_point, ctx, this_val, argc, argv);
 }
-
 static JSValue rect2i_class_intersects(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Rect2i::intersects, ctx, this_val, argc, argv);
 }
-
 static JSValue rect2i_class_encloses(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Rect2i::encloses, ctx, this_val, argc, argv);
 }
-
 static JSValue rect2i_class_intersection(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Rect2i::intersection, ctx, this_val, argc, argv);
 }
-
 static JSValue rect2i_class_merge(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Rect2i::merge, ctx, this_val, argc, argv);
 }
-
 static JSValue rect2i_class_expand(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Rect2i::expand, ctx, this_val, argc, argv);
 }
-
 static JSValue rect2i_class_grow(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Rect2i::grow, ctx, this_val, argc, argv);
 }
-
 static JSValue rect2i_class_grow_side(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Rect2i::grow_side, ctx, this_val, argc, argv);
 }
-
 static JSValue rect2i_class_grow_individual(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Rect2i::grow_individual, ctx, this_val, argc, argv);
 }
-
 static JSValue rect2i_class_abs(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Rect2i::abs, ctx, this_val, argc, argv);
 }
@@ -123,40 +110,37 @@ static JSValue rect2i_class_get_position(JSContext *ctx, JSValueConst this_val, 
 	Rect2i val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2i"]))->get();
 	return VariantAdapter(val.position);
 }
-
 static JSValue rect2i_class_set_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2i"]));
-	Rect2i val = adapter->get();
-	val.position = VariantAdapter(*argv).get();
-	adapter->set(val);
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2i"]));
+    Rect2i val = adapter->get();
+    val.position = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
-
 static JSValue rect2i_class_get_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Rect2i val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2i"]))->get();
 	return VariantAdapter(val.size);
 }
-
 static JSValue rect2i_class_set_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2i"]));
-	Rect2i val = adapter->get();
-	val.size = VariantAdapter(*argv).get();
-	adapter->set(val);
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2i"]));
+    Rect2i val = adapter->get();
+    val.size = VariantAdapter(*argv).get();
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
-
 static JSValue rect2i_class_get_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Rect2i val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2i"]))->get();
 	return VariantAdapter(val.get_end());
 }
-
 static JSValue rect2i_class_set_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2i"]));
-	Rect2i val = adapter->get();
-	val.set_end(VariantAdapter(*argv).get());
-	adapter->set(val);
+    VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Rect2i"]));
+    Rect2i val = adapter->get();
+    val.set_end(VariantAdapter(*argv).get());
+    adapter->set(val);
 	return JS_UNDEFINED;
 }
+
+
 
 static const JSCFunctionListEntry rect2i_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_center", 0, &rect2i_class_get_center),
@@ -173,6 +157,7 @@ static const JSCFunctionListEntry rect2i_class_proto_funcs[] = {
 	JS_CFUNC_DEF("grow_individual", 4, &rect2i_class_grow_individual),
 	JS_CFUNC_DEF("abs", 0, &rect2i_class_abs),
 };
+
 
 static void define_rect2i_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
@@ -198,6 +183,7 @@ static void define_rect2i_property(JSContext *ctx, JSValue obj) {
 			JS_PROP_GETSET);
 }
 
+
 static int js_rect2i_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["Rect2i"] = JS_NewClassID(js_runtime(), &class_id);
@@ -206,15 +192,16 @@ static int js_rect2i_class_init(JSContext *ctx) {
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &rect2i_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);
-	define_rect2i_property(ctx, proto);
+	JS_SetClassProto(ctx, class_id, proto);	define_rect2i_property(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, rect2i_class_proto_funcs, _countof(rect2i_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, rect2i_class_constructor, "Rect2i", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Rect2i", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -267,182 +254,165 @@ static JSValue rect2i_proxy_constructor(JSContext *ctx, JSValueConst new_target,
 
 static JSValue rect2i_proxy_get_center(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Object *wrapped = proxy->wrapped;
-	this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&Rect2i::get_center, ctx, this_val, argc, argv);
-	JS_FreeValue(ctx, this_val);
-	return ret;
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Object *wrapped = proxy->wrapped;
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&Rect2i::get_center, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
 }
-
 static JSValue rect2i_proxy_get_area(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Object *wrapped = proxy->wrapped;
-	this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&Rect2i::get_area, ctx, this_val, argc, argv);
-	JS_FreeValue(ctx, this_val);
-	return ret;
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Object *wrapped = proxy->wrapped;
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&Rect2i::get_area, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
 }
-
 static JSValue rect2i_proxy_has_area(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Object *wrapped = proxy->wrapped;
-	this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&Rect2i::has_area, ctx, this_val, argc, argv);
-	JS_FreeValue(ctx, this_val);
-	return ret;
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Object *wrapped = proxy->wrapped;
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&Rect2i::has_area, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
 }
-
 static JSValue rect2i_proxy_has_point(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Object *wrapped = proxy->wrapped;
-	this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&Rect2i::has_point, ctx, this_val, argc, argv);
-	JS_FreeValue(ctx, this_val);
-	return ret;
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Object *wrapped = proxy->wrapped;
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&Rect2i::has_point, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
 }
-
 static JSValue rect2i_proxy_intersects(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Object *wrapped = proxy->wrapped;
-	this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&Rect2i::intersects, ctx, this_val, argc, argv);
-	JS_FreeValue(ctx, this_val);
-	return ret;
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Object *wrapped = proxy->wrapped;
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&Rect2i::intersects, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
 }
-
 static JSValue rect2i_proxy_encloses(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Object *wrapped = proxy->wrapped;
-	this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&Rect2i::encloses, ctx, this_val, argc, argv);
-	JS_FreeValue(ctx, this_val);
-	return ret;
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Object *wrapped = proxy->wrapped;
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&Rect2i::encloses, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
 }
-
 static JSValue rect2i_proxy_intersection(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Object *wrapped = proxy->wrapped;
-	this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&Rect2i::intersection, ctx, this_val, argc, argv);
-	JS_FreeValue(ctx, this_val);
-	return ret;
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Object *wrapped = proxy->wrapped;
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&Rect2i::intersection, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
 }
-
 static JSValue rect2i_proxy_merge(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Object *wrapped = proxy->wrapped;
-	this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&Rect2i::merge, ctx, this_val, argc, argv);
-	JS_FreeValue(ctx, this_val);
-	return ret;
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Object *wrapped = proxy->wrapped;
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&Rect2i::merge, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
 }
-
 static JSValue rect2i_proxy_expand(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Object *wrapped = proxy->wrapped;
-	this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&Rect2i::expand, ctx, this_val, argc, argv);
-	JS_FreeValue(ctx, this_val);
-	return ret;
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Object *wrapped = proxy->wrapped;
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&Rect2i::expand, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
 }
-
 static JSValue rect2i_proxy_grow(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Object *wrapped = proxy->wrapped;
-	this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&Rect2i::grow, ctx, this_val, argc, argv);
-	JS_FreeValue(ctx, this_val);
-	return ret;
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Object *wrapped = proxy->wrapped;
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&Rect2i::grow, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
 }
-
 static JSValue rect2i_proxy_grow_side(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Object *wrapped = proxy->wrapped;
-	this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&Rect2i::grow_side, ctx, this_val, argc, argv);
-	JS_FreeValue(ctx, this_val);
-	return ret;
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Object *wrapped = proxy->wrapped;
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&Rect2i::grow_side, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
 }
-
 static JSValue rect2i_proxy_grow_individual(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Object *wrapped = proxy->wrapped;
-	this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&Rect2i::grow_individual, ctx, this_val, argc, argv);
-	JS_FreeValue(ctx, this_val);
-	return ret;
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Object *wrapped = proxy->wrapped;
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&Rect2i::grow_individual, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
 }
-
 static JSValue rect2i_proxy_abs(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Object *wrapped = proxy->wrapped;
-	this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(&Rect2i::abs, ctx, this_val, argc, argv);
-	JS_FreeValue(ctx, this_val);
-	return ret;
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Object *wrapped = proxy->wrapped;
+    this_val = VariantAdapter(wrapped);
+    JSValue ret = call_builtin_const_method_ret(&Rect2i::abs, ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
+    return ret;
 }
 
 static JSValue rect2i_proxy_get_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Rect2i ret = proxy->getter();
-	return VariantAdapter(ret.position);
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Rect2i ret = proxy->getter();
+    return VariantAdapter(ret.position);
 }
-
 static JSValue rect2i_proxy_set_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	VariantAdapter position(argv[0]);
-	Rect2i wrapped = proxy->getter();
-	wrapped.position = position.get();
-	proxy->setter(wrapped);
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    VariantAdapter position(argv[0]);
+    Rect2i wrapped = proxy->getter();
+    wrapped.position = position.get();
+    proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
-
 static JSValue rect2i_proxy_get_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Rect2i ret = proxy->getter();
-	return VariantAdapter(ret.size);
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Rect2i ret = proxy->getter();
+    return VariantAdapter(ret.size);
 }
-
 static JSValue rect2i_proxy_set_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	VariantAdapter size(argv[0]);
-	Rect2i wrapped = proxy->getter();
-	wrapped.size = size.get();
-	proxy->setter(wrapped);
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    VariantAdapter size(argv[0]);
+    Rect2i wrapped = proxy->getter();
+    wrapped.size = size.get();
+    proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
-
 static JSValue rect2i_proxy_get_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	Rect2i ret = proxy->getter();
-	return VariantAdapter(ret.get_end());
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    Rect2i ret = proxy->getter();
+    return VariantAdapter(ret.get_end());
 }
-
 static JSValue rect2i_proxy_set_end(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["Rect2iProxy"]);
-	ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
-	VariantAdapter end(argv[0]);
-	Rect2i wrapped = proxy->getter();
-	wrapped.set_end(end.get());
-	proxy->setter(wrapped);
+    ObjectProxy<Rect2i> *proxy = static_cast<ObjectProxy<Rect2i> *>(opaque);
+    VariantAdapter end(argv[0]);
+    Rect2i wrapped = proxy->getter();
+    wrapped.set_end(end.get());
+    proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
 
@@ -504,6 +474,7 @@ static int js_rect2i_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Rect2iProxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

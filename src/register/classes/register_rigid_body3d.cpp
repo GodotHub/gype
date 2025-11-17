@@ -750,19 +750,19 @@ static void define_rigid_body3d_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_rigid_body3d_enum(JSContext *ctx, JSValue proto) {
+static void define_rigid_body3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue FreezeMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FreezeMode_obj, "FREEZE_MODE_STATIC", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FreezeMode_obj, "FREEZE_MODE_KINEMATIC", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "FreezeMode", FreezeMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "FreezeMode", FreezeMode_obj);
 	JSValue CenterOfMassMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, CenterOfMassMode_obj, "CENTER_OF_MASS_MODE_AUTO", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, CenterOfMassMode_obj, "CENTER_OF_MASS_MODE_CUSTOM", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "CenterOfMassMode", CenterOfMassMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "CenterOfMassMode", CenterOfMassMode_obj);
 	JSValue DampMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DampMode_obj, "DAMP_MODE_COMBINE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DampMode_obj, "DAMP_MODE_REPLACE", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "DampMode", DampMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "DampMode", DampMode_obj);
 }
 
 static int js_rigid_body3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -778,9 +778,9 @@ static int js_rigid_body3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_rigid_body3d_property(ctx, proto);
-	define_rigid_body3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, rigid_body3d_class_proto_funcs, _countof(rigid_body3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, rigid_body3d_class_constructor, "RigidBody3D", 0, JS_CFUNC_constructor, 0);
+	define_rigid_body3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "RigidBody3D", ctor);
 

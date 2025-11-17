@@ -276,7 +276,7 @@ static void define_accept_dialog_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_accept_dialog_enum(JSContext *ctx, JSValue proto) {
+static void define_accept_dialog_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_accept_dialog_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -292,9 +292,9 @@ static int js_accept_dialog_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_accept_dialog_property(ctx, proto);
-	define_accept_dialog_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, accept_dialog_class_proto_funcs, _countof(accept_dialog_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, accept_dialog_class_constructor, "AcceptDialog", 0, JS_CFUNC_constructor, 0);
+	define_accept_dialog_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AcceptDialog", ctor);
 

@@ -7,9 +7,9 @@ declare global {
         constructor(normal: Vector3, point: Vector3): Plane;
         constructor(point1: Vector3, point2: Vector3, point3: Vector3): Plane;
         constructor(a: number, b: number, c: number, d: number): Plane;
-        readonly PLANE_YZ: Plane;
-        readonly PLANE_XZ: Plane;
-        readonly PLANE_XY: Plane;
+        readonly static PLANE_YZ: Plane;
+        readonly static PLANE_XZ: Plane;
+        readonly static PLANE_XY: Plane;
     
         x: number;
         y: number;

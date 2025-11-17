@@ -67,7 +67,7 @@ static const JSCFunctionListEntry movie_writer_class_static_funcs[] = {
 static void define_movie_writer_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_movie_writer_enum(JSContext *ctx, JSValue proto) {
+static void define_movie_writer_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_movie_writer_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -83,9 +83,9 @@ static int js_movie_writer_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_movie_writer_property(ctx, proto);
-	define_movie_writer_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, movie_writer_class_constructor, "MovieWriter", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, movie_writer_class_static_funcs, _countof(movie_writer_class_static_funcs));
+	define_movie_writer_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "MovieWriter", ctor);
 

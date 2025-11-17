@@ -255,12 +255,12 @@ static void define_xr_pose_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_xr_pose_enum(JSContext *ctx, JSValue proto) {
+static void define_xr_pose_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TrackingConfidence_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TrackingConfidence_obj, "XR_TRACKING_CONFIDENCE_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TrackingConfidence_obj, "XR_TRACKING_CONFIDENCE_LOW", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TrackingConfidence_obj, "XR_TRACKING_CONFIDENCE_HIGH", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "TrackingConfidence", TrackingConfidence_obj);
+	JS_SetPropertyStr(ctx, ctor, "TrackingConfidence", TrackingConfidence_obj);
 }
 
 static int js_xr_pose_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -276,9 +276,9 @@ static int js_xr_pose_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_xr_pose_property(ctx, proto);
-	define_xr_pose_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, xr_pose_class_proto_funcs, _countof(xr_pose_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, xr_pose_class_constructor, "XRPose", 0, JS_CFUNC_constructor, 0);
+	define_xr_pose_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "XRPose", ctor);
 

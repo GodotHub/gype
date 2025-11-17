@@ -60,7 +60,7 @@ static JSValue placeholder_material_class_constructor(JSContext *ctx, JSValueCon
 static void define_placeholder_material_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_placeholder_material_enum(JSContext *ctx, JSValue proto) {
+static void define_placeholder_material_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_placeholder_material_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_placeholder_material_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_placeholder_material_property(ctx, proto);
-	define_placeholder_material_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, placeholder_material_class_constructor, "PlaceholderMaterial", 0, JS_CFUNC_constructor, 0);
+	define_placeholder_material_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "PlaceholderMaterial", ctor);
 

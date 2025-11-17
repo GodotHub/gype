@@ -60,7 +60,7 @@ static JSValue jni_singleton_class_constructor(JSContext *ctx, JSValueConst new_
 static void define_jni_singleton_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_jni_singleton_enum(JSContext *ctx, JSValue proto) {
+static void define_jni_singleton_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_jni_singleton_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_jni_singleton_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_jni_singleton_property(ctx, proto);
-	define_jni_singleton_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, jni_singleton_class_constructor, "JNISingleton", 0, JS_CFUNC_constructor, 0);
+	define_jni_singleton_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "JNISingleton", ctor);
 

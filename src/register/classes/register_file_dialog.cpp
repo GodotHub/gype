@@ -628,23 +628,23 @@ static void define_file_dialog_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_file_dialog_enum(JSContext *ctx, JSValue proto) {
+static void define_file_dialog_enum(JSContext *ctx, JSValue ctor) {
 	JSValue FileMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FileMode_obj, "FILE_MODE_OPEN_FILE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FileMode_obj, "FILE_MODE_OPEN_FILES", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, FileMode_obj, "FILE_MODE_OPEN_DIR", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, FileMode_obj, "FILE_MODE_OPEN_ANY", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, FileMode_obj, "FILE_MODE_SAVE_FILE", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "FileMode", FileMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "FileMode", FileMode_obj);
 	JSValue Access_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Access_obj, "ACCESS_RESOURCES", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Access_obj, "ACCESS_USERDATA", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Access_obj, "ACCESS_FILESYSTEM", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "Access", Access_obj);
+	JS_SetPropertyStr(ctx, ctor, "Access", Access_obj);
 	JSValue DisplayMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DisplayMode_obj, "DISPLAY_THUMBNAILS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DisplayMode_obj, "DISPLAY_LIST", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "DisplayMode", DisplayMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "DisplayMode", DisplayMode_obj);
 	JSValue Customization_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Customization_obj, "CUSTOMIZATION_HIDDEN_FILES", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Customization_obj, "CUSTOMIZATION_CREATE_FOLDER", JS_NewInt64(ctx, 1));
@@ -653,7 +653,7 @@ static void define_file_dialog_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, Customization_obj, "CUSTOMIZATION_FAVORITES", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, Customization_obj, "CUSTOMIZATION_RECENT", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, Customization_obj, "CUSTOMIZATION_LAYOUT", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "Customization", Customization_obj);
+	JS_SetPropertyStr(ctx, ctor, "Customization", Customization_obj);
 }
 
 static int js_file_dialog_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -669,9 +669,9 @@ static int js_file_dialog_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_file_dialog_property(ctx, proto);
-	define_file_dialog_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, file_dialog_class_proto_funcs, _countof(file_dialog_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, file_dialog_class_constructor, "FileDialog", 0, JS_CFUNC_constructor, 0);
+	define_file_dialog_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "FileDialog", ctor);
 

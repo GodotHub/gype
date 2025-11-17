@@ -202,12 +202,12 @@ static void define_undo_redo_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_undo_redo_enum(JSContext *ctx, JSValue proto) {
+static void define_undo_redo_enum(JSContext *ctx, JSValue ctor) {
 	JSValue MergeMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, MergeMode_obj, "MERGE_DISABLE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, MergeMode_obj, "MERGE_ENDS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, MergeMode_obj, "MERGE_ALL", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "MergeMode", MergeMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "MergeMode", MergeMode_obj);
 }
 
 static int js_undo_redo_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -223,9 +223,9 @@ static int js_undo_redo_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_undo_redo_property(ctx, proto);
-	define_undo_redo_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, undo_redo_class_proto_funcs, _countof(undo_redo_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, undo_redo_class_constructor, "UndoRedo", 0, JS_CFUNC_constructor, 0);
+	define_undo_redo_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "UndoRedo", ctor);
 

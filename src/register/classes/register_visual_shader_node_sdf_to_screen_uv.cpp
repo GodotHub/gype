@@ -60,7 +60,7 @@ static JSValue visual_shader_node_sdf_to_screen_uv_class_constructor(JSContext *
 static void define_visual_shader_node_sdf_to_screen_uv_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_visual_shader_node_sdf_to_screen_uv_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_sdf_to_screen_uv_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_visual_shader_node_sdf_to_screen_uv_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_visual_shader_node_sdf_to_screen_uv_class_init(JSContext *ctx, JSM
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_sdf_to_screen_uv_property(ctx, proto);
-	define_visual_shader_node_sdf_to_screen_uv_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_sdf_to_screen_uv_class_constructor, "VisualShaderNodeSDFToScreenUV", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_sdf_to_screen_uv_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeSDFToScreenUV", ctor);
 

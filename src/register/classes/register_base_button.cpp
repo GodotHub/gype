@@ -327,18 +327,18 @@ static void define_base_button_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_base_button_enum(JSContext *ctx, JSValue proto) {
+static void define_base_button_enum(JSContext *ctx, JSValue ctor) {
 	JSValue DrawMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DrawMode_obj, "DRAW_NORMAL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DrawMode_obj, "DRAW_PRESSED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, DrawMode_obj, "DRAW_HOVER", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, DrawMode_obj, "DRAW_DISABLED", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, DrawMode_obj, "DRAW_HOVER_PRESSED", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "DrawMode", DrawMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "DrawMode", DrawMode_obj);
 	JSValue ActionMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ActionMode_obj, "ACTION_MODE_BUTTON_PRESS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ActionMode_obj, "ACTION_MODE_BUTTON_RELEASE", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "ActionMode", ActionMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "ActionMode", ActionMode_obj);
 }
 
 static int js_base_button_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -354,9 +354,9 @@ static int js_base_button_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_base_button_property(ctx, proto);
-	define_base_button_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, base_button_class_proto_funcs, _countof(base_button_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, base_button_class_constructor, "BaseButton", 0, JS_CFUNC_constructor, 0);
+	define_base_button_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "BaseButton", ctor);
 

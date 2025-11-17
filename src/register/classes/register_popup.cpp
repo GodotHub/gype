@@ -77,7 +77,7 @@ static void define_popup_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_popup_enum(JSContext *ctx, JSValue proto) {
+static void define_popup_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_popup_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -93,8 +93,8 @@ static int js_popup_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_popup_property(ctx, proto);
-	define_popup_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, popup_class_constructor, "Popup", 0, JS_CFUNC_constructor, 0);
+	define_popup_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Popup", ctor);
 

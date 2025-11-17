@@ -285,11 +285,11 @@ static void define_foldable_container_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_foldable_container_enum(JSContext *ctx, JSValue proto) {
+static void define_foldable_container_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TitlePosition_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TitlePosition_obj, "POSITION_TOP", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TitlePosition_obj, "POSITION_BOTTOM", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "TitlePosition", TitlePosition_obj);
+	JS_SetPropertyStr(ctx, ctor, "TitlePosition", TitlePosition_obj);
 }
 
 static int js_foldable_container_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -305,9 +305,9 @@ static int js_foldable_container_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_foldable_container_property(ctx, proto);
-	define_foldable_container_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, foldable_container_class_proto_funcs, _countof(foldable_container_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, foldable_container_class_constructor, "FoldableContainer", 0, JS_CFUNC_constructor, 0);
+	define_foldable_container_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "FoldableContainer", ctor);
 

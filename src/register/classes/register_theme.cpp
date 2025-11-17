@@ -434,7 +434,7 @@ static void define_theme_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_theme_enum(JSContext *ctx, JSValue proto) {
+static void define_theme_enum(JSContext *ctx, JSValue ctor) {
 	JSValue DataType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, DataType_obj, "DATA_TYPE_COLOR", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, DataType_obj, "DATA_TYPE_CONSTANT", JS_NewInt64(ctx, 1));
@@ -443,7 +443,7 @@ static void define_theme_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, DataType_obj, "DATA_TYPE_ICON", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, DataType_obj, "DATA_TYPE_STYLEBOX", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, DataType_obj, "DATA_TYPE_MAX", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "DataType", DataType_obj);
+	JS_SetPropertyStr(ctx, ctor, "DataType", DataType_obj);
 }
 
 static int js_theme_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -459,9 +459,9 @@ static int js_theme_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_theme_property(ctx, proto);
-	define_theme_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, theme_class_proto_funcs, _countof(theme_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, theme_class_constructor, "Theme", 0, JS_CFUNC_constructor, 0);
+	define_theme_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Theme", ctor);
 

@@ -153,13 +153,13 @@ static void define_open_xr_render_model_manager_property(JSContext *ctx, JSValue
 		JS_PROP_GETSET);
 }
 
-static void define_open_xr_render_model_manager_enum(JSContext *ctx, JSValue proto) {
+static void define_open_xr_render_model_manager_enum(JSContext *ctx, JSValue ctor) {
 	JSValue RenderModelTracker_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, RenderModelTracker_obj, "RENDER_MODEL_TRACKER_ANY", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, RenderModelTracker_obj, "RENDER_MODEL_TRACKER_NONE_SET", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, RenderModelTracker_obj, "RENDER_MODEL_TRACKER_LEFT_HAND", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, RenderModelTracker_obj, "RENDER_MODEL_TRACKER_RIGHT_HAND", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "RenderModelTracker", RenderModelTracker_obj);
+	JS_SetPropertyStr(ctx, ctor, "RenderModelTracker", RenderModelTracker_obj);
 }
 
 static int js_open_xr_render_model_manager_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -175,9 +175,9 @@ static int js_open_xr_render_model_manager_class_init(JSContext *ctx, JSModuleDe
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_open_xr_render_model_manager_property(ctx, proto);
-	define_open_xr_render_model_manager_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, open_xr_render_model_manager_class_proto_funcs, _countof(open_xr_render_model_manager_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, open_xr_render_model_manager_class_constructor, "OpenXRRenderModelManager", 0, JS_CFUNC_constructor, 0);
+	define_open_xr_render_model_manager_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "OpenXRRenderModelManager", ctor);
 

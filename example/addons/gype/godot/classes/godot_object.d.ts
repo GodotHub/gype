@@ -44,9 +44,9 @@ export declare class GodotObject {
     public get_signal_list(): Array<any>;
     public get_signal_connection_list(signal: GDString | StringName | string): Array<any>;
     public get_incoming_connections(): Array<any>;
-    public connect(signal: GDString | StringName | string, callable: Callable, flags: number = 0): number;
-    public disconnect(signal: GDString | StringName | string, callable: Callable): void;
-    public is_connected(signal: GDString | StringName | string, callable: Callable): boolean;
+    public connect(signal: GDString | StringName | string, callable: Callable | Function, flags: number = 0): number;
+    public disconnect(signal: GDString | StringName | string, callable: Callable | Function): void;
+    public is_connected(signal: GDString | StringName | string, callable: Callable | Function): boolean;
     public has_connections(signal: GDString | StringName | string): boolean;
     public set_block_signals(enable: boolean): void;
     public is_blocking_signals(): boolean;

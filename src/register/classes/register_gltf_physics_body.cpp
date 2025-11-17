@@ -367,7 +367,7 @@ static void define_gltf_physics_body_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_gltf_physics_body_enum(JSContext *ctx, JSValue proto) {
+static void define_gltf_physics_body_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_gltf_physics_body_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -383,10 +383,10 @@ static int js_gltf_physics_body_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_gltf_physics_body_property(ctx, proto);
-	define_gltf_physics_body_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, gltf_physics_body_class_proto_funcs, _countof(gltf_physics_body_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, gltf_physics_body_class_constructor, "GLTFPhysicsBody", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, gltf_physics_body_class_static_funcs, _countof(gltf_physics_body_class_static_funcs));
+	define_gltf_physics_body_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GLTFPhysicsBody", ctor);
 

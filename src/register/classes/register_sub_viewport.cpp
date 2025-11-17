@@ -192,19 +192,19 @@ static void define_sub_viewport_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_sub_viewport_enum(JSContext *ctx, JSValue proto) {
+static void define_sub_viewport_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ClearMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ClearMode_obj, "CLEAR_MODE_ALWAYS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ClearMode_obj, "CLEAR_MODE_NEVER", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ClearMode_obj, "CLEAR_MODE_ONCE", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "ClearMode", ClearMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "ClearMode", ClearMode_obj);
 	JSValue UpdateMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, UpdateMode_obj, "UPDATE_DISABLED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, UpdateMode_obj, "UPDATE_ONCE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, UpdateMode_obj, "UPDATE_WHEN_VISIBLE", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, UpdateMode_obj, "UPDATE_WHEN_PARENT_VISIBLE", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, UpdateMode_obj, "UPDATE_ALWAYS", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "UpdateMode", UpdateMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "UpdateMode", UpdateMode_obj);
 }
 
 static int js_sub_viewport_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -220,9 +220,9 @@ static int js_sub_viewport_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_sub_viewport_property(ctx, proto);
-	define_sub_viewport_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, sub_viewport_class_proto_funcs, _countof(sub_viewport_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, sub_viewport_class_constructor, "SubViewport", 0, JS_CFUNC_constructor, 0);
+	define_sub_viewport_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SubViewport", ctor);
 

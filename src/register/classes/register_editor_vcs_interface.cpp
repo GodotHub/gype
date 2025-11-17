@@ -102,7 +102,7 @@ static const JSCFunctionListEntry editor_vcs_interface_class_proto_funcs[] = {
 static void define_editor_vcs_interface_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_editor_vcs_interface_enum(JSContext *ctx, JSValue proto) {
+static void define_editor_vcs_interface_enum(JSContext *ctx, JSValue ctor) {
 	JSValue ChangeType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ChangeType_obj, "CHANGE_TYPE_NEW", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ChangeType_obj, "CHANGE_TYPE_MODIFIED", JS_NewInt64(ctx, 1));
@@ -110,12 +110,12 @@ static void define_editor_vcs_interface_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, ChangeType_obj, "CHANGE_TYPE_DELETED", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, ChangeType_obj, "CHANGE_TYPE_TYPECHANGE", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, ChangeType_obj, "CHANGE_TYPE_UNMERGED", JS_NewInt64(ctx, 5));
-	JS_SetPropertyStr(ctx, proto, "ChangeType", ChangeType_obj);
+	JS_SetPropertyStr(ctx, ctor, "ChangeType", ChangeType_obj);
 	JSValue TreeArea_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TreeArea_obj, "TREE_AREA_COMMIT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TreeArea_obj, "TREE_AREA_STAGED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TreeArea_obj, "TREE_AREA_UNSTAGED", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "TreeArea", TreeArea_obj);
+	JS_SetPropertyStr(ctx, ctor, "TreeArea", TreeArea_obj);
 }
 
 static int js_editor_vcs_interface_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -131,9 +131,9 @@ static int js_editor_vcs_interface_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_editor_vcs_interface_property(ctx, proto);
-	define_editor_vcs_interface_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, editor_vcs_interface_class_proto_funcs, _countof(editor_vcs_interface_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, editor_vcs_interface_class_constructor, "EditorVCSInterface", 0, JS_CFUNC_constructor, 0);
+	define_editor_vcs_interface_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "EditorVCSInterface", ctor);
 

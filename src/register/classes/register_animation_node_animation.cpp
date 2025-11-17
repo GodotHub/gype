@@ -226,11 +226,11 @@ static void define_animation_node_animation_property(JSContext *ctx, JSValue pro
     );
 }
 
-static void define_animation_node_animation_enum(JSContext *ctx, JSValue proto) {
+static void define_animation_node_animation_enum(JSContext *ctx, JSValue ctor) {
 	JSValue PlayMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PlayMode_obj, "PLAY_MODE_FORWARD", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PlayMode_obj, "PLAY_MODE_BACKWARD", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "PlayMode", PlayMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "PlayMode", PlayMode_obj);
 }
 
 static int js_animation_node_animation_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -246,9 +246,9 @@ static int js_animation_node_animation_class_init(JSContext *ctx, JSModuleDef *m
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_animation_node_animation_property(ctx, proto);
-	define_animation_node_animation_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, animation_node_animation_class_proto_funcs, _countof(animation_node_animation_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, animation_node_animation_class_constructor, "AnimationNodeAnimation", 0, JS_CFUNC_constructor, 0);
+	define_animation_node_animation_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AnimationNodeAnimation", ctor);
 

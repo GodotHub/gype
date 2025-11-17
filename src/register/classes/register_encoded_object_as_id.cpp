@@ -80,7 +80,7 @@ static void define_encoded_object_as_id_property(JSContext *ctx, JSValue proto) 
     );
 }
 
-static void define_encoded_object_as_id_enum(JSContext *ctx, JSValue proto) {
+static void define_encoded_object_as_id_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_encoded_object_as_id_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -96,9 +96,9 @@ static int js_encoded_object_as_id_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_encoded_object_as_id_property(ctx, proto);
-	define_encoded_object_as_id_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, encoded_object_as_id_class_proto_funcs, _countof(encoded_object_as_id_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, encoded_object_as_id_class_constructor, "EncodedObjectAsID", 0, JS_CFUNC_constructor, 0);
+	define_encoded_object_as_id_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "EncodedObjectAsID", ctor);
 

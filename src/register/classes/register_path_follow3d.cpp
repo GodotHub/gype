@@ -230,14 +230,14 @@ static void define_path_follow3d_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_path_follow3d_enum(JSContext *ctx, JSValue proto) {
+static void define_path_follow3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue RotationMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, RotationMode_obj, "ROTATION_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, RotationMode_obj, "ROTATION_Y", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, RotationMode_obj, "ROTATION_XY", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, RotationMode_obj, "ROTATION_XYZ", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, RotationMode_obj, "ROTATION_ORIENTED", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "RotationMode", RotationMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "RotationMode", RotationMode_obj);
 }
 
 static int js_path_follow3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -253,10 +253,10 @@ static int js_path_follow3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_path_follow3d_property(ctx, proto);
-	define_path_follow3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, path_follow3d_class_proto_funcs, _countof(path_follow3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, path_follow3d_class_constructor, "PathFollow3D", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, path_follow3d_class_static_funcs, _countof(path_follow3d_class_static_funcs));
+	define_path_follow3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "PathFollow3D", ctor);
 

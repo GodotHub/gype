@@ -92,7 +92,7 @@ static const JSCFunctionListEntry editor_paths_class_proto_funcs[] = {
 static void define_editor_paths_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_editor_paths_enum(JSContext *ctx, JSValue proto) {
+static void define_editor_paths_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_editor_paths_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -108,9 +108,9 @@ static int js_editor_paths_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_editor_paths_property(ctx, proto);
-	define_editor_paths_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, editor_paths_class_proto_funcs, _countof(editor_paths_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, editor_paths_class_constructor, "EditorPaths", 0, JS_CFUNC_constructor, 0);
+	define_editor_paths_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "EditorPaths", ctor);
 

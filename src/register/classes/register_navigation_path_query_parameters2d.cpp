@@ -392,22 +392,22 @@ static void define_navigation_path_query_parameters2d_property(JSContext *ctx, J
     );
 }
 
-static void define_navigation_path_query_parameters2d_enum(JSContext *ctx, JSValue proto) {
+static void define_navigation_path_query_parameters2d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue PathfindingAlgorithm_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PathfindingAlgorithm_obj, "PATHFINDING_ALGORITHM_ASTAR", JS_NewInt64(ctx, 0));
-	JS_SetPropertyStr(ctx, proto, "PathfindingAlgorithm", PathfindingAlgorithm_obj);
+	JS_SetPropertyStr(ctx, ctor, "PathfindingAlgorithm", PathfindingAlgorithm_obj);
 	JSValue PathPostProcessing_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PathPostProcessing_obj, "PATH_POSTPROCESSING_CORRIDORFUNNEL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PathPostProcessing_obj, "PATH_POSTPROCESSING_EDGECENTERED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, PathPostProcessing_obj, "PATH_POSTPROCESSING_NONE", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "PathPostProcessing", PathPostProcessing_obj);
+	JS_SetPropertyStr(ctx, ctor, "PathPostProcessing", PathPostProcessing_obj);
 	JSValue PathMetadataFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PathMetadataFlags_obj, "PATH_METADATA_INCLUDE_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PathMetadataFlags_obj, "PATH_METADATA_INCLUDE_TYPES", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, PathMetadataFlags_obj, "PATH_METADATA_INCLUDE_RIDS", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, PathMetadataFlags_obj, "PATH_METADATA_INCLUDE_OWNERS", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, PathMetadataFlags_obj, "PATH_METADATA_INCLUDE_ALL", JS_NewInt64(ctx, 7));
-	JS_SetPropertyStr(ctx, proto, "PathMetadataFlags", PathMetadataFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "PathMetadataFlags", PathMetadataFlags_obj);
 }
 
 static int js_navigation_path_query_parameters2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -423,9 +423,9 @@ static int js_navigation_path_query_parameters2d_class_init(JSContext *ctx, JSMo
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_navigation_path_query_parameters2d_property(ctx, proto);
-	define_navigation_path_query_parameters2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, navigation_path_query_parameters2d_class_proto_funcs, _countof(navigation_path_query_parameters2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, navigation_path_query_parameters2d_class_constructor, "NavigationPathQueryParameters2D", 0, JS_CFUNC_constructor, 0);
+	define_navigation_path_query_parameters2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "NavigationPathQueryParameters2D", ctor);
 

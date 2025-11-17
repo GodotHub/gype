@@ -134,7 +134,7 @@ static void define_capsule_mesh_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_capsule_mesh_enum(JSContext *ctx, JSValue proto) {
+static void define_capsule_mesh_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_capsule_mesh_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -150,9 +150,9 @@ static int js_capsule_mesh_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_capsule_mesh_property(ctx, proto);
-	define_capsule_mesh_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, capsule_mesh_class_proto_funcs, _countof(capsule_mesh_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, capsule_mesh_class_constructor, "CapsuleMesh", 0, JS_CFUNC_constructor, 0);
+	define_capsule_mesh_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CapsuleMesh", ctor);
 

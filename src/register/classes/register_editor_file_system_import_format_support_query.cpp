@@ -60,7 +60,7 @@ static JSValue editor_file_system_import_format_support_query_class_constructor(
 static void define_editor_file_system_import_format_support_query_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_editor_file_system_import_format_support_query_enum(JSContext *ctx, JSValue proto) {
+static void define_editor_file_system_import_format_support_query_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_editor_file_system_import_format_support_query_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_editor_file_system_import_format_support_query_class_init(JSContex
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_editor_file_system_import_format_support_query_property(ctx, proto);
-	define_editor_file_system_import_format_support_query_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, editor_file_system_import_format_support_query_class_constructor, "EditorFileSystemImportFormatSupportQuery", 0, JS_CFUNC_constructor, 0);
+	define_editor_file_system_import_format_support_query_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "EditorFileSystemImportFormatSupportQuery", ctor);
 

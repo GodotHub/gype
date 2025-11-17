@@ -60,7 +60,7 @@ static JSValue node3d_gizmo_class_constructor(JSContext *ctx, JSValueConst new_t
 static void define_node3d_gizmo_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_node3d_gizmo_enum(JSContext *ctx, JSValue proto) {
+static void define_node3d_gizmo_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_node3d_gizmo_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_node3d_gizmo_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_node3d_gizmo_property(ctx, proto);
-	define_node3d_gizmo_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, node3d_gizmo_class_constructor, "Node3DGizmo", 0, JS_CFUNC_constructor, 0);
+	define_node3d_gizmo_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Node3DGizmo", ctor);
 

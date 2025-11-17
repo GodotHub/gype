@@ -12,7 +12,7 @@ export declare class JavaScriptBridge extends GodotObject {
 
     public eval(code: GDString | StringName | string, useGlobalExecutionContext: boolean = false): any;
     public get_interface(_interface: GDString | StringName | string): JavaScriptObject;
-    public create_callback(callable: Callable): JavaScriptObject;
+    public create_callback(callable: Callable | Function): JavaScriptObject;
     public is_js_buffer(javascriptObject: JavaScriptObject): boolean;
     public js_buffer_to_packed_byte_array(javascriptBuffer: JavaScriptObject): PackedByteArray;
     public create_object(object: GDString | StringName | string, ...args: any[]): any;

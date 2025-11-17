@@ -506,7 +506,7 @@ static void define_style_box_flat_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_style_box_flat_enum(JSContext *ctx, JSValue proto) {
+static void define_style_box_flat_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_style_box_flat_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -522,9 +522,9 @@ static int js_style_box_flat_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_style_box_flat_property(ctx, proto);
-	define_style_box_flat_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, style_box_flat_class_proto_funcs, _countof(style_box_flat_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, style_box_flat_class_constructor, "StyleBoxFlat", 0, JS_CFUNC_constructor, 0);
+	define_style_box_flat_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "StyleBoxFlat", ctor);
 

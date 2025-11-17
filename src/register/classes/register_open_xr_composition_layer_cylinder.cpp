@@ -134,7 +134,7 @@ static void define_open_xr_composition_layer_cylinder_property(JSContext *ctx, J
     );
 }
 
-static void define_open_xr_composition_layer_cylinder_enum(JSContext *ctx, JSValue proto) {
+static void define_open_xr_composition_layer_cylinder_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_open_xr_composition_layer_cylinder_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -150,9 +150,9 @@ static int js_open_xr_composition_layer_cylinder_class_init(JSContext *ctx, JSMo
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_open_xr_composition_layer_cylinder_property(ctx, proto);
-	define_open_xr_composition_layer_cylinder_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, open_xr_composition_layer_cylinder_class_proto_funcs, _countof(open_xr_composition_layer_cylinder_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, open_xr_composition_layer_cylinder_class_constructor, "OpenXRCompositionLayerCylinder", 0, JS_CFUNC_constructor, 0);
+	define_open_xr_composition_layer_cylinder_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "OpenXRCompositionLayerCylinder", ctor);
 

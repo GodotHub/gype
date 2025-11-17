@@ -14,8 +14,8 @@ export declare class UndoRedo extends GodotObject {
     public create_action(name: GDString | StringName | string, mergeMode: number = 0, backwardUndoOps: boolean = false): void;
     public commit_action(execute: boolean = true): void;
     public is_committing_action(): boolean;
-    public add_do_method(callable: Callable): void;
-    public add_undo_method(callable: Callable): void;
+    public add_do_method(callable: Callable | Function): void;
+    public add_undo_method(callable: Callable | Function): void;
     public add_do_property(object: GodotObject, property: GDString | StringName | string, value: any): void;
     public add_undo_property(object: GodotObject, property: GDString | StringName | string, value: any): void;
     public add_do_reference(object: GodotObject): void;

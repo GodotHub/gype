@@ -147,7 +147,6 @@ static JSValue projection_class_get_lod_multiplier(JSContext *ctx, JSValueConst 
 static JSValue projection_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Projection val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
 	return VariantAdapter(val.columns[0]);
-	
 }
 static JSValue projection_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]));
@@ -159,7 +158,6 @@ static JSValue projection_class_set_x(JSContext *ctx, JSValueConst this_val, int
 static JSValue projection_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Projection val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
 	return VariantAdapter(val.columns[1]);
-	
 }
 static JSValue projection_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]));
@@ -171,7 +169,6 @@ static JSValue projection_class_set_y(JSContext *ctx, JSValueConst this_val, int
 static JSValue projection_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Projection val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
 	return VariantAdapter(val.columns[2]);
-	
 }
 static JSValue projection_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]));
@@ -183,7 +180,6 @@ static JSValue projection_class_set_z(JSContext *ctx, JSValueConst this_val, int
 static JSValue projection_class_get_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Projection val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]))->get();
 	return VariantAdapter(val.columns[3]);
-	
 }
 static JSValue projection_class_set_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Projection"]));
@@ -191,6 +187,20 @@ static JSValue projection_class_set_w(JSContext *ctx, JSValueConst this_val, int
     val.columns[3] = VariantAdapter(*argv).get();
     adapter->set(val);
 	return JS_UNDEFINED;
+}
+
+
+static JSValue projection_get_constant_IDENTITY(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue projection_get_constant_ZERO(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Projection(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
 }
 
 static const JSCFunctionListEntry projection_class_proto_funcs[] = {
@@ -220,6 +230,11 @@ static const JSCFunctionListEntry projection_class_proto_funcs[] = {
 	JS_CFUNC_DEF("inverse", 0, &projection_class_inverse),
 	JS_CFUNC_DEF("get_pixels_per_meter", 1, &projection_class_get_pixels_per_meter),
 	JS_CFUNC_DEF("get_lod_multiplier", 0, &projection_class_get_lod_multiplier),
+};
+
+static const JSCFunctionListEntry projection_class_constants_funcs[] = {
+    JS_CGETSET_DEF("IDENTITY", &projection_get_constant_IDENTITY, NULL),
+    JS_CGETSET_DEF("ZERO", &projection_get_constant_ZERO, NULL),
 };
 
 static void define_projection_property(JSContext *ctx, JSValue obj) {
@@ -253,6 +268,7 @@ static void define_projection_property(JSContext *ctx, JSValue obj) {
 			JS_PROP_GETSET);
 }
 
+
 static int js_projection_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["Projection"] = JS_NewClassID(js_runtime(), &class_id);
@@ -261,13 +277,17 @@ static int js_projection_class_init(JSContext *ctx) {
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &projection_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	define_projection_property(ctx, proto);	JS_SetPropertyFunctionList(ctx, proto, projection_class_proto_funcs, _countof(projection_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);	define_projection_property(ctx, proto);
+	JS_SetPropertyFunctionList(ctx, proto, projection_class_proto_funcs, _countof(projection_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, projection_class_constructor, "Projection", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	JS_SetPropertyFunctionList(ctx, ctor, projection_class_constants_funcs, _countof(projection_class_constants_funcs));
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Projection", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -626,6 +646,7 @@ static int js_projection_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "ProjectionProxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

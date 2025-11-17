@@ -369,12 +369,12 @@ static void define_tile_set_atlas_source_property(JSContext *ctx, JSValue proto)
     );
 }
 
-static void define_tile_set_atlas_source_enum(JSContext *ctx, JSValue proto) {
+static void define_tile_set_atlas_source_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TileAnimationMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TileAnimationMode_obj, "TILE_ANIMATION_MODE_DEFAULT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TileAnimationMode_obj, "TILE_ANIMATION_MODE_RANDOM_START_TIMES", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TileAnimationMode_obj, "TILE_ANIMATION_MODE_MAX", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "TileAnimationMode", TileAnimationMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "TileAnimationMode", TileAnimationMode_obj);
 }
 
 static int js_tile_set_atlas_source_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -390,9 +390,9 @@ static int js_tile_set_atlas_source_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_tile_set_atlas_source_property(ctx, proto);
-	define_tile_set_atlas_source_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, tile_set_atlas_source_class_proto_funcs, _countof(tile_set_atlas_source_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, tile_set_atlas_source_class_constructor, "TileSetAtlasSource", 0, JS_CFUNC_constructor, 0);
+	define_tile_set_atlas_source_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TileSetAtlasSource", ctor);
 

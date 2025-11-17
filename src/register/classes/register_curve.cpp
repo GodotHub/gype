@@ -304,12 +304,12 @@ static void define_curve_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_curve_enum(JSContext *ctx, JSValue proto) {
+static void define_curve_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TangentMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TangentMode_obj, "TANGENT_FREE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TangentMode_obj, "TANGENT_LINEAR", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TangentMode_obj, "TANGENT_MODE_COUNT", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "TangentMode", TangentMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "TangentMode", TangentMode_obj);
 }
 
 static int js_curve_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -325,9 +325,9 @@ static int js_curve_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_curve_property(ctx, proto);
-	define_curve_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, curve_class_proto_funcs, _countof(curve_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, curve_class_constructor, "Curve", 0, JS_CFUNC_constructor, 0);
+	define_curve_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Curve", ctor);
 

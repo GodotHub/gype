@@ -11,8 +11,8 @@ export declare class NavigationMeshGenerator extends GodotObject {
 
     public bake(navigationMesh: NavigationMesh, rootNode: Node): void;
     public clear(navigationMesh: NavigationMesh): void;
-    public parse_source_geometry_data(navigationMesh: NavigationMesh, sourceGeometryData: NavigationMeshSourceGeometryData3D, rootNode: Node, callback: Callable = Callable()): void;
-    public bake_from_source_geometry_data(navigationMesh: NavigationMesh, sourceGeometryData: NavigationMeshSourceGeometryData3D, callback: Callable = Callable()): void;
+    public parse_source_geometry_data(navigationMesh: NavigationMesh, sourceGeometryData: NavigationMeshSourceGeometryData3D, rootNode: Node, callback: Callable | Function = Callable()): void;
+    public bake_from_source_geometry_data(navigationMesh: NavigationMesh, sourceGeometryData: NavigationMeshSourceGeometryData3D, callback: Callable | Function = Callable()): void;
 
 
 }

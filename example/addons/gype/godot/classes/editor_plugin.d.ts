@@ -66,7 +66,7 @@ export declare class EditorPlugin extends Node {
     public remove_control_from_bottom_panel(control: Control): void;
     public remove_control_from_container(container: number, control: Control): void;
     public set_dock_tab_icon(control: Control, icon: Texture2D): void;
-    public add_tool_menu_item(name: GDString | StringName | string, callable: Callable): void;
+    public add_tool_menu_item(name: GDString | StringName | string, callable: Callable | Function): void;
     public add_tool_submenu_item(name: GDString | StringName | string, submenu: PopupMenu): void;
     public remove_tool_menu_item(name: GDString | StringName | string): void;
     public get_export_as_menu(): PopupMenu;
@@ -78,8 +78,8 @@ export declare class EditorPlugin extends Node {
     public make_bottom_panel_item_visible(item: Control): void;
     public hide_bottom_panel(): void;
     public get_undo_redo(): EditorUndoRedoManager;
-    public add_undo_redo_inspector_hook_callback(callable: Callable): void;
-    public remove_undo_redo_inspector_hook_callback(callable: Callable): void;
+    public add_undo_redo_inspector_hook_callback(callable: Callable | Function): void;
+    public remove_undo_redo_inspector_hook_callback(callable: Callable | Function): void;
     public queue_save_layout(): void;
     public add_translation_parser_plugin(parser: EditorTranslationParserPlugin): void;
     public remove_translation_parser_plugin(parser: EditorTranslationParserPlugin): void;

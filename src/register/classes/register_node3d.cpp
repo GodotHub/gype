@@ -832,12 +832,12 @@ static void define_node3d_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_node3d_enum(JSContext *ctx, JSValue proto) {
+static void define_node3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue RotationEditMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, RotationEditMode_obj, "ROTATION_EDIT_MODE_EULER", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, RotationEditMode_obj, "ROTATION_EDIT_MODE_QUATERNION", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, RotationEditMode_obj, "ROTATION_EDIT_MODE_BASIS", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "RotationEditMode", RotationEditMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "RotationEditMode", RotationEditMode_obj);
 }
 
 static int js_node3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -853,9 +853,9 @@ static int js_node3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_node3d_property(ctx, proto);
-	define_node3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, node3d_class_proto_funcs, _countof(node3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, node3d_class_constructor, "Node3D", 0, JS_CFUNC_constructor, 0);
+	define_node3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Node3D", ctor);
 

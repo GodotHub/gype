@@ -60,7 +60,7 @@ static JSValue video_stream_theora_class_constructor(JSContext *ctx, JSValueCons
 static void define_video_stream_theora_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_video_stream_theora_enum(JSContext *ctx, JSValue proto) {
+static void define_video_stream_theora_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_video_stream_theora_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_video_stream_theora_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_video_stream_theora_property(ctx, proto);
-	define_video_stream_theora_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, video_stream_theora_class_constructor, "VideoStreamTheora", 0, JS_CFUNC_constructor, 0);
+	define_video_stream_theora_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VideoStreamTheora", ctor);
 

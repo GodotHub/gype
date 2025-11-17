@@ -52,6 +52,7 @@ export function GodotSignal(
     const propertyKey = context.name as string;
 
     context.addInitializer(function (this: GodotObject) {
+      // const godotArgs = signalArgs.flatMap(arg => [arg.name, arg.type]);
       this.add_user_signal(propertyKey, signalArgs);
       const signalValue = new Signal(this, propertyKey);
 

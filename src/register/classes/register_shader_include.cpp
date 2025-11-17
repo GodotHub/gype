@@ -100,7 +100,7 @@ static void define_shader_include_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_shader_include_enum(JSContext *ctx, JSValue proto) {
+static void define_shader_include_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_shader_include_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -116,9 +116,9 @@ static int js_shader_include_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_shader_include_property(ctx, proto);
-	define_shader_include_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, shader_include_class_proto_funcs, _countof(shader_include_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, shader_include_class_constructor, "ShaderInclude", 0, JS_CFUNC_constructor, 0);
+	define_shader_include_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ShaderInclude", ctor);
 

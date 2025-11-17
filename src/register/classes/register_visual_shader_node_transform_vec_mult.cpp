@@ -80,14 +80,14 @@ static void define_visual_shader_node_transform_vec_mult_property(JSContext *ctx
     );
 }
 
-static void define_visual_shader_node_transform_vec_mult_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_transform_vec_mult_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Operator_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Operator_obj, "OP_AxB", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Operator_obj, "OP_BxA", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Operator_obj, "OP_3x3_AxB", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, Operator_obj, "OP_3x3_BxA", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, Operator_obj, "OP_MAX", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "Operator", Operator_obj);
+	JS_SetPropertyStr(ctx, ctor, "Operator", Operator_obj);
 }
 
 static int js_visual_shader_node_transform_vec_mult_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -103,9 +103,9 @@ static int js_visual_shader_node_transform_vec_mult_class_init(JSContext *ctx, J
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_transform_vec_mult_property(ctx, proto);
-	define_visual_shader_node_transform_vec_mult_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, visual_shader_node_transform_vec_mult_class_proto_funcs, _countof(visual_shader_node_transform_vec_mult_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_transform_vec_mult_class_constructor, "VisualShaderNodeTransformVecMult", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_transform_vec_mult_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeTransformVecMult", ctor);
 

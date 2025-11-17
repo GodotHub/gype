@@ -60,7 +60,7 @@ static JSValue audio_effect_low_pass_filter_class_constructor(JSContext *ctx, JS
 static void define_audio_effect_low_pass_filter_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_audio_effect_low_pass_filter_enum(JSContext *ctx, JSValue proto) {
+static void define_audio_effect_low_pass_filter_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_audio_effect_low_pass_filter_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_audio_effect_low_pass_filter_class_init(JSContext *ctx, JSModuleDe
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_audio_effect_low_pass_filter_property(ctx, proto);
-	define_audio_effect_low_pass_filter_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, audio_effect_low_pass_filter_class_constructor, "AudioEffectLowPassFilter", 0, JS_CFUNC_constructor, 0);
+	define_audio_effect_low_pass_filter_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioEffectLowPassFilter", ctor);
 

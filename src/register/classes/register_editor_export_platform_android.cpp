@@ -60,7 +60,7 @@ static JSValue editor_export_platform_android_class_constructor(JSContext *ctx, 
 static void define_editor_export_platform_android_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_editor_export_platform_android_enum(JSContext *ctx, JSValue proto) {
+static void define_editor_export_platform_android_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_editor_export_platform_android_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_editor_export_platform_android_class_init(JSContext *ctx, JSModule
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_editor_export_platform_android_property(ctx, proto);
-	define_editor_export_platform_android_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, editor_export_platform_android_class_constructor, "EditorExportPlatformAndroid", 0, JS_CFUNC_constructor, 0);
+	define_editor_export_platform_android_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "EditorExportPlatformAndroid", ctor);
 

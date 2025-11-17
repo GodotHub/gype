@@ -220,7 +220,7 @@ static void define_audio_stream_ogg_vorbis_property(JSContext *ctx, JSValue prot
     );
 }
 
-static void define_audio_stream_ogg_vorbis_enum(JSContext *ctx, JSValue proto) {
+static void define_audio_stream_ogg_vorbis_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_audio_stream_ogg_vorbis_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -236,10 +236,10 @@ static int js_audio_stream_ogg_vorbis_class_init(JSContext *ctx, JSModuleDef *m)
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_audio_stream_ogg_vorbis_property(ctx, proto);
-	define_audio_stream_ogg_vorbis_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, audio_stream_ogg_vorbis_class_proto_funcs, _countof(audio_stream_ogg_vorbis_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, audio_stream_ogg_vorbis_class_constructor, "AudioStreamOggVorbis", 0, JS_CFUNC_constructor, 0);
 	JS_SetPropertyFunctionList(ctx, ctor, audio_stream_ogg_vorbis_class_static_funcs, _countof(audio_stream_ogg_vorbis_class_static_funcs));
+	define_audio_stream_ogg_vorbis_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioStreamOggVorbis", ctor);
 

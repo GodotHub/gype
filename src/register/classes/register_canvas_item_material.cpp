@@ -170,19 +170,19 @@ static void define_canvas_item_material_property(JSContext *ctx, JSValue proto) 
     );
 }
 
-static void define_canvas_item_material_enum(JSContext *ctx, JSValue proto) {
+static void define_canvas_item_material_enum(JSContext *ctx, JSValue ctor) {
 	JSValue BlendMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_MIX", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_ADD", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_SUB", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_MUL", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, BlendMode_obj, "BLEND_MODE_PREMULT_ALPHA", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "BlendMode", BlendMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "BlendMode", BlendMode_obj);
 	JSValue LightMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, LightMode_obj, "LIGHT_MODE_NORMAL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, LightMode_obj, "LIGHT_MODE_UNSHADED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, LightMode_obj, "LIGHT_MODE_LIGHT_ONLY", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "LightMode", LightMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "LightMode", LightMode_obj);
 }
 
 static int js_canvas_item_material_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -198,9 +198,9 @@ static int js_canvas_item_material_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_canvas_item_material_property(ctx, proto);
-	define_canvas_item_material_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, canvas_item_material_class_proto_funcs, _countof(canvas_item_material_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, canvas_item_material_class_constructor, "CanvasItemMaterial", 0, JS_CFUNC_constructor, 0);
+	define_canvas_item_material_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "CanvasItemMaterial", ctor);
 

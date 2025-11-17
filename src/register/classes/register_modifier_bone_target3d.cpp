@@ -118,7 +118,7 @@ static void define_modifier_bone_target3d_property(JSContext *ctx, JSValue proto
     );
 }
 
-static void define_modifier_bone_target3d_enum(JSContext *ctx, JSValue proto) {
+static void define_modifier_bone_target3d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_modifier_bone_target3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -134,9 +134,9 @@ static int js_modifier_bone_target3d_class_init(JSContext *ctx, JSModuleDef *m) 
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_modifier_bone_target3d_property(ctx, proto);
-	define_modifier_bone_target3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, modifier_bone_target3d_class_proto_funcs, _countof(modifier_bone_target3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, modifier_bone_target3d_class_constructor, "ModifierBoneTarget3D", 0, JS_CFUNC_constructor, 0);
+	define_modifier_bone_target3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ModifierBoneTarget3D", ctor);
 

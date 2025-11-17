@@ -66,7 +66,7 @@ static JSValue rd_shader_spirv_class_set_stage_compile_error(JSContext *ctx, JSV
 };
 static JSValue rd_shader_spirv_class_get_stage_compile_error(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	return call_builtin_const_method_ret(&RDShaderSPIRV::get_stage_bytecode, ctx, this_val, argc, argv);
+	return call_builtin_const_method_ret(&RDShaderSPIRV::get_stage_compile_error, ctx, this_val, argc, argv);
 }
 
 static const JSCFunctionListEntry rd_shader_spirv_class_proto_funcs[] = {
@@ -162,7 +162,7 @@ static void define_rd_shader_spirv_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_rd_shader_spirv_enum(JSContext *ctx, JSValue proto) {
+static void define_rd_shader_spirv_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_rd_shader_spirv_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -178,9 +178,9 @@ static int js_rd_shader_spirv_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_rd_shader_spirv_property(ctx, proto);
-	define_rd_shader_spirv_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, rd_shader_spirv_class_proto_funcs, _countof(rd_shader_spirv_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, rd_shader_spirv_class_constructor, "RDShaderSPIRV", 0, JS_CFUNC_constructor, 0);
+	define_rd_shader_spirv_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "RDShaderSPIRV", ctor);
 

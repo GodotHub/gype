@@ -183,7 +183,7 @@ static void define_gpu_particles_collision_sdf3d_property(JSContext *ctx, JSValu
     );
 }
 
-static void define_gpu_particles_collision_sdf3d_enum(JSContext *ctx, JSValue proto) {
+static void define_gpu_particles_collision_sdf3d_enum(JSContext *ctx, JSValue ctor) {
 	JSValue Resolution_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Resolution_obj, "RESOLUTION_16", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Resolution_obj, "RESOLUTION_32", JS_NewInt64(ctx, 1));
@@ -192,7 +192,7 @@ static void define_gpu_particles_collision_sdf3d_enum(JSContext *ctx, JSValue pr
 	JS_SetPropertyStr(ctx, Resolution_obj, "RESOLUTION_256", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, Resolution_obj, "RESOLUTION_512", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, Resolution_obj, "RESOLUTION_MAX", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "Resolution", Resolution_obj);
+	JS_SetPropertyStr(ctx, ctor, "Resolution", Resolution_obj);
 }
 
 static int js_gpu_particles_collision_sdf3d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -208,9 +208,9 @@ static int js_gpu_particles_collision_sdf3d_class_init(JSContext *ctx, JSModuleD
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_gpu_particles_collision_sdf3d_property(ctx, proto);
-	define_gpu_particles_collision_sdf3d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, gpu_particles_collision_sdf3d_class_proto_funcs, _countof(gpu_particles_collision_sdf3d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, gpu_particles_collision_sdf3d_class_constructor, "GPUParticlesCollisionSDF3D", 0, JS_CFUNC_constructor, 0);
+	define_gpu_particles_collision_sdf3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "GPUParticlesCollisionSDF3D", ctor);
 

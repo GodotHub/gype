@@ -457,7 +457,7 @@ static void define_open_xr_interface_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_open_xr_interface_enum(JSContext *ctx, JSValue proto) {
+static void define_open_xr_interface_enum(JSContext *ctx, JSValue ctor) {
 	JSValue SessionState_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SessionState_obj, "SESSION_STATE_UNKNOWN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SessionState_obj, "SESSION_STATE_IDLE", JS_NewInt64(ctx, 1));
@@ -468,23 +468,23 @@ static void define_open_xr_interface_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, SessionState_obj, "SESSION_STATE_STOPPING", JS_NewInt64(ctx, 6));
 	JS_SetPropertyStr(ctx, SessionState_obj, "SESSION_STATE_LOSS_PENDING", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, SessionState_obj, "SESSION_STATE_EXITING", JS_NewInt64(ctx, 8));
-	JS_SetPropertyStr(ctx, proto, "SessionState", SessionState_obj);
+	JS_SetPropertyStr(ctx, ctor, "SessionState", SessionState_obj);
 	JSValue Hand_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, Hand_obj, "HAND_LEFT", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, Hand_obj, "HAND_RIGHT", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, Hand_obj, "HAND_MAX", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "Hand", Hand_obj);
+	JS_SetPropertyStr(ctx, ctor, "Hand", Hand_obj);
 	JSValue HandMotionRange_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, HandMotionRange_obj, "HAND_MOTION_RANGE_UNOBSTRUCTED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, HandMotionRange_obj, "HAND_MOTION_RANGE_CONFORM_TO_CONTROLLER", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, HandMotionRange_obj, "HAND_MOTION_RANGE_MAX", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "HandMotionRange", HandMotionRange_obj);
+	JS_SetPropertyStr(ctx, ctor, "HandMotionRange", HandMotionRange_obj);
 	JSValue HandTrackedSource_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, HandTrackedSource_obj, "HAND_TRACKED_SOURCE_UNKNOWN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, HandTrackedSource_obj, "HAND_TRACKED_SOURCE_UNOBSTRUCTED", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, HandTrackedSource_obj, "HAND_TRACKED_SOURCE_CONTROLLER", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, HandTrackedSource_obj, "HAND_TRACKED_SOURCE_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "HandTrackedSource", HandTrackedSource_obj);
+	JS_SetPropertyStr(ctx, ctor, "HandTrackedSource", HandTrackedSource_obj);
 	JSValue HandJoints_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, HandJoints_obj, "HAND_JOINT_PALM", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, HandJoints_obj, "HAND_JOINT_WRIST", JS_NewInt64(ctx, 1));
@@ -513,23 +513,23 @@ static void define_open_xr_interface_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, HandJoints_obj, "HAND_JOINT_LITTLE_DISTAL", JS_NewInt64(ctx, 24));
 	JS_SetPropertyStr(ctx, HandJoints_obj, "HAND_JOINT_LITTLE_TIP", JS_NewInt64(ctx, 25));
 	JS_SetPropertyStr(ctx, HandJoints_obj, "HAND_JOINT_MAX", JS_NewInt64(ctx, 26));
-	JS_SetPropertyStr(ctx, proto, "HandJoints", HandJoints_obj);
+	JS_SetPropertyStr(ctx, ctor, "HandJoints", HandJoints_obj);
 	JSValue PerfSettingsLevel_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PerfSettingsLevel_obj, "PERF_SETTINGS_LEVEL_POWER_SAVINGS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PerfSettingsLevel_obj, "PERF_SETTINGS_LEVEL_SUSTAINED_LOW", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, PerfSettingsLevel_obj, "PERF_SETTINGS_LEVEL_SUSTAINED_HIGH", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, PerfSettingsLevel_obj, "PERF_SETTINGS_LEVEL_BOOST", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "PerfSettingsLevel", PerfSettingsLevel_obj);
+	JS_SetPropertyStr(ctx, ctor, "PerfSettingsLevel", PerfSettingsLevel_obj);
 	JSValue PerfSettingsSubDomain_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PerfSettingsSubDomain_obj, "PERF_SETTINGS_SUB_DOMAIN_COMPOSITING", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PerfSettingsSubDomain_obj, "PERF_SETTINGS_SUB_DOMAIN_RENDERING", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, PerfSettingsSubDomain_obj, "PERF_SETTINGS_SUB_DOMAIN_THERMAL", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "PerfSettingsSubDomain", PerfSettingsSubDomain_obj);
+	JS_SetPropertyStr(ctx, ctor, "PerfSettingsSubDomain", PerfSettingsSubDomain_obj);
 	JSValue PerfSettingsNotificationLevel_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PerfSettingsNotificationLevel_obj, "PERF_SETTINGS_NOTIF_LEVEL_NORMAL", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PerfSettingsNotificationLevel_obj, "PERF_SETTINGS_NOTIF_LEVEL_WARNING", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, PerfSettingsNotificationLevel_obj, "PERF_SETTINGS_NOTIF_LEVEL_IMPAIRED", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "PerfSettingsNotificationLevel", PerfSettingsNotificationLevel_obj);
+	JS_SetPropertyStr(ctx, ctor, "PerfSettingsNotificationLevel", PerfSettingsNotificationLevel_obj);
 	JSValue HandJointFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, HandJointFlags_obj, "HAND_JOINT_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, HandJointFlags_obj, "HAND_JOINT_ORIENTATION_VALID", JS_NewInt64(ctx, 1));
@@ -538,7 +538,7 @@ static void define_open_xr_interface_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, HandJointFlags_obj, "HAND_JOINT_POSITION_TRACKED", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, HandJointFlags_obj, "HAND_JOINT_LINEAR_VELOCITY_VALID", JS_NewInt64(ctx, 16));
 	JS_SetPropertyStr(ctx, HandJointFlags_obj, "HAND_JOINT_ANGULAR_VELOCITY_VALID", JS_NewInt64(ctx, 32));
-	JS_SetPropertyStr(ctx, proto, "HandJointFlags", HandJointFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "HandJointFlags", HandJointFlags_obj);
 }
 
 static int js_open_xr_interface_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -554,9 +554,9 @@ static int js_open_xr_interface_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_open_xr_interface_property(ctx, proto);
-	define_open_xr_interface_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, open_xr_interface_class_proto_funcs, _countof(open_xr_interface_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, open_xr_interface_class_constructor, "OpenXRInterface", 0, JS_CFUNC_constructor, 0);
+	define_open_xr_interface_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "OpenXRInterface", ctor);
 

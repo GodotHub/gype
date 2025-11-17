@@ -698,16 +698,16 @@ static void define_item_list_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_item_list_enum(JSContext *ctx, JSValue proto) {
+static void define_item_list_enum(JSContext *ctx, JSValue ctor) {
 	JSValue IconMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, IconMode_obj, "ICON_MODE_TOP", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, IconMode_obj, "ICON_MODE_LEFT", JS_NewInt64(ctx, 1));
-	JS_SetPropertyStr(ctx, proto, "IconMode", IconMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "IconMode", IconMode_obj);
 	JSValue SelectMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SelectMode_obj, "SELECT_SINGLE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SelectMode_obj, "SELECT_MULTI", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, SelectMode_obj, "SELECT_TOGGLE", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "SelectMode", SelectMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "SelectMode", SelectMode_obj);
 }
 
 static int js_item_list_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -723,9 +723,9 @@ static int js_item_list_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_item_list_property(ctx, proto);
-	define_item_list_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, item_list_class_proto_funcs, _countof(item_list_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, item_list_class_constructor, "ItemList", 0, JS_CFUNC_constructor, 0);
+	define_item_list_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ItemList", ctor);
 

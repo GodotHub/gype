@@ -4,9 +4,9 @@ declare global {
         constructor(_from: Vector4): Vector4;
         constructor(_from: Vector4i): Vector4;
         constructor(x: number, y: number, z: number, w: number): Vector4;
-        readonly ZERO: Vector4;
-        readonly ONE: Vector4;
-        readonly INF: Vector4;
+        readonly static ZERO: Vector4;
+        readonly static ONE: Vector4;
+        readonly static INF: Vector4;
     
         x: number;
         y: number;

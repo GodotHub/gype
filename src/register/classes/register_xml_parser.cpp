@@ -147,7 +147,7 @@ static const JSCFunctionListEntry xml_parser_class_proto_funcs[] = {
 static void define_xml_parser_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_xml_parser_enum(JSContext *ctx, JSValue proto) {
+static void define_xml_parser_enum(JSContext *ctx, JSValue ctor) {
 	JSValue NodeType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, NodeType_obj, "NODE_NONE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, NodeType_obj, "NODE_ELEMENT", JS_NewInt64(ctx, 1));
@@ -156,7 +156,7 @@ static void define_xml_parser_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, NodeType_obj, "NODE_COMMENT", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, NodeType_obj, "NODE_CDATA", JS_NewInt64(ctx, 5));
 	JS_SetPropertyStr(ctx, NodeType_obj, "NODE_UNKNOWN", JS_NewInt64(ctx, 6));
-	JS_SetPropertyStr(ctx, proto, "NodeType", NodeType_obj);
+	JS_SetPropertyStr(ctx, ctor, "NodeType", NodeType_obj);
 }
 
 static int js_xml_parser_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -172,9 +172,9 @@ static int js_xml_parser_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_xml_parser_property(ctx, proto);
-	define_xml_parser_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, xml_parser_class_proto_funcs, _countof(xml_parser_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, xml_parser_class_constructor, "XMLParser", 0, JS_CFUNC_constructor, 0);
+	define_xml_parser_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "XMLParser", ctor);
 

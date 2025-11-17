@@ -693,14 +693,14 @@ static void define_tree_item_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_tree_item_enum(JSContext *ctx, JSValue proto) {
+static void define_tree_item_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TreeCellMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TreeCellMode_obj, "CELL_MODE_STRING", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TreeCellMode_obj, "CELL_MODE_CHECK", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TreeCellMode_obj, "CELL_MODE_RANGE", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, TreeCellMode_obj, "CELL_MODE_ICON", JS_NewInt64(ctx, 3));
 	JS_SetPropertyStr(ctx, TreeCellMode_obj, "CELL_MODE_CUSTOM", JS_NewInt64(ctx, 4));
-	JS_SetPropertyStr(ctx, proto, "TreeCellMode", TreeCellMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "TreeCellMode", TreeCellMode_obj);
 }
 
 static int js_tree_item_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -716,9 +716,9 @@ static int js_tree_item_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_tree_item_property(ctx, proto);
-	define_tree_item_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, tree_item_class_proto_funcs, _countof(tree_item_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, tree_item_class_constructor, "TreeItem", 0, JS_CFUNC_constructor, 0);
+	define_tree_item_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "TreeItem", ctor);
 

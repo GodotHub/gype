@@ -634,25 +634,25 @@ static void define_navigation_mesh_property(JSContext *ctx, JSValue proto) {
     );
 }
 
-static void define_navigation_mesh_enum(JSContext *ctx, JSValue proto) {
+static void define_navigation_mesh_enum(JSContext *ctx, JSValue ctor) {
 	JSValue SamplePartitionType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SamplePartitionType_obj, "SAMPLE_PARTITION_WATERSHED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SamplePartitionType_obj, "SAMPLE_PARTITION_MONOTONE", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, SamplePartitionType_obj, "SAMPLE_PARTITION_LAYERS", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, SamplePartitionType_obj, "SAMPLE_PARTITION_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "SamplePartitionType", SamplePartitionType_obj);
+	JS_SetPropertyStr(ctx, ctor, "SamplePartitionType", SamplePartitionType_obj);
 	JSValue ParsedGeometryType_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, ParsedGeometryType_obj, "PARSED_GEOMETRY_MESH_INSTANCES", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, ParsedGeometryType_obj, "PARSED_GEOMETRY_STATIC_COLLIDERS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, ParsedGeometryType_obj, "PARSED_GEOMETRY_BOTH", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, ParsedGeometryType_obj, "PARSED_GEOMETRY_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "ParsedGeometryType", ParsedGeometryType_obj);
+	JS_SetPropertyStr(ctx, ctor, "ParsedGeometryType", ParsedGeometryType_obj);
 	JSValue SourceGeometryMode_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, SourceGeometryMode_obj, "SOURCE_GEOMETRY_ROOT_NODE_CHILDREN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, SourceGeometryMode_obj, "SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, SourceGeometryMode_obj, "SOURCE_GEOMETRY_GROUPS_EXPLICIT", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, SourceGeometryMode_obj, "SOURCE_GEOMETRY_MAX", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "SourceGeometryMode", SourceGeometryMode_obj);
+	JS_SetPropertyStr(ctx, ctor, "SourceGeometryMode", SourceGeometryMode_obj);
 }
 
 static int js_navigation_mesh_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -668,9 +668,9 @@ static int js_navigation_mesh_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_navigation_mesh_property(ctx, proto);
-	define_navigation_mesh_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, navigation_mesh_class_proto_funcs, _countof(navigation_mesh_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, navigation_mesh_class_constructor, "NavigationMesh", 0, JS_CFUNC_constructor, 0);
+	define_navigation_mesh_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "NavigationMesh", ctor);
 

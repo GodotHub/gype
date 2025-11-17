@@ -109,7 +109,7 @@ static const JSCFunctionListEntry texture2d_class_proto_funcs[] = {
 static void define_texture2d_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_texture2d_enum(JSContext *ctx, JSValue proto) {
+static void define_texture2d_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_texture2d_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -125,9 +125,9 @@ static int js_texture2d_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_texture2d_property(ctx, proto);
-	define_texture2d_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, texture2d_class_proto_funcs, _countof(texture2d_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, texture2d_class_constructor, "Texture2D", 0, JS_CFUNC_constructor, 0);
+	define_texture2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "Texture2D", ctor);
 

@@ -297,12 +297,12 @@ static void define_skeleton_profile_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_skeleton_profile_enum(JSContext *ctx, JSValue proto) {
+static void define_skeleton_profile_enum(JSContext *ctx, JSValue ctor) {
 	JSValue TailDirection_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, TailDirection_obj, "TAIL_DIRECTION_AVERAGE_CHILDREN", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, TailDirection_obj, "TAIL_DIRECTION_SPECIFIC_CHILD", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, TailDirection_obj, "TAIL_DIRECTION_END", JS_NewInt64(ctx, 2));
-	JS_SetPropertyStr(ctx, proto, "TailDirection", TailDirection_obj);
+	JS_SetPropertyStr(ctx, ctor, "TailDirection", TailDirection_obj);
 }
 
 static int js_skeleton_profile_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -318,9 +318,9 @@ static int js_skeleton_profile_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_skeleton_profile_property(ctx, proto);
-	define_skeleton_profile_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, skeleton_profile_class_proto_funcs, _countof(skeleton_profile_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, skeleton_profile_class_constructor, "SkeletonProfile", 0, JS_CFUNC_constructor, 0);
+	define_skeleton_profile_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SkeletonProfile", ctor);
 

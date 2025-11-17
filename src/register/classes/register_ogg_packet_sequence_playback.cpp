@@ -60,7 +60,7 @@ static JSValue ogg_packet_sequence_playback_class_constructor(JSContext *ctx, JS
 static void define_ogg_packet_sequence_playback_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_ogg_packet_sequence_playback_enum(JSContext *ctx, JSValue proto) {
+static void define_ogg_packet_sequence_playback_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_ogg_packet_sequence_playback_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_ogg_packet_sequence_playback_class_init(JSContext *ctx, JSModuleDe
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_ogg_packet_sequence_playback_property(ctx, proto);
-	define_ogg_packet_sequence_playback_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, ogg_packet_sequence_playback_class_constructor, "OggPacketSequencePlayback", 0, JS_CFUNC_constructor, 0);
+	define_ogg_packet_sequence_playback_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "OggPacketSequencePlayback", ctor);
 

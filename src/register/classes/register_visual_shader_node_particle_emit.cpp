@@ -80,14 +80,14 @@ static void define_visual_shader_node_particle_emit_property(JSContext *ctx, JSV
     );
 }
 
-static void define_visual_shader_node_particle_emit_enum(JSContext *ctx, JSValue proto) {
+static void define_visual_shader_node_particle_emit_enum(JSContext *ctx, JSValue ctor) {
 	JSValue EmitFlags_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, EmitFlags_obj, "EMIT_FLAG_POSITION", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, EmitFlags_obj, "EMIT_FLAG_ROT_SCALE", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, EmitFlags_obj, "EMIT_FLAG_VELOCITY", JS_NewInt64(ctx, 4));
 	JS_SetPropertyStr(ctx, EmitFlags_obj, "EMIT_FLAG_COLOR", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, EmitFlags_obj, "EMIT_FLAG_CUSTOM", JS_NewInt64(ctx, 16));
-	JS_SetPropertyStr(ctx, proto, "EmitFlags", EmitFlags_obj);
+	JS_SetPropertyStr(ctx, ctor, "EmitFlags", EmitFlags_obj);
 }
 
 static int js_visual_shader_node_particle_emit_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -103,9 +103,9 @@ static int js_visual_shader_node_particle_emit_class_init(JSContext *ctx, JSModu
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_visual_shader_node_particle_emit_property(ctx, proto);
-	define_visual_shader_node_particle_emit_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, visual_shader_node_particle_emit_class_proto_funcs, _countof(visual_shader_node_particle_emit_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, visual_shader_node_particle_emit_class_constructor, "VisualShaderNodeParticleEmit", 0, JS_CFUNC_constructor, 0);
+	define_visual_shader_node_particle_emit_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeParticleEmit", ctor);
 

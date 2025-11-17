@@ -206,13 +206,13 @@ static void define_animation_node_property(JSContext *ctx, JSValue proto) {
 		JS_PROP_GETSET);
 }
 
-static void define_animation_node_enum(JSContext *ctx, JSValue proto) {
+static void define_animation_node_enum(JSContext *ctx, JSValue ctor) {
 	JSValue FilterAction_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, FilterAction_obj, "FILTER_IGNORE", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, FilterAction_obj, "FILTER_PASS", JS_NewInt64(ctx, 1));
 	JS_SetPropertyStr(ctx, FilterAction_obj, "FILTER_STOP", JS_NewInt64(ctx, 2));
 	JS_SetPropertyStr(ctx, FilterAction_obj, "FILTER_BLEND", JS_NewInt64(ctx, 3));
-	JS_SetPropertyStr(ctx, proto, "FilterAction", FilterAction_obj);
+	JS_SetPropertyStr(ctx, ctor, "FilterAction", FilterAction_obj);
 }
 
 static int js_animation_node_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -228,9 +228,9 @@ static int js_animation_node_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_animation_node_property(ctx, proto);
-	define_animation_node_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, animation_node_class_proto_funcs, _countof(animation_node_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, animation_node_class_constructor, "AnimationNode", 0, JS_CFUNC_constructor, 0);
+	define_animation_node_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AnimationNode", ctor);
 

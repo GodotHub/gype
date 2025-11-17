@@ -142,7 +142,7 @@ static const JSCFunctionListEntry e_net_packet_peer_class_proto_funcs[] = {
 static void define_e_net_packet_peer_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_e_net_packet_peer_enum(JSContext *ctx, JSValue proto) {
+static void define_e_net_packet_peer_enum(JSContext *ctx, JSValue ctor) {
 	JSValue PeerState_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PeerState_obj, "STATE_DISCONNECTED", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PeerState_obj, "STATE_CONNECTING", JS_NewInt64(ctx, 1));
@@ -154,7 +154,7 @@ static void define_e_net_packet_peer_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, PeerState_obj, "STATE_DISCONNECTING", JS_NewInt64(ctx, 7));
 	JS_SetPropertyStr(ctx, PeerState_obj, "STATE_ACKNOWLEDGING_DISCONNECT", JS_NewInt64(ctx, 8));
 	JS_SetPropertyStr(ctx, PeerState_obj, "STATE_ZOMBIE", JS_NewInt64(ctx, 9));
-	JS_SetPropertyStr(ctx, proto, "PeerState", PeerState_obj);
+	JS_SetPropertyStr(ctx, ctor, "PeerState", PeerState_obj);
 	JSValue PeerStatistic_obj = JS_NewObject(ctx);
 	JS_SetPropertyStr(ctx, PeerStatistic_obj, "PEER_PACKET_LOSS", JS_NewInt64(ctx, 0));
 	JS_SetPropertyStr(ctx, PeerStatistic_obj, "PEER_PACKET_LOSS_VARIANCE", JS_NewInt64(ctx, 1));
@@ -170,7 +170,7 @@ static void define_e_net_packet_peer_enum(JSContext *ctx, JSValue proto) {
 	JS_SetPropertyStr(ctx, PeerStatistic_obj, "PEER_PACKET_THROTTLE_ACCELERATION", JS_NewInt64(ctx, 11));
 	JS_SetPropertyStr(ctx, PeerStatistic_obj, "PEER_PACKET_THROTTLE_DECELERATION", JS_NewInt64(ctx, 12));
 	JS_SetPropertyStr(ctx, PeerStatistic_obj, "PEER_PACKET_THROTTLE_INTERVAL", JS_NewInt64(ctx, 13));
-	JS_SetPropertyStr(ctx, proto, "PeerStatistic", PeerStatistic_obj);
+	JS_SetPropertyStr(ctx, ctor, "PeerStatistic", PeerStatistic_obj);
 }
 
 static int js_e_net_packet_peer_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -186,9 +186,9 @@ static int js_e_net_packet_peer_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_e_net_packet_peer_property(ctx, proto);
-	define_e_net_packet_peer_enum(ctx, proto);
 	JS_SetPropertyFunctionList(ctx, proto, e_net_packet_peer_class_proto_funcs, _countof(e_net_packet_peer_class_proto_funcs));
 	JSValue ctor = JS_NewCFunction2(ctx, e_net_packet_peer_class_constructor, "ENetPacketPeer", 0, JS_CFUNC_constructor, 0);
+	define_e_net_packet_peer_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ENetPacketPeer", ctor);
 

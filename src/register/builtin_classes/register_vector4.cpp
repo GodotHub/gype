@@ -161,7 +161,6 @@ static JSValue vector4_class_maxf(JSContext *ctx, JSValueConst this_val, int arg
 static JSValue vector4_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Vector4 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
 	return VariantAdapter(val.x);
-	
 }
 static JSValue vector4_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]));
@@ -173,7 +172,6 @@ static JSValue vector4_class_set_x(JSContext *ctx, JSValueConst this_val, int ar
 static JSValue vector4_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Vector4 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
 	return VariantAdapter(val.y);
-	
 }
 static JSValue vector4_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]));
@@ -185,7 +183,6 @@ static JSValue vector4_class_set_y(JSContext *ctx, JSValueConst this_val, int ar
 static JSValue vector4_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Vector4 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
 	return VariantAdapter(val.z);
-	
 }
 static JSValue vector4_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]));
@@ -197,7 +194,6 @@ static JSValue vector4_class_set_z(JSContext *ctx, JSValueConst this_val, int ar
 static JSValue vector4_class_get_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Vector4 val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]))->get();
 	return VariantAdapter(val.w);
-	
 }
 static JSValue vector4_class_set_w(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Vector4"]));
@@ -205,6 +201,26 @@ static JSValue vector4_class_set_w(JSContext *ctx, JSValueConst this_val, int ar
     val.w = VariantAdapter(*argv).get();
     adapter->set(val);
 	return JS_UNDEFINED;
+}
+
+
+static JSValue vector4_get_constant_ZERO(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector4(0, 0, 0, 0));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector4_get_constant_ONE(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector4(1, 1, 1, 1));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
+}
+static JSValue vector4_get_constant_INF(JSContext *ctx, JSValueConst this_val) {
+    JSValue arg = variant_to_jsvalue(Vector4(INFINITY, INFINITY, INFINITY, INFINITY));
+    JSValue constant = JS_CallConstructor(ctx, this_val, 1, &arg);
+	JS_FreeValue(ctx, arg);
+	return constant;
 }
 
 static const JSCFunctionListEntry vector4_class_proto_funcs[] = {
@@ -242,6 +258,12 @@ static const JSCFunctionListEntry vector4_class_proto_funcs[] = {
 	JS_CFUNC_DEF("maxf", 1, &vector4_class_maxf),
 };
 
+static const JSCFunctionListEntry vector4_class_constants_funcs[] = {
+    JS_CGETSET_DEF("ZERO", &vector4_get_constant_ZERO, NULL),
+    JS_CGETSET_DEF("ONE", &vector4_get_constant_ONE, NULL),
+    JS_CGETSET_DEF("INF", &vector4_get_constant_INF, NULL),
+};
+
 static void define_vector4_property(JSContext *ctx, JSValue obj) {
 	JS_DefinePropertyGetSet(
 			ctx,
@@ -273,6 +295,7 @@ static void define_vector4_property(JSContext *ctx, JSValue obj) {
 			JS_PROP_GETSET);
 }
 
+
 static int js_vector4_class_init(JSContext *ctx) {
 	JSClassID class_id = 0;
 	classes["Vector4"] = JS_NewClassID(js_runtime(), &class_id);
@@ -281,13 +304,17 @@ static int js_vector4_class_init(JSContext *ctx) {
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &vector4_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
-	JS_SetClassProto(ctx, class_id, proto);	define_vector4_property(ctx, proto);	JS_SetPropertyFunctionList(ctx, proto, vector4_class_proto_funcs, _countof(vector4_class_proto_funcs));
+	JS_SetClassProto(ctx, class_id, proto);	define_vector4_property(ctx, proto);
+	JS_SetPropertyFunctionList(ctx, proto, vector4_class_proto_funcs, _countof(vector4_class_proto_funcs));
+
 	JSValue ctor = JS_NewCFunction2(ctx, vector4_class_constructor, "Vector4", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-
+	JS_SetPropertyFunctionList(ctx, ctor, vector4_class_constants_funcs, _countof(vector4_class_constants_funcs));
+	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Vector4", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 
@@ -772,6 +799,7 @@ static int js_vector4_proxy_init(JSContext *ctx) {
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Vector4Proxy", ctor);
 
+	JS_FreeValue(ctx, global);
 	return 0;
 }
 

@@ -69,7 +69,7 @@ export declare class TreeItem extends GodotObject {
     public set_metadata(column: number, meta: any): void;
     public get_metadata(column: number): any;
     public set_custom_draw(column: number, object: GodotObject, callback: GDString | StringName | string): void;
-    public set_custom_draw_callback(column: number, callback: Callable): void;
+    public set_custom_draw_callback(column: number, callback: Callable | Function): void;
     public get_custom_draw_callback(column: number): Callable;
     public set_collapsed(enable: boolean): void;
     public is_collapsed(): boolean;

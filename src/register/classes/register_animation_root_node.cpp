@@ -60,7 +60,7 @@ static JSValue animation_root_node_class_constructor(JSContext *ctx, JSValueCons
 static void define_animation_root_node_property(JSContext *ctx, JSValue proto) {
 }
 
-static void define_animation_root_node_enum(JSContext *ctx, JSValue proto) {
+static void define_animation_root_node_enum(JSContext *ctx, JSValue ctor) {
 }
 
 static int js_animation_root_node_class_init(JSContext *ctx, JSModuleDef *m) {	
@@ -76,8 +76,8 @@ static int js_animation_root_node_class_init(JSContext *ctx, JSModuleDef *m) {
 	JS_SetClassProto(ctx, class_id, proto);
 
 	define_animation_root_node_property(ctx, proto);
-	define_animation_root_node_enum(ctx, proto);
 	JSValue ctor = JS_NewCFunction2(ctx, animation_root_node_class_constructor, "AnimationRootNode", 0, JS_CFUNC_constructor, 0);
+	define_animation_root_node_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AnimationRootNode", ctor);
 

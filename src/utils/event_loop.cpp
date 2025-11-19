@@ -1,6 +1,7 @@
 #include "utils/event_loop.hpp"
 #include "utils/env.hpp"
 #include <quickjs.h>
+#include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace godot;
 

@@ -17,6 +17,7 @@ static void web_rtc_peer_connection_class_finalizer(JSRuntime *rt, JSValue val) 
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -97,6 +98,8 @@ static JSValue web_rtc_peer_connection_class_get_signaling_state(JSContext *ctx,
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&WebRTCPeerConnection::get_signaling_state, ctx, this_val, argc, argv);
 };
+
+
 static JSValue web_rtc_peer_connection_class_set_default_extension(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     return call_builtin_static_method_no_ret(&WebRTCPeerConnection::set_default_extension, ctx, this_val, argc, argv);
 };

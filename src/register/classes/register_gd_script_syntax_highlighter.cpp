@@ -16,6 +16,7 @@ static void gd_script_syntax_highlighter_class_finalizer(JSRuntime *rt, JSValue 
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -51,6 +52,8 @@ static JSValue gd_script_syntax_highlighter_class_constructor(JSContext *ctx, JS
     JS_SetOpaque(obj, adapter);
     return obj;
 }
+
+
 
 
 

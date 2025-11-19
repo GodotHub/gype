@@ -77,6 +77,104 @@ static JSValue directional_light3d_class_get_sky_mode(JSContext *ctx, JSValueCon
 	return call_builtin_const_method_ret(&DirectionalLight3D::get_sky_mode, ctx, this_val, argc, argv);
 }
 
+static JSValue directional_light3d_class_get_directional_shadow_split_1(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&DirectionalLight3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue directional_light3d_class_set_directional_shadow_split_1(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&DirectionalLight3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue directional_light3d_class_get_directional_shadow_split_2(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&DirectionalLight3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue directional_light3d_class_set_directional_shadow_split_2(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&DirectionalLight3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue directional_light3d_class_get_directional_shadow_split_3(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&DirectionalLight3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue directional_light3d_class_set_directional_shadow_split_3(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&DirectionalLight3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue directional_light3d_class_get_directional_shadow_fade_start(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&DirectionalLight3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue directional_light3d_class_set_directional_shadow_fade_start(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&DirectionalLight3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue directional_light3d_class_get_directional_shadow_max_distance(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&DirectionalLight3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue directional_light3d_class_set_directional_shadow_max_distance(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&DirectionalLight3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue directional_light3d_class_get_directional_shadow_pancake_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&DirectionalLight3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue directional_light3d_class_set_directional_shadow_pancake_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&DirectionalLight3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
+
 static const JSCFunctionListEntry directional_light3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_shadow_mode", 1, &directional_light3d_class_set_shadow_mode),
 	JS_CFUNC_DEF("get_shadow_mode", 0, &directional_light3d_class_get_shadow_mode),
@@ -84,6 +182,18 @@ static const JSCFunctionListEntry directional_light3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_blend_splits_enabled", 0, &directional_light3d_class_is_blend_splits_enabled),
 	JS_CFUNC_DEF("set_sky_mode", 1, &directional_light3d_class_set_sky_mode),
 	JS_CFUNC_DEF("get_sky_mode", 0, &directional_light3d_class_get_sky_mode),
+    JS_CFUNC_MAGIC_DEF("get_directional_shadow_split_1", 0, &directional_light3d_class_get_directional_shadow_split_1, 10),
+    JS_CFUNC_MAGIC_DEF("set_directional_shadow_split_1", 1, &directional_light3d_class_set_directional_shadow_split_1, 10),
+    JS_CFUNC_MAGIC_DEF("get_directional_shadow_split_2", 0, &directional_light3d_class_get_directional_shadow_split_2, 11),
+    JS_CFUNC_MAGIC_DEF("set_directional_shadow_split_2", 1, &directional_light3d_class_set_directional_shadow_split_2, 11),
+    JS_CFUNC_MAGIC_DEF("get_directional_shadow_split_3", 0, &directional_light3d_class_get_directional_shadow_split_3, 12),
+    JS_CFUNC_MAGIC_DEF("set_directional_shadow_split_3", 1, &directional_light3d_class_set_directional_shadow_split_3, 12),
+    JS_CFUNC_MAGIC_DEF("get_directional_shadow_fade_start", 0, &directional_light3d_class_get_directional_shadow_fade_start, 13),
+    JS_CFUNC_MAGIC_DEF("set_directional_shadow_fade_start", 1, &directional_light3d_class_set_directional_shadow_fade_start, 13),
+    JS_CFUNC_MAGIC_DEF("get_directional_shadow_max_distance", 0, &directional_light3d_class_get_directional_shadow_max_distance, 9),
+    JS_CFUNC_MAGIC_DEF("set_directional_shadow_max_distance", 1, &directional_light3d_class_set_directional_shadow_max_distance, 9),
+    JS_CFUNC_MAGIC_DEF("get_directional_shadow_pancake_size", 0, &directional_light3d_class_get_directional_shadow_pancake_size, 16),
+    JS_CFUNC_MAGIC_DEF("set_directional_shadow_pancake_size", 1, &directional_light3d_class_set_directional_shadow_pancake_size, 16),
 };
 
 

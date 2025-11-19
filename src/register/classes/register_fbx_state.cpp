@@ -16,6 +16,7 @@ static void fbx_state_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -60,6 +61,8 @@ static JSValue fbx_state_class_set_allow_geometry_helper_nodes(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&FBXState::set_allow_geometry_helper_nodes, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry fbx_state_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_allow_geometry_helper_nodes", 0, &fbx_state_class_get_allow_geometry_helper_nodes),

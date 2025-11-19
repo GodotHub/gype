@@ -105,14 +105,14 @@ static JSValue collision_shape2d_class_get_debug_color(JSContext *ctx, JSValueCo
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
+
+
 
 static const JSCFunctionListEntry collision_shape2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_shape", 1, &collision_shape2d_class_set_shape),

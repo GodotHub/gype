@@ -57,6 +57,8 @@ static JSValue panel_class_constructor(JSContext *ctx, JSValueConst new_target, 
 
 
 
+
+
 static void define_panel_property(JSContext *ctx, JSValue proto) {
 }
 

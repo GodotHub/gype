@@ -74,12 +74,10 @@ static JSValue csg_polygon3d_class_get_polygon(JSContext *ctx, JSValueConst this
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "PackedVector2ArrayProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue csg_polygon3d_class_set_mode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -134,12 +132,10 @@ static JSValue csg_polygon3d_class_get_path_node(JSContext *ctx, JSValueConst th
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue csg_polygon3d_class_set_path_interval_type(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -230,6 +226,8 @@ static JSValue csg_polygon3d_class_get_smooth_faces(JSContext *ctx, JSValueConst
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&CSGPolygon3D::get_smooth_faces, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry csg_polygon3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_polygon", 1, &csg_polygon3d_class_set_polygon),

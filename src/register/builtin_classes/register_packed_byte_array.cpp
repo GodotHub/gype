@@ -381,7 +381,6 @@ static int js_packed_byte_array_class_init(JSContext *ctx) {
 
 	JSValue ctor = JS_NewCFunction2(ctx, packed_byte_array_class_constructor, "PackedByteArray", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "PackedByteArray", ctor);
 

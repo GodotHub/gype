@@ -16,6 +16,7 @@ static void audio_stream_playback_interactive_class_finalizer(JSRuntime *rt, JSV
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -64,6 +65,8 @@ static JSValue audio_stream_playback_interactive_class_get_current_clip_index(JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&AudioStreamPlaybackInteractive::get_current_clip_index, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry audio_stream_playback_interactive_class_proto_funcs[] = {
 	JS_CFUNC_DEF("switch_to_clip_by_name", 1, &audio_stream_playback_interactive_class_switch_to_clip_by_name),

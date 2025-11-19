@@ -77,12 +77,10 @@ static JSValue spring_bone_collision3d_class_get_bone_name(JSContext *ctx, JSVal
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue spring_bone_collision3d_class_set_bone(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -113,12 +111,10 @@ static JSValue spring_bone_collision3d_class_get_position_offset(JSContext *ctx,
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue spring_bone_collision3d_class_set_rotation_offset(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -141,14 +137,14 @@ static JSValue spring_bone_collision3d_class_get_rotation_offset(JSContext *ctx,
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "QuaternionProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
+
+
 
 static const JSCFunctionListEntry spring_bone_collision3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_skeleton", 0, &spring_bone_collision3d_class_get_skeleton),

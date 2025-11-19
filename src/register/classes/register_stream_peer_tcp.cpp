@@ -16,6 +16,7 @@ static void stream_peer_tcp_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -88,6 +89,8 @@ static JSValue stream_peer_tcp_class_set_no_delay(JSContext *ctx, JSValueConst t
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&StreamPeerTCP::set_no_delay, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry stream_peer_tcp_class_proto_funcs[] = {
 	JS_CFUNC_DEF("bind", 2, &stream_peer_tcp_class_bind),

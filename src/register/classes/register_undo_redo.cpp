@@ -145,6 +145,8 @@ static JSValue undo_redo_class_undo(JSContext *ctx, JSValueConst this_val, int a
 	return call_builtin_method_ret(&UndoRedo::undo, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry undo_redo_class_proto_funcs[] = {
 	JS_CFUNC_DEF("create_action", 3, &undo_redo_class_create_action),
 	JS_CFUNC_DEF("commit_action", 1, &undo_redo_class_commit_action),

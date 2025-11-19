@@ -72,12 +72,10 @@ static JSValue look_at_modifier3d_class_get_target_node(JSContext *ctx, JSValueC
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue look_at_modifier3d_class_set_bone_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -86,27 +84,7 @@ static JSValue look_at_modifier3d_class_set_bone_name(JSContext *ctx, JSValueCon
 };
 static JSValue look_at_modifier3d_class_get_bone_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		LookAtModifier3D *obj = static_cast<LookAtModifier3D *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_bone_name();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		LookAtModifier3D *js_proxy = static_cast<LookAtModifier3D *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_bone_name(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&LookAtModifier3D::get_bone_name, ctx, this_val, argc, argv);
 }
 static JSValue look_at_modifier3d_class_set_bone(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -162,27 +140,7 @@ static JSValue look_at_modifier3d_class_set_origin_bone_name(JSContext *ctx, JSV
 };
 static JSValue look_at_modifier3d_class_get_origin_bone_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		LookAtModifier3D *obj = static_cast<LookAtModifier3D *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_origin_bone_name();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		LookAtModifier3D *js_proxy = static_cast<LookAtModifier3D *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_origin_bone_name(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&LookAtModifier3D::get_origin_bone_name, ctx, this_val, argc, argv);
 }
 static JSValue look_at_modifier3d_class_set_origin_bone(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -212,12 +170,10 @@ static JSValue look_at_modifier3d_class_get_origin_external_node(JSContext *ctx,
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue look_at_modifier3d_class_set_origin_offset(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -240,12 +196,10 @@ static JSValue look_at_modifier3d_class_get_origin_offset(JSContext *ctx, JSValu
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue look_at_modifier3d_class_set_duration(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -396,6 +350,8 @@ static JSValue look_at_modifier3d_class_is_target_within_limitation(JSContext *c
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&LookAtModifier3D::is_target_within_limitation, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry look_at_modifier3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_target_node", 1, &look_at_modifier3d_class_set_target_node),

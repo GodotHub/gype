@@ -72,12 +72,10 @@ static JSValue bone2d_class_get_rest(JSContext *ctx, JSValueConst this_val, int 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Transform2DProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue bone2d_class_apply_rest(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -116,6 +114,8 @@ static JSValue bone2d_class_get_bone_angle(JSContext *ctx, JSValueConst this_val
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&Bone2D::get_bone_angle, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry bone2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_rest", 1, &bone2d_class_set_rest),

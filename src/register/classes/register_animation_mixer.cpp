@@ -126,12 +126,10 @@ static JSValue animation_mixer_class_get_root_node(JSContext *ctx, JSValueConst 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue animation_mixer_class_set_callback_mode_process(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -186,12 +184,10 @@ static JSValue animation_mixer_class_get_root_motion_track(JSContext *ctx, JSVal
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue animation_mixer_class_set_root_motion_local(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -254,6 +250,8 @@ static JSValue animation_mixer_class_find_animation_library(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&AnimationMixer::find_animation_library, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry animation_mixer_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_animation_library", 2, &animation_mixer_class_add_animation_library),

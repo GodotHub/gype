@@ -16,6 +16,7 @@ static void hashing_context_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -64,6 +65,8 @@ static JSValue hashing_context_class_finish(JSContext *ctx, JSValueConst this_va
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&HashingContext::finish, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry hashing_context_class_proto_funcs[] = {
 	JS_CFUNC_DEF("start", 1, &hashing_context_class_start),

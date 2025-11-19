@@ -71,6 +71,8 @@ static JSValue multi_mesh_instance2d_class_get_texture(JSContext *ctx, JSValueCo
 	return call_builtin_const_method_ret(&MultiMeshInstance2D::get_texture, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry multi_mesh_instance2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_multimesh", 1, &multi_mesh_instance2d_class_set_multimesh),
 	JS_CFUNC_DEF("get_multimesh", 0, &multi_mesh_instance2d_class_get_multimesh),

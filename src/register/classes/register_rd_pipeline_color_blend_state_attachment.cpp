@@ -16,6 +16,7 @@ static void rd_pipeline_color_blend_state_attachment_class_finalizer(JSRuntime *
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -144,6 +145,8 @@ static JSValue rd_pipeline_color_blend_state_attachment_class_get_write_a(JSCont
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&RDPipelineColorBlendStateAttachment::get_write_a, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry rd_pipeline_color_blend_state_attachment_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_as_mix", 0, &rd_pipeline_color_blend_state_attachment_class_set_as_mix),

@@ -1,4 +1,6 @@
 #include "support/typescript.hpp"
+
+#include "godot_cpp/variant/utility_functions.hpp"
 #include "support/instance_info.hpp"
 #include "support/typescript_instance.hpp"
 #include "support/typescript_language.hpp"
@@ -17,6 +19,8 @@ using namespace godot;
 
 const char *TypeScript::class_symbol_mask = "GodotClass";
 const char *TypeScript::signal_symbol_mask = "GodotSignal";
+const char *TypeScript::export_symbol_mask = "GodotExport";
+const char *TypeScript::tool_symbol_mask = "GodotTool";
 const char *TypeScript::dist_path = "res://addons/gype/dist/";
 
 
@@ -98,6 +102,92 @@ String TypeScript::get_dist_source_code() const {
 	return file->get_as_text();
 }
 
+
+static Variant::Type type_by_name(const StringName &name) {
+	StringName _name = name.remove_char('(').remove_char(')');
+	if (_name == StringName("Variant.Type.NIL")) {
+		return Variant::Type::NIL;
+	} else if (_name == StringName("Variant.Type.BOOL")) {
+		return Variant::Type::BOOL;
+	} else if (_name == StringName("Variant.Type.INT")) {
+		return Variant::Type::INT;
+	} else if (_name == StringName("Variant.Type.FLOAT")) {
+		return Variant::Type::FLOAT;
+	} else if (_name == StringName("Variant.Type.STRING")) {
+		return Variant::Type::STRING;
+	} else if (_name == StringName("Variant.Type.VECTOR2")) {
+		return Variant::Type::VECTOR2;
+	} else if (_name == StringName("Variant.Type.VECTOR2I")) {
+		return Variant::Type::VECTOR2I;
+	} else if (_name == StringName("Variant.Type.RECT2")) {
+		return Variant::Type::RECT2;
+	} else if (_name == StringName("Variant.Type.RECT2I")) {
+		return Variant::Type::RECT2I;
+	} else if (_name == StringName("Variant.Type.VECTOR3")) {
+		return Variant::Type::VECTOR3;
+	} else if (_name == StringName("Variant.Type.VECTOR3I")) {
+		return Variant::Type::VECTOR3I;
+	} else if (_name == StringName("Variant.Type.TRANSFORM2D")) {
+		return Variant::Type::TRANSFORM2D;
+	} else if (_name == StringName("Variant.Type.VECTOR4")) {
+		return Variant::Type::VECTOR4;
+	} else if (_name == StringName("Variant.Type.VECTOR4I")) {
+		return Variant::Type::VECTOR4I;
+	} else if (_name == StringName("Variant.Type.PLANE")) {
+		return Variant::Type::PLANE;
+	} else if (_name == StringName("Variant.Type.QUATERNION")) {
+		return Variant::Type::QUATERNION;
+	} else if (_name == StringName("Variant.Type.AABB")) {
+		return Variant::Type::AABB;
+	} else if (_name == StringName("Variant.Type.BASIS")) {
+		return Variant::Type::BASIS;
+	} else if (_name == StringName("Variant.Type.TRANSFORM3D")) {
+		return Variant::Type::TRANSFORM3D;
+	} else if (_name == StringName("Variant.Type.PROJECTION")) {
+		return Variant::Type::PROJECTION;
+	} else if (_name == StringName("Variant.Type.COLOR")) {
+		return Variant::Type::COLOR;
+	} else if (_name == StringName("Variant.Type.STRING_NAME")) {
+		return Variant::Type::STRING_NAME;
+	} else if (_name == StringName("Variant.Type.NODE_PATH")) {
+		return Variant::Type::NODE_PATH;
+	} else if (_name == StringName("Variant.Type.RID")) {
+		return Variant::Type::RID;
+	} else if (_name == StringName("Variant.Type.OBJECT")) {
+		return Variant::Type::OBJECT;
+	} else if (_name == StringName("Variant.Type.CALLABLE")) {
+		return Variant::Type::CALLABLE;
+	} else if (_name == StringName("Variant.Type.SIGNAL")) {
+		return Variant::Type::SIGNAL;
+	} else if (_name == StringName("Variant.Type.DICTIONARY")) {
+		return Variant::Type::DICTIONARY;
+	} else if (_name == StringName("Variant.Type.ARRAY")) {
+		return Variant::Type::ARRAY;
+	} else if (_name == StringName("Variant.Type.PACKED_BYTE_ARRAY")) {
+		return Variant::Type::PACKED_BYTE_ARRAY;
+	} else if (_name == StringName("Variant.Type.PACKED_INT32_ARRAY")) {
+		return Variant::Type::PACKED_INT32_ARRAY;
+	} else if (_name == StringName("Variant.Type.PACKED_INT64_ARRAY")) {
+		return Variant::Type::PACKED_INT64_ARRAY;
+	} else if (_name == StringName("Variant.Type.PACKED_FLOAT32_ARRAY")) {
+		return Variant::Type::PACKED_FLOAT32_ARRAY;
+	} else if (_name == StringName("Variant.Type.PACKED_FLOAT64_ARRAY")) {
+		return Variant::Type::PACKED_FLOAT64_ARRAY;
+	} else if (_name == StringName("Variant.Type.PACKED_STRING_ARRAY")) {
+		return Variant::Type::PACKED_STRING_ARRAY;
+	} else if (_name == StringName("Variant.Type.PACKED_VECTOR2_ARRAY")) {
+		return Variant::Type::PACKED_VECTOR2_ARRAY;
+	} else if (_name == StringName("Variant.Type.PACKED_VECTOR3_ARRAY")) {
+		return Variant::Type::PACKED_VECTOR3_ARRAY;
+	} else if (_name == StringName("Variant.Type.PACKED_COLOR_ARRAY")) {
+		return Variant::Type::PACKED_COLOR_ARRAY;
+	} else if (_name == StringName("Variant.Type.PACKED_VECTOR4_ARRAY")) {
+		return Variant::Type::PACKED_VECTOR4_ARRAY;
+	} else {
+		return Variant::Type::VARIANT_MAX;
+	}
+}
+
 void TypeScript::analyze() const {
 	if (is_valid_cache && !dirty) {
 		return;
@@ -128,19 +218,23 @@ void TypeScript::analyze() const {
 
 	TSTree *tree = ts_parser_parse_string(parser, NULL, c_code, origin_string.length());
 
-	const std::string query_string = std::format(R"xxx(
+	const std::string query_string = R"xxx(
 	(export_statement
-	  (decorator (identifier) @decorator.class)
+	  (decorator 
+		(identifier) @decorator.class)
+
 	  (class_declaration
 	    name: (type_identifier) @class.name
 	    (class_heritage (extends_clause (identifier) @base.name))?
+
 	    body: (class_body
 	      [
 	        (public_field_definition
 	          (decorator
 	            [
 	              (identifier) @decorator.member
-	              (call_expression (identifier) @decorator.member)
+	              (call_expression (identifier) @decorator.member
+              		(arguments) @decorator.arguments)
 	            ]
 	          )+
 	          name: (property_identifier) @prop.name
@@ -158,12 +252,9 @@ void TypeScript::analyze() const {
 	  )
 	)
 
-	; 19. 过滤条件：只保留 @decorator.class 的文本内容等于 "GodotClass" 的匹配结果
-	(#eq? @decorator.class "{}")
-
-	; 20. 额外模式：捕获可能是工具脚本的注释
+	(#eq? @decorator.class "GodotClass")
 	(comment) @comment.tool
-    )xxx", class_symbol_mask);
+    )xxx";
 
 	uint32_t error_offset;
 	TSQueryError error;
@@ -208,7 +299,7 @@ void TypeScript::analyze() const {
 		if (captures.has("base.name")) {
 			base_class_name = captures["base.name"];
 		}
-		if (captures.has("comment.tool") && captures["comment.tool"].contains("@tool")) {
+		if (captures.has("comment.tool") && captures["comment.tool"].contains(tool_symbol_mask)) {
 			is_tool = true;
 		}
 
@@ -219,12 +310,11 @@ void TypeScript::analyze() const {
 			if (captures.has("decorator.member")) {
 				String decorator_name = captures["decorator.member"];
 
-				if (decorator_name == "Export") {
+				if (decorator_name == export_symbol_mask) {
 					PropertyInfo pi;
 					pi.name = prop_name;
 					pi.class_name = global_class_name;
-					// TODO: 从 captures["prop.type"] 解析实际类型
-					pi.type = Variant::NIL;
+					pi.type = type_by_name(captures["decorator.arguments"]);
 					pi.usage = PROPERTY_USAGE_DEFAULT;
 					properties[prop_name] = pi;
 				} else if (decorator_name == signal_symbol_mask) {
@@ -343,7 +433,7 @@ bool TypeScript::_is_tool() const {
 
 bool TypeScript::_is_valid() const {
 	return true;
-} 
+}
 
 bool TypeScript::_is_abstract() const {
 	return false;
@@ -376,7 +466,7 @@ Variant TypeScript::_get_property_default_value(const StringName &p_property) co
 }
 
 void TypeScript::_update_exports() {
-	compile(false);
+	this->analyze();
 }
 
 TypedArray<Dictionary> TypeScript::_get_script_method_list() const {
@@ -396,6 +486,7 @@ TypedArray<Dictionary> TypeScript::_get_script_property_list() const {
 	}
 	return list;
 }
+
 int32_t TypeScript::_get_member_line(const StringName &p_member) const {
 	return 0;
 }

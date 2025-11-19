@@ -16,6 +16,7 @@ static void font_variation_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -80,12 +81,10 @@ static JSValue font_variation_class_get_variation_opentype(JSContext *ctx, JSVal
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "DictionaryProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue font_variation_class_set_variation_embolden(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -124,12 +123,10 @@ static JSValue font_variation_class_get_variation_transform(JSContext *ctx, JSVa
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Transform2DProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue font_variation_class_set_opentype_features(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -149,6 +146,72 @@ static JSValue font_variation_class_get_baseline_offset(JSContext *ctx, JSValueC
 	return call_builtin_const_method_ret(&FontVariation::get_baseline_offset, ctx, this_val, argc, argv);
 }
 
+static JSValue font_variation_class_get_spacing_glyph(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&FontVariation::get_spacing, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue font_variation_class_set_spacing_glyph(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&FontVariation::set_spacing, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue font_variation_class_get_spacing_space(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&FontVariation::get_spacing, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue font_variation_class_set_spacing_space(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&FontVariation::set_spacing, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue font_variation_class_get_spacing_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&FontVariation::get_spacing, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue font_variation_class_set_spacing_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&FontVariation::set_spacing, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue font_variation_class_get_spacing_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&FontVariation::get_spacing, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue font_variation_class_set_spacing_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&FontVariation::set_spacing, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
+
 static const JSCFunctionListEntry font_variation_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_base_font", 1, &font_variation_class_set_base_font),
 	JS_CFUNC_DEF("get_base_font", 0, &font_variation_class_get_base_font),
@@ -164,6 +227,12 @@ static const JSCFunctionListEntry font_variation_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_spacing", 2, &font_variation_class_set_spacing),
 	JS_CFUNC_DEF("set_baseline_offset", 1, &font_variation_class_set_baseline_offset),
 	JS_CFUNC_DEF("get_baseline_offset", 0, &font_variation_class_get_baseline_offset),
+    JS_CFUNC_MAGIC_DEF("get_spacing_space", 0, &font_variation_class_get_spacing_space, 1),
+    JS_CFUNC_MAGIC_DEF("set_spacing_space", 1, &font_variation_class_set_spacing_space, 1),
+    JS_CFUNC_MAGIC_DEF("get_spacing_top", 0, &font_variation_class_get_spacing_top, 2),
+    JS_CFUNC_MAGIC_DEF("set_spacing_top", 1, &font_variation_class_set_spacing_top, 2),
+    JS_CFUNC_MAGIC_DEF("get_spacing_bottom", 0, &font_variation_class_get_spacing_bottom, 3),
+    JS_CFUNC_MAGIC_DEF("set_spacing_bottom", 1, &font_variation_class_set_spacing_bottom, 3),
 };
 
 
@@ -218,38 +287,38 @@ static void define_font_variation_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, font_variation_class_set_opentype_features, "set_opentype_features", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "spacing_glyph"),
-        JS_UNDEFINED,
-        JS_NewCFunction(ctx, font_variation_class_set_spacing, "set_spacing", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, font_variation_class_get_spacing_glyph, "get_spacing_glyph", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, font_variation_class_set_spacing_glyph, "set_spacing_glyph", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "spacing_space"),
-        JS_UNDEFINED,
-        JS_NewCFunction(ctx, font_variation_class_set_spacing, "set_spacing", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, font_variation_class_get_spacing_space, "get_spacing_space", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, font_variation_class_set_spacing_space, "set_spacing_space", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "spacing_top"),
-        JS_UNDEFINED,
-        JS_NewCFunction(ctx, font_variation_class_set_spacing, "set_spacing", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, font_variation_class_get_spacing_top, "get_spacing_top", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, font_variation_class_set_spacing_top, "set_spacing_top", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "spacing_bottom"),
-        JS_UNDEFINED,
-        JS_NewCFunction(ctx, font_variation_class_set_spacing, "set_spacing", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, font_variation_class_get_spacing_bottom, "get_spacing_bottom", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, font_variation_class_set_spacing_bottom, "set_spacing_bottom", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

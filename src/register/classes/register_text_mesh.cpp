@@ -17,6 +17,7 @@ static void text_mesh_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -75,27 +76,7 @@ static JSValue text_mesh_class_set_text(JSContext *ctx, JSValueConst this_val, i
 };
 static JSValue text_mesh_class_get_text(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		TextMesh *obj = static_cast<TextMesh *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_text();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		TextMesh *js_proxy = static_cast<TextMesh *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_text(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&TextMesh::get_text, ctx, this_val, argc, argv);
 }
 static JSValue text_mesh_class_set_font(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -181,12 +162,10 @@ static JSValue text_mesh_class_get_offset(JSContext *ctx, JSValueConst this_val,
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue text_mesh_class_set_curve_step(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -211,27 +190,7 @@ static JSValue text_mesh_class_set_language(JSContext *ctx, JSValueConst this_va
 };
 static JSValue text_mesh_class_get_language(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		TextMesh *obj = static_cast<TextMesh *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_language();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		TextMesh *js_proxy = static_cast<TextMesh *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_language(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&TextMesh::get_language, ctx, this_val, argc, argv);
 }
 static JSValue text_mesh_class_set_structured_text_bidi_override(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -261,12 +220,10 @@ static JSValue text_mesh_class_get_structured_text_bidi_override_options(JSConte
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ArrayProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue text_mesh_class_set_uppercase(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -277,6 +234,8 @@ static JSValue text_mesh_class_is_uppercase(JSContext *ctx, JSValueConst this_va
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&TextMesh::is_uppercase, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry text_mesh_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_horizontal_alignment", 1, &text_mesh_class_set_horizontal_alignment),

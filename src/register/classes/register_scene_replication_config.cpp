@@ -16,6 +16,7 @@ static void scene_replication_config_class_finalizer(JSRuntime *rt, JSValue val)
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -104,6 +105,8 @@ static JSValue scene_replication_config_class_property_set_watch(JSContext *ctx,
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&SceneReplicationConfig::property_set_watch, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry scene_replication_config_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_properties", 0, &scene_replication_config_class_get_properties),

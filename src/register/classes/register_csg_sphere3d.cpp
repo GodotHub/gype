@@ -94,6 +94,8 @@ static JSValue csg_sphere3d_class_get_material(JSContext *ctx, JSValueConst this
 	return call_builtin_const_method_ret(&CSGSphere3D::get_material, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry csg_sphere3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_radius", 1, &csg_sphere3d_class_set_radius),
 	JS_CFUNC_DEF("get_radius", 0, &csg_sphere3d_class_get_radius),

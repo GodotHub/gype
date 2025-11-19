@@ -535,6 +535,8 @@ static JSValue rendering_device_class_get_device_allocs_by_object_type(JSContext
 	return call_builtin_const_method_ret(&RenderingDevice::get_device_allocs_by_object_type, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry rendering_device_class_proto_funcs[] = {
 	JS_CFUNC_DEF("texture_create", 3, &rendering_device_class_texture_create),
 	JS_CFUNC_DEF("texture_create_shared", 2, &rendering_device_class_texture_create_shared),

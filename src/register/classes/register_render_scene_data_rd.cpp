@@ -57,6 +57,8 @@ static JSValue render_scene_data_rd_class_constructor(JSContext *ctx, JSValueCon
 
 
 
+
+
 static void define_render_scene_data_rd_property(JSContext *ctx, JSValue proto) {
 }
 

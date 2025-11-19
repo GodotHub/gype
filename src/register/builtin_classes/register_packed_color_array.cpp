@@ -176,7 +176,6 @@ static int js_packed_color_array_class_init(JSContext *ctx) {
 
 	JSValue ctor = JS_NewCFunction2(ctx, packed_color_array_class_constructor, "PackedColorArray", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "PackedColorArray", ctor);
 

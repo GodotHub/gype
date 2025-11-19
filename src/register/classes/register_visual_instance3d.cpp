@@ -101,6 +101,8 @@ static JSValue visual_instance3d_class_get_aabb(JSContext *ctx, JSValueConst thi
 	return call_builtin_const_method_ret(&VisualInstance3D::get_aabb, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry visual_instance3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_base", 1, &visual_instance3d_class_set_base),
 	JS_CFUNC_DEF("get_base", 0, &visual_instance3d_class_get_base),

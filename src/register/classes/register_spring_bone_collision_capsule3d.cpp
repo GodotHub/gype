@@ -85,6 +85,8 @@ static JSValue spring_bone_collision_capsule3d_class_is_inside(JSContext *ctx, J
 	return call_builtin_const_method_ret(&SpringBoneCollisionCapsule3D::is_inside, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry spring_bone_collision_capsule3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_radius", 1, &spring_bone_collision_capsule3d_class_set_radius),
 	JS_CFUNC_DEF("get_radius", 0, &spring_bone_collision_capsule3d_class_get_radius),

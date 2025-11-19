@@ -95,12 +95,10 @@ static JSValue viewport_class_get_canvas_transform(JSContext *ctx, JSValueConst 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Transform2DProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue viewport_class_set_global_canvas_transform(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -123,12 +121,10 @@ static JSValue viewport_class_get_global_canvas_transform(JSContext *ctx, JSValu
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Transform2DProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue viewport_class_get_stretch_transform(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -616,6 +612,72 @@ static JSValue viewport_class_get_vrs_texture(JSContext *ctx, JSValueConst this_
 	return call_builtin_const_method_ret(&Viewport::get_vrs_texture, ctx, this_val, argc, argv);
 }
 
+static JSValue viewport_class_get_positional_shadow_atlas_quad_0(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Viewport::get_positional_shadow_atlas_quadrant_subdiv, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue viewport_class_set_positional_shadow_atlas_quad_0(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Viewport::set_positional_shadow_atlas_quadrant_subdiv, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue viewport_class_get_positional_shadow_atlas_quad_1(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Viewport::get_positional_shadow_atlas_quadrant_subdiv, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue viewport_class_set_positional_shadow_atlas_quad_1(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Viewport::set_positional_shadow_atlas_quadrant_subdiv, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue viewport_class_get_positional_shadow_atlas_quad_2(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Viewport::get_positional_shadow_atlas_quadrant_subdiv, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue viewport_class_set_positional_shadow_atlas_quad_2(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Viewport::set_positional_shadow_atlas_quadrant_subdiv, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue viewport_class_get_positional_shadow_atlas_quad_3(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Viewport::get_positional_shadow_atlas_quadrant_subdiv, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue viewport_class_set_positional_shadow_atlas_quad_3(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Viewport::set_positional_shadow_atlas_quadrant_subdiv, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
+
 static const JSCFunctionListEntry viewport_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_world_2d", 1, &viewport_class_set_world_2d),
 	JS_CFUNC_DEF("get_world_2d", 0, &viewport_class_get_world_2d),
@@ -745,6 +807,12 @@ static const JSCFunctionListEntry viewport_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_vrs_update_mode", 0, &viewport_class_get_vrs_update_mode),
 	JS_CFUNC_DEF("set_vrs_texture", 1, &viewport_class_set_vrs_texture),
 	JS_CFUNC_DEF("get_vrs_texture", 0, &viewport_class_get_vrs_texture),
+    JS_CFUNC_MAGIC_DEF("get_positional_shadow_atlas_quad_1", 0, &viewport_class_get_positional_shadow_atlas_quad_1, 1),
+    JS_CFUNC_MAGIC_DEF("set_positional_shadow_atlas_quad_1", 1, &viewport_class_set_positional_shadow_atlas_quad_1, 1),
+    JS_CFUNC_MAGIC_DEF("get_positional_shadow_atlas_quad_2", 0, &viewport_class_get_positional_shadow_atlas_quad_2, 2),
+    JS_CFUNC_MAGIC_DEF("set_positional_shadow_atlas_quad_2", 1, &viewport_class_set_positional_shadow_atlas_quad_2, 2),
+    JS_CFUNC_MAGIC_DEF("get_positional_shadow_atlas_quad_3", 0, &viewport_class_get_positional_shadow_atlas_quad_3, 3),
+    JS_CFUNC_MAGIC_DEF("set_positional_shadow_atlas_quad_3", 1, &viewport_class_set_positional_shadow_atlas_quad_3, 3),
 };
 
 
@@ -1091,38 +1159,38 @@ static void define_viewport_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, viewport_class_set_positional_shadow_atlas_16_bits, "set_positional_shadow_atlas_16_bits", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "positional_shadow_atlas_quad_0"),
-        JS_NewCFunction(ctx, viewport_class_get_positional_shadow_atlas_quadrant_subdiv, "get_positional_shadow_atlas_quadrant_subdiv", 0),
-        JS_NewCFunction(ctx, viewport_class_set_positional_shadow_atlas_quadrant_subdiv, "set_positional_shadow_atlas_quadrant_subdiv", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, viewport_class_get_positional_shadow_atlas_quad_0, "get_positional_shadow_atlas_quad_0", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, viewport_class_set_positional_shadow_atlas_quad_0, "set_positional_shadow_atlas_quad_0", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "positional_shadow_atlas_quad_1"),
-        JS_NewCFunction(ctx, viewport_class_get_positional_shadow_atlas_quadrant_subdiv, "get_positional_shadow_atlas_quadrant_subdiv", 0),
-        JS_NewCFunction(ctx, viewport_class_set_positional_shadow_atlas_quadrant_subdiv, "set_positional_shadow_atlas_quadrant_subdiv", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, viewport_class_get_positional_shadow_atlas_quad_1, "get_positional_shadow_atlas_quad_1", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, viewport_class_set_positional_shadow_atlas_quad_1, "set_positional_shadow_atlas_quad_1", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "positional_shadow_atlas_quad_2"),
-        JS_NewCFunction(ctx, viewport_class_get_positional_shadow_atlas_quadrant_subdiv, "get_positional_shadow_atlas_quadrant_subdiv", 0),
-        JS_NewCFunction(ctx, viewport_class_set_positional_shadow_atlas_quadrant_subdiv, "set_positional_shadow_atlas_quadrant_subdiv", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, viewport_class_get_positional_shadow_atlas_quad_2, "get_positional_shadow_atlas_quad_2", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, viewport_class_set_positional_shadow_atlas_quad_2, "set_positional_shadow_atlas_quad_2", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "positional_shadow_atlas_quad_3"),
-        JS_NewCFunction(ctx, viewport_class_get_positional_shadow_atlas_quadrant_subdiv, "get_positional_shadow_atlas_quadrant_subdiv", 0),
-        JS_NewCFunction(ctx, viewport_class_set_positional_shadow_atlas_quadrant_subdiv, "set_positional_shadow_atlas_quadrant_subdiv", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, viewport_class_get_positional_shadow_atlas_quad_3, "get_positional_shadow_atlas_quad_3", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, viewport_class_set_positional_shadow_atlas_quad_3, "set_positional_shadow_atlas_quad_3", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

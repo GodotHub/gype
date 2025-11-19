@@ -171,12 +171,10 @@ static JSValue control_class_get_position(JSContext *ctx, JSValueConst this_val,
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue control_class_get_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -195,12 +193,10 @@ static JSValue control_class_get_size(JSContext *ctx, JSValueConst this_val, int
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue control_class_get_rotation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -227,12 +223,10 @@ static JSValue control_class_get_scale(JSContext *ctx, JSValueConst this_val, in
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue control_class_get_pivot_offset(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -251,12 +245,10 @@ static JSValue control_class_get_pivot_offset(JSContext *ctx, JSValueConst this_
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue control_class_get_custom_minimum_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -275,12 +267,10 @@ static JSValue control_class_get_custom_minimum_size(JSContext *ctx, JSValueCons
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue control_class_get_parent_area_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -303,12 +293,10 @@ static JSValue control_class_get_global_position(JSContext *ctx, JSValueConst th
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue control_class_get_screen_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -405,27 +393,7 @@ static JSValue control_class_set_theme_type_variation(JSContext *ctx, JSValueCon
 };
 static JSValue control_class_get_theme_type_variation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<StringName> *proxy = memnew(ObjectProxy<StringName>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> StringName {
-		Control *obj = static_cast<Control *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_theme_type_variation();
-	};
-	proxy->setter = [this_val](const StringName &value) -> void {
-		Control *js_proxy = static_cast<Control *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_theme_type_variation(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringNameProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringNameProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Control::get_theme_type_variation, ctx, this_val, argc, argv);
 }
 static JSValue control_class_begin_bulk_theme_override(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -601,27 +569,7 @@ static JSValue control_class_set_tooltip_text(JSContext *ctx, JSValueConst this_
 };
 static JSValue control_class_get_tooltip_text(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		Control *obj = static_cast<Control *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_tooltip_text();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		Control *js_proxy = static_cast<Control *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_tooltip_text(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Control::get_tooltip_text, ctx, this_val, argc, argv);
 }
 static JSValue control_class_get_tooltip(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -667,12 +615,10 @@ static JSValue control_class_get_focus_next(JSContext *ctx, JSValueConst this_va
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue control_class_set_focus_previous(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -695,12 +641,10 @@ static JSValue control_class_get_focus_previous(JSContext *ctx, JSValueConst thi
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue control_class_force_drag(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -721,27 +665,7 @@ static JSValue control_class_set_accessibility_name(JSContext *ctx, JSValueConst
 };
 static JSValue control_class_get_accessibility_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		Control *obj = static_cast<Control *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_accessibility_name();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		Control *js_proxy = static_cast<Control *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_accessibility_name(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Control::get_accessibility_name, ctx, this_val, argc, argv);
 }
 static JSValue control_class_set_accessibility_description(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -749,27 +673,7 @@ static JSValue control_class_set_accessibility_description(JSContext *ctx, JSVal
 };
 static JSValue control_class_get_accessibility_description(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		Control *obj = static_cast<Control *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_accessibility_description();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		Control *js_proxy = static_cast<Control *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_accessibility_description(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Control::get_accessibility_description, ctx, this_val, argc, argv);
 }
 static JSValue control_class_set_accessibility_live(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -907,6 +811,164 @@ static JSValue control_class_is_localizing_numeral_system(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&Control::is_localizing_numeral_system, ctx, this_val, argc, argv);
 }
+
+static JSValue control_class_get_anchor_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Control::get_anchor, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue control_class_get_anchor_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Control::get_anchor, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue control_class_get_anchor_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Control::get_anchor, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue control_class_get_anchor_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Control::get_anchor, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue control_class_get_offset_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Control::get_offset, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue control_class_set_offset_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Control::set_offset, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue control_class_get_offset_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Control::get_offset, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue control_class_set_offset_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Control::set_offset, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue control_class_get_offset_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Control::get_offset, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue control_class_set_offset_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Control::set_offset, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue control_class_get_offset_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Control::get_offset, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue control_class_set_offset_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Control::set_offset, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue control_class_get_focus_neighbor_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Control::get_focus_neighbor, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue control_class_set_focus_neighbor_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Control::set_focus_neighbor, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue control_class_get_focus_neighbor_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Control::get_focus_neighbor, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue control_class_set_focus_neighbor_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Control::set_focus_neighbor, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue control_class_get_focus_neighbor_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Control::get_focus_neighbor, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue control_class_set_focus_neighbor_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Control::set_focus_neighbor, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue control_class_get_focus_neighbor_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Control::get_focus_neighbor, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue control_class_set_focus_neighbor_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Control::set_focus_neighbor, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
 
 static const JSCFunctionListEntry control_class_proto_funcs[] = {
 	JS_CFUNC_DEF("accept_event", 0, &control_class_accept_event),
@@ -1061,6 +1123,21 @@ static const JSCFunctionListEntry control_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_auto_translating", 0, &control_class_is_auto_translating),
 	JS_CFUNC_DEF("set_localize_numeral_system", 1, &control_class_set_localize_numeral_system),
 	JS_CFUNC_DEF("is_localizing_numeral_system", 0, &control_class_is_localizing_numeral_system),
+    JS_CFUNC_MAGIC_DEF("get_anchor_top", 0, &control_class_get_anchor_top, 1),
+    JS_CFUNC_MAGIC_DEF("get_anchor_right", 0, &control_class_get_anchor_right, 2),
+    JS_CFUNC_MAGIC_DEF("get_anchor_bottom", 0, &control_class_get_anchor_bottom, 3),
+    JS_CFUNC_MAGIC_DEF("get_offset_top", 0, &control_class_get_offset_top, 1),
+    JS_CFUNC_MAGIC_DEF("set_offset_top", 1, &control_class_set_offset_top, 1),
+    JS_CFUNC_MAGIC_DEF("get_offset_right", 0, &control_class_get_offset_right, 2),
+    JS_CFUNC_MAGIC_DEF("set_offset_right", 1, &control_class_set_offset_right, 2),
+    JS_CFUNC_MAGIC_DEF("get_offset_bottom", 0, &control_class_get_offset_bottom, 3),
+    JS_CFUNC_MAGIC_DEF("set_offset_bottom", 1, &control_class_set_offset_bottom, 3),
+    JS_CFUNC_MAGIC_DEF("get_focus_neighbor_top", 0, &control_class_get_focus_neighbor_top, 1),
+    JS_CFUNC_MAGIC_DEF("set_focus_neighbor_top", 1, &control_class_set_focus_neighbor_top, 1),
+    JS_CFUNC_MAGIC_DEF("get_focus_neighbor_right", 0, &control_class_get_focus_neighbor_right, 2),
+    JS_CFUNC_MAGIC_DEF("set_focus_neighbor_right", 1, &control_class_set_focus_neighbor_right, 2),
+    JS_CFUNC_MAGIC_DEF("get_focus_neighbor_bottom", 0, &control_class_get_focus_neighbor_bottom, 3),
+    JS_CFUNC_MAGIC_DEF("set_focus_neighbor_bottom", 1, &control_class_set_focus_neighbor_bottom, 3),
 };
 
 
@@ -1181,70 +1258,70 @@ static void define_control_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, control_class_set_layout_direction, "set_layout_direction", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anchor_left"),
-        JS_NewCFunction(ctx, control_class_get_anchor, "get_anchor", 0),
-        JS_UNDEFINED,
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, control_class_get_anchor_left, "get_anchor_left", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_UNDEFINED,
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anchor_top"),
-        JS_NewCFunction(ctx, control_class_get_anchor, "get_anchor", 0),
-        JS_UNDEFINED,
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, control_class_get_anchor_top, "get_anchor_top", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_UNDEFINED,
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anchor_right"),
-        JS_NewCFunction(ctx, control_class_get_anchor, "get_anchor", 0),
-        JS_UNDEFINED,
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, control_class_get_anchor_right, "get_anchor_right", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_UNDEFINED,
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anchor_bottom"),
-        JS_NewCFunction(ctx, control_class_get_anchor, "get_anchor", 0),
-        JS_UNDEFINED,
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, control_class_get_anchor_bottom, "get_anchor_bottom", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_UNDEFINED,
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "offset_left"),
-        JS_NewCFunction(ctx, control_class_get_offset, "get_offset", 0),
-        JS_NewCFunction(ctx, control_class_set_offset, "set_offset", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, control_class_get_offset_left, "get_offset_left", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, control_class_set_offset_left, "set_offset_left", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "offset_top"),
-        JS_NewCFunction(ctx, control_class_get_offset, "get_offset", 0),
-        JS_NewCFunction(ctx, control_class_set_offset, "set_offset", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, control_class_get_offset_top, "get_offset_top", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, control_class_set_offset_top, "set_offset_top", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "offset_right"),
-        JS_NewCFunction(ctx, control_class_get_offset, "get_offset", 0),
-        JS_NewCFunction(ctx, control_class_set_offset, "set_offset", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, control_class_get_offset_right, "get_offset_right", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, control_class_set_offset_right, "set_offset_right", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "offset_bottom"),
-        JS_NewCFunction(ctx, control_class_get_offset, "get_offset", 0),
-        JS_NewCFunction(ctx, control_class_set_offset, "set_offset", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, control_class_get_offset_bottom, "get_offset_bottom", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, control_class_set_offset_bottom, "set_offset_bottom", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1373,38 +1450,38 @@ static void define_control_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, control_class_set_tooltip_auto_translate_mode, "set_tooltip_auto_translate_mode", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "focus_neighbor_left"),
-        JS_NewCFunction(ctx, control_class_get_focus_neighbor, "get_focus_neighbor", 0),
-        JS_NewCFunction(ctx, control_class_set_focus_neighbor, "set_focus_neighbor", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, control_class_get_focus_neighbor_left, "get_focus_neighbor_left", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, control_class_set_focus_neighbor_left, "set_focus_neighbor_left", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "focus_neighbor_top"),
-        JS_NewCFunction(ctx, control_class_get_focus_neighbor, "get_focus_neighbor", 0),
-        JS_NewCFunction(ctx, control_class_set_focus_neighbor, "set_focus_neighbor", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, control_class_get_focus_neighbor_top, "get_focus_neighbor_top", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, control_class_set_focus_neighbor_top, "set_focus_neighbor_top", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "focus_neighbor_right"),
-        JS_NewCFunction(ctx, control_class_get_focus_neighbor, "get_focus_neighbor", 0),
-        JS_NewCFunction(ctx, control_class_set_focus_neighbor, "set_focus_neighbor", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, control_class_get_focus_neighbor_right, "get_focus_neighbor_right", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, control_class_set_focus_neighbor_right, "set_focus_neighbor_right", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "focus_neighbor_bottom"),
-        JS_NewCFunction(ctx, control_class_get_focus_neighbor, "get_focus_neighbor", 0),
-        JS_NewCFunction(ctx, control_class_set_focus_neighbor, "set_focus_neighbor", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, control_class_get_focus_neighbor_bottom, "get_focus_neighbor_bottom", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, control_class_set_focus_neighbor_bottom, "set_focus_neighbor_bottom", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

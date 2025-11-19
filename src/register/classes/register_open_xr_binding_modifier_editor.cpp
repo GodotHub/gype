@@ -64,6 +64,8 @@ static JSValue open_xr_binding_modifier_editor_class_setup(JSContext *ctx, JSVal
     return call_builtin_method_no_ret(&OpenXRBindingModifierEditor::setup, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry open_xr_binding_modifier_editor_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_binding_modifier", 0, &open_xr_binding_modifier_editor_class_get_binding_modifier),
 	JS_CFUNC_DEF("setup", 2, &open_xr_binding_modifier_editor_class_setup),

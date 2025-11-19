@@ -77,6 +77,8 @@ static JSValue editor_paths_class_get_project_settings_dir(JSContext *ctx, JSVal
 	return call_builtin_const_method_ret(&EditorPaths::get_project_settings_dir, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry editor_paths_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_data_dir", 0, &editor_paths_class_get_data_dir),
 	JS_CFUNC_DEF("get_config_dir", 0, &editor_paths_class_get_config_dir),

@@ -175,7 +175,6 @@ static int js_packed_int64_array_class_init(JSContext *ctx) {
 
 	JSValue ctor = JS_NewCFunction2(ctx, packed_int64_array_class_constructor, "PackedInt64Array", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "PackedInt64Array", ctor);
 

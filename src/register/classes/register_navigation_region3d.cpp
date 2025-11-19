@@ -138,6 +138,8 @@ static JSValue navigation_region3d_class_get_bounds(JSContext *ctx, JSValueConst
 	return call_builtin_const_method_ret(&NavigationRegion3D::get_bounds, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry navigation_region3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_rid", 0, &navigation_region3d_class_get_rid),
 	JS_CFUNC_DEF("set_navigation_mesh", 1, &navigation_region3d_class_set_navigation_mesh),

@@ -89,6 +89,8 @@ static JSValue flow_container_class_is_reverse_fill(JSContext *ctx, JSValueConst
 	return call_builtin_const_method_ret(&FlowContainer::is_reverse_fill, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry flow_container_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_line_count", 0, &flow_container_class_get_line_count),
 	JS_CFUNC_DEF("set_alignment", 1, &flow_container_class_set_alignment),

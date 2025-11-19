@@ -16,6 +16,7 @@ static void xr_interface_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -164,6 +165,8 @@ static JSValue xr_interface_class_get_environment_blend_mode(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&XRInterface::get_environment_blend_mode, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry xr_interface_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_name", 0, &xr_interface_class_get_name),

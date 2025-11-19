@@ -16,6 +16,7 @@ static void compressed_texture3d_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -58,28 +59,10 @@ static JSValue compressed_texture3d_class_load(JSContext *ctx, JSValueConst this
 };
 static JSValue compressed_texture3d_class_get_load_path(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		CompressedTexture3D *obj = static_cast<CompressedTexture3D *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_load_path();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		CompressedTexture3D *js_proxy = static_cast<CompressedTexture3D *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->load(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&CompressedTexture3D::get_load_path, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry compressed_texture3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("load", 1, &compressed_texture3d_class_load),

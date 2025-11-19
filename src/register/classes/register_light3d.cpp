@@ -145,12 +145,10 @@ static JSValue light3d_class_get_color(JSContext *ctx, JSValueConst this_val, in
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue light3d_class_set_shadow_reverse_cull_face(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -198,6 +196,216 @@ static JSValue light3d_class_get_correlated_color(JSContext *ctx, JSValueConst t
 	return call_builtin_const_method_ret(&Light3D::get_correlated_color, ctx, this_val, argc, argv);
 };
 
+static JSValue light3d_class_get_light_intensity_lumens(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Light3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue light3d_class_set_light_intensity_lumens(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue light3d_class_get_light_intensity_lux(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Light3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue light3d_class_set_light_intensity_lux(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue light3d_class_get_light_energy(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Light3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue light3d_class_set_light_energy(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue light3d_class_get_light_indirect_energy(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Light3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue light3d_class_set_light_indirect_energy(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue light3d_class_get_light_volumetric_fog_energy(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Light3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue light3d_class_set_light_volumetric_fog_energy(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue light3d_class_get_light_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Light3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue light3d_class_set_light_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue light3d_class_get_light_angular_distance(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Light3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue light3d_class_set_light_angular_distance(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue light3d_class_get_light_specular(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Light3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue light3d_class_set_light_specular(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue light3d_class_get_shadow_bias(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Light3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue light3d_class_set_shadow_bias(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue light3d_class_get_shadow_normal_bias(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Light3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue light3d_class_set_shadow_normal_bias(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue light3d_class_get_shadow_transmittance_bias(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Light3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue light3d_class_set_shadow_transmittance_bias(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue light3d_class_get_shadow_opacity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Light3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue light3d_class_set_shadow_opacity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue light3d_class_get_shadow_blur(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Light3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue light3d_class_set_shadow_blur(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
+
 static const JSCFunctionListEntry light3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_editor_only", 1, &light3d_class_set_editor_only),
 	JS_CFUNC_DEF("is_editor_only", 0, &light3d_class_is_editor_only),
@@ -230,28 +438,52 @@ static const JSCFunctionListEntry light3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_temperature", 1, &light3d_class_set_temperature),
 	JS_CFUNC_DEF("get_temperature", 0, &light3d_class_get_temperature),
 	JS_CFUNC_DEF("get_correlated_color", 0, &light3d_class_get_correlated_color),
+    JS_CFUNC_MAGIC_DEF("get_light_intensity_lumens", 0, &light3d_class_get_light_intensity_lumens, 20),
+    JS_CFUNC_MAGIC_DEF("set_light_intensity_lumens", 1, &light3d_class_set_light_intensity_lumens, 20),
+    JS_CFUNC_MAGIC_DEF("get_light_intensity_lux", 0, &light3d_class_get_light_intensity_lux, 20),
+    JS_CFUNC_MAGIC_DEF("set_light_intensity_lux", 1, &light3d_class_set_light_intensity_lux, 20),
+    JS_CFUNC_MAGIC_DEF("get_light_indirect_energy", 0, &light3d_class_get_light_indirect_energy, 1),
+    JS_CFUNC_MAGIC_DEF("set_light_indirect_energy", 1, &light3d_class_set_light_indirect_energy, 1),
+    JS_CFUNC_MAGIC_DEF("get_light_volumetric_fog_energy", 0, &light3d_class_get_light_volumetric_fog_energy, 2),
+    JS_CFUNC_MAGIC_DEF("set_light_volumetric_fog_energy", 1, &light3d_class_set_light_volumetric_fog_energy, 2),
+    JS_CFUNC_MAGIC_DEF("get_light_size", 0, &light3d_class_get_light_size, 5),
+    JS_CFUNC_MAGIC_DEF("set_light_size", 1, &light3d_class_set_light_size, 5),
+    JS_CFUNC_MAGIC_DEF("get_light_angular_distance", 0, &light3d_class_get_light_angular_distance, 5),
+    JS_CFUNC_MAGIC_DEF("set_light_angular_distance", 1, &light3d_class_set_light_angular_distance, 5),
+    JS_CFUNC_MAGIC_DEF("get_light_specular", 0, &light3d_class_get_light_specular, 3),
+    JS_CFUNC_MAGIC_DEF("set_light_specular", 1, &light3d_class_set_light_specular, 3),
+    JS_CFUNC_MAGIC_DEF("get_shadow_bias", 0, &light3d_class_get_shadow_bias, 15),
+    JS_CFUNC_MAGIC_DEF("set_shadow_bias", 1, &light3d_class_set_shadow_bias, 15),
+    JS_CFUNC_MAGIC_DEF("get_shadow_normal_bias", 0, &light3d_class_get_shadow_normal_bias, 14),
+    JS_CFUNC_MAGIC_DEF("set_shadow_normal_bias", 1, &light3d_class_set_shadow_normal_bias, 14),
+    JS_CFUNC_MAGIC_DEF("get_shadow_transmittance_bias", 0, &light3d_class_get_shadow_transmittance_bias, 19),
+    JS_CFUNC_MAGIC_DEF("set_shadow_transmittance_bias", 1, &light3d_class_set_shadow_transmittance_bias, 19),
+    JS_CFUNC_MAGIC_DEF("get_shadow_opacity", 0, &light3d_class_get_shadow_opacity, 17),
+    JS_CFUNC_MAGIC_DEF("set_shadow_opacity", 1, &light3d_class_set_shadow_opacity, 17),
+    JS_CFUNC_MAGIC_DEF("get_shadow_blur", 0, &light3d_class_get_shadow_blur, 18),
+    JS_CFUNC_MAGIC_DEF("set_shadow_blur", 1, &light3d_class_set_shadow_blur, 18),
 };
 
 
 
 
 static void define_light3d_property(JSContext *ctx, JSValue proto) {
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "light_intensity_lumens"),
-        JS_NewCFunction(ctx, light3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, light3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, light3d_class_get_light_intensity_lumens, "get_light_intensity_lumens", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 20),
+		JS_NewCFunctionMagic(ctx, light3d_class_set_light_intensity_lumens, "set_light_intensity_lumens", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 20),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "light_intensity_lux"),
-        JS_NewCFunction(ctx, light3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, light3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, light3d_class_get_light_intensity_lux, "get_light_intensity_lux", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 20),
+		JS_NewCFunctionMagic(ctx, light3d_class_set_light_intensity_lux, "set_light_intensity_lux", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 20),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -268,30 +500,30 @@ static void define_light3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, light3d_class_set_color, "set_color", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "light_energy"),
-        JS_NewCFunction(ctx, light3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, light3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, light3d_class_get_light_energy, "get_light_energy", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, light3d_class_set_light_energy, "set_light_energy", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "light_indirect_energy"),
-        JS_NewCFunction(ctx, light3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, light3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, light3d_class_get_light_indirect_energy, "get_light_indirect_energy", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, light3d_class_set_light_indirect_energy, "set_light_indirect_energy", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "light_volumetric_fog_energy"),
-        JS_NewCFunction(ctx, light3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, light3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, light3d_class_get_light_volumetric_fog_energy, "get_light_volumetric_fog_energy", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, light3d_class_set_light_volumetric_fog_energy, "set_light_volumetric_fog_energy", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -300,22 +532,22 @@ static void define_light3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, light3d_class_set_projector, "set_projector", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "light_size"),
-        JS_NewCFunction(ctx, light3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, light3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, light3d_class_get_light_size, "get_light_size", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_NewCFunctionMagic(ctx, light3d_class_set_light_size, "set_light_size", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "light_angular_distance"),
-        JS_NewCFunction(ctx, light3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, light3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, light3d_class_get_light_angular_distance, "get_light_angular_distance", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_NewCFunctionMagic(ctx, light3d_class_set_light_angular_distance, "set_light_angular_distance", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -324,14 +556,14 @@ static void define_light3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, light3d_class_set_negative, "set_negative", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "light_specular"),
-        JS_NewCFunction(ctx, light3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, light3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, light3d_class_get_light_specular, "get_light_specular", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, light3d_class_set_light_specular, "set_light_specular", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -356,22 +588,22 @@ static void define_light3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, light3d_class_set_shadow, "set_shadow", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "shadow_bias"),
-        JS_NewCFunction(ctx, light3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, light3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, light3d_class_get_shadow_bias, "get_shadow_bias", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 15),
+		JS_NewCFunctionMagic(ctx, light3d_class_set_shadow_bias, "set_shadow_bias", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 15),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "shadow_normal_bias"),
-        JS_NewCFunction(ctx, light3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, light3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, light3d_class_get_shadow_normal_bias, "get_shadow_normal_bias", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 14),
+		JS_NewCFunctionMagic(ctx, light3d_class_set_shadow_normal_bias, "set_shadow_normal_bias", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 14),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -380,30 +612,30 @@ static void define_light3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, light3d_class_set_shadow_reverse_cull_face, "set_shadow_reverse_cull_face", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "shadow_transmittance_bias"),
-        JS_NewCFunction(ctx, light3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, light3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, light3d_class_get_shadow_transmittance_bias, "get_shadow_transmittance_bias", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 19),
+		JS_NewCFunctionMagic(ctx, light3d_class_set_shadow_transmittance_bias, "set_shadow_transmittance_bias", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 19),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "shadow_opacity"),
-        JS_NewCFunction(ctx, light3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, light3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, light3d_class_get_shadow_opacity, "get_shadow_opacity", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 17),
+		JS_NewCFunctionMagic(ctx, light3d_class_set_shadow_opacity, "set_shadow_opacity", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 17),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "shadow_blur"),
-        JS_NewCFunction(ctx, light3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, light3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, light3d_class_get_shadow_blur, "get_shadow_blur", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 18),
+		JS_NewCFunctionMagic(ctx, light3d_class_set_shadow_blur, "set_shadow_blur", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 18),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

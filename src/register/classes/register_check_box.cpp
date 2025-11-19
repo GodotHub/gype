@@ -57,6 +57,8 @@ static JSValue check_box_class_constructor(JSContext *ctx, JSValueConst new_targ
 
 
 
+
+
 static void define_check_box_property(JSContext *ctx, JSValue proto) {
 }
 

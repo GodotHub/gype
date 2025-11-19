@@ -71,6 +71,8 @@ static JSValue csg_mesh3d_class_get_material(JSContext *ctx, JSValueConst this_v
 	return call_builtin_const_method_ret(&CSGMesh3D::get_material, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry csg_mesh3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_mesh", 1, &csg_mesh3d_class_set_mesh),
 	JS_CFUNC_DEF("get_mesh", 0, &csg_mesh3d_class_get_mesh),

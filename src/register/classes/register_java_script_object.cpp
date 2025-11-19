@@ -16,6 +16,7 @@ static void java_script_object_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -51,6 +52,8 @@ static JSValue java_script_object_class_constructor(JSContext *ctx, JSValueConst
     JS_SetOpaque(obj, adapter);
     return obj;
 }
+
+
 
 
 

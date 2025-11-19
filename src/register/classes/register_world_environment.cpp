@@ -80,6 +80,8 @@ static JSValue world_environment_class_get_compositor(JSContext *ctx, JSValueCon
 	return call_builtin_const_method_ret(&WorldEnvironment::get_compositor, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry world_environment_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_environment", 1, &world_environment_class_set_environment),
 	JS_CFUNC_DEF("get_environment", 0, &world_environment_class_get_environment),

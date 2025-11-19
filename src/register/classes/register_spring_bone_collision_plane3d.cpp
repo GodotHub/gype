@@ -57,6 +57,8 @@ static JSValue spring_bone_collision_plane3d_class_constructor(JSContext *ctx, J
 
 
 
+
+
 static void define_spring_bone_collision_plane3d_property(JSContext *ctx, JSValue proto) {
 }
 

@@ -65,6 +65,8 @@ static JSValue physics_server3d_rendering_server_handler_class_set_aabb(JSContex
     return call_builtin_method_no_ret(&PhysicsServer3DRenderingServerHandler::set_aabb, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry physics_server3d_rendering_server_handler_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_vertex", 2, &physics_server3d_rendering_server_handler_class_set_vertex),
 	JS_CFUNC_DEF("set_normal", 2, &physics_server3d_rendering_server_handler_class_set_normal),

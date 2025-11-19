@@ -129,34 +129,34 @@ static JSValue basis_class_from_euler(JSContext *ctx, JSValueConst this_val, int
 
 static JSValue basis_class_get_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Basis val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Basis"]))->get();
-	return VariantAdapter(val.rows[0]);
+	return VariantAdapter(val.rows->x);
 }
 static JSValue basis_class_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Basis"]));
     Basis val = adapter->get();
-    val.rows[0] = VariantAdapter(*argv).get();
+    val.rows->x = VariantAdapter(*argv).get();
     adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue basis_class_get_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Basis val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Basis"]))->get();
-	return VariantAdapter(val.rows[1]);
+	return VariantAdapter(val.rows->y);
 }
 static JSValue basis_class_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Basis"]));
     Basis val = adapter->get();
-    val.rows[1] = VariantAdapter(*argv).get();
+    val.rows->y = VariantAdapter(*argv).get();
     adapter->set(val);
 	return JS_UNDEFINED;
 }
 static JSValue basis_class_get_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	Basis val = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Basis"]))->get();
-	return VariantAdapter(val.rows[2]);
+	return VariantAdapter(val.rows->z);
 }
 static JSValue basis_class_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetOpaque(this_val, classes["Basis"]));
     Basis val = adapter->get();
-    val.rows[2] = VariantAdapter(*argv).get();
+    val.rows->z = VariantAdapter(*argv).get();
     adapter->set(val);
 	return JS_UNDEFINED;
 }
@@ -256,7 +256,6 @@ static int js_basis_class_init(JSContext *ctx) {
 	JSValue ctor = JS_NewCFunction2(ctx, basis_class_constructor, "Basis", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetPropertyFunctionList(ctx, ctor, basis_class_constants_funcs, _countof(basis_class_constants_funcs));
-	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Basis", ctor);
 
@@ -478,14 +477,14 @@ static JSValue basis_proxy_get_x(JSContext *ctx, JSValueConst this_val, int argc
 	void *opaque = JS_GetOpaque(this_val, classes["BasisProxy"]);
     ObjectProxy<Basis> *proxy = static_cast<ObjectProxy<Basis> *>(opaque);
     Basis ret = proxy->getter();
-    return VariantAdapter(ret.rows[0]);
+    return VariantAdapter(ret.rows->x);
 }
 static JSValue basis_proxy_set_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["BasisProxy"]);
     ObjectProxy<Basis> *proxy = static_cast<ObjectProxy<Basis> *>(opaque);
     VariantAdapter x(argv[0]);
     Basis wrapped = proxy->getter();
-    wrapped.rows[0] = x.get();
+    wrapped.rows->x = x.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
@@ -493,14 +492,14 @@ static JSValue basis_proxy_get_y(JSContext *ctx, JSValueConst this_val, int argc
 	void *opaque = JS_GetOpaque(this_val, classes["BasisProxy"]);
     ObjectProxy<Basis> *proxy = static_cast<ObjectProxy<Basis> *>(opaque);
     Basis ret = proxy->getter();
-    return VariantAdapter(ret.rows[1]);
+    return VariantAdapter(ret.rows->y);
 }
 static JSValue basis_proxy_set_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["BasisProxy"]);
     ObjectProxy<Basis> *proxy = static_cast<ObjectProxy<Basis> *>(opaque);
     VariantAdapter y(argv[0]);
     Basis wrapped = proxy->getter();
-    wrapped.rows[1] = y.get();
+    wrapped.rows->y = y.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }
@@ -508,14 +507,14 @@ static JSValue basis_proxy_get_z(JSContext *ctx, JSValueConst this_val, int argc
 	void *opaque = JS_GetOpaque(this_val, classes["BasisProxy"]);
     ObjectProxy<Basis> *proxy = static_cast<ObjectProxy<Basis> *>(opaque);
     Basis ret = proxy->getter();
-    return VariantAdapter(ret.rows[2]);
+    return VariantAdapter(ret.rows->z);
 }
 static JSValue basis_proxy_set_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	void *opaque = JS_GetOpaque(this_val, classes["BasisProxy"]);
     ObjectProxy<Basis> *proxy = static_cast<ObjectProxy<Basis> *>(opaque);
     VariantAdapter z(argv[0]);
     Basis wrapped = proxy->getter();
-    wrapped.rows[2] = z.get();
+    wrapped.rows->z = z.get();
     proxy->setter(wrapped);
 	return JS_UNDEFINED;
 }

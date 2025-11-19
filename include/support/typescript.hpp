@@ -50,6 +50,8 @@ public:
 	static const char *dist_path;
 	static const char *class_symbol_mask;
 	static const char *signal_symbol_mask;
+	static const char *export_symbol_mask;
+	static const char *tool_symbol_mask;
 
 	bool _editor_can_reload_from_file();
 	void _placeholder_erased(void *p_placeholder);

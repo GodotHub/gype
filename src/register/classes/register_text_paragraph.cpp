@@ -17,6 +17,7 @@ static void text_paragraph_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -75,27 +76,7 @@ static JSValue text_paragraph_class_set_custom_punctuation(JSContext *ctx, JSVal
 };
 static JSValue text_paragraph_class_get_custom_punctuation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		TextParagraph *obj = static_cast<TextParagraph *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_custom_punctuation();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		TextParagraph *js_proxy = static_cast<TextParagraph *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_custom_punctuation(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&TextParagraph::get_custom_punctuation, ctx, this_val, argc, argv);
 }
 static JSValue text_paragraph_class_set_orientation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -187,27 +168,7 @@ static JSValue text_paragraph_class_set_ellipsis_char(JSContext *ctx, JSValueCon
 };
 static JSValue text_paragraph_class_get_ellipsis_char(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		TextParagraph *obj = static_cast<TextParagraph *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_ellipsis_char();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		TextParagraph *js_proxy = static_cast<TextParagraph *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_ellipsis_char(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&TextParagraph::get_ellipsis_char, ctx, this_val, argc, argv);
 }
 static JSValue text_paragraph_class_set_width(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -333,6 +294,8 @@ static JSValue text_paragraph_class_hit_test(JSContext *ctx, JSValueConst this_v
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&TextParagraph::hit_test, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry text_paragraph_class_proto_funcs[] = {
 	JS_CFUNC_DEF("clear", 0, &text_paragraph_class_clear),

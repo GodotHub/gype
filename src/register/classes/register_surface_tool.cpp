@@ -19,6 +19,7 @@ static void surface_tool_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -187,6 +188,8 @@ static JSValue surface_tool_class_commit_to_arrays(JSContext *ctx, JSValueConst 
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&SurfaceTool::commit_to_arrays, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry surface_tool_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_skin_weight_count", 1, &surface_tool_class_set_skin_weight_count),

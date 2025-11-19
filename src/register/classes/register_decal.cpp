@@ -73,12 +73,10 @@ static JSValue decal_class_get_size(JSContext *ctx, JSValueConst this_val, int a
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue decal_class_set_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -125,12 +123,10 @@ static JSValue decal_class_get_modulate(JSContext *ctx, JSValueConst this_val, i
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue decal_class_set_upper_fade(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -190,6 +186,72 @@ static JSValue decal_class_get_cull_mask(JSContext *ctx, JSValueConst this_val, 
 	return call_builtin_const_method_ret(&Decal::get_cull_mask, ctx, this_val, argc, argv);
 }
 
+static JSValue decal_class_get_texture_albedo(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Decal::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue decal_class_set_texture_albedo(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Decal::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue decal_class_get_texture_normal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Decal::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue decal_class_set_texture_normal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Decal::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue decal_class_get_texture_orm(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Decal::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue decal_class_set_texture_orm(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Decal::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue decal_class_get_texture_emission(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Decal::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue decal_class_set_texture_emission(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Decal::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
+
 static const JSCFunctionListEntry decal_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_size", 1, &decal_class_set_size),
 	JS_CFUNC_DEF("get_size", 0, &decal_class_get_size),
@@ -215,6 +277,12 @@ static const JSCFunctionListEntry decal_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_distance_fade_length", 0, &decal_class_get_distance_fade_length),
 	JS_CFUNC_DEF("set_cull_mask", 1, &decal_class_set_cull_mask),
 	JS_CFUNC_DEF("get_cull_mask", 0, &decal_class_get_cull_mask),
+    JS_CFUNC_MAGIC_DEF("get_texture_normal", 0, &decal_class_get_texture_normal, 1),
+    JS_CFUNC_MAGIC_DEF("set_texture_normal", 1, &decal_class_set_texture_normal, 1),
+    JS_CFUNC_MAGIC_DEF("get_texture_orm", 0, &decal_class_get_texture_orm, 2),
+    JS_CFUNC_MAGIC_DEF("set_texture_orm", 1, &decal_class_set_texture_orm, 2),
+    JS_CFUNC_MAGIC_DEF("get_texture_emission", 0, &decal_class_get_texture_emission, 3),
+    JS_CFUNC_MAGIC_DEF("set_texture_emission", 1, &decal_class_set_texture_emission, 3),
 };
 
 
@@ -229,38 +297,38 @@ static void define_decal_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, decal_class_set_size, "set_size", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "texture_albedo"),
-        JS_NewCFunction(ctx, decal_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, decal_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, decal_class_get_texture_albedo, "get_texture_albedo", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, decal_class_set_texture_albedo, "set_texture_albedo", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "texture_normal"),
-        JS_NewCFunction(ctx, decal_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, decal_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, decal_class_get_texture_normal, "get_texture_normal", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, decal_class_set_texture_normal, "set_texture_normal", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "texture_orm"),
-        JS_NewCFunction(ctx, decal_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, decal_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, decal_class_get_texture_orm, "get_texture_orm", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, decal_class_set_texture_orm, "set_texture_orm", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "texture_emission"),
-        JS_NewCFunction(ctx, decal_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, decal_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, decal_class_get_texture_emission, "get_texture_emission", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, decal_class_set_texture_emission, "set_texture_emission", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

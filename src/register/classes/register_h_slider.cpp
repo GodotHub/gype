@@ -57,6 +57,8 @@ static JSValue h_slider_class_constructor(JSContext *ctx, JSValueConst new_targe
 
 
 
+
+
 static void define_h_slider_property(JSContext *ctx, JSValue proto) {
 }
 

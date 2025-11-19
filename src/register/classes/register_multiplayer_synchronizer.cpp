@@ -73,12 +73,10 @@ static JSValue multiplayer_synchronizer_class_get_root_path(JSContext *ctx, JSVa
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue multiplayer_synchronizer_class_set_replication_interval(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -141,6 +139,8 @@ static JSValue multiplayer_synchronizer_class_get_visibility_for(JSContext *ctx,
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&MultiplayerSynchronizer::get_visibility_for, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry multiplayer_synchronizer_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_root_path", 1, &multiplayer_synchronizer_class_set_root_path),

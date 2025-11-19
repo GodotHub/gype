@@ -72,14 +72,14 @@ static JSValue open_xr_composition_layer_quad_class_get_quad_size(JSContext *ctx
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
+
+
 
 static const JSCFunctionListEntry open_xr_composition_layer_quad_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_quad_size", 1, &open_xr_composition_layer_quad_class_set_quad_size),

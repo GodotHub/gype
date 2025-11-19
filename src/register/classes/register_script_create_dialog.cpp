@@ -58,6 +58,8 @@ static JSValue script_create_dialog_class_config(JSContext *ctx, JSValueConst th
     return call_builtin_method_no_ret(&ScriptCreateDialog::config, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry script_create_dialog_class_proto_funcs[] = {
 	JS_CFUNC_DEF("config", 4, &script_create_dialog_class_config),
 };

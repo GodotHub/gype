@@ -57,6 +57,8 @@ static JSValue physics_direct_space_state3d_extension_class_is_body_excluded_fro
 	return call_builtin_const_method_ret(&PhysicsDirectSpaceState3DExtension::is_body_excluded_from_query, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry physics_direct_space_state3d_extension_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_body_excluded_from_query", 1, &physics_direct_space_state3d_extension_class_is_body_excluded_from_query),
 };

@@ -64,27 +64,7 @@ static JSValue window_class_set_title(JSContext *ctx, JSValueConst this_val, int
 };
 static JSValue window_class_get_title(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		Window *obj = static_cast<Window *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_title();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		Window *js_proxy = static_cast<Window *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_title(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Window::get_title, ctx, this_val, argc, argv);
 }
 static JSValue window_class_set_initial_position(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -122,12 +102,10 @@ static JSValue window_class_get_position(JSContext *ctx, JSValueConst this_val, 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2iProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue window_class_move_to_center(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -154,12 +132,10 @@ static JSValue window_class_get_size(JSContext *ctx, JSValueConst this_val, int 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2iProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue window_class_reset_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -194,12 +170,10 @@ static JSValue window_class_get_max_size(JSContext *ctx, JSValueConst this_val, 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2iProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue window_class_set_min_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -222,12 +196,10 @@ static JSValue window_class_get_min_size(JSContext *ctx, JSValueConst this_val, 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2iProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue window_class_set_mode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -366,12 +338,10 @@ static JSValue window_class_get_content_scale_size(JSContext *ctx, JSValueConst 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2iProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue window_class_set_content_scale_mode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -435,12 +405,10 @@ static JSValue window_class_get_mouse_passthrough_polygon(JSContext *ctx, JSValu
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "PackedVector2ArrayProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue window_class_set_wrap_controls(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -469,27 +437,7 @@ static JSValue window_class_set_theme_type_variation(JSContext *ctx, JSValueCons
 };
 static JSValue window_class_get_theme_type_variation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<StringName> *proxy = memnew(ObjectProxy<StringName>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> StringName {
-		Window *obj = static_cast<Window *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_theme_type_variation();
-	};
-	proxy->setter = [this_val](const StringName &value) -> void {
-		Window *js_proxy = static_cast<Window *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_theme_type_variation(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringNameProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringNameProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Window::get_theme_type_variation, ctx, this_val, argc, argv);
 }
 static JSValue window_class_begin_bulk_theme_override(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -641,27 +589,7 @@ static JSValue window_class_set_accessibility_name(JSContext *ctx, JSValueConst 
 };
 static JSValue window_class_get_accessibility_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		Window *obj = static_cast<Window *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_accessibility_name();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		Window *js_proxy = static_cast<Window *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_accessibility_name(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Window::get_accessibility_name, ctx, this_val, argc, argv);
 }
 static JSValue window_class_set_accessibility_description(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -669,27 +597,7 @@ static JSValue window_class_set_accessibility_description(JSContext *ctx, JSValu
 };
 static JSValue window_class_get_accessibility_description(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		Window *obj = static_cast<Window *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_accessibility_description();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		Window *js_proxy = static_cast<Window *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_accessibility_description(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Window::get_accessibility_description, ctx, this_val, argc, argv);
 }
 static JSValue window_class_set_layout_direction(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -759,6 +667,216 @@ static JSValue window_class_popup_exclusive_centered_clamped(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&Window::popup_exclusive_centered_clamped, ctx, this_val, argc, argv);
 };
+
+static JSValue window_class_get_unresizable(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Window::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue window_class_set_unresizable(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue window_class_get_borderless(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Window::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue window_class_set_borderless(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue window_class_get_always_on_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Window::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue window_class_set_always_on_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue window_class_get_transparent(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Window::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue window_class_set_transparent(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue window_class_get_unfocusable(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Window::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue window_class_set_unfocusable(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue window_class_get_popup_window(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Window::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue window_class_set_popup_window(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue window_class_get_extend_to_title(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Window::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue window_class_set_extend_to_title(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue window_class_get_mouse_passthrough(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Window::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue window_class_set_mouse_passthrough(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue window_class_get_sharp_corners(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Window::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue window_class_set_sharp_corners(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue window_class_get_exclude_from_capture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Window::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue window_class_set_exclude_from_capture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue window_class_get_popup_wm_hint(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Window::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue window_class_set_popup_wm_hint(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue window_class_get_minimize_disabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Window::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue window_class_set_minimize_disabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue window_class_get_maximize_disabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Window::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue window_class_set_maximize_disabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
 static JSValue window_class_get_focused_window(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Window::get_focused_window, ctx, this_val, argc, argv);
 };
@@ -889,6 +1007,30 @@ static const JSCFunctionListEntry window_class_proto_funcs[] = {
 	JS_CFUNC_DEF("popup_exclusive_centered", 2, &window_class_popup_exclusive_centered),
 	JS_CFUNC_DEF("popup_exclusive_centered_ratio", 2, &window_class_popup_exclusive_centered_ratio),
 	JS_CFUNC_DEF("popup_exclusive_centered_clamped", 3, &window_class_popup_exclusive_centered_clamped),
+    JS_CFUNC_MAGIC_DEF("get_borderless", 0, &window_class_get_borderless, 1),
+    JS_CFUNC_MAGIC_DEF("set_borderless", 1, &window_class_set_borderless, 1),
+    JS_CFUNC_MAGIC_DEF("get_always_on_top", 0, &window_class_get_always_on_top, 2),
+    JS_CFUNC_MAGIC_DEF("set_always_on_top", 1, &window_class_set_always_on_top, 2),
+    JS_CFUNC_MAGIC_DEF("get_transparent", 0, &window_class_get_transparent, 3),
+    JS_CFUNC_MAGIC_DEF("set_transparent", 1, &window_class_set_transparent, 3),
+    JS_CFUNC_MAGIC_DEF("get_unfocusable", 0, &window_class_get_unfocusable, 4),
+    JS_CFUNC_MAGIC_DEF("set_unfocusable", 1, &window_class_set_unfocusable, 4),
+    JS_CFUNC_MAGIC_DEF("get_popup_window", 0, &window_class_get_popup_window, 5),
+    JS_CFUNC_MAGIC_DEF("set_popup_window", 1, &window_class_set_popup_window, 5),
+    JS_CFUNC_MAGIC_DEF("get_extend_to_title", 0, &window_class_get_extend_to_title, 6),
+    JS_CFUNC_MAGIC_DEF("set_extend_to_title", 1, &window_class_set_extend_to_title, 6),
+    JS_CFUNC_MAGIC_DEF("get_mouse_passthrough", 0, &window_class_get_mouse_passthrough, 7),
+    JS_CFUNC_MAGIC_DEF("set_mouse_passthrough", 1, &window_class_set_mouse_passthrough, 7),
+    JS_CFUNC_MAGIC_DEF("get_sharp_corners", 0, &window_class_get_sharp_corners, 8),
+    JS_CFUNC_MAGIC_DEF("set_sharp_corners", 1, &window_class_set_sharp_corners, 8),
+    JS_CFUNC_MAGIC_DEF("get_exclude_from_capture", 0, &window_class_get_exclude_from_capture, 9),
+    JS_CFUNC_MAGIC_DEF("set_exclude_from_capture", 1, &window_class_set_exclude_from_capture, 9),
+    JS_CFUNC_MAGIC_DEF("get_popup_wm_hint", 0, &window_class_get_popup_wm_hint, 10),
+    JS_CFUNC_MAGIC_DEF("set_popup_wm_hint", 1, &window_class_set_popup_wm_hint, 10),
+    JS_CFUNC_MAGIC_DEF("get_minimize_disabled", 0, &window_class_get_minimize_disabled, 11),
+    JS_CFUNC_MAGIC_DEF("set_minimize_disabled", 1, &window_class_set_minimize_disabled, 11),
+    JS_CFUNC_MAGIC_DEF("get_maximize_disabled", 0, &window_class_get_maximize_disabled, 12),
+    JS_CFUNC_MAGIC_DEF("set_maximize_disabled", 1, &window_class_set_maximize_disabled, 12),
 };
 
 static const JSCFunctionListEntry window_class_static_funcs[] = {
@@ -1134,110 +1276,110 @@ static void define_window_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, window_class_set_exclusive, "set_exclusive", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "unresizable"),
-        JS_NewCFunction(ctx, window_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, window_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, window_class_get_unresizable, "get_unresizable", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, window_class_set_unresizable, "set_unresizable", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "borderless"),
-        JS_NewCFunction(ctx, window_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, window_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, window_class_get_borderless, "get_borderless", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, window_class_set_borderless, "set_borderless", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "always_on_top"),
-        JS_NewCFunction(ctx, window_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, window_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, window_class_get_always_on_top, "get_always_on_top", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, window_class_set_always_on_top, "set_always_on_top", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "transparent"),
-        JS_NewCFunction(ctx, window_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, window_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, window_class_get_transparent, "get_transparent", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, window_class_set_transparent, "set_transparent", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "unfocusable"),
-        JS_NewCFunction(ctx, window_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, window_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, window_class_get_unfocusable, "get_unfocusable", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, window_class_set_unfocusable, "set_unfocusable", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "popup_window"),
-        JS_NewCFunction(ctx, window_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, window_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, window_class_get_popup_window, "get_popup_window", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_NewCFunctionMagic(ctx, window_class_set_popup_window, "set_popup_window", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "extend_to_title"),
-        JS_NewCFunction(ctx, window_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, window_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, window_class_get_extend_to_title, "get_extend_to_title", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_NewCFunctionMagic(ctx, window_class_set_extend_to_title, "set_extend_to_title", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "mouse_passthrough"),
-        JS_NewCFunction(ctx, window_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, window_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, window_class_get_mouse_passthrough, "get_mouse_passthrough", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_NewCFunctionMagic(ctx, window_class_set_mouse_passthrough, "set_mouse_passthrough", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "sharp_corners"),
-        JS_NewCFunction(ctx, window_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, window_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, window_class_get_sharp_corners, "get_sharp_corners", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_NewCFunctionMagic(ctx, window_class_set_sharp_corners, "set_sharp_corners", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "exclude_from_capture"),
-        JS_NewCFunction(ctx, window_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, window_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, window_class_get_exclude_from_capture, "get_exclude_from_capture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_NewCFunctionMagic(ctx, window_class_set_exclude_from_capture, "set_exclude_from_capture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "popup_wm_hint"),
-        JS_NewCFunction(ctx, window_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, window_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, window_class_get_popup_wm_hint, "get_popup_wm_hint", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_NewCFunctionMagic(ctx, window_class_set_popup_wm_hint, "set_popup_wm_hint", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "minimize_disabled"),
-        JS_NewCFunction(ctx, window_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, window_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, window_class_get_minimize_disabled, "get_minimize_disabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_NewCFunctionMagic(ctx, window_class_set_minimize_disabled, "set_minimize_disabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "maximize_disabled"),
-        JS_NewCFunction(ctx, window_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, window_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, window_class_get_maximize_disabled, "get_maximize_disabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 12),
+		JS_NewCFunctionMagic(ctx, window_class_set_maximize_disabled, "set_maximize_disabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 12),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

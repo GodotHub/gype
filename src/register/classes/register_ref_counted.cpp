@@ -16,6 +16,7 @@ static void ref_counted_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -68,6 +69,8 @@ static JSValue ref_counted_class_get_reference_count(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&RefCounted::get_reference_count, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry ref_counted_class_proto_funcs[] = {
 	JS_CFUNC_DEF("init_ref", 0, &ref_counted_class_init_ref),

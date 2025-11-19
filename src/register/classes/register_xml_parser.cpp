@@ -16,6 +16,7 @@ static void xml_parser_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -120,6 +121,8 @@ static JSValue xml_parser_class_open_buffer(JSContext *ctx, JSValueConst this_va
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&XMLParser::open_buffer, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry xml_parser_class_proto_funcs[] = {
 	JS_CFUNC_DEF("read", 0, &xml_parser_class_read),

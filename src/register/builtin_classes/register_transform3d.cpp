@@ -211,7 +211,6 @@ static int js_transform3d_class_init(JSContext *ctx) {
 	JSValue ctor = JS_NewCFunction2(ctx, transform3d_class_constructor, "Transform3D", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetPropertyFunctionList(ctx, ctor, transform3d_class_constants_funcs, _countof(transform3d_class_constants_funcs));
-	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Transform3D", ctor);
 

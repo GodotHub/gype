@@ -20,6 +20,7 @@ static void particle_process_material_class_finalizer(JSRuntime *rt, JSValue val
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -76,12 +77,10 @@ static JSValue particle_process_material_class_get_direction(JSContext *ctx, JSV
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue particle_process_material_class_set_inherit_velocity_ratio(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -160,12 +159,10 @@ static JSValue particle_process_material_class_get_color(JSContext *ctx, JSValue
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue particle_process_material_class_set_color_ramp(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -236,12 +233,10 @@ static JSValue particle_process_material_class_get_velocity_pivot(JSContext *ctx
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue particle_process_material_class_set_emission_shape(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -280,12 +275,10 @@ static JSValue particle_process_material_class_get_emission_box_extents(JSContex
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue particle_process_material_class_set_emission_point_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -340,12 +333,10 @@ static JSValue particle_process_material_class_get_emission_ring_axis(JSContext 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue particle_process_material_class_set_emission_ring_height(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -400,12 +391,10 @@ static JSValue particle_process_material_class_get_emission_shape_offset(JSConte
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue particle_process_material_class_set_emission_shape_scale(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -428,12 +417,10 @@ static JSValue particle_process_material_class_get_emission_shape_scale(JSContex
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue particle_process_material_class_get_turbulence_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -484,12 +471,10 @@ static JSValue particle_process_material_class_get_turbulence_noise_speed(JSCont
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue particle_process_material_class_set_turbulence_noise_speed(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -512,12 +497,10 @@ static JSValue particle_process_material_class_get_gravity(JSContext *ctx, JSVal
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue particle_process_material_class_set_gravity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -621,6 +604,1128 @@ static JSValue particle_process_material_class_get_collision_bounce(JSContext *c
 	return call_builtin_const_method_ret(&ParticleProcessMaterial::get_collision_bounce, ctx, this_val, argc, argv);
 }
 
+static JSValue particle_process_material_class_get_particle_flag_align_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_particle_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_particle_flag_align_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_particle_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_particle_flag_rotate_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_particle_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_particle_flag_rotate_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_particle_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_particle_flag_disable_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_particle_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_particle_flag_disable_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_particle_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_particle_flag_damping_as_friction(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_particle_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_particle_flag_damping_as_friction(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_particle_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_angle(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_angle(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_angle_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_angle_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_angle_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_angle_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_angle_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_angle_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_initial_velocity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_initial_velocity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_initial_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_initial_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_initial_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_initial_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_angular_velocity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_angular_velocity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_angular_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_angular_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_angular_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_angular_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_angular_velocity_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_angular_velocity_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_directional_velocity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_directional_velocity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_directional_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_directional_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_directional_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_directional_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_directional_velocity_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_directional_velocity_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_orbit_velocity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_orbit_velocity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_orbit_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_orbit_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_orbit_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_orbit_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_orbit_velocity_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_orbit_velocity_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_radial_velocity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_radial_velocity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_radial_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_radial_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_radial_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_radial_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_radial_velocity_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_radial_velocity_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_linear_accel(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_linear_accel(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_linear_accel_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_linear_accel_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_linear_accel_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_linear_accel_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_linear_accel_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_linear_accel_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_radial_accel(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_radial_accel(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_radial_accel_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_radial_accel_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_radial_accel_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_radial_accel_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_radial_accel_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_radial_accel_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_tangential_accel(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_tangential_accel(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_tangential_accel_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_tangential_accel_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_tangential_accel_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_tangential_accel_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_tangential_accel_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_tangential_accel_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_damping(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_damping(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_damping_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_damping_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_damping_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_damping_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_damping_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_damping_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_scale(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_scale(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_scale_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_scale_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_scale_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_scale_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_scale_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_scale_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_scale_over_velocity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_scale_over_velocity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_scale_over_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_scale_over_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_scale_over_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_scale_over_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_scale_over_velocity_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_scale_over_velocity_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_hue_variation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_hue_variation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_hue_variation_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_hue_variation_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_hue_variation_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_hue_variation_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_hue_variation_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_hue_variation_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_anim_speed(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_anim_speed(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_anim_speed_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_anim_speed_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_anim_speed_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_anim_speed_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_anim_speed_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_anim_speed_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_anim_offset(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_anim_offset(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_anim_offset_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_anim_offset_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_anim_offset_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_anim_offset_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_anim_offset_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_anim_offset_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_turbulence_influence(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_turbulence_influence(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_turbulence_influence_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_turbulence_influence_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_turbulence_influence_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_turbulence_influence_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_turbulence_initial_displacement(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_turbulence_initial_displacement(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_turbulence_initial_displacement_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_turbulence_initial_displacement_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_turbulence_initial_displacement_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_turbulence_initial_displacement_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue particle_process_material_class_get_turbulence_influence_over_life(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ParticleProcessMaterial::get_param_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue particle_process_material_class_set_turbulence_influence_over_life(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
+
 static const JSCFunctionListEntry particle_process_material_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_direction", 1, &particle_process_material_class_set_direction),
 	JS_CFUNC_DEF("get_direction", 0, &particle_process_material_class_get_direction),
@@ -718,6 +1823,138 @@ static const JSCFunctionListEntry particle_process_material_class_proto_funcs[] 
 	JS_CFUNC_DEF("get_collision_friction", 0, &particle_process_material_class_get_collision_friction),
 	JS_CFUNC_DEF("set_collision_bounce", 1, &particle_process_material_class_set_collision_bounce),
 	JS_CFUNC_DEF("get_collision_bounce", 0, &particle_process_material_class_get_collision_bounce),
+    JS_CFUNC_MAGIC_DEF("get_particle_flag_rotate_y", 0, &particle_process_material_class_get_particle_flag_rotate_y, 1),
+    JS_CFUNC_MAGIC_DEF("set_particle_flag_rotate_y", 1, &particle_process_material_class_set_particle_flag_rotate_y, 1),
+    JS_CFUNC_MAGIC_DEF("get_particle_flag_disable_z", 0, &particle_process_material_class_get_particle_flag_disable_z, 2),
+    JS_CFUNC_MAGIC_DEF("set_particle_flag_disable_z", 1, &particle_process_material_class_set_particle_flag_disable_z, 2),
+    JS_CFUNC_MAGIC_DEF("get_particle_flag_damping_as_friction", 0, &particle_process_material_class_get_particle_flag_damping_as_friction, 3),
+    JS_CFUNC_MAGIC_DEF("set_particle_flag_damping_as_friction", 1, &particle_process_material_class_set_particle_flag_damping_as_friction, 3),
+    JS_CFUNC_MAGIC_DEF("get_angle", 0, &particle_process_material_class_get_angle, 7),
+    JS_CFUNC_MAGIC_DEF("set_angle", 1, &particle_process_material_class_set_angle, 7),
+    JS_CFUNC_MAGIC_DEF("get_angle_min", 0, &particle_process_material_class_get_angle_min, 7),
+    JS_CFUNC_MAGIC_DEF("set_angle_min", 1, &particle_process_material_class_set_angle_min, 7),
+    JS_CFUNC_MAGIC_DEF("get_angle_max", 0, &particle_process_material_class_get_angle_max, 7),
+    JS_CFUNC_MAGIC_DEF("set_angle_max", 1, &particle_process_material_class_set_angle_max, 7),
+    JS_CFUNC_MAGIC_DEF("get_angle_curve", 0, &particle_process_material_class_get_angle_curve, 7),
+    JS_CFUNC_MAGIC_DEF("set_angle_curve", 1, &particle_process_material_class_set_angle_curve, 7),
+    JS_CFUNC_MAGIC_DEF("get_angular_velocity", 0, &particle_process_material_class_get_angular_velocity, 1),
+    JS_CFUNC_MAGIC_DEF("set_angular_velocity", 1, &particle_process_material_class_set_angular_velocity, 1),
+    JS_CFUNC_MAGIC_DEF("get_angular_velocity_min", 0, &particle_process_material_class_get_angular_velocity_min, 1),
+    JS_CFUNC_MAGIC_DEF("set_angular_velocity_min", 1, &particle_process_material_class_set_angular_velocity_min, 1),
+    JS_CFUNC_MAGIC_DEF("get_angular_velocity_max", 0, &particle_process_material_class_get_angular_velocity_max, 1),
+    JS_CFUNC_MAGIC_DEF("set_angular_velocity_max", 1, &particle_process_material_class_set_angular_velocity_max, 1),
+    JS_CFUNC_MAGIC_DEF("get_angular_velocity_curve", 0, &particle_process_material_class_get_angular_velocity_curve, 1),
+    JS_CFUNC_MAGIC_DEF("set_angular_velocity_curve", 1, &particle_process_material_class_set_angular_velocity_curve, 1),
+    JS_CFUNC_MAGIC_DEF("get_directional_velocity", 0, &particle_process_material_class_get_directional_velocity, 16),
+    JS_CFUNC_MAGIC_DEF("set_directional_velocity", 1, &particle_process_material_class_set_directional_velocity, 16),
+    JS_CFUNC_MAGIC_DEF("get_directional_velocity_min", 0, &particle_process_material_class_get_directional_velocity_min, 16),
+    JS_CFUNC_MAGIC_DEF("set_directional_velocity_min", 1, &particle_process_material_class_set_directional_velocity_min, 16),
+    JS_CFUNC_MAGIC_DEF("get_directional_velocity_max", 0, &particle_process_material_class_get_directional_velocity_max, 16),
+    JS_CFUNC_MAGIC_DEF("set_directional_velocity_max", 1, &particle_process_material_class_set_directional_velocity_max, 16),
+    JS_CFUNC_MAGIC_DEF("get_directional_velocity_curve", 0, &particle_process_material_class_get_directional_velocity_curve, 16),
+    JS_CFUNC_MAGIC_DEF("set_directional_velocity_curve", 1, &particle_process_material_class_set_directional_velocity_curve, 16),
+    JS_CFUNC_MAGIC_DEF("get_orbit_velocity", 0, &particle_process_material_class_get_orbit_velocity, 2),
+    JS_CFUNC_MAGIC_DEF("set_orbit_velocity", 1, &particle_process_material_class_set_orbit_velocity, 2),
+    JS_CFUNC_MAGIC_DEF("get_orbit_velocity_min", 0, &particle_process_material_class_get_orbit_velocity_min, 2),
+    JS_CFUNC_MAGIC_DEF("set_orbit_velocity_min", 1, &particle_process_material_class_set_orbit_velocity_min, 2),
+    JS_CFUNC_MAGIC_DEF("get_orbit_velocity_max", 0, &particle_process_material_class_get_orbit_velocity_max, 2),
+    JS_CFUNC_MAGIC_DEF("set_orbit_velocity_max", 1, &particle_process_material_class_set_orbit_velocity_max, 2),
+    JS_CFUNC_MAGIC_DEF("get_orbit_velocity_curve", 0, &particle_process_material_class_get_orbit_velocity_curve, 2),
+    JS_CFUNC_MAGIC_DEF("set_orbit_velocity_curve", 1, &particle_process_material_class_set_orbit_velocity_curve, 2),
+    JS_CFUNC_MAGIC_DEF("get_radial_velocity", 0, &particle_process_material_class_get_radial_velocity, 15),
+    JS_CFUNC_MAGIC_DEF("set_radial_velocity", 1, &particle_process_material_class_set_radial_velocity, 15),
+    JS_CFUNC_MAGIC_DEF("get_radial_velocity_min", 0, &particle_process_material_class_get_radial_velocity_min, 15),
+    JS_CFUNC_MAGIC_DEF("set_radial_velocity_min", 1, &particle_process_material_class_set_radial_velocity_min, 15),
+    JS_CFUNC_MAGIC_DEF("get_radial_velocity_max", 0, &particle_process_material_class_get_radial_velocity_max, 15),
+    JS_CFUNC_MAGIC_DEF("set_radial_velocity_max", 1, &particle_process_material_class_set_radial_velocity_max, 15),
+    JS_CFUNC_MAGIC_DEF("get_radial_velocity_curve", 0, &particle_process_material_class_get_radial_velocity_curve, 15),
+    JS_CFUNC_MAGIC_DEF("set_radial_velocity_curve", 1, &particle_process_material_class_set_radial_velocity_curve, 15),
+    JS_CFUNC_MAGIC_DEF("get_linear_accel", 0, &particle_process_material_class_get_linear_accel, 3),
+    JS_CFUNC_MAGIC_DEF("set_linear_accel", 1, &particle_process_material_class_set_linear_accel, 3),
+    JS_CFUNC_MAGIC_DEF("get_linear_accel_min", 0, &particle_process_material_class_get_linear_accel_min, 3),
+    JS_CFUNC_MAGIC_DEF("set_linear_accel_min", 1, &particle_process_material_class_set_linear_accel_min, 3),
+    JS_CFUNC_MAGIC_DEF("get_linear_accel_max", 0, &particle_process_material_class_get_linear_accel_max, 3),
+    JS_CFUNC_MAGIC_DEF("set_linear_accel_max", 1, &particle_process_material_class_set_linear_accel_max, 3),
+    JS_CFUNC_MAGIC_DEF("get_linear_accel_curve", 0, &particle_process_material_class_get_linear_accel_curve, 3),
+    JS_CFUNC_MAGIC_DEF("set_linear_accel_curve", 1, &particle_process_material_class_set_linear_accel_curve, 3),
+    JS_CFUNC_MAGIC_DEF("get_radial_accel", 0, &particle_process_material_class_get_radial_accel, 4),
+    JS_CFUNC_MAGIC_DEF("set_radial_accel", 1, &particle_process_material_class_set_radial_accel, 4),
+    JS_CFUNC_MAGIC_DEF("get_radial_accel_min", 0, &particle_process_material_class_get_radial_accel_min, 4),
+    JS_CFUNC_MAGIC_DEF("set_radial_accel_min", 1, &particle_process_material_class_set_radial_accel_min, 4),
+    JS_CFUNC_MAGIC_DEF("get_radial_accel_max", 0, &particle_process_material_class_get_radial_accel_max, 4),
+    JS_CFUNC_MAGIC_DEF("set_radial_accel_max", 1, &particle_process_material_class_set_radial_accel_max, 4),
+    JS_CFUNC_MAGIC_DEF("get_radial_accel_curve", 0, &particle_process_material_class_get_radial_accel_curve, 4),
+    JS_CFUNC_MAGIC_DEF("set_radial_accel_curve", 1, &particle_process_material_class_set_radial_accel_curve, 4),
+    JS_CFUNC_MAGIC_DEF("get_tangential_accel", 0, &particle_process_material_class_get_tangential_accel, 5),
+    JS_CFUNC_MAGIC_DEF("set_tangential_accel", 1, &particle_process_material_class_set_tangential_accel, 5),
+    JS_CFUNC_MAGIC_DEF("get_tangential_accel_min", 0, &particle_process_material_class_get_tangential_accel_min, 5),
+    JS_CFUNC_MAGIC_DEF("set_tangential_accel_min", 1, &particle_process_material_class_set_tangential_accel_min, 5),
+    JS_CFUNC_MAGIC_DEF("get_tangential_accel_max", 0, &particle_process_material_class_get_tangential_accel_max, 5),
+    JS_CFUNC_MAGIC_DEF("set_tangential_accel_max", 1, &particle_process_material_class_set_tangential_accel_max, 5),
+    JS_CFUNC_MAGIC_DEF("get_tangential_accel_curve", 0, &particle_process_material_class_get_tangential_accel_curve, 5),
+    JS_CFUNC_MAGIC_DEF("set_tangential_accel_curve", 1, &particle_process_material_class_set_tangential_accel_curve, 5),
+    JS_CFUNC_MAGIC_DEF("get_damping", 0, &particle_process_material_class_get_damping, 6),
+    JS_CFUNC_MAGIC_DEF("set_damping", 1, &particle_process_material_class_set_damping, 6),
+    JS_CFUNC_MAGIC_DEF("get_damping_min", 0, &particle_process_material_class_get_damping_min, 6),
+    JS_CFUNC_MAGIC_DEF("set_damping_min", 1, &particle_process_material_class_set_damping_min, 6),
+    JS_CFUNC_MAGIC_DEF("get_damping_max", 0, &particle_process_material_class_get_damping_max, 6),
+    JS_CFUNC_MAGIC_DEF("set_damping_max", 1, &particle_process_material_class_set_damping_max, 6),
+    JS_CFUNC_MAGIC_DEF("get_damping_curve", 0, &particle_process_material_class_get_damping_curve, 6),
+    JS_CFUNC_MAGIC_DEF("set_damping_curve", 1, &particle_process_material_class_set_damping_curve, 6),
+    JS_CFUNC_MAGIC_DEF("get_scale", 0, &particle_process_material_class_get_scale, 8),
+    JS_CFUNC_MAGIC_DEF("set_scale", 1, &particle_process_material_class_set_scale, 8),
+    JS_CFUNC_MAGIC_DEF("get_scale_min", 0, &particle_process_material_class_get_scale_min, 8),
+    JS_CFUNC_MAGIC_DEF("set_scale_min", 1, &particle_process_material_class_set_scale_min, 8),
+    JS_CFUNC_MAGIC_DEF("get_scale_max", 0, &particle_process_material_class_get_scale_max, 8),
+    JS_CFUNC_MAGIC_DEF("set_scale_max", 1, &particle_process_material_class_set_scale_max, 8),
+    JS_CFUNC_MAGIC_DEF("get_scale_curve", 0, &particle_process_material_class_get_scale_curve, 8),
+    JS_CFUNC_MAGIC_DEF("set_scale_curve", 1, &particle_process_material_class_set_scale_curve, 8),
+    JS_CFUNC_MAGIC_DEF("get_scale_over_velocity", 0, &particle_process_material_class_get_scale_over_velocity, 17),
+    JS_CFUNC_MAGIC_DEF("set_scale_over_velocity", 1, &particle_process_material_class_set_scale_over_velocity, 17),
+    JS_CFUNC_MAGIC_DEF("get_scale_over_velocity_min", 0, &particle_process_material_class_get_scale_over_velocity_min, 17),
+    JS_CFUNC_MAGIC_DEF("set_scale_over_velocity_min", 1, &particle_process_material_class_set_scale_over_velocity_min, 17),
+    JS_CFUNC_MAGIC_DEF("get_scale_over_velocity_max", 0, &particle_process_material_class_get_scale_over_velocity_max, 17),
+    JS_CFUNC_MAGIC_DEF("set_scale_over_velocity_max", 1, &particle_process_material_class_set_scale_over_velocity_max, 17),
+    JS_CFUNC_MAGIC_DEF("get_scale_over_velocity_curve", 0, &particle_process_material_class_get_scale_over_velocity_curve, 17),
+    JS_CFUNC_MAGIC_DEF("set_scale_over_velocity_curve", 1, &particle_process_material_class_set_scale_over_velocity_curve, 17),
+    JS_CFUNC_MAGIC_DEF("get_hue_variation", 0, &particle_process_material_class_get_hue_variation, 9),
+    JS_CFUNC_MAGIC_DEF("set_hue_variation", 1, &particle_process_material_class_set_hue_variation, 9),
+    JS_CFUNC_MAGIC_DEF("get_hue_variation_min", 0, &particle_process_material_class_get_hue_variation_min, 9),
+    JS_CFUNC_MAGIC_DEF("set_hue_variation_min", 1, &particle_process_material_class_set_hue_variation_min, 9),
+    JS_CFUNC_MAGIC_DEF("get_hue_variation_max", 0, &particle_process_material_class_get_hue_variation_max, 9),
+    JS_CFUNC_MAGIC_DEF("set_hue_variation_max", 1, &particle_process_material_class_set_hue_variation_max, 9),
+    JS_CFUNC_MAGIC_DEF("get_hue_variation_curve", 0, &particle_process_material_class_get_hue_variation_curve, 9),
+    JS_CFUNC_MAGIC_DEF("set_hue_variation_curve", 1, &particle_process_material_class_set_hue_variation_curve, 9),
+    JS_CFUNC_MAGIC_DEF("get_anim_speed", 0, &particle_process_material_class_get_anim_speed, 10),
+    JS_CFUNC_MAGIC_DEF("set_anim_speed", 1, &particle_process_material_class_set_anim_speed, 10),
+    JS_CFUNC_MAGIC_DEF("get_anim_speed_min", 0, &particle_process_material_class_get_anim_speed_min, 10),
+    JS_CFUNC_MAGIC_DEF("set_anim_speed_min", 1, &particle_process_material_class_set_anim_speed_min, 10),
+    JS_CFUNC_MAGIC_DEF("get_anim_speed_max", 0, &particle_process_material_class_get_anim_speed_max, 10),
+    JS_CFUNC_MAGIC_DEF("set_anim_speed_max", 1, &particle_process_material_class_set_anim_speed_max, 10),
+    JS_CFUNC_MAGIC_DEF("get_anim_speed_curve", 0, &particle_process_material_class_get_anim_speed_curve, 10),
+    JS_CFUNC_MAGIC_DEF("set_anim_speed_curve", 1, &particle_process_material_class_set_anim_speed_curve, 10),
+    JS_CFUNC_MAGIC_DEF("get_anim_offset", 0, &particle_process_material_class_get_anim_offset, 11),
+    JS_CFUNC_MAGIC_DEF("set_anim_offset", 1, &particle_process_material_class_set_anim_offset, 11),
+    JS_CFUNC_MAGIC_DEF("get_anim_offset_min", 0, &particle_process_material_class_get_anim_offset_min, 11),
+    JS_CFUNC_MAGIC_DEF("set_anim_offset_min", 1, &particle_process_material_class_set_anim_offset_min, 11),
+    JS_CFUNC_MAGIC_DEF("get_anim_offset_max", 0, &particle_process_material_class_get_anim_offset_max, 11),
+    JS_CFUNC_MAGIC_DEF("set_anim_offset_max", 1, &particle_process_material_class_set_anim_offset_max, 11),
+    JS_CFUNC_MAGIC_DEF("get_anim_offset_curve", 0, &particle_process_material_class_get_anim_offset_curve, 11),
+    JS_CFUNC_MAGIC_DEF("set_anim_offset_curve", 1, &particle_process_material_class_set_anim_offset_curve, 11),
+    JS_CFUNC_MAGIC_DEF("get_turbulence_influence", 0, &particle_process_material_class_get_turbulence_influence, 13),
+    JS_CFUNC_MAGIC_DEF("set_turbulence_influence", 1, &particle_process_material_class_set_turbulence_influence, 13),
+    JS_CFUNC_MAGIC_DEF("get_turbulence_influence_min", 0, &particle_process_material_class_get_turbulence_influence_min, 13),
+    JS_CFUNC_MAGIC_DEF("set_turbulence_influence_min", 1, &particle_process_material_class_set_turbulence_influence_min, 13),
+    JS_CFUNC_MAGIC_DEF("get_turbulence_influence_max", 0, &particle_process_material_class_get_turbulence_influence_max, 13),
+    JS_CFUNC_MAGIC_DEF("set_turbulence_influence_max", 1, &particle_process_material_class_set_turbulence_influence_max, 13),
+    JS_CFUNC_MAGIC_DEF("get_turbulence_initial_displacement", 0, &particle_process_material_class_get_turbulence_initial_displacement, 14),
+    JS_CFUNC_MAGIC_DEF("set_turbulence_initial_displacement", 1, &particle_process_material_class_set_turbulence_initial_displacement, 14),
+    JS_CFUNC_MAGIC_DEF("get_turbulence_initial_displacement_min", 0, &particle_process_material_class_get_turbulence_initial_displacement_min, 14),
+    JS_CFUNC_MAGIC_DEF("set_turbulence_initial_displacement_min", 1, &particle_process_material_class_set_turbulence_initial_displacement_min, 14),
+    JS_CFUNC_MAGIC_DEF("get_turbulence_initial_displacement_max", 0, &particle_process_material_class_get_turbulence_initial_displacement_max, 14),
+    JS_CFUNC_MAGIC_DEF("set_turbulence_initial_displacement_max", 1, &particle_process_material_class_set_turbulence_initial_displacement_max, 14),
+    JS_CFUNC_MAGIC_DEF("get_turbulence_influence_over_life", 0, &particle_process_material_class_get_turbulence_influence_over_life, 12),
+    JS_CFUNC_MAGIC_DEF("set_turbulence_influence_over_life", 1, &particle_process_material_class_set_turbulence_influence_over_life, 12),
 };
 
 
@@ -742,38 +1979,38 @@ static void define_particle_process_material_property(JSContext *ctx, JSValue pr
         JS_NewCFunction(ctx, particle_process_material_class_set_lifetime_randomness, "set_lifetime_randomness", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "particle_flag_align_y"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_particle_flag, "get_particle_flag", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_particle_flag, "set_particle_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_particle_flag_align_y, "get_particle_flag_align_y", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_particle_flag_align_y, "set_particle_flag_align_y", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "particle_flag_rotate_y"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_particle_flag, "get_particle_flag", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_particle_flag, "set_particle_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_particle_flag_rotate_y, "get_particle_flag_rotate_y", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_particle_flag_rotate_y, "set_particle_flag_rotate_y", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "particle_flag_disable_z"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_particle_flag, "get_particle_flag", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_particle_flag, "set_particle_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_particle_flag_disable_z, "get_particle_flag_disable_z", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_particle_flag_disable_z, "set_particle_flag_disable_z", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "particle_flag_damping_as_friction"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_particle_flag, "get_particle_flag", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_particle_flag, "set_particle_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_particle_flag_damping_as_friction, "get_particle_flag_damping_as_friction", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_particle_flag_damping_as_friction, "set_particle_flag_damping_as_friction", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -886,38 +2123,38 @@ static void define_particle_process_material_property(JSContext *ctx, JSValue pr
         JS_NewCFunction(ctx, particle_process_material_class_set_emission_ring_cone_angle, "set_emission_ring_cone_angle", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "angle"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_angle, "get_angle", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_angle, "set_angle", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "angle_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_angle_min, "get_angle_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_angle_min, "set_angle_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "angle_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_angle_max, "get_angle_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_angle_max, "set_angle_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "angle_curve"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_texture, "get_param_texture", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_texture, "set_param_texture", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_angle_curve, "get_angle_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_angle_curve, "set_angle_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -958,158 +2195,158 @@ static void define_particle_process_material_property(JSContext *ctx, JSValue pr
         JS_NewCFunction(ctx, particle_process_material_class_set_flatness, "set_flatness", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "initial_velocity"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_initial_velocity, "get_initial_velocity", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_initial_velocity, "set_initial_velocity", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "initial_velocity_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_initial_velocity_min, "get_initial_velocity_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_initial_velocity_min, "set_initial_velocity_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "initial_velocity_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_initial_velocity_max, "get_initial_velocity_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_initial_velocity_max, "set_initial_velocity_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "angular_velocity"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_angular_velocity, "get_angular_velocity", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_angular_velocity, "set_angular_velocity", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "angular_velocity_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_angular_velocity_min, "get_angular_velocity_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_angular_velocity_min, "set_angular_velocity_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "angular_velocity_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_angular_velocity_max, "get_angular_velocity_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_angular_velocity_max, "set_angular_velocity_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "angular_velocity_curve"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_texture, "get_param_texture", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_texture, "set_param_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_angular_velocity_curve, "get_angular_velocity_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_angular_velocity_curve, "set_angular_velocity_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "directional_velocity"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_directional_velocity, "get_directional_velocity", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 16),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_directional_velocity, "set_directional_velocity", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 16),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "directional_velocity_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_directional_velocity_min, "get_directional_velocity_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 16),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_directional_velocity_min, "set_directional_velocity_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 16),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "directional_velocity_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_directional_velocity_max, "get_directional_velocity_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 16),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_directional_velocity_max, "set_directional_velocity_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 16),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "directional_velocity_curve"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_texture, "get_param_texture", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_texture, "set_param_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_directional_velocity_curve, "get_directional_velocity_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 16),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_directional_velocity_curve, "set_directional_velocity_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 16),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "orbit_velocity"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_orbit_velocity, "get_orbit_velocity", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_orbit_velocity, "set_orbit_velocity", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "orbit_velocity_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_orbit_velocity_min, "get_orbit_velocity_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_orbit_velocity_min, "set_orbit_velocity_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "orbit_velocity_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_orbit_velocity_max, "get_orbit_velocity_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_orbit_velocity_max, "set_orbit_velocity_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "orbit_velocity_curve"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_texture, "get_param_texture", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_texture, "set_param_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_orbit_velocity_curve, "get_orbit_velocity_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_orbit_velocity_curve, "set_orbit_velocity_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "radial_velocity"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_radial_velocity, "get_radial_velocity", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 15),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_radial_velocity, "set_radial_velocity", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 15),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "radial_velocity_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_radial_velocity_min, "get_radial_velocity_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 15),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_radial_velocity_min, "set_radial_velocity_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 15),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "radial_velocity_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_radial_velocity_max, "get_radial_velocity_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 15),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_radial_velocity_max, "set_radial_velocity_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 15),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "radial_velocity_curve"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_texture, "get_param_texture", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_texture, "set_param_texture", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_radial_velocity_curve, "get_radial_velocity_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 15),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_radial_velocity_curve, "set_radial_velocity_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 15),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1126,134 +2363,134 @@ static void define_particle_process_material_property(JSContext *ctx, JSValue pr
         JS_NewCFunction(ctx, particle_process_material_class_set_gravity, "set_gravity", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "linear_accel"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_linear_accel, "get_linear_accel", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_linear_accel, "set_linear_accel", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "linear_accel_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_linear_accel_min, "get_linear_accel_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_linear_accel_min, "set_linear_accel_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "linear_accel_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_linear_accel_max, "get_linear_accel_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_linear_accel_max, "set_linear_accel_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "linear_accel_curve"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_texture, "get_param_texture", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_texture, "set_param_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_linear_accel_curve, "get_linear_accel_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_linear_accel_curve, "set_linear_accel_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "radial_accel"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_radial_accel, "get_radial_accel", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_radial_accel, "set_radial_accel", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "radial_accel_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_radial_accel_min, "get_radial_accel_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_radial_accel_min, "set_radial_accel_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "radial_accel_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_radial_accel_max, "get_radial_accel_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_radial_accel_max, "set_radial_accel_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "radial_accel_curve"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_texture, "get_param_texture", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_texture, "set_param_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_radial_accel_curve, "get_radial_accel_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_radial_accel_curve, "set_radial_accel_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "tangential_accel"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_tangential_accel, "get_tangential_accel", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_tangential_accel, "set_tangential_accel", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "tangential_accel_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_tangential_accel_min, "get_tangential_accel_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_tangential_accel_min, "set_tangential_accel_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "tangential_accel_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_tangential_accel_max, "get_tangential_accel_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_tangential_accel_max, "set_tangential_accel_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "tangential_accel_curve"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_texture, "get_param_texture", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_texture, "set_param_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_tangential_accel_curve, "get_tangential_accel_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_tangential_accel_curve, "set_tangential_accel_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "damping"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_damping, "get_damping", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_damping, "set_damping", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "damping_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_damping_min, "get_damping_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_damping_min, "set_damping_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "damping_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_damping_max, "get_damping_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_damping_max, "set_damping_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "damping_curve"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_texture, "get_param_texture", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_texture, "set_param_texture", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_damping_curve, "get_damping_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_damping_curve, "set_damping_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1262,70 +2499,70 @@ static void define_particle_process_material_property(JSContext *ctx, JSValue pr
         JS_NewCFunction(ctx, particle_process_material_class_set_attractor_interaction_enabled, "set_attractor_interaction_enabled", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "scale"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_scale, "get_scale", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_scale, "set_scale", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "scale_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_scale_min, "get_scale_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_scale_min, "set_scale_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "scale_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_scale_max, "get_scale_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_scale_max, "set_scale_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "scale_curve"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_texture, "get_param_texture", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_texture, "set_param_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_scale_curve, "get_scale_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_scale_curve, "set_scale_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "scale_over_velocity"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_scale_over_velocity, "get_scale_over_velocity", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 17),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_scale_over_velocity, "set_scale_over_velocity", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 17),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "scale_over_velocity_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_scale_over_velocity_min, "get_scale_over_velocity_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 17),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_scale_over_velocity_min, "set_scale_over_velocity_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 17),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "scale_over_velocity_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_scale_over_velocity_max, "get_scale_over_velocity_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 17),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_scale_over_velocity_max, "set_scale_over_velocity_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 17),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "scale_over_velocity_curve"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_texture, "get_param_texture", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_texture, "set_param_texture", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_scale_over_velocity_curve, "get_scale_over_velocity_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 17),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_scale_over_velocity_curve, "set_scale_over_velocity_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 17),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1366,102 +2603,102 @@ static void define_particle_process_material_property(JSContext *ctx, JSValue pr
         JS_NewCFunction(ctx, particle_process_material_class_set_emission_curve, "set_emission_curve", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "hue_variation"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_hue_variation, "get_hue_variation", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_hue_variation, "set_hue_variation", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "hue_variation_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_hue_variation_min, "get_hue_variation_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_hue_variation_min, "set_hue_variation_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "hue_variation_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_hue_variation_max, "get_hue_variation_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_hue_variation_max, "set_hue_variation_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "hue_variation_curve"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_texture, "get_param_texture", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_texture, "set_param_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_hue_variation_curve, "get_hue_variation_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_hue_variation_curve, "set_hue_variation_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anim_speed"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_anim_speed, "get_anim_speed", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_anim_speed, "set_anim_speed", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anim_speed_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_anim_speed_min, "get_anim_speed_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_anim_speed_min, "set_anim_speed_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anim_speed_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_anim_speed_max, "get_anim_speed_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_anim_speed_max, "set_anim_speed_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anim_speed_curve"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_texture, "get_param_texture", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_texture, "set_param_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_anim_speed_curve, "get_anim_speed_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_anim_speed_curve, "set_anim_speed_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anim_offset"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_anim_offset, "get_anim_offset", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_anim_offset, "set_anim_offset", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anim_offset_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_anim_offset_min, "get_anim_offset_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_anim_offset_min, "set_anim_offset_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anim_offset_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_anim_offset_max, "get_anim_offset_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_anim_offset_max, "set_anim_offset_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anim_offset_curve"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_texture, "get_param_texture", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_texture, "set_param_texture", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_anim_offset_curve, "get_anim_offset_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_anim_offset_curve, "set_anim_offset_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1502,62 +2739,62 @@ static void define_particle_process_material_property(JSContext *ctx, JSValue pr
         JS_NewCFunction(ctx, particle_process_material_class_set_turbulence_noise_speed_random, "set_turbulence_noise_speed_random", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "turbulence_influence"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_turbulence_influence, "get_turbulence_influence", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 13),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_turbulence_influence, "set_turbulence_influence", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 13),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "turbulence_influence_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_turbulence_influence_min, "get_turbulence_influence_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 13),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_turbulence_influence_min, "set_turbulence_influence_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 13),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "turbulence_influence_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_turbulence_influence_max, "get_turbulence_influence_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 13),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_turbulence_influence_max, "set_turbulence_influence_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 13),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "turbulence_initial_displacement"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_turbulence_initial_displacement, "get_turbulence_initial_displacement", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 14),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_turbulence_initial_displacement, "set_turbulence_initial_displacement", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 14),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "turbulence_initial_displacement_min"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_turbulence_initial_displacement_min, "get_turbulence_initial_displacement_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 14),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_turbulence_initial_displacement_min, "set_turbulence_initial_displacement_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 14),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "turbulence_initial_displacement_max"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_turbulence_initial_displacement_max, "get_turbulence_initial_displacement_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 14),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_turbulence_initial_displacement_max, "set_turbulence_initial_displacement_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 14),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "turbulence_influence_over_life"),
-        JS_NewCFunction(ctx, particle_process_material_class_get_param_texture, "get_param_texture", 0),
-        JS_NewCFunction(ctx, particle_process_material_class_set_param_texture, "set_param_texture", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_get_turbulence_influence_over_life, "get_turbulence_influence_over_life", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 12),
+		JS_NewCFunctionMagic(ctx, particle_process_material_class_set_turbulence_influence_over_life, "set_turbulence_influence_over_life", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 12),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

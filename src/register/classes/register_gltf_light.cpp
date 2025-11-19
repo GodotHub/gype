@@ -17,6 +17,7 @@ static void gltf_light_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -77,12 +78,10 @@ static JSValue gltf_light_class_get_color(JSContext *ctx, JSValueConst this_val,
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue gltf_light_class_set_color(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -99,27 +98,7 @@ static JSValue gltf_light_class_set_intensity(JSContext *ctx, JSValueConst this_
 };
 static JSValue gltf_light_class_get_light_type(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		GLTFLight *obj = static_cast<GLTFLight *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_light_type();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		GLTFLight *js_proxy = static_cast<GLTFLight *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_light_type(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_method_ret(&GLTFLight::get_light_type, ctx, this_val, argc, argv);
 }
 static JSValue gltf_light_class_set_light_type(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -157,6 +136,8 @@ static JSValue gltf_light_class_set_additional_data(JSContext *ctx, JSValueConst
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&GLTFLight::set_additional_data, ctx, this_val, argc, argv);
 };
+
+
 static JSValue gltf_light_class_from_node(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&GLTFLight::from_node, ctx, this_val, argc, argv);
 };

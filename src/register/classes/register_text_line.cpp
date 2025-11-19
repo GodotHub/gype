@@ -17,6 +17,7 @@ static void text_line_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -151,27 +152,7 @@ static JSValue text_line_class_set_ellipsis_char(JSContext *ctx, JSValueConst th
 };
 static JSValue text_line_class_get_ellipsis_char(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		TextLine *obj = static_cast<TextLine *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_ellipsis_char();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		TextLine *js_proxy = static_cast<TextLine *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_ellipsis_char(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&TextLine::get_ellipsis_char, ctx, this_val, argc, argv);
 }
 static JSValue text_line_class_get_objects(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -221,6 +202,8 @@ static JSValue text_line_class_hit_test(JSContext *ctx, JSValueConst this_val, i
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&TextLine::hit_test, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry text_line_class_proto_funcs[] = {
 	JS_CFUNC_DEF("clear", 0, &text_line_class_clear),

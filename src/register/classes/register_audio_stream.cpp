@@ -18,6 +18,7 @@ static void audio_stream_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -78,6 +79,8 @@ static JSValue audio_stream_class_is_meta_stream(JSContext *ctx, JSValueConst th
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&AudioStream::is_meta_stream, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry audio_stream_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_length", 0, &audio_stream_class_get_length),

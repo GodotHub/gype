@@ -63,28 +63,10 @@ static JSValue confirmation_dialog_class_set_cancel_button_text(JSContext *ctx, 
 };
 static JSValue confirmation_dialog_class_get_cancel_button_text(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		ConfirmationDialog *obj = static_cast<ConfirmationDialog *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_cancel_button_text();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		ConfirmationDialog *js_proxy = static_cast<ConfirmationDialog *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_cancel_button_text(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&ConfirmationDialog::get_cancel_button_text, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry confirmation_dialog_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_cancel_button", 0, &confirmation_dialog_class_get_cancel_button),

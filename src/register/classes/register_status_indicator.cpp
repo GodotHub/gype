@@ -59,27 +59,7 @@ static JSValue status_indicator_class_set_tooltip(JSContext *ctx, JSValueConst t
 };
 static JSValue status_indicator_class_get_tooltip(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		StatusIndicator *obj = static_cast<StatusIndicator *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_tooltip();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		StatusIndicator *js_proxy = static_cast<StatusIndicator *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_tooltip(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&StatusIndicator::get_tooltip, ctx, this_val, argc, argv);
 }
 static JSValue status_indicator_class_set_icon(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -117,18 +97,18 @@ static JSValue status_indicator_class_get_menu(JSContext *ctx, JSValueConst this
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue status_indicator_class_get_rect(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&StatusIndicator::get_rect, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry status_indicator_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_tooltip", 1, &status_indicator_class_set_tooltip),

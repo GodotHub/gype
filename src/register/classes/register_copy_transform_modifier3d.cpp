@@ -165,6 +165,8 @@ static JSValue copy_transform_modifier3d_class_is_additive(JSContext *ctx, JSVal
 	return call_builtin_const_method_ret(&CopyTransformModifier3D::is_additive, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry copy_transform_modifier3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_copy_flags", 2, &copy_transform_modifier3d_class_set_copy_flags),
 	JS_CFUNC_DEF("get_copy_flags", 1, &copy_transform_modifier3d_class_get_copy_flags),

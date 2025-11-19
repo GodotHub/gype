@@ -64,6 +64,8 @@ static JSValue script_editor_base_class_add_syntax_highlighter(JSContext *ctx, J
     return call_builtin_method_no_ret(&ScriptEditorBase::add_syntax_highlighter, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry script_editor_base_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_base_editor", 0, &script_editor_base_class_get_base_editor),
 	JS_CFUNC_DEF("add_syntax_highlighter", 1, &script_editor_base_class_add_syntax_highlighter),

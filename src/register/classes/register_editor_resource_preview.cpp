@@ -76,6 +76,8 @@ static JSValue editor_resource_preview_class_check_for_invalidation(JSContext *c
     return call_builtin_method_no_ret(&EditorResourcePreview::check_for_invalidation, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry editor_resource_preview_class_proto_funcs[] = {
 	JS_CFUNC_DEF("queue_resource_preview", 4, &editor_resource_preview_class_queue_resource_preview),
 	JS_CFUNC_DEF("queue_edited_resource_preview", 4, &editor_resource_preview_class_queue_edited_resource_preview),

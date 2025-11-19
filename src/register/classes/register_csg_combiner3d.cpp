@@ -57,6 +57,8 @@ static JSValue csg_combiner3d_class_constructor(JSContext *ctx, JSValueConst new
 
 
 
+
+
 static void define_csg_combiner3d_property(JSContext *ctx, JSValue proto) {
 }
 

@@ -16,6 +16,7 @@ static void a_star2d_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -152,6 +153,8 @@ static JSValue a_star2d_class_get_id_path(JSContext *ctx, JSValueConst this_val,
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&AStar2D::get_id_path, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry a_star2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_available_point_id", 0, &a_star2d_class_get_available_point_id),

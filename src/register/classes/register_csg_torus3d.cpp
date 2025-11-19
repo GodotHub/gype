@@ -102,6 +102,8 @@ static JSValue csg_torus3d_class_get_smooth_faces(JSContext *ctx, JSValueConst t
 	return call_builtin_const_method_ret(&CSGTorus3D::get_smooth_faces, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry csg_torus3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_inner_radius", 1, &csg_torus3d_class_set_inner_radius),
 	JS_CFUNC_DEF("get_inner_radius", 0, &csg_torus3d_class_get_inner_radius),

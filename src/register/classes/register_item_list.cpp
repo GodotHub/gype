@@ -299,12 +299,10 @@ static JSValue item_list_class_get_fixed_icon_size(JSContext *ctx, JSValueConst 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2iProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue item_list_class_set_icon_scale(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -395,6 +393,8 @@ static JSValue item_list_class_force_update_list_size(JSContext *ctx, JSValueCon
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&ItemList::force_update_list_size, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry item_list_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_item", 3, &item_list_class_add_item),

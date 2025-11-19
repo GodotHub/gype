@@ -57,6 +57,8 @@ static JSValue check_button_class_constructor(JSContext *ctx, JSValueConst new_t
 
 
 
+
+
 static void define_check_button_property(JSContext *ctx, JSValue proto) {
 }
 

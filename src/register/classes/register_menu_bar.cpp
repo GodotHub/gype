@@ -95,27 +95,7 @@ static JSValue menu_bar_class_set_language(JSContext *ctx, JSValueConst this_val
 };
 static JSValue menu_bar_class_get_language(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		MenuBar *obj = static_cast<MenuBar *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_language();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		MenuBar *js_proxy = static_cast<MenuBar *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_language(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&MenuBar::get_language, ctx, this_val, argc, argv);
 }
 static JSValue menu_bar_class_set_flat(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -169,6 +149,8 @@ static JSValue menu_bar_class_get_menu_popup(JSContext *ctx, JSValueConst this_v
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&MenuBar::get_menu_popup, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry menu_bar_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_switch_on_hover", 1, &menu_bar_class_set_switch_on_hover),

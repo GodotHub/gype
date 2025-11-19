@@ -16,6 +16,7 @@ static void physics_point_query_parameters2d_class_finalizer(JSRuntime *rt, JSVa
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -72,12 +73,10 @@ static JSValue physics_point_query_parameters2d_class_get_position(JSContext *ct
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue physics_point_query_parameters2d_class_set_canvas_instance_id(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -120,6 +119,8 @@ static JSValue physics_point_query_parameters2d_class_is_collide_with_areas_enab
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&PhysicsPointQueryParameters2D::is_collide_with_areas_enabled, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry physics_point_query_parameters2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_position", 1, &physics_point_query_parameters2d_class_set_position),

@@ -18,6 +18,7 @@ static void editor_export_platform_extension_class_finalizer(JSRuntime *rt, JSVa
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -70,6 +71,8 @@ static JSValue editor_export_platform_extension_class_get_config_missing_templat
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&EditorExportPlatformExtension::get_config_missing_templates, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry editor_export_platform_extension_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_config_error", 1, &editor_export_platform_extension_class_set_config_error),

@@ -16,6 +16,7 @@ static void camera_attributes_practical_class_finalizer(JSRuntime *rt, JSValue v
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -124,6 +125,8 @@ static JSValue camera_attributes_practical_class_get_auto_exposure_min_sensitivi
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&CameraAttributesPractical::get_auto_exposure_min_sensitivity, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry camera_attributes_practical_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_dof_blur_far_enabled", 1, &camera_attributes_practical_class_set_dof_blur_far_enabled),

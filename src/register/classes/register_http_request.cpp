@@ -111,27 +111,7 @@ static JSValue http_request_class_set_download_file(JSContext *ctx, JSValueConst
 };
 static JSValue http_request_class_get_download_file(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		HTTPRequest *obj = static_cast<HTTPRequest *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_download_file();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		HTTPRequest *js_proxy = static_cast<HTTPRequest *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_download_file(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&HTTPRequest::get_download_file, ctx, this_val, argc, argv);
 }
 static JSValue http_request_class_get_downloaded_bytes(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -165,6 +145,8 @@ static JSValue http_request_class_set_https_proxy(JSContext *ctx, JSValueConst t
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&HTTPRequest::set_https_proxy, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry http_request_class_proto_funcs[] = {
 	JS_CFUNC_DEF("request", 4, &http_request_class_request),

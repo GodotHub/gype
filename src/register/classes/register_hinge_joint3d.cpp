@@ -69,6 +69,8 @@ static JSValue hinge_joint3d_class_get_flag(JSContext *ctx, JSValueConst this_va
 	return call_builtin_const_method_ret(&HingeJoint3D::get_flag, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry hinge_joint3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_param", 2, &hinge_joint3d_class_set_param),
 	JS_CFUNC_DEF("get_param", 1, &hinge_joint3d_class_get_param),

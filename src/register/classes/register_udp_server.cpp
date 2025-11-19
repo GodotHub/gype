@@ -17,6 +17,7 @@ static void udp_server_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -89,6 +90,8 @@ static JSValue udp_server_class_get_max_pending_connections(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&UDPServer::get_max_pending_connections, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry udp_server_class_proto_funcs[] = {
 	JS_CFUNC_DEF("listen", 2, &udp_server_class_listen),

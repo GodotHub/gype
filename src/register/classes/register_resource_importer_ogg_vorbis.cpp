@@ -17,6 +17,7 @@ static void resource_importer_ogg_vorbis_class_finalizer(JSRuntime *rt, JSValue 
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -52,6 +53,8 @@ static JSValue resource_importer_ogg_vorbis_class_constructor(JSContext *ctx, JS
     JS_SetOpaque(obj, adapter);
     return obj;
 }
+
+
 
 static JSValue resource_importer_ogg_vorbis_class_load_from_buffer(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&ResourceImporterOggVorbis::load_from_buffer, ctx, this_val, argc, argv);

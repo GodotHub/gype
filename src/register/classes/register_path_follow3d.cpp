@@ -124,6 +124,8 @@ static JSValue path_follow3d_class_is_tilt_enabled(JSContext *ctx, JSValueConst 
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&PathFollow3D::is_tilt_enabled, ctx, this_val, argc, argv);
 }
+
+
 static JSValue path_follow3d_class_correct_posture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&PathFollow3D::correct_posture, ctx, this_val, argc, argv);
 };

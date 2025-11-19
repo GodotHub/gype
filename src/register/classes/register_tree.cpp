@@ -306,6 +306,8 @@ static JSValue tree_class_is_auto_tooltip_enabled(JSContext *ctx, JSValueConst t
 	return call_builtin_const_method_ret(&Tree::is_auto_tooltip_enabled, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry tree_class_proto_funcs[] = {
 	JS_CFUNC_DEF("clear", 0, &tree_class_clear),
 	JS_CFUNC_DEF("create_item", 2, &tree_class_create_item),

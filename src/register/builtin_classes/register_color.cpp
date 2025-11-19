@@ -1483,7 +1483,6 @@ static int js_color_class_init(JSContext *ctx) {
 	JSValue ctor = JS_NewCFunction2(ctx, color_class_constructor, "Color", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetPropertyFunctionList(ctx, ctor, color_class_constants_funcs, _countof(color_class_constants_funcs));
-	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Color", ctor);
 

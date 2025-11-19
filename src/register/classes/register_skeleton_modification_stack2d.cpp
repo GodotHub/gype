@@ -18,6 +18,7 @@ static void skeleton_modification_stack2d_class_finalizer(JSRuntime *rt, JSValue
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -114,6 +115,8 @@ static JSValue skeleton_modification_stack2d_class_get_skeleton(JSContext *ctx, 
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&SkeletonModificationStack2D::get_skeleton, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry skeleton_modification_stack2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("setup", 0, &skeleton_modification_stack2d_class_setup),

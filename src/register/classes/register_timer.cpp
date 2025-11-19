@@ -117,6 +117,8 @@ static JSValue timer_class_get_timer_process_callback(JSContext *ctx, JSValueCon
 	return call_builtin_const_method_ret(&Timer::get_timer_process_callback, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry timer_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_wait_time", 1, &timer_class_set_wait_time),
 	JS_CFUNC_DEF("get_wait_time", 0, &timer_class_get_wait_time),

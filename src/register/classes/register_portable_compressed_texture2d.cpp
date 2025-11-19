@@ -17,6 +17,7 @@ static void portable_compressed_texture2d_class_finalizer(JSRuntime *rt, JSValue
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -85,12 +86,10 @@ static JSValue portable_compressed_texture2d_class_get_size_override(JSContext *
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue portable_compressed_texture2d_class_set_keep_compressed_buffer(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -105,6 +104,8 @@ static JSValue portable_compressed_texture2d_class_set_basisu_compressor_params(
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&PortableCompressedTexture2D::set_basisu_compressor_params, ctx, this_val, argc, argv);
 };
+
+
 static JSValue portable_compressed_texture2d_class_set_keep_all_compressed_buffers(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     return call_builtin_static_method_no_ret(&PortableCompressedTexture2D::set_keep_all_compressed_buffers, ctx, this_val, argc, argv);
 };

@@ -86,6 +86,8 @@ static JSValue grid_map_editor_plugin_class_get_selected_palette_item(JSContext 
 	return call_builtin_const_method_ret(&GridMapEditorPlugin::get_selected_palette_item, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry grid_map_editor_plugin_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_current_grid_map", 0, &grid_map_editor_plugin_class_get_current_grid_map),
 	JS_CFUNC_DEF("set_selection", 2, &grid_map_editor_plugin_class_set_selection),

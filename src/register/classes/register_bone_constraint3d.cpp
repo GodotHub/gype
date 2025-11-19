@@ -105,6 +105,8 @@ static JSValue bone_constraint3d_class_clear_setting(JSContext *ctx, JSValueCons
     return call_builtin_method_no_ret(&BoneConstraint3D::clear_setting, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry bone_constraint3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_amount", 2, &bone_constraint3d_class_set_amount),
 	JS_CFUNC_DEF("get_amount", 1, &bone_constraint3d_class_get_amount),

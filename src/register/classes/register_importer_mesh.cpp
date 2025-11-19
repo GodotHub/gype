@@ -18,6 +18,7 @@ static void importer_mesh_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -146,6 +147,8 @@ static JSValue importer_mesh_class_get_lightmap_size_hint(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&ImporterMesh::get_lightmap_size_hint, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry importer_mesh_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_blend_shape", 1, &importer_mesh_class_add_blend_shape),

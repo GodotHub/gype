@@ -8,7 +8,15 @@ anchors_preset = 0
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_right = 156.0
-offset_bottom = 36.0
+focus_neighbor_left = ""
+focus_neighbor_top = ""
+focus_neighbor_right = ""
+focus_neighbor_bottom = ""
+accessibility_controls_nodes = null
+accessibility_described_by_nodes = null
+accessibility_labeled_by_nodes = null
+accessibility_flow_to_nodes = null
+theme_type_variation = ""
 text = "test"
 script = ExtResource("1_drhme")
+test_export = 5

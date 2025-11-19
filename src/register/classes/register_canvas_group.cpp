@@ -77,6 +77,8 @@ static JSValue canvas_group_class_is_using_mipmaps(JSContext *ctx, JSValueConst 
 	return call_builtin_const_method_ret(&CanvasGroup::is_using_mipmaps, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry canvas_group_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_fit_margin", 1, &canvas_group_class_set_fit_margin),
 	JS_CFUNC_DEF("get_fit_margin", 0, &canvas_group_class_get_fit_margin),

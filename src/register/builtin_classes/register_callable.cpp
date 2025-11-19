@@ -6,10 +6,10 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include "register/builtin_classes/builtin_callable_vararg.hpp"
-#include "support/callable_jsmethod_pointer.hpp"
 #include <quickjs.h>
 #include <godot_cpp/variant/array.hpp>
 #include <godot_cpp/variant/string_name.hpp>
+#include "support/callable_jsmethod_pointer.hpp"
 
 
 using namespace godot;
@@ -167,7 +167,6 @@ static int js_callable_class_init(JSContext *ctx) {
 
 	JSValue ctor = JS_NewCFunction2(ctx, callable_class_constructor, "Callable", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
-	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Callable", ctor);
 

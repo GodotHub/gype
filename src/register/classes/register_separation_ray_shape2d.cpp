@@ -16,6 +16,7 @@ static void separation_ray_shape2d_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -68,6 +69,8 @@ static JSValue separation_ray_shape2d_class_get_slide_on_slope(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&SeparationRayShape2D::get_slide_on_slope, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry separation_ray_shape2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_length", 1, &separation_ray_shape2d_class_set_length),

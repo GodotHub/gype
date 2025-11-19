@@ -6,7 +6,7 @@
 {% set snake_name = camel_to_snake(class_name) %}
 {% set js_snake_name = camel_to_snake(js_class_name) %}
 {% set objects = classes | map(attribute="name") | list %}
-{% set pod_types = ['Nil', 'bool', 'int', 'float'] %}
+{% set pod_types = ['Nil', 'bool', 'int', 'float', 'String', 'NodePath                                 '] %}
 {% set instance_methods = cls.methods | selectattr('is_vararg', 'equalto', false) | selectattr('is_virtual', 'equalto', false) | selectattr('is_static', 'equalto', false) | list %}
 {% set static_methods = cls.methods | selectattr('is_vararg', 'equalto', false) | selectattr('is_virtual', 'equalto', false) | selectattr('is_static', 'equalto', true) | list %}
 {% set vararg_methods = cls.methods | selectattr('is_vararg', 'equalto', true) | list %}
@@ -60,8 +60,10 @@ static void {{ js_snake_name }}_class_finalizer(JSRuntime *rt, JSValue val) {
 	JSClassID class_id = classes["{{ js_class_name }}"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		{# internal::gdextension_interface_object_free_instance_binding(static_cast<Object *>(opaque_ptr->get())->_owner, internal::token); #}
 		memdelete(opaque_ptr);
+		{% if cls['is_refcounted'] %}
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+		{% endif %}
 	}
 }
 
@@ -114,13 +116,14 @@ static JSValue {{js_snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValu
 		{% set prop1 = cls["properties"] | selectattr("getter", "equalto",  method["name"]) | first %}
 		{% set getter_method = instance_methods | selectattr("name", "equalto",  prop1["getter"]) | first %}
 		{% set setter_method = instance_methods | selectattr("name", "equalto",  prop1['setter']) | first %}
+		{% set proxy_type = clean_type(getter_method['return_value']['type']) %}
+		{% set typed = get_array_typed(getter_method['return_value']['type']) %}
+		{% set return_type = getter_method['return_value']['type'] %}
 static JSValue {{js_snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	{% if prop1['type'] in (builtin_classes | map(attribute='name') | list) and prop1['type'] not in pod_types and 'typedarray::' not in getter_method['return_value']['type'] %}
+	{% if prop1['type'] in (builtin_classes | map(attribute='name') | list) and prop1['type'] not in pod_types and 'typedarray::' not in return_type %}
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<{{clean_type(getter_method['return_value']['type'])}}> *proxy = memnew(ObjectProxy<{{clean_type(getter_method['return_value']['type'])}}>);
+	ObjectProxy<{{clean_type(return_type)}}> *proxy = memnew(ObjectProxy<{{clean_type(return_type)}}>);
 	proxy->wrapped = VariantAdapter(this_val).get();
-	{% set proxy_type = clean_type(getter_method['return_value']['type']) %}
-	{% set typed = get_array_typed(getter_method['return_value']['type']) %}
 	{% if prop1["getter"] %}
 	proxy->getter = [this_val]() -> {{proxy_type}} {
 		{{class_name}} *obj = static_cast<{{class_name}} *>(VariantAdapter(this_val).get().operator Object*());
@@ -132,9 +135,9 @@ static JSValue {{js_snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValu
 		{{class_name}} *js_proxy = static_cast<{{class_name}} *>(VariantAdapter(this_val).get().operator Object *());
 		{% set setter =  instance_methods | selectattr("name" , "equalto", prop1["setter"]) | first %}
 		{% if proxy_type.startswith("Packed") %}
-		js_proxy->{{clean_setter(prop1["setter"])}}({{typed}}(Array(value)));
+		js_proxy->{{-clean_setter(prop1["setter"])-}}({{-typed-}}(Array(value)));
 		{% else %}
-		js_proxy->{{clean_setter(prop1["setter"])}}(value);
+		js_proxy->{{-clean_setter(prop1["setter"])-}}(value);
 		{% endif %}
 	};
 	{% endif %}
@@ -142,12 +145,10 @@ static JSValue {{js_snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValu
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "{{proxy_type}}Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 	{% else %}
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -178,6 +179,32 @@ static JSValue {{js_snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValu
 		{% endif %}
 	{% endif %}
 {% endfor %}
+
+{% for prop in cls['properties'] %}
+	{% if 'index' in prop %}
+		{% if prop['getter']  and not prop['getter'].startswith('_') %}
+static JSValue {{js_snake_name}}_class_get_{{prop['name']}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&{{class_name}}::{{prop['getter']}}, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+		{% endif %}
+		{% if prop['setter'] and not prop['setter'].startswith('_') %}
+static JSValue {{js_snake_name}}_class_set_{{prop['name']}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&{{class_name}}::{{prop['setter']}}, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+		{% endif %}
+	{% endif %}
+{% endfor %}
+
 {% for method in static_methods %}
 static JSValue {{js_snake_name}}_class_{{method['name']}}(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     {% if method['return_value'] %}
@@ -203,6 +230,16 @@ static const JSCFunctionListEntry {{js_snake_name}}_class_proto_funcs[] = {
 	{% for method in instance_methods + vararg_methods %}
 	JS_CFUNC_DEF("{{ method['name'] }}", {{method['arguments'] | length}}, &{{js_snake_name}}_class_{{method['name']}}),
 	{% endfor %}
+    {% for gs in cls['properties'] %}
+        {% if gs['index'] %}
+            {% if gs['getter'] and not gs['getter'].startswith('_') %}
+    JS_CFUNC_MAGIC_DEF("get_{{gs['name']}}", 0, &{{js_snake_name}}_class_get_{{gs['name']}}, {{gs['index']}}),
+            {% endif %}
+            {% if gs['setter'] and not gs['setter'].startswith('_') %}
+    JS_CFUNC_MAGIC_DEF("set_{{gs['name']}}", 1, &{{js_snake_name}}_class_set_{{gs['name']}}, {{gs['index']}}),
+            {% endif %}
+        {% endif %}
+    {% endfor%}
 };
 {% endif %}
 
@@ -236,10 +273,22 @@ JS_NewCFunction(ctx, {{js_snake_name}}_class_{{gs}}, "{{gs}}", 1),
 JS_UNDEFINED,
 	{%- endif %}
 {% endmacro %}
+{% macro magic_getset(prop) %}
+ 	{% if not prop['getter'].startswith('_') %}
+JS_NewCFunctionMagic(ctx, {{js_snake_name}}_class_get_{{prop['name']}}, "get_{{prop['name']}}", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, {{prop['index']}}),
+	{% else %}
+		JS_UNDEFINED,
+	{% endif %}
+	{%- if not prop['setter'].startswith('_') %}
+		JS_NewCFunctionMagic(ctx, {{js_snake_name}}_class_set_{{prop['name']}}, "set_{{prop['name']}}", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, {{prop['index']}}),
+	{%- else %}
+		JS_UNDEFINED,
+	{%- endif %}
+{% endmacro %}
 
 static void define_{{js_snake_name}}_property(JSContext *ctx, JSValue proto) {
 	{% for prop in cls['properties'] %}
-		{% if prop['getter'] in cls['methods'] | map(attribute='name') or prop['setter'] in cls['methods'] | map(attribute='name') %}
+		{% if (prop['getter'] in cls['methods'] | map(attribute='name') or prop['setter'] in cls['methods'] | map(attribute='name')) and not 'index' in prop %}
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -248,6 +297,14 @@ static void define_{{js_snake_name}}_property(JSContext *ctx, JSValue proto) {
         {{ getset(prop['setter'], cls['methods'], 'setter') }}
         JS_PROP_GETSET
     );
+		{% elif (prop['getter'] in cls['methods'] | map(attribute='name') or prop['setter'] in cls['methods'] | map(attribute='name')) and 'index' in prop %}
+	JS_DefinePropertyGetSet(
+		ctx,
+        proto,
+        JS_NewAtom(ctx, "{{prop['name']}}"),
+		{{magic_getset(prop)}}
+		JS_PROP_GETSET
+	);
 		{% endif %}
 	{% endfor %}
 	{% for signal in cls['signals'] %}

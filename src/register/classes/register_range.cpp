@@ -146,6 +146,8 @@ static JSValue range_class_unshare(JSContext *ctx, JSValueConst this_val, int ar
     return call_builtin_method_no_ret(&Range::unshare, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry range_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_value", 0, &range_class_get_value),
 	JS_CFUNC_DEF("get_min", 0, &range_class_get_min),

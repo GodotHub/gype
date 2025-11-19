@@ -17,6 +17,7 @@ static void resource_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -63,27 +64,7 @@ static JSValue resource_class_take_over_path(JSContext *ctx, JSValueConst this_v
 };
 static JSValue resource_class_get_path(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		Resource *obj = static_cast<Resource *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_path();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		Resource *js_proxy = static_cast<Resource *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_path(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Resource::get_path, ctx, this_val, argc, argv);
 }
 static JSValue resource_class_set_path_cache(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -95,27 +76,7 @@ static JSValue resource_class_set_name(JSContext *ctx, JSValueConst this_val, in
 };
 static JSValue resource_class_get_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		Resource *obj = static_cast<Resource *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_name();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		Resource *js_proxy = static_cast<Resource *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_name(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Resource::get_name, ctx, this_val, argc, argv);
 }
 static JSValue resource_class_get_rid(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -159,27 +120,7 @@ static JSValue resource_class_set_scene_unique_id(JSContext *ctx, JSValueConst t
 };
 static JSValue resource_class_get_scene_unique_id(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		Resource *obj = static_cast<Resource *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_scene_unique_id();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		Resource *js_proxy = static_cast<Resource *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_scene_unique_id(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Resource::get_scene_unique_id, ctx, this_val, argc, argv);
 }
 static JSValue resource_class_emit_changed(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -193,6 +134,8 @@ static JSValue resource_class_duplicate_deep(JSContext *ctx, JSValueConst this_v
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&Resource::duplicate_deep, ctx, this_val, argc, argv);
 };
+
+
 static JSValue resource_class_generate_scene_unique_id(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Resource::generate_scene_unique_id, ctx, this_val, argc, argv);
 };

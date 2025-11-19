@@ -57,6 +57,8 @@ static JSValue separator_class_constructor(JSContext *ctx, JSValueConst new_targ
 
 
 
+
+
 static void define_separator_property(JSContext *ctx, JSValue proto) {
 }
 

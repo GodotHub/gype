@@ -16,6 +16,7 @@ static void editor_scene_format_importer_ufbx_class_finalizer(JSRuntime *rt, JSV
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -51,6 +52,8 @@ static JSValue editor_scene_format_importer_ufbx_class_constructor(JSContext *ct
     JS_SetOpaque(obj, adapter);
     return obj;
 }
+
+
 
 
 

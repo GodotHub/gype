@@ -85,6 +85,8 @@ static JSValue progress_bar_class_is_editor_preview_indeterminate_enabled(JSCont
 	return call_builtin_const_method_ret(&ProgressBar::is_editor_preview_indeterminate_enabled, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry progress_bar_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_fill_mode", 1, &progress_bar_class_set_fill_mode),
 	JS_CFUNC_DEF("get_fill_mode", 0, &progress_bar_class_get_fill_mode),

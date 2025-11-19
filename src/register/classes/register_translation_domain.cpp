@@ -17,6 +17,7 @@ static void translation_domain_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -151,27 +152,7 @@ static JSValue translation_domain_class_set_pseudolocalization_expansion_ratio(J
 };
 static JSValue translation_domain_class_get_pseudolocalization_prefix(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		TranslationDomain *obj = static_cast<TranslationDomain *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_pseudolocalization_prefix();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		TranslationDomain *js_proxy = static_cast<TranslationDomain *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_pseudolocalization_prefix(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&TranslationDomain::get_pseudolocalization_prefix, ctx, this_val, argc, argv);
 }
 static JSValue translation_domain_class_set_pseudolocalization_prefix(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -179,27 +160,7 @@ static JSValue translation_domain_class_set_pseudolocalization_prefix(JSContext 
 };
 static JSValue translation_domain_class_get_pseudolocalization_suffix(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		TranslationDomain *obj = static_cast<TranslationDomain *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_pseudolocalization_suffix();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		TranslationDomain *js_proxy = static_cast<TranslationDomain *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_pseudolocalization_suffix(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&TranslationDomain::get_pseudolocalization_suffix, ctx, this_val, argc, argv);
 }
 static JSValue translation_domain_class_set_pseudolocalization_suffix(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -209,6 +170,8 @@ static JSValue translation_domain_class_pseudolocalize(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&TranslationDomain::pseudolocalize, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry translation_domain_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_translation_object", 1, &translation_domain_class_get_translation_object),

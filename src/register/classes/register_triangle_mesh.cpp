@@ -16,6 +16,7 @@ static void triangle_mesh_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -68,6 +69,8 @@ static JSValue triangle_mesh_class_intersect_ray(JSContext *ctx, JSValueConst th
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&TriangleMesh::intersect_ray, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry triangle_mesh_class_proto_funcs[] = {
 	JS_CFUNC_DEF("create_from_faces", 1, &triangle_mesh_class_create_from_faces),

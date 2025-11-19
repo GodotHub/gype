@@ -75,27 +75,7 @@ static JSValue label_class_set_text(JSContext *ctx, JSValueConst this_val, int a
 };
 static JSValue label_class_get_text(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		Label *obj = static_cast<Label *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_text();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		Label *js_proxy = static_cast<Label *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_text(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Label::get_text, ctx, this_val, argc, argv);
 }
 static JSValue label_class_set_label_settings(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -119,27 +99,7 @@ static JSValue label_class_set_language(JSContext *ctx, JSValueConst this_val, i
 };
 static JSValue label_class_get_language(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		Label *obj = static_cast<Label *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_language();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		Label *js_proxy = static_cast<Label *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_language(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Label::get_language, ctx, this_val, argc, argv);
 }
 static JSValue label_class_set_paragraph_separator(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -147,27 +107,7 @@ static JSValue label_class_set_paragraph_separator(JSContext *ctx, JSValueConst 
 };
 static JSValue label_class_get_paragraph_separator(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		Label *obj = static_cast<Label *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_paragraph_separator();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		Label *js_proxy = static_cast<Label *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_paragraph_separator(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Label::get_paragraph_separator, ctx, this_val, argc, argv);
 }
 static JSValue label_class_set_autowrap_mode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -222,12 +162,10 @@ static JSValue label_class_get_tab_stops(JSContext *ctx, JSValueConst this_val, 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "PackedFloat32ArrayProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue label_class_set_text_overrun_behavior(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -244,27 +182,7 @@ static JSValue label_class_set_ellipsis_char(JSContext *ctx, JSValueConst this_v
 };
 static JSValue label_class_get_ellipsis_char(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		Label *obj = static_cast<Label *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_ellipsis_char();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		Label *js_proxy = static_cast<Label *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_ellipsis_char(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Label::get_ellipsis_char, ctx, this_val, argc, argv);
 }
 static JSValue label_class_set_uppercase(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -358,18 +276,18 @@ static JSValue label_class_get_structured_text_bidi_override_options(JSContext *
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ArrayProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue label_class_get_character_bounds(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&Label::get_character_bounds, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry label_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_horizontal_alignment", 1, &label_class_set_horizontal_alignment),

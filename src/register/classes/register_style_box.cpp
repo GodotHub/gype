@@ -17,6 +17,7 @@ static void style_box_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -90,6 +91,72 @@ static JSValue style_box_class_test_mask(JSContext *ctx, JSValueConst this_val, 
 	return call_builtin_const_method_ret(&StyleBox::test_mask, ctx, this_val, argc, argv);
 };
 
+static JSValue style_box_class_get_content_margin_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBox::get_content_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_class_set_content_margin_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBox::set_content_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_class_get_content_margin_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBox::get_content_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_class_set_content_margin_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBox::set_content_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_class_get_content_margin_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBox::get_content_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_class_set_content_margin_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBox::set_content_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_class_get_content_margin_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBox::get_content_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_class_set_content_margin_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBox::set_content_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
+
 static const JSCFunctionListEntry style_box_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_minimum_size", 0, &style_box_class_get_minimum_size),
 	JS_CFUNC_DEF("set_content_margin", 2, &style_box_class_set_content_margin),
@@ -100,44 +167,50 @@ static const JSCFunctionListEntry style_box_class_proto_funcs[] = {
 	JS_CFUNC_DEF("draw", 2, &style_box_class_draw),
 	JS_CFUNC_DEF("get_current_item_drawn", 0, &style_box_class_get_current_item_drawn),
 	JS_CFUNC_DEF("test_mask", 2, &style_box_class_test_mask),
+    JS_CFUNC_MAGIC_DEF("get_content_margin_top", 0, &style_box_class_get_content_margin_top, 1),
+    JS_CFUNC_MAGIC_DEF("set_content_margin_top", 1, &style_box_class_set_content_margin_top, 1),
+    JS_CFUNC_MAGIC_DEF("get_content_margin_right", 0, &style_box_class_get_content_margin_right, 2),
+    JS_CFUNC_MAGIC_DEF("set_content_margin_right", 1, &style_box_class_set_content_margin_right, 2),
+    JS_CFUNC_MAGIC_DEF("get_content_margin_bottom", 0, &style_box_class_get_content_margin_bottom, 3),
+    JS_CFUNC_MAGIC_DEF("set_content_margin_bottom", 1, &style_box_class_set_content_margin_bottom, 3),
 };
 
 
 
 
 static void define_style_box_property(JSContext *ctx, JSValue proto) {
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "content_margin_left"),
-        JS_NewCFunction(ctx, style_box_class_get_content_margin, "get_content_margin", 0),
-        JS_NewCFunction(ctx, style_box_class_set_content_margin, "set_content_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_class_get_content_margin_left, "get_content_margin_left", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, style_box_class_set_content_margin_left, "set_content_margin_left", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "content_margin_top"),
-        JS_NewCFunction(ctx, style_box_class_get_content_margin, "get_content_margin", 0),
-        JS_NewCFunction(ctx, style_box_class_set_content_margin, "set_content_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_class_get_content_margin_top, "get_content_margin_top", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, style_box_class_set_content_margin_top, "set_content_margin_top", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "content_margin_right"),
-        JS_NewCFunction(ctx, style_box_class_get_content_margin, "get_content_margin", 0),
-        JS_NewCFunction(ctx, style_box_class_set_content_margin, "set_content_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_class_get_content_margin_right, "get_content_margin_right", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, style_box_class_set_content_margin_right, "set_content_margin_right", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "content_margin_bottom"),
-        JS_NewCFunction(ctx, style_box_class_get_content_margin, "get_content_margin", 0),
-        JS_NewCFunction(ctx, style_box_class_set_content_margin, "set_content_margin", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, style_box_class_get_content_margin_bottom, "get_content_margin_bottom", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, style_box_class_set_content_margin_bottom, "set_content_margin_bottom", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
 }
 
 static void define_style_box_enum(JSContext *ctx, JSValue ctor) {

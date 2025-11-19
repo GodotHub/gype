@@ -81,12 +81,10 @@ static JSValue point_light2d_class_get_texture_offset(JSContext *ctx, JSValueCon
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue point_light2d_class_set_texture_scale(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -97,6 +95,8 @@ static JSValue point_light2d_class_get_texture_scale(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&PointLight2D::get_texture_scale, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry point_light2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_texture", 1, &point_light2d_class_set_texture),

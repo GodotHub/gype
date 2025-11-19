@@ -68,12 +68,10 @@ static JSValue reference_rect_class_get_border_color(JSContext *ctx, JSValueCons
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue reference_rect_class_set_border_color(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -96,6 +94,8 @@ static JSValue reference_rect_class_set_editor_only(JSContext *ctx, JSValueConst
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&ReferenceRect::set_editor_only, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry reference_rect_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_border_color", 0, &reference_rect_class_get_border_color),

@@ -18,6 +18,7 @@ static void open_xr_dpad_binding_modifier_class_finalizer(JSRuntime *rt, JSValue
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -68,27 +69,7 @@ static JSValue open_xr_dpad_binding_modifier_class_set_input_path(JSContext *ctx
 };
 static JSValue open_xr_dpad_binding_modifier_class_get_input_path(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		OpenXRDpadBindingModifier *obj = static_cast<OpenXRDpadBindingModifier *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_input_path();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		OpenXRDpadBindingModifier *js_proxy = static_cast<OpenXRDpadBindingModifier *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_input_path(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&OpenXRDpadBindingModifier::get_input_path, ctx, this_val, argc, argv);
 }
 static JSValue open_xr_dpad_binding_modifier_class_set_threshold(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -146,6 +127,8 @@ static JSValue open_xr_dpad_binding_modifier_class_get_off_haptic(JSContext *ctx
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&OpenXRDpadBindingModifier::get_off_haptic, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry open_xr_dpad_binding_modifier_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_action_set", 1, &open_xr_dpad_binding_modifier_class_set_action_set),

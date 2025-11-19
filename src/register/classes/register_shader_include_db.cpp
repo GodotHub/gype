@@ -52,6 +52,8 @@ static JSValue shader_include_db_class_constructor(JSContext *ctx, JSValueConst 
     return obj;
 }
 
+
+
 static JSValue shader_include_db_class_list_built_in_include_files(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&ShaderIncludeDB::list_built_in_include_files, ctx, this_val, argc, argv);
 };

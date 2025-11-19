@@ -133,6 +133,8 @@ static JSValue convert_transform_modifier3d_class_is_additive(JSContext *ctx, JS
 	return call_builtin_const_method_ret(&ConvertTransformModifier3D::is_additive, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry convert_transform_modifier3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_apply_transform_mode", 2, &convert_transform_modifier3d_class_set_apply_transform_mode),
 	JS_CFUNC_DEF("get_apply_transform_mode", 1, &convert_transform_modifier3d_class_get_apply_transform_mode),

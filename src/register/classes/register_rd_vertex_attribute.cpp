@@ -16,6 +16,7 @@ static void rd_vertex_attribute_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -92,6 +93,8 @@ static JSValue rd_vertex_attribute_class_get_frequency(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&RDVertexAttribute::get_frequency, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry rd_vertex_attribute_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_location", 1, &rd_vertex_attribute_class_set_location),

@@ -58,27 +58,7 @@ static JSValue editor_spin_slider_class_set_label(JSContext *ctx, JSValueConst t
 };
 static JSValue editor_spin_slider_class_get_label(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		EditorSpinSlider *obj = static_cast<EditorSpinSlider *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_label();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		EditorSpinSlider *js_proxy = static_cast<EditorSpinSlider *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_label(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&EditorSpinSlider::get_label, ctx, this_val, argc, argv);
 }
 static JSValue editor_spin_slider_class_set_suffix(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -86,27 +66,7 @@ static JSValue editor_spin_slider_class_set_suffix(JSContext *ctx, JSValueConst 
 };
 static JSValue editor_spin_slider_class_get_suffix(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		EditorSpinSlider *obj = static_cast<EditorSpinSlider *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_suffix();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		EditorSpinSlider *js_proxy = static_cast<EditorSpinSlider *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_suffix(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&EditorSpinSlider::get_suffix, ctx, this_val, argc, argv);
 }
 static JSValue editor_spin_slider_class_set_read_only(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -140,6 +100,8 @@ static JSValue editor_spin_slider_class_is_editing_integer(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&EditorSpinSlider::is_editing_integer, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry editor_spin_slider_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_label", 1, &editor_spin_slider_class_set_label),

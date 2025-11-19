@@ -80,6 +80,8 @@ static JSValue physics_direct_space_state2d_class_get_rest_info(JSContext *ctx, 
 	return call_builtin_method_ret(&PhysicsDirectSpaceState2D::get_rest_info, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry physics_direct_space_state2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("intersect_point", 2, &physics_direct_space_state2d_class_intersect_point),
 	JS_CFUNC_DEF("intersect_ray", 1, &physics_direct_space_state2d_class_intersect_ray),

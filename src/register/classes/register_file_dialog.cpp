@@ -83,12 +83,10 @@ static JSValue file_dialog_class_get_filters(JSContext *ctx, JSValueConst this_v
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "PackedStringArrayProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue file_dialog_class_clear_filename_filter(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -101,27 +99,7 @@ static JSValue file_dialog_class_set_filename_filter(JSContext *ctx, JSValueCons
 };
 static JSValue file_dialog_class_get_filename_filter(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		FileDialog *obj = static_cast<FileDialog *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_filename_filter();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		FileDialog *js_proxy = static_cast<FileDialog *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_filename_filter(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&FileDialog::get_filename_filter, ctx, this_val, argc, argv);
 }
 static JSValue file_dialog_class_get_option_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -165,75 +143,15 @@ static JSValue file_dialog_class_get_selected_options(JSContext *ctx, JSValueCon
 };
 static JSValue file_dialog_class_get_current_dir(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		FileDialog *obj = static_cast<FileDialog *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_current_dir();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		FileDialog *js_proxy = static_cast<FileDialog *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_current_dir(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&FileDialog::get_current_dir, ctx, this_val, argc, argv);
 }
 static JSValue file_dialog_class_get_current_file(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		FileDialog *obj = static_cast<FileDialog *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_current_file();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		FileDialog *js_proxy = static_cast<FileDialog *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_current_file(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&FileDialog::get_current_file, ctx, this_val, argc, argv);
 }
 static JSValue file_dialog_class_get_current_path(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		FileDialog *obj = static_cast<FileDialog *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_current_path();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		FileDialog *js_proxy = static_cast<FileDialog *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_current_path(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&FileDialog::get_current_path, ctx, this_val, argc, argv);
 }
 static JSValue file_dialog_class_set_current_dir(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -293,27 +211,7 @@ static JSValue file_dialog_class_set_root_subfolder(JSContext *ctx, JSValueConst
 };
 static JSValue file_dialog_class_get_root_subfolder(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		FileDialog *obj = static_cast<FileDialog *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_root_subfolder();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		FileDialog *js_proxy = static_cast<FileDialog *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_root_subfolder(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&FileDialog::get_root_subfolder, ctx, this_val, argc, argv);
 }
 static JSValue file_dialog_class_set_show_hidden_files(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -347,6 +245,120 @@ static JSValue file_dialog_class_invalidate(JSContext *ctx, JSValueConst this_va
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&FileDialog::invalidate, ctx, this_val, argc, argv);
 };
+
+static JSValue file_dialog_class_get_hidden_files_toggle_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&FileDialog::is_customization_flag_enabled, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue file_dialog_class_set_hidden_files_toggle_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&FileDialog::set_customization_flag_enabled, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue file_dialog_class_get_file_filter_toggle_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&FileDialog::is_customization_flag_enabled, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue file_dialog_class_set_file_filter_toggle_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&FileDialog::set_customization_flag_enabled, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue file_dialog_class_get_file_sort_options_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&FileDialog::is_customization_flag_enabled, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue file_dialog_class_set_file_sort_options_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&FileDialog::set_customization_flag_enabled, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue file_dialog_class_get_folder_creation_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&FileDialog::is_customization_flag_enabled, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue file_dialog_class_set_folder_creation_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&FileDialog::set_customization_flag_enabled, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue file_dialog_class_get_favorites_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&FileDialog::is_customization_flag_enabled, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue file_dialog_class_set_favorites_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&FileDialog::set_customization_flag_enabled, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue file_dialog_class_get_recent_list_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&FileDialog::is_customization_flag_enabled, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue file_dialog_class_set_recent_list_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&FileDialog::set_customization_flag_enabled, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue file_dialog_class_get_layout_toggle_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&FileDialog::is_customization_flag_enabled, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue file_dialog_class_set_layout_toggle_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&FileDialog::set_customization_flag_enabled, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
 
 static const JSCFunctionListEntry file_dialog_class_proto_funcs[] = {
 	JS_CFUNC_DEF("clear_filters", 0, &file_dialog_class_clear_filters),
@@ -392,6 +404,18 @@ static const JSCFunctionListEntry file_dialog_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_customization_flag_enabled", 1, &file_dialog_class_is_customization_flag_enabled),
 	JS_CFUNC_DEF("deselect_all", 0, &file_dialog_class_deselect_all),
 	JS_CFUNC_DEF("invalidate", 0, &file_dialog_class_invalidate),
+    JS_CFUNC_MAGIC_DEF("get_file_filter_toggle_enabled", 0, &file_dialog_class_get_file_filter_toggle_enabled, 2),
+    JS_CFUNC_MAGIC_DEF("set_file_filter_toggle_enabled", 1, &file_dialog_class_set_file_filter_toggle_enabled, 2),
+    JS_CFUNC_MAGIC_DEF("get_file_sort_options_enabled", 0, &file_dialog_class_get_file_sort_options_enabled, 3),
+    JS_CFUNC_MAGIC_DEF("set_file_sort_options_enabled", 1, &file_dialog_class_set_file_sort_options_enabled, 3),
+    JS_CFUNC_MAGIC_DEF("get_folder_creation_enabled", 0, &file_dialog_class_get_folder_creation_enabled, 1),
+    JS_CFUNC_MAGIC_DEF("set_folder_creation_enabled", 1, &file_dialog_class_set_folder_creation_enabled, 1),
+    JS_CFUNC_MAGIC_DEF("get_favorites_enabled", 0, &file_dialog_class_get_favorites_enabled, 4),
+    JS_CFUNC_MAGIC_DEF("set_favorites_enabled", 1, &file_dialog_class_set_favorites_enabled, 4),
+    JS_CFUNC_MAGIC_DEF("get_recent_list_enabled", 0, &file_dialog_class_get_recent_list_enabled, 5),
+    JS_CFUNC_MAGIC_DEF("set_recent_list_enabled", 1, &file_dialog_class_set_recent_list_enabled, 5),
+    JS_CFUNC_MAGIC_DEF("get_layout_toggle_enabled", 0, &file_dialog_class_get_layout_toggle_enabled, 6),
+    JS_CFUNC_MAGIC_DEF("set_layout_toggle_enabled", 1, &file_dialog_class_set_layout_toggle_enabled, 6),
 };
 
 
@@ -518,62 +542,62 @@ static void define_file_dialog_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, file_dialog_class_set_option_count, "set_option_count", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "hidden_files_toggle_enabled"),
-        JS_NewCFunction(ctx, file_dialog_class_is_customization_flag_enabled, "is_customization_flag_enabled", 0),
-        JS_NewCFunction(ctx, file_dialog_class_set_customization_flag_enabled, "set_customization_flag_enabled", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, file_dialog_class_get_hidden_files_toggle_enabled, "get_hidden_files_toggle_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, file_dialog_class_set_hidden_files_toggle_enabled, "set_hidden_files_toggle_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "file_filter_toggle_enabled"),
-        JS_NewCFunction(ctx, file_dialog_class_is_customization_flag_enabled, "is_customization_flag_enabled", 0),
-        JS_NewCFunction(ctx, file_dialog_class_set_customization_flag_enabled, "set_customization_flag_enabled", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, file_dialog_class_get_file_filter_toggle_enabled, "get_file_filter_toggle_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, file_dialog_class_set_file_filter_toggle_enabled, "set_file_filter_toggle_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "file_sort_options_enabled"),
-        JS_NewCFunction(ctx, file_dialog_class_is_customization_flag_enabled, "is_customization_flag_enabled", 0),
-        JS_NewCFunction(ctx, file_dialog_class_set_customization_flag_enabled, "set_customization_flag_enabled", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, file_dialog_class_get_file_sort_options_enabled, "get_file_sort_options_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, file_dialog_class_set_file_sort_options_enabled, "set_file_sort_options_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "folder_creation_enabled"),
-        JS_NewCFunction(ctx, file_dialog_class_is_customization_flag_enabled, "is_customization_flag_enabled", 0),
-        JS_NewCFunction(ctx, file_dialog_class_set_customization_flag_enabled, "set_customization_flag_enabled", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, file_dialog_class_get_folder_creation_enabled, "get_folder_creation_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, file_dialog_class_set_folder_creation_enabled, "set_folder_creation_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "favorites_enabled"),
-        JS_NewCFunction(ctx, file_dialog_class_is_customization_flag_enabled, "is_customization_flag_enabled", 0),
-        JS_NewCFunction(ctx, file_dialog_class_set_customization_flag_enabled, "set_customization_flag_enabled", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, file_dialog_class_get_favorites_enabled, "get_favorites_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, file_dialog_class_set_favorites_enabled, "set_favorites_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "recent_list_enabled"),
-        JS_NewCFunction(ctx, file_dialog_class_is_customization_flag_enabled, "is_customization_flag_enabled", 0),
-        JS_NewCFunction(ctx, file_dialog_class_set_customization_flag_enabled, "set_customization_flag_enabled", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, file_dialog_class_get_recent_list_enabled, "get_recent_list_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_NewCFunctionMagic(ctx, file_dialog_class_set_recent_list_enabled, "set_recent_list_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "layout_toggle_enabled"),
-        JS_NewCFunction(ctx, file_dialog_class_is_customization_flag_enabled, "is_customization_flag_enabled", 0),
-        JS_NewCFunction(ctx, file_dialog_class_set_customization_flag_enabled, "set_customization_flag_enabled", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, file_dialog_class_get_layout_toggle_enabled, "get_layout_toggle_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_NewCFunctionMagic(ctx, file_dialog_class_set_layout_toggle_enabled, "set_layout_toggle_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

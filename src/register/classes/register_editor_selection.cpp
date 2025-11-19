@@ -78,6 +78,8 @@ static JSValue editor_selection_class_get_transformable_selected_nodes(JSContext
 	return call_builtin_method_ret(&EditorSelection::get_transformable_selected_nodes, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry editor_selection_class_proto_funcs[] = {
 	JS_CFUNC_DEF("clear", 0, &editor_selection_class_clear),
 	JS_CFUNC_DEF("add_node", 1, &editor_selection_class_add_node),

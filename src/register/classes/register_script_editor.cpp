@@ -104,6 +104,8 @@ static JSValue script_editor_class_clear_docs_from_script(JSContext *ctx, JSValu
     return call_builtin_method_no_ret(&ScriptEditor::clear_docs_from_script, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry script_editor_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_current_editor", 0, &script_editor_class_get_current_editor),
 	JS_CFUNC_DEF("get_open_script_editors", 0, &script_editor_class_get_open_script_editors),

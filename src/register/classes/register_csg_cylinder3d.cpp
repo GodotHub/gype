@@ -102,6 +102,8 @@ static JSValue csg_cylinder3d_class_get_smooth_faces(JSContext *ctx, JSValueCons
 	return call_builtin_const_method_ret(&CSGCylinder3D::get_smooth_faces, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry csg_cylinder3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_radius", 1, &csg_cylinder3d_class_set_radius),
 	JS_CFUNC_DEF("get_radius", 0, &csg_cylinder3d_class_get_radius),

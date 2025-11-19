@@ -16,6 +16,7 @@ static void visual_shader_node_expression_class_finalizer(JSRuntime *rt, JSValue
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -58,28 +59,10 @@ static JSValue visual_shader_node_expression_class_set_expression(JSContext *ctx
 };
 static JSValue visual_shader_node_expression_class_get_expression(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		VisualShaderNodeExpression *obj = static_cast<VisualShaderNodeExpression *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_expression();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		VisualShaderNodeExpression *js_proxy = static_cast<VisualShaderNodeExpression *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_expression(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&VisualShaderNodeExpression::get_expression, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry visual_shader_node_expression_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_expression", 1, &visual_shader_node_expression_class_set_expression),

@@ -61,6 +61,8 @@ static JSValue marker3d_class_get_gizmo_extents(JSContext *ctx, JSValueConst thi
 	return call_builtin_const_method_ret(&Marker3D::get_gizmo_extents, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry marker3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_gizmo_extents", 1, &marker3d_class_set_gizmo_extents),
 	JS_CFUNC_DEF("get_gizmo_extents", 0, &marker3d_class_get_gizmo_extents),

@@ -57,6 +57,8 @@ static JSValue open_xr_interaction_profile_editor_class_constructor(JSContext *c
 
 
 
+
+
 static void define_open_xr_interaction_profile_editor_property(JSContext *ctx, JSValue proto) {
 }
 

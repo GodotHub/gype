@@ -16,6 +16,7 @@ static void physics_material_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -84,6 +85,8 @@ static JSValue physics_material_class_is_absorbent(JSContext *ctx, JSValueConst 
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&PhysicsMaterial::is_absorbent, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry physics_material_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_friction", 1, &physics_material_class_set_friction),

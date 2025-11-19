@@ -16,6 +16,7 @@ static void image_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -336,6 +337,8 @@ static JSValue image_class_load_svg_from_string(JSContext *ctx, JSValueConst thi
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&Image::load_svg_from_string, ctx, this_val, argc, argv);
 };
+
+
 static JSValue image_class_create(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Image::create, ctx, this_val, argc, argv);
 };

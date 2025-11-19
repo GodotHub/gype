@@ -16,6 +16,7 @@ static void capsule_mesh_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -84,6 +85,8 @@ static JSValue capsule_mesh_class_get_rings(JSContext *ctx, JSValueConst this_va
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&CapsuleMesh::get_rings, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry capsule_mesh_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_radius", 1, &capsule_mesh_class_set_radius),

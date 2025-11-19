@@ -57,6 +57,8 @@ static JSValue editor_toaster_class_push_toast(JSContext *ctx, JSValueConst this
     return call_builtin_method_no_ret(&EditorToaster::push_toast, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry editor_toaster_class_proto_funcs[] = {
 	JS_CFUNC_DEF("push_toast", 3, &editor_toaster_class_push_toast),
 };

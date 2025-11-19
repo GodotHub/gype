@@ -17,6 +17,7 @@ static void reg_ex_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -89,6 +90,8 @@ static JSValue reg_ex_class_get_names(JSContext *ctx, JSValueConst this_val, int
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&RegEx::get_names, ctx, this_val, argc, argv);
 };
+
+
 static JSValue reg_ex_class_create_from_string(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&RegEx::create_from_string, ctx, this_val, argc, argv);
 };

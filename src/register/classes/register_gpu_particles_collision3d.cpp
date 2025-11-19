@@ -61,6 +61,8 @@ static JSValue gpu_particles_collision3d_class_get_cull_mask(JSContext *ctx, JSV
 	return call_builtin_const_method_ret(&GPUParticlesCollision3D::get_cull_mask, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry gpu_particles_collision3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_cull_mask", 1, &gpu_particles_collision3d_class_set_cull_mask),
 	JS_CFUNC_DEF("get_cull_mask", 0, &gpu_particles_collision3d_class_get_cull_mask),

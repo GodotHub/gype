@@ -152,12 +152,10 @@ static JSValue cpu_particles3d_class_get_visibility_aabb(JSContext *ctx, JSValue
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "AABBProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue cpu_particles3d_class_get_lifetime_randomness(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -244,12 +242,10 @@ static JSValue cpu_particles3d_class_get_direction(JSContext *ctx, JSValueConst 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue cpu_particles3d_class_set_spread(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -312,12 +308,10 @@ static JSValue cpu_particles3d_class_get_color(JSContext *ctx, JSValueConst this
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue cpu_particles3d_class_set_color_ramp(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -380,12 +374,10 @@ static JSValue cpu_particles3d_class_get_emission_box_extents(JSContext *ctx, JS
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue cpu_particles3d_class_set_emission_points(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -409,12 +401,10 @@ static JSValue cpu_particles3d_class_get_emission_points(JSContext *ctx, JSValue
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "PackedVector3ArrayProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue cpu_particles3d_class_set_emission_normals(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -438,12 +428,10 @@ static JSValue cpu_particles3d_class_get_emission_normals(JSContext *ctx, JSValu
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "PackedVector3ArrayProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue cpu_particles3d_class_set_emission_colors(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -467,12 +455,10 @@ static JSValue cpu_particles3d_class_get_emission_colors(JSContext *ctx, JSValue
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "PackedColorArrayProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue cpu_particles3d_class_set_emission_ring_axis(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -495,12 +481,10 @@ static JSValue cpu_particles3d_class_get_emission_ring_axis(JSContext *ctx, JSVa
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue cpu_particles3d_class_set_emission_ring_height(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -551,12 +535,10 @@ static JSValue cpu_particles3d_class_get_gravity(JSContext *ctx, JSValueConst th
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue cpu_particles3d_class_set_gravity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -599,6 +581,616 @@ static JSValue cpu_particles3d_class_convert_from_particles(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&CPUParticles3D::convert_from_particles, ctx, this_val, argc, argv);
 };
+
+static JSValue cpu_particles3d_class_get_particle_flag_align_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_particle_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_particle_flag_align_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_particle_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_particle_flag_rotate_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_particle_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_particle_flag_rotate_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_particle_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_particle_flag_disable_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_particle_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_particle_flag_disable_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_particle_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_initial_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_initial_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_initial_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_initial_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_angular_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_angular_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_angular_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_angular_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_angular_velocity_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_curve, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_angular_velocity_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_curve, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_orbit_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_orbit_velocity_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_orbit_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_orbit_velocity_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_orbit_velocity_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_curve, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_orbit_velocity_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_curve, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_linear_accel_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_linear_accel_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_linear_accel_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_linear_accel_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_linear_accel_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_curve, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_linear_accel_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_curve, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_radial_accel_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_radial_accel_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_radial_accel_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_radial_accel_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_radial_accel_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_curve, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_radial_accel_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_curve, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_tangential_accel_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_tangential_accel_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_tangential_accel_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_tangential_accel_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_tangential_accel_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_curve, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_tangential_accel_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_curve, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_damping_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_damping_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_damping_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_damping_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_damping_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_curve, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_damping_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_curve, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_angle_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_angle_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_angle_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_angle_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_angle_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_curve, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_angle_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_curve, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_scale_amount_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_scale_amount_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_scale_amount_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_scale_amount_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_scale_amount_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_curve, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_scale_amount_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_curve, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_hue_variation_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_hue_variation_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_hue_variation_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_hue_variation_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_hue_variation_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_curve, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_hue_variation_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_curve, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_anim_speed_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_anim_speed_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_anim_speed_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_anim_speed_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_anim_speed_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_curve, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_anim_speed_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_curve, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_anim_offset_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_min, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_anim_offset_min(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_min, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_anim_offset_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_max, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_anim_offset_max(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_max, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cpu_particles3d_class_get_anim_offset_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&CPUParticles3D::get_param_curve, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cpu_particles3d_class_set_anim_offset_curve(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&CPUParticles3D::set_param_curve, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
 
 static const JSCFunctionListEntry cpu_particles3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_emitting", 1, &cpu_particles3d_class_set_emitting),
@@ -691,6 +1283,76 @@ static const JSCFunctionListEntry cpu_particles3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_scale_curve_z", 0, &cpu_particles3d_class_get_scale_curve_z),
 	JS_CFUNC_DEF("set_scale_curve_z", 1, &cpu_particles3d_class_set_scale_curve_z),
 	JS_CFUNC_DEF("convert_from_particles", 1, &cpu_particles3d_class_convert_from_particles),
+    JS_CFUNC_MAGIC_DEF("get_particle_flag_rotate_y", 0, &cpu_particles3d_class_get_particle_flag_rotate_y, 1),
+    JS_CFUNC_MAGIC_DEF("set_particle_flag_rotate_y", 1, &cpu_particles3d_class_set_particle_flag_rotate_y, 1),
+    JS_CFUNC_MAGIC_DEF("get_particle_flag_disable_z", 0, &cpu_particles3d_class_get_particle_flag_disable_z, 2),
+    JS_CFUNC_MAGIC_DEF("set_particle_flag_disable_z", 1, &cpu_particles3d_class_set_particle_flag_disable_z, 2),
+    JS_CFUNC_MAGIC_DEF("get_angular_velocity_min", 0, &cpu_particles3d_class_get_angular_velocity_min, 1),
+    JS_CFUNC_MAGIC_DEF("set_angular_velocity_min", 1, &cpu_particles3d_class_set_angular_velocity_min, 1),
+    JS_CFUNC_MAGIC_DEF("get_angular_velocity_max", 0, &cpu_particles3d_class_get_angular_velocity_max, 1),
+    JS_CFUNC_MAGIC_DEF("set_angular_velocity_max", 1, &cpu_particles3d_class_set_angular_velocity_max, 1),
+    JS_CFUNC_MAGIC_DEF("get_angular_velocity_curve", 0, &cpu_particles3d_class_get_angular_velocity_curve, 1),
+    JS_CFUNC_MAGIC_DEF("set_angular_velocity_curve", 1, &cpu_particles3d_class_set_angular_velocity_curve, 1),
+    JS_CFUNC_MAGIC_DEF("get_orbit_velocity_min", 0, &cpu_particles3d_class_get_orbit_velocity_min, 2),
+    JS_CFUNC_MAGIC_DEF("set_orbit_velocity_min", 1, &cpu_particles3d_class_set_orbit_velocity_min, 2),
+    JS_CFUNC_MAGIC_DEF("get_orbit_velocity_max", 0, &cpu_particles3d_class_get_orbit_velocity_max, 2),
+    JS_CFUNC_MAGIC_DEF("set_orbit_velocity_max", 1, &cpu_particles3d_class_set_orbit_velocity_max, 2),
+    JS_CFUNC_MAGIC_DEF("get_orbit_velocity_curve", 0, &cpu_particles3d_class_get_orbit_velocity_curve, 2),
+    JS_CFUNC_MAGIC_DEF("set_orbit_velocity_curve", 1, &cpu_particles3d_class_set_orbit_velocity_curve, 2),
+    JS_CFUNC_MAGIC_DEF("get_linear_accel_min", 0, &cpu_particles3d_class_get_linear_accel_min, 3),
+    JS_CFUNC_MAGIC_DEF("set_linear_accel_min", 1, &cpu_particles3d_class_set_linear_accel_min, 3),
+    JS_CFUNC_MAGIC_DEF("get_linear_accel_max", 0, &cpu_particles3d_class_get_linear_accel_max, 3),
+    JS_CFUNC_MAGIC_DEF("set_linear_accel_max", 1, &cpu_particles3d_class_set_linear_accel_max, 3),
+    JS_CFUNC_MAGIC_DEF("get_linear_accel_curve", 0, &cpu_particles3d_class_get_linear_accel_curve, 3),
+    JS_CFUNC_MAGIC_DEF("set_linear_accel_curve", 1, &cpu_particles3d_class_set_linear_accel_curve, 3),
+    JS_CFUNC_MAGIC_DEF("get_radial_accel_min", 0, &cpu_particles3d_class_get_radial_accel_min, 4),
+    JS_CFUNC_MAGIC_DEF("set_radial_accel_min", 1, &cpu_particles3d_class_set_radial_accel_min, 4),
+    JS_CFUNC_MAGIC_DEF("get_radial_accel_max", 0, &cpu_particles3d_class_get_radial_accel_max, 4),
+    JS_CFUNC_MAGIC_DEF("set_radial_accel_max", 1, &cpu_particles3d_class_set_radial_accel_max, 4),
+    JS_CFUNC_MAGIC_DEF("get_radial_accel_curve", 0, &cpu_particles3d_class_get_radial_accel_curve, 4),
+    JS_CFUNC_MAGIC_DEF("set_radial_accel_curve", 1, &cpu_particles3d_class_set_radial_accel_curve, 4),
+    JS_CFUNC_MAGIC_DEF("get_tangential_accel_min", 0, &cpu_particles3d_class_get_tangential_accel_min, 5),
+    JS_CFUNC_MAGIC_DEF("set_tangential_accel_min", 1, &cpu_particles3d_class_set_tangential_accel_min, 5),
+    JS_CFUNC_MAGIC_DEF("get_tangential_accel_max", 0, &cpu_particles3d_class_get_tangential_accel_max, 5),
+    JS_CFUNC_MAGIC_DEF("set_tangential_accel_max", 1, &cpu_particles3d_class_set_tangential_accel_max, 5),
+    JS_CFUNC_MAGIC_DEF("get_tangential_accel_curve", 0, &cpu_particles3d_class_get_tangential_accel_curve, 5),
+    JS_CFUNC_MAGIC_DEF("set_tangential_accel_curve", 1, &cpu_particles3d_class_set_tangential_accel_curve, 5),
+    JS_CFUNC_MAGIC_DEF("get_damping_min", 0, &cpu_particles3d_class_get_damping_min, 6),
+    JS_CFUNC_MAGIC_DEF("set_damping_min", 1, &cpu_particles3d_class_set_damping_min, 6),
+    JS_CFUNC_MAGIC_DEF("get_damping_max", 0, &cpu_particles3d_class_get_damping_max, 6),
+    JS_CFUNC_MAGIC_DEF("set_damping_max", 1, &cpu_particles3d_class_set_damping_max, 6),
+    JS_CFUNC_MAGIC_DEF("get_damping_curve", 0, &cpu_particles3d_class_get_damping_curve, 6),
+    JS_CFUNC_MAGIC_DEF("set_damping_curve", 1, &cpu_particles3d_class_set_damping_curve, 6),
+    JS_CFUNC_MAGIC_DEF("get_angle_min", 0, &cpu_particles3d_class_get_angle_min, 7),
+    JS_CFUNC_MAGIC_DEF("set_angle_min", 1, &cpu_particles3d_class_set_angle_min, 7),
+    JS_CFUNC_MAGIC_DEF("get_angle_max", 0, &cpu_particles3d_class_get_angle_max, 7),
+    JS_CFUNC_MAGIC_DEF("set_angle_max", 1, &cpu_particles3d_class_set_angle_max, 7),
+    JS_CFUNC_MAGIC_DEF("get_angle_curve", 0, &cpu_particles3d_class_get_angle_curve, 7),
+    JS_CFUNC_MAGIC_DEF("set_angle_curve", 1, &cpu_particles3d_class_set_angle_curve, 7),
+    JS_CFUNC_MAGIC_DEF("get_scale_amount_min", 0, &cpu_particles3d_class_get_scale_amount_min, 8),
+    JS_CFUNC_MAGIC_DEF("set_scale_amount_min", 1, &cpu_particles3d_class_set_scale_amount_min, 8),
+    JS_CFUNC_MAGIC_DEF("get_scale_amount_max", 0, &cpu_particles3d_class_get_scale_amount_max, 8),
+    JS_CFUNC_MAGIC_DEF("set_scale_amount_max", 1, &cpu_particles3d_class_set_scale_amount_max, 8),
+    JS_CFUNC_MAGIC_DEF("get_scale_amount_curve", 0, &cpu_particles3d_class_get_scale_amount_curve, 8),
+    JS_CFUNC_MAGIC_DEF("set_scale_amount_curve", 1, &cpu_particles3d_class_set_scale_amount_curve, 8),
+    JS_CFUNC_MAGIC_DEF("get_hue_variation_min", 0, &cpu_particles3d_class_get_hue_variation_min, 9),
+    JS_CFUNC_MAGIC_DEF("set_hue_variation_min", 1, &cpu_particles3d_class_set_hue_variation_min, 9),
+    JS_CFUNC_MAGIC_DEF("get_hue_variation_max", 0, &cpu_particles3d_class_get_hue_variation_max, 9),
+    JS_CFUNC_MAGIC_DEF("set_hue_variation_max", 1, &cpu_particles3d_class_set_hue_variation_max, 9),
+    JS_CFUNC_MAGIC_DEF("get_hue_variation_curve", 0, &cpu_particles3d_class_get_hue_variation_curve, 9),
+    JS_CFUNC_MAGIC_DEF("set_hue_variation_curve", 1, &cpu_particles3d_class_set_hue_variation_curve, 9),
+    JS_CFUNC_MAGIC_DEF("get_anim_speed_min", 0, &cpu_particles3d_class_get_anim_speed_min, 10),
+    JS_CFUNC_MAGIC_DEF("set_anim_speed_min", 1, &cpu_particles3d_class_set_anim_speed_min, 10),
+    JS_CFUNC_MAGIC_DEF("get_anim_speed_max", 0, &cpu_particles3d_class_get_anim_speed_max, 10),
+    JS_CFUNC_MAGIC_DEF("set_anim_speed_max", 1, &cpu_particles3d_class_set_anim_speed_max, 10),
+    JS_CFUNC_MAGIC_DEF("get_anim_speed_curve", 0, &cpu_particles3d_class_get_anim_speed_curve, 10),
+    JS_CFUNC_MAGIC_DEF("set_anim_speed_curve", 1, &cpu_particles3d_class_set_anim_speed_curve, 10),
+    JS_CFUNC_MAGIC_DEF("get_anim_offset_min", 0, &cpu_particles3d_class_get_anim_offset_min, 11),
+    JS_CFUNC_MAGIC_DEF("set_anim_offset_min", 1, &cpu_particles3d_class_set_anim_offset_min, 11),
+    JS_CFUNC_MAGIC_DEF("get_anim_offset_max", 0, &cpu_particles3d_class_get_anim_offset_max, 11),
+    JS_CFUNC_MAGIC_DEF("set_anim_offset_max", 1, &cpu_particles3d_class_set_anim_offset_max, 11),
+    JS_CFUNC_MAGIC_DEF("get_anim_offset_curve", 0, &cpu_particles3d_class_get_anim_offset_curve, 11),
+    JS_CFUNC_MAGIC_DEF("set_anim_offset_curve", 1, &cpu_particles3d_class_set_anim_offset_curve, 11),
 };
 
 
@@ -931,30 +1593,30 @@ static void define_cpu_particles3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, cpu_particles3d_class_set_emission_ring_cone_angle, "set_emission_ring_cone_angle", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "particle_flag_align_y"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_particle_flag, "get_particle_flag", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_particle_flag, "set_particle_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_particle_flag_align_y, "get_particle_flag_align_y", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_particle_flag_align_y, "set_particle_flag_align_y", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "particle_flag_rotate_y"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_particle_flag, "get_particle_flag", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_particle_flag, "set_particle_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_particle_flag_rotate_y, "get_particle_flag_rotate_y", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_particle_flag_rotate_y, "set_particle_flag_rotate_y", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "particle_flag_disable_z"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_particle_flag, "get_particle_flag", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_particle_flag, "set_particle_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_particle_flag_disable_z, "get_particle_flag_disable_z", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_particle_flag_disable_z, "set_particle_flag_disable_z", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -987,214 +1649,214 @@ static void define_cpu_particles3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, cpu_particles3d_class_set_gravity, "set_gravity", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "initial_velocity_min"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_initial_velocity_min, "get_initial_velocity_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_initial_velocity_min, "set_initial_velocity_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "initial_velocity_max"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_initial_velocity_max, "get_initial_velocity_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_initial_velocity_max, "set_initial_velocity_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "angular_velocity_min"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_angular_velocity_min, "get_angular_velocity_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_angular_velocity_min, "set_angular_velocity_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "angular_velocity_max"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_angular_velocity_max, "get_angular_velocity_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_angular_velocity_max, "set_angular_velocity_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "angular_velocity_curve"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_curve, "get_param_curve", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_curve, "set_param_curve", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_angular_velocity_curve, "get_angular_velocity_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_angular_velocity_curve, "set_angular_velocity_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "orbit_velocity_min"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_orbit_velocity_min, "get_orbit_velocity_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_orbit_velocity_min, "set_orbit_velocity_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "orbit_velocity_max"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_orbit_velocity_max, "get_orbit_velocity_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_orbit_velocity_max, "set_orbit_velocity_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "orbit_velocity_curve"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_curve, "get_param_curve", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_curve, "set_param_curve", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_orbit_velocity_curve, "get_orbit_velocity_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_orbit_velocity_curve, "set_orbit_velocity_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "linear_accel_min"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_linear_accel_min, "get_linear_accel_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_linear_accel_min, "set_linear_accel_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "linear_accel_max"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_linear_accel_max, "get_linear_accel_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_linear_accel_max, "set_linear_accel_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "linear_accel_curve"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_curve, "get_param_curve", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_curve, "set_param_curve", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_linear_accel_curve, "get_linear_accel_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_linear_accel_curve, "set_linear_accel_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "radial_accel_min"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_radial_accel_min, "get_radial_accel_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_radial_accel_min, "set_radial_accel_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "radial_accel_max"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_radial_accel_max, "get_radial_accel_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_radial_accel_max, "set_radial_accel_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "radial_accel_curve"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_curve, "get_param_curve", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_curve, "set_param_curve", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_radial_accel_curve, "get_radial_accel_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_radial_accel_curve, "set_radial_accel_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "tangential_accel_min"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_tangential_accel_min, "get_tangential_accel_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_tangential_accel_min, "set_tangential_accel_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "tangential_accel_max"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_tangential_accel_max, "get_tangential_accel_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_tangential_accel_max, "set_tangential_accel_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "tangential_accel_curve"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_curve, "get_param_curve", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_curve, "set_param_curve", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_tangential_accel_curve, "get_tangential_accel_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_tangential_accel_curve, "set_tangential_accel_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "damping_min"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_damping_min, "get_damping_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_damping_min, "set_damping_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "damping_max"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_damping_max, "get_damping_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_damping_max, "set_damping_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "damping_curve"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_curve, "get_param_curve", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_curve, "set_param_curve", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_damping_curve, "get_damping_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_damping_curve, "set_damping_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "angle_min"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_angle_min, "get_angle_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_angle_min, "set_angle_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "angle_max"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_angle_max, "get_angle_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_angle_max, "set_angle_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "angle_curve"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_curve, "get_param_curve", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_curve, "set_param_curve", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_angle_curve, "get_angle_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_angle_curve, "set_angle_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "scale_amount_min"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_scale_amount_min, "get_scale_amount_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_scale_amount_min, "set_scale_amount_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "scale_amount_max"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_scale_amount_max, "get_scale_amount_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_scale_amount_max, "set_scale_amount_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "scale_amount_curve"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_curve, "get_param_curve", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_curve, "set_param_curve", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_scale_amount_curve, "get_scale_amount_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_scale_amount_curve, "set_scale_amount_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1251,78 +1913,78 @@ static void define_cpu_particles3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, cpu_particles3d_class_set_color_initial_ramp, "set_color_initial_ramp", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "hue_variation_min"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_hue_variation_min, "get_hue_variation_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_hue_variation_min, "set_hue_variation_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "hue_variation_max"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_hue_variation_max, "get_hue_variation_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_hue_variation_max, "set_hue_variation_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "hue_variation_curve"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_curve, "get_param_curve", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_curve, "set_param_curve", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_hue_variation_curve, "get_hue_variation_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_hue_variation_curve, "set_hue_variation_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anim_speed_min"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_anim_speed_min, "get_anim_speed_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_anim_speed_min, "set_anim_speed_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anim_speed_max"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_anim_speed_max, "get_anim_speed_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_anim_speed_max, "set_anim_speed_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anim_speed_curve"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_curve, "get_param_curve", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_curve, "set_param_curve", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_anim_speed_curve, "get_anim_speed_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_anim_speed_curve, "set_anim_speed_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anim_offset_min"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_min, "get_param_min", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_min, "set_param_min", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_anim_offset_min, "get_anim_offset_min", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_anim_offset_min, "set_anim_offset_min", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anim_offset_max"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_max, "get_param_max", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_max, "set_param_max", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_anim_offset_max, "get_anim_offset_max", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_anim_offset_max, "set_anim_offset_max", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anim_offset_curve"),
-        JS_NewCFunction(ctx, cpu_particles3d_class_get_param_curve, "get_param_curve", 0),
-        JS_NewCFunction(ctx, cpu_particles3d_class_set_param_curve, "set_param_curve", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_get_anim_offset_curve, "get_anim_offset_curve", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_NewCFunctionMagic(ctx, cpu_particles3d_class_set_anim_offset_curve, "set_anim_offset_curve", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_PROP_GETSET
+	);
 	JS_DefinePropertyGetSet(
 		ctx,
 		proto,

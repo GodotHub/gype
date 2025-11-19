@@ -16,6 +16,7 @@ static void encoded_object_as_id_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -60,6 +61,8 @@ static JSValue encoded_object_as_id_class_get_object_id(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&EncodedObjectAsID::get_object_id, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry encoded_object_as_id_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_object_id", 1, &encoded_object_as_id_class_set_object_id),

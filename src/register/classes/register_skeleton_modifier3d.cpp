@@ -74,6 +74,8 @@ static JSValue skeleton_modifier3d_class_get_influence(JSContext *ctx, JSValueCo
 	return call_builtin_const_method_ret(&SkeletonModifier3D::get_influence, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry skeleton_modifier3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_skeleton", 0, &skeleton_modifier3d_class_get_skeleton),
 	JS_CFUNC_DEF("set_active", 1, &skeleton_modifier3d_class_set_active),

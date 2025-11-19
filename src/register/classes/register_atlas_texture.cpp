@@ -16,6 +16,7 @@ static void atlas_texture_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -80,12 +81,10 @@ static JSValue atlas_texture_class_get_region(JSContext *ctx, JSValueConst this_
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Rect2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue atlas_texture_class_set_margin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -108,12 +107,10 @@ static JSValue atlas_texture_class_get_margin(JSContext *ctx, JSValueConst this_
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Rect2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue atlas_texture_class_set_filter_clip(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -124,6 +121,8 @@ static JSValue atlas_texture_class_has_filter_clip(JSContext *ctx, JSValueConst 
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&AtlasTexture::has_filter_clip, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry atlas_texture_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_atlas", 1, &atlas_texture_class_set_atlas),

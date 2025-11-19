@@ -78,6 +78,8 @@ static JSValue light_occluder2d_class_is_set_as_sdf_collision(JSContext *ctx, JS
 	return call_builtin_const_method_ret(&LightOccluder2D::is_set_as_sdf_collision, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry light_occluder2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_occluder_polygon", 1, &light_occluder2d_class_set_occluder_polygon),
 	JS_CFUNC_DEF("get_occluder_polygon", 0, &light_occluder2d_class_get_occluder_polygon),

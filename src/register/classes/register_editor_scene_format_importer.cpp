@@ -17,6 +17,7 @@ static void editor_scene_format_importer_class_finalizer(JSRuntime *rt, JSValue 
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -61,6 +62,8 @@ static JSValue editor_scene_format_importer_class_add_import_option_advanced(JSC
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&EditorSceneFormatImporter::add_import_option_advanced, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry editor_scene_format_importer_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_import_option", 2, &editor_scene_format_importer_class_add_import_option),

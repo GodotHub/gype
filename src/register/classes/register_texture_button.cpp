@@ -135,6 +135,8 @@ static JSValue texture_button_class_get_stretch_mode(JSContext *ctx, JSValueCons
 	return call_builtin_const_method_ret(&TextureButton::get_stretch_mode, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry texture_button_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_texture_normal", 1, &texture_button_class_set_texture_normal),
 	JS_CFUNC_DEF("set_texture_pressed", 1, &texture_button_class_set_texture_pressed),

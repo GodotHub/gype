@@ -16,6 +16,7 @@ static void visual_shader_node_custom_class_finalizer(JSRuntime *rt, JSValue val
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -56,6 +57,8 @@ static JSValue visual_shader_node_custom_class_get_option_index(JSContext *ctx, 
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&VisualShaderNodeCustom::get_option_index, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry visual_shader_node_custom_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_option_index", 1, &visual_shader_node_custom_class_get_option_index),

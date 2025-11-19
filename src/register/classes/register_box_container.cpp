@@ -74,6 +74,8 @@ static JSValue box_container_class_is_vertical(JSContext *ctx, JSValueConst this
 	return call_builtin_const_method_ret(&BoxContainer::is_vertical, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry box_container_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_spacer", 1, &box_container_class_add_spacer),
 	JS_CFUNC_DEF("set_alignment", 1, &box_container_class_set_alignment),

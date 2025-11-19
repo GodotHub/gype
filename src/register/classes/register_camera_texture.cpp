@@ -16,6 +16,7 @@ static void camera_texture_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -76,6 +77,8 @@ static JSValue camera_texture_class_get_camera_active(JSContext *ctx, JSValueCon
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&CameraTexture::get_camera_active, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry camera_texture_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_camera_feed_id", 1, &camera_texture_class_set_camera_feed_id),

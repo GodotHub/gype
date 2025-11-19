@@ -61,6 +61,8 @@ static JSValue editor_command_palette_class_remove_command(JSContext *ctx, JSVal
     return call_builtin_method_no_ret(&EditorCommandPalette::remove_command, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry editor_command_palette_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_command", 4, &editor_command_palette_class_add_command),
 	JS_CFUNC_DEF("remove_command", 1, &editor_command_palette_class_remove_command),

@@ -57,6 +57,8 @@ static JSValue open_xr_visibility_mask_class_constructor(JSContext *ctx, JSValue
 
 
 
+
+
 static void define_open_xr_visibility_mask_property(JSContext *ctx, JSValue proto) {
 }
 

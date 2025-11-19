@@ -151,6 +151,7 @@ std::enable_if_t<!std::is_pointer_v<T> &&
 	!is_ref_v<T> && !is_const_ref_v<T> &&
 	!std::is_reference_v<T> &&
 	!std::is_base_of_v<Object, T> &&
+	!is_bitfield_v<T> &&
 	std::is_constructible_v<Variant, T>,
 	T>
 convert(JSContext *ctx, JSValueConst v) {

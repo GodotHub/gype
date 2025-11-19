@@ -164,12 +164,10 @@ static JSValue gpu_particles3d_class_get_visibility_aabb(JSContext *ctx, JSValue
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "AABBProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue gpu_particles3d_class_get_use_local_coordinates(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -280,12 +278,10 @@ static JSValue gpu_particles3d_class_get_sub_emitter(JSContext *ctx, JSValueCons
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue gpu_particles3d_class_emit_particle(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -332,6 +328,72 @@ static JSValue gpu_particles3d_class_request_particles_process(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&GPUParticles3D::request_particles_process, ctx, this_val, argc, argv);
 };
+
+static JSValue gpu_particles3d_class_get_draw_pass_1(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&GPUParticles3D::get_draw_pass_mesh, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue gpu_particles3d_class_set_draw_pass_1(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&GPUParticles3D::set_draw_pass_mesh, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue gpu_particles3d_class_get_draw_pass_2(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&GPUParticles3D::get_draw_pass_mesh, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue gpu_particles3d_class_set_draw_pass_2(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&GPUParticles3D::set_draw_pass_mesh, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue gpu_particles3d_class_get_draw_pass_3(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&GPUParticles3D::get_draw_pass_mesh, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue gpu_particles3d_class_set_draw_pass_3(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&GPUParticles3D::set_draw_pass_mesh, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue gpu_particles3d_class_get_draw_pass_4(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&GPUParticles3D::get_draw_pass_mesh, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue gpu_particles3d_class_set_draw_pass_4(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&GPUParticles3D::set_draw_pass_mesh, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
 
 static const JSCFunctionListEntry gpu_particles3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_emitting", 1, &gpu_particles3d_class_set_emitting),
@@ -393,6 +455,12 @@ static const JSCFunctionListEntry gpu_particles3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_amount_ratio", 1, &gpu_particles3d_class_set_amount_ratio),
 	JS_CFUNC_DEF("get_amount_ratio", 0, &gpu_particles3d_class_get_amount_ratio),
 	JS_CFUNC_DEF("request_particles_process", 1, &gpu_particles3d_class_request_particles_process),
+    JS_CFUNC_MAGIC_DEF("get_draw_pass_2", 0, &gpu_particles3d_class_get_draw_pass_2, 1),
+    JS_CFUNC_MAGIC_DEF("set_draw_pass_2", 1, &gpu_particles3d_class_set_draw_pass_2, 1),
+    JS_CFUNC_MAGIC_DEF("get_draw_pass_3", 0, &gpu_particles3d_class_get_draw_pass_3, 2),
+    JS_CFUNC_MAGIC_DEF("set_draw_pass_3", 1, &gpu_particles3d_class_set_draw_pass_3, 2),
+    JS_CFUNC_MAGIC_DEF("get_draw_pass_4", 0, &gpu_particles3d_class_get_draw_pass_4, 3),
+    JS_CFUNC_MAGIC_DEF("set_draw_pass_4", 1, &gpu_particles3d_class_set_draw_pass_4, 3),
 };
 
 
@@ -609,38 +677,38 @@ static void define_gpu_particles3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, gpu_particles3d_class_set_draw_passes, "set_draw_passes", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "draw_pass_1"),
-        JS_NewCFunction(ctx, gpu_particles3d_class_get_draw_pass_mesh, "get_draw_pass_mesh", 0),
-        JS_NewCFunction(ctx, gpu_particles3d_class_set_draw_pass_mesh, "set_draw_pass_mesh", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, gpu_particles3d_class_get_draw_pass_1, "get_draw_pass_1", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, gpu_particles3d_class_set_draw_pass_1, "set_draw_pass_1", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "draw_pass_2"),
-        JS_NewCFunction(ctx, gpu_particles3d_class_get_draw_pass_mesh, "get_draw_pass_mesh", 0),
-        JS_NewCFunction(ctx, gpu_particles3d_class_set_draw_pass_mesh, "set_draw_pass_mesh", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, gpu_particles3d_class_get_draw_pass_2, "get_draw_pass_2", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, gpu_particles3d_class_set_draw_pass_2, "set_draw_pass_2", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "draw_pass_3"),
-        JS_NewCFunction(ctx, gpu_particles3d_class_get_draw_pass_mesh, "get_draw_pass_mesh", 0),
-        JS_NewCFunction(ctx, gpu_particles3d_class_set_draw_pass_mesh, "set_draw_pass_mesh", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, gpu_particles3d_class_get_draw_pass_3, "get_draw_pass_3", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, gpu_particles3d_class_set_draw_pass_3, "set_draw_pass_3", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "draw_pass_4"),
-        JS_NewCFunction(ctx, gpu_particles3d_class_get_draw_pass_mesh, "get_draw_pass_mesh", 0),
-        JS_NewCFunction(ctx, gpu_particles3d_class_set_draw_pass_mesh, "set_draw_pass_mesh", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, gpu_particles3d_class_get_draw_pass_4, "get_draw_pass_4", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, gpu_particles3d_class_set_draw_pass_4, "set_draw_pass_4", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

@@ -60,27 +60,7 @@ static JSValue editor_resource_picker_class_set_base_type(JSContext *ctx, JSValu
 };
 static JSValue editor_resource_picker_class_get_base_type(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		EditorResourcePicker *obj = static_cast<EditorResourcePicker *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_base_type();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		EditorResourcePicker *js_proxy = static_cast<EditorResourcePicker *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_base_type(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&EditorResourcePicker::get_base_type, ctx, this_val, argc, argv);
 }
 static JSValue editor_resource_picker_class_get_allowed_types(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -114,6 +94,8 @@ static JSValue editor_resource_picker_class_is_editable(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&EditorResourcePicker::is_editable, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry editor_resource_picker_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_base_type", 1, &editor_resource_picker_class_set_base_type),

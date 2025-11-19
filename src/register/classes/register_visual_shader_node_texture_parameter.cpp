@@ -16,6 +16,7 @@ static void visual_shader_node_texture_parameter_class_finalizer(JSRuntime *rt, 
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -92,6 +93,8 @@ static JSValue visual_shader_node_texture_parameter_class_get_texture_source(JSC
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&VisualShaderNodeTextureParameter::get_texture_source, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry visual_shader_node_texture_parameter_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_texture_type", 1, &visual_shader_node_texture_parameter_class_set_texture_type),

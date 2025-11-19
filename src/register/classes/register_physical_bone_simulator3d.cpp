@@ -73,6 +73,8 @@ static JSValue physical_bone_simulator3d_class_physical_bones_remove_collision_e
     return call_builtin_method_no_ret(&PhysicalBoneSimulator3D::physical_bones_remove_collision_exception, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry physical_bone_simulator3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_simulating_physics", 0, &physical_bone_simulator3d_class_is_simulating_physics),
 	JS_CFUNC_DEF("physical_bones_stop_simulation", 0, &physical_bone_simulator3d_class_physical_bones_stop_simulation),

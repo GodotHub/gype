@@ -18,6 +18,7 @@ static void packet_peer_dtls_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -70,6 +71,8 @@ static JSValue packet_peer_dtls_class_disconnect_from_peer(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&PacketPeerDTLS::disconnect_from_peer, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry packet_peer_dtls_class_proto_funcs[] = {
 	JS_CFUNC_DEF("poll", 0, &packet_peer_dtls_class_poll),

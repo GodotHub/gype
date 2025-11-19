@@ -109,6 +109,8 @@ static JSValue path_follow2d_class_has_loop(JSContext *ctx, JSValueConst this_va
 	return call_builtin_const_method_ret(&PathFollow2D::has_loop, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry path_follow2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_progress", 1, &path_follow2d_class_set_progress),
 	JS_CFUNC_DEF("get_progress", 0, &path_follow2d_class_get_progress),

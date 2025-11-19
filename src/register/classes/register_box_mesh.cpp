@@ -16,6 +16,7 @@ static void box_mesh_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -72,12 +73,10 @@ static JSValue box_mesh_class_get_size(JSContext *ctx, JSValueConst this_val, in
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue box_mesh_class_set_subdivide_width(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -104,6 +103,8 @@ static JSValue box_mesh_class_get_subdivide_depth(JSContext *ctx, JSValueConst t
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&BoxMesh::get_subdivide_depth, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry box_mesh_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_size", 1, &box_mesh_class_set_size),

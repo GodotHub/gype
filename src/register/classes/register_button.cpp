@@ -59,27 +59,7 @@ static JSValue button_class_set_text(JSContext *ctx, JSValueConst this_val, int 
 };
 static JSValue button_class_get_text(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		Button *obj = static_cast<Button *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_text();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		Button *js_proxy = static_cast<Button *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_text(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Button::get_text, ctx, this_val, argc, argv);
 }
 static JSValue button_class_set_text_overrun_behavior(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -119,27 +99,7 @@ static JSValue button_class_set_language(JSContext *ctx, JSValueConst this_val, 
 };
 static JSValue button_class_get_language(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		Button *obj = static_cast<Button *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_language();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		Button *js_proxy = static_cast<Button *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_language(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Button::get_language, ctx, this_val, argc, argv);
 }
 static JSValue button_class_set_button_icon(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -197,6 +157,8 @@ static JSValue button_class_is_expand_icon(JSContext *ctx, JSValueConst this_val
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&Button::is_expand_icon, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry button_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_text", 1, &button_class_set_text),

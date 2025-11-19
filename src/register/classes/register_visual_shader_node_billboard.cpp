@@ -16,6 +16,7 @@ static void visual_shader_node_billboard_class_finalizer(JSRuntime *rt, JSValue 
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -68,6 +69,8 @@ static JSValue visual_shader_node_billboard_class_is_keep_scale_enabled(JSContex
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&VisualShaderNodeBillboard::is_keep_scale_enabled, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry visual_shader_node_billboard_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_billboard_type", 1, &visual_shader_node_billboard_class_set_billboard_type),

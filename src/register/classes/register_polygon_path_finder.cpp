@@ -16,6 +16,7 @@ static void polygon_path_finder_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -84,6 +85,8 @@ static JSValue polygon_path_finder_class_get_bounds(JSContext *ctx, JSValueConst
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&PolygonPathFinder::get_bounds, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry polygon_path_finder_class_proto_funcs[] = {
 	JS_CFUNC_DEF("setup", 2, &polygon_path_finder_class_setup),

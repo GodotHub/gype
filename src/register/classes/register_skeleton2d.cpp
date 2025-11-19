@@ -87,6 +87,8 @@ static JSValue skeleton2d_class_get_bone_local_pose_override(JSContext *ctx, JSV
 	return call_builtin_method_ret(&Skeleton2D::get_bone_local_pose_override, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry skeleton2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_bone_count", 0, &skeleton2d_class_get_bone_count),
 	JS_CFUNC_DEF("get_bone", 1, &skeleton2d_class_get_bone),

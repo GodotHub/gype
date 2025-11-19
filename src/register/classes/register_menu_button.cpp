@@ -82,6 +82,8 @@ static JSValue menu_button_class_get_item_count(JSContext *ctx, JSValueConst thi
 	return call_builtin_const_method_ret(&MenuButton::get_item_count, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry menu_button_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_popup", 0, &menu_button_class_get_popup),
 	JS_CFUNC_DEF("show_popup", 0, &menu_button_class_show_popup),

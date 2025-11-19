@@ -16,6 +16,7 @@ static void input_event_joypad_motion_class_finalizer(JSRuntime *rt, JSValue val
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -68,6 +69,8 @@ static JSValue input_event_joypad_motion_class_get_axis_value(JSContext *ctx, JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&InputEventJoypadMotion::get_axis_value, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry input_event_joypad_motion_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_axis", 1, &input_event_joypad_motion_class_set_axis),

@@ -16,6 +16,7 @@ static void animation_node_extension_class_finalizer(JSRuntime *rt, JSValue val)
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -51,6 +52,8 @@ static JSValue animation_node_extension_class_constructor(JSContext *ctx, JSValu
     JS_SetOpaque(obj, adapter);
     return obj;
 }
+
+
 
 static JSValue animation_node_extension_class_is_looping(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&AnimationNodeExtension::is_looping, ctx, this_val, argc, argv);

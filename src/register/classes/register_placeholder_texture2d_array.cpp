@@ -16,6 +16,7 @@ static void placeholder_texture2d_array_class_finalizer(JSRuntime *rt, JSValue v
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -51,6 +52,8 @@ static JSValue placeholder_texture2d_array_class_constructor(JSContext *ctx, JSV
     JS_SetOpaque(obj, adapter);
     return obj;
 }
+
+
 
 
 

@@ -17,6 +17,7 @@ static void base_material3d_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -73,12 +74,10 @@ static JSValue base_material3d_class_get_albedo(JSContext *ctx, JSValueConst thi
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue base_material3d_class_set_transparency(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -157,12 +156,10 @@ static JSValue base_material3d_class_get_emission(JSContext *ctx, JSValueConst t
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue base_material3d_class_set_emission_energy_multiplier(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -265,12 +262,10 @@ static JSValue base_material3d_class_get_transmittance_color(JSContext *ctx, JSV
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue base_material3d_class_set_transmittance_depth(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -309,12 +304,10 @@ static JSValue base_material3d_class_get_backlight(JSContext *ctx, JSValueConst 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue base_material3d_class_set_refraction(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -449,12 +442,10 @@ static JSValue base_material3d_class_get_uv1_scale(JSContext *ctx, JSValueConst 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue base_material3d_class_set_uv1_offset(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -477,12 +468,10 @@ static JSValue base_material3d_class_get_uv1_offset(JSContext *ctx, JSValueConst
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue base_material3d_class_set_uv1_triplanar_blend_sharpness(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -513,12 +502,10 @@ static JSValue base_material3d_class_get_uv2_scale(JSContext *ctx, JSValueConst 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue base_material3d_class_set_uv2_offset(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -541,12 +528,10 @@ static JSValue base_material3d_class_get_uv2_offset(JSContext *ctx, JSValueConst
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue base_material3d_class_set_uv2_triplanar_blend_sharpness(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -833,12 +818,10 @@ static JSValue base_material3d_class_get_stencil_effect_color(JSContext *ctx, JS
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue base_material3d_class_set_stencil_effect_outline_thickness(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -849,6 +832,920 @@ static JSValue base_material3d_class_get_stencil_effect_outline_thickness(JSCont
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&BaseMaterial3D::get_stencil_effect_outline_thickness, ctx, this_val, argc, argv);
 }
+
+static JSValue base_material3d_class_get_no_depth_test(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_no_depth_test(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_disable_ambient_light(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_disable_ambient_light(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_disable_fog(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_disable_fog(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_disable_specular_occlusion(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_disable_specular_occlusion(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_vertex_color_use_as_albedo(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_vertex_color_use_as_albedo(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_vertex_color_is_srgb(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_vertex_color_is_srgb(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_albedo_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_albedo_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_albedo_texture_force_srgb(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_albedo_texture_force_srgb(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_albedo_texture_msdf(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_albedo_texture_msdf(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_orm_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_orm_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_metallic_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_metallic_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_roughness_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_roughness_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_emission_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_feature, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_emission_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_emission_on_uv2(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_emission_on_uv2(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_emission_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_emission_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_normal_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_feature, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_normal_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_normal_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_normal_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_bent_normal_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_feature, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_bent_normal_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_bent_normal_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_bent_normal_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_rim_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_feature, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_rim_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_rim_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_rim_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_clearcoat_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_feature, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_clearcoat_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_clearcoat_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_clearcoat_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_anisotropy_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_feature, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_anisotropy_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_anisotropy_flowmap(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_anisotropy_flowmap(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_ao_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_feature, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_ao_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_ao_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_ao_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_ao_on_uv2(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_ao_on_uv2(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_heightmap_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_feature, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_heightmap_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_heightmap_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_heightmap_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_heightmap_flip_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_heightmap_flip_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_subsurf_scatter_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_feature, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_subsurf_scatter_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_subsurf_scatter_skin_mode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_subsurf_scatter_skin_mode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_subsurf_scatter_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_subsurf_scatter_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_subsurf_scatter_transmittance_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_feature, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_subsurf_scatter_transmittance_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_subsurf_scatter_transmittance_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_subsurf_scatter_transmittance_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_backlight_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_feature, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_backlight_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_backlight_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_backlight_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_refraction_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_feature, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_refraction_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_refraction_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_refraction_texture(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_detail_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_feature, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_detail_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_detail_mask(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_detail_mask(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_detail_albedo(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_detail_albedo(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_detail_normal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_texture, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_detail_normal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_uv1_triplanar(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_uv1_triplanar(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_uv1_world_triplanar(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_uv1_world_triplanar(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_uv2_triplanar(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_uv2_triplanar(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_uv2_world_triplanar(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_uv2_world_triplanar(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_texture_repeat(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_texture_repeat(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_disable_receive_shadows(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_disable_receive_shadows(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_shadow_to_opacity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_shadow_to_opacity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_billboard_keep_scale(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_billboard_keep_scale(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_fixed_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_fixed_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_use_point_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_use_point_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_use_particle_trails(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_use_particle_trails(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_use_z_clip_scale(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_use_z_clip_scale(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue base_material3d_class_get_use_fov_override(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&BaseMaterial3D::get_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue base_material3d_class_set_use_fov_override(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
 
 static const JSCFunctionListEntry base_material3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_albedo", 1, &base_material3d_class_set_albedo),
@@ -1005,6 +1902,114 @@ static const JSCFunctionListEntry base_material3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_stencil_effect_color", 0, &base_material3d_class_get_stencil_effect_color),
 	JS_CFUNC_DEF("set_stencil_effect_outline_thickness", 1, &base_material3d_class_set_stencil_effect_outline_thickness),
 	JS_CFUNC_DEF("get_stencil_effect_outline_thickness", 0, &base_material3d_class_get_stencil_effect_outline_thickness),
+    JS_CFUNC_MAGIC_DEF("get_disable_ambient_light", 0, &base_material3d_class_get_disable_ambient_light, 14),
+    JS_CFUNC_MAGIC_DEF("set_disable_ambient_light", 1, &base_material3d_class_set_disable_ambient_light, 14),
+    JS_CFUNC_MAGIC_DEF("get_disable_fog", 0, &base_material3d_class_get_disable_fog, 21),
+    JS_CFUNC_MAGIC_DEF("set_disable_fog", 1, &base_material3d_class_set_disable_fog, 21),
+    JS_CFUNC_MAGIC_DEF("get_disable_specular_occlusion", 0, &base_material3d_class_get_disable_specular_occlusion, 22),
+    JS_CFUNC_MAGIC_DEF("set_disable_specular_occlusion", 1, &base_material3d_class_set_disable_specular_occlusion, 22),
+    JS_CFUNC_MAGIC_DEF("get_vertex_color_use_as_albedo", 0, &base_material3d_class_get_vertex_color_use_as_albedo, 1),
+    JS_CFUNC_MAGIC_DEF("set_vertex_color_use_as_albedo", 1, &base_material3d_class_set_vertex_color_use_as_albedo, 1),
+    JS_CFUNC_MAGIC_DEF("get_vertex_color_is_srgb", 0, &base_material3d_class_get_vertex_color_is_srgb, 2),
+    JS_CFUNC_MAGIC_DEF("set_vertex_color_is_srgb", 1, &base_material3d_class_set_vertex_color_is_srgb, 2),
+    JS_CFUNC_MAGIC_DEF("get_albedo_texture_force_srgb", 0, &base_material3d_class_get_albedo_texture_force_srgb, 12),
+    JS_CFUNC_MAGIC_DEF("set_albedo_texture_force_srgb", 1, &base_material3d_class_set_albedo_texture_force_srgb, 12),
+    JS_CFUNC_MAGIC_DEF("get_albedo_texture_msdf", 0, &base_material3d_class_get_albedo_texture_msdf, 20),
+    JS_CFUNC_MAGIC_DEF("set_albedo_texture_msdf", 1, &base_material3d_class_set_albedo_texture_msdf, 20),
+    JS_CFUNC_MAGIC_DEF("get_orm_texture", 0, &base_material3d_class_get_orm_texture, 17),
+    JS_CFUNC_MAGIC_DEF("set_orm_texture", 1, &base_material3d_class_set_orm_texture, 17),
+    JS_CFUNC_MAGIC_DEF("get_metallic_texture", 0, &base_material3d_class_get_metallic_texture, 1),
+    JS_CFUNC_MAGIC_DEF("set_metallic_texture", 1, &base_material3d_class_set_metallic_texture, 1),
+    JS_CFUNC_MAGIC_DEF("get_roughness_texture", 0, &base_material3d_class_get_roughness_texture, 2),
+    JS_CFUNC_MAGIC_DEF("set_roughness_texture", 1, &base_material3d_class_set_roughness_texture, 2),
+    JS_CFUNC_MAGIC_DEF("get_emission_on_uv2", 0, &base_material3d_class_get_emission_on_uv2, 11),
+    JS_CFUNC_MAGIC_DEF("set_emission_on_uv2", 1, &base_material3d_class_set_emission_on_uv2, 11),
+    JS_CFUNC_MAGIC_DEF("get_emission_texture", 0, &base_material3d_class_get_emission_texture, 3),
+    JS_CFUNC_MAGIC_DEF("set_emission_texture", 1, &base_material3d_class_set_emission_texture, 3),
+    JS_CFUNC_MAGIC_DEF("get_normal_enabled", 0, &base_material3d_class_get_normal_enabled, 1),
+    JS_CFUNC_MAGIC_DEF("set_normal_enabled", 1, &base_material3d_class_set_normal_enabled, 1),
+    JS_CFUNC_MAGIC_DEF("get_normal_texture", 0, &base_material3d_class_get_normal_texture, 4),
+    JS_CFUNC_MAGIC_DEF("set_normal_texture", 1, &base_material3d_class_set_normal_texture, 4),
+    JS_CFUNC_MAGIC_DEF("get_bent_normal_enabled", 0, &base_material3d_class_get_bent_normal_enabled, 12),
+    JS_CFUNC_MAGIC_DEF("set_bent_normal_enabled", 1, &base_material3d_class_set_bent_normal_enabled, 12),
+    JS_CFUNC_MAGIC_DEF("get_bent_normal_texture", 0, &base_material3d_class_get_bent_normal_texture, 18),
+    JS_CFUNC_MAGIC_DEF("set_bent_normal_texture", 1, &base_material3d_class_set_bent_normal_texture, 18),
+    JS_CFUNC_MAGIC_DEF("get_rim_enabled", 0, &base_material3d_class_get_rim_enabled, 2),
+    JS_CFUNC_MAGIC_DEF("set_rim_enabled", 1, &base_material3d_class_set_rim_enabled, 2),
+    JS_CFUNC_MAGIC_DEF("get_rim_texture", 0, &base_material3d_class_get_rim_texture, 5),
+    JS_CFUNC_MAGIC_DEF("set_rim_texture", 1, &base_material3d_class_set_rim_texture, 5),
+    JS_CFUNC_MAGIC_DEF("get_clearcoat_enabled", 0, &base_material3d_class_get_clearcoat_enabled, 3),
+    JS_CFUNC_MAGIC_DEF("set_clearcoat_enabled", 1, &base_material3d_class_set_clearcoat_enabled, 3),
+    JS_CFUNC_MAGIC_DEF("get_clearcoat_texture", 0, &base_material3d_class_get_clearcoat_texture, 6),
+    JS_CFUNC_MAGIC_DEF("set_clearcoat_texture", 1, &base_material3d_class_set_clearcoat_texture, 6),
+    JS_CFUNC_MAGIC_DEF("get_anisotropy_enabled", 0, &base_material3d_class_get_anisotropy_enabled, 4),
+    JS_CFUNC_MAGIC_DEF("set_anisotropy_enabled", 1, &base_material3d_class_set_anisotropy_enabled, 4),
+    JS_CFUNC_MAGIC_DEF("get_anisotropy_flowmap", 0, &base_material3d_class_get_anisotropy_flowmap, 7),
+    JS_CFUNC_MAGIC_DEF("set_anisotropy_flowmap", 1, &base_material3d_class_set_anisotropy_flowmap, 7),
+    JS_CFUNC_MAGIC_DEF("get_ao_enabled", 0, &base_material3d_class_get_ao_enabled, 5),
+    JS_CFUNC_MAGIC_DEF("set_ao_enabled", 1, &base_material3d_class_set_ao_enabled, 5),
+    JS_CFUNC_MAGIC_DEF("get_ao_texture", 0, &base_material3d_class_get_ao_texture, 8),
+    JS_CFUNC_MAGIC_DEF("set_ao_texture", 1, &base_material3d_class_set_ao_texture, 8),
+    JS_CFUNC_MAGIC_DEF("get_ao_on_uv2", 0, &base_material3d_class_get_ao_on_uv2, 10),
+    JS_CFUNC_MAGIC_DEF("set_ao_on_uv2", 1, &base_material3d_class_set_ao_on_uv2, 10),
+    JS_CFUNC_MAGIC_DEF("get_heightmap_enabled", 0, &base_material3d_class_get_heightmap_enabled, 6),
+    JS_CFUNC_MAGIC_DEF("set_heightmap_enabled", 1, &base_material3d_class_set_heightmap_enabled, 6),
+    JS_CFUNC_MAGIC_DEF("get_heightmap_texture", 0, &base_material3d_class_get_heightmap_texture, 9),
+    JS_CFUNC_MAGIC_DEF("set_heightmap_texture", 1, &base_material3d_class_set_heightmap_texture, 9),
+    JS_CFUNC_MAGIC_DEF("get_heightmap_flip_texture", 0, &base_material3d_class_get_heightmap_flip_texture, 17),
+    JS_CFUNC_MAGIC_DEF("set_heightmap_flip_texture", 1, &base_material3d_class_set_heightmap_flip_texture, 17),
+    JS_CFUNC_MAGIC_DEF("get_subsurf_scatter_enabled", 0, &base_material3d_class_get_subsurf_scatter_enabled, 7),
+    JS_CFUNC_MAGIC_DEF("set_subsurf_scatter_enabled", 1, &base_material3d_class_set_subsurf_scatter_enabled, 7),
+    JS_CFUNC_MAGIC_DEF("get_subsurf_scatter_skin_mode", 0, &base_material3d_class_get_subsurf_scatter_skin_mode, 18),
+    JS_CFUNC_MAGIC_DEF("set_subsurf_scatter_skin_mode", 1, &base_material3d_class_set_subsurf_scatter_skin_mode, 18),
+    JS_CFUNC_MAGIC_DEF("get_subsurf_scatter_texture", 0, &base_material3d_class_get_subsurf_scatter_texture, 10),
+    JS_CFUNC_MAGIC_DEF("set_subsurf_scatter_texture", 1, &base_material3d_class_set_subsurf_scatter_texture, 10),
+    JS_CFUNC_MAGIC_DEF("get_subsurf_scatter_transmittance_enabled", 0, &base_material3d_class_get_subsurf_scatter_transmittance_enabled, 8),
+    JS_CFUNC_MAGIC_DEF("set_subsurf_scatter_transmittance_enabled", 1, &base_material3d_class_set_subsurf_scatter_transmittance_enabled, 8),
+    JS_CFUNC_MAGIC_DEF("get_subsurf_scatter_transmittance_texture", 0, &base_material3d_class_get_subsurf_scatter_transmittance_texture, 11),
+    JS_CFUNC_MAGIC_DEF("set_subsurf_scatter_transmittance_texture", 1, &base_material3d_class_set_subsurf_scatter_transmittance_texture, 11),
+    JS_CFUNC_MAGIC_DEF("get_backlight_enabled", 0, &base_material3d_class_get_backlight_enabled, 9),
+    JS_CFUNC_MAGIC_DEF("set_backlight_enabled", 1, &base_material3d_class_set_backlight_enabled, 9),
+    JS_CFUNC_MAGIC_DEF("get_backlight_texture", 0, &base_material3d_class_get_backlight_texture, 12),
+    JS_CFUNC_MAGIC_DEF("set_backlight_texture", 1, &base_material3d_class_set_backlight_texture, 12),
+    JS_CFUNC_MAGIC_DEF("get_refraction_enabled", 0, &base_material3d_class_get_refraction_enabled, 10),
+    JS_CFUNC_MAGIC_DEF("set_refraction_enabled", 1, &base_material3d_class_set_refraction_enabled, 10),
+    JS_CFUNC_MAGIC_DEF("get_refraction_texture", 0, &base_material3d_class_get_refraction_texture, 13),
+    JS_CFUNC_MAGIC_DEF("set_refraction_texture", 1, &base_material3d_class_set_refraction_texture, 13),
+    JS_CFUNC_MAGIC_DEF("get_detail_enabled", 0, &base_material3d_class_get_detail_enabled, 11),
+    JS_CFUNC_MAGIC_DEF("set_detail_enabled", 1, &base_material3d_class_set_detail_enabled, 11),
+    JS_CFUNC_MAGIC_DEF("get_detail_mask", 0, &base_material3d_class_get_detail_mask, 14),
+    JS_CFUNC_MAGIC_DEF("set_detail_mask", 1, &base_material3d_class_set_detail_mask, 14),
+    JS_CFUNC_MAGIC_DEF("get_detail_albedo", 0, &base_material3d_class_get_detail_albedo, 15),
+    JS_CFUNC_MAGIC_DEF("set_detail_albedo", 1, &base_material3d_class_set_detail_albedo, 15),
+    JS_CFUNC_MAGIC_DEF("get_detail_normal", 0, &base_material3d_class_get_detail_normal, 16),
+    JS_CFUNC_MAGIC_DEF("set_detail_normal", 1, &base_material3d_class_set_detail_normal, 16),
+    JS_CFUNC_MAGIC_DEF("get_uv1_triplanar", 0, &base_material3d_class_get_uv1_triplanar, 6),
+    JS_CFUNC_MAGIC_DEF("set_uv1_triplanar", 1, &base_material3d_class_set_uv1_triplanar, 6),
+    JS_CFUNC_MAGIC_DEF("get_uv1_world_triplanar", 0, &base_material3d_class_get_uv1_world_triplanar, 8),
+    JS_CFUNC_MAGIC_DEF("set_uv1_world_triplanar", 1, &base_material3d_class_set_uv1_world_triplanar, 8),
+    JS_CFUNC_MAGIC_DEF("get_uv2_triplanar", 0, &base_material3d_class_get_uv2_triplanar, 7),
+    JS_CFUNC_MAGIC_DEF("set_uv2_triplanar", 1, &base_material3d_class_set_uv2_triplanar, 7),
+    JS_CFUNC_MAGIC_DEF("get_uv2_world_triplanar", 0, &base_material3d_class_get_uv2_world_triplanar, 9),
+    JS_CFUNC_MAGIC_DEF("set_uv2_world_triplanar", 1, &base_material3d_class_set_uv2_world_triplanar, 9),
+    JS_CFUNC_MAGIC_DEF("get_texture_repeat", 0, &base_material3d_class_get_texture_repeat, 16),
+    JS_CFUNC_MAGIC_DEF("set_texture_repeat", 1, &base_material3d_class_set_texture_repeat, 16),
+    JS_CFUNC_MAGIC_DEF("get_disable_receive_shadows", 0, &base_material3d_class_get_disable_receive_shadows, 13),
+    JS_CFUNC_MAGIC_DEF("set_disable_receive_shadows", 1, &base_material3d_class_set_disable_receive_shadows, 13),
+    JS_CFUNC_MAGIC_DEF("get_shadow_to_opacity", 0, &base_material3d_class_get_shadow_to_opacity, 15),
+    JS_CFUNC_MAGIC_DEF("set_shadow_to_opacity", 1, &base_material3d_class_set_shadow_to_opacity, 15),
+    JS_CFUNC_MAGIC_DEF("get_billboard_keep_scale", 0, &base_material3d_class_get_billboard_keep_scale, 5),
+    JS_CFUNC_MAGIC_DEF("set_billboard_keep_scale", 1, &base_material3d_class_set_billboard_keep_scale, 5),
+    JS_CFUNC_MAGIC_DEF("get_fixed_size", 0, &base_material3d_class_get_fixed_size, 4),
+    JS_CFUNC_MAGIC_DEF("set_fixed_size", 1, &base_material3d_class_set_fixed_size, 4),
+    JS_CFUNC_MAGIC_DEF("get_use_point_size", 0, &base_material3d_class_get_use_point_size, 3),
+    JS_CFUNC_MAGIC_DEF("set_use_point_size", 1, &base_material3d_class_set_use_point_size, 3),
+    JS_CFUNC_MAGIC_DEF("get_use_particle_trails", 0, &base_material3d_class_get_use_particle_trails, 19),
+    JS_CFUNC_MAGIC_DEF("set_use_particle_trails", 1, &base_material3d_class_set_use_particle_trails, 19),
+    JS_CFUNC_MAGIC_DEF("get_use_z_clip_scale", 0, &base_material3d_class_get_use_z_clip_scale, 23),
+    JS_CFUNC_MAGIC_DEF("set_use_z_clip_scale", 1, &base_material3d_class_set_use_z_clip_scale, 23),
+    JS_CFUNC_MAGIC_DEF("get_use_fov_override", 0, &base_material3d_class_get_use_fov_override, 24),
+    JS_CFUNC_MAGIC_DEF("set_use_fov_override", 1, &base_material3d_class_set_use_fov_override, 24),
 };
 
 
@@ -1075,14 +2080,14 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_depth_draw_mode, "set_depth_draw_mode", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "no_depth_test"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_no_depth_test, "get_no_depth_test", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_no_depth_test, "set_no_depth_test", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1115,46 +2120,46 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_specular_mode, "set_specular_mode", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "disable_ambient_light"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_disable_ambient_light, "get_disable_ambient_light", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 14),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_disable_ambient_light, "set_disable_ambient_light", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 14),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "disable_fog"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_disable_fog, "get_disable_fog", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 21),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_disable_fog, "set_disable_fog", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 21),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "disable_specular_occlusion"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_disable_specular_occlusion, "get_disable_specular_occlusion", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 22),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_disable_specular_occlusion, "set_disable_specular_occlusion", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 22),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "vertex_color_use_as_albedo"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_vertex_color_use_as_albedo, "get_vertex_color_use_as_albedo", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_vertex_color_use_as_albedo, "set_vertex_color_use_as_albedo", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "vertex_color_is_srgb"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_vertex_color_is_srgb, "get_vertex_color_is_srgb", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_vertex_color_is_srgb, "set_vertex_color_is_srgb", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1163,38 +2168,38 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_albedo, "set_albedo", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "albedo_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_albedo_texture, "get_albedo_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_albedo_texture, "set_albedo_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "albedo_texture_force_srgb"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_albedo_texture_force_srgb, "get_albedo_texture_force_srgb", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 12),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_albedo_texture_force_srgb, "set_albedo_texture_force_srgb", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 12),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "albedo_texture_msdf"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_albedo_texture_msdf, "get_albedo_texture_msdf", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 20),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_albedo_texture_msdf, "set_albedo_texture_msdf", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 20),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "orm_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_orm_texture, "get_orm_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 17),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_orm_texture, "set_orm_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 17),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1211,14 +2216,14 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_specular, "set_specular", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "metallic_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_metallic_texture, "get_metallic_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_metallic_texture, "set_metallic_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1235,14 +2240,14 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_roughness, "set_roughness", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "roughness_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_roughness_texture, "get_roughness_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_roughness_texture, "set_roughness_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1251,14 +2256,14 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_roughness_texture_channel, "set_roughness_texture_channel", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "emission_enabled"),
-        JS_NewCFunction(ctx, base_material3d_class_get_feature, "get_feature", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_feature, "set_feature", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_emission_enabled, "get_emission_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_emission_enabled, "set_emission_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1291,30 +2296,30 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_emission_operator, "set_emission_operator", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "emission_on_uv2"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_emission_on_uv2, "get_emission_on_uv2", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_emission_on_uv2, "set_emission_on_uv2", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "emission_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_emission_texture, "get_emission_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_emission_texture, "set_emission_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "normal_enabled"),
-        JS_NewCFunction(ctx, base_material3d_class_get_feature, "get_feature", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_feature, "set_feature", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_normal_enabled, "get_normal_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_normal_enabled, "set_normal_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1323,38 +2328,38 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_normal_scale, "set_normal_scale", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "normal_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_normal_texture, "get_normal_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_normal_texture, "set_normal_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "bent_normal_enabled"),
-        JS_NewCFunction(ctx, base_material3d_class_get_feature, "get_feature", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_feature, "set_feature", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_bent_normal_enabled, "get_bent_normal_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 12),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_bent_normal_enabled, "set_bent_normal_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 12),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "bent_normal_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_bent_normal_texture, "get_bent_normal_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 18),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_bent_normal_texture, "set_bent_normal_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 18),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "rim_enabled"),
-        JS_NewCFunction(ctx, base_material3d_class_get_feature, "get_feature", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_feature, "set_feature", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_rim_enabled, "get_rim_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_rim_enabled, "set_rim_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1371,22 +2376,22 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_rim_tint, "set_rim_tint", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "rim_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_rim_texture, "get_rim_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_rim_texture, "set_rim_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "clearcoat_enabled"),
-        JS_NewCFunction(ctx, base_material3d_class_get_feature, "get_feature", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_feature, "set_feature", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_clearcoat_enabled, "get_clearcoat_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_clearcoat_enabled, "set_clearcoat_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1403,22 +2408,22 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_clearcoat_roughness, "set_clearcoat_roughness", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "clearcoat_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_clearcoat_texture, "get_clearcoat_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_clearcoat_texture, "set_clearcoat_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anisotropy_enabled"),
-        JS_NewCFunction(ctx, base_material3d_class_get_feature, "get_feature", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_feature, "set_feature", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_anisotropy_enabled, "get_anisotropy_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_anisotropy_enabled, "set_anisotropy_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1427,22 +2432,22 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_anisotropy, "set_anisotropy", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "anisotropy_flowmap"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_anisotropy_flowmap, "get_anisotropy_flowmap", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_anisotropy_flowmap, "set_anisotropy_flowmap", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "ao_enabled"),
-        JS_NewCFunction(ctx, base_material3d_class_get_feature, "get_feature", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_feature, "set_feature", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_ao_enabled, "get_ao_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_ao_enabled, "set_ao_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1451,22 +2456,22 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_ao_light_affect, "set_ao_light_affect", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "ao_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_ao_texture, "get_ao_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_ao_texture, "set_ao_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "ao_on_uv2"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_ao_on_uv2, "get_ao_on_uv2", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_ao_on_uv2, "set_ao_on_uv2", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1475,14 +2480,14 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_ao_texture_channel, "set_ao_texture_channel", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "heightmap_enabled"),
-        JS_NewCFunction(ctx, base_material3d_class_get_feature, "get_feature", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_feature, "set_feature", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_heightmap_enabled, "get_heightmap_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_heightmap_enabled, "set_heightmap_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1531,30 +2536,30 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_heightmap_deep_parallax_flip_binormal, "set_heightmap_deep_parallax_flip_binormal", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "heightmap_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_heightmap_texture, "get_heightmap_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_heightmap_texture, "set_heightmap_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "heightmap_flip_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_heightmap_flip_texture, "get_heightmap_flip_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 17),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_heightmap_flip_texture, "set_heightmap_flip_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 17),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "subsurf_scatter_enabled"),
-        JS_NewCFunction(ctx, base_material3d_class_get_feature, "get_feature", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_feature, "set_feature", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_subsurf_scatter_enabled, "get_subsurf_scatter_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_subsurf_scatter_enabled, "set_subsurf_scatter_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1563,30 +2568,30 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_subsurface_scattering_strength, "set_subsurface_scattering_strength", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "subsurf_scatter_skin_mode"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_subsurf_scatter_skin_mode, "get_subsurf_scatter_skin_mode", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 18),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_subsurf_scatter_skin_mode, "set_subsurf_scatter_skin_mode", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 18),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "subsurf_scatter_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_subsurf_scatter_texture, "get_subsurf_scatter_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_subsurf_scatter_texture, "set_subsurf_scatter_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "subsurf_scatter_transmittance_enabled"),
-        JS_NewCFunction(ctx, base_material3d_class_get_feature, "get_feature", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_feature, "set_feature", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_subsurf_scatter_transmittance_enabled, "get_subsurf_scatter_transmittance_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_subsurf_scatter_transmittance_enabled, "set_subsurf_scatter_transmittance_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1595,14 +2600,14 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_transmittance_color, "set_transmittance_color", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "subsurf_scatter_transmittance_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_subsurf_scatter_transmittance_texture, "get_subsurf_scatter_transmittance_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_subsurf_scatter_transmittance_texture, "set_subsurf_scatter_transmittance_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1619,14 +2624,14 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_transmittance_boost, "set_transmittance_boost", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "backlight_enabled"),
-        JS_NewCFunction(ctx, base_material3d_class_get_feature, "get_feature", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_feature, "set_feature", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_backlight_enabled, "get_backlight_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_backlight_enabled, "set_backlight_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1635,22 +2640,22 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_backlight, "set_backlight", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "backlight_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_backlight_texture, "get_backlight_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 12),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_backlight_texture, "set_backlight_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 12),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "refraction_enabled"),
-        JS_NewCFunction(ctx, base_material3d_class_get_feature, "get_feature", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_feature, "set_feature", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_refraction_enabled, "get_refraction_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_refraction_enabled, "set_refraction_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 10),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1659,14 +2664,14 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_refraction, "set_refraction", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "refraction_texture"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_refraction_texture, "get_refraction_texture", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 13),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_refraction_texture, "set_refraction_texture", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 13),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1675,22 +2680,22 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_refraction_texture_channel, "set_refraction_texture_channel", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "detail_enabled"),
-        JS_NewCFunction(ctx, base_material3d_class_get_feature, "get_feature", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_feature, "set_feature", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_detail_enabled, "get_detail_enabled", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_detail_enabled, "set_detail_enabled", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 11),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "detail_mask"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_detail_mask, "get_detail_mask", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 14),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_detail_mask, "set_detail_mask", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 14),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1707,22 +2712,22 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_detail_uv, "set_detail_uv", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "detail_albedo"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_detail_albedo, "get_detail_albedo", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 15),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_detail_albedo, "set_detail_albedo", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 15),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "detail_normal"),
-        JS_NewCFunction(ctx, base_material3d_class_get_texture, "get_texture", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_texture, "set_texture", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_detail_normal, "get_detail_normal", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 16),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_detail_normal, "set_detail_normal", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 16),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1739,14 +2744,14 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_uv1_offset, "set_uv1_offset", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "uv1_triplanar"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_uv1_triplanar, "get_uv1_triplanar", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_uv1_triplanar, "set_uv1_triplanar", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 6),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1755,14 +2760,14 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_uv1_triplanar_blend_sharpness, "set_uv1_triplanar_blend_sharpness", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "uv1_world_triplanar"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_uv1_world_triplanar, "get_uv1_world_triplanar", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_uv1_world_triplanar, "set_uv1_world_triplanar", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1779,14 +2784,14 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_uv2_offset, "set_uv2_offset", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "uv2_triplanar"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_uv2_triplanar, "get_uv2_triplanar", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_uv2_triplanar, "set_uv2_triplanar", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 7),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1795,14 +2800,14 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_uv2_triplanar_blend_sharpness, "set_uv2_triplanar_blend_sharpness", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "uv2_world_triplanar"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_uv2_world_triplanar, "get_uv2_world_triplanar", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_uv2_world_triplanar, "set_uv2_world_triplanar", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 9),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1811,30 +2816,30 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_texture_filter, "set_texture_filter", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "texture_repeat"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_texture_repeat, "get_texture_repeat", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 16),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_texture_repeat, "set_texture_repeat", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 16),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "disable_receive_shadows"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_disable_receive_shadows, "get_disable_receive_shadows", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 13),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_disable_receive_shadows, "set_disable_receive_shadows", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 13),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "shadow_to_opacity"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_shadow_to_opacity, "get_shadow_to_opacity", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 15),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_shadow_to_opacity, "set_shadow_to_opacity", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 15),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1843,14 +2848,14 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_billboard_mode, "set_billboard_mode", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "billboard_keep_scale"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_billboard_keep_scale, "get_billboard_keep_scale", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_billboard_keep_scale, "set_billboard_keep_scale", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 5),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1891,22 +2896,22 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_grow, "set_grow", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "fixed_size"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_fixed_size, "get_fixed_size", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_fixed_size, "set_fixed_size", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "use_point_size"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_use_point_size, "get_use_point_size", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_use_point_size, "set_use_point_size", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1915,22 +2920,22 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_point_size, "set_point_size", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "use_particle_trails"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_use_particle_trails, "get_use_particle_trails", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 19),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_use_particle_trails, "set_use_particle_trails", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 19),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "use_z_clip_scale"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_use_z_clip_scale, "get_use_z_clip_scale", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 23),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_use_z_clip_scale, "set_use_z_clip_scale", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 23),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -1939,14 +2944,14 @@ static void define_base_material3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, base_material3d_class_set_z_clip_scale, "set_z_clip_scale", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "use_fov_override"),
-        JS_NewCFunction(ctx, base_material3d_class_get_flag, "get_flag", 0),
-        JS_NewCFunction(ctx, base_material3d_class_set_flag, "set_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, base_material3d_class_get_use_fov_override, "get_use_fov_override", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 24),
+		JS_NewCFunctionMagic(ctx, base_material3d_class_set_use_fov_override, "set_use_fov_override", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 24),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

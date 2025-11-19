@@ -85,6 +85,8 @@ static JSValue open_xr_composition_layer_cylinder_class_get_fallback_segments(JS
 	return call_builtin_const_method_ret(&OpenXRCompositionLayerCylinder::get_fallback_segments, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry open_xr_composition_layer_cylinder_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_radius", 1, &open_xr_composition_layer_cylinder_class_set_radius),
 	JS_CFUNC_DEF("get_radius", 0, &open_xr_composition_layer_cylinder_class_get_radius),

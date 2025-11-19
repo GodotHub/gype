@@ -16,6 +16,7 @@ static void animation_node_time_seek_class_finalizer(JSRuntime *rt, JSValue val)
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -60,6 +61,8 @@ static JSValue animation_node_time_seek_class_is_explicit_elapse(JSContext *ctx,
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&AnimationNodeTimeSeek::is_explicit_elapse, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry animation_node_time_seek_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_explicit_elapse", 1, &animation_node_time_seek_class_set_explicit_elapse),

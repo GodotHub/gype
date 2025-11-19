@@ -16,6 +16,7 @@ static void input_event_from_window_class_finalizer(JSRuntime *rt, JSValue val) 
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -60,6 +61,8 @@ static JSValue input_event_from_window_class_get_window_id(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&InputEventFromWindow::get_window_id, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry input_event_from_window_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_window_id", 1, &input_event_from_window_class_set_window_id),

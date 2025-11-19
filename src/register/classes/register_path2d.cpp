@@ -62,6 +62,8 @@ static JSValue path2d_class_get_curve(JSContext *ctx, JSValueConst this_val, int
 	return call_builtin_const_method_ret(&Path2D::get_curve, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry path2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_curve", 1, &path2d_class_set_curve),
 	JS_CFUNC_DEF("get_curve", 0, &path2d_class_get_curve),

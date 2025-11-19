@@ -17,6 +17,7 @@ static void shortcut_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -73,6 +74,8 @@ static JSValue shortcut_class_get_as_text(JSContext *ctx, JSValueConst this_val,
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&Shortcut::get_as_text, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry shortcut_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_events", 1, &shortcut_class_set_events),

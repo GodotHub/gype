@@ -385,18 +385,18 @@ static JSValue spring_bone_simulator3d_class_get_external_force(JSContext *ctx, 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue spring_bone_simulator3d_class_reset(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&SpringBoneSimulator3D::reset, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry spring_bone_simulator3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_root_bone_name", 2, &spring_bone_simulator3d_class_set_root_bone_name),

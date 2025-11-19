@@ -16,6 +16,7 @@ static void visual_shader_node_vec2_constant_class_finalizer(JSRuntime *rt, JSVa
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -72,14 +73,14 @@ static JSValue visual_shader_node_vec2_constant_class_get_constant(JSContext *ct
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
+
+
 
 static const JSCFunctionListEntry visual_shader_node_vec2_constant_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_constant", 1, &visual_shader_node_vec2_constant_class_set_constant),

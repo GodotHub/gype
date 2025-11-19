@@ -5,8 +5,11 @@
 #include "register/builtin_classes/register_builtin_classes.hpp"
 
 void register_builtin_classes() {
+    register_variant();
 {% for cls in classes %}
 	register_{{ camel_to_snake(cls.name) }}();
+    {% if cls['name'] != 'String' and cls['name'] != 'NodePath' %}
 	register_proxy_{{ camel_to_snake(cls.name) }}();
+	{% endif %}
 {% endfor %}
 }

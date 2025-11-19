@@ -72,12 +72,10 @@ static JSValue remote_transform3d_class_get_remote_node(JSContext *ctx, JSValueC
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue remote_transform3d_class_force_update_cache(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -116,6 +114,8 @@ static JSValue remote_transform3d_class_get_update_scale(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&RemoteTransform3D::get_update_scale, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry remote_transform3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_remote_node", 1, &remote_transform3d_class_set_remote_node),

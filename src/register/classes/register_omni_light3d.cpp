@@ -61,9 +61,47 @@ static JSValue omni_light3d_class_get_shadow_mode(JSContext *ctx, JSValueConst t
 	return call_builtin_const_method_ret(&OmniLight3D::get_shadow_mode, ctx, this_val, argc, argv);
 }
 
+static JSValue omni_light3d_class_get_omni_range(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&OmniLight3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue omni_light3d_class_set_omni_range(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&OmniLight3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue omni_light3d_class_get_omni_attenuation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&OmniLight3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue omni_light3d_class_set_omni_attenuation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&OmniLight3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
+
 static const JSCFunctionListEntry omni_light3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_shadow_mode", 1, &omni_light3d_class_set_shadow_mode),
 	JS_CFUNC_DEF("get_shadow_mode", 0, &omni_light3d_class_get_shadow_mode),
+    JS_CFUNC_MAGIC_DEF("get_omni_range", 0, &omni_light3d_class_get_omni_range, 4),
+    JS_CFUNC_MAGIC_DEF("set_omni_range", 1, &omni_light3d_class_set_omni_range, 4),
+    JS_CFUNC_MAGIC_DEF("get_omni_attenuation", 0, &omni_light3d_class_get_omni_attenuation, 6),
+    JS_CFUNC_MAGIC_DEF("set_omni_attenuation", 1, &omni_light3d_class_set_omni_attenuation, 6),
 };
 
 

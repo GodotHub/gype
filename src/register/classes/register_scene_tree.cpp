@@ -236,6 +236,8 @@ static JSValue scene_tree_class_is_multiplayer_poll_enabled(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&SceneTree::is_multiplayer_poll_enabled, ctx, this_val, argc, argv);
 }
+
+
 static JSValue scene_tree_class_call_group_flags(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_free_owner_vararg_method_no_ret(&js_call_group_flags, ctx, this_val, argc, argv);

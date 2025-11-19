@@ -142,6 +142,8 @@ static JSValue split_container_class_is_touch_dragger_enabled(JSContext *ctx, JS
 	return call_builtin_const_method_ret(&SplitContainer::is_touch_dragger_enabled, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry split_container_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_split_offset", 1, &split_container_class_set_split_offset),
 	JS_CFUNC_DEF("get_split_offset", 0, &split_container_class_get_split_offset),

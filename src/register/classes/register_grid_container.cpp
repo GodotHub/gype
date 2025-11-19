@@ -61,6 +61,8 @@ static JSValue grid_container_class_get_columns(JSContext *ctx, JSValueConst thi
 	return call_builtin_const_method_ret(&GridContainer::get_columns, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry grid_container_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_columns", 1, &grid_container_class_set_columns),
 	JS_CFUNC_DEF("get_columns", 0, &grid_container_class_get_columns),

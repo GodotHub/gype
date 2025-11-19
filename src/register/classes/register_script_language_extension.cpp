@@ -59,6 +59,8 @@ static JSValue script_language_extension_class_constructor(JSContext *ctx, JSVal
 
 
 
+
+
 static void define_script_language_extension_property(JSContext *ctx, JSValue proto) {
 }
 

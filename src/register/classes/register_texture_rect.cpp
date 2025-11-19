@@ -94,6 +94,8 @@ static JSValue texture_rect_class_get_stretch_mode(JSContext *ctx, JSValueConst 
 	return call_builtin_const_method_ret(&TextureRect::get_stretch_mode, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry texture_rect_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_texture", 1, &texture_rect_class_set_texture),
 	JS_CFUNC_DEF("get_texture", 0, &texture_rect_class_get_texture),

@@ -61,6 +61,8 @@ static JSValue visible_on_screen_notifier3d_class_is_on_screen(JSContext *ctx, J
 	return call_builtin_const_method_ret(&VisibleOnScreenNotifier3D::is_on_screen, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry visible_on_screen_notifier3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_aabb", 1, &visible_on_screen_notifier3d_class_set_aabb),
 	JS_CFUNC_DEF("is_on_screen", 0, &visible_on_screen_notifier3d_class_is_on_screen),

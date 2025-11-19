@@ -17,6 +17,7 @@ static void image_texture3d_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -61,6 +62,8 @@ static JSValue image_texture3d_class_update(JSContext *ctx, JSValueConst this_va
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&ImageTexture3D::update, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry image_texture3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("create", 6, &image_texture3d_class_create),

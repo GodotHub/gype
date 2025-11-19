@@ -16,10 +16,10 @@ GDExtensionBool get_func(GDExtensionScriptInstanceDataPtr p_instance, GDExtensio
 	TypeScriptInstance *instance = reinterpret_cast<TypeScriptInstance *>(p_instance);
 	return instance->get(p_name, r_ret);
 }
-// const GDExtensionPropertyInfo *get_property_list_func(GDExtensionScriptInstanceDataPtr p_instance, uint32_t *r_count) {
-// 	JavaScriptInstance *instance = reinterpret_cast<JavaScriptInstance *>(p_instance);
-// 	return instance->get_property_list(r_count);
-// }
+const GDExtensionPropertyInfo *get_property_list_func(GDExtensionScriptInstanceDataPtr p_instance, uint32_t *r_count) {
+	TypeScriptInstance *instance = reinterpret_cast<TypeScriptInstance *>(p_instance);
+	return instance->get_property_list(r_count);
+}
 
 // void free_property_list_func(GDExtensionScriptInstanceDataPtr p_instance, const GDExtensionPropertyInfo *p_list, uint32_t p_count) {
 // 	JavaScriptInstance *instance = reinterpret_cast<JavaScriptInstance *>(p_instance);
@@ -82,6 +82,11 @@ GDExtensionObjectPtr get_script_func(GDExtensionScriptInstanceDataPtr p_instance
 GDExtensionBool is_placeholder_func(GDExtensionScriptInstanceDataPtr p_instance) {
 	TypeScriptInstance *instance = reinterpret_cast<TypeScriptInstance *>(p_instance);
 	return instance->is_placeholder();
+}
+
+GDExtensionBool set_callback_func(GDExtensionScriptInstanceDataPtr p_instance, GDExtensionConstStringNamePtr p_name, GDExtensionConstVariantPtr p_value) {
+	TypeScriptInstance *instance = reinterpret_cast<TypeScriptInstance *>(p_instance);
+	return instance->set_callback(p_name, p_value);
 }
 
 GDExtensionScriptLanguagePtr get_language_func(GDExtensionScriptInstanceDataPtr p_instance) {

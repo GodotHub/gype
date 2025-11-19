@@ -16,6 +16,7 @@ static void audio_effect_distortion_class_finalizer(JSRuntime *rt, JSValue val) 
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -92,6 +93,8 @@ static JSValue audio_effect_distortion_class_get_post_gain(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&AudioEffectDistortion::get_post_gain, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry audio_effect_distortion_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_mode", 1, &audio_effect_distortion_class_set_mode),

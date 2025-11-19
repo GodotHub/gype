@@ -23,6 +23,7 @@ static void tween_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -159,6 +160,8 @@ static JSValue tween_class_chain(JSContext *ctx, JSValueConst this_val, int argc
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&Tween::chain, ctx, this_val, argc, argv);
 };
+
+
 static JSValue tween_class_interpolate_value(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&Tween::interpolate_value, ctx, this_val, argc, argv);
 };

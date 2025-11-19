@@ -17,6 +17,7 @@ static void logger_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -52,6 +53,8 @@ static JSValue logger_class_constructor(JSContext *ctx, JSValueConst new_target,
     JS_SetOpaque(obj, adapter);
     return obj;
 }
+
+
 
 
 

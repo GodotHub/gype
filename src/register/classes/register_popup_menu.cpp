@@ -412,6 +412,8 @@ static JSValue popup_menu_class_get_system_menu(JSContext *ctx, JSValueConst thi
 	return call_builtin_const_method_ret(&PopupMenu::get_system_menu, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry popup_menu_class_proto_funcs[] = {
 	JS_CFUNC_DEF("activate_item_by_event", 2, &popup_menu_class_activate_item_by_event),
 	JS_CFUNC_DEF("set_prefer_native_menu", 1, &popup_menu_class_set_prefer_native_menu),

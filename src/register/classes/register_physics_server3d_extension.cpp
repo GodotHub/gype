@@ -64,6 +64,8 @@ static JSValue physics_server3d_extension_class_body_test_motion_is_excluding_ob
 	return call_builtin_const_method_ret(&PhysicsServer3DExtension::body_test_motion_is_excluding_object, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry physics_server3d_extension_class_proto_funcs[] = {
 	JS_CFUNC_DEF("body_test_motion_is_excluding_body", 1, &physics_server3d_extension_class_body_test_motion_is_excluding_body),
 	JS_CFUNC_DEF("body_test_motion_is_excluding_object", 1, &physics_server3d_extension_class_body_test_motion_is_excluding_object),

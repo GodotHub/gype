@@ -17,6 +17,7 @@ static void animation_node_transition_class_finalizer(JSRuntime *rt, JSValue val
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -105,6 +106,8 @@ static JSValue animation_node_transition_class_is_allow_transition_to_self(JSCon
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&AnimationNodeTransition::is_allow_transition_to_self, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry animation_node_transition_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_input_count", 1, &animation_node_transition_class_set_input_count),

@@ -59,6 +59,8 @@ static JSValue render_data_extension_class_constructor(JSContext *ctx, JSValueCo
 
 
 
+
+
 static void define_render_data_extension_property(JSContext *ctx, JSValue proto) {
 }
 

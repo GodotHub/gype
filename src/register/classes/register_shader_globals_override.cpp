@@ -57,6 +57,8 @@ static JSValue shader_globals_override_class_constructor(JSContext *ctx, JSValue
 
 
 
+
+
 static void define_shader_globals_override_property(JSContext *ctx, JSValue proto) {
 }
 

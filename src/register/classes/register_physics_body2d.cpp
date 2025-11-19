@@ -79,6 +79,8 @@ static JSValue physics_body2d_class_remove_collision_exception_with(JSContext *c
     return call_builtin_method_no_ret(&PhysicsBody2D::remove_collision_exception_with, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry physics_body2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("move_and_collide", 4, &physics_body2d_class_move_and_collide),
 	JS_CFUNC_DEF("test_move", 5, &physics_body2d_class_test_move),

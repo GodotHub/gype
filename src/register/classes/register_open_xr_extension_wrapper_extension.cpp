@@ -57,6 +57,8 @@ static JSValue open_xr_extension_wrapper_extension_class_constructor(JSContext *
 
 
 
+
+
 static void define_open_xr_extension_wrapper_extension_property(JSContext *ctx, JSValue proto) {
 }
 

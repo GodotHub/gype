@@ -55,6 +55,8 @@ static JSValue main_loop_class_constructor(JSContext *ctx, JSValueConst new_targ
 
 
 
+
+
 static JSValue main_loop_class_get_on_request_permissions_result_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
 	MainLoop *opaque = static_cast<MainLoop *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());

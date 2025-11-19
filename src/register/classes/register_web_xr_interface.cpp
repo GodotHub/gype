@@ -17,6 +17,7 @@ static void web_xr_interface_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -63,27 +64,7 @@ static JSValue web_xr_interface_class_set_session_mode(JSContext *ctx, JSValueCo
 };
 static JSValue web_xr_interface_class_get_session_mode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		WebXRInterface *obj = static_cast<WebXRInterface *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_session_mode();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		WebXRInterface *js_proxy = static_cast<WebXRInterface *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_session_mode(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&WebXRInterface::get_session_mode, ctx, this_val, argc, argv);
 }
 static JSValue web_xr_interface_class_set_required_features(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -91,27 +72,7 @@ static JSValue web_xr_interface_class_set_required_features(JSContext *ctx, JSVa
 };
 static JSValue web_xr_interface_class_get_required_features(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		WebXRInterface *obj = static_cast<WebXRInterface *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_required_features();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		WebXRInterface *js_proxy = static_cast<WebXRInterface *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_required_features(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&WebXRInterface::get_required_features, ctx, this_val, argc, argv);
 }
 static JSValue web_xr_interface_class_set_optional_features(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -119,67 +80,15 @@ static JSValue web_xr_interface_class_set_optional_features(JSContext *ctx, JSVa
 };
 static JSValue web_xr_interface_class_get_optional_features(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		WebXRInterface *obj = static_cast<WebXRInterface *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_optional_features();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		WebXRInterface *js_proxy = static_cast<WebXRInterface *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_optional_features(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&WebXRInterface::get_optional_features, ctx, this_val, argc, argv);
 }
 static JSValue web_xr_interface_class_get_reference_space_type(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		WebXRInterface *obj = static_cast<WebXRInterface *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_reference_space_type();
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&WebXRInterface::get_reference_space_type, ctx, this_val, argc, argv);
 }
 static JSValue web_xr_interface_class_get_enabled_features(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		WebXRInterface *obj = static_cast<WebXRInterface *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_enabled_features();
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&WebXRInterface::get_enabled_features, ctx, this_val, argc, argv);
 }
 static JSValue web_xr_interface_class_set_requested_reference_space_types(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -187,27 +96,7 @@ static JSValue web_xr_interface_class_set_requested_reference_space_types(JSCont
 };
 static JSValue web_xr_interface_class_get_requested_reference_space_types(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		WebXRInterface *obj = static_cast<WebXRInterface *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_requested_reference_space_types();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		WebXRInterface *js_proxy = static_cast<WebXRInterface *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_requested_reference_space_types(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&WebXRInterface::get_requested_reference_space_types, ctx, this_val, argc, argv);
 }
 static JSValue web_xr_interface_class_is_input_source_active(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -223,23 +112,7 @@ static JSValue web_xr_interface_class_get_input_source_target_ray_mode(JSContext
 };
 static JSValue web_xr_interface_class_get_visibility_state(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		WebXRInterface *obj = static_cast<WebXRInterface *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_visibility_state();
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&WebXRInterface::get_visibility_state, ctx, this_val, argc, argv);
 }
 static JSValue web_xr_interface_class_get_display_refresh_rate(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -253,6 +126,8 @@ static JSValue web_xr_interface_class_get_available_display_refresh_rates(JSCont
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&WebXRInterface::get_available_display_refresh_rates, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry web_xr_interface_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_session_supported", 1, &web_xr_interface_class_is_session_supported),

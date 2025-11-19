@@ -16,6 +16,7 @@ static void material_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -76,6 +77,8 @@ static JSValue material_class_create_placeholder(JSContext *ctx, JSValueConst th
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&Material::create_placeholder, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry material_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_next_pass", 1, &material_class_set_next_pass),

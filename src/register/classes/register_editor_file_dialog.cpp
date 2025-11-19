@@ -84,12 +84,10 @@ static JSValue editor_file_dialog_class_get_filters(JSContext *ctx, JSValueConst
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "PackedStringArrayProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue editor_file_dialog_class_get_option_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -146,75 +144,15 @@ static JSValue editor_file_dialog_class_get_filename_filter(JSContext *ctx, JSVa
 };
 static JSValue editor_file_dialog_class_get_current_dir(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		EditorFileDialog *obj = static_cast<EditorFileDialog *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_current_dir();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		EditorFileDialog *js_proxy = static_cast<EditorFileDialog *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_current_dir(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&EditorFileDialog::get_current_dir, ctx, this_val, argc, argv);
 }
 static JSValue editor_file_dialog_class_get_current_file(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		EditorFileDialog *obj = static_cast<EditorFileDialog *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_current_file();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		EditorFileDialog *js_proxy = static_cast<EditorFileDialog *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_current_file(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&EditorFileDialog::get_current_file, ctx, this_val, argc, argv);
 }
 static JSValue editor_file_dialog_class_get_current_path(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		EditorFileDialog *obj = static_cast<EditorFileDialog *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_current_path();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		EditorFileDialog *js_proxy = static_cast<EditorFileDialog *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_current_path(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&EditorFileDialog::get_current_path, ctx, this_val, argc, argv);
 }
 static JSValue editor_file_dialog_class_set_current_dir(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -288,6 +226,8 @@ static JSValue editor_file_dialog_class_invalidate(JSContext *ctx, JSValueConst 
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&EditorFileDialog::invalidate, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry editor_file_dialog_class_proto_funcs[] = {
 	JS_CFUNC_DEF("clear_filters", 0, &editor_file_dialog_class_clear_filters),

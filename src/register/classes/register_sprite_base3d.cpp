@@ -81,12 +81,10 @@ static JSValue sprite_base3d_class_get_offset(JSContext *ctx, JSValueConst this_
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue sprite_base3d_class_set_flip_h(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -125,12 +123,10 @@ static JSValue sprite_base3d_class_get_modulate(JSContext *ctx, JSValueConst thi
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue sprite_base3d_class_set_render_priority(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -230,6 +226,88 @@ static JSValue sprite_base3d_class_generate_triangle_mesh(JSContext *ctx, JSValu
 	return call_builtin_const_method_ret(&SpriteBase3D::generate_triangle_mesh, ctx, this_val, argc, argv);
 };
 
+static JSValue sprite_base3d_class_get_transparent(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&SpriteBase3D::get_draw_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue sprite_base3d_class_set_transparent(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&SpriteBase3D::set_draw_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue sprite_base3d_class_get_shaded(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&SpriteBase3D::get_draw_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue sprite_base3d_class_set_shaded(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&SpriteBase3D::set_draw_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue sprite_base3d_class_get_double_sided(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&SpriteBase3D::get_draw_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue sprite_base3d_class_set_double_sided(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&SpriteBase3D::set_draw_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue sprite_base3d_class_get_no_depth_test(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&SpriteBase3D::get_draw_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue sprite_base3d_class_set_no_depth_test(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&SpriteBase3D::set_draw_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue sprite_base3d_class_get_fixed_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&SpriteBase3D::get_draw_flag, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue sprite_base3d_class_set_fixed_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&SpriteBase3D::set_draw_flag, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
+
 static const JSCFunctionListEntry sprite_base3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_centered", 1, &sprite_base3d_class_set_centered),
 	JS_CFUNC_DEF("is_centered", 0, &sprite_base3d_class_is_centered),
@@ -265,6 +343,14 @@ static const JSCFunctionListEntry sprite_base3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_texture_filter", 0, &sprite_base3d_class_get_texture_filter),
 	JS_CFUNC_DEF("get_item_rect", 0, &sprite_base3d_class_get_item_rect),
 	JS_CFUNC_DEF("generate_triangle_mesh", 0, &sprite_base3d_class_generate_triangle_mesh),
+    JS_CFUNC_MAGIC_DEF("get_shaded", 0, &sprite_base3d_class_get_shaded, 1),
+    JS_CFUNC_MAGIC_DEF("set_shaded", 1, &sprite_base3d_class_set_shaded, 1),
+    JS_CFUNC_MAGIC_DEF("get_double_sided", 0, &sprite_base3d_class_get_double_sided, 2),
+    JS_CFUNC_MAGIC_DEF("set_double_sided", 1, &sprite_base3d_class_set_double_sided, 2),
+    JS_CFUNC_MAGIC_DEF("get_no_depth_test", 0, &sprite_base3d_class_get_no_depth_test, 3),
+    JS_CFUNC_MAGIC_DEF("set_no_depth_test", 1, &sprite_base3d_class_set_no_depth_test, 3),
+    JS_CFUNC_MAGIC_DEF("get_fixed_size", 0, &sprite_base3d_class_get_fixed_size, 4),
+    JS_CFUNC_MAGIC_DEF("set_fixed_size", 1, &sprite_base3d_class_set_fixed_size, 4),
 };
 
 
@@ -335,46 +421,46 @@ static void define_sprite_base3d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, sprite_base3d_class_set_billboard_mode, "set_billboard_mode", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "transparent"),
-        JS_NewCFunction(ctx, sprite_base3d_class_get_draw_flag, "get_draw_flag", 0),
-        JS_NewCFunction(ctx, sprite_base3d_class_set_draw_flag, "set_draw_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, sprite_base3d_class_get_transparent, "get_transparent", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, sprite_base3d_class_set_transparent, "set_transparent", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "shaded"),
-        JS_NewCFunction(ctx, sprite_base3d_class_get_draw_flag, "get_draw_flag", 0),
-        JS_NewCFunction(ctx, sprite_base3d_class_set_draw_flag, "set_draw_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, sprite_base3d_class_get_shaded, "get_shaded", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, sprite_base3d_class_set_shaded, "set_shaded", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "double_sided"),
-        JS_NewCFunction(ctx, sprite_base3d_class_get_draw_flag, "get_draw_flag", 0),
-        JS_NewCFunction(ctx, sprite_base3d_class_set_draw_flag, "set_draw_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, sprite_base3d_class_get_double_sided, "get_double_sided", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, sprite_base3d_class_set_double_sided, "set_double_sided", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "no_depth_test"),
-        JS_NewCFunction(ctx, sprite_base3d_class_get_draw_flag, "get_draw_flag", 0),
-        JS_NewCFunction(ctx, sprite_base3d_class_set_draw_flag, "set_draw_flag", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, sprite_base3d_class_get_no_depth_test, "get_no_depth_test", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, sprite_base3d_class_set_no_depth_test, "set_no_depth_test", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "fixed_size"),
-        JS_NewCFunction(ctx, sprite_base3d_class_get_draw_flag, "get_draw_flag", 0),
-        JS_NewCFunction(ctx, sprite_base3d_class_set_draw_flag, "set_draw_flag", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, sprite_base3d_class_get_fixed_size, "get_fixed_size", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, sprite_base3d_class_set_fixed_size, "set_fixed_size", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

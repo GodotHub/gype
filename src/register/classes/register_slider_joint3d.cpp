@@ -61,6 +61,8 @@ static JSValue slider_joint3d_class_get_param(JSContext *ctx, JSValueConst this_
 	return call_builtin_const_method_ret(&SliderJoint3D::get_param, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry slider_joint3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_param", 2, &slider_joint3d_class_set_param),
 	JS_CFUNC_DEF("get_param", 1, &slider_joint3d_class_get_param),

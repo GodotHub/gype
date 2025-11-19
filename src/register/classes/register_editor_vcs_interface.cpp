@@ -85,6 +85,8 @@ static JSValue editor_vcs_interface_class_popup_error(JSContext *ctx, JSValueCon
     return call_builtin_method_no_ret(&EditorVCSInterface::popup_error, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry editor_vcs_interface_class_proto_funcs[] = {
 	JS_CFUNC_DEF("create_diff_line", 4, &editor_vcs_interface_class_create_diff_line),
 	JS_CFUNC_DEF("create_diff_hunk", 4, &editor_vcs_interface_class_create_diff_hunk),

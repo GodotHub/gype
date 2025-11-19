@@ -16,6 +16,7 @@ static void editor_file_system_import_format_support_query_class_finalizer(JSRun
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -51,6 +52,8 @@ static JSValue editor_file_system_import_format_support_query_class_constructor(
     JS_SetOpaque(obj, adapter);
     return obj;
 }
+
+
 
 
 

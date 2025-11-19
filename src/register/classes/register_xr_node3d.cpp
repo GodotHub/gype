@@ -59,27 +59,7 @@ static JSValue xr_node3d_class_set_tracker(JSContext *ctx, JSValueConst this_val
 };
 static JSValue xr_node3d_class_get_tracker(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<StringName> *proxy = memnew(ObjectProxy<StringName>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> StringName {
-		XRNode3D *obj = static_cast<XRNode3D *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_tracker();
-	};
-	proxy->setter = [this_val](const StringName &value) -> void {
-		XRNode3D *js_proxy = static_cast<XRNode3D *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_tracker(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringNameProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringNameProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&XRNode3D::get_tracker, ctx, this_val, argc, argv);
 }
 static JSValue xr_node3d_class_set_pose_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -87,27 +67,7 @@ static JSValue xr_node3d_class_set_pose_name(JSContext *ctx, JSValueConst this_v
 };
 static JSValue xr_node3d_class_get_pose_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<StringName> *proxy = memnew(ObjectProxy<StringName>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> StringName {
-		XRNode3D *obj = static_cast<XRNode3D *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_pose_name();
-	};
-	proxy->setter = [this_val](const StringName &value) -> void {
-		XRNode3D *js_proxy = static_cast<XRNode3D *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_pose_name(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringNameProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringNameProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&XRNode3D::get_pose_name, ctx, this_val, argc, argv);
 }
 static JSValue xr_node3d_class_set_show_when_tracked(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -133,6 +93,8 @@ static JSValue xr_node3d_class_trigger_haptic_pulse(JSContext *ctx, JSValueConst
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&XRNode3D::trigger_haptic_pulse, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry xr_node3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_tracker", 1, &xr_node3d_class_set_tracker),

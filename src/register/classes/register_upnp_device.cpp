@@ -16,6 +16,7 @@ static void upnp_device_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -74,27 +75,7 @@ static JSValue upnp_device_class_set_description_url(JSContext *ctx, JSValueCons
 };
 static JSValue upnp_device_class_get_description_url(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		UPNPDevice *obj = static_cast<UPNPDevice *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_description_url();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		UPNPDevice *js_proxy = static_cast<UPNPDevice *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_description_url(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&UPNPDevice::get_description_url, ctx, this_val, argc, argv);
 }
 static JSValue upnp_device_class_set_service_type(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -102,27 +83,7 @@ static JSValue upnp_device_class_set_service_type(JSContext *ctx, JSValueConst t
 };
 static JSValue upnp_device_class_get_service_type(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		UPNPDevice *obj = static_cast<UPNPDevice *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_service_type();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		UPNPDevice *js_proxy = static_cast<UPNPDevice *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_service_type(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&UPNPDevice::get_service_type, ctx, this_val, argc, argv);
 }
 static JSValue upnp_device_class_set_igd_control_url(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -130,27 +91,7 @@ static JSValue upnp_device_class_set_igd_control_url(JSContext *ctx, JSValueCons
 };
 static JSValue upnp_device_class_get_igd_control_url(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		UPNPDevice *obj = static_cast<UPNPDevice *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_igd_control_url();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		UPNPDevice *js_proxy = static_cast<UPNPDevice *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_igd_control_url(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&UPNPDevice::get_igd_control_url, ctx, this_val, argc, argv);
 }
 static JSValue upnp_device_class_set_igd_service_type(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -158,27 +99,7 @@ static JSValue upnp_device_class_set_igd_service_type(JSContext *ctx, JSValueCon
 };
 static JSValue upnp_device_class_get_igd_service_type(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		UPNPDevice *obj = static_cast<UPNPDevice *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_igd_service_type();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		UPNPDevice *js_proxy = static_cast<UPNPDevice *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_igd_service_type(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&UPNPDevice::get_igd_service_type, ctx, this_val, argc, argv);
 }
 static JSValue upnp_device_class_set_igd_our_addr(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -186,27 +107,7 @@ static JSValue upnp_device_class_set_igd_our_addr(JSContext *ctx, JSValueConst t
 };
 static JSValue upnp_device_class_get_igd_our_addr(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		UPNPDevice *obj = static_cast<UPNPDevice *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_igd_our_addr();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		UPNPDevice *js_proxy = static_cast<UPNPDevice *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_igd_our_addr(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&UPNPDevice::get_igd_our_addr, ctx, this_val, argc, argv);
 }
 static JSValue upnp_device_class_set_igd_status(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -216,6 +117,8 @@ static JSValue upnp_device_class_get_igd_status(JSContext *ctx, JSValueConst thi
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&UPNPDevice::get_igd_status, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry upnp_device_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_valid_gateway", 0, &upnp_device_class_is_valid_gateway),

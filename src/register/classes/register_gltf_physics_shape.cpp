@@ -19,6 +19,7 @@ static void gltf_physics_shape_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -69,27 +70,7 @@ static JSValue gltf_physics_shape_class_to_dictionary(JSContext *ctx, JSValueCon
 };
 static JSValue gltf_physics_shape_class_get_shape_type(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		GLTFPhysicsShape *obj = static_cast<GLTFPhysicsShape *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_shape_type();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		GLTFPhysicsShape *js_proxy = static_cast<GLTFPhysicsShape *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_shape_type(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&GLTFPhysicsShape::get_shape_type, ctx, this_val, argc, argv);
 }
 static JSValue gltf_physics_shape_class_set_shape_type(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -111,12 +92,10 @@ static JSValue gltf_physics_shape_class_get_size(JSContext *ctx, JSValueConst th
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue gltf_physics_shape_class_set_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -163,6 +142,8 @@ static JSValue gltf_physics_shape_class_set_importer_mesh(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&GLTFPhysicsShape::set_importer_mesh, ctx, this_val, argc, argv);
 };
+
+
 static JSValue gltf_physics_shape_class_from_node(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&GLTFPhysicsShape::from_node, ctx, this_val, argc, argv);
 };

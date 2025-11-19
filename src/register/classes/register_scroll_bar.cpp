@@ -61,6 +61,8 @@ static JSValue scroll_bar_class_get_custom_step(JSContext *ctx, JSValueConst thi
 	return call_builtin_const_method_ret(&ScrollBar::get_custom_step, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry scroll_bar_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_custom_step", 1, &scroll_bar_class_set_custom_step),
 	JS_CFUNC_DEF("get_custom_step", 0, &scroll_bar_class_get_custom_step),

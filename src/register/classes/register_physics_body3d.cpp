@@ -87,6 +87,104 @@ static JSValue physics_body3d_class_remove_collision_exception_with(JSContext *c
     return call_builtin_method_no_ret(&PhysicsBody3D::remove_collision_exception_with, ctx, this_val, argc, argv);
 };
 
+static JSValue physics_body3d_class_get_axis_lock_linear_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&PhysicsBody3D::get_axis_lock, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue physics_body3d_class_set_axis_lock_linear_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&PhysicsBody3D::set_axis_lock, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue physics_body3d_class_get_axis_lock_linear_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&PhysicsBody3D::get_axis_lock, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue physics_body3d_class_set_axis_lock_linear_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&PhysicsBody3D::set_axis_lock, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue physics_body3d_class_get_axis_lock_linear_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&PhysicsBody3D::get_axis_lock, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue physics_body3d_class_set_axis_lock_linear_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&PhysicsBody3D::set_axis_lock, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue physics_body3d_class_get_axis_lock_angular_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&PhysicsBody3D::get_axis_lock, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue physics_body3d_class_set_axis_lock_angular_x(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&PhysicsBody3D::set_axis_lock, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue physics_body3d_class_get_axis_lock_angular_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&PhysicsBody3D::get_axis_lock, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue physics_body3d_class_set_axis_lock_angular_y(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&PhysicsBody3D::set_axis_lock, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue physics_body3d_class_get_axis_lock_angular_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&PhysicsBody3D::get_axis_lock, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue physics_body3d_class_set_axis_lock_angular_z(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&PhysicsBody3D::set_axis_lock, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
+
 static const JSCFunctionListEntry physics_body3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("move_and_collide", 5, &physics_body3d_class_move_and_collide),
 	JS_CFUNC_DEF("test_move", 6, &physics_body3d_class_test_move),
@@ -96,60 +194,72 @@ static const JSCFunctionListEntry physics_body3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_collision_exceptions", 0, &physics_body3d_class_get_collision_exceptions),
 	JS_CFUNC_DEF("add_collision_exception_with", 1, &physics_body3d_class_add_collision_exception_with),
 	JS_CFUNC_DEF("remove_collision_exception_with", 1, &physics_body3d_class_remove_collision_exception_with),
+    JS_CFUNC_MAGIC_DEF("get_axis_lock_linear_x", 0, &physics_body3d_class_get_axis_lock_linear_x, 1),
+    JS_CFUNC_MAGIC_DEF("set_axis_lock_linear_x", 1, &physics_body3d_class_set_axis_lock_linear_x, 1),
+    JS_CFUNC_MAGIC_DEF("get_axis_lock_linear_y", 0, &physics_body3d_class_get_axis_lock_linear_y, 2),
+    JS_CFUNC_MAGIC_DEF("set_axis_lock_linear_y", 1, &physics_body3d_class_set_axis_lock_linear_y, 2),
+    JS_CFUNC_MAGIC_DEF("get_axis_lock_linear_z", 0, &physics_body3d_class_get_axis_lock_linear_z, 4),
+    JS_CFUNC_MAGIC_DEF("set_axis_lock_linear_z", 1, &physics_body3d_class_set_axis_lock_linear_z, 4),
+    JS_CFUNC_MAGIC_DEF("get_axis_lock_angular_x", 0, &physics_body3d_class_get_axis_lock_angular_x, 8),
+    JS_CFUNC_MAGIC_DEF("set_axis_lock_angular_x", 1, &physics_body3d_class_set_axis_lock_angular_x, 8),
+    JS_CFUNC_MAGIC_DEF("get_axis_lock_angular_y", 0, &physics_body3d_class_get_axis_lock_angular_y, 16),
+    JS_CFUNC_MAGIC_DEF("set_axis_lock_angular_y", 1, &physics_body3d_class_set_axis_lock_angular_y, 16),
+    JS_CFUNC_MAGIC_DEF("get_axis_lock_angular_z", 0, &physics_body3d_class_get_axis_lock_angular_z, 32),
+    JS_CFUNC_MAGIC_DEF("set_axis_lock_angular_z", 1, &physics_body3d_class_set_axis_lock_angular_z, 32),
 };
 
 
 
 
 static void define_physics_body3d_property(JSContext *ctx, JSValue proto) {
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "axis_lock_linear_x"),
-        JS_NewCFunction(ctx, physics_body3d_class_get_axis_lock, "get_axis_lock", 0),
-        JS_NewCFunction(ctx, physics_body3d_class_set_axis_lock, "set_axis_lock", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, physics_body3d_class_get_axis_lock_linear_x, "get_axis_lock_linear_x", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, physics_body3d_class_set_axis_lock_linear_x, "set_axis_lock_linear_x", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "axis_lock_linear_y"),
-        JS_NewCFunction(ctx, physics_body3d_class_get_axis_lock, "get_axis_lock", 0),
-        JS_NewCFunction(ctx, physics_body3d_class_set_axis_lock, "set_axis_lock", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, physics_body3d_class_get_axis_lock_linear_y, "get_axis_lock_linear_y", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, physics_body3d_class_set_axis_lock_linear_y, "set_axis_lock_linear_y", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "axis_lock_linear_z"),
-        JS_NewCFunction(ctx, physics_body3d_class_get_axis_lock, "get_axis_lock", 0),
-        JS_NewCFunction(ctx, physics_body3d_class_set_axis_lock, "set_axis_lock", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, physics_body3d_class_get_axis_lock_linear_z, "get_axis_lock_linear_z", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, physics_body3d_class_set_axis_lock_linear_z, "set_axis_lock_linear_z", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "axis_lock_angular_x"),
-        JS_NewCFunction(ctx, physics_body3d_class_get_axis_lock, "get_axis_lock", 0),
-        JS_NewCFunction(ctx, physics_body3d_class_set_axis_lock, "set_axis_lock", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, physics_body3d_class_get_axis_lock_angular_x, "get_axis_lock_angular_x", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_NewCFunctionMagic(ctx, physics_body3d_class_set_axis_lock_angular_x, "set_axis_lock_angular_x", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 8),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "axis_lock_angular_y"),
-        JS_NewCFunction(ctx, physics_body3d_class_get_axis_lock, "get_axis_lock", 0),
-        JS_NewCFunction(ctx, physics_body3d_class_set_axis_lock, "set_axis_lock", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, physics_body3d_class_get_axis_lock_angular_y, "get_axis_lock_angular_y", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 16),
+		JS_NewCFunctionMagic(ctx, physics_body3d_class_set_axis_lock_angular_y, "set_axis_lock_angular_y", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 16),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "axis_lock_angular_z"),
-        JS_NewCFunction(ctx, physics_body3d_class_get_axis_lock, "get_axis_lock", 0),
-        JS_NewCFunction(ctx, physics_body3d_class_set_axis_lock, "set_axis_lock", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, physics_body3d_class_get_axis_lock_angular_z, "get_axis_lock_angular_z", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 32),
+		JS_NewCFunctionMagic(ctx, physics_body3d_class_set_axis_lock_angular_z, "set_axis_lock_angular_z", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 32),
+		JS_PROP_GETSET
+	);
 }
 
 static void define_physics_body3d_enum(JSContext *ctx, JSValue ctor) {

@@ -77,6 +77,8 @@ static JSValue vehicle_body3d_class_get_steering(JSContext *ctx, JSValueConst th
 	return call_builtin_const_method_ret(&VehicleBody3D::get_steering, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry vehicle_body3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_engine_force", 1, &vehicle_body3d_class_set_engine_force),
 	JS_CFUNC_DEF("get_engine_force", 0, &vehicle_body3d_class_get_engine_force),

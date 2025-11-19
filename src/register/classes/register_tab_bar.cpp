@@ -286,6 +286,8 @@ static JSValue tab_bar_class_clear_tabs(JSContext *ctx, JSValueConst this_val, i
     return call_builtin_method_no_ret(&TabBar::clear_tabs, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry tab_bar_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_tab_count", 1, &tab_bar_class_set_tab_count),
 	JS_CFUNC_DEF("get_tab_count", 0, &tab_bar_class_get_tab_count),

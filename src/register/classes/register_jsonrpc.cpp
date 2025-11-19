@@ -81,6 +81,8 @@ static JSValue jsonrpc_class_make_response_error(JSContext *ctx, JSValueConst th
 	return call_builtin_const_method_ret(&JSONRPC::make_response_error, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry jsonrpc_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_method", 2, &jsonrpc_class_set_method),
 	JS_CFUNC_DEF("process_action", 2, &jsonrpc_class_process_action),

@@ -17,6 +17,7 @@ static void style_box_texture_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -105,12 +106,10 @@ static JSValue style_box_texture_class_get_region_rect(JSContext *ctx, JSValueCo
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Rect2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue style_box_texture_class_set_draw_center(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -141,12 +140,10 @@ static JSValue style_box_texture_class_get_modulate(JSContext *ctx, JSValueConst
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue style_box_texture_class_set_h_axis_stretch_mode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -165,6 +162,136 @@ static JSValue style_box_texture_class_get_v_axis_stretch_mode(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&StyleBoxTexture::get_v_axis_stretch_mode, ctx, this_val, argc, argv);
 }
+
+static JSValue style_box_texture_class_get_texture_margin_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxTexture::get_texture_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_texture_class_set_texture_margin_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxTexture::set_texture_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_texture_class_get_texture_margin_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxTexture::get_texture_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_texture_class_set_texture_margin_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxTexture::set_texture_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_texture_class_get_texture_margin_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxTexture::get_texture_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_texture_class_set_texture_margin_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxTexture::set_texture_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_texture_class_get_texture_margin_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxTexture::get_texture_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_texture_class_set_texture_margin_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxTexture::set_texture_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_texture_class_get_expand_margin_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxTexture::get_expand_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_texture_class_set_expand_margin_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxTexture::set_expand_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_texture_class_get_expand_margin_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxTexture::get_expand_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_texture_class_set_expand_margin_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxTexture::set_expand_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_texture_class_get_expand_margin_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxTexture::get_expand_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_texture_class_set_expand_margin_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxTexture::set_expand_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_texture_class_get_expand_margin_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxTexture::get_expand_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_texture_class_set_expand_margin_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxTexture::set_expand_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
 
 static const JSCFunctionListEntry style_box_texture_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_texture", 1, &style_box_texture_class_set_texture),
@@ -185,6 +312,18 @@ static const JSCFunctionListEntry style_box_texture_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_h_axis_stretch_mode", 0, &style_box_texture_class_get_h_axis_stretch_mode),
 	JS_CFUNC_DEF("set_v_axis_stretch_mode", 1, &style_box_texture_class_set_v_axis_stretch_mode),
 	JS_CFUNC_DEF("get_v_axis_stretch_mode", 0, &style_box_texture_class_get_v_axis_stretch_mode),
+    JS_CFUNC_MAGIC_DEF("get_texture_margin_top", 0, &style_box_texture_class_get_texture_margin_top, 1),
+    JS_CFUNC_MAGIC_DEF("set_texture_margin_top", 1, &style_box_texture_class_set_texture_margin_top, 1),
+    JS_CFUNC_MAGIC_DEF("get_texture_margin_right", 0, &style_box_texture_class_get_texture_margin_right, 2),
+    JS_CFUNC_MAGIC_DEF("set_texture_margin_right", 1, &style_box_texture_class_set_texture_margin_right, 2),
+    JS_CFUNC_MAGIC_DEF("get_texture_margin_bottom", 0, &style_box_texture_class_get_texture_margin_bottom, 3),
+    JS_CFUNC_MAGIC_DEF("set_texture_margin_bottom", 1, &style_box_texture_class_set_texture_margin_bottom, 3),
+    JS_CFUNC_MAGIC_DEF("get_expand_margin_top", 0, &style_box_texture_class_get_expand_margin_top, 1),
+    JS_CFUNC_MAGIC_DEF("set_expand_margin_top", 1, &style_box_texture_class_set_expand_margin_top, 1),
+    JS_CFUNC_MAGIC_DEF("get_expand_margin_right", 0, &style_box_texture_class_get_expand_margin_right, 2),
+    JS_CFUNC_MAGIC_DEF("set_expand_margin_right", 1, &style_box_texture_class_set_expand_margin_right, 2),
+    JS_CFUNC_MAGIC_DEF("get_expand_margin_bottom", 0, &style_box_texture_class_get_expand_margin_bottom, 3),
+    JS_CFUNC_MAGIC_DEF("set_expand_margin_bottom", 1, &style_box_texture_class_set_expand_margin_bottom, 3),
 };
 
 
@@ -199,70 +338,70 @@ static void define_style_box_texture_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, style_box_texture_class_set_texture, "set_texture", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "texture_margin_left"),
-        JS_NewCFunction(ctx, style_box_texture_class_get_texture_margin, "get_texture_margin", 0),
-        JS_NewCFunction(ctx, style_box_texture_class_set_texture_margin, "set_texture_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_get_texture_margin_left, "get_texture_margin_left", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_set_texture_margin_left, "set_texture_margin_left", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "texture_margin_top"),
-        JS_NewCFunction(ctx, style_box_texture_class_get_texture_margin, "get_texture_margin", 0),
-        JS_NewCFunction(ctx, style_box_texture_class_set_texture_margin, "set_texture_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_get_texture_margin_top, "get_texture_margin_top", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_set_texture_margin_top, "set_texture_margin_top", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "texture_margin_right"),
-        JS_NewCFunction(ctx, style_box_texture_class_get_texture_margin, "get_texture_margin", 0),
-        JS_NewCFunction(ctx, style_box_texture_class_set_texture_margin, "set_texture_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_get_texture_margin_right, "get_texture_margin_right", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_set_texture_margin_right, "set_texture_margin_right", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "texture_margin_bottom"),
-        JS_NewCFunction(ctx, style_box_texture_class_get_texture_margin, "get_texture_margin", 0),
-        JS_NewCFunction(ctx, style_box_texture_class_set_texture_margin, "set_texture_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_get_texture_margin_bottom, "get_texture_margin_bottom", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_set_texture_margin_bottom, "set_texture_margin_bottom", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "expand_margin_left"),
-        JS_NewCFunction(ctx, style_box_texture_class_get_expand_margin, "get_expand_margin", 0),
-        JS_NewCFunction(ctx, style_box_texture_class_set_expand_margin, "set_expand_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_get_expand_margin_left, "get_expand_margin_left", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_set_expand_margin_left, "set_expand_margin_left", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "expand_margin_top"),
-        JS_NewCFunction(ctx, style_box_texture_class_get_expand_margin, "get_expand_margin", 0),
-        JS_NewCFunction(ctx, style_box_texture_class_set_expand_margin, "set_expand_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_get_expand_margin_top, "get_expand_margin_top", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_set_expand_margin_top, "set_expand_margin_top", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "expand_margin_right"),
-        JS_NewCFunction(ctx, style_box_texture_class_get_expand_margin, "get_expand_margin", 0),
-        JS_NewCFunction(ctx, style_box_texture_class_set_expand_margin, "set_expand_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_get_expand_margin_right, "get_expand_margin_right", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_set_expand_margin_right, "set_expand_margin_right", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "expand_margin_bottom"),
-        JS_NewCFunction(ctx, style_box_texture_class_get_expand_margin, "get_expand_margin", 0),
-        JS_NewCFunction(ctx, style_box_texture_class_set_expand_margin, "set_expand_margin", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_get_expand_margin_bottom, "get_expand_margin_bottom", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, style_box_texture_class_set_expand_margin_bottom, "set_expand_margin_bottom", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

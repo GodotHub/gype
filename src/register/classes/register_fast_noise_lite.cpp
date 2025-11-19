@@ -16,6 +16,7 @@ static void fast_noise_lite_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -96,12 +97,10 @@ static JSValue fast_noise_lite_class_get_offset(JSContext *ctx, JSValueConst thi
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue fast_noise_lite_class_set_fractal_type(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -240,6 +239,8 @@ static JSValue fast_noise_lite_class_get_domain_warp_fractal_gain(JSContext *ctx
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&FastNoiseLite::get_domain_warp_fractal_gain, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry fast_noise_lite_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_noise_type", 1, &fast_noise_lite_class_set_noise_type),

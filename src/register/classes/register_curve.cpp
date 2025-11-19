@@ -16,6 +16,7 @@ static void curve_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -180,6 +181,8 @@ static JSValue curve_class_set_bake_resolution(JSContext *ctx, JSValueConst this
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&Curve::set_bake_resolution, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry curve_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_point_count", 0, &curve_class_get_point_count),

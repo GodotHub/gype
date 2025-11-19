@@ -16,6 +16,7 @@ static void json_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -76,6 +77,8 @@ static JSValue json_class_get_error_message(JSContext *ctx, JSValueConst this_va
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&JSON::get_error_message, ctx, this_val, argc, argv);
 };
+
+
 static JSValue json_class_stringify(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&JSON::stringify, ctx, this_val, argc, argv);
 };

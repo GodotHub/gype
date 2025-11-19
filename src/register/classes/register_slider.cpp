@@ -93,6 +93,8 @@ static JSValue slider_class_is_scrollable(JSContext *ctx, JSValueConst this_val,
 	return call_builtin_const_method_ret(&Slider::is_scrollable, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry slider_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_ticks", 1, &slider_class_set_ticks),
 	JS_CFUNC_DEF("get_ticks", 0, &slider_class_get_ticks),

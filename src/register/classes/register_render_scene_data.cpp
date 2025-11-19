@@ -77,6 +77,8 @@ static JSValue render_scene_data_class_get_uniform_buffer(JSContext *ctx, JSValu
 	return call_builtin_const_method_ret(&RenderSceneData::get_uniform_buffer, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry render_scene_data_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_cam_transform", 0, &render_scene_data_class_get_cam_transform),
 	JS_CFUNC_DEF("get_cam_projection", 0, &render_scene_data_class_get_cam_projection),

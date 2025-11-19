@@ -85,6 +85,8 @@ static JSValue aspect_ratio_container_class_get_alignment_vertical(JSContext *ct
 	return call_builtin_const_method_ret(&AspectRatioContainer::get_alignment_vertical, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry aspect_ratio_container_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_ratio", 1, &aspect_ratio_container_class_set_ratio),
 	JS_CFUNC_DEF("get_ratio", 0, &aspect_ratio_container_class_get_ratio),

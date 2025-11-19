@@ -101,6 +101,8 @@ static JSValue pin_joint2d_class_is_angular_limit_enabled(JSContext *ctx, JSValu
 	return call_builtin_const_method_ret(&PinJoint2D::is_angular_limit_enabled, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry pin_joint2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_softness", 1, &pin_joint2d_class_set_softness),
 	JS_CFUNC_DEF("get_softness", 0, &pin_joint2d_class_get_softness),

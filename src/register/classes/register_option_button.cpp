@@ -199,6 +199,8 @@ static JSValue option_button_class_set_disable_shortcuts(JSContext *ctx, JSValue
     return call_builtin_method_no_ret(&OptionButton::set_disable_shortcuts, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry option_button_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_item", 2, &option_button_class_add_item),
 	JS_CFUNC_DEF("add_icon_item", 3, &option_button_class_add_icon_item),

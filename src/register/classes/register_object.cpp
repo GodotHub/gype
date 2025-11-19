@@ -236,6 +236,8 @@ static JSValue godot_object_class_cancel_free(JSContext *ctx, JSValueConst this_
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&Object::cancel_free, ctx, this_val, argc, argv);
 };
+
+
 static JSValue godot_object_class_emit_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_free_owner_vararg_method_ret(&js_emit_signal, ctx, this_val, argc, argv);

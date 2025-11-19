@@ -58,27 +58,7 @@ static JSValue xr_hand_modifier3d_class_set_hand_tracker(JSContext *ctx, JSValue
 };
 static JSValue xr_hand_modifier3d_class_get_hand_tracker(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<StringName> *proxy = memnew(ObjectProxy<StringName>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> StringName {
-		XRHandModifier3D *obj = static_cast<XRHandModifier3D *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_hand_tracker();
-	};
-	proxy->setter = [this_val](const StringName &value) -> void {
-		XRHandModifier3D *js_proxy = static_cast<XRHandModifier3D *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_hand_tracker(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringNameProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringNameProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&XRHandModifier3D::get_hand_tracker, ctx, this_val, argc, argv);
 }
 static JSValue xr_hand_modifier3d_class_set_bone_update(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -88,6 +68,8 @@ static JSValue xr_hand_modifier3d_class_get_bone_update(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&XRHandModifier3D::get_bone_update, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry xr_hand_modifier3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_hand_tracker", 1, &xr_hand_modifier3d_class_set_hand_tracker),

@@ -16,6 +16,7 @@ static void xr_pose_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -66,27 +67,7 @@ static JSValue xr_pose_class_set_name(JSContext *ctx, JSValueConst this_val, int
 };
 static JSValue xr_pose_class_get_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<StringName> *proxy = memnew(ObjectProxy<StringName>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> StringName {
-		XRPose *obj = static_cast<XRPose *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_name();
-	};
-	proxy->setter = [this_val](const StringName &value) -> void {
-		XRPose *js_proxy = static_cast<XRPose *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_name(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringNameProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringNameProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&XRPose::get_name, ctx, this_val, argc, argv);
 }
 static JSValue xr_pose_class_set_transform(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -94,27 +75,7 @@ static JSValue xr_pose_class_set_transform(JSContext *ctx, JSValueConst this_val
 };
 static JSValue xr_pose_class_get_transform(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<Transform3D> *proxy = memnew(ObjectProxy<Transform3D>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> Transform3D {
-		XRPose *obj = static_cast<XRPose *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_transform();
-	};
-	proxy->setter = [this_val](const Transform3D &value) -> void {
-		XRPose *js_proxy = static_cast<XRPose *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_transform(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["Transform3DProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Transform3DProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&XRPose::get_transform, ctx, this_val, argc, argv);
 }
 static JSValue xr_pose_class_get_adjusted_transform(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -126,27 +87,7 @@ static JSValue xr_pose_class_set_linear_velocity(JSContext *ctx, JSValueConst th
 };
 static JSValue xr_pose_class_get_linear_velocity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<Vector3> *proxy = memnew(ObjectProxy<Vector3>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> Vector3 {
-		XRPose *obj = static_cast<XRPose *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_linear_velocity();
-	};
-	proxy->setter = [this_val](const Vector3 &value) -> void {
-		XRPose *js_proxy = static_cast<XRPose *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_linear_velocity(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["Vector3Proxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&XRPose::get_linear_velocity, ctx, this_val, argc, argv);
 }
 static JSValue xr_pose_class_set_angular_velocity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -154,27 +95,7 @@ static JSValue xr_pose_class_set_angular_velocity(JSContext *ctx, JSValueConst t
 };
 static JSValue xr_pose_class_get_angular_velocity(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<Vector3> *proxy = memnew(ObjectProxy<Vector3>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> Vector3 {
-		XRPose *obj = static_cast<XRPose *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_angular_velocity();
-	};
-	proxy->setter = [this_val](const Vector3 &value) -> void {
-		XRPose *js_proxy = static_cast<XRPose *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_angular_velocity(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["Vector3Proxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&XRPose::get_angular_velocity, ctx, this_val, argc, argv);
 }
 static JSValue xr_pose_class_set_tracking_confidence(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -184,6 +105,8 @@ static JSValue xr_pose_class_get_tracking_confidence(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&XRPose::get_tracking_confidence, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry xr_pose_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_has_tracking_data", 1, &xr_pose_class_set_has_tracking_data),

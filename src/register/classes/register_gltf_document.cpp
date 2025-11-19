@@ -20,6 +20,7 @@ static void gltf_document_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -62,27 +63,7 @@ static JSValue gltf_document_class_set_image_format(JSContext *ctx, JSValueConst
 };
 static JSValue gltf_document_class_get_image_format(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		GLTFDocument *obj = static_cast<GLTFDocument *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_image_format();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		GLTFDocument *js_proxy = static_cast<GLTFDocument *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_image_format(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&GLTFDocument::get_image_format, ctx, this_val, argc, argv);
 }
 static JSValue gltf_document_class_set_lossy_quality(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -98,27 +79,7 @@ static JSValue gltf_document_class_set_fallback_image_format(JSContext *ctx, JSV
 };
 static JSValue gltf_document_class_get_fallback_image_format(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		GLTFDocument *obj = static_cast<GLTFDocument *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_fallback_image_format();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		GLTFDocument *js_proxy = static_cast<GLTFDocument *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_fallback_image_format(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&GLTFDocument::get_fallback_image_format, ctx, this_val, argc, argv);
 }
 static JSValue gltf_document_class_set_fallback_image_quality(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -168,6 +129,8 @@ static JSValue gltf_document_class_write_to_filesystem(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&GLTFDocument::write_to_filesystem, ctx, this_val, argc, argv);
 };
+
+
 static JSValue gltf_document_class_import_object_model_property(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&GLTFDocument::import_object_model_property, ctx, this_val, argc, argv);
 };

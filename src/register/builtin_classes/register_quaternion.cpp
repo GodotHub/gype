@@ -254,7 +254,6 @@ static int js_quaternion_class_init(JSContext *ctx) {
 	JSValue ctor = JS_NewCFunction2(ctx, quaternion_class_constructor, "Quaternion", 0, JS_CFUNC_constructor, 0);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetPropertyFunctionList(ctx, ctor, quaternion_class_constants_funcs, _countof(quaternion_class_constants_funcs));
-	
 	JSValue global = JS_GetGlobalObject(ctx);
 	JS_SetPropertyStr(ctx, global, "Quaternion", ctor);
 

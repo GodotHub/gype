@@ -62,6 +62,8 @@ static JSValue open_xr_extension_wrapper_class_register_extension_wrapper(JSCont
     return call_builtin_method_no_ret(&OpenXRExtensionWrapper::register_extension_wrapper, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry open_xr_extension_wrapper_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_openxr_api", 0, &open_xr_extension_wrapper_class_get_openxr_api),
 	JS_CFUNC_DEF("register_extension_wrapper", 0, &open_xr_extension_wrapper_class_register_extension_wrapper),

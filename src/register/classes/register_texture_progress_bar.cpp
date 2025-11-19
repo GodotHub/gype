@@ -105,12 +105,10 @@ static JSValue texture_progress_bar_class_get_tint_under(JSContext *ctx, JSValue
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue texture_progress_bar_class_set_tint_progress(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -133,12 +131,10 @@ static JSValue texture_progress_bar_class_get_tint_progress(JSContext *ctx, JSVa
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue texture_progress_bar_class_set_tint_over(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -161,12 +157,10 @@ static JSValue texture_progress_bar_class_get_tint_over(JSContext *ctx, JSValueC
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue texture_progress_bar_class_set_texture_progress_offset(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -189,12 +183,10 @@ static JSValue texture_progress_bar_class_get_texture_progress_offset(JSContext 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue texture_progress_bar_class_set_radial_initial_angle(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -225,12 +217,10 @@ static JSValue texture_progress_bar_class_get_radial_center_offset(JSContext *ct
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue texture_progress_bar_class_set_fill_degrees(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -257,6 +247,72 @@ static JSValue texture_progress_bar_class_get_nine_patch_stretch(JSContext *ctx,
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&TextureProgressBar::get_nine_patch_stretch, ctx, this_val, argc, argv);
 }
+
+static JSValue texture_progress_bar_class_get_stretch_margin_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&TextureProgressBar::get_stretch_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue texture_progress_bar_class_set_stretch_margin_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&TextureProgressBar::set_stretch_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue texture_progress_bar_class_get_stretch_margin_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&TextureProgressBar::get_stretch_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue texture_progress_bar_class_set_stretch_margin_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&TextureProgressBar::set_stretch_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue texture_progress_bar_class_get_stretch_margin_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&TextureProgressBar::get_stretch_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue texture_progress_bar_class_set_stretch_margin_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&TextureProgressBar::set_stretch_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue texture_progress_bar_class_get_stretch_margin_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&TextureProgressBar::get_stretch_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue texture_progress_bar_class_set_stretch_margin_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&TextureProgressBar::set_stretch_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
 
 static const JSCFunctionListEntry texture_progress_bar_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_under_texture", 1, &texture_progress_bar_class_set_under_texture),
@@ -285,6 +341,12 @@ static const JSCFunctionListEntry texture_progress_bar_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_stretch_margin", 1, &texture_progress_bar_class_get_stretch_margin),
 	JS_CFUNC_DEF("set_nine_patch_stretch", 1, &texture_progress_bar_class_set_nine_patch_stretch),
 	JS_CFUNC_DEF("get_nine_patch_stretch", 0, &texture_progress_bar_class_get_nine_patch_stretch),
+    JS_CFUNC_MAGIC_DEF("get_stretch_margin_top", 0, &texture_progress_bar_class_get_stretch_margin_top, 1),
+    JS_CFUNC_MAGIC_DEF("set_stretch_margin_top", 1, &texture_progress_bar_class_set_stretch_margin_top, 1),
+    JS_CFUNC_MAGIC_DEF("get_stretch_margin_right", 0, &texture_progress_bar_class_get_stretch_margin_right, 2),
+    JS_CFUNC_MAGIC_DEF("set_stretch_margin_right", 1, &texture_progress_bar_class_set_stretch_margin_right, 2),
+    JS_CFUNC_MAGIC_DEF("get_stretch_margin_bottom", 0, &texture_progress_bar_class_get_stretch_margin_bottom, 3),
+    JS_CFUNC_MAGIC_DEF("set_stretch_margin_bottom", 1, &texture_progress_bar_class_set_stretch_margin_bottom, 3),
 };
 
 
@@ -331,38 +393,38 @@ static void define_texture_progress_bar_property(JSContext *ctx, JSValue proto) 
         JS_NewCFunction(ctx, texture_progress_bar_class_set_nine_patch_stretch, "set_nine_patch_stretch", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "stretch_margin_left"),
-        JS_NewCFunction(ctx, texture_progress_bar_class_get_stretch_margin, "get_stretch_margin", 0),
-        JS_NewCFunction(ctx, texture_progress_bar_class_set_stretch_margin, "set_stretch_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, texture_progress_bar_class_get_stretch_margin_left, "get_stretch_margin_left", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, texture_progress_bar_class_set_stretch_margin_left, "set_stretch_margin_left", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "stretch_margin_top"),
-        JS_NewCFunction(ctx, texture_progress_bar_class_get_stretch_margin, "get_stretch_margin", 0),
-        JS_NewCFunction(ctx, texture_progress_bar_class_set_stretch_margin, "set_stretch_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, texture_progress_bar_class_get_stretch_margin_top, "get_stretch_margin_top", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, texture_progress_bar_class_set_stretch_margin_top, "set_stretch_margin_top", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "stretch_margin_right"),
-        JS_NewCFunction(ctx, texture_progress_bar_class_get_stretch_margin, "get_stretch_margin", 0),
-        JS_NewCFunction(ctx, texture_progress_bar_class_set_stretch_margin, "set_stretch_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, texture_progress_bar_class_get_stretch_margin_right, "get_stretch_margin_right", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, texture_progress_bar_class_set_stretch_margin_right, "set_stretch_margin_right", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "stretch_margin_bottom"),
-        JS_NewCFunction(ctx, texture_progress_bar_class_get_stretch_margin, "get_stretch_margin", 0),
-        JS_NewCFunction(ctx, texture_progress_bar_class_set_stretch_margin, "set_stretch_margin", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, texture_progress_bar_class_get_stretch_margin_bottom, "get_stretch_margin_bottom", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, texture_progress_bar_class_set_stretch_margin_bottom, "set_stretch_margin_bottom", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

@@ -16,6 +16,7 @@ static void scene_tree_timer_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -60,6 +61,8 @@ static JSValue scene_tree_timer_class_get_time_left(JSContext *ctx, JSValueConst
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&SceneTreeTimer::get_time_left, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry scene_tree_timer_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_time_left", 1, &scene_tree_timer_class_set_time_left),

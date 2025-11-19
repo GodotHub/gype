@@ -17,6 +17,7 @@ static void java_object_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -57,6 +58,8 @@ static JSValue java_object_class_get_java_class(JSContext *ctx, JSValueConst thi
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&JavaObject::get_java_class, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry java_object_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_java_class", 0, &java_object_class_get_java_class),

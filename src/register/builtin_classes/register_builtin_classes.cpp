@@ -3,7 +3,6 @@
 void register_builtin_classes() {
 	register_variant();
 	register_string();
-	register_proxy_string();
 	register_vector2();
 	register_proxy_vector2();
 	register_vector2i();

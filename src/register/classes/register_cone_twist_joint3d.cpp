@@ -61,55 +61,145 @@ static JSValue cone_twist_joint3d_class_get_param(JSContext *ctx, JSValueConst t
 	return call_builtin_const_method_ret(&ConeTwistJoint3D::get_param, ctx, this_val, argc, argv);
 }
 
+static JSValue cone_twist_joint3d_class_get_swing_span(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ConeTwistJoint3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cone_twist_joint3d_class_set_swing_span(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ConeTwistJoint3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cone_twist_joint3d_class_get_twist_span(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ConeTwistJoint3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cone_twist_joint3d_class_set_twist_span(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ConeTwistJoint3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cone_twist_joint3d_class_get_bias(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ConeTwistJoint3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cone_twist_joint3d_class_set_bias(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ConeTwistJoint3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cone_twist_joint3d_class_get_softness(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ConeTwistJoint3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cone_twist_joint3d_class_set_softness(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ConeTwistJoint3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue cone_twist_joint3d_class_get_relaxation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&ConeTwistJoint3D::get_param, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue cone_twist_joint3d_class_set_relaxation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&ConeTwistJoint3D::set_param, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
+
 static const JSCFunctionListEntry cone_twist_joint3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_param", 2, &cone_twist_joint3d_class_set_param),
 	JS_CFUNC_DEF("get_param", 1, &cone_twist_joint3d_class_get_param),
+    JS_CFUNC_MAGIC_DEF("get_twist_span", 0, &cone_twist_joint3d_class_get_twist_span, 1),
+    JS_CFUNC_MAGIC_DEF("set_twist_span", 1, &cone_twist_joint3d_class_set_twist_span, 1),
+    JS_CFUNC_MAGIC_DEF("get_bias", 0, &cone_twist_joint3d_class_get_bias, 2),
+    JS_CFUNC_MAGIC_DEF("set_bias", 1, &cone_twist_joint3d_class_set_bias, 2),
+    JS_CFUNC_MAGIC_DEF("get_softness", 0, &cone_twist_joint3d_class_get_softness, 3),
+    JS_CFUNC_MAGIC_DEF("set_softness", 1, &cone_twist_joint3d_class_set_softness, 3),
+    JS_CFUNC_MAGIC_DEF("get_relaxation", 0, &cone_twist_joint3d_class_get_relaxation, 4),
+    JS_CFUNC_MAGIC_DEF("set_relaxation", 1, &cone_twist_joint3d_class_set_relaxation, 4),
 };
 
 
 
 
 static void define_cone_twist_joint3d_property(JSContext *ctx, JSValue proto) {
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "swing_span"),
-        JS_NewCFunction(ctx, cone_twist_joint3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, cone_twist_joint3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cone_twist_joint3d_class_get_swing_span, "get_swing_span", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, cone_twist_joint3d_class_set_swing_span, "set_swing_span", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "twist_span"),
-        JS_NewCFunction(ctx, cone_twist_joint3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, cone_twist_joint3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cone_twist_joint3d_class_get_twist_span, "get_twist_span", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, cone_twist_joint3d_class_set_twist_span, "set_twist_span", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "bias"),
-        JS_NewCFunction(ctx, cone_twist_joint3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, cone_twist_joint3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cone_twist_joint3d_class_get_bias, "get_bias", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, cone_twist_joint3d_class_set_bias, "set_bias", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "softness"),
-        JS_NewCFunction(ctx, cone_twist_joint3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, cone_twist_joint3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, cone_twist_joint3d_class_get_softness, "get_softness", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, cone_twist_joint3d_class_set_softness, "set_softness", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "relaxation"),
-        JS_NewCFunction(ctx, cone_twist_joint3d_class_get_param, "get_param", 0),
-        JS_NewCFunction(ctx, cone_twist_joint3d_class_set_param, "set_param", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, cone_twist_joint3d_class_get_relaxation, "get_relaxation", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, cone_twist_joint3d_class_set_relaxation, "set_relaxation", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
 }
 
 static void define_cone_twist_joint3d_enum(JSContext *ctx, JSValue ctor) {

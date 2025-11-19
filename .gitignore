@@ -1,7 +1,7 @@
 # Distribution and build directories
 build/
 node_modules/
-example/dist
+example/addons/gype/dist
 
 # Object files and temporary files
 *.o
@@ -15,6 +15,7 @@ example/dist
 *.os
 *.lib
 *.pdb
+.idea
 .sconsign.dblite
 
 # Editor and system files

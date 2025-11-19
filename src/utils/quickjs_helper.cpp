@@ -214,9 +214,9 @@ JSValue variant_to_jsvalue(const Variant &val) {
 		case Variant::Type::BOOL:
 			return JS_NewBool(js_context(), val);
 		case Variant::Type::STRING:
-			return JS_NewString(js_context(), to_chars(String(val)));
 		case Variant::Type::STRING_NAME:
-			return JS_NewString(js_context(), to_chars(StringName(val)));
+		case Variant::Type::NODE_PATH:
+			return JS_NewString(js_context(), String(val).utf8());
 		case Variant::Type::VECTOR2:
 		case Variant::Type::VECTOR2I:
 		case Variant::Type::VECTOR3:
@@ -228,7 +228,6 @@ JSValue variant_to_jsvalue(const Variant &val) {
 		case Variant::Type::CALLABLE:
 		case Variant::Type::COLOR:
 		case Variant::Type::DICTIONARY:
-		case Variant::Type::NODE_PATH:
 		case Variant::Type::PLANE:
 		case Variant::Type::PROJECTION:
 		case Variant::Type::QUATERNION:
@@ -265,12 +264,15 @@ JSValue variant_to_jsvalue(const Variant &val) {
 		}
 		case Variant::Type::OBJECT: {
 			Object *obj = val;
+			if (!obj) {
+				return JS_UNDEFINED;
+			}
 			VariantAdapter *adapter = memnew(VariantAdapter(val));
 			const char *class_name = to_chars(obj->get_class());
 			char code[1024];
 			if (strcmp(class_name, "Object") == 0) {
 				class_name = "GodotObject";
-			}
+			} 
 			sprintf(code, "import { %s } from \"@godot/classes/%s\";", class_name, camelToSnake(class_name).c_str());
 			JS_Eval(js_context(), code, strlen(code), "<eval>", JS_EVAL_TYPE_MODULE);
 			JSValue wrapper = JS_NewObjectClass(js_context(), classes[class_name]);
@@ -285,21 +287,22 @@ JSValue variant_to_jsvalue(const Variant &val) {
 }
 
 godot::Variant js_obj_to_variant(JSValue val) {
-#define OBJ_TO_VARIANT_CASE(type)                                                       \
-	else if (class_id == classes[#type]) {                                              \
+#define OBJ_TO_VARIANT_CASE(type) \
+	else if (class_id == classes[#type]){\
 		return static_cast<VariantAdapter *>(JS_GetOpaque(val, classes[#type]))->get(); \
 	}
 #define PROXY_TO_VARIANT_CASE(type)                                                                   \
 	else if (class_id == classes[#type "Proxy"]) {                                                    \
 		return static_cast<ObjectProxy<type> *>(JS_GetOpaque(val, classes[#type "Proxy"]))->getter(); \
 	}
+
 	JSClassID class_id = JS_GetClassID(val);
 	if (!classes_by_id.has(class_id)) {
 		return Variant();
 	}
 
 	if (JS_IsArray(val)) {
-		godot::Array gd_arr;
+		Array gd_arr;
 		JSValue js_len = JS_GetPropertyStr(js_context(), val, "length");
 		int64_t len = to_int64(js_context(), js_len);
 		for (int64_t i = 0; i < len; i++) {
@@ -309,7 +312,6 @@ godot::Variant js_obj_to_variant(JSValue val) {
 		JS_FreeValue(js_context(), js_len);
 		return gd_arr;
 	}
-	OBJ_TO_VARIANT_CASE(Vector2)
 	OBJ_TO_VARIANT_CASE(Vector2i)
 	OBJ_TO_VARIANT_CASE(Vector3)
 	OBJ_TO_VARIANT_CASE(Vector3i)

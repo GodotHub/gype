@@ -77,6 +77,8 @@ static JSValue audio_listener3d_class_get_doppler_tracking(JSContext *ctx, JSVal
 	return call_builtin_const_method_ret(&AudioListener3D::get_doppler_tracking, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry audio_listener3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("make_current", 0, &audio_listener3d_class_make_current),
 	JS_CFUNC_DEF("clear_current", 0, &audio_listener3d_class_clear_current),

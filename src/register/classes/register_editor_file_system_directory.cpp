@@ -109,6 +109,8 @@ static JSValue editor_file_system_directory_class_find_dir_index(JSContext *ctx,
 	return call_builtin_const_method_ret(&EditorFileSystemDirectory::find_dir_index, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry editor_file_system_directory_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_subdir_count", 0, &editor_file_system_directory_class_get_subdir_count),
 	JS_CFUNC_DEF("get_subdir", 1, &editor_file_system_directory_class_get_subdir),

@@ -21,6 +21,7 @@ static void editor_node3d_gizmo_plugin_class_finalizer(JSRuntime *rt, JSValue va
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -77,6 +78,8 @@ static JSValue editor_node3d_gizmo_plugin_class_get_material(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&EditorNode3DGizmoPlugin::get_material, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry editor_node3d_gizmo_plugin_class_proto_funcs[] = {
 	JS_CFUNC_DEF("create_material", 5, &editor_node3d_gizmo_plugin_class_create_material),

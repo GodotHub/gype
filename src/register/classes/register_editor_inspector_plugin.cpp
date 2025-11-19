@@ -18,6 +18,7 @@ static void editor_inspector_plugin_class_finalizer(JSRuntime *rt, JSValue val) 
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -66,6 +67,8 @@ static JSValue editor_inspector_plugin_class_add_property_editor_for_multiple_pr
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&EditorInspectorPlugin::add_property_editor_for_multiple_properties, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry editor_inspector_plugin_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_custom_control", 1, &editor_inspector_plugin_class_add_custom_control),

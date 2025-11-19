@@ -17,6 +17,7 @@ static void noise_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -89,6 +90,8 @@ static JSValue noise_class_get_seamless_image_3d(JSContext *ctx, JSValueConst th
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&Noise::get_seamless_image_3d, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry noise_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_noise_1d", 1, &noise_class_get_noise_1d),

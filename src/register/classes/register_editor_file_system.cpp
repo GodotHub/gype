@@ -90,6 +90,8 @@ static JSValue editor_file_system_class_reimport_files(JSContext *ctx, JSValueCo
     return call_builtin_method_no_ret(&EditorFileSystem::reimport_files, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry editor_file_system_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_filesystem", 0, &editor_file_system_class_get_filesystem),
 	JS_CFUNC_DEF("is_scanning", 0, &editor_file_system_class_is_scanning),

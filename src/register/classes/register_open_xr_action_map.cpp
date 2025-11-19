@@ -18,6 +18,7 @@ static void open_xr_action_map_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -114,6 +115,8 @@ static JSValue open_xr_action_map_class_create_default_action_sets(JSContext *ct
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&OpenXRActionMap::create_default_action_sets, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry open_xr_action_map_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_action_sets", 1, &open_xr_action_map_class_set_action_sets),

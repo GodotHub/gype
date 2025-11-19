@@ -61,6 +61,8 @@ static JSValue directional_light2d_class_get_max_distance(JSContext *ctx, JSValu
 	return call_builtin_const_method_ret(&DirectionalLight2D::get_max_distance, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry directional_light2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_max_distance", 1, &directional_light2d_class_set_max_distance),
 	JS_CFUNC_DEF("get_max_distance", 0, &directional_light2d_class_get_max_distance),

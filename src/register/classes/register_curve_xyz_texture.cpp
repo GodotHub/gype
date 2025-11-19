@@ -17,6 +17,7 @@ static void curve_xyz_texture_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -81,6 +82,8 @@ static JSValue curve_xyz_texture_class_get_curve_z(JSContext *ctx, JSValueConst 
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&CurveXYZTexture::get_curve_z, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry curve_xyz_texture_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_width", 1, &curve_xyz_texture_class_set_width),

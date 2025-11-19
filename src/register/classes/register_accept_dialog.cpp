@@ -101,27 +101,7 @@ static JSValue accept_dialog_class_set_text(JSContext *ctx, JSValueConst this_va
 };
 static JSValue accept_dialog_class_get_text(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		AcceptDialog *obj = static_cast<AcceptDialog *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_text();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		AcceptDialog *js_proxy = static_cast<AcceptDialog *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_text(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&AcceptDialog::get_text, ctx, this_val, argc, argv);
 }
 static JSValue accept_dialog_class_set_autowrap(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -137,28 +117,10 @@ static JSValue accept_dialog_class_set_ok_button_text(JSContext *ctx, JSValueCon
 };
 static JSValue accept_dialog_class_get_ok_button_text(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		AcceptDialog *obj = static_cast<AcceptDialog *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_ok_button_text();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		AcceptDialog *js_proxy = static_cast<AcceptDialog *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_ok_button_text(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&AcceptDialog::get_ok_button_text, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry accept_dialog_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_ok_button", 0, &accept_dialog_class_get_ok_button),

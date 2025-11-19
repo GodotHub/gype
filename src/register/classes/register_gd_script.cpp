@@ -17,6 +17,7 @@ static void gd_script_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -52,6 +53,8 @@ static JSValue gd_script_class_constructor(JSContext *ctx, JSValueConst new_targ
     JS_SetOpaque(obj, adapter);
     return obj;
 }
+
+
 
 static JSValue gd_script_class_new(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

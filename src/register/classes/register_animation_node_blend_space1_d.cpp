@@ -16,6 +16,7 @@ static void animation_node_blend_space1_d_class_finalizer(JSRuntime *rt, JSValue
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -110,27 +111,7 @@ static JSValue animation_node_blend_space1_d_class_set_value_label(JSContext *ct
 };
 static JSValue animation_node_blend_space1_d_class_get_value_label(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		AnimationNodeBlendSpace1D *obj = static_cast<AnimationNodeBlendSpace1D *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_value_label();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		AnimationNodeBlendSpace1D *js_proxy = static_cast<AnimationNodeBlendSpace1D *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_value_label(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&AnimationNodeBlendSpace1D::get_value_label, ctx, this_val, argc, argv);
 }
 static JSValue animation_node_blend_space1_d_class_set_blend_mode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -148,6 +129,8 @@ static JSValue animation_node_blend_space1_d_class_is_using_sync(JSContext *ctx,
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&AnimationNodeBlendSpace1D::is_using_sync, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry animation_node_blend_space1_d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_blend_point", 3, &animation_node_blend_space1_d_class_add_blend_point),

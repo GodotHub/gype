@@ -67,6 +67,8 @@ static JSValue editor_inspector_class_get_edited_object(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&EditorInspector::get_edited_object, ctx, this_val, argc, argv);
 };
+
+
 static JSValue editor_inspector_class_instantiate_property_editor(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&EditorInspector::instantiate_property_editor, ctx, this_val, argc, argv);
 };

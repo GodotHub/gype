@@ -66,6 +66,8 @@ static JSValue instance_placeholder_class_get_instance_path(JSContext *ctx, JSVa
 	return call_builtin_const_method_ret(&InstancePlaceholder::get_instance_path, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry instance_placeholder_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_stored_values", 1, &instance_placeholder_class_get_stored_values),
 	JS_CFUNC_DEF("create_instance", 2, &instance_placeholder_class_create_instance),

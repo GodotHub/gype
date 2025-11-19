@@ -16,6 +16,7 @@ static void open_xr_binding_modifier_class_finalizer(JSRuntime *rt, JSValue val)
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -51,6 +52,8 @@ static JSValue open_xr_binding_modifier_class_constructor(JSContext *ctx, JSValu
     JS_SetOpaque(obj, adapter);
     return obj;
 }
+
+
 
 
 

@@ -69,6 +69,8 @@ static JSValue open_xr_interaction_profile_metadata_class_register_io_path(JSCon
     return call_builtin_method_no_ret(&OpenXRInteractionProfileMetadata::register_io_path, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry open_xr_interaction_profile_metadata_class_proto_funcs[] = {
 	JS_CFUNC_DEF("register_profile_rename", 2, &open_xr_interaction_profile_metadata_class_register_profile_rename),
 	JS_CFUNC_DEF("register_top_level_path", 3, &open_xr_interaction_profile_metadata_class_register_top_level_path),

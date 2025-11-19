@@ -147,6 +147,8 @@ static JSValue base_button_class_get_button_group(JSContext *ctx, JSValueConst t
 	return call_builtin_const_method_ret(&BaseButton::get_button_group, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry base_button_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_pressed", 1, &base_button_class_set_pressed),
 	JS_CFUNC_DEF("is_pressed", 0, &base_button_class_is_pressed),

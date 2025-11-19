@@ -16,6 +16,7 @@ static void canvas_item_material_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -100,6 +101,8 @@ static JSValue canvas_item_material_class_get_particles_anim_loop(JSContext *ctx
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&CanvasItemMaterial::get_particles_anim_loop, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry canvas_item_material_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_blend_mode", 1, &canvas_item_material_class_set_blend_mode),

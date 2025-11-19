@@ -66,6 +66,8 @@ static JSValue open_xr_future_extension_class_cancel_future(JSContext *ctx, JSVa
     return call_builtin_method_no_ret(&OpenXRFutureExtension::cancel_future, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry open_xr_future_extension_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_active", 0, &open_xr_future_extension_class_is_active),
 	JS_CFUNC_DEF("register_future", 2, &open_xr_future_extension_class_register_future),

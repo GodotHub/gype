@@ -46,6 +46,7 @@ public:
 	GDExtensionObjectPtr get_owner();
 	GDExtensionObjectPtr get_script();
 	GDExtensionBool is_placeholder();
+	GDExtensionBool set_callback(GDExtensionConstStringNamePtr p_name, GDExtensionConstVariantPtr p_value);
 	GDExtensionScriptLanguagePtr get_language();
 
 	Object *get_binding();

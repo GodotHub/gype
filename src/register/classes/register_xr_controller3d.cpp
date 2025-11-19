@@ -73,6 +73,8 @@ static JSValue xr_controller3d_class_get_tracker_hand(JSContext *ctx, JSValueCon
 	return call_builtin_const_method_ret(&XRController3D::get_tracker_hand, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry xr_controller3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_button_pressed", 1, &xr_controller3d_class_is_button_pressed),
 	JS_CFUNC_DEF("get_input", 1, &xr_controller3d_class_get_input),

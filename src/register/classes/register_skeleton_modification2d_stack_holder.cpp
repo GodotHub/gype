@@ -17,6 +17,7 @@ static void skeleton_modification2d_stack_holder_class_finalizer(JSRuntime *rt, 
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -61,6 +62,8 @@ static JSValue skeleton_modification2d_stack_holder_class_get_held_modification_
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&SkeletonModification2DStackHolder::get_held_modification_stack, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry skeleton_modification2d_stack_holder_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_held_modification_stack", 1, &skeleton_modification2d_stack_holder_class_set_held_modification_stack),

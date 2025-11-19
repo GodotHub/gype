@@ -16,6 +16,7 @@ static void audio_stream_generator_playback_class_finalizer(JSRuntime *rt, JSVal
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -76,6 +77,8 @@ static JSValue audio_stream_generator_playback_class_clear_buffer(JSContext *ctx
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&AudioStreamGeneratorPlayback::clear_buffer, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry audio_stream_generator_playback_class_proto_funcs[] = {
 	JS_CFUNC_DEF("push_frame", 1, &audio_stream_generator_playback_class_push_frame),

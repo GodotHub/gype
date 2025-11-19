@@ -86,6 +86,8 @@ static JSValue occluder_instance3d_class_get_occluder(JSContext *ctx, JSValueCon
 	return call_builtin_const_method_ret(&OccluderInstance3D::get_occluder, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry occluder_instance3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_bake_mask", 1, &occluder_instance3d_class_set_bake_mask),
 	JS_CFUNC_DEF("get_bake_mask", 0, &occluder_instance3d_class_get_bake_mask),

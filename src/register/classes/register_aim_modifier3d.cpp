@@ -85,6 +85,8 @@ static JSValue aim_modifier3d_class_is_using_secondary_rotation(JSContext *ctx, 
 	return call_builtin_const_method_ret(&AimModifier3D::is_using_secondary_rotation, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry aim_modifier3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_forward_axis", 2, &aim_modifier3d_class_set_forward_axis),
 	JS_CFUNC_DEF("get_forward_axis", 1, &aim_modifier3d_class_get_forward_axis),

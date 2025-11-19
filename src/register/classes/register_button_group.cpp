@@ -17,6 +17,7 @@ static void button_group_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -69,6 +70,8 @@ static JSValue button_group_class_is_allow_unpress(JSContext *ctx, JSValueConst 
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&ButtonGroup::is_allow_unpress, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry button_group_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_pressed_button", 0, &button_group_class_get_pressed_button),

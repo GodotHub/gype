@@ -78,6 +78,8 @@ static JSValue resource_preloader_class_get_resource_list(JSContext *ctx, JSValu
 	return call_builtin_const_method_ret(&ResourcePreloader::get_resource_list, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry resource_preloader_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_resource", 2, &resource_preloader_class_add_resource),
 	JS_CFUNC_DEF("remove_resource", 1, &resource_preloader_class_remove_resource),

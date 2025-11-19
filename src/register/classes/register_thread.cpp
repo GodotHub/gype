@@ -16,6 +16,7 @@ static void thread_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -72,6 +73,8 @@ static JSValue thread_class_wait_to_finish(JSContext *ctx, JSValueConst this_val
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&Thread::wait_to_finish, ctx, this_val, argc, argv);
 };
+
+
 static JSValue thread_class_set_thread_safety_checks_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     return call_builtin_static_method_no_ret(&Thread::set_thread_safety_checks_enabled, ctx, this_val, argc, argv);
 };

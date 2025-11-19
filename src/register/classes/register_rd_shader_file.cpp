@@ -17,6 +17,7 @@ static void rd_shader_file_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -71,28 +72,10 @@ static JSValue rd_shader_file_class_set_base_error(JSContext *ctx, JSValueConst 
 };
 static JSValue rd_shader_file_class_get_base_error(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		RDShaderFile *obj = static_cast<RDShaderFile *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_base_error();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		RDShaderFile *js_proxy = static_cast<RDShaderFile *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_base_error(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&RDShaderFile::get_base_error, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry rd_shader_file_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_bytecode", 2, &rd_shader_file_class_set_bytecode),

@@ -16,6 +16,7 @@ static void xr_tracker_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -62,27 +63,7 @@ static JSValue xr_tracker_class_set_tracker_type(JSContext *ctx, JSValueConst th
 };
 static JSValue xr_tracker_class_get_tracker_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<StringName> *proxy = memnew(ObjectProxy<StringName>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> StringName {
-		XRTracker *obj = static_cast<XRTracker *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_tracker_name();
-	};
-	proxy->setter = [this_val](const StringName &value) -> void {
-		XRTracker *js_proxy = static_cast<XRTracker *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_tracker_name(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringNameProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringNameProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&XRTracker::get_tracker_name, ctx, this_val, argc, argv);
 }
 static JSValue xr_tracker_class_set_tracker_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -90,32 +71,14 @@ static JSValue xr_tracker_class_set_tracker_name(JSContext *ctx, JSValueConst th
 };
 static JSValue xr_tracker_class_get_tracker_desc(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		XRTracker *obj = static_cast<XRTracker *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_tracker_desc();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		XRTracker *js_proxy = static_cast<XRTracker *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_tracker_desc(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&XRTracker::get_tracker_desc, ctx, this_val, argc, argv);
 }
 static JSValue xr_tracker_class_set_tracker_desc(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&XRTracker::set_tracker_desc, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry xr_tracker_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_tracker_type", 0, &xr_tracker_class_get_tracker_type),

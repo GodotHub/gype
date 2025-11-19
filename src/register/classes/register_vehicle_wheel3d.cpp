@@ -189,6 +189,8 @@ static JSValue vehicle_wheel3d_class_get_steering(JSContext *ctx, JSValueConst t
 	return call_builtin_const_method_ret(&VehicleWheel3D::get_steering, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry vehicle_wheel3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_radius", 1, &vehicle_wheel3d_class_set_radius),
 	JS_CFUNC_DEF("get_radius", 0, &vehicle_wheel3d_class_get_radius),

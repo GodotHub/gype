@@ -65,6 +65,8 @@ static JSValue audio_listener2d_class_is_current(JSContext *ctx, JSValueConst th
 	return call_builtin_const_method_ret(&AudioListener2D::is_current, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry audio_listener2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("make_current", 0, &audio_listener2d_class_make_current),
 	JS_CFUNC_DEF("clear_current", 0, &audio_listener2d_class_clear_current),

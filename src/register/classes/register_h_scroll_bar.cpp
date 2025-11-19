@@ -57,6 +57,8 @@ static JSValue h_scroll_bar_class_constructor(JSContext *ctx, JSValueConst new_t
 
 
 
+
+
 static void define_h_scroll_bar_property(JSContext *ctx, JSValue proto) {
 }
 

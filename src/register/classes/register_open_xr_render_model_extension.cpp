@@ -106,6 +106,8 @@ static JSValue open_xr_render_model_extension_class_render_model_get_animatable_
 	return call_builtin_const_method_ret(&OpenXRRenderModelExtension::render_model_get_animatable_node_transform, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry open_xr_render_model_extension_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_active", 0, &open_xr_render_model_extension_class_is_active),
 	JS_CFUNC_DEF("render_model_create", 1, &open_xr_render_model_extension_class_render_model_create),

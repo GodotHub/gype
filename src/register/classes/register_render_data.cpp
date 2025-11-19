@@ -71,6 +71,8 @@ static JSValue render_data_class_get_camera_attributes(JSContext *ctx, JSValueCo
 	return call_builtin_const_method_ret(&RenderData::get_camera_attributes, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry render_data_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_render_scene_buffers", 0, &render_data_class_get_render_scene_buffers),
 	JS_CFUNC_DEF("get_render_scene_data", 0, &render_data_class_get_render_scene_data),

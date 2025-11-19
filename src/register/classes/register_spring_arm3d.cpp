@@ -102,6 +102,8 @@ static JSValue spring_arm3d_class_get_margin(JSContext *ctx, JSValueConst this_v
 	return call_builtin_method_ret(&SpringArm3D::get_margin, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry spring_arm3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_hit_length", 0, &spring_arm3d_class_get_hit_length),
 	JS_CFUNC_DEF("set_length", 1, &spring_arm3d_class_set_length),

@@ -81,12 +81,10 @@ static JSValue collision_polygon3d_class_get_polygon(JSContext *ctx, JSValueCons
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "PackedVector2ArrayProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue collision_polygon3d_class_set_disabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -117,12 +115,10 @@ static JSValue collision_polygon3d_class_get_debug_color(JSContext *ctx, JSValue
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue collision_polygon3d_class_set_enable_debug_fill(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -141,6 +137,8 @@ static JSValue collision_polygon3d_class_get_margin(JSContext *ctx, JSValueConst
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&CollisionPolygon3D::get_margin, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry collision_polygon3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_depth", 1, &collision_polygon3d_class_set_depth),

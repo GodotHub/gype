@@ -139,12 +139,10 @@ static JSValue lightmap_gi_class_get_environment_custom_color(JSContext *ctx, JS
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue lightmap_gi_class_set_environment_custom_energy(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -251,6 +249,8 @@ static JSValue lightmap_gi_class_get_camera_attributes(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&LightmapGI::get_camera_attributes, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry lightmap_gi_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_light_data", 1, &lightmap_gi_class_set_light_data),

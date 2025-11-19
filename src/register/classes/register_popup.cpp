@@ -55,6 +55,8 @@ static JSValue popup_class_constructor(JSContext *ctx, JSValueConst new_target, 
 
 
 
+
+
 static JSValue popup_class_get_popup_hide_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
 	Popup *opaque = static_cast<Popup *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());

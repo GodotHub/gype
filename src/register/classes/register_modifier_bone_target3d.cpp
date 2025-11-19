@@ -58,27 +58,7 @@ static JSValue modifier_bone_target3d_class_set_bone_name(JSContext *ctx, JSValu
 };
 static JSValue modifier_bone_target3d_class_get_bone_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		ModifierBoneTarget3D *obj = static_cast<ModifierBoneTarget3D *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_bone_name();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		ModifierBoneTarget3D *js_proxy = static_cast<ModifierBoneTarget3D *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_bone_name(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&ModifierBoneTarget3D::get_bone_name, ctx, this_val, argc, argv);
 }
 static JSValue modifier_bone_target3d_class_set_bone(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -88,6 +68,8 @@ static JSValue modifier_bone_target3d_class_get_bone(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&ModifierBoneTarget3D::get_bone, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry modifier_bone_target3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_bone_name", 1, &modifier_bone_target3d_class_set_bone_name),

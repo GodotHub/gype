@@ -102,6 +102,8 @@ static JSValue retarget_modifier3d_class_is_scale_enabled(JSContext *ctx, JSValu
 	return call_builtin_const_method_ret(&RetargetModifier3D::is_scale_enabled, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry retarget_modifier3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_profile", 1, &retarget_modifier3d_class_set_profile),
 	JS_CFUNC_DEF("get_profile", 0, &retarget_modifier3d_class_get_profile),

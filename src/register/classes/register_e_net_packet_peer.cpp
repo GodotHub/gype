@@ -16,6 +16,7 @@ static void e_net_packet_peer_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -116,6 +117,8 @@ static JSValue e_net_packet_peer_class_is_active(JSContext *ctx, JSValueConst th
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&ENetPacketPeer::is_active, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry e_net_packet_peer_class_proto_funcs[] = {
 	JS_CFUNC_DEF("peer_disconnect", 1, &e_net_packet_peer_class_peer_disconnect),

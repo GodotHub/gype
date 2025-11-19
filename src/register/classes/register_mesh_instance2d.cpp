@@ -71,6 +71,8 @@ static JSValue mesh_instance2d_class_get_texture(JSContext *ctx, JSValueConst th
 	return call_builtin_const_method_ret(&MeshInstance2D::get_texture, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry mesh_instance2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_mesh", 1, &mesh_instance2d_class_set_mesh),
 	JS_CFUNC_DEF("get_mesh", 0, &mesh_instance2d_class_get_mesh),

@@ -16,6 +16,7 @@ static void mobile_vr_interface_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -104,12 +105,10 @@ static JSValue mobile_vr_interface_class_get_offset_rect(JSContext *ctx, JSValue
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Rect2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue mobile_vr_interface_class_set_oversample(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -152,6 +151,8 @@ static JSValue mobile_vr_interface_class_set_vrs_strength(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&MobileVRInterface::set_vrs_strength, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry mobile_vr_interface_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_eye_height", 1, &mobile_vr_interface_class_set_eye_height),

@@ -16,6 +16,7 @@ static void visual_shader_node_texture2d_array_parameter_class_finalizer(JSRunti
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -51,6 +52,8 @@ static JSValue visual_shader_node_texture2d_array_parameter_class_constructor(JS
     JS_SetOpaque(obj, adapter);
     return obj;
 }
+
+
 
 
 

@@ -274,6 +274,8 @@ static JSValue editor_plugin_class_get_plugin_version(JSContext *ctx, JSValueCon
 	return call_builtin_const_method_ret(&EditorPlugin::get_plugin_version, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry editor_plugin_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_control_to_container", 2, &editor_plugin_class_add_control_to_container),
 	JS_CFUNC_DEF("add_control_to_bottom_panel", 3, &editor_plugin_class_add_control_to_bottom_panel),

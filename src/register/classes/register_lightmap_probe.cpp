@@ -57,6 +57,8 @@ static JSValue lightmap_probe_class_constructor(JSContext *ctx, JSValueConst new
 
 
 
+
+
 static void define_lightmap_probe_property(JSContext *ctx, JSValue proto) {
 }
 

@@ -62,6 +62,8 @@ static JSValue editor_script_picker_class_get_script_owner(JSContext *ctx, JSVal
 	return call_builtin_const_method_ret(&EditorScriptPicker::get_script_owner, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry editor_script_picker_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_script_owner", 1, &editor_script_picker_class_set_script_owner),
 	JS_CFUNC_DEF("get_script_owner", 0, &editor_script_picker_class_get_script_owner),

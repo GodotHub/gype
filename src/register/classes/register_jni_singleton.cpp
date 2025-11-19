@@ -57,6 +57,8 @@ static JSValue jni_singleton_class_constructor(JSContext *ctx, JSValueConst new_
 
 
 
+
+
 static void define_jni_singleton_property(JSContext *ctx, JSValue proto) {
 }
 

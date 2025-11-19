@@ -16,6 +16,7 @@ static void editor_import_plugin_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -56,6 +57,8 @@ static JSValue editor_import_plugin_class_append_import_external_resource(JSCont
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&EditorImportPlugin::append_import_external_resource, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry editor_import_plugin_class_proto_funcs[] = {
 	JS_CFUNC_DEF("append_import_external_resource", 4, &editor_import_plugin_class_append_import_external_resource),

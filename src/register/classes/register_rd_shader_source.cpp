@@ -16,6 +16,7 @@ static void rd_shader_source_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -69,57 +70,147 @@ static JSValue rd_shader_source_class_get_language(JSContext *ctx, JSValueConst 
 	return call_builtin_const_method_ret(&RDShaderSource::get_language, ctx, this_val, argc, argv);
 }
 
+static JSValue rd_shader_source_class_get_source_vertex(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&RDShaderSource::get_stage_source, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue rd_shader_source_class_set_source_vertex(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&RDShaderSource::set_stage_source, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue rd_shader_source_class_get_source_fragment(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&RDShaderSource::get_stage_source, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue rd_shader_source_class_set_source_fragment(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&RDShaderSource::set_stage_source, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue rd_shader_source_class_get_source_tesselation_control(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&RDShaderSource::get_stage_source, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue rd_shader_source_class_set_source_tesselation_control(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&RDShaderSource::set_stage_source, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue rd_shader_source_class_get_source_tesselation_evaluation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&RDShaderSource::get_stage_source, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue rd_shader_source_class_set_source_tesselation_evaluation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&RDShaderSource::set_stage_source, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue rd_shader_source_class_get_source_compute(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&RDShaderSource::get_stage_source, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue rd_shader_source_class_set_source_compute(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&RDShaderSource::set_stage_source, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
+
 static const JSCFunctionListEntry rd_shader_source_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_stage_source", 2, &rd_shader_source_class_set_stage_source),
 	JS_CFUNC_DEF("get_stage_source", 1, &rd_shader_source_class_get_stage_source),
 	JS_CFUNC_DEF("set_language", 1, &rd_shader_source_class_set_language),
 	JS_CFUNC_DEF("get_language", 0, &rd_shader_source_class_get_language),
+    JS_CFUNC_MAGIC_DEF("get_source_fragment", 0, &rd_shader_source_class_get_source_fragment, 1),
+    JS_CFUNC_MAGIC_DEF("set_source_fragment", 1, &rd_shader_source_class_set_source_fragment, 1),
+    JS_CFUNC_MAGIC_DEF("get_source_tesselation_control", 0, &rd_shader_source_class_get_source_tesselation_control, 2),
+    JS_CFUNC_MAGIC_DEF("set_source_tesselation_control", 1, &rd_shader_source_class_set_source_tesselation_control, 2),
+    JS_CFUNC_MAGIC_DEF("get_source_tesselation_evaluation", 0, &rd_shader_source_class_get_source_tesselation_evaluation, 3),
+    JS_CFUNC_MAGIC_DEF("set_source_tesselation_evaluation", 1, &rd_shader_source_class_set_source_tesselation_evaluation, 3),
+    JS_CFUNC_MAGIC_DEF("get_source_compute", 0, &rd_shader_source_class_get_source_compute, 4),
+    JS_CFUNC_MAGIC_DEF("set_source_compute", 1, &rd_shader_source_class_set_source_compute, 4),
 };
 
 
 
 
 static void define_rd_shader_source_property(JSContext *ctx, JSValue proto) {
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "source_vertex"),
-        JS_NewCFunction(ctx, rd_shader_source_class_get_stage_source, "get_stage_source", 0),
-        JS_NewCFunction(ctx, rd_shader_source_class_set_stage_source, "set_stage_source", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, rd_shader_source_class_get_source_vertex, "get_source_vertex", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, rd_shader_source_class_set_source_vertex, "set_source_vertex", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "source_fragment"),
-        JS_NewCFunction(ctx, rd_shader_source_class_get_stage_source, "get_stage_source", 0),
-        JS_NewCFunction(ctx, rd_shader_source_class_set_stage_source, "set_stage_source", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, rd_shader_source_class_get_source_fragment, "get_source_fragment", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, rd_shader_source_class_set_source_fragment, "set_source_fragment", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "source_tesselation_control"),
-        JS_NewCFunction(ctx, rd_shader_source_class_get_stage_source, "get_stage_source", 0),
-        JS_NewCFunction(ctx, rd_shader_source_class_set_stage_source, "set_stage_source", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, rd_shader_source_class_get_source_tesselation_control, "get_source_tesselation_control", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, rd_shader_source_class_set_source_tesselation_control, "set_source_tesselation_control", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "source_tesselation_evaluation"),
-        JS_NewCFunction(ctx, rd_shader_source_class_get_stage_source, "get_stage_source", 0),
-        JS_NewCFunction(ctx, rd_shader_source_class_set_stage_source, "set_stage_source", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, rd_shader_source_class_get_source_tesselation_evaluation, "get_source_tesselation_evaluation", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, rd_shader_source_class_set_source_tesselation_evaluation, "set_source_tesselation_evaluation", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "source_compute"),
-        JS_NewCFunction(ctx, rd_shader_source_class_get_stage_source, "get_stage_source", 0),
-        JS_NewCFunction(ctx, rd_shader_source_class_set_stage_source, "set_stage_source", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, rd_shader_source_class_get_source_compute, "get_source_compute", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, rd_shader_source_class_set_source_compute, "set_source_compute", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

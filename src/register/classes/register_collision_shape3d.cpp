@@ -98,12 +98,10 @@ static JSValue collision_shape3d_class_get_debug_color(JSContext *ctx, JSValueCo
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue collision_shape3d_class_set_enable_debug_fill(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -114,6 +112,8 @@ static JSValue collision_shape3d_class_get_enable_debug_fill(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&CollisionShape3D::get_enable_debug_fill, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry collision_shape3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("resource_changed", 1, &collision_shape3d_class_resource_changed),

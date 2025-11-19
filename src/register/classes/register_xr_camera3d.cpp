@@ -57,6 +57,8 @@ static JSValue xr_camera3d_class_constructor(JSContext *ctx, JSValueConst new_ta
 
 
 
+
+
 static void define_xr_camera3d_property(JSContext *ctx, JSValue proto) {
 }
 

@@ -17,6 +17,7 @@ static void gltf_object_model_property_class_finalizer(JSRuntime *rt, JSValue va
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -125,6 +126,8 @@ static JSValue gltf_object_model_property_class_set_types(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&GLTFObjectModelProperty::set_types, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry gltf_object_model_property_class_proto_funcs[] = {
 	JS_CFUNC_DEF("append_node_path", 1, &gltf_object_model_property_class_append_node_path),

@@ -20,6 +20,7 @@ static void editor_export_plugin_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -140,6 +141,8 @@ static JSValue editor_export_plugin_class_get_export_platform(JSContext *ctx, JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&EditorExportPlugin::get_export_platform, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry editor_export_plugin_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_shared_object", 3, &editor_export_plugin_class_add_shared_object),

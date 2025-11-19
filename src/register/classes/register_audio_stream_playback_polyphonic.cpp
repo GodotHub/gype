@@ -17,6 +17,7 @@ static void audio_stream_playback_polyphonic_class_finalizer(JSRuntime *rt, JSVa
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -73,6 +74,8 @@ static JSValue audio_stream_playback_polyphonic_class_stop_stream(JSContext *ctx
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&AudioStreamPlaybackPolyphonic::stop_stream, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry audio_stream_playback_polyphonic_class_proto_funcs[] = {
 	JS_CFUNC_DEF("play_stream", 6, &audio_stream_playback_polyphonic_class_play_stream),

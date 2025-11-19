@@ -74,12 +74,10 @@ static JSValue camera2d_class_get_offset(JSContext *ctx, JSValueConst this_val, 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue camera2d_class_set_anchor_mode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -218,12 +216,10 @@ static JSValue camera2d_class_get_zoom(JSContext *ctx, JSValueConst this_val, in
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue camera2d_class_set_custom_viewport(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -303,6 +299,136 @@ static JSValue camera2d_class_is_margin_drawing_enabled(JSContext *ctx, JSValueC
 	return call_builtin_const_method_ret(&Camera2D::is_margin_drawing_enabled, ctx, this_val, argc, argv);
 }
 
+static JSValue camera2d_class_get_limit_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Camera2D::get_limit, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue camera2d_class_set_limit_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Camera2D::set_limit, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue camera2d_class_get_limit_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Camera2D::get_limit, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue camera2d_class_set_limit_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Camera2D::set_limit, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue camera2d_class_get_limit_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Camera2D::get_limit, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue camera2d_class_set_limit_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Camera2D::set_limit, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue camera2d_class_get_limit_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Camera2D::get_limit, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue camera2d_class_set_limit_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Camera2D::set_limit, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue camera2d_class_get_drag_left_margin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Camera2D::get_drag_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue camera2d_class_set_drag_left_margin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Camera2D::set_drag_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue camera2d_class_get_drag_top_margin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Camera2D::get_drag_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue camera2d_class_set_drag_top_margin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Camera2D::set_drag_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue camera2d_class_get_drag_right_margin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Camera2D::get_drag_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue camera2d_class_set_drag_right_margin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Camera2D::set_drag_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue camera2d_class_get_drag_bottom_margin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&Camera2D::get_drag_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue camera2d_class_set_drag_bottom_margin(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&Camera2D::set_drag_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
+
 static const JSCFunctionListEntry camera2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_offset", 1, &camera2d_class_set_offset),
 	JS_CFUNC_DEF("get_offset", 0, &camera2d_class_get_offset),
@@ -356,6 +482,18 @@ static const JSCFunctionListEntry camera2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_limit_drawing_enabled", 0, &camera2d_class_is_limit_drawing_enabled),
 	JS_CFUNC_DEF("set_margin_drawing_enabled", 1, &camera2d_class_set_margin_drawing_enabled),
 	JS_CFUNC_DEF("is_margin_drawing_enabled", 0, &camera2d_class_is_margin_drawing_enabled),
+    JS_CFUNC_MAGIC_DEF("get_limit_top", 0, &camera2d_class_get_limit_top, 1),
+    JS_CFUNC_MAGIC_DEF("set_limit_top", 1, &camera2d_class_set_limit_top, 1),
+    JS_CFUNC_MAGIC_DEF("get_limit_right", 0, &camera2d_class_get_limit_right, 2),
+    JS_CFUNC_MAGIC_DEF("set_limit_right", 1, &camera2d_class_set_limit_right, 2),
+    JS_CFUNC_MAGIC_DEF("get_limit_bottom", 0, &camera2d_class_get_limit_bottom, 3),
+    JS_CFUNC_MAGIC_DEF("set_limit_bottom", 1, &camera2d_class_set_limit_bottom, 3),
+    JS_CFUNC_MAGIC_DEF("get_drag_top_margin", 0, &camera2d_class_get_drag_top_margin, 1),
+    JS_CFUNC_MAGIC_DEF("set_drag_top_margin", 1, &camera2d_class_set_drag_top_margin, 1),
+    JS_CFUNC_MAGIC_DEF("get_drag_right_margin", 0, &camera2d_class_get_drag_right_margin, 2),
+    JS_CFUNC_MAGIC_DEF("set_drag_right_margin", 1, &camera2d_class_set_drag_right_margin, 2),
+    JS_CFUNC_MAGIC_DEF("get_drag_bottom_margin", 0, &camera2d_class_get_drag_bottom_margin, 3),
+    JS_CFUNC_MAGIC_DEF("set_drag_bottom_margin", 1, &camera2d_class_set_drag_bottom_margin, 3),
 };
 
 
@@ -426,38 +564,38 @@ static void define_camera2d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, camera2d_class_set_limit_enabled, "set_limit_enabled", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "limit_left"),
-        JS_NewCFunction(ctx, camera2d_class_get_limit, "get_limit", 0),
-        JS_NewCFunction(ctx, camera2d_class_set_limit, "set_limit", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, camera2d_class_get_limit_left, "get_limit_left", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, camera2d_class_set_limit_left, "set_limit_left", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "limit_top"),
-        JS_NewCFunction(ctx, camera2d_class_get_limit, "get_limit", 0),
-        JS_NewCFunction(ctx, camera2d_class_set_limit, "set_limit", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, camera2d_class_get_limit_top, "get_limit_top", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, camera2d_class_set_limit_top, "set_limit_top", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "limit_right"),
-        JS_NewCFunction(ctx, camera2d_class_get_limit, "get_limit", 0),
-        JS_NewCFunction(ctx, camera2d_class_set_limit, "set_limit", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, camera2d_class_get_limit_right, "get_limit_right", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, camera2d_class_set_limit_right, "set_limit_right", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "limit_bottom"),
-        JS_NewCFunction(ctx, camera2d_class_get_limit, "get_limit", 0),
-        JS_NewCFunction(ctx, camera2d_class_set_limit, "set_limit", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, camera2d_class_get_limit_bottom, "get_limit_bottom", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, camera2d_class_set_limit_bottom, "set_limit_bottom", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -530,38 +668,38 @@ static void define_camera2d_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, camera2d_class_set_drag_vertical_offset, "set_drag_vertical_offset", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "drag_left_margin"),
-        JS_NewCFunction(ctx, camera2d_class_get_drag_margin, "get_drag_margin", 0),
-        JS_NewCFunction(ctx, camera2d_class_set_drag_margin, "set_drag_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, camera2d_class_get_drag_left_margin, "get_drag_left_margin", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, camera2d_class_set_drag_left_margin, "set_drag_left_margin", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "drag_top_margin"),
-        JS_NewCFunction(ctx, camera2d_class_get_drag_margin, "get_drag_margin", 0),
-        JS_NewCFunction(ctx, camera2d_class_set_drag_margin, "set_drag_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, camera2d_class_get_drag_top_margin, "get_drag_top_margin", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, camera2d_class_set_drag_top_margin, "set_drag_top_margin", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "drag_right_margin"),
-        JS_NewCFunction(ctx, camera2d_class_get_drag_margin, "get_drag_margin", 0),
-        JS_NewCFunction(ctx, camera2d_class_set_drag_margin, "set_drag_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, camera2d_class_get_drag_right_margin, "get_drag_right_margin", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, camera2d_class_set_drag_right_margin, "set_drag_right_margin", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "drag_bottom_margin"),
-        JS_NewCFunction(ctx, camera2d_class_get_drag_margin, "get_drag_margin", 0),
-        JS_NewCFunction(ctx, camera2d_class_set_drag_margin, "set_drag_margin", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, camera2d_class_get_drag_bottom_margin, "get_drag_bottom_margin", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, camera2d_class_set_drag_bottom_margin, "set_drag_bottom_margin", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

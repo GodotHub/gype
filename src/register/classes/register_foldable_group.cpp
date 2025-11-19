@@ -17,6 +17,7 @@ static void foldable_group_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -69,6 +70,8 @@ static JSValue foldable_group_class_is_allow_folding_all(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&FoldableGroup::is_allow_folding_all, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry foldable_group_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_expanded_container", 0, &foldable_group_class_get_expanded_container),

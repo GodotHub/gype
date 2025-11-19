@@ -16,6 +16,7 @@ static void style_box_flat_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -72,12 +73,10 @@ static JSValue style_box_flat_class_get_bg_color(JSContext *ctx, JSValueConst th
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue style_box_flat_class_set_border_color(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -100,12 +99,10 @@ static JSValue style_box_flat_class_get_border_color(JSContext *ctx, JSValueCons
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue style_box_flat_class_set_border_width_all(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -184,12 +181,10 @@ static JSValue style_box_flat_class_get_skew(JSContext *ctx, JSValueConst this_v
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue style_box_flat_class_set_shadow_color(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -212,12 +207,10 @@ static JSValue style_box_flat_class_get_shadow_color(JSContext *ctx, JSValueCons
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ColorProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue style_box_flat_class_set_shadow_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -248,12 +241,10 @@ static JSValue style_box_flat_class_get_shadow_offset(JSContext *ctx, JSValueCon
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue style_box_flat_class_set_anti_aliased(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -280,6 +271,200 @@ static JSValue style_box_flat_class_get_corner_detail(JSContext *ctx, JSValueCon
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&StyleBoxFlat::get_corner_detail, ctx, this_val, argc, argv);
 }
+
+static JSValue style_box_flat_class_get_border_width_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxFlat::get_border_width, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_flat_class_set_border_width_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxFlat::set_border_width, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_flat_class_get_border_width_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxFlat::get_border_width, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_flat_class_set_border_width_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxFlat::set_border_width, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_flat_class_get_border_width_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxFlat::get_border_width, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_flat_class_set_border_width_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxFlat::set_border_width, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_flat_class_get_border_width_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxFlat::get_border_width, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_flat_class_set_border_width_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxFlat::set_border_width, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_flat_class_get_corner_radius_top_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxFlat::get_corner_radius, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_flat_class_set_corner_radius_top_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxFlat::set_corner_radius, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_flat_class_get_corner_radius_top_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxFlat::get_corner_radius, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_flat_class_set_corner_radius_top_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxFlat::set_corner_radius, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_flat_class_get_corner_radius_bottom_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxFlat::get_corner_radius, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_flat_class_set_corner_radius_bottom_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxFlat::set_corner_radius, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_flat_class_get_corner_radius_bottom_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxFlat::get_corner_radius, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_flat_class_set_corner_radius_bottom_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxFlat::set_corner_radius, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_flat_class_get_expand_margin_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxFlat::get_expand_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_flat_class_set_expand_margin_left(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxFlat::set_expand_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_flat_class_get_expand_margin_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxFlat::get_expand_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_flat_class_set_expand_margin_top(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxFlat::set_expand_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_flat_class_get_expand_margin_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxFlat::get_expand_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_flat_class_set_expand_margin_right(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxFlat::set_expand_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue style_box_flat_class_get_expand_margin_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&StyleBoxFlat::get_expand_margin, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue style_box_flat_class_set_expand_margin_bottom(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&StyleBoxFlat::set_expand_margin, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
 
 static const JSCFunctionListEntry style_box_flat_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_bg_color", 1, &style_box_flat_class_set_bg_color),
@@ -314,6 +499,24 @@ static const JSCFunctionListEntry style_box_flat_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_aa_size", 0, &style_box_flat_class_get_aa_size),
 	JS_CFUNC_DEF("set_corner_detail", 1, &style_box_flat_class_set_corner_detail),
 	JS_CFUNC_DEF("get_corner_detail", 0, &style_box_flat_class_get_corner_detail),
+    JS_CFUNC_MAGIC_DEF("get_border_width_top", 0, &style_box_flat_class_get_border_width_top, 1),
+    JS_CFUNC_MAGIC_DEF("set_border_width_top", 1, &style_box_flat_class_set_border_width_top, 1),
+    JS_CFUNC_MAGIC_DEF("get_border_width_right", 0, &style_box_flat_class_get_border_width_right, 2),
+    JS_CFUNC_MAGIC_DEF("set_border_width_right", 1, &style_box_flat_class_set_border_width_right, 2),
+    JS_CFUNC_MAGIC_DEF("get_border_width_bottom", 0, &style_box_flat_class_get_border_width_bottom, 3),
+    JS_CFUNC_MAGIC_DEF("set_border_width_bottom", 1, &style_box_flat_class_set_border_width_bottom, 3),
+    JS_CFUNC_MAGIC_DEF("get_corner_radius_top_right", 0, &style_box_flat_class_get_corner_radius_top_right, 1),
+    JS_CFUNC_MAGIC_DEF("set_corner_radius_top_right", 1, &style_box_flat_class_set_corner_radius_top_right, 1),
+    JS_CFUNC_MAGIC_DEF("get_corner_radius_bottom_right", 0, &style_box_flat_class_get_corner_radius_bottom_right, 2),
+    JS_CFUNC_MAGIC_DEF("set_corner_radius_bottom_right", 1, &style_box_flat_class_set_corner_radius_bottom_right, 2),
+    JS_CFUNC_MAGIC_DEF("get_corner_radius_bottom_left", 0, &style_box_flat_class_get_corner_radius_bottom_left, 3),
+    JS_CFUNC_MAGIC_DEF("set_corner_radius_bottom_left", 1, &style_box_flat_class_set_corner_radius_bottom_left, 3),
+    JS_CFUNC_MAGIC_DEF("get_expand_margin_top", 0, &style_box_flat_class_get_expand_margin_top, 1),
+    JS_CFUNC_MAGIC_DEF("set_expand_margin_top", 1, &style_box_flat_class_set_expand_margin_top, 1),
+    JS_CFUNC_MAGIC_DEF("get_expand_margin_right", 0, &style_box_flat_class_get_expand_margin_right, 2),
+    JS_CFUNC_MAGIC_DEF("set_expand_margin_right", 1, &style_box_flat_class_set_expand_margin_right, 2),
+    JS_CFUNC_MAGIC_DEF("get_expand_margin_bottom", 0, &style_box_flat_class_get_expand_margin_bottom, 3),
+    JS_CFUNC_MAGIC_DEF("set_expand_margin_bottom", 1, &style_box_flat_class_set_expand_margin_bottom, 3),
 };
 
 
@@ -344,38 +547,38 @@ static void define_style_box_flat_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, style_box_flat_class_set_skew, "set_skew", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "border_width_left"),
-        JS_NewCFunction(ctx, style_box_flat_class_get_border_width, "get_border_width", 0),
-        JS_NewCFunction(ctx, style_box_flat_class_set_border_width, "set_border_width", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_get_border_width_left, "get_border_width_left", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_set_border_width_left, "set_border_width_left", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "border_width_top"),
-        JS_NewCFunction(ctx, style_box_flat_class_get_border_width, "get_border_width", 0),
-        JS_NewCFunction(ctx, style_box_flat_class_set_border_width, "set_border_width", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_get_border_width_top, "get_border_width_top", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_set_border_width_top, "set_border_width_top", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "border_width_right"),
-        JS_NewCFunction(ctx, style_box_flat_class_get_border_width, "get_border_width", 0),
-        JS_NewCFunction(ctx, style_box_flat_class_set_border_width, "set_border_width", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_get_border_width_right, "get_border_width_right", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_set_border_width_right, "set_border_width_right", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "border_width_bottom"),
-        JS_NewCFunction(ctx, style_box_flat_class_get_border_width, "get_border_width", 0),
-        JS_NewCFunction(ctx, style_box_flat_class_set_border_width, "set_border_width", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_get_border_width_bottom, "get_border_width_bottom", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_set_border_width_bottom, "set_border_width_bottom", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -392,38 +595,38 @@ static void define_style_box_flat_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, style_box_flat_class_set_border_blend, "set_border_blend", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "corner_radius_top_left"),
-        JS_NewCFunction(ctx, style_box_flat_class_get_corner_radius, "get_corner_radius", 0),
-        JS_NewCFunction(ctx, style_box_flat_class_set_corner_radius, "set_corner_radius", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_get_corner_radius_top_left, "get_corner_radius_top_left", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_set_corner_radius_top_left, "set_corner_radius_top_left", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "corner_radius_top_right"),
-        JS_NewCFunction(ctx, style_box_flat_class_get_corner_radius, "get_corner_radius", 0),
-        JS_NewCFunction(ctx, style_box_flat_class_set_corner_radius, "set_corner_radius", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_get_corner_radius_top_right, "get_corner_radius_top_right", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_set_corner_radius_top_right, "set_corner_radius_top_right", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "corner_radius_bottom_right"),
-        JS_NewCFunction(ctx, style_box_flat_class_get_corner_radius, "get_corner_radius", 0),
-        JS_NewCFunction(ctx, style_box_flat_class_set_corner_radius, "set_corner_radius", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_get_corner_radius_bottom_right, "get_corner_radius_bottom_right", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_set_corner_radius_bottom_right, "set_corner_radius_bottom_right", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "corner_radius_bottom_left"),
-        JS_NewCFunction(ctx, style_box_flat_class_get_corner_radius, "get_corner_radius", 0),
-        JS_NewCFunction(ctx, style_box_flat_class_set_corner_radius, "set_corner_radius", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_get_corner_radius_bottom_left, "get_corner_radius_bottom_left", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_set_corner_radius_bottom_left, "set_corner_radius_bottom_left", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,
@@ -432,38 +635,38 @@ static void define_style_box_flat_property(JSContext *ctx, JSValue proto) {
         JS_NewCFunction(ctx, style_box_flat_class_set_corner_detail, "set_corner_detail", 1),
         JS_PROP_GETSET
     );
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "expand_margin_left"),
-        JS_NewCFunction(ctx, style_box_flat_class_get_expand_margin, "get_expand_margin", 0),
-        JS_NewCFunction(ctx, style_box_flat_class_set_expand_margin, "set_expand_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_get_expand_margin_left, "get_expand_margin_left", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_set_expand_margin_left, "set_expand_margin_left", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "expand_margin_top"),
-        JS_NewCFunction(ctx, style_box_flat_class_get_expand_margin, "get_expand_margin", 0),
-        JS_NewCFunction(ctx, style_box_flat_class_set_expand_margin, "set_expand_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_get_expand_margin_top, "get_expand_margin_top", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_set_expand_margin_top, "set_expand_margin_top", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "expand_margin_right"),
-        JS_NewCFunction(ctx, style_box_flat_class_get_expand_margin, "get_expand_margin", 0),
-        JS_NewCFunction(ctx, style_box_flat_class_set_expand_margin, "set_expand_margin", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_get_expand_margin_right, "get_expand_margin_right", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_set_expand_margin_right, "set_expand_margin_right", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "expand_margin_bottom"),
-        JS_NewCFunction(ctx, style_box_flat_class_get_expand_margin, "get_expand_margin", 0),
-        JS_NewCFunction(ctx, style_box_flat_class_set_expand_margin, "set_expand_margin", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_get_expand_margin_bottom, "get_expand_margin_bottom", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, style_box_flat_class_set_expand_margin_bottom, "set_expand_margin_bottom", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
     JS_DefinePropertyGetSet(
         ctx,
         proto,

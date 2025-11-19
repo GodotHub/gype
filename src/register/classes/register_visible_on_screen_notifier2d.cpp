@@ -72,12 +72,10 @@ static JSValue visible_on_screen_notifier2d_class_get_rect(JSContext *ctx, JSVal
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Rect2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue visible_on_screen_notifier2d_class_set_show_rect(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -92,6 +90,8 @@ static JSValue visible_on_screen_notifier2d_class_is_on_screen(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&VisibleOnScreenNotifier2D::is_on_screen, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry visible_on_screen_notifier2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_rect", 1, &visible_on_screen_notifier2d_class_set_rect),

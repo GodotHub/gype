@@ -17,6 +17,7 @@ static void compositor_effect_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -109,6 +110,8 @@ static JSValue compositor_effect_class_get_needs_separate_specular(JSContext *ct
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&CompositorEffect::get_needs_separate_specular, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry compositor_effect_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_enabled", 1, &compositor_effect_class_set_enabled),

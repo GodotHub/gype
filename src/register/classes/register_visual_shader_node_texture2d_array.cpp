@@ -17,6 +17,7 @@ static void visual_shader_node_texture2d_array_class_finalizer(JSRuntime *rt, JS
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -61,6 +62,8 @@ static JSValue visual_shader_node_texture2d_array_class_get_texture_array(JSCont
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&VisualShaderNodeTexture2DArray::get_texture_array, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry visual_shader_node_texture2d_array_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_texture_array", 1, &visual_shader_node_texture2d_array_class_set_texture_array),

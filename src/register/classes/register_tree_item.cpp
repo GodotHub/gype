@@ -528,6 +528,8 @@ static JSValue tree_item_class_move_after(JSContext *ctx, JSValueConst this_val,
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&TreeItem::move_after, ctx, this_val, argc, argv);
 };
+
+
 static JSValue tree_item_class_call_recursive(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_free_owner_vararg_method_no_ret(&js_call_recursive, ctx, this_val, argc, argv);

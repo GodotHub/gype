@@ -16,6 +16,7 @@ static void rd_shader_spirv_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -69,97 +70,275 @@ static JSValue rd_shader_spirv_class_get_stage_compile_error(JSContext *ctx, JSV
 	return call_builtin_const_method_ret(&RDShaderSPIRV::get_stage_compile_error, ctx, this_val, argc, argv);
 }
 
+static JSValue rd_shader_spirv_class_get_bytecode_vertex(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&RDShaderSPIRV::get_stage_bytecode, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue rd_shader_spirv_class_set_bytecode_vertex(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&RDShaderSPIRV::set_stage_bytecode, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue rd_shader_spirv_class_get_bytecode_fragment(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&RDShaderSPIRV::get_stage_bytecode, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue rd_shader_spirv_class_set_bytecode_fragment(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&RDShaderSPIRV::set_stage_bytecode, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue rd_shader_spirv_class_get_bytecode_tesselation_control(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&RDShaderSPIRV::get_stage_bytecode, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue rd_shader_spirv_class_set_bytecode_tesselation_control(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&RDShaderSPIRV::set_stage_bytecode, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue rd_shader_spirv_class_get_bytecode_tesselation_evaluation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&RDShaderSPIRV::get_stage_bytecode, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue rd_shader_spirv_class_set_bytecode_tesselation_evaluation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&RDShaderSPIRV::set_stage_bytecode, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue rd_shader_spirv_class_get_bytecode_compute(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&RDShaderSPIRV::get_stage_bytecode, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue rd_shader_spirv_class_set_bytecode_compute(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&RDShaderSPIRV::set_stage_bytecode, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue rd_shader_spirv_class_get_compile_error_vertex(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&RDShaderSPIRV::get_stage_compile_error, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue rd_shader_spirv_class_set_compile_error_vertex(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&RDShaderSPIRV::set_stage_compile_error, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue rd_shader_spirv_class_get_compile_error_fragment(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&RDShaderSPIRV::get_stage_compile_error, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue rd_shader_spirv_class_set_compile_error_fragment(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&RDShaderSPIRV::set_stage_compile_error, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue rd_shader_spirv_class_get_compile_error_tesselation_control(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&RDShaderSPIRV::get_stage_compile_error, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue rd_shader_spirv_class_set_compile_error_tesselation_control(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&RDShaderSPIRV::set_stage_compile_error, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue rd_shader_spirv_class_get_compile_error_tesselation_evaluation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&RDShaderSPIRV::get_stage_compile_error, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue rd_shader_spirv_class_set_compile_error_tesselation_evaluation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&RDShaderSPIRV::set_stage_compile_error, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+static JSValue rd_shader_spirv_class_get_compile_error_compute(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	JSValue ret = call_builtin_const_method_ret(&RDShaderSPIRV::get_stage_compile_error, ctx, this_val, argc, &index);
+	JS_FreeValue(ctx, index);
+	return ret;
+}
+static JSValue rd_shader_spirv_class_set_compile_error_compute(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, int magic) {
+	CHECK_INSTANCE_VALID_V(this_val);
+	JSValue index = JS_NewInt64(ctx, magic);
+	std::vector<JSValueConst> vec_arg;
+	vec_arg.reserve(argc + 1);
+	vec_arg.insert(vec_arg.end(), argv, argv + argc);
+	call_builtin_method_no_ret(&RDShaderSPIRV::set_stage_compile_error, ctx, this_val, argc, vec_arg.data());
+	return JS_UNDEFINED;
+}
+
+
 static const JSCFunctionListEntry rd_shader_spirv_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_stage_bytecode", 2, &rd_shader_spirv_class_set_stage_bytecode),
 	JS_CFUNC_DEF("get_stage_bytecode", 1, &rd_shader_spirv_class_get_stage_bytecode),
 	JS_CFUNC_DEF("set_stage_compile_error", 2, &rd_shader_spirv_class_set_stage_compile_error),
 	JS_CFUNC_DEF("get_stage_compile_error", 1, &rd_shader_spirv_class_get_stage_compile_error),
+    JS_CFUNC_MAGIC_DEF("get_bytecode_fragment", 0, &rd_shader_spirv_class_get_bytecode_fragment, 1),
+    JS_CFUNC_MAGIC_DEF("set_bytecode_fragment", 1, &rd_shader_spirv_class_set_bytecode_fragment, 1),
+    JS_CFUNC_MAGIC_DEF("get_bytecode_tesselation_control", 0, &rd_shader_spirv_class_get_bytecode_tesselation_control, 2),
+    JS_CFUNC_MAGIC_DEF("set_bytecode_tesselation_control", 1, &rd_shader_spirv_class_set_bytecode_tesselation_control, 2),
+    JS_CFUNC_MAGIC_DEF("get_bytecode_tesselation_evaluation", 0, &rd_shader_spirv_class_get_bytecode_tesselation_evaluation, 3),
+    JS_CFUNC_MAGIC_DEF("set_bytecode_tesselation_evaluation", 1, &rd_shader_spirv_class_set_bytecode_tesselation_evaluation, 3),
+    JS_CFUNC_MAGIC_DEF("get_bytecode_compute", 0, &rd_shader_spirv_class_get_bytecode_compute, 4),
+    JS_CFUNC_MAGIC_DEF("set_bytecode_compute", 1, &rd_shader_spirv_class_set_bytecode_compute, 4),
+    JS_CFUNC_MAGIC_DEF("get_compile_error_fragment", 0, &rd_shader_spirv_class_get_compile_error_fragment, 1),
+    JS_CFUNC_MAGIC_DEF("set_compile_error_fragment", 1, &rd_shader_spirv_class_set_compile_error_fragment, 1),
+    JS_CFUNC_MAGIC_DEF("get_compile_error_tesselation_control", 0, &rd_shader_spirv_class_get_compile_error_tesselation_control, 2),
+    JS_CFUNC_MAGIC_DEF("set_compile_error_tesselation_control", 1, &rd_shader_spirv_class_set_compile_error_tesselation_control, 2),
+    JS_CFUNC_MAGIC_DEF("get_compile_error_tesselation_evaluation", 0, &rd_shader_spirv_class_get_compile_error_tesselation_evaluation, 3),
+    JS_CFUNC_MAGIC_DEF("set_compile_error_tesselation_evaluation", 1, &rd_shader_spirv_class_set_compile_error_tesselation_evaluation, 3),
+    JS_CFUNC_MAGIC_DEF("get_compile_error_compute", 0, &rd_shader_spirv_class_get_compile_error_compute, 4),
+    JS_CFUNC_MAGIC_DEF("set_compile_error_compute", 1, &rd_shader_spirv_class_set_compile_error_compute, 4),
 };
 
 
 
 
 static void define_rd_shader_spirv_property(JSContext *ctx, JSValue proto) {
-    JS_DefinePropertyGetSet(
-        ctx,
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "bytecode_vertex"),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_get_stage_bytecode, "get_stage_bytecode", 0),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_set_stage_bytecode, "set_stage_bytecode", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_get_bytecode_vertex, "get_bytecode_vertex", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_set_bytecode_vertex, "set_bytecode_vertex", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "bytecode_fragment"),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_get_stage_bytecode, "get_stage_bytecode", 0),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_set_stage_bytecode, "set_stage_bytecode", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_get_bytecode_fragment, "get_bytecode_fragment", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_set_bytecode_fragment, "set_bytecode_fragment", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "bytecode_tesselation_control"),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_get_stage_bytecode, "get_stage_bytecode", 0),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_set_stage_bytecode, "set_stage_bytecode", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_get_bytecode_tesselation_control, "get_bytecode_tesselation_control", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_set_bytecode_tesselation_control, "set_bytecode_tesselation_control", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "bytecode_tesselation_evaluation"),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_get_stage_bytecode, "get_stage_bytecode", 0),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_set_stage_bytecode, "set_stage_bytecode", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_get_bytecode_tesselation_evaluation, "get_bytecode_tesselation_evaluation", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_set_bytecode_tesselation_evaluation, "set_bytecode_tesselation_evaluation", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "bytecode_compute"),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_get_stage_bytecode, "get_stage_bytecode", 0),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_set_stage_bytecode, "set_stage_bytecode", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_get_bytecode_compute, "get_bytecode_compute", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_set_bytecode_compute, "set_bytecode_compute", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "compile_error_vertex"),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_get_stage_compile_error, "get_stage_compile_error", 0),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_set_stage_compile_error, "set_stage_compile_error", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_get_compile_error_vertex, "get_compile_error_vertex", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_set_compile_error_vertex, "set_compile_error_vertex", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 0),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "compile_error_fragment"),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_get_stage_compile_error, "get_stage_compile_error", 0),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_set_stage_compile_error, "set_stage_compile_error", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_get_compile_error_fragment, "get_compile_error_fragment", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_set_compile_error_fragment, "set_compile_error_fragment", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 1),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "compile_error_tesselation_control"),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_get_stage_compile_error, "get_stage_compile_error", 0),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_set_stage_compile_error, "set_stage_compile_error", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_get_compile_error_tesselation_control, "get_compile_error_tesselation_control", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_set_compile_error_tesselation_control, "set_compile_error_tesselation_control", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 2),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "compile_error_tesselation_evaluation"),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_get_stage_compile_error, "get_stage_compile_error", 0),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_set_stage_compile_error, "set_stage_compile_error", 1),
-        JS_PROP_GETSET
-    );
-    JS_DefinePropertyGetSet(
-        ctx,
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_get_compile_error_tesselation_evaluation, "get_compile_error_tesselation_evaluation", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_set_compile_error_tesselation_evaluation, "set_compile_error_tesselation_evaluation", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 3),
+		JS_PROP_GETSET
+	);
+	JS_DefinePropertyGetSet(
+		ctx,
         proto,
         JS_NewAtom(ctx, "compile_error_compute"),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_get_stage_compile_error, "get_stage_compile_error", 0),
-        JS_NewCFunction(ctx, rd_shader_spirv_class_set_stage_compile_error, "set_stage_compile_error", 1),
-        JS_PROP_GETSET
-    );
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_get_compile_error_compute, "get_compile_error_compute", 0, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_NewCFunctionMagic(ctx, rd_shader_spirv_class_set_compile_error_compute, "set_compile_error_compute", 1, JSCFunctionEnum::JS_CFUNC_generic_magic, 4),
+		JS_PROP_GETSET
+	);
 }
 
 static void define_rd_shader_spirv_enum(JSContext *ctx, JSValue ctor) {

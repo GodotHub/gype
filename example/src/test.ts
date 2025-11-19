@@ -1,24 +1,23 @@
 import {Button} from "@godot/classes/button";
-import {GodotClass, GodotSignal, to_promise} from "@godot/core/class_defined";
-import {Node} from "@godot/classes/node";
+import {GodotClass, GodotExport, GodotSignal, to_promise} from "@godot/core/class_defined";
 
 @GodotClass
 export class Test extends Button {
 
-  @GodotSignal({
-    name: "content",
-    type: Variant.Type.STRING
-  })
+  @GodotSignal
   private test_signal!: Signal;
 
-  public _enter_tree(): void {
-    this.test_signal.connect((content: string) => {
-      GD.print(content);
-    });
+  @GodotExport(Variant.Type.INT)
+  private test_export!: number;
+
+  public async _enter_tree(): Promise<void> {
+    await to_promise(this.test_signal);
+    GD.print("test_signal");
   }
 
   public _ready(): void {
-    this.test_signal.emit("Hello World!");
+    GD.print('test_export: ', this.test_export);
+    this.test_signal.emit();
   }
 
   public _process(delta: number): void {

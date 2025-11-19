@@ -186,6 +186,8 @@ static JSValue collision_object3d_class_shape_find_owner(JSContext *ctx, JSValue
 	return call_builtin_const_method_ret(&CollisionObject3D::shape_find_owner, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry collision_object3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_collision_layer", 1, &collision_object3d_class_set_collision_layer),
 	JS_CFUNC_DEF("get_collision_layer", 0, &collision_object3d_class_get_collision_layer),

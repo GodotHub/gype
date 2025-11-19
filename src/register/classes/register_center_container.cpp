@@ -61,6 +61,8 @@ static JSValue center_container_class_is_using_top_left(JSContext *ctx, JSValueC
 	return call_builtin_const_method_ret(&CenterContainer::is_using_top_left, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry center_container_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_use_top_left", 1, &center_container_class_set_use_top_left),
 	JS_CFUNC_DEF("is_using_top_left", 0, &center_container_class_is_using_top_left),

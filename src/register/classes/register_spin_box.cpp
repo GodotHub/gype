@@ -67,27 +67,7 @@ static JSValue spin_box_class_set_suffix(JSContext *ctx, JSValueConst this_val, 
 };
 static JSValue spin_box_class_get_suffix(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		SpinBox *obj = static_cast<SpinBox *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_suffix();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		SpinBox *js_proxy = static_cast<SpinBox *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_suffix(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&SpinBox::get_suffix, ctx, this_val, argc, argv);
 }
 static JSValue spin_box_class_set_prefix(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -95,27 +75,7 @@ static JSValue spin_box_class_set_prefix(JSContext *ctx, JSValueConst this_val, 
 };
 static JSValue spin_box_class_get_prefix(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		SpinBox *obj = static_cast<SpinBox *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_prefix();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		SpinBox *js_proxy = static_cast<SpinBox *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_prefix(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&SpinBox::get_prefix, ctx, this_val, argc, argv);
 }
 static JSValue spin_box_class_set_editable(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -157,6 +117,8 @@ static JSValue spin_box_class_get_line_edit(JSContext *ctx, JSValueConst this_va
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&SpinBox::get_line_edit, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry spin_box_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_horizontal_alignment", 1, &spin_box_class_set_horizontal_alignment),

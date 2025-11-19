@@ -16,6 +16,7 @@ static void visual_shader_node_face_forward_class_finalizer(JSRuntime *rt, JSVal
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -51,6 +52,8 @@ static JSValue visual_shader_node_face_forward_class_constructor(JSContext *ctx,
     JS_SetOpaque(obj, adapter);
     return obj;
 }
+
+
 
 
 

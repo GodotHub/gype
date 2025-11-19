@@ -82,12 +82,10 @@ static JSValue ray_cast2d_class_get_target_position(JSContext *ctx, JSValueConst
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector2Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue ray_cast2d_class_is_colliding(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -186,6 +184,8 @@ static JSValue ray_cast2d_class_is_hit_from_inside_enabled(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&RayCast2D::is_hit_from_inside_enabled, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry ray_cast2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_enabled", 1, &ray_cast2d_class_set_enabled),

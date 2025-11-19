@@ -18,6 +18,7 @@ static void editor_script_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -66,6 +67,8 @@ static JSValue editor_script_class_get_editor_interface(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&EditorScript::get_editor_interface, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry editor_script_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_root_node", 1, &editor_script_class_add_root_node),

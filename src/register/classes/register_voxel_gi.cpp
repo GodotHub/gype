@@ -91,12 +91,10 @@ static JSValue voxel_gi_class_get_size(JSContext *ctx, JSValueConst this_val, in
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "Vector3Proxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue voxel_gi_class_set_camera_attributes(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -115,6 +113,8 @@ static JSValue voxel_gi_class_debug_bake(JSContext *ctx, JSValueConst this_val, 
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&VoxelGI::debug_bake, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry voxel_gi_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_probe_data", 1, &voxel_gi_class_set_probe_data),

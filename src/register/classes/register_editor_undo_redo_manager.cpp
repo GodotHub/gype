@@ -98,6 +98,8 @@ static JSValue editor_undo_redo_manager_class_clear_history(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&EditorUndoRedoManager::clear_history, ctx, this_val, argc, argv);
 };
+
+
 static JSValue editor_undo_redo_manager_class_add_do_method(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_free_owner_vararg_method_no_ret(&js_add_do_method, ctx, this_val, argc, argv);

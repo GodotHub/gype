@@ -17,6 +17,7 @@ static void physics_test_motion_result2d_class_finalizer(JSRuntime *rt, JSValue 
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -105,6 +106,8 @@ static JSValue physics_test_motion_result2d_class_get_collision_unsafe_fraction(
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&PhysicsTestMotionResult2D::get_collision_unsafe_fraction, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry physics_test_motion_result2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_travel", 0, &physics_test_motion_result2d_class_get_travel),

@@ -67,6 +67,8 @@ static JSValue file_system_dock_class_remove_resource_tooltip_plugin(JSContext *
     return call_builtin_method_no_ret(&FileSystemDock::remove_resource_tooltip_plugin, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry file_system_dock_class_proto_funcs[] = {
 	JS_CFUNC_DEF("navigate_to_path", 1, &file_system_dock_class_navigate_to_path),
 	JS_CFUNC_DEF("add_resource_tooltip_plugin", 1, &file_system_dock_class_add_resource_tooltip_plugin),

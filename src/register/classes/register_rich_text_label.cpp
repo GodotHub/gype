@@ -261,12 +261,10 @@ static JSValue rich_text_label_class_get_structured_text_bidi_override_options(J
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "ArrayProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue rich_text_label_class_set_text_direction(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -283,27 +281,7 @@ static JSValue rich_text_label_class_set_language(JSContext *ctx, JSValueConst t
 };
 static JSValue rich_text_label_class_get_language(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		RichTextLabel *obj = static_cast<RichTextLabel *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_language();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		RichTextLabel *js_proxy = static_cast<RichTextLabel *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_language(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&RichTextLabel::get_language, ctx, this_val, argc, argv);
 }
 static JSValue rich_text_label_class_set_horizontal_alignment(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -350,12 +328,10 @@ static JSValue rich_text_label_class_get_tab_stops(JSContext *ctx, JSValueConst 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "PackedFloat32ArrayProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue rich_text_label_class_set_autowrap_mode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -520,27 +496,7 @@ static JSValue rich_text_label_class_append_text(JSContext *ctx, JSValueConst th
 };
 static JSValue rich_text_label_class_get_text(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		RichTextLabel *obj = static_cast<RichTextLabel *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_text();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		RichTextLabel *js_proxy = static_cast<RichTextLabel *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_text(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&RichTextLabel::get_text, ctx, this_val, argc, argv);
 }
 static JSValue rich_text_label_class_is_ready(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -690,6 +646,8 @@ static JSValue rich_text_label_class_menu_option(JSContext *ctx, JSValueConst th
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&RichTextLabel::menu_option, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry rich_text_label_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_parsed_text", 0, &rich_text_label_class_get_parsed_text),

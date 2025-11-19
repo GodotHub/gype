@@ -143,6 +143,8 @@ static JSValue csg_shape3d_class_bake_static_mesh(JSContext *ctx, JSValueConst t
 	return call_builtin_method_ret(&CSGShape3D::bake_static_mesh, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry csg_shape3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("is_root_shape", 0, &csg_shape3d_class_is_root_shape),
 	JS_CFUNC_DEF("set_operation", 1, &csg_shape3d_class_set_operation),

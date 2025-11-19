@@ -300,6 +300,8 @@ static JSValue tile_map_class_get_neighbor_cell(JSContext *ctx, JSValueConst thi
 	return call_builtin_const_method_ret(&TileMap::get_neighbor_cell, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry tile_map_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_navigation_map", 2, &tile_map_class_set_navigation_map),
 	JS_CFUNC_DEF("get_navigation_map", 1, &tile_map_class_get_navigation_map),

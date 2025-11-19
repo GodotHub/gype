@@ -61,6 +61,8 @@ static JSValue xr_anchor3d_class_get_plane(JSContext *ctx, JSValueConst this_val
 	return call_builtin_const_method_ret(&XRAnchor3D::get_plane, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry xr_anchor3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_size", 0, &xr_anchor3d_class_get_size),
 	JS_CFUNC_DEF("get_plane", 0, &xr_anchor3d_class_get_plane),

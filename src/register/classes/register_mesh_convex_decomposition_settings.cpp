@@ -16,6 +16,7 @@ static void mesh_convex_decomposition_settings_class_finalizer(JSRuntime *rt, JS
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -156,6 +157,8 @@ static JSValue mesh_convex_decomposition_settings_class_get_project_hull_vertice
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&MeshConvexDecompositionSettings::get_project_hull_vertices, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry mesh_convex_decomposition_settings_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_max_concavity", 1, &mesh_convex_decomposition_settings_class_set_max_concavity),

@@ -101,6 +101,8 @@ static JSValue generic6_dof_joint3d_class_get_flag_z(JSContext *ctx, JSValueCons
 	return call_builtin_const_method_ret(&Generic6DOFJoint3D::get_flag_z, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry generic6_dof_joint3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_param_x", 2, &generic6_dof_joint3d_class_set_param_x),
 	JS_CFUNC_DEF("get_param_x", 1, &generic6_dof_joint3d_class_get_param_x),

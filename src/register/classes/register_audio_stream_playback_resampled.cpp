@@ -16,6 +16,7 @@ static void audio_stream_playback_resampled_class_finalizer(JSRuntime *rt, JSVal
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -56,6 +57,8 @@ static JSValue audio_stream_playback_resampled_class_begin_resample(JSContext *c
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&AudioStreamPlaybackResampled::begin_resample, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry audio_stream_playback_resampled_class_proto_funcs[] = {
 	JS_CFUNC_DEF("begin_resample", 0, &audio_stream_playback_resampled_class_begin_resample),

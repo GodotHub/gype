@@ -16,6 +16,7 @@ static void packet_peer_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -84,6 +85,8 @@ static JSValue packet_peer_class_set_encode_buffer_max_size(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&PacketPeer::set_encode_buffer_max_size, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry packet_peer_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_var", 1, &packet_peer_class_get_var),

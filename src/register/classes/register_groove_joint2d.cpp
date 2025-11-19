@@ -69,6 +69,8 @@ static JSValue groove_joint2d_class_get_initial_offset(JSContext *ctx, JSValueCo
 	return call_builtin_const_method_ret(&GrooveJoint2D::get_initial_offset, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry groove_joint2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_length", 1, &groove_joint2d_class_set_length),
 	JS_CFUNC_DEF("get_length", 0, &groove_joint2d_class_get_length),

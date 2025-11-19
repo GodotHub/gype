@@ -84,27 +84,7 @@ static JSValue foldable_container_class_set_title(JSContext *ctx, JSValueConst t
 };
 static JSValue foldable_container_class_get_title(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		FoldableContainer *obj = static_cast<FoldableContainer *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_title();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		FoldableContainer *js_proxy = static_cast<FoldableContainer *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_title(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&FoldableContainer::get_title, ctx, this_val, argc, argv);
 }
 static JSValue foldable_container_class_set_title_alignment(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -120,27 +100,7 @@ static JSValue foldable_container_class_set_language(JSContext *ctx, JSValueCons
 };
 static JSValue foldable_container_class_get_language(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		FoldableContainer *obj = static_cast<FoldableContainer *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_language();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		FoldableContainer *js_proxy = static_cast<FoldableContainer *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_language(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&FoldableContainer::get_language, ctx, this_val, argc, argv);
 }
 static JSValue foldable_container_class_set_title_text_direction(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -174,6 +134,8 @@ static JSValue foldable_container_class_remove_title_bar_control(JSContext *ctx,
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&FoldableContainer::remove_title_bar_control, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry foldable_container_class_proto_funcs[] = {
 	JS_CFUNC_DEF("fold", 0, &foldable_container_class_fold),

@@ -18,6 +18,7 @@ static void editor_scene_post_import_class_finalizer(JSRuntime *rt, JSValue val)
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -58,6 +59,8 @@ static JSValue editor_scene_post_import_class_get_source_file(JSContext *ctx, JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&EditorScenePostImport::get_source_file, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry editor_scene_post_import_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_source_file", 0, &editor_scene_post_import_class_get_source_file),

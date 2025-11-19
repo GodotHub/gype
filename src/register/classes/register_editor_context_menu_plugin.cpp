@@ -19,6 +19,7 @@ static void editor_context_menu_plugin_class_finalizer(JSRuntime *rt, JSValue va
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -71,6 +72,8 @@ static JSValue editor_context_menu_plugin_class_add_context_submenu_item(JSConte
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&EditorContextMenuPlugin::add_context_submenu_item, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry editor_context_menu_plugin_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_menu_shortcut", 2, &editor_context_menu_plugin_class_add_menu_shortcut),

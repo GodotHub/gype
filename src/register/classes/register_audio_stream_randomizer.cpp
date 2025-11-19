@@ -16,6 +16,7 @@ static void audio_stream_randomizer_class_finalizer(JSRuntime *rt, JSValue val) 
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -112,6 +113,8 @@ static JSValue audio_stream_randomizer_class_get_playback_mode(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&AudioStreamRandomizer::get_playback_mode, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry audio_stream_randomizer_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_stream", 3, &audio_stream_randomizer_class_add_stream),

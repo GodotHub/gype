@@ -61,6 +61,8 @@ static JSValue csg_primitive3d_class_get_flip_faces(JSContext *ctx, JSValueConst
 	return call_builtin_method_ret(&CSGPrimitive3D::get_flip_faces, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry csg_primitive3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_flip_faces", 1, &csg_primitive3d_class_set_flip_faces),
 	JS_CFUNC_DEF("get_flip_faces", 0, &csg_primitive3d_class_get_flip_faces),

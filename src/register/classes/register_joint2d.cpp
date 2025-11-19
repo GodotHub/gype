@@ -72,12 +72,10 @@ static JSValue joint2d_class_get_node_a(JSContext *ctx, JSValueConst this_val, i
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue joint2d_class_set_node_b(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -100,12 +98,10 @@ static JSValue joint2d_class_get_node_b(JSContext *ctx, JSValueConst this_val, i
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue joint2d_class_set_bias(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -128,6 +124,8 @@ static JSValue joint2d_class_get_rid(JSContext *ctx, JSValueConst this_val, int 
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&Joint2D::get_rid, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry joint2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_node_a", 1, &joint2d_class_set_node_a),

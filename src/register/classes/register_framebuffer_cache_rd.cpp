@@ -53,6 +53,8 @@ static JSValue framebuffer_cache_rd_class_constructor(JSContext *ctx, JSValueCon
     return obj;
 }
 
+
+
 static JSValue framebuffer_cache_rd_class_get_cache_multipass(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_static_method_ret(&FramebufferCacheRD::get_cache_multipass, ctx, this_val, argc, argv);
 };

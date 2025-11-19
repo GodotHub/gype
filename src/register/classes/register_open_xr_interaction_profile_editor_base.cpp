@@ -59,6 +59,8 @@ static JSValue open_xr_interaction_profile_editor_base_class_setup(JSContext *ct
     return call_builtin_method_no_ret(&OpenXRInteractionProfileEditorBase::setup, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry open_xr_interaction_profile_editor_base_class_proto_funcs[] = {
 	JS_CFUNC_DEF("setup", 2, &open_xr_interaction_profile_editor_base_class_setup),
 };

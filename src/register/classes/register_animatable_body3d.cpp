@@ -61,6 +61,8 @@ static JSValue animatable_body3d_class_is_sync_to_physics_enabled(JSContext *ctx
 	return call_builtin_const_method_ret(&AnimatableBody3D::is_sync_to_physics_enabled, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry animatable_body3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_sync_to_physics", 1, &animatable_body3d_class_set_sync_to_physics),
 	JS_CFUNC_DEF("is_sync_to_physics_enabled", 0, &animatable_body3d_class_is_sync_to_physics_enabled),

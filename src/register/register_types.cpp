@@ -52,13 +52,13 @@ void initialize_gype_types(ModuleInitializationLevel p_level) {
 
 void uninitialize_gype_types(godot::ModuleInitializationLevel p_level) {
 	if (p_level == godot::ModuleInitializationLevel::MODULE_INITIALIZATION_LEVEL_SCENE) {
-		JS_RunGC(js_runtime());
 		Engine::get_singleton()->unregister_script_language(TypeScriptLanguage::get_singleton());
 		ResourceSaver::get_singleton()->remove_resource_format_saver(TypeScriptSaver::get_singleton());
 		ResourceLoader::get_singleton()->remove_resource_format_loader(TypeScriptLoader::get_singleton());
 		memdelete(TypeScriptLanguage::get_singleton());
 		memdelete(TypeScriptSaver::get_singleton());
 		memdelete(TypeScriptLoader::get_singleton());
+		JS_RunGC(js_runtime());
 	}
 }
 

@@ -85,6 +85,8 @@ static JSValue damped_spring_joint2d_class_get_damping(JSContext *ctx, JSValueCo
 	return call_builtin_const_method_ret(&DampedSpringJoint2D::get_damping, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry damped_spring_joint2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_length", 1, &damped_spring_joint2d_class_set_length),
 	JS_CFUNC_DEF("get_length", 0, &damped_spring_joint2d_class_get_length),

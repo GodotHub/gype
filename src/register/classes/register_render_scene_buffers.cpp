@@ -17,6 +17,7 @@ static void render_scene_buffers_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -57,6 +58,8 @@ static JSValue render_scene_buffers_class_configure(JSContext *ctx, JSValueConst
 	CHECK_INSTANCE_VALID_V(this_val);
     return call_builtin_method_no_ret(&RenderSceneBuffers::configure, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry render_scene_buffers_class_proto_funcs[] = {
 	JS_CFUNC_DEF("configure", 1, &render_scene_buffers_class_configure),

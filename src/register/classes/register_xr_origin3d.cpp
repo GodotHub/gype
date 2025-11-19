@@ -69,6 +69,8 @@ static JSValue xr_origin3d_class_is_current(JSContext *ctx, JSValueConst this_va
 	return call_builtin_const_method_ret(&XROrigin3D::is_current, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry xr_origin3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_world_scale", 1, &xr_origin3d_class_set_world_scale),
 	JS_CFUNC_DEF("get_world_scale", 0, &xr_origin3d_class_get_world_scale),

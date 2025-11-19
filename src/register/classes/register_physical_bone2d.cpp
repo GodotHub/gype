@@ -97,12 +97,10 @@ static JSValue physical_bone2d_class_get_bone2d_nodepath(JSContext *ctx, JSValue
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue physical_bone2d_class_set_bone2d_index(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -121,6 +119,8 @@ static JSValue physical_bone2d_class_get_follow_bone_when_simulating(JSContext *
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&PhysicalBone2D::get_follow_bone_when_simulating, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry physical_bone2d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_joint", 0, &physical_bone2d_class_get_joint),

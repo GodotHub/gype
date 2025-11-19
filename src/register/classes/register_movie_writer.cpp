@@ -53,6 +53,8 @@ static JSValue movie_writer_class_constructor(JSContext *ctx, JSValueConst new_t
     return obj;
 }
 
+
+
 static JSValue movie_writer_class_add_writer(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     return call_builtin_static_method_no_ret(&MovieWriter::add_writer, ctx, this_val, argc, argv);
 };

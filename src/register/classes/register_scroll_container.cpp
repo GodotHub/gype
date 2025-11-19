@@ -140,6 +140,8 @@ static JSValue scroll_container_class_get_draw_focus_border(JSContext *ctx, JSVa
 	return call_builtin_method_ret(&ScrollContainer::get_draw_focus_border, ctx, this_val, argc, argv);
 }
 
+
+
 static const JSCFunctionListEntry scroll_container_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_h_scroll", 1, &scroll_container_class_set_h_scroll),
 	JS_CFUNC_DEF("get_h_scroll", 0, &scroll_container_class_get_h_scroll),

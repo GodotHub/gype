@@ -279,6 +279,8 @@ static JSValue skeleton3d_class_physical_bones_remove_collision_exception(JSCont
     return call_builtin_method_no_ret(&Skeleton3D::physical_bones_remove_collision_exception, ctx, this_val, argc, argv);
 };
 
+
+
 static const JSCFunctionListEntry skeleton3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("add_bone", 1, &skeleton3d_class_add_bone),
 	JS_CFUNC_DEF("find_bone", 1, &skeleton3d_class_find_bone),

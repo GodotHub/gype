@@ -18,6 +18,7 @@ static void multiplayer_api_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -98,6 +99,8 @@ static JSValue multiplayer_api_class_get_peers(JSContext *ctx, JSValueConst this
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_method_ret(&MultiplayerAPI::get_peers, ctx, this_val, argc, argv);
 };
+
+
 static JSValue multiplayer_api_class_set_default_interface(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
     return call_builtin_static_method_no_ret(&MultiplayerAPI::set_default_interface, ctx, this_val, argc, argv);
 };

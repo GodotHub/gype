@@ -16,6 +16,7 @@ static void reg_ex_match_class_finalizer(JSRuntime *rt, JSValue val) {
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
 		memdelete(opaque_ptr);
+		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 	}
 }
 
@@ -54,23 +55,7 @@ static JSValue reg_ex_match_class_constructor(JSContext *ctx, JSValueConst new_t
 
 static JSValue reg_ex_match_class_get_subject(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		RegExMatch *obj = static_cast<RegExMatch *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_subject();
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, &proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
-    return js_proxy;
+	return call_builtin_const_method_ret(&RegExMatch::get_subject, ctx, this_val, argc, argv);
 }
 static JSValue reg_ex_match_class_get_group_count(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -88,12 +73,10 @@ static JSValue reg_ex_match_class_get_names(JSContext *ctx, JSValueConst this_va
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "DictionaryProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue reg_ex_match_class_get_strings(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -108,12 +91,10 @@ static JSValue reg_ex_match_class_get_strings(JSContext *ctx, JSValueConst this_
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "PackedStringArrayProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue reg_ex_match_class_get_string(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -128,6 +109,8 @@ static JSValue reg_ex_match_class_get_end(JSContext *ctx, JSValueConst this_val,
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&RegExMatch::get_end, ctx, this_val, argc, argv);
 };
+
+
 
 static const JSCFunctionListEntry reg_ex_match_class_proto_funcs[] = {
 	JS_CFUNC_DEF("get_subject", 0, &reg_ex_match_class_get_subject),

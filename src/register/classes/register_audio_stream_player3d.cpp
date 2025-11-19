@@ -142,12 +142,10 @@ static JSValue audio_stream_player3d_class_get_bus(JSContext *ctx, JSValueConst 
 	if (is_exception(ctx, obj)) {
 		return JS_EXCEPTION;
 	}
-	JS_SetOpaque(obj, &proxy);
+	JS_SetOpaque(obj, proxy);
 	JSValue global = JS_GetGlobalObject(ctx);
 	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringNameProxy");
-	JSValue construct_arg = JS_NewObject(ctx);
-	JS_SetOpaque(construct_arg, proxy);
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &construct_arg);
+	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
     return js_proxy;
 }
 static JSValue audio_stream_player3d_class_set_autoplay(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
@@ -274,6 +272,8 @@ static JSValue audio_stream_player3d_class_get_playback_type(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	return call_builtin_const_method_ret(&AudioStreamPlayer3D::get_playback_type, ctx, this_val, argc, argv);
 }
+
+
 
 static const JSCFunctionListEntry audio_stream_player3d_class_proto_funcs[] = {
 	JS_CFUNC_DEF("set_stream", 1, &audio_stream_player3d_class_set_stream),

@@ -59,6 +59,8 @@ static JSValue physics_direct_body_state3d_extension_class_constructor(JSContext
 
 
 
+
+
 static void define_physics_direct_body_state3d_extension_property(JSContext *ctx, JSValue proto) {
 }
 

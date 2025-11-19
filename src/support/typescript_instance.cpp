@@ -209,7 +209,6 @@ GDExtensionBool TypeScriptInstance::get(GDExtensionConstStringNamePtr p_name, GD
 }
 
 const GDExtensionPropertyInfo *TypeScriptInstance::get_property_list(uint32_t *r_count) {
-	properties.clear();
 	HashMap<StringName, PropertyInfo>::Iterator it = script->properties.begin();
 	while (it != script->properties.end()) {
 		const PropertyInfo &prop_info = it->value;
@@ -218,6 +217,10 @@ const GDExtensionPropertyInfo *TypeScriptInstance::get_property_list(uint32_t *r
 	}
 	*r_count = script->properties.size();
 	return properties.data();
+}
+
+void TypeScriptInstance::free_property_list_func(const GDExtensionPropertyInfo *p_list, uint32_t p_count) {
+	properties.clear();
 }
 
 // GDExtensionBool JavaScriptInstance::property_can_revert(GDExtensionConstStringNamePtr p_name) {
@@ -229,6 +232,40 @@ const GDExtensionPropertyInfo *TypeScriptInstance::get_property_list(uint32_t *r
 // *(Variant *)r_ret = p_godot_object->property_get_revert(*name);
 // return true;
 // }
+
+const GDExtensionMethodInfo *TypeScriptInstance::get_method_list_func(uint32_t *r_count) {
+	HashMap<StringName, MethodInfo>::Iterator it = script->methods.begin();
+	while (it != script->methods.end()) {
+		const MethodInfo &method_info = it->value;
+		std::vector<GDExtensionPropertyInfo> arguemnts;
+		auto arguemnts_it = method_info.arguments.begin();
+		while (arguemnts_it != method_info.arguments.end()) {
+			arguemnts.push_back(arguemnts_it->_to_gdextension());
+		}
+		std::vector<GDExtensionVariantPtr> default_arguments;
+		auto default_it = method_info.default_arguments.begin();
+		while (default_it != method_info.default_arguments.end()) {
+			default_arguments.push_back(default_it->_native_ptr());
+		}
+		methods.push_back({
+			.name = method_info.name._native_ptr(),
+			.return_value = method_info.return_val._to_gdextension(),
+			.flags = method_info.flags,
+			.id = method_info.id,
+			.argument_count = method_info.arguments.size(),
+			.arguments = arguemnts.data(),
+			.default_argument_count = method_info.default_arguments.size(),
+			.default_arguments = default_arguments.data(),
+		});
+		++it;
+	}
+	*r_count = script->methods.size();
+	return methods.data();
+}
+
+void TypeScriptInstance::free_method_list_func(const GDExtensionMethodInfo *p_list, uint32_t p_count) {
+	methods.clear();
+}
 
 GDExtensionBool TypeScriptInstance::has_method(GDExtensionConstStringNamePtr p_name) {
 	StringName method = *reinterpret_cast<const StringName *>(p_name);

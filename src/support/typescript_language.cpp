@@ -166,7 +166,9 @@ Dictionary TypeScriptLanguage::_complete_code(const String &p_code, const String
 }
 
 Dictionary TypeScriptLanguage::_lookup_code(const String &p_code, const String &p_symbol, const String &p_path, Object *p_owner) const {
-	return Dictionary();
+	Dictionary ret;
+	ret["result"] = PackedStringArray();
+	return ret;
 }
 
 String TypeScriptLanguage::_auto_indent_code(const String &p_code, int32_t p_from_line, int32_t p_to_line) const {

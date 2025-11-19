@@ -189,7 +189,7 @@ static Variant::Type type_by_name(const StringName &name) {
 }
 
 void TypeScript::analyze() const {
-	if (is_valid_cache && !dirty) {
+	if (!dirty) {
 		return;
 	}
 
@@ -203,13 +203,13 @@ void TypeScript::analyze() const {
 
 	String path = get_path();
 	if (path.is_empty() || path.begins_with(dist_path)) {
-		is_valid_cache = true;
+		is_valid = false;
 		return;
 	}
 
 	String code = _get_source_code();
 	if (code.is_empty()) {
-		is_valid_cache = true;
+		is_valid = false;
 		return;
 	}
 
@@ -220,9 +220,20 @@ void TypeScript::analyze() const {
 
 	const std::string query_string = R"xxx(
 	(export_statement
-	  (decorator 
-		(identifier) @decorator.class)
+	  (
+	    [
+	      (decorator
+	        (identifier) @decorator.class
+	        (#match? @decorator.class "^(GodotClass)$")
+	      )
 
+	      (decorator
+	        (identifier) @decorator.name
+	        (#not-match? @decorator.name "^(GodotClass)$")
+	      ) @decorator.other
+	    ]
+	  )+
+	  
 	  (class_declaration
 	    name: (type_identifier) @class.name
 	    (class_heritage (extends_clause (identifier) @base.name))?
@@ -233,8 +244,10 @@ void TypeScript::analyze() const {
 	          (decorator
 	            [
 	              (identifier) @decorator.member
-	              (call_expression (identifier) @decorator.member
-              		(arguments) @decorator.arguments)
+	              (call_expression
+	                (identifier) @decorator.member
+	                (arguments) @decorator.arguments
+	              )
 	            ]
 	          )+
 	          name: (property_identifier) @prop.name
@@ -249,11 +262,9 @@ void TypeScript::analyze() const {
 	        ) @member.method
 	      ]
 	    )
-	  )
+	  ) @class.body
 	)
 
-	(#eq? @decorator.class "GodotClass")
-	(comment) @comment.tool
     )xxx";
 
 	uint32_t error_offset;
@@ -299,7 +310,7 @@ void TypeScript::analyze() const {
 		if (captures.has("base.name")) {
 			base_class_name = captures["base.name"];
 		}
-		if (captures.has("comment.tool") && captures["comment.tool"].contains(tool_symbol_mask)) {
+		if (captures.has("decorator.other") && captures["decorator.other"].contains(tool_symbol_mask)) {
 			is_tool = true;
 		}
 
@@ -347,7 +358,7 @@ void TypeScript::analyze() const {
 	ts_query_delete(query);
 	ts_tree_delete(tree);
 
-	is_valid_cache = true;
+	is_valid = true;
 	dirty = false;
 }
 
@@ -369,6 +380,7 @@ void TypeScript::compile(bool force) {
 void TypeScript::_set_source_code(const String &p_code) {
 	source_code = p_code;
 	dirty = true;
+	this->analyze();
 }
 
 void TypeScript::remove_dist() {
@@ -432,7 +444,7 @@ bool TypeScript::_is_tool() const {
 }
 
 bool TypeScript::_is_valid() const {
-	return true;
+	return this->is_valid;
 }
 
 bool TypeScript::_is_abstract() const {
@@ -458,11 +470,20 @@ TypedArray<Dictionary> TypeScript::_get_script_signal_list() const {
 }
 
 bool TypeScript::_has_property_default_value(const StringName &p_property) const {
-	return false;
+	PropertyInfo property_info = properties[p_property];
+	return property_info.type != Variant::Type::OBJECT;
 }
 
 Variant TypeScript::_get_property_default_value(const StringName &p_property) const {
-	return Variant();
+	PropertyInfo property_info = properties[p_property];
+	switch (property_info.type) {
+		case Variant::Type::NIL:
+			return Variant();
+		case Variant::Type::OBJECT:
+			return nullptr;
+		default:
+			return Variant();
+	}
 }
 
 void TypeScript::_update_exports() {

@@ -1,5 +1,5 @@
 import {Button} from "@godot/classes/button";
-import {GodotClass, GodotExport, GodotSignal, to_promise} from "@godot/core/class_defined";
+import {GodotClass, GodotExport, GodotSignal, GodotTool, to_promise} from "@godot/core/class_defined";
 
 @GodotClass
 export class Test extends Button {

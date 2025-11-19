@@ -38,7 +38,7 @@ class TypeScript : public ScriptExtension {
 	mutable String base_class_name;
 	mutable bool is_tool = false;
 	mutable bool dirty = true;
-    mutable bool is_valid_cache = false; 
+    mutable bool is_valid = false; 
 	mutable HashMap<StringName, MethodInfo> methods;
 	mutable HashMap<StringName, MethodInfo> static_methods;
 	mutable HashMap<StringName, PropertyInfo> properties;

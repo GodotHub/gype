@@ -23,6 +23,7 @@ class TypeScriptInstance {
 	TypeScript *script = nullptr;
 	JSValue module;
 	std::vector<GDExtensionPropertyInfo> properties;
+	std::vector<GDExtensionMethodInfo> methods;
 
 private:
 	JSModuleDef *get_module(const char *path);
@@ -34,6 +35,7 @@ public:
 	GDExtensionBool set(GDExtensionConstStringNamePtr p_name, GDExtensionConstVariantPtr p_variant);
 	GDExtensionBool get(GDExtensionConstStringNamePtr p_name, GDExtensionVariantPtr r_ret);
 	const GDExtensionPropertyInfo *get_property_list(uint32_t *r_count);
+	void free_property_list_func(const GDExtensionPropertyInfo *p_list, uint32_t p_count);
 	// GDExtensionBool property_can_revert(GDExtensionConstStringNamePtr p_name);
 	// GDExtensionBool property_get_revert(GDExtensionConstStringNamePtr p_name, GDExtensionVariantPtr r_ret);
 	void call(GDExtensionConstStringNamePtr p_method, const GDExtensionConstVariantPtr *p_args, GDExtensionInt p_argument_count, GDExtensionVariantPtr r_return, GDExtensionCallError *r_error);
@@ -41,6 +43,8 @@ public:
 	void to_string(GDExtensionBool *r_is_valid, GDExtensionStringPtr r_out);
 	void refcount_incremented();
 	GDExtensionBool refcount_decremented();
+	const GDExtensionMethodInfo *get_method_list_func(uint32_t *r_count);
+	void free_method_list_func(const GDExtensionMethodInfo *p_list, uint32_t p_count);
 	GDExtensionBool has_method(GDExtensionConstStringNamePtr p_name);
 	GDExtensionInt get_method_argument_count(GDExtensionConstStringNamePtr p_name, GDExtensionBool *r_is_valid);
 	GDExtensionObjectPtr get_owner();

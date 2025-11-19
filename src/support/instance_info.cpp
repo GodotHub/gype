@@ -21,10 +21,18 @@ const GDExtensionPropertyInfo *get_property_list_func(GDExtensionScriptInstanceD
 	return instance->get_property_list(r_count);
 }
 
-// void free_property_list_func(GDExtensionScriptInstanceDataPtr p_instance, const GDExtensionPropertyInfo *p_list, uint32_t p_count) {
-// 	JavaScriptInstance *instance = reinterpret_cast<JavaScriptInstance *>(p_instance);
-// }
-
+void free_property_list_func(GDExtensionScriptInstanceDataPtr p_instance, const GDExtensionPropertyInfo *p_list, uint32_t p_count) {
+	TypeScriptInstance *instance = reinterpret_cast<TypeScriptInstance *>(p_instance);
+	return instance->free_property_list_func(p_list, p_count);
+}
+const GDExtensionMethodInfo *get_method_list_func(GDExtensionScriptInstanceDataPtr p_instance, uint32_t *r_count) {
+	TypeScriptInstance *instance = reinterpret_cast<TypeScriptInstance *>(p_instance);
+	return instance->get_method_list_func(r_count);
+}
+void free_method_list_func(GDExtensionScriptInstanceDataPtr p_instance, const GDExtensionMethodInfo *p_list, uint32_t p_count) {
+	TypeScriptInstance *instance = reinterpret_cast<TypeScriptInstance *>(p_instance);
+	return instance->free_method_list_func(p_list, p_count);
+}
 // GDExtensionBool property_can_revert_func(GDExtensionScriptInstanceDataPtr p_instance, GDExtensionConstStringNamePtr p_name) {
 // 	JavaScriptInstance *instance = reinterpret_cast<JavaScriptInstance *>(p_instance);
 // 	return instance->property_can_revert(p_name);

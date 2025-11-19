@@ -15,8 +15,8 @@ static void audio_stream_playback_synchronized_class_finalizer(JSRuntime *rt, JS
 	JSClassID class_id = classes["AudioStreamPlaybackSynchronized"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		memdelete(opaque_ptr);
 		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+		memdelete(opaque_ptr);
 	}
 }
 

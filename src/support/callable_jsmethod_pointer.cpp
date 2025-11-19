@@ -13,7 +13,8 @@ static GDExtensionBool custom_callable_mp_is_valid(void *p_userdata) {
 }
 
 static void custom_callable_mp_free(void *p_userdata) {
-	CallableCustomMethodPointerBase *callable_method_pointer = (CallableCustomMethodPointerBase *)p_userdata;
+	CallableJSMethodPointer *callable_method_pointer = (CallableJSMethodPointer *)p_userdata;
+	JS_FreeValue(js_context(), callable_method_pointer->function);
 	memdelete(callable_method_pointer);
 }
 
@@ -54,7 +55,6 @@ static GDExtensionInt custom_callable_mp_get_argument_count_func(void *p_userdat
 
 Callable create_custom_javascript_callable(JSValue instance, JSValue function) {
 	CallableJSMethodPointer *ccmp = memnew(CallableJSMethodPointer(instance, function));
-	JS_DupValue(js_context(), instance);
 	JS_DupValue(js_context(), function);
 	return ::internal::create_callable_from_ccmp(ccmp);
 }
@@ -87,11 +87,7 @@ void CallableJSMethodPointer::call(const Variant **p_arguments, int p_argcount, 
 CallableJSMethodPointer::CallableJSMethodPointer(JSValue instance, JSValue function) {
 	this->instance = instance;
 	this->function = function;
-}
-
-CallableJSMethodPointer::~CallableJSMethodPointer() {
-	JS_FreeValue(js_context(), function);
-	JS_FreeValue(js_context(), instance);
+	JS_DupValue(js_context(), function);
 }
 
 namespace internal {

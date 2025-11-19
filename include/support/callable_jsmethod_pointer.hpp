@@ -17,10 +17,11 @@ Callable create_callable_from_ccmp(CallableCustomMethodPointerBase *p_callable_m
 } //namespace internal
 
 class CallableJSMethodPointer : public CallableCustomMethodPointerBase {
-	JSValue instance;
-	JSValue function;
 
 public:
+	JSValue instance;
+	JSValue function;
+	
 	virtual ObjectID get_object() const override {
 		if (JS_IsUndefined(instance) || !JS_IsObject(instance)) {
 			return ObjectID();
@@ -48,7 +49,6 @@ public:
 	virtual void call(const Variant **p_arguments, int p_argcount, Variant &r_return_value, GDExtensionCallError &r_call_error) const override;
 
 	CallableJSMethodPointer(JSValue instance, JSValue function);
-	~CallableJSMethodPointer();
 };
 
 Callable create_custom_javascript_callable(JSValue instance, JSValue function);

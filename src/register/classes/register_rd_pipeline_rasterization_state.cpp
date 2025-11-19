@@ -15,8 +15,8 @@ static void rd_pipeline_rasterization_state_class_finalizer(JSRuntime *rt, JSVal
 	JSClassID class_id = classes["RDPipelineRasterizationState"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		memdelete(opaque_ptr);
 		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+		memdelete(opaque_ptr);
 	}
 }
 

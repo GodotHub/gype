@@ -15,8 +15,8 @@ static void visual_shader_node_screen_normal_world_space_class_finalizer(JSRunti
 	JSClassID class_id = classes["VisualShaderNodeScreenNormalWorldSpace"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		memdelete(opaque_ptr);
 		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+		memdelete(opaque_ptr);
 	}
 }
 

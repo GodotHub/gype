@@ -15,8 +15,8 @@ static void web_rtc_data_channel_extension_class_finalizer(JSRuntime *rt, JSValu
 	JSClassID class_id = classes["WebRTCDataChannelExtension"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		memdelete(opaque_ptr);
 		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+		memdelete(opaque_ptr);
 	}
 }
 

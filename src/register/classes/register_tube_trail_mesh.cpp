@@ -16,8 +16,8 @@ static void tube_trail_mesh_class_finalizer(JSRuntime *rt, JSValue val) {
 	JSClassID class_id = classes["TubeTrailMesh"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		memdelete(opaque_ptr);
 		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+		memdelete(opaque_ptr);
 	}
 }
 

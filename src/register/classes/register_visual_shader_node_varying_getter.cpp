@@ -15,8 +15,8 @@ static void visual_shader_node_varying_getter_class_finalizer(JSRuntime *rt, JSV
 	JSClassID class_id = classes["VisualShaderNodeVaryingGetter"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		memdelete(opaque_ptr);
 		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+		memdelete(opaque_ptr);
 	}
 }
 

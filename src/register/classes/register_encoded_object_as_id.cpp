@@ -15,8 +15,8 @@ static void encoded_object_as_id_class_finalizer(JSRuntime *rt, JSValue val) {
 	JSClassID class_id = classes["EncodedObjectAsID"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		memdelete(opaque_ptr);
 		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+		memdelete(opaque_ptr);
 	}
 }
 

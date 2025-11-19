@@ -15,8 +15,8 @@ static void gltf_document_extension_convert_importer_mesh_class_finalizer(JSRunt
 	JSClassID class_id = classes["GLTFDocumentExtensionConvertImporterMesh"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		memdelete(opaque_ptr);
 		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+		memdelete(opaque_ptr);
 	}
 }
 

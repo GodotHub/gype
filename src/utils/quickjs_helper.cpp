@@ -402,7 +402,6 @@ godot::Variant jsvalue_to_variant(JSValue val) {
 		break;
 		case JS_TAG_OBJECT: {
 			if (JS_IsFunction(js_context(), val)) {
-				JS_DupValue(js_context(), val);
 				return create_custom_javascript_callable(val);
 			} else {
 				return js_obj_to_variant(val);

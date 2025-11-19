@@ -15,8 +15,8 @@ static void gd_script_syntax_highlighter_class_finalizer(JSRuntime *rt, JSValue 
 	JSClassID class_id = classes["GDScriptSyntaxHighlighter"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		memdelete(opaque_ptr);
 		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+		memdelete(opaque_ptr);
 	}
 }
 

@@ -17,8 +17,8 @@ static void physics_shape_query_parameters2d_class_finalizer(JSRuntime *rt, JSVa
 	JSClassID class_id = classes["PhysicsShapeQueryParameters2D"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		memdelete(opaque_ptr);
 		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+		memdelete(opaque_ptr);
 	}
 }
 

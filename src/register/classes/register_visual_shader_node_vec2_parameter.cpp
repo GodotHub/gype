@@ -15,8 +15,8 @@ static void visual_shader_node_vec2_parameter_class_finalizer(JSRuntime *rt, JSV
 	JSClassID class_id = classes["VisualShaderNodeVec2Parameter"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		memdelete(opaque_ptr);
 		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+		memdelete(opaque_ptr);
 	}
 }
 

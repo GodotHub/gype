@@ -15,8 +15,8 @@ static void animation_node_blend_space2d_class_finalizer(JSRuntime *rt, JSValue 
 	JSClassID class_id = classes["AnimationNodeBlendSpace2D"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		memdelete(opaque_ptr);
 		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+		memdelete(opaque_ptr);
 	}
 }
 

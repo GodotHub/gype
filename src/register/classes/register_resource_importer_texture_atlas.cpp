@@ -15,8 +15,8 @@ static void resource_importer_texture_atlas_class_finalizer(JSRuntime *rt, JSVal
 	JSClassID class_id = classes["ResourceImporterTextureAtlas"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		memdelete(opaque_ptr);
 		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+		memdelete(opaque_ptr);
 	}
 }
 

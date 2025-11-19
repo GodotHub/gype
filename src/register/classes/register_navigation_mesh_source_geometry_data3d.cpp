@@ -16,8 +16,8 @@ static void navigation_mesh_source_geometry_data3d_class_finalizer(JSRuntime *rt
 	JSClassID class_id = classes["NavigationMeshSourceGeometryData3D"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		memdelete(opaque_ptr);
 		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+		memdelete(opaque_ptr);
 	}
 }
 

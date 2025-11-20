@@ -42,6 +42,7 @@ class TypeScript : public ScriptExtension {
 	mutable HashMap<StringName, MethodInfo> methods;
 	mutable HashMap<StringName, MethodInfo> static_methods;
 	mutable HashMap<StringName, PropertyInfo> properties;
+	mutable HashMap<StringName, Variant> default_value;
 	mutable HashMap<StringName, MethodInfo> signals;
 
 	HashSet<uint64_t> instances;

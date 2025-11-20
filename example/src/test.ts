@@ -4,20 +4,23 @@ import {GodotClass, GodotExport, GodotSignal, GodotTool, to_promise} from "@godo
 @GodotClass
 export class Test extends Button {
 
-  @GodotSignal
-  private test_signal!: Signal;
+  //@GodotSignal
+  //private test_signal!: Signal;
 
   @GodotExport(Variant.Type.INT)
-  private test_export!: number;
+  private test_export: number = 10;
+
+  private test_export2: number = 50;
 
   public async _enter_tree(): Promise<void> {
-    await to_promise(this.test_signal);
-    GD.print("test_signal");
+	//await to_promise(this.test_signal);
+	//GD.print("test_signal");
   }
 
   public _ready(): void {
-    GD.print('test_export: ', this.test_export);
-    this.test_signal.emit();
+	GD.print('test_export: ', this.test_export);
+	GD.print('test_export2: ', this.test_export2);
+	//this.test_signal.emit();
   }
 
   public _process(delta: number): void {

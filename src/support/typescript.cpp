@@ -1,5 +1,6 @@
 #include "support/typescript.hpp"
 
+#include "godot_cpp/classes/expression.hpp"
 #include "godot_cpp/variant/utility_functions.hpp"
 #include "support/instance_info.hpp"
 #include "support/typescript_instance.hpp"
@@ -102,7 +103,6 @@ String TypeScript::get_dist_source_code() const {
 	return file->get_as_text();
 }
 
-
 static Variant::Type type_by_name(const StringName &name) {
 	StringName _name = name.remove_char('(').remove_char(')');
 	if (_name == StringName("Variant.Type.NIL")) {
@@ -188,11 +188,23 @@ static Variant::Type type_by_name(const StringName &name) {
 	}
 }
 
+static Variant execute_expression(String code) {
+	Expression *expression = memnew(Expression());
+	Error err = expression->parse(code);
+	Variant ret;
+	if (err == OK) {
+		ret = expression->execute();
+	}
+	memdelete(expression);
+	return ret;
+}
+
 void TypeScript::analyze() const {
 	if (!dirty) {
 		return;
 	}
 
+	default_value.clear();
 	methods.clear();
 	static_methods.clear();
 	properties.clear();
@@ -252,6 +264,7 @@ void TypeScript::analyze() const {
 	          )+
 	          name: (property_identifier) @prop.name
 	          type: (type_annotation)? @prop.type
+	          value: (_)? @prop.value
 	        ) @member.property
 
 	        (method_definition
@@ -264,8 +277,7 @@ void TypeScript::analyze() const {
 	    )
 	  ) @class.body
 	)
-
-    )xxx";
+	)xxx";
 
 	uint32_t error_offset;
 	TSQueryError error;
@@ -328,11 +340,21 @@ void TypeScript::analyze() const {
 					pi.type = type_by_name(captures["decorator.arguments"]);
 					pi.usage = PROPERTY_USAGE_DEFAULT;
 					properties[prop_name] = pi;
+					if (captures.has("prop.value")) {
+						default_value[prop_name] = execute_expression(captures["prop.value"]);
+					}
 				} else if (decorator_name == signal_symbol_mask) {
 					MethodInfo mi;
 					mi.name = prop_name;
 					// TODO: 解析信号的参数
 					signals[prop_name] = mi;
+				} else {
+					PropertyInfo pi;
+					pi.name = prop_name;
+					pi.class_name = global_class_name;
+					pi.type = type_by_name(captures["decorator.arguments"]);
+					pi.usage = PROPERTY_USAGE_NONE;
+					properties[prop_name] = pi;
 				}
 			}
 		} else if (captures.has("method.name")) {
@@ -470,20 +492,11 @@ TypedArray<Dictionary> TypeScript::_get_script_signal_list() const {
 }
 
 bool TypeScript::_has_property_default_value(const StringName &p_property) const {
-	PropertyInfo property_info = properties[p_property];
-	return property_info.type != Variant::Type::OBJECT;
+	return default_value.has(p_property);
 }
 
 Variant TypeScript::_get_property_default_value(const StringName &p_property) const {
-	PropertyInfo property_info = properties[p_property];
-	switch (property_info.type) {
-		case Variant::Type::NIL:
-			return Variant();
-		case Variant::Type::OBJECT:
-			return nullptr;
-		default:
-			return Variant();
-	}
+	return default_value[p_property];
 }
 
 void TypeScript::_update_exports() {

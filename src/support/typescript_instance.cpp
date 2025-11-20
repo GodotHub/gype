@@ -184,7 +184,7 @@ JSValue TypeScriptInstance::find_ns_property(JSModuleDef *md, const char *name) 
 	return true;
 
 GDExtensionBool TypeScriptInstance::set(GDExtensionConstStringNamePtr p_name, GDExtensionConstVariantPtr p_variant) {
-	// BINDING_VALID_V(gd_binding, false);
+	BINDING_VALID_V(gd_binding, false);
 	const char *name = to_chars(*reinterpret_cast<const StringName *>(p_name));
 	const Variant *varg = reinterpret_cast<const Variant *>(p_variant);
 	return JS_SetPropertyStr(js_context(), js_binding, name, VariantAdapter(*varg)) > 0;

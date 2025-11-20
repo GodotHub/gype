@@ -168,6 +168,7 @@ Dictionary TypeScriptLanguage::_complete_code(const String &p_code, const String
 Dictionary TypeScriptLanguage::_lookup_code(const String &p_code, const String &p_symbol, const String &p_path, Object *p_owner) const {
 	Dictionary ret;
 	ret["result"] = PackedStringArray();
+	ret["type"] = 0;
 	return ret;
 }
 

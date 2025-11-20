@@ -91,9 +91,10 @@ public:
 	bool _is_placeholder_fallback_enabled() const;
 	Variant _get_rpc_config() const;
 
-	TypeScript() {
-		parser = ts_parser_new();
-		lang = tree_sitter_typescript();
+	TypeScript() :
+		parser(ts_parser_new()),
+		lang(tree_sitter_typescript())
+	{
 		ts_parser_set_language(parser, lang);
 	}
 	~TypeScript();

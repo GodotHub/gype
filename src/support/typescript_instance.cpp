@@ -32,9 +32,7 @@ const char *TypeScriptInstance::class_symbol_mask = "_GodotClass";
 	ERR_FAIL_COND(JS_IsUndefined(js_binding));
 
 TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, TypeScript *script, bool is_placeholder) {
-	if (script->dirty) {
-		script->compile();
-	}
+	script->compile();
 
 	this->script = script;
 	this->p_godot_object = p_godot_object;

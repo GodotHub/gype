@@ -203,7 +203,7 @@ void TypeScript::analyze() const {
 	if (!dirty) {
 		return;
 	}
-
+	
 	default_value.clear();
 	methods.clear();
 	static_methods.clear();
@@ -381,10 +381,10 @@ void TypeScript::analyze() const {
 	ts_tree_delete(tree);
 
 	is_valid = true;
-	dirty = false;
 }
 
-void TypeScript::compile(bool force) {
+void TypeScript::compile(bool force) const {
+	analyze();
 	ERR_FAIL_COND_EDMSG(!FileAccess::file_exists("res://tsconfig.json"), "tsconfig.json file does not exist.");
 	if (dirty) {
 		int exit_code = 0;
@@ -395,7 +395,6 @@ void TypeScript::compile(bool force) {
 		}
 		ERR_FAIL_COND_EDMSG(exit_code == -1, "error executing tsc.");
 	}
-	analyze();
 	dirty = false;
 }
 

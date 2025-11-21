@@ -106,7 +106,7 @@ private:
 	void remove_dist();
 	void remove_dist_internal(const String &path);
 	String get_dist_source_code() const;
-	void compile(bool force = false);
+	void compile(bool force = false) const;
 	void analyze() const;
 };
 

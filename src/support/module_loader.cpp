@@ -16,10 +16,10 @@ static JSModuleDef *script_loader(JSContext *ctx, const char *module_name) {
 	sprintf(filepath, "%s.js", module_name);
 
 	String path(filepath);
+	char p[128];
 	if (path.begins_with("@res")) {
-		path = path.replace("@res", "res://");
+		path = path.replace("@res", TypeScript::dist_path);
 	} else if (path.begins_with("@godot/core")) {
-		char p[128];
 		sprintf(p, "%saddons/gype/godot", TypeScript::dist_path);
 		path = path.replace("@godot", p);
 	}

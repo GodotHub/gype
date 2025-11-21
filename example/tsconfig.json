@@ -40,7 +40,7 @@
     "skipLibCheck": true,
     "paths": {
       "@res/*": [
-        "./src/*"
+        "./*"
       ],
       "@godot/*": [
         "./addons/gype/godot/*"

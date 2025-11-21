@@ -53,7 +53,7 @@ TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, TypeScript *scrip
 	JSValue module_eval = JS_EvalFunction(js_context(), module);
 	if (is_exception(js_context(), module_eval)) {
 		JS_FreeValue(js_context(), module_eval);
-		JS_FreeValue(js_context(), module); // 别忘了释放 module
+		// JS_FreeValue(js_context(), module); // 别忘了释放 module
 		ERR_FAIL_MSG("Failed to evaluate JS module.");
 		return;
 	}
@@ -62,7 +62,7 @@ TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, TypeScript *scrip
 	if (is_exception(js_context(), ns)) {
 		JS_FreeValue(js_context(), ns);
 		JS_FreeValue(js_context(), module_eval);
-		JS_FreeValue(js_context(), module);
+		// JS_FreeValue(js_context(), module);
 		ERR_FAIL_MSG("Failed to get module namespace.");
 		return;
 	}
@@ -73,7 +73,7 @@ TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, TypeScript *scrip
 		// 错误处理：释放已分配的资源
 		JS_FreeValue(js_context(), ns);
 		JS_FreeValue(js_context(), module_eval);
-		JS_FreeValue(js_context(), module);
+		// JS_FreeValue(js_context(), module);
 		ERR_FAIL_MSG("Error getting module property names.");
 		return;
 	}

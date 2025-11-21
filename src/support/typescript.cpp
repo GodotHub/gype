@@ -33,7 +33,7 @@ void TypeScript::_placeholder_erased(void *p_placeholder) {
 }
 
 bool TypeScript::_can_instantiate() const {
-	return true;
+	return get_dist_source_code() != "";
 }
 
 Ref<Script> TypeScript::_get_base_script() const {
@@ -78,7 +78,8 @@ StringName TypeScript::_get_instance_base_type() const {
 }
 
 void *TypeScript::_instance_create(Object *p_for_object) const {
-	return internal::gdextension_interface_script_instance_create3(&InstanceInfo, memnew(TypeScriptInstance(p_for_object, const_cast<TypeScript *>(this), false)));
+	TypeScriptInstance *instance = memnew(TypeScriptInstance(p_for_object, const_cast<TypeScript *>(this), false));
+	return internal::gdextension_interface_script_instance_create3(&InstanceInfo, instance);
 }
 
 void *TypeScript::_placeholder_instance_create(Object *p_for_object) const {
@@ -99,8 +100,11 @@ String TypeScript::_get_source_code() const {
 
 String TypeScript::get_dist_source_code() const {
 	String path = get_path().replace("res://", dist_path).replace(".ts", ".js");
-	Ref<FileAccess> file = FileAccess::open(path, FileAccess::ModeFlags::READ);
-	return file->get_as_text();
+	if (FileAccess::file_exists(path)) {
+		Ref<FileAccess> file = FileAccess::open(path, FileAccess::ModeFlags::READ);
+		return file->get_as_text();
+	}
+	return "";
 }
 
 static Variant::Type type_by_name(const StringName &name) {
@@ -203,7 +207,7 @@ void TypeScript::analyze() const {
 	if (!dirty) {
 		return;
 	}
-	
+
 	default_value.clear();
 	methods.clear();
 	static_methods.clear();
@@ -394,8 +398,8 @@ void TypeScript::compile(bool force) const {
 			exit_code = OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json" });
 		}
 		ERR_FAIL_COND_EDMSG(exit_code == -1, "error executing tsc.");
+		dirty = false;
 	}
-	dirty = false;
 }
 
 void TypeScript::_set_source_code(const String &p_code) {

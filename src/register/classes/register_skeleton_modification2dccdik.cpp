@@ -59,25 +59,7 @@ static JSValue skeleton_modification2dccdik_class_set_target_node(JSContext *ctx
 };
 static JSValue skeleton_modification2dccdik_class_get_target_node(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<NodePath> *proxy = memnew(ObjectProxy<NodePath>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> NodePath {
-		SkeletonModification2DCCDIK *obj = static_cast<SkeletonModification2DCCDIK *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_target_node();
-	};
-	proxy->setter = [this_val](const NodePath &value) -> void {
-		SkeletonModification2DCCDIK *js_proxy = static_cast<SkeletonModification2DCCDIK *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_target_node(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["NodePathProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&SkeletonModification2DCCDIK::get_target_node, ctx, this_val, argc, argv);
 }
 static JSValue skeleton_modification2dccdik_class_set_tip_node(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -85,25 +67,7 @@ static JSValue skeleton_modification2dccdik_class_set_tip_node(JSContext *ctx, J
 };
 static JSValue skeleton_modification2dccdik_class_get_tip_node(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<NodePath> *proxy = memnew(ObjectProxy<NodePath>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> NodePath {
-		SkeletonModification2DCCDIK *obj = static_cast<SkeletonModification2DCCDIK *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_tip_node();
-	};
-	proxy->setter = [this_val](const NodePath &value) -> void {
-		SkeletonModification2DCCDIK *js_proxy = static_cast<SkeletonModification2DCCDIK *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_tip_node(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["NodePathProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&SkeletonModification2DCCDIK::get_tip_node, ctx, this_val, argc, argv);
 }
 static JSValue skeleton_modification2dccdik_class_set_ccdik_data_chain_length(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

@@ -109,25 +109,7 @@ static JSValue touch_screen_button_class_set_action(JSContext *ctx, JSValueConst
 };
 static JSValue touch_screen_button_class_get_action(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		TouchScreenButton *obj = static_cast<TouchScreenButton *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_action();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		TouchScreenButton *js_proxy = static_cast<TouchScreenButton *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_action(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&TouchScreenButton::get_action, ctx, this_val, argc, argv);
 }
 static JSValue touch_screen_button_class_set_visibility_mode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

@@ -1,7 +1,7 @@
 #include "register/builtin_classes/register_builtin_classes.hpp"
 
 void register_builtin_classes() {
-	register_variant();
+    register_variant();
 	register_string();
 	register_vector2();
 	register_proxy_vector2();
@@ -36,9 +36,7 @@ void register_builtin_classes() {
 	register_color();
 	register_proxy_color();
 	register_string_name();
-	register_proxy_string_name();
 	register_node_path();
-	register_proxy_node_path();
 	register_rid();
 	register_proxy_rid();
 	register_callable();

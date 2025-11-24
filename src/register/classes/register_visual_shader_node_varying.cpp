@@ -59,25 +59,7 @@ static JSValue visual_shader_node_varying_class_set_varying_name(JSContext *ctx,
 };
 static JSValue visual_shader_node_varying_class_get_varying_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		VisualShaderNodeVarying *obj = static_cast<VisualShaderNodeVarying *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_varying_name();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		VisualShaderNodeVarying *js_proxy = static_cast<VisualShaderNodeVarying *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_varying_name(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&VisualShaderNodeVarying::get_varying_name, ctx, this_val, argc, argv);
 }
 static JSValue visual_shader_node_varying_class_set_varying_type(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

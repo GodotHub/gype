@@ -67,25 +67,7 @@ static JSValue animation_tree_class_set_advance_expression_base_node(JSContext *
 };
 static JSValue animation_tree_class_get_advance_expression_base_node(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<NodePath> *proxy = memnew(ObjectProxy<NodePath>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> NodePath {
-		AnimationTree *obj = static_cast<AnimationTree *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_advance_expression_base_node();
-	};
-	proxy->setter = [this_val](const NodePath &value) -> void {
-		AnimationTree *js_proxy = static_cast<AnimationTree *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_advance_expression_base_node(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["NodePathProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&AnimationTree::get_advance_expression_base_node, ctx, this_val, argc, argv);
 }
 static JSValue animation_tree_class_set_animation_player(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -93,25 +75,7 @@ static JSValue animation_tree_class_set_animation_player(JSContext *ctx, JSValue
 };
 static JSValue animation_tree_class_get_animation_player(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<NodePath> *proxy = memnew(ObjectProxy<NodePath>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> NodePath {
-		AnimationTree *obj = static_cast<AnimationTree *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_animation_player();
-	};
-	proxy->setter = [this_val](const NodePath &value) -> void {
-		AnimationTree *js_proxy = static_cast<AnimationTree *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_animation_player(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["NodePathProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&AnimationTree::get_animation_player, ctx, this_val, argc, argv);
 }
 static JSValue animation_tree_class_set_process_callback(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

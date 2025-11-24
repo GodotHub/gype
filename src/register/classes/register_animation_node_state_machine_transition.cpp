@@ -76,25 +76,7 @@ static JSValue animation_node_state_machine_transition_class_set_advance_conditi
 };
 static JSValue animation_node_state_machine_transition_class_get_advance_condition(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<StringName> *proxy = memnew(ObjectProxy<StringName>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> StringName {
-		AnimationNodeStateMachineTransition *obj = static_cast<AnimationNodeStateMachineTransition *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_advance_condition();
-	};
-	proxy->setter = [this_val](const StringName &value) -> void {
-		AnimationNodeStateMachineTransition *js_proxy = static_cast<AnimationNodeStateMachineTransition *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_advance_condition(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringNameProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringNameProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&AnimationNodeStateMachineTransition::get_advance_condition, ctx, this_val, argc, argv);
 }
 static JSValue animation_node_state_machine_transition_class_set_xfade_time(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

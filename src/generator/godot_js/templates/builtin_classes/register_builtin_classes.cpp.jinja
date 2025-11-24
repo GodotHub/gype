@@ -8,7 +8,7 @@ void register_builtin_classes() {
     register_variant();
 {% for cls in classes %}
 	register_{{ camel_to_snake(cls.name) }}();
-    {% if cls['name'] != 'String' and cls['name'] != 'NodePath' %}
+    {% if cls['name'] != 'String' and cls['name'] != 'NodePath' and cls['name'] != 'StringName' %}
 	register_proxy_{{ camel_to_snake(cls.name) }}();
 	{% endif %}
 {% endfor %}

@@ -96,25 +96,7 @@ static JSValue soft_body3d_class_set_parent_collision_ignore(JSContext *ctx, JSV
 };
 static JSValue soft_body3d_class_get_parent_collision_ignore(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<NodePath> *proxy = memnew(ObjectProxy<NodePath>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> NodePath {
-		SoftBody3D *obj = static_cast<SoftBody3D *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_parent_collision_ignore();
-	};
-	proxy->setter = [this_val](const NodePath &value) -> void {
-		SoftBody3D *js_proxy = static_cast<SoftBody3D *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_parent_collision_ignore(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["NodePathProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&SoftBody3D::get_parent_collision_ignore, ctx, this_val, argc, argv);
 }
 static JSValue soft_body3d_class_set_disable_mode(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

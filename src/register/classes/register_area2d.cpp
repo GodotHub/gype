@@ -224,25 +224,7 @@ static JSValue area2d_class_set_audio_bus_name(JSContext *ctx, JSValueConst this
 };
 static JSValue area2d_class_get_audio_bus_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<StringName> *proxy = memnew(ObjectProxy<StringName>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> StringName {
-		Area2D *obj = static_cast<Area2D *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_audio_bus_name();
-	};
-	proxy->setter = [this_val](const StringName &value) -> void {
-		Area2D *js_proxy = static_cast<Area2D *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_audio_bus_name(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringNameProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringNameProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Area2D::get_audio_bus_name, ctx, this_val, argc, argv);
 }
 static JSValue area2d_class_set_audio_bus_override(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

@@ -59,25 +59,7 @@ static JSValue scene_multiplayer_class_set_root_path(JSContext *ctx, JSValueCons
 };
 static JSValue scene_multiplayer_class_get_root_path(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<NodePath> *proxy = memnew(ObjectProxy<NodePath>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> NodePath {
-		SceneMultiplayer *obj = static_cast<SceneMultiplayer *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_root_path();
-	};
-	proxy->setter = [this_val](const NodePath &value) -> void {
-		SceneMultiplayer *js_proxy = static_cast<SceneMultiplayer *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_root_path(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["NodePathProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&SceneMultiplayer::get_root_path, ctx, this_val, argc, argv);
 }
 static JSValue scene_multiplayer_class_clear(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

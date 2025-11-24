@@ -60,25 +60,7 @@ static JSValue skeleton_profile_class_set_root_bone(JSContext *ctx, JSValueConst
 };
 static JSValue skeleton_profile_class_get_root_bone(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<StringName> *proxy = memnew(ObjectProxy<StringName>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> StringName {
-		SkeletonProfile *obj = static_cast<SkeletonProfile *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_root_bone();
-	};
-	proxy->setter = [this_val](const StringName &value) -> void {
-		SkeletonProfile *js_proxy = static_cast<SkeletonProfile *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_root_bone(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringNameProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringNameProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_method_ret(&SkeletonProfile::get_root_bone, ctx, this_val, argc, argv);
 }
 static JSValue skeleton_profile_class_set_scale_base_bone(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -86,25 +68,7 @@ static JSValue skeleton_profile_class_set_scale_base_bone(JSContext *ctx, JSValu
 };
 static JSValue skeleton_profile_class_get_scale_base_bone(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<StringName> *proxy = memnew(ObjectProxy<StringName>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> StringName {
-		SkeletonProfile *obj = static_cast<SkeletonProfile *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_scale_base_bone();
-	};
-	proxy->setter = [this_val](const StringName &value) -> void {
-		SkeletonProfile *js_proxy = static_cast<SkeletonProfile *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_scale_base_bone(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringNameProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringNameProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_method_ret(&SkeletonProfile::get_scale_base_bone, ctx, this_val, argc, argv);
 }
 static JSValue skeleton_profile_class_set_group_size(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

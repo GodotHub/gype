@@ -76,6 +76,7 @@ public:
 	String _debug_parse_stack_level_expression(int32_t p_level, const String &p_expression, int32_t p_max_subitems, int32_t p_max_depth);
 	TypedArray<Dictionary> _debug_get_current_stack_info();
 	void _reload_all_scripts();
+	void _reload_scripts(const Array &p_scripts, bool p_soft_reload);
 	void _reload_tool_script(const Ref<Script> &p_script, bool p_soft_reload);
 	PackedStringArray _get_recognized_extensions() const;
 	TypedArray<Dictionary> _get_public_functions() const;

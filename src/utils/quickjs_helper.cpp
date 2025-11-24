@@ -227,7 +227,6 @@ JSValue variant_to_jsvalue(const Variant &val) {
 		case Variant::Type::BASIS:
 		case Variant::Type::CALLABLE:
 		case Variant::Type::COLOR:
-		case Variant::Type::DICTIONARY:
 		case Variant::Type::PLANE:
 		case Variant::Type::PROJECTION:
 		case Variant::Type::QUATERNION:
@@ -262,6 +261,18 @@ JSValue variant_to_jsvalue(const Variant &val) {
 			}
 			return js_arr;
 		}
+		case Variant::Type::DICTIONARY: {
+			Dictionary dict = val;
+			JSValue js_map = JS_NewObject(js_context());
+			Array key = dict.keys();
+			for (int i = 0; i < key.size(); i++) {
+				JSValue jskey = variant_to_jsvalue(key[i]);
+				JSValue jspkey = JS_ToPropertyKey(js_context(),jskey);
+				JSValue jsvalue = variant_to_jsvalue(dict[key[i]]);
+				JS_SetPropertyStr(js_context(), js_map, JS_ToCString(js_context(), jspkey), jsvalue);
+			}
+			return js_map;
+		}
 		case Variant::Type::OBJECT: {
 			Object *obj = val;
 			if (!obj) {
@@ -272,12 +283,11 @@ JSValue variant_to_jsvalue(const Variant &val) {
 			char code[1024];
 			if (strcmp(class_name, "Object") == 0) {
 				class_name = "GodotObject";
-			} 
+			}
 			sprintf(code, "import { %s } from \"@godot/classes/%s\";", class_name, camelToSnake(class_name).c_str());
 			JS_Eval(js_context(), code, strlen(code), "<eval>", JS_EVAL_TYPE_MODULE);
 			JSValue wrapper = JS_NewObjectClass(js_context(), classes[class_name]);
 			JS_SetOpaque(wrapper, adapter);
-			JSClassID class_id = 0;
 			return wrapper;
 		}
 		default: {
@@ -297,10 +307,6 @@ godot::Variant js_obj_to_variant(JSValue val) {
 	}
 
 	JSClassID class_id = JS_GetClassID(val);
-	if (!classes_by_id.has(class_id)) {
-		return Variant();
-	}
-
 	if (JS_IsArray(val)) {
 		Array gd_arr;
 		JSValue js_len = JS_GetPropertyStr(js_context(), val, "length");
@@ -311,6 +317,20 @@ godot::Variant js_obj_to_variant(JSValue val) {
 		}
 		JS_FreeValue(js_context(), js_len);
 		return gd_arr;
+	} else if (JS_IsObject(val) && JS_GetClassID(val) == JS_CLASS_OBJECT) {
+		Dictionary dict;
+		JSPropertyEnum *props = nullptr;
+		uint32_t len = 0;
+		if (JS_GetOwnPropertyNames(js_context(), &props, &len, val, JS_GPN_STRING_MASK | JS_GPN_ENUM_ONLY) == 0) {
+			for (uint32_t i = 0; i < len; i++) {
+				JSPropertyEnum prop = props[i];
+				JSValue jsvalue = JS_GetProperty(js_context(), val, prop.atom);
+				const char *prop_name = JS_AtomToCString(js_context(), props[i].atom);
+				dict[prop_name] = jsvalue_to_variant(jsvalue);
+			}
+			return dict;
+		}
+		return Variant();
 	}
 	OBJ_TO_VARIANT_CASE(Vector2i)
 	OBJ_TO_VARIANT_CASE(Vector3)

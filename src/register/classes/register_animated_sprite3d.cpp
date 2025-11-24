@@ -67,25 +67,7 @@ static JSValue animated_sprite3d_class_set_animation(JSContext *ctx, JSValueCons
 };
 static JSValue animated_sprite3d_class_get_animation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<StringName> *proxy = memnew(ObjectProxy<StringName>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> StringName {
-		AnimatedSprite3D *obj = static_cast<AnimatedSprite3D *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_animation();
-	};
-	proxy->setter = [this_val](const StringName &value) -> void {
-		AnimatedSprite3D *js_proxy = static_cast<AnimatedSprite3D *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_animation(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringNameProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringNameProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&AnimatedSprite3D::get_animation, ctx, this_val, argc, argv);
 }
 static JSValue animated_sprite3d_class_set_autoplay(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -93,25 +75,7 @@ static JSValue animated_sprite3d_class_set_autoplay(JSContext *ctx, JSValueConst
 };
 static JSValue animated_sprite3d_class_get_autoplay(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		AnimatedSprite3D *obj = static_cast<AnimatedSprite3D *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_autoplay();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		AnimatedSprite3D *js_proxy = static_cast<AnimatedSprite3D *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_autoplay(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&AnimatedSprite3D::get_autoplay, ctx, this_val, argc, argv);
 }
 static JSValue animated_sprite3d_class_is_playing(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

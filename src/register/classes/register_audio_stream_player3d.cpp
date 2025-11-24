@@ -128,25 +128,7 @@ static JSValue audio_stream_player3d_class_set_bus(JSContext *ctx, JSValueConst 
 };
 static JSValue audio_stream_player3d_class_get_bus(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<StringName> *proxy = memnew(ObjectProxy<StringName>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> StringName {
-		AudioStreamPlayer3D *obj = static_cast<AudioStreamPlayer3D *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_bus();
-	};
-	proxy->setter = [this_val](const StringName &value) -> void {
-		AudioStreamPlayer3D *js_proxy = static_cast<AudioStreamPlayer3D *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_bus(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringNameProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringNameProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&AudioStreamPlayer3D::get_bus, ctx, this_val, argc, argv);
 }
 static JSValue audio_stream_player3d_class_set_autoplay(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

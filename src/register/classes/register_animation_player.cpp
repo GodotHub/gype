@@ -154,25 +154,7 @@ static JSValue animation_player_class_set_current_animation(JSContext *ctx, JSVa
 };
 static JSValue animation_player_class_get_current_animation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		AnimationPlayer *obj = static_cast<AnimationPlayer *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_current_animation();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		AnimationPlayer *js_proxy = static_cast<AnimationPlayer *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_current_animation(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&AnimationPlayer::get_current_animation, ctx, this_val, argc, argv);
 }
 static JSValue animation_player_class_set_assigned_animation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -180,25 +162,7 @@ static JSValue animation_player_class_set_assigned_animation(JSContext *ctx, JSV
 };
 static JSValue animation_player_class_get_assigned_animation(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		AnimationPlayer *obj = static_cast<AnimationPlayer *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_assigned_animation();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		AnimationPlayer *js_proxy = static_cast<AnimationPlayer *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_assigned_animation(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&AnimationPlayer::get_assigned_animation, ctx, this_val, argc, argv);
 }
 static JSValue animation_player_class_queue(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -230,25 +194,7 @@ static JSValue animation_player_class_set_autoplay(JSContext *ctx, JSValueConst 
 };
 static JSValue animation_player_class_get_autoplay(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		AnimationPlayer *obj = static_cast<AnimationPlayer *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_autoplay();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		AnimationPlayer *js_proxy = static_cast<AnimationPlayer *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_autoplay(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&AnimationPlayer::get_autoplay, ctx, this_val, argc, argv);
 }
 static JSValue animation_player_class_set_movie_quit_on_finish_enabled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

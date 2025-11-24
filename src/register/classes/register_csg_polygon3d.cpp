@@ -118,25 +118,7 @@ static JSValue csg_polygon3d_class_set_path_node(JSContext *ctx, JSValueConst th
 };
 static JSValue csg_polygon3d_class_get_path_node(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<NodePath> *proxy = memnew(ObjectProxy<NodePath>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> NodePath {
-		CSGPolygon3D *obj = static_cast<CSGPolygon3D *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_path_node();
-	};
-	proxy->setter = [this_val](const NodePath &value) -> void {
-		CSGPolygon3D *js_proxy = static_cast<CSGPolygon3D *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_path_node(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["NodePathProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&CSGPolygon3D::get_path_node, ctx, this_val, argc, argv);
 }
 static JSValue csg_polygon3d_class_set_path_interval_type(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

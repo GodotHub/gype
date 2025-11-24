@@ -59,25 +59,7 @@ static JSValue visual_shader_node_input_class_set_input_name(JSContext *ctx, JSV
 };
 static JSValue visual_shader_node_input_class_get_input_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<String> *proxy = memnew(ObjectProxy<String>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> String {
-		VisualShaderNodeInput *obj = static_cast<VisualShaderNodeInput *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_input_name();
-	};
-	proxy->setter = [this_val](const String &value) -> void {
-		VisualShaderNodeInput *js_proxy = static_cast<VisualShaderNodeInput *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_input_name(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["StringProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "StringProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&VisualShaderNodeInput::get_input_name, ctx, this_val, argc, argv);
 }
 static JSValue visual_shader_node_input_class_get_input_real_name(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

@@ -6,7 +6,7 @@
 {% set snake_name = camel_to_snake(class_name) %}
 {% set js_snake_name = camel_to_snake(js_class_name) %}
 {% set objects = classes | map(attribute="name") | list %}
-{% set pod_types = ['Nil', 'bool', 'int', 'float', 'String', 'NodePath                                 '] %}
+{% set pod_types = ['Nil', 'bool', 'int', 'float', 'String', 'StringName', 'NodePath'] %}
 {% set instance_methods = cls.methods | selectattr('is_vararg', 'equalto', false) | selectattr('is_virtual', 'equalto', false) | selectattr('is_static', 'equalto', false) | list %}
 {% set static_methods = cls.methods | selectattr('is_vararg', 'equalto', false) | selectattr('is_virtual', 'equalto', false) | selectattr('is_static', 'equalto', true) | list %}
 {% set vararg_methods = cls.methods | selectattr('is_vararg', 'equalto', true) | list %}

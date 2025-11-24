@@ -66,25 +66,7 @@ static JSValue xr_face_modifier3d_class_set_target(JSContext *ctx, JSValueConst 
 };
 static JSValue xr_face_modifier3d_class_get_target(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<NodePath> *proxy = memnew(ObjectProxy<NodePath>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> NodePath {
-		XRFaceModifier3D *obj = static_cast<XRFaceModifier3D *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_target();
-	};
-	proxy->setter = [this_val](const NodePath &value) -> void {
-		XRFaceModifier3D *js_proxy = static_cast<XRFaceModifier3D *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_target(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["NodePathProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&XRFaceModifier3D::get_target, ctx, this_val, argc, argv);
 }
 
 

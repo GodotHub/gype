@@ -601,25 +601,7 @@ static JSValue control_class_set_focus_next(JSContext *ctx, JSValueConst this_va
 };
 static JSValue control_class_get_focus_next(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<NodePath> *proxy = memnew(ObjectProxy<NodePath>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> NodePath {
-		Control *obj = static_cast<Control *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_focus_next();
-	};
-	proxy->setter = [this_val](const NodePath &value) -> void {
-		Control *js_proxy = static_cast<Control *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_focus_next(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["NodePathProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Control::get_focus_next, ctx, this_val, argc, argv);
 }
 static JSValue control_class_set_focus_previous(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -627,25 +609,7 @@ static JSValue control_class_set_focus_previous(JSContext *ctx, JSValueConst thi
 };
 static JSValue control_class_get_focus_previous(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<NodePath> *proxy = memnew(ObjectProxy<NodePath>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> NodePath {
-		Control *obj = static_cast<Control *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_focus_previous();
-	};
-	proxy->setter = [this_val](const NodePath &value) -> void {
-		Control *js_proxy = static_cast<Control *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_focus_previous(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["NodePathProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&Control::get_focus_previous, ctx, this_val, argc, argv);
 }
 static JSValue control_class_force_drag(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

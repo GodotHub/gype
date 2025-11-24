@@ -58,25 +58,7 @@ static JSValue root_motion_view_class_set_animation_path(JSContext *ctx, JSValue
 };
 static JSValue root_motion_view_class_get_animation_path(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<NodePath> *proxy = memnew(ObjectProxy<NodePath>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> NodePath {
-		RootMotionView *obj = static_cast<RootMotionView *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_animation_path();
-	};
-	proxy->setter = [this_val](const NodePath &value) -> void {
-		RootMotionView *js_proxy = static_cast<RootMotionView *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_animation_path(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["NodePathProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&RootMotionView::get_animation_path, ctx, this_val, argc, argv);
 }
 static JSValue root_motion_view_class_set_color(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

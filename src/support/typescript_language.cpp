@@ -238,12 +238,19 @@ TypedArray<Dictionary> TypeScriptLanguage::_debug_get_current_stack_info() {
 void TypeScriptLanguage::_reload_all_scripts() {
 	for (const Ref<TypeScript> &script : scripts) {
 		if (script.is_valid()) {
-			script->reload(false);
+			script->compile();
 		}
 	}
 }
 
+void TypeScriptLanguage::_reload_scripts(const Array &p_scripts, bool p_soft_reload) {
+	for (int i = 0; i < p_scripts.size(); ++i) {
+		static_cast<TypeScript *>(p_scripts[i].operator Object*())->compile();
+	}
+}
+
 void TypeScriptLanguage::_reload_tool_script(const Ref<Script> &p_script, bool p_soft_reload) {
+	static_cast<TypeScript *>(p_script.ptr())->compile();
 }
 
 PackedStringArray TypeScriptLanguage::_get_recognized_extensions() const {

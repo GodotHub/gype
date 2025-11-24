@@ -192,7 +192,7 @@ void register_{{ cls_name_lower }}() {
 	js_init_{{ cls_name_lower }}_module(js_context());
 }
 
-{% if cls_name != "String" or cls_name != 'NodePath' %}
+{% if cls_name != "String" and cls_name != 'NodePath' and cls_name != "StringName" %}
 // ------------------{{cls_name}}Proxy------------------
 static void {{cls_name_lower}}_proxy_finalizer(JSRuntime *rt, JSValue val) {
 	void *proxy = JS_GetOpaque(val, classes["{{cls_name}}Proxy"]);

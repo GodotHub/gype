@@ -112,25 +112,7 @@ static JSValue animation_mixer_class_set_root_node(JSContext *ctx, JSValueConst 
 };
 static JSValue animation_mixer_class_get_root_node(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<NodePath> *proxy = memnew(ObjectProxy<NodePath>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> NodePath {
-		AnimationMixer *obj = static_cast<AnimationMixer *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_root_node();
-	};
-	proxy->setter = [this_val](const NodePath &value) -> void {
-		AnimationMixer *js_proxy = static_cast<AnimationMixer *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_root_node(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["NodePathProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&AnimationMixer::get_root_node, ctx, this_val, argc, argv);
 }
 static JSValue animation_mixer_class_set_callback_mode_process(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
@@ -170,25 +152,7 @@ static JSValue animation_mixer_class_set_root_motion_track(JSContext *ctx, JSVal
 };
 static JSValue animation_mixer_class_get_root_motion_track(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	ObjectProxy<NodePath> *proxy = memnew(ObjectProxy<NodePath>);
-	proxy->wrapped = VariantAdapter(this_val).get();
-	proxy->getter = [this_val]() -> NodePath {
-		AnimationMixer *obj = static_cast<AnimationMixer *>(VariantAdapter(this_val).get().operator Object*());
-		return obj->get_root_motion_track();
-	};
-	proxy->setter = [this_val](const NodePath &value) -> void {
-		AnimationMixer *js_proxy = static_cast<AnimationMixer *>(VariantAdapter(this_val).get().operator Object *());
-		js_proxy->set_root_motion_track(value);
-	};
-	JSValue obj = JS_NewObjectClass(ctx, classes["NodePathProxy"]);
-	if (is_exception(ctx, obj)) {
-		return JS_EXCEPTION;
-	}
-	JS_SetOpaque(obj, proxy);
-	JSValue global = JS_GetGlobalObject(ctx);
-	JSValue obj_constructor = JS_GetPropertyStr(ctx, global, "NodePathProxy");
-	JSValue js_proxy = JS_CallConstructor(ctx, obj_constructor, 1, &obj);
-    return js_proxy;
+	return call_builtin_const_method_ret(&AnimationMixer::get_root_motion_track, ctx, this_val, argc, argv);
 }
 static JSValue animation_mixer_class_set_root_motion_local(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);

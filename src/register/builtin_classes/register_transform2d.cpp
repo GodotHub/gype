@@ -6,8 +6,6 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-
-#include <godot_cpp/variant/transform2d.hpp>
 #include <godot_cpp/variant/vector2.hpp>
 
 
@@ -60,7 +58,7 @@ static JSValue transform2d_class_constructor(JSContext *ctx, JSValueConst new_ta
 		Vector2 v2 = VariantAdapter(argv[2]).get();
 		instance = Transform2D(v0, v1, v2);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance));
 
 	if (!adapter) {
 		JS_FreeValue(ctx, obj);

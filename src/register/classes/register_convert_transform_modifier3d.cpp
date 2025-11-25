@@ -32,16 +32,14 @@ static JSValue convert_transform_modifier3d_class_constructor(JSContext *ctx, JS
 		return obj;
 	}
 
-    ConvertTransformModifier3D *instance;
-	VariantAdapter *adapter;
-	JSClassID opaque_id;
-    // Allow constructing from an existing native pointer
+	VariantAdapter *adapter = nullptr;
+	Object *instance = nullptr;
     if (argc == 1 && VariantAdapter::can_cast(argv[0], Variant::Type::OBJECT)) {
-		adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(*argv, &opaque_id));
-		instance = static_cast<ConvertTransformModifier3D *>(VariantAdapter(*argv).get().operator Object *());
+    	instance = static_cast<VariantAdapter *>(JS_GetOpaque(*argv, class_id))->get();
+		adapter = memnew(VariantAdapter(instance));
     } else {
         instance = memnew(ConvertTransformModifier3D);
-	 	adapter = memnew(VariantAdapter(instance, true));
+	 	adapter = memnew(VariantAdapter(instance));
     }
 
     if (!instance) {
@@ -190,6 +188,7 @@ static int js_convert_transform_modifier3d_class_init(JSContext *ctx, JSModuleDe
 	define_convert_transform_modifier3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "ConvertTransformModifier3D", ctor);
+	ctor_list["ConvertTransformModifier3D"] = ctor;
 
 	return 0;
 }

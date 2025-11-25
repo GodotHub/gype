@@ -32,16 +32,14 @@ static JSValue animation_player_class_constructor(JSContext *ctx, JSValueConst n
 		return obj;
 	}
 
-    AnimationPlayer *instance;
-	VariantAdapter *adapter;
-	JSClassID opaque_id;
-    // Allow constructing from an existing native pointer
+	VariantAdapter *adapter = nullptr;
+	Object *instance = nullptr;
     if (argc == 1 && VariantAdapter::can_cast(argv[0], Variant::Type::OBJECT)) {
-		adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(*argv, &opaque_id));
-		instance = static_cast<AnimationPlayer *>(VariantAdapter(*argv).get().operator Object *());
+    	instance = static_cast<VariantAdapter *>(JS_GetOpaque(*argv, class_id))->get();
+		adapter = memnew(VariantAdapter(instance));
     } else {
         instance = memnew(AnimationPlayer);
-	 	adapter = memnew(VariantAdapter(instance, true));
+	 	adapter = memnew(VariantAdapter(instance));
     }
 
     if (!instance) {
@@ -489,6 +487,7 @@ static int js_animation_player_class_init(JSContext *ctx, JSModuleDef *m) {
 	define_animation_player_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AnimationPlayer", ctor);
+	ctor_list["AnimationPlayer"] = ctor;
 
 	return 0;
 }

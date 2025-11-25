@@ -16,7 +16,9 @@ static void lightmap_gi_data_class_finalizer(JSRuntime *rt, JSValue val) {
 	JSClassID class_id = classes["LightmapGIData"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+        if (opaque_ptr->can_unref){
+            static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+        }
 		memdelete(opaque_ptr);
 	}
 }
@@ -34,16 +36,14 @@ static JSValue lightmap_gi_data_class_constructor(JSContext *ctx, JSValueConst n
 		return obj;
 	}
 
-    LightmapGIData *instance;
-	VariantAdapter *adapter;
-	JSClassID opaque_id;
-    // Allow constructing from an existing native pointer
+	VariantAdapter *adapter = nullptr;
+	Object *instance = nullptr;
     if (argc == 1 && VariantAdapter::can_cast(argv[0], Variant::Type::OBJECT)) {
-		adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(*argv, &opaque_id));
-		instance = static_cast<LightmapGIData *>(VariantAdapter(*argv).get().operator Object *());
+    	instance = static_cast<VariantAdapter *>(JS_GetOpaque(*argv, class_id))->get();
+		adapter = memnew(VariantAdapter(instance));
     } else {
         instance = memnew(LightmapGIData);
-	 	adapter = memnew(VariantAdapter(instance, true));
+	 	adapter = memnew(VariantAdapter(instance));
     }
 
     if (!instance) {
@@ -184,6 +184,7 @@ static int js_lightmap_gi_data_class_init(JSContext *ctx, JSModuleDef *m) {
 	define_lightmap_gi_data_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "LightmapGIData", ctor);
+	ctor_list["LightmapGIData"] = ctor;
 
 	return 0;
 }

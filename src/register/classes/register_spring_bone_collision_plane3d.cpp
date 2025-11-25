@@ -32,16 +32,14 @@ static JSValue spring_bone_collision_plane3d_class_constructor(JSContext *ctx, J
 		return obj;
 	}
 
-    SpringBoneCollisionPlane3D *instance;
-	VariantAdapter *adapter;
-	JSClassID opaque_id;
-    // Allow constructing from an existing native pointer
+	VariantAdapter *adapter = nullptr;
+	Object *instance = nullptr;
     if (argc == 1 && VariantAdapter::can_cast(argv[0], Variant::Type::OBJECT)) {
-		adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(*argv, &opaque_id));
-		instance = static_cast<SpringBoneCollisionPlane3D *>(VariantAdapter(*argv).get().operator Object *());
+    	instance = static_cast<VariantAdapter *>(JS_GetOpaque(*argv, class_id))->get();
+		adapter = memnew(VariantAdapter(instance));
     } else {
         instance = memnew(SpringBoneCollisionPlane3D);
-	 	adapter = memnew(VariantAdapter(instance, true));
+	 	adapter = memnew(VariantAdapter(instance));
     }
 
     if (!instance) {
@@ -82,6 +80,7 @@ static int js_spring_bone_collision_plane3d_class_init(JSContext *ctx, JSModuleD
 	define_spring_bone_collision_plane3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SpringBoneCollisionPlane3D", ctor);
+	ctor_list["SpringBoneCollisionPlane3D"] = ctor;
 
 	return 0;
 }

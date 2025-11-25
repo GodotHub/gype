@@ -34,16 +34,14 @@ static JSValue audio_stream_player2d_class_constructor(JSContext *ctx, JSValueCo
 		return obj;
 	}
 
-    AudioStreamPlayer2D *instance;
-	VariantAdapter *adapter;
-	JSClassID opaque_id;
-    // Allow constructing from an existing native pointer
+	VariantAdapter *adapter = nullptr;
+	Object *instance = nullptr;
     if (argc == 1 && VariantAdapter::can_cast(argv[0], Variant::Type::OBJECT)) {
-		adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(*argv, &opaque_id));
-		instance = static_cast<AudioStreamPlayer2D *>(VariantAdapter(*argv).get().operator Object *());
+    	instance = static_cast<VariantAdapter *>(JS_GetOpaque(*argv, class_id))->get();
+		adapter = memnew(VariantAdapter(instance));
     } else {
         instance = memnew(AudioStreamPlayer2D);
-	 	adapter = memnew(VariantAdapter(instance, true));
+	 	adapter = memnew(VariantAdapter(instance));
     }
 
     if (!instance) {
@@ -386,6 +384,7 @@ static int js_audio_stream_player2d_class_init(JSContext *ctx, JSModuleDef *m) {
 	define_audio_stream_player2d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioStreamPlayer2D", ctor);
+	ctor_list["AudioStreamPlayer2D"] = ctor;
 
 	return 0;
 }

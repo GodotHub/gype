@@ -22,30 +22,19 @@ extern godot::HashMap<JSClassID, godot::StringName> classes_by_id;
 extern godot::Variant jsvalue_to_variant(JSValue val);
 extern JSValue variant_to_jsvalue(const godot::Variant &val);
 
-class IAdapter {
-public:
-	bool const can_memfree = false;
-
-public:
-	IAdapter() :
-			can_memfree(false) {}
-	IAdapter(bool can_memfree) :
-			can_memfree(can_memfree) {}
-	virtual godot::Variant::Type get_type() const = 0;
-};
-
-class VariantAdapter : public IAdapter {
+class VariantAdapter {
 public:
 	godot::Variant variant;
+	bool can_unref = true;
 
 public:
-	VariantAdapter(const godot::Variant &p_other, bool can_memfree = false) :
-			IAdapter(can_memfree),
-			variant(p_other) {} 
+	VariantAdapter(const godot::Variant &p_other, bool can_unref = true) :
+			variant(p_other),
+			can_unref(can_unref){} 
  
-	VariantAdapter(const JSValue jsvalue, bool can_memfree = false) :
-			IAdapter(can_memfree),
-			variant(jsvalue_to_variant(jsvalue)) {}
+	VariantAdapter(const JSValue jsvalue, bool can_unref = true) :
+			variant(jsvalue_to_variant(jsvalue)),
+			can_unref(can_unref) {}
 
 	const godot::Variant get() const {
 		return variant;
@@ -55,7 +44,7 @@ public:
 		this->variant = variant;
 	}
 
-	godot::Variant::Type get_type() const override {
+	godot::Variant::Type get_type() const {
 		return variant.get_type();
 	}
 

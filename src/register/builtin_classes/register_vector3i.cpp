@@ -50,7 +50,7 @@ static JSValue vector3i_class_constructor(JSContext *ctx, JSValueConst new_targe
 		int v2 = VariantAdapter(argv[2]).get();
 		instance = Vector3i(v0, v1, v2);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance));
 
 	if (!adapter) {
 		JS_FreeValue(ctx, obj);

@@ -46,7 +46,6 @@ void initialize_gype_types(ModuleInitializationLevel p_level) {
 	}
 	if (p_level == ModuleInitializationLevel::MODULE_INITIALIZATION_LEVEL_EDITOR) {
 		GDREGISTER_CLASS(GypePlugin);
-		EditorPlugins::add_by_type<GypePlugin>();
 	}
 }
 

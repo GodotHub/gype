@@ -46,7 +46,7 @@ static JSValue aabb_class_constructor(JSContext *ctx, JSValueConst new_target, i
 		Vector3 v1 = VariantAdapter(argv[1]).get();
 		instance = AABB(v0, v1);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance));
 
 	if (!adapter) {
 		JS_FreeValue(ctx, obj);

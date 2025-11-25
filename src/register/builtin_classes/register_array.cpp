@@ -88,7 +88,7 @@ static JSValue array_class_constructor(JSContext *ctx, JSValueConst new_target, 
 		PackedVector4Array v0 = VariantAdapter(argv[0]).get();
 		instance = Array(v0);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance));
 
 	if (!adapter) {
 		JS_FreeValue(ctx, obj);

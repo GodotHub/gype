@@ -6,8 +6,6 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include <quickjs.h>
-
-#include <godot_cpp/variant/basis.hpp>
 #include <godot_cpp/variant/quaternion.hpp>
 #include <godot_cpp/variant/vector3.hpp>
 
@@ -58,7 +56,7 @@ static JSValue basis_class_constructor(JSContext *ctx, JSValueConst new_target, 
 		Vector3 v2 = VariantAdapter(argv[2]).get();
 		instance = Basis(v0, v1, v2);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance));
 
 	if (!adapter) {
 		JS_FreeValue(ctx, obj);
@@ -81,7 +79,7 @@ static JSValue basis_class_determinant(JSContext *ctx, JSValueConst this_val, in
 	return call_builtin_const_method_ret(&Basis::determinant, ctx, this_val, argc, argv);
 }
 static JSValue basis_class_rotated(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
-	return call_builtin_const_method_ret(static_cast<Basis (Basis::*)(const Vector3 &, real_t) const>(&Basis::rotated), ctx, this_val, argc, argv);
+	return call_builtin_const_method_ret(static_cast<Basis(Basis::*)(const Vector3 &p_axis, real_t p_angle) const>(&Basis::rotated), ctx, this_val, argc, argv);
 }
 static JSValue basis_class_scaled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	return call_builtin_const_method_ret(&Basis::scaled, ctx, this_val, argc, argv);
@@ -353,8 +351,8 @@ static JSValue basis_proxy_rotated(JSContext *ctx, JSValueConst this_val, int ar
     ObjectProxy<Basis> *proxy = static_cast<ObjectProxy<Basis> *>(opaque);
     Object *wrapped = proxy->wrapped;
     this_val = VariantAdapter(wrapped);
-	JSValue ret = call_builtin_const_method_ret(static_cast<Basis(Basis::*)(const Vector3 &p_axis, real_t p_angle) const>(&Basis::rotated), ctx, this_val, argc, argv);
-	JS_FreeValue(ctx, this_val);
+    JSValue ret = call_builtin_const_method_ret(static_cast<Basis(Basis::*)(const Vector3 &p_axis, real_t p_angle) const>(&Basis::rotated), ctx, this_val, argc, argv);
+    JS_FreeValue(ctx, this_val);
     return ret;
 }
 static JSValue basis_proxy_scaled(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {

@@ -51,7 +51,7 @@ static JSValue dictionary_class_constructor(JSContext *ctx, JSValueConst new_tar
 		Variant v6 = VariantAdapter(argv[6]).get();
 		instance = Dictionary(v0, v1, v2, v3, v4, v5, v6);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance));
 
 	if (!adapter) {
 		JS_FreeValue(ctx, obj);

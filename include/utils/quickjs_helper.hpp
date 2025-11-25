@@ -27,9 +27,11 @@
 
 extern godot::HashMap<godot::StringName, JSClassID> classes;
 extern godot::HashMap<JSClassID, godot::StringName> classes_by_id;
+extern std::unordered_map<std::string, JSValue> ctor_list;
 
 extern bool is_exception(JSContext *ctx, JSValue exp);
 extern void print_exception(JSContext *ctx);
 extern godot::Variant jsvalue_to_variant(JSValue val);
+extern JSValue downcast(JSContext *ctx, godot::Object *obj);
 
 #endif // __QUICKutils_H__

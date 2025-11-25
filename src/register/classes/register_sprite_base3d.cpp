@@ -33,16 +33,14 @@ static JSValue sprite_base3d_class_constructor(JSContext *ctx, JSValueConst new_
 		return obj;
 	}
 
-    SpriteBase3D *instance;
-	VariantAdapter *adapter;
-	JSClassID opaque_id;
-    // Allow constructing from an existing native pointer
+	VariantAdapter *adapter = nullptr;
+	Object *instance = nullptr;
     if (argc == 1 && VariantAdapter::can_cast(argv[0], Variant::Type::OBJECT)) {
-		adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(*argv, &opaque_id));
-		instance = static_cast<SpriteBase3D *>(VariantAdapter(*argv).get().operator Object *());
+    	instance = static_cast<VariantAdapter *>(JS_GetOpaque(*argv, class_id))->get();
+		adapter = memnew(VariantAdapter(instance));
     } else {
         instance = memnew(SpriteBase3D);
-	 	adapter = memnew(VariantAdapter(instance, true));
+	 	adapter = memnew(VariantAdapter(instance));
     }
 
     if (!instance) {
@@ -554,6 +552,7 @@ static int js_sprite_base3d_class_init(JSContext *ctx, JSModuleDef *m) {
 	define_sprite_base3d_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "SpriteBase3D", ctor);
+	ctor_list["SpriteBase3D"] = ctor;
 
 	return 0;
 }

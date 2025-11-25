@@ -70,7 +70,7 @@ export declare class Node extends GodotObject {
     public get_children(includeInternal: boolean = false): Array<any>;
     public get_child(idx: number, includeInternal: boolean = false): Node;
     public has_node(path: NodePath | GDString | string): boolean;
-    public get_node(path: NodePath | GDString | string): Node;
+    public get_node<T extends Node>(path: NodePath | GDString | string): T;
     public get_node_or_null(path: NodePath | GDString | string): Node;
     public get_parent(): Node;
     public find_child(pattern: GDString | StringName | string, recursive: boolean = true, owned: boolean = true): Node;

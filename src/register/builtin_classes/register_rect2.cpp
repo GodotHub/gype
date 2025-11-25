@@ -56,7 +56,7 @@ static JSValue rect2_class_constructor(JSContext *ctx, JSValueConst new_target, 
 		double v3 = VariantAdapter(argv[3]).get();
 		instance = Rect2(v0, v1, v2, v3);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance));
 
 	if (!adapter) {
 		JS_FreeValue(ctx, obj);

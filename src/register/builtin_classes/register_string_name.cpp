@@ -47,7 +47,7 @@ static JSValue string_name_class_constructor(JSContext *ctx, JSValueConst new_ta
 		String v0 = VariantAdapter(argv[0]).get();
 		instance = StringName(v0);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance));
 
 	if (!adapter) {
 		JS_FreeValue(ctx, obj);

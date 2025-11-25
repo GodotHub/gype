@@ -19,9 +19,11 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
+
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
+
     // Style Options
     // "noImplicitReturns": true,
     // "noImplicitOverride": true,
@@ -32,20 +34,16 @@
 
     // Recommended Options
     "strict": true,
-    // "jsx": "react-jsx",
+    "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
     "paths": {
-      "@res/*": [
-        "./*"
-      ],
-      "@godot/*": [
-        "./addons/gype/godot/*"
-      ]
+      "@godot/*": ["./addons/gype/godot/*"],
+      "@res/*": ["./*"]
     },
-    "outDir": "./addons/gype/dist",
+    "outDir": "./addons/gype/dist"
   }
 }

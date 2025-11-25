@@ -6,10 +6,10 @@
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
 #include "register/builtin_classes/builtin_callable_vararg.hpp"
+#include "support/callable_jsmethod_pointer.hpp"
 #include <quickjs.h>
 #include <godot_cpp/variant/array.hpp>
 #include <godot_cpp/variant/string_name.hpp>
-#include "support/callable_jsmethod_pointer.hpp"
 
 
 using namespace godot;
@@ -51,7 +51,7 @@ static JSValue callable_class_constructor(JSContext *ctx, JSValueConst new_targe
 if (argc == 2&&JS_IsObject(argv[0])&&JS_IsFunction(ctx, argv[1])) {
     instance = create_custom_javascript_callable(argv[0], argv[1]);
 }
-	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance));
 
 	if (!adapter) {
 		JS_FreeValue(ctx, obj);

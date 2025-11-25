@@ -15,7 +15,9 @@ static void audio_effect_hard_limiter_class_finalizer(JSRuntime *rt, JSValue val
 	JSClassID class_id = classes["AudioEffectHardLimiter"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+        if (opaque_ptr->can_unref){
+            static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+        }
 		memdelete(opaque_ptr);
 	}
 }
@@ -33,16 +35,14 @@ static JSValue audio_effect_hard_limiter_class_constructor(JSContext *ctx, JSVal
 		return obj;
 	}
 
-    AudioEffectHardLimiter *instance;
-	VariantAdapter *adapter;
-	JSClassID opaque_id;
-    // Allow constructing from an existing native pointer
+	VariantAdapter *adapter = nullptr;
+	Object *instance = nullptr;
     if (argc == 1 && VariantAdapter::can_cast(argv[0], Variant::Type::OBJECT)) {
-		adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(*argv, &opaque_id));
-		instance = static_cast<AudioEffectHardLimiter *>(VariantAdapter(*argv).get().operator Object *());
+    	instance = static_cast<VariantAdapter *>(JS_GetOpaque(*argv, class_id))->get();
+		adapter = memnew(VariantAdapter(instance));
     } else {
         instance = memnew(AudioEffectHardLimiter);
-	 	adapter = memnew(VariantAdapter(instance, true));
+	 	adapter = memnew(VariantAdapter(instance));
     }
 
     if (!instance) {
@@ -140,6 +140,7 @@ static int js_audio_effect_hard_limiter_class_init(JSContext *ctx, JSModuleDef *
 	define_audio_effect_hard_limiter_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "AudioEffectHardLimiter", ctor);
+	ctor_list["AudioEffectHardLimiter"] = ctor;
 
 	return 0;
 }

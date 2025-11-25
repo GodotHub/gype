@@ -57,7 +57,7 @@ static JSValue transform3d_class_constructor(JSContext *ctx, JSValueConst new_ta
 		Projection v0 = VariantAdapter(argv[0]).get();
 		instance = Transform3D(v0);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance));
 
 	if (!adapter) {
 		JS_FreeValue(ctx, obj);

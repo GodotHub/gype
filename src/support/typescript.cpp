@@ -385,6 +385,7 @@ void TypeScript::analyze() const {
 	ts_tree_delete(tree);
 
 	is_valid = true;
+	dirty = true;
 }
 
 void TypeScript::compile(bool force) const {

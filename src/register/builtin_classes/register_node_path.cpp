@@ -44,7 +44,7 @@ static JSValue node_path_class_constructor(JSContext *ctx, JSValueConst new_targ
 		String v0 = VariantAdapter(argv[0]).get();
 		instance = NodePath(v0);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance));
 
 	if (!adapter) {
 		JS_FreeValue(ctx, obj);

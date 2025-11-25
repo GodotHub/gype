@@ -15,7 +15,9 @@ static void visual_shader_node_smooth_step_class_finalizer(JSRuntime *rt, JSValu
 	JSClassID class_id = classes["VisualShaderNodeSmoothStep"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-		static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+        if (opaque_ptr->can_unref){
+            static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
+        }
 		memdelete(opaque_ptr);
 	}
 }
@@ -33,16 +35,14 @@ static JSValue visual_shader_node_smooth_step_class_constructor(JSContext *ctx, 
 		return obj;
 	}
 
-    VisualShaderNodeSmoothStep *instance;
-	VariantAdapter *adapter;
-	JSClassID opaque_id;
-    // Allow constructing from an existing native pointer
+	VariantAdapter *adapter = nullptr;
+	Object *instance = nullptr;
     if (argc == 1 && VariantAdapter::can_cast(argv[0], Variant::Type::OBJECT)) {
-		adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(*argv, &opaque_id));
-		instance = static_cast<VisualShaderNodeSmoothStep *>(VariantAdapter(*argv).get().operator Object *());
+    	instance = static_cast<VariantAdapter *>(JS_GetOpaque(*argv, class_id))->get();
+		adapter = memnew(VariantAdapter(instance));
     } else {
         instance = memnew(VisualShaderNodeSmoothStep);
-	 	adapter = memnew(VariantAdapter(instance, true));
+	 	adapter = memnew(VariantAdapter(instance));
     }
 
     if (!instance) {
@@ -114,6 +114,7 @@ static int js_visual_shader_node_smooth_step_class_init(JSContext *ctx, JSModule
 	define_visual_shader_node_smooth_step_enum(ctx, ctor);
 	JS_SetConstructor(ctx, ctor, proto);
 	JS_SetModuleExport(ctx, m, "VisualShaderNodeSmoothStep", ctor);
+	ctor_list["VisualShaderNodeSmoothStep"] = ctor;
 
 	return 0;
 }

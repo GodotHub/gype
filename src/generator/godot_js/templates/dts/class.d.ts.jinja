@@ -44,8 +44,12 @@ export declare class {{ class_name }}{% if inherits %} extends {{ inherits }}{% 
     {%- endfor %}
 
     {# 方法 (Methods) #}
-    {% for method in cls.methods %}
+    {% for class_name == 'Node' and method in cls.methods %}
+        {% if method.name == "get_node" %}
+    public get_node<T extends Node>(path: NodePath | GDString | string): T;
+        {% else %}
     public{{ ' static' if method.is_static }} {{ method.name }}({{ connect_args(method.arguments) + process_vararg(method.is_vararg, method.arguments) }}){{- set_return(method.return_value if 'return_value' in method else None) -}};
+        {% endif %}
     {% endfor %}
 
     {# 信号 (Signals) #}

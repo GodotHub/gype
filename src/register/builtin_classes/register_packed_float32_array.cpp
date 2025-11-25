@@ -44,7 +44,7 @@ static JSValue packed_float32_array_class_constructor(JSContext *ctx, JSValueCon
 		Array v0 = VariantAdapter(argv[0]).get();
 		instance = PackedFloat32Array(v0);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance));
 
 	if (!adapter) {
 		JS_FreeValue(ctx, obj);

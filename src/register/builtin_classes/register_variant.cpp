@@ -35,7 +35,7 @@ static JSValue variant_class_constructor(JSContext *ctx, JSValueConst new_target
 		VariantAdapter v0 = VariantAdapter(argv[0]);
 		instance = Variant(v0);
 	}
-	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance));
 
 	if (!adapter) {
 		JS_FreeValue(ctx, obj);

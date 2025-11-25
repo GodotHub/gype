@@ -207,6 +207,7 @@ GDExtensionBool TypeScriptInstance::get(GDExtensionConstStringNamePtr p_name, GD
 }
 
 const GDExtensionPropertyInfo *TypeScriptInstance::get_property_list(uint32_t *r_count) {
+	BINDING_VALID_V(gd_binding, nullptr);
 	HashMap<StringName, PropertyInfo>::Iterator it = script->properties.begin();
 	while (it != script->properties.end()) {
 		const PropertyInfo &prop_info = it->value;
@@ -232,6 +233,7 @@ void TypeScriptInstance::free_property_list_func(const GDExtensionPropertyInfo *
 // }
 
 const GDExtensionMethodInfo *TypeScriptInstance::get_method_list_func(uint32_t *r_count) {
+	BINDING_VALID_V(gd_binding, nullptr);
 	HashMap<StringName, MethodInfo>::Iterator it = script->methods.begin();
 	while (it != script->methods.end()) {
 		const MethodInfo &method_info = it->value;
@@ -266,11 +268,13 @@ void TypeScriptInstance::free_method_list_func(const GDExtensionMethodInfo *p_li
 }
 
 GDExtensionBool TypeScriptInstance::has_method(GDExtensionConstStringNamePtr p_name) {
+	BINDING_VALID_V(gd_binding, false);
 	StringName method = *reinterpret_cast<const StringName *>(p_name);
 	return script->_has_method(method);
 }
 
 GDExtensionInt TypeScriptInstance::get_method_argument_count(GDExtensionConstStringNamePtr p_name, GDExtensionBool *r_is_valid) {
+	BINDING_VALID_V(gd_binding, 0);
 	const char *name = to_chars(*reinterpret_cast<const StringName *>(p_name));
 	*r_is_valid = script->_has_method(name);
 	return script->_get_script_method_argument_count(name);

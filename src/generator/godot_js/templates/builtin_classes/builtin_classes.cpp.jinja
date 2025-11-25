@@ -68,7 +68,7 @@ if (argc == 2&&JS_IsObject(argv[0])&&JS_IsFunction(ctx, argv[1])) {
     instance = create_custom_javascript_callable(argv[0], argv[1]);
 }
 {% endif %}
-	VariantAdapter *adapter = memnew(VariantAdapter(instance, true));
+	VariantAdapter *adapter = memnew(VariantAdapter(instance));
 
 	if (!adapter) {
 		JS_FreeValue(ctx, obj);

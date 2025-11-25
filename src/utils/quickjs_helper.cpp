@@ -13,6 +13,7 @@ using namespace godot;
 
 HashMap<StringName, JSClassID> classes;
 HashMap<JSClassID, StringName> classes_by_id;
+std::unordered_map<std::string, JSValue> ctor_list;
 
 enum {
 	/* classid tag        */ /* union usage   | properties */
@@ -267,7 +268,7 @@ JSValue variant_to_jsvalue(const Variant &val) {
 			Array key = dict.keys();
 			for (int i = 0; i < key.size(); i++) {
 				JSValue jskey = variant_to_jsvalue(key[i]);
-				JSValue jspkey = JS_ToPropertyKey(js_context(),jskey);
+				JSValue jspkey = JS_ToPropertyKey(js_context(), jskey);
 				JSValue jsvalue = variant_to_jsvalue(dict[key[i]]);
 				JS_SetPropertyStr(js_context(), js_map, JS_ToCString(js_context(), jspkey), jsvalue);
 			}
@@ -278,6 +279,7 @@ JSValue variant_to_jsvalue(const Variant &val) {
 			if (!obj) {
 				return JS_UNDEFINED;
 			}
+			return downcast(js_context(), obj);
 			VariantAdapter *adapter = memnew(VariantAdapter(val));
 			const char *class_name = to_chars(obj->get_class());
 			char code[1024];
@@ -437,47 +439,23 @@ godot::Variant jsvalue_to_variant(JSValue val) {
 			ERR_FAIL_V(godot::Variant());
 		}
 	}
-	ERR_FAIL_V(godot::Variant());
 }
 
-// template <typename T, typename = void>
-// static inline T js_obj_to_variant(JSValue val) {
-// 	JSClassID class_id = JS_GetClassID(val);
-// 	if (JS_IsArray(js_context(), val)) {
-// 		Array gd_arr;
-// 		JSValue js_len = JS_GetPropertyStr(js_context(), val, "length");
-// 		int64_t len = to_int64(js_context(), js_len);
-// 		for (int64_t i = 0; i < len; i++) {
-// 			JSValue el = JS_GetPropertyUint32(js_context(), val, i);
-// 			gd_arr.append(js_obj_to_variant<Variant>(el));
-// 		}
-// 		JS_FreeValue(js_context(), js_len);
-// 		return gd_arr;
-// 	} else {
-// 		return *reinterpret_cast<T *>(JS_GetOpaque(val, class_id));
-// 	}
-// }
-
-// template <typename T, std::enable_if_t<std::is_base_of_v<godot::Object, T>>>
-// static inline T *js_obj_to_variant(JSValue val) {
-// 	JSClassID class_id = JS_GetClassID(val);
-// 	if (JS_IsArray(js_context(), val)) {
-// 		Array *gd_arr = memalloc(sizeof(Array));
-// 		memnew_placement(gd_arr, Array());
-// 		JSValue js_len = JS_GetPropertyStr(js_context(), val, "length");
-// 		int64_t len = to_int64(js_context(), js_len);
-// 		for (int64_t i = 0; i < len; i++) {
-// 			JSValue el = JS_GetPropertyUint32(js_context(), val, i);
-// 			gd_arr->append(js_obj_to_variant<Variant>(el));
-// 		}
-// 		JS_FreeValue(js_context(), js_len);
-// 		return gd_arr;
-// 	} else {
-// 		return reinterpret_cast<T *>(JS_GetOpaque(val, class_id));
-// 	}
-// }
-
-// template <typename T, std::enable_if_t<std::is_base_of_v<godot::Object, T>>>
-// T jsvalue_to_variant(JSValue val) {
-// 	return js_obj_to_variant(val);
-// }
+JSValue downcast(JSContext *ctx, Object *obj) {
+	String gd_class_name = obj->get_class();
+	String js_class_name = gd_class_name == "Object" ? "GodotObject" : gd_class_name;
+	String snake_class_name = js_class_name.to_snake_case();
+	JSValue global = JS_GetGlobalObject(ctx);
+	const char *char_gd_class_name = gd_class_name.utf8();
+	JSValue ctor = ctor_list[char_gd_class_name];
+	VariantAdapter *p_adapter = memnew(VariantAdapter(obj, false));
+	JSClassID class_id = classes[js_class_name];
+	JSValue ctor_arg = JS_NewObjectClass(ctx, class_id);
+	JS_SetOpaque(ctor_arg, p_adapter);
+	JSValue ret = JS_CallConstructor(ctx, ctor, 1, &ctor_arg);
+	JS_FreeValue(ctx, global);
+	JS_FreeValue(ctx, ctor_arg);
+	if (is_exception(ctx, ret))
+		return JS_UNDEFINED;
+	return ret;
+}

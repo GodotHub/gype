@@ -37,6 +37,7 @@ String TypeScriptLanguage::_get_extension() const {
 }
 
 void TypeScriptLanguage::_finish() {
+	
 }
 
 PackedStringArray TypeScriptLanguage::_get_reserved_words() const {

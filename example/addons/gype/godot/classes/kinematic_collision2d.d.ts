@@ -1,8 +1,6 @@
 
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { RID } from '@godot/builtins/rid';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class KinematicCollision2D extends RefCounted {

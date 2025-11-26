@@ -1,15 +1,8 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Control } from '@godot/classes/control';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { HScrollBar } from '@godot/classes/h_scroll_bar';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Signal } from '@godot/builtins/signal';
 import type { Texture2D } from '@godot/classes/texture2d';
 import type { VScrollBar } from '@godot/classes/v_scroll_bar';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class ItemList extends Control {
@@ -129,11 +122,11 @@ export declare class ItemList extends Control {
     public force_update_list_size(): void;
 
     
-    public readonly item_selected: Signal<(index: number) => void>;
-    public readonly empty_clicked: Signal<(atPosition: Vector2, mouseButtonIndex: number) => void>;
-    public readonly item_clicked: Signal<(index: number, atPosition: Vector2, mouseButtonIndex: number) => void>;
-    public readonly multi_selected: Signal<(index: number, selected: boolean) => void>;
-    public readonly item_activated: Signal<(index: number) => void>;
+    public readonly item_selected: Signal;
+    public readonly empty_clicked: Signal;
+    public readonly item_clicked: Signal;
+    public readonly multi_selected: Signal;
+    public readonly item_activated: Signal;
 
     public static readonly IconMode: {
         ICON_MODE_TOP: 0;

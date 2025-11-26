@@ -1,8 +1,6 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Range } from '@godot/classes/range';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class TextureProgressBar extends Range {

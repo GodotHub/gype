@@ -1,7 +1,6 @@
 
 import type { FogMaterial } from '@godot/classes/fog_material';
 import type { Material } from '@godot/classes/material';
-import type { Vector3 } from '@godot/builtins/vector3';
 import type { VisualInstance3D } from '@godot/classes/visual_instance3d';
 
 

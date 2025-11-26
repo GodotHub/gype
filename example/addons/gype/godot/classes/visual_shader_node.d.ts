@@ -1,5 +1,4 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
 import type { Resource } from '@godot/classes/resource';
 
 

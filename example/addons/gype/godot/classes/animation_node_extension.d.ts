@@ -1,7 +1,5 @@
 
 import type { AnimationNode } from '@godot/classes/animation_node';
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
-import type { PackedFloat64Array } from '@godot/builtins/packed_float64_array';
 
 
 export declare class AnimationNodeExtension extends AnimationNode {

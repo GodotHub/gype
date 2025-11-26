@@ -1,5 +1,4 @@
 
-import type { PackedColorArray } from '@godot/builtins/packed_color_array';
 import type { Resource } from '@godot/classes/resource';
 
 

@@ -2,7 +2,6 @@
 import type { CameraAttributes } from '@godot/classes/camera_attributes';
 import type { CameraAttributesPractical } from '@godot/classes/camera_attributes_practical';
 import type { Node } from '@godot/classes/node';
-import type { Vector3 } from '@godot/builtins/vector3';
 import type { VisualInstance3D } from '@godot/classes/visual_instance3d';
 import type { VoxelGIData } from '@godot/classes/voxel_gi_data';
 

@@ -1,14 +1,10 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { MainLoop } from '@godot/classes/main_loop';
 import type { MultiplayerAPI } from '@godot/classes/multiplayer_api';
 import type { Node } from '@godot/classes/node';
-import type { NodePath } from '@godot/builtins/node_path';
 import type { PackedScene } from '@godot/classes/packed_scene';
 import type { SceneTreeTimer } from '@godot/classes/scene_tree_timer';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 import type { Tween } from '@godot/classes/tween';
 import type { Window } from '@godot/classes/window';
 
@@ -86,15 +82,15 @@ export declare class SceneTree extends MainLoop {
     public is_multiplayer_poll_enabled(): boolean;
 
     
-    public readonly tree_changed: Signal<() => void>;
-    public readonly scene_changed: Signal<() => void>;
-    public readonly tree_process_mode_changed: Signal<() => void>;
-    public readonly node_added: Signal<(node: Node) => void>;
-    public readonly node_removed: Signal<(node: Node) => void>;
-    public readonly node_renamed: Signal<(node: Node) => void>;
-    public readonly node_configuration_warning_changed: Signal<(node: Node) => void>;
-    public readonly process_frame: Signal<() => void>;
-    public readonly physics_frame: Signal<() => void>;
+    public readonly tree_changed: Signal;
+    public readonly scene_changed: Signal;
+    public readonly tree_process_mode_changed: Signal;
+    public readonly node_added: Signal;
+    public readonly node_removed: Signal;
+    public readonly node_renamed: Signal;
+    public readonly node_configuration_warning_changed: Signal;
+    public readonly process_frame: Signal;
+    public readonly physics_frame: Signal;
 
     public static readonly GroupCallFlags: {
         GROUP_CALL_DEFAULT: 0;

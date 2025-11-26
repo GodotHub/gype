@@ -1,8 +1,5 @@
 
 import type { Control } from '@godot/classes/control';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class Container extends Control {
@@ -14,8 +11,8 @@ export declare class Container extends Control {
     public fit_child_in_rect(child: Control, rect: Rect2): void;
 
     
-    public readonly pre_sort_children: Signal<() => void>;
-    public readonly sort_children: Signal<() => void>;
+    public readonly pre_sort_children: Signal;
+    public readonly sort_children: Signal;
 
 }
 

@@ -1,9 +1,6 @@
 
-import type { AABB } from '@godot/builtins/aabb';
 import type { BaseMaterial3D } from '@godot/classes/base_material3d';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Material } from '@godot/classes/material';
-import type { StringName } from '@godot/builtins/string_name';
 import type { VisualInstance3D } from '@godot/classes/visual_instance3d';
 
 

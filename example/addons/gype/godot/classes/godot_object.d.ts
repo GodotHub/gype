@@ -1,10 +1,4 @@
 
-import type { Callable } from '@godot/builtins/callable';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class GodotObject {
@@ -61,8 +55,8 @@ export declare class GodotObject {
     public cancel_free(): void;
 
     
-    public readonly script_changed: Signal<() => void>;
-    public readonly property_list_changed: Signal<() => void>;
+    public readonly script_changed: Signal;
+    public readonly property_list_changed: Signal;
 
     public static readonly ConnectFlags: {
         CONNECT_DEFERRED: 1;

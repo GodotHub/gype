@@ -1,8 +1,5 @@
 
 import type { Node2D } from '@godot/classes/node2d';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class NavigationObstacle2D extends Node2D {

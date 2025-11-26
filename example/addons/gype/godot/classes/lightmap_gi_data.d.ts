@@ -1,8 +1,4 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { Rect2 } from '@godot/builtins/rect2';
 import type { Resource } from '@godot/classes/resource';
 import type { TextureLayered } from '@godot/classes/texture_layered';
 

@@ -1,7 +1,5 @@
 
 import type { Control } from '@godot/classes/control';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { RefCounted } from '@godot/classes/ref_counted';
 import type { TextureRect } from '@godot/classes/texture_rect';
 

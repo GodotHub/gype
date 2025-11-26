@@ -1,7 +1,4 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
 import type { Resource } from '@godot/classes/resource';
 import type { Skin } from '@godot/classes/skin';
 

@@ -1,6 +1,4 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { OpenXRActionSet } from '@godot/classes/open_xr_action_set';
 import type { OpenXRInteractionProfile } from '@godot/classes/open_xr_interaction_profile';
 import type { Resource } from '@godot/classes/resource';

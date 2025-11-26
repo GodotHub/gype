@@ -1,13 +1,10 @@
 
 import type { Container } from '@godot/classes/container';
 import type { Control } from '@godot/classes/control';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node } from '@godot/classes/node';
 import type { Popup } from '@godot/classes/popup';
-import type { Signal } from '@godot/builtins/signal';
 import type { TabBar } from '@godot/classes/tab_bar';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class TabContainer extends Container {
@@ -86,13 +83,13 @@ export declare class TabContainer extends Container {
     public get_deselect_enabled(): boolean;
 
     
-    public readonly active_tab_rearranged: Signal<(idxTo: number) => void>;
-    public readonly tab_changed: Signal<(tab: number) => void>;
-    public readonly tab_clicked: Signal<(tab: number) => void>;
-    public readonly tab_hovered: Signal<(tab: number) => void>;
-    public readonly tab_selected: Signal<(tab: number) => void>;
-    public readonly tab_button_pressed: Signal<(tab: number) => void>;
-    public readonly pre_popup_pressed: Signal<() => void>;
+    public readonly active_tab_rearranged: Signal;
+    public readonly tab_changed: Signal;
+    public readonly tab_clicked: Signal;
+    public readonly tab_hovered: Signal;
+    public readonly tab_selected: Signal;
+    public readonly tab_button_pressed: Signal;
+    public readonly pre_popup_pressed: Signal;
 
     public static readonly TabPosition: {
         POSITION_TOP: 0;

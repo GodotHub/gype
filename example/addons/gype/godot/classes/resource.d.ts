@@ -1,9 +1,6 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node } from '@godot/classes/node';
-import type { RID } from '@godot/builtins/rid';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class Resource extends RefCounted {
@@ -44,8 +41,8 @@ export declare class Resource extends RefCounted {
     public duplicate_deep(deesubresourcesMode: number = 1): Resource;
 
     
-    public readonly changed: Signal<() => void>;
-    public readonly setup_local_to_scene_requested: Signal<() => void>;
+    public readonly changed: Signal;
+    public readonly setup_local_to_scene_requested: Signal;
 
     public static readonly DeepDuplicateMode: {
         DEEP_DUPLICATE_NONE: 0;

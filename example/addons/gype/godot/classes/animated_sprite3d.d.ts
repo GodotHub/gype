@@ -1,9 +1,6 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
-import type { Signal } from '@godot/builtins/signal';
 import type { SpriteBase3D } from '@godot/classes/sprite_base3d';
 import type { SpriteFrames } from '@godot/classes/sprite_frames';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class AnimatedSprite3D extends SpriteBase3D {
@@ -42,11 +39,11 @@ export declare class AnimatedSprite3D extends SpriteBase3D {
     public get_playing_speed(): number;
 
     
-    public readonly sprite_frames_changed: Signal<() => void>;
-    public readonly animation_changed: Signal<() => void>;
-    public readonly frame_changed: Signal<() => void>;
-    public readonly animation_looped: Signal<() => void>;
-    public readonly animation_finished: Signal<() => void>;
+    public readonly sprite_frames_changed: Signal;
+    public readonly animation_changed: Signal;
+    public readonly frame_changed: Signal;
+    public readonly animation_looped: Signal;
+    public readonly animation_finished: Signal;
 
 }
 

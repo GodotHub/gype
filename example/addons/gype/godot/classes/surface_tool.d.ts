@@ -1,21 +1,8 @@
 
-import type { AABB } from '@godot/builtins/aabb';
 import type { ArrayMesh } from '@godot/classes/array_mesh';
-import type { Color } from '@godot/builtins/color';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Material } from '@godot/classes/material';
 import type { Mesh } from '@godot/classes/mesh';
-import type { PackedColorArray } from '@godot/builtins/packed_color_array';
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
-import type { Plane } from '@godot/builtins/plane';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class SurfaceTool extends RefCounted {

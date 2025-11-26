@@ -1,7 +1,5 @@
 
-import type { AABB } from '@godot/builtins/aabb';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class PhysicsServer3DRenderingServerHandler extends GodotObject {

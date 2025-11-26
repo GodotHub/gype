@@ -1,12 +1,8 @@
 
-import type { Basis } from '@godot/builtins/basis';
 import type { Node } from '@godot/classes/node';
 import type { PhysicsBody3D } from '@godot/classes/physics_body3d';
 import type { PhysicsDirectBodyState3D } from '@godot/classes/physics_direct_body_state3d';
 import type { PhysicsMaterial } from '@godot/classes/physics_material';
-import type { RID } from '@godot/builtins/rid';
-import type { Signal } from '@godot/builtins/signal';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class RigidBody3D extends PhysicsBody3D {
@@ -120,11 +116,11 @@ export declare class RigidBody3D extends PhysicsBody3D {
     public get_colliding_bodies(): Array<any>;
 
     
-    public readonly body_shape_entered: Signal<(bodyRid: RID, body: Node, bodyShapeIndex: number, localShapeIndex: number) => void>;
-    public readonly body_shape_exited: Signal<(bodyRid: RID, body: Node, bodyShapeIndex: number, localShapeIndex: number) => void>;
-    public readonly body_entered: Signal<(body: Node) => void>;
-    public readonly body_exited: Signal<(body: Node) => void>;
-    public readonly sleeping_state_changed: Signal<() => void>;
+    public readonly body_shape_entered: Signal;
+    public readonly body_shape_exited: Signal;
+    public readonly body_entered: Signal;
+    public readonly body_exited: Signal;
+    public readonly sleeping_state_changed: Signal;
 
     public static readonly FreezeMode: {
         FREEZE_MODE_STATIC: 0;

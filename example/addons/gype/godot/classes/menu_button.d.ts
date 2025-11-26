@@ -1,7 +1,6 @@
 
 import type { Button } from '@godot/classes/button';
 import type { PopupMenu } from '@godot/classes/popup_menu';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class MenuButton extends Button {
@@ -20,7 +19,7 @@ export declare class MenuButton extends Button {
     public get_item_count(): number;
 
     
-    public readonly about_to_popup: Signal<() => void>;
+    public readonly about_to_popup: Signal;
 
 }
 

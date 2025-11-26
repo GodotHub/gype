@@ -1,20 +1,10 @@
 
-import type { Callable } from '@godot/builtins/callable';
-import type { Color } from '@godot/builtins/color';
 import type { Control } from '@godot/classes/control';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { HScrollBar } from '@godot/classes/h_scroll_bar';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { PopupMenu } from '@godot/classes/popup_menu';
-import type { Rect2i } from '@godot/builtins/rect2i';
-import type { Signal } from '@godot/builtins/signal';
 import type { SyntaxHighlighter } from '@godot/classes/syntax_highlighter';
 import type { Texture2D } from '@godot/classes/texture2d';
 import type { VScrollBar } from '@godot/classes/v_scroll_bar';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class TextEdit extends Control {
@@ -370,13 +360,13 @@ export declare class TextEdit extends Control {
     public get_selection_column(caretIndex: number = 0): number;
 
     
-    public readonly text_set: Signal<() => void>;
-    public readonly text_changed: Signal<() => void>;
-    public readonly lines_edited_from: Signal<(fromLine: number, toLine: number) => void>;
-    public readonly caret_changed: Signal<() => void>;
-    public readonly gutter_clicked: Signal<(line: number, gutter: number) => void>;
-    public readonly gutter_added: Signal<() => void>;
-    public readonly gutter_removed: Signal<() => void>;
+    public readonly text_set: Signal;
+    public readonly text_changed: Signal;
+    public readonly lines_edited_from: Signal;
+    public readonly caret_changed: Signal;
+    public readonly gutter_clicked: Signal;
+    public readonly gutter_added: Signal;
+    public readonly gutter_removed: Signal;
 
     public static readonly MenuItems: {
         MENU_CUT: 0;

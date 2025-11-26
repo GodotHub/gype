@@ -2,9 +2,6 @@
 import type { AnimationNode } from '@godot/classes/animation_node';
 import type { AnimationNodeStateMachineTransition } from '@godot/classes/animation_node_state_machine_transition';
 import type { AnimationRootNode } from '@godot/classes/animation_root_node';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class AnimationNodeStateMachine extends AnimationRootNode {

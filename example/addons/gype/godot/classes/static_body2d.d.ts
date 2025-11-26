@@ -1,7 +1,6 @@
 
 import type { PhysicsBody2D } from '@godot/classes/physics_body2d';
 import type { PhysicsMaterial } from '@godot/classes/physics_material';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class StaticBody2D extends PhysicsBody2D {

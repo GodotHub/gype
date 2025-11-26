@@ -1,13 +1,7 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { InputEvent } from '@godot/classes/input_event';
 import type { Resource } from '@godot/classes/resource';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class Input extends GodotObject {
@@ -79,7 +73,7 @@ export declare class Input extends GodotObject {
     public is_emulating_touch_from_mouse(): boolean;
 
     
-    public readonly joy_connection_changed: Signal<(device: number, connected: boolean) => void>;
+    public readonly joy_connection_changed: Signal;
 
     public static readonly MouseMode: {
         MOUSE_MODE_VISIBLE: 0;

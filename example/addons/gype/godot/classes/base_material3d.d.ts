@@ -1,8 +1,6 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Material } from '@godot/classes/material';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class BaseMaterial3D extends Material {

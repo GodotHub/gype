@@ -1,8 +1,5 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 import type { UndoRedo } from '@godot/classes/undo_redo';
 
 
@@ -24,8 +21,8 @@ export declare class EditorUndoRedoManager extends GodotObject {
     public clear_history(id: number = -99, increaseVersion: boolean = true): void;
 
     
-    public readonly history_changed: Signal<() => void>;
-    public readonly version_changed: Signal<() => void>;
+    public readonly history_changed: Signal;
+    public readonly version_changed: Signal;
 
     public static readonly SpecialHistory: {
         GLOBAL_HISTORY: 0;

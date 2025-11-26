@@ -1,5 +1,4 @@
 
-import type { Rect2 } from '@godot/builtins/rect2';
 import type { XRInterface } from '@godot/classes/xr_interface';
 
 

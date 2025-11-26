@@ -1,14 +1,9 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
 import type { EditorExportPlatform } from '@godot/classes/editor_export_platform';
 import type { EditorExportPreset } from '@godot/classes/editor_export_preset';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node } from '@godot/classes/node';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { RefCounted } from '@godot/classes/ref_counted';
 import type { Resource } from '@godot/classes/resource';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class EditorExportPlugin extends RefCounted {

@@ -1,7 +1,6 @@
 
 import type { MultiMesh } from '@godot/classes/multi_mesh';
 import type { Node2D } from '@godot/classes/node2d';
-import type { Signal } from '@godot/builtins/signal';
 import type { Texture2D } from '@godot/classes/texture2d';
 
 
@@ -18,7 +17,7 @@ export declare class MultiMeshInstance2D extends Node2D {
     public get_texture(): Texture2D;
 
     
-    public readonly texture_changed: Signal<() => void>;
+    public readonly texture_changed: Signal;
 
 }
 

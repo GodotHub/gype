@@ -1,9 +1,6 @@
 
 import type { EditorExportPlatform } from '@godot/classes/editor_export_platform';
 import type { EditorExportPreset } from '@godot/classes/editor_export_preset';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { StringName } from '@godot/builtins/string_name';
 import type { Texture2D } from '@godot/classes/texture2d';
 
 

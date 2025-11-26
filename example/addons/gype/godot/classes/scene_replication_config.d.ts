@@ -1,5 +1,4 @@
 
-import type { NodePath } from '@godot/builtins/node_path';
 import type { Resource } from '@godot/classes/resource';
 
 

@@ -1,5 +1,4 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Material } from '@godot/classes/material';
 import type { Texture2D } from '@godot/classes/texture2d';
 

@@ -301,7 +301,8 @@ def main():
             file_name_format=f'{camel_to_snake(cls["name"])}.d.ts',
             jinja_env=env,
             dependency=dependencies,
-            singletons=singletons
+            singletons=singletons,
+            builtin_classes = ts_builtin_classes
         )
 
     print("\nGenerating .d.ts for built-in types...")

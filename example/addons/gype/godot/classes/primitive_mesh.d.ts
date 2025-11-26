@@ -1,7 +1,5 @@
 
-import type { AABB } from '@godot/builtins/aabb';
 import type { BaseMaterial3D } from '@godot/classes/base_material3d';
-import type { GDArray } from '@godot/builtins/gd_array';
 import type { Material } from '@godot/classes/material';
 import type { Mesh } from '@godot/classes/mesh';
 

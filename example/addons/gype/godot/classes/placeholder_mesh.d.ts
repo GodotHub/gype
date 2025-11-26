@@ -1,5 +1,4 @@
 
-import type { AABB } from '@godot/builtins/aabb';
 import type { Mesh } from '@godot/classes/mesh';
 
 

@@ -1,5 +1,4 @@
 
-import type { RID } from '@godot/builtins/rid';
 import type { TextureLayered } from '@godot/classes/texture_layered';
 
 

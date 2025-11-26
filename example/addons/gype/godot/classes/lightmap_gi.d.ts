@@ -1,7 +1,6 @@
 
 import type { CameraAttributes } from '@godot/classes/camera_attributes';
 import type { CameraAttributesPractical } from '@godot/classes/camera_attributes_practical';
-import type { Color } from '@godot/builtins/color';
 import type { LightmapGIData } from '@godot/classes/lightmap_gi_data';
 import type { Sky } from '@godot/classes/sky';
 import type { VisualInstance3D } from '@godot/classes/visual_instance3d';

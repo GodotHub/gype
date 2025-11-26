@@ -1,5 +1,4 @@
 
-import type { NodePath } from '@godot/builtins/node_path';
 import type { Texture2D } from '@godot/classes/texture2d';
 
 

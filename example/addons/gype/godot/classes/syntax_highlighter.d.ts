@@ -1,5 +1,4 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
 import type { Resource } from '@godot/classes/resource';
 import type { TextEdit } from '@godot/classes/text_edit';
 

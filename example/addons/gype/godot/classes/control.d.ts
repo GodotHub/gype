@@ -1,21 +1,12 @@
 
-import type { Callable } from '@godot/builtins/callable';
 import type { CanvasItem } from '@godot/classes/canvas_item';
-import type { Color } from '@godot/builtins/color';
 import type { Font } from '@godot/classes/font';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { InputEvent } from '@godot/classes/input_event';
 import type { Node } from '@godot/classes/node';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 import type { StyleBox } from '@godot/classes/style_box';
 import type { Texture2D } from '@godot/classes/texture2d';
 import type { Theme } from '@godot/classes/theme';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class Control extends CanvasItem {
@@ -288,15 +279,15 @@ export declare class Control extends CanvasItem {
     public is_localizing_numeral_system(): boolean;
 
     
-    public readonly resized: Signal<() => void>;
-    public readonly gui_input: Signal<(event: InputEvent) => void>;
-    public readonly mouse_entered: Signal<() => void>;
-    public readonly mouse_exited: Signal<() => void>;
-    public readonly focus_entered: Signal<() => void>;
-    public readonly focus_exited: Signal<() => void>;
-    public readonly size_flags_changed: Signal<() => void>;
-    public readonly minimum_size_changed: Signal<() => void>;
-    public readonly theme_changed: Signal<() => void>;
+    public readonly resized: Signal;
+    public readonly gui_input: Signal;
+    public readonly mouse_entered: Signal;
+    public readonly mouse_exited: Signal;
+    public readonly focus_entered: Signal;
+    public readonly focus_exited: Signal;
+    public readonly size_flags_changed: Signal;
+    public readonly minimum_size_changed: Signal;
+    public readonly theme_changed: Signal;
 
     public static readonly FocusMode: {
         FOCUS_NONE: 0;

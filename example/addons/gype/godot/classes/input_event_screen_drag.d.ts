@@ -1,6 +1,5 @@
 
 import type { InputEventFromWindow } from '@godot/classes/input_event_from_window';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class InputEventScreenDrag extends InputEventFromWindow {

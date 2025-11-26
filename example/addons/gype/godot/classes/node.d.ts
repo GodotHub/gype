@@ -1,15 +1,8 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { InputEvent } from '@godot/classes/input_event';
 import type { MultiplayerAPI } from '@godot/classes/multiplayer_api';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { RID } from '@godot/builtins/rid';
 import type { SceneTree } from '@godot/classes/scene_tree';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 import type { Tween } from '@godot/classes/tween';
 import type { Viewport } from '@godot/classes/viewport';
 import type { Window } from '@godot/classes/window';
@@ -181,17 +174,17 @@ export declare class Node extends GodotObject {
     public notify_thread_safe(what: number): void;
 
     
-    public readonly ready: Signal<() => void>;
-    public readonly renamed: Signal<() => void>;
-    public readonly tree_entered: Signal<() => void>;
-    public readonly tree_exiting: Signal<() => void>;
-    public readonly tree_exited: Signal<() => void>;
-    public readonly child_entered_tree: Signal<(node: Node) => void>;
-    public readonly child_exiting_tree: Signal<(node: Node) => void>;
-    public readonly child_order_changed: Signal<() => void>;
-    public readonly replacing_by: Signal<(node: Node) => void>;
-    public readonly editor_description_changed: Signal<(node: Node) => void>;
-    public readonly editor_state_changed: Signal<() => void>;
+    public readonly ready: Signal;
+    public readonly renamed: Signal;
+    public readonly tree_entered: Signal;
+    public readonly tree_exiting: Signal;
+    public readonly tree_exited: Signal;
+    public readonly child_entered_tree: Signal;
+    public readonly child_exiting_tree: Signal;
+    public readonly child_order_changed: Signal;
+    public readonly replacing_by: Signal;
+    public readonly editor_description_changed: Signal;
+    public readonly editor_state_changed: Signal;
 
     public static readonly ProcessMode: {
         PROCESS_MODE_INHERIT: 0;

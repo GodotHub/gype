@@ -1,5 +1,4 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { HBoxContainer } from '@godot/classes/h_box_container';
 
 

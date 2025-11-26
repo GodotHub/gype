@@ -1,9 +1,6 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Resource } from '@godot/classes/resource';
-import type { Signal } from '@godot/builtins/signal';
 import type { SkeletonProfile } from '@godot/classes/skeleton_profile';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class BoneMap extends Resource {
@@ -18,8 +15,8 @@ export declare class BoneMap extends Resource {
     public find_profile_bone_name(skeletonBoneName: GDString | StringName | string): StringName;
 
     
-    public readonly bone_map_updated: Signal<() => void>;
-    public readonly profile_updated: Signal<() => void>;
+    public readonly bone_map_updated: Signal;
+    public readonly profile_updated: Signal;
 
 }
 

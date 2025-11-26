@@ -1,10 +1,6 @@
 
 import type { Control } from '@godot/classes/control';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { LabelSettings } from '@godot/classes/label_settings';
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
-import type { Rect2 } from '@godot/builtins/rect2';
 
 
 export declare class Label extends Control {

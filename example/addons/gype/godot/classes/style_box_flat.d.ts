@@ -1,7 +1,5 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { StyleBox } from '@godot/classes/style_box';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class StyleBoxFlat extends StyleBox {

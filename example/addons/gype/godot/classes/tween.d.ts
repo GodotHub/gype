@@ -1,14 +1,11 @@
 
-import type { Callable } from '@godot/builtins/callable';
 import type { CallbackTweener } from '@godot/classes/callback_tweener';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { IntervalTweener } from '@godot/classes/interval_tweener';
 import type { MethodTweener } from '@godot/classes/method_tweener';
 import type { Node } from '@godot/classes/node';
-import type { NodePath } from '@godot/builtins/node_path';
 import type { PropertyTweener } from '@godot/classes/property_tweener';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Signal } from '@godot/builtins/signal';
 import type { SubtweenTweener } from '@godot/classes/subtween_tweener';
 
 
@@ -43,9 +40,9 @@ export declare class Tween extends RefCounted {
     public static interpolate_value(initialValue: any, deltaValue: any, elapsedTime: number, duration: number, transType: number, easeType: number): any;
 
     
-    public readonly step_finished: Signal<(idx: number) => void>;
-    public readonly loop_finished: Signal<(loocount: number) => void>;
-    public readonly finished: Signal<() => void>;
+    public readonly step_finished: Signal;
+    public readonly loop_finished: Signal;
+    public readonly finished: Signal;
 
     public static readonly TweenProcessMode: {
         TWEEN_PROCESS_PHYSICS: 0;

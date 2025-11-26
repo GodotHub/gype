@@ -2,7 +2,6 @@
 import type { Container } from '@godot/classes/container';
 import type { Control } from '@godot/classes/control';
 import type { HScrollBar } from '@godot/classes/h_scroll_bar';
-import type { Signal } from '@godot/builtins/signal';
 import type { VScrollBar } from '@godot/classes/v_scroll_bar';
 
 
@@ -50,8 +49,8 @@ export declare class ScrollContainer extends Container {
     public get_draw_focus_border(): boolean;
 
     
-    public readonly scroll_started: Signal<() => void>;
-    public readonly scroll_ended: Signal<() => void>;
+    public readonly scroll_started: Signal;
+    public readonly scroll_ended: Signal;
 
     public static readonly ScrollMode: {
         SCROLL_MODE_DISABLED: 0;

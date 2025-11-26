@@ -1,15 +1,7 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node3D } from '@godot/classes/node3d';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { Quaternion } from '@godot/builtins/quaternion';
-import type { RID } from '@godot/builtins/rid';
-import type { Signal } from '@godot/builtins/signal';
 import type { Skin } from '@godot/classes/skin';
 import type { SkinReference } from '@godot/classes/skin_reference';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class Skeleton3D extends Node3D {
@@ -81,12 +73,12 @@ export declare class Skeleton3D extends Node3D {
     public physical_bones_remove_collision_exception(exception: RID): void;
 
     
-    public readonly rest_updated: Signal<() => void>;
-    public readonly pose_updated: Signal<() => void>;
-    public readonly skeleton_updated: Signal<() => void>;
-    public readonly bone_enabled_changed: Signal<(boneIdx: number) => void>;
-    public readonly bone_list_changed: Signal<() => void>;
-    public readonly show_rest_only_changed: Signal<() => void>;
+    public readonly rest_updated: Signal;
+    public readonly pose_updated: Signal;
+    public readonly skeleton_updated: Signal;
+    public readonly bone_enabled_changed: Signal;
+    public readonly bone_list_changed: Signal;
+    public readonly show_rest_only_changed: Signal;
 
     public static readonly ModifierCallbackModeProcess: {
         MODIFIER_CALLBACK_MODE_PROCESS_PHYSICS: 0;

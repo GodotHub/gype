@@ -1,6 +1,5 @@
 
 import type { Node2D } from '@godot/classes/node2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class ParallaxLayer extends Node2D {

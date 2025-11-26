@@ -1,9 +1,6 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { GeometryInstance3D } from '@godot/classes/geometry_instance3d';
-import type { Rect2 } from '@godot/builtins/rect2';
 import type { TriangleMesh } from '@godot/classes/triangle_mesh';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class SpriteBase3D extends GeometryInstance3D {

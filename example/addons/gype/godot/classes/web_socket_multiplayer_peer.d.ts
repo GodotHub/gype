@@ -1,7 +1,5 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { MultiplayerPeer } from '@godot/classes/multiplayer_peer';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { TLSOptions } from '@godot/classes/tls_options';
 import type { WebSocketPeer } from '@godot/classes/web_socket_peer';
 

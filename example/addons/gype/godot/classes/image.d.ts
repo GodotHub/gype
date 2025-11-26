@@ -1,11 +1,5 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
-import type { Rect2i } from '@godot/builtins/rect2i';
 import type { Resource } from '@godot/classes/resource';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class Image extends Resource {

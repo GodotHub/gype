@@ -1,21 +1,10 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Control } from '@godot/classes/control';
-import type { Dictionary } from '@godot/builtins/dictionary';
 import type { Font } from '@godot/classes/font';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { PopupMenu } from '@godot/classes/popup_menu';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Rect2i } from '@godot/builtins/rect2i';
 import type { RichTextEffect } from '@godot/classes/rich_text_effect';
-import type { Signal } from '@godot/builtins/signal';
 import type { Texture2D } from '@godot/classes/texture2d';
 import type { VScrollBar } from '@godot/classes/v_scroll_bar';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class RichTextLabel extends Control {
@@ -221,10 +210,10 @@ export declare class RichTextLabel extends Control {
     public menu_option(option: number): void;
 
     
-    public readonly meta_clicked: Signal<(meta: any) => void>;
-    public readonly meta_hover_started: Signal<(meta: any) => void>;
-    public readonly meta_hover_ended: Signal<(meta: any) => void>;
-    public readonly finished: Signal<() => void>;
+    public readonly meta_clicked: Signal;
+    public readonly meta_hover_started: Signal;
+    public readonly meta_hover_ended: Signal;
+    public readonly finished: Signal;
 
     public static readonly ListType: {
         LIST_NUMBERS: 0;

@@ -1,6 +1,5 @@
 
 import type { Control } from '@godot/classes/control';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { PopupMenu } from '@godot/classes/popup_menu';
 
 

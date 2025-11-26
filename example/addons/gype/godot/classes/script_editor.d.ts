@@ -1,11 +1,8 @@
 
 import type { EditorSyntaxHighlighter } from '@godot/classes/editor_syntax_highlighter';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { PanelContainer } from '@godot/classes/panel_container';
 import type { Script } from '@godot/classes/script';
 import type { ScriptEditorBase } from '@godot/classes/script_editor_base';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class ScriptEditor extends PanelContainer {
@@ -25,8 +22,8 @@ export declare class ScriptEditor extends PanelContainer {
     public clear_docs_from_script(script: Script): void;
 
     
-    public readonly editor_script_changed: Signal<(script: Script) => void>;
-    public readonly script_close: Signal<(script: Script) => void>;
+    public readonly editor_script_changed: Signal;
+    public readonly script_close: Signal;
 
 }
 

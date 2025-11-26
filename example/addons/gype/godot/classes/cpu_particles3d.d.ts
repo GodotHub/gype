@@ -1,15 +1,9 @@
 
-import type { AABB } from '@godot/builtins/aabb';
-import type { Color } from '@godot/builtins/color';
 import type { Curve } from '@godot/classes/curve';
 import type { GeometryInstance3D } from '@godot/classes/geometry_instance3d';
 import type { Gradient } from '@godot/classes/gradient';
 import type { Mesh } from '@godot/classes/mesh';
 import type { Node } from '@godot/classes/node';
-import type { PackedColorArray } from '@godot/builtins/packed_color_array';
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
-import type { Signal } from '@godot/builtins/signal';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class CPUParticles3D extends GeometryInstance3D {
@@ -261,7 +255,7 @@ export declare class CPUParticles3D extends GeometryInstance3D {
     public convert_from_particles(particles: Node): void;
 
     
-    public readonly finished: Signal<() => void>;
+    public readonly finished: Signal;
 
     public static readonly DrawOrder: {
         DRAW_ORDER_INDEX: 0;

@@ -1,13 +1,6 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { Resource } from '@godot/classes/resource';
-import type { Signal } from '@godot/builtins/signal';
 import type { TextEdit } from '@godot/classes/text_edit';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class CodeEdit extends TextEdit {
@@ -171,11 +164,11 @@ export declare class CodeEdit extends TextEdit {
     public duplicate_lines(): void;
 
     
-    public readonly breakpoint_toggled: Signal<(line: number) => void>;
-    public readonly code_completion_requested: Signal<() => void>;
-    public readonly symbol_lookup: Signal<(_symbol: GDString | StringName | string, line: number, column: number) => void>;
-    public readonly symbol_validate: Signal<(_symbol: GDString | StringName | string) => void>;
-    public readonly symbol_hovered: Signal<(_symbol: GDString | StringName | string, line: number, column: number) => void>;
+    public readonly breakpoint_toggled: Signal;
+    public readonly code_completion_requested: Signal;
+    public readonly symbol_lookup: Signal;
+    public readonly symbol_validate: Signal;
+    public readonly symbol_hovered: Signal;
 
     public static readonly CodeCompletionKind: {
         KIND_CLASS: 0;

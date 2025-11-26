@@ -1,10 +1,7 @@
 
 import type { AudioStream } from '@godot/classes/audio_stream';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { OggPacketSequence } from '@godot/classes/ogg_packet_sequence';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
 
 
 export declare class AudioStreamOggVorbis extends AudioStream {

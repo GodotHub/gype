@@ -1,8 +1,6 @@
 
 import type { Button } from '@godot/classes/button';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { PopupMenu } from '@godot/classes/popup_menu';
-import type { Signal } from '@godot/builtins/signal';
 import type { Texture2D } from '@godot/classes/texture2d';
 
 
@@ -55,8 +53,8 @@ export declare class OptionButton extends Button {
     public set_disable_shortcuts(disabled: boolean): void;
 
     
-    public readonly item_selected: Signal<(index: number) => void>;
-    public readonly item_focused: Signal<(index: number) => void>;
+    public readonly item_selected: Signal;
+    public readonly item_focused: Signal;
 
 }
 

@@ -1,9 +1,6 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node3D } from '@godot/classes/node3d';
-import type { NodePath } from '@godot/builtins/node_path';
 import type { Skeleton3D } from '@godot/classes/skeleton3d';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class BoneAttachment3D extends Node3D {

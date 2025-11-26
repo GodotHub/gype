@@ -1,14 +1,8 @@
 
 import type { AnimationPlayer } from '@godot/classes/animation_player';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GLTFNode } from '@godot/classes/gltf_node';
 import type { Node } from '@godot/classes/node';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
 import type { Resource } from '@godot/classes/resource';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class GLTFState extends Resource {

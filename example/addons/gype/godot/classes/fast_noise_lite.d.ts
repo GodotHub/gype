@@ -1,6 +1,5 @@
 
 import type { Noise } from '@godot/classes/noise';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class FastNoiseLite extends Noise {

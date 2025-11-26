@@ -1,5 +1,4 @@
 
-import type { Vector3 } from '@godot/builtins/vector3';
 import type { VisualShaderNodeConstant } from '@godot/classes/visual_shader_node_constant';
 
 

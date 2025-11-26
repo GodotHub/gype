@@ -3,11 +3,7 @@ import type { AudioBusLayout } from '@godot/classes/audio_bus_layout';
 import type { AudioEffect } from '@godot/classes/audio_effect';
 import type { AudioEffectInstance } from '@godot/classes/audio_effect_instance';
 import type { AudioStream } from '@godot/classes/audio_stream';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class AudioServer extends GodotObject {
@@ -76,8 +72,8 @@ export declare class AudioServer extends GodotObject {
     public register_stream_as_sample(stream: AudioStream): void;
 
     
-    public readonly bus_layout_changed: Signal<() => void>;
-    public readonly bus_renamed: Signal<(busIndex: number, oldName: GDString | StringName | string, newName: GDString | StringName | string) => void>;
+    public readonly bus_layout_changed: Signal;
+    public readonly bus_renamed: Signal;
 
     public static readonly SpeakerMode: {
         SPEAKER_MODE_STEREO: 0;

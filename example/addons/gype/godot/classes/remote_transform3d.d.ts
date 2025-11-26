@@ -1,6 +1,5 @@
 
 import type { Node3D } from '@godot/classes/node3d';
-import type { NodePath } from '@godot/builtins/node_path';
 
 
 export declare class RemoteTransform3D extends Node3D {

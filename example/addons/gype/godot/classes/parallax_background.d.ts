@@ -1,6 +1,5 @@
 
 import type { CanvasLayer } from '@godot/classes/canvas_layer';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class ParallaxBackground extends CanvasLayer {

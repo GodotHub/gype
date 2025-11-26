@@ -1,7 +1,6 @@
 
 import type { Control } from '@godot/classes/control';
 import type { Node } from '@godot/classes/node';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class Range extends Control {
@@ -53,8 +52,8 @@ export declare class Range extends Control {
     public unshare(): void;
 
     
-    public readonly value_changed: Signal<(value: number) => void>;
-    public readonly changed: Signal<() => void>;
+    public readonly value_changed: Signal;
+    public readonly changed: Signal;
 
 }
 

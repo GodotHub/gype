@@ -1,7 +1,5 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
 import type { PhysicsPointQueryParameters2D } from '@godot/classes/physics_point_query_parameters2d';
 import type { PhysicsRayQueryParameters2D } from '@godot/classes/physics_ray_query_parameters2d';
 import type { PhysicsShapeQueryParameters2D } from '@godot/classes/physics_shape_query_parameters2d';

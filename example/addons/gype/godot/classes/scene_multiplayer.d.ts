@@ -1,10 +1,5 @@
 
-import type { Callable } from '@godot/builtins/callable';
 import type { MultiplayerAPI } from '@godot/classes/multiplayer_api';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class SceneMultiplayer extends MultiplayerAPI {
@@ -50,9 +45,9 @@ export declare class SceneMultiplayer extends MultiplayerAPI {
     public set_max_delta_packet_size(size: number): void;
 
     
-    public readonly peer_authenticating: Signal<(id: number) => void>;
-    public readonly peer_authentication_failed: Signal<(id: number) => void>;
-    public readonly peer_packet: Signal<(id: number, packet: PackedByteArray) => void>;
+    public readonly peer_authenticating: Signal;
+    public readonly peer_authentication_failed: Signal;
+    public readonly peer_packet: Signal;
 
 }
 

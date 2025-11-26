@@ -1,5 +1,4 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Control } from '@godot/classes/control';
 
 

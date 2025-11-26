@@ -1,15 +1,4 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedFloat64Array } from '@godot/builtins/packed_float64_array';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Rect2i } from '@godot/builtins/rect2i';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector2 } from '@godot/builtins/vector2';
 import type { XRInterface } from '@godot/classes/xr_interface';
 
 

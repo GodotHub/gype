@@ -1,8 +1,5 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 import type { TextServer } from '@godot/classes/text_server';
 
 
@@ -19,8 +16,8 @@ export declare class TextServerManager extends GodotObject {
     public get_primary_interface(): TextServer;
 
     
-    public readonly interface_added: Signal<(interfaceName: GDString | StringName | string) => void>;
-    public readonly interface_removed: Signal<(interfaceName: GDString | StringName | string) => void>;
+    public readonly interface_added: Signal;
+    public readonly interface_removed: Signal;
 
 }
 

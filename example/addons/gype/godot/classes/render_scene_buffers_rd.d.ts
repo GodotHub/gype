@@ -1,11 +1,7 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { RDTextureFormat } from '@godot/classes/rd_texture_format';
 import type { RDTextureView } from '@godot/classes/rd_texture_view';
-import type { RID } from '@godot/builtins/rid';
 import type { RenderSceneBuffers } from '@godot/classes/render_scene_buffers';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class RenderSceneBuffersRD extends RenderSceneBuffers {

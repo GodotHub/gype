@@ -1,6 +1,5 @@
 
 import type { Resource } from '@godot/classes/resource';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class TileSetSource extends Resource {

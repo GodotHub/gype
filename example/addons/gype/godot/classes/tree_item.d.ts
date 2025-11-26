@@ -1,13 +1,6 @@
 
-import type { Callable } from '@godot/builtins/callable';
-import type { Color } from '@godot/builtins/color';
-import type { Dictionary } from '@godot/builtins/dictionary';
 import type { Font } from '@godot/classes/font';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { StringName } from '@godot/builtins/string_name';
 import type { Texture2D } from '@godot/classes/texture2d';
 import type { Tree } from '@godot/classes/tree';
 

@@ -1,12 +1,8 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { JavaObject } from '@godot/classes/java_object';
 import type { Node3D } from '@godot/classes/node3d';
 import type { SubViewport } from '@godot/classes/sub_viewport';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class OpenXRCompositionLayer extends Node3D {

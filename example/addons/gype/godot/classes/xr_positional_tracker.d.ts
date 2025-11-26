@@ -1,10 +1,4 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector3 } from '@godot/builtins/vector3';
 import type { XRPose } from '@godot/classes/xr_pose';
 import type { XRTracker } from '@godot/classes/xr_tracker';
 
@@ -28,13 +22,13 @@ export declare class XRPositionalTracker extends XRTracker {
     public set_input(name: GDString | StringName | string, value: any): void;
 
     
-    public readonly pose_changed: Signal<(pose: XRPose) => void>;
-    public readonly pose_lost_tracking: Signal<(pose: XRPose) => void>;
-    public readonly button_pressed: Signal<(name: GDString | StringName | string) => void>;
-    public readonly button_released: Signal<(name: GDString | StringName | string) => void>;
-    public readonly input_float_changed: Signal<(name: GDString | StringName | string, value: number) => void>;
-    public readonly input_vector2_changed: Signal<(name: GDString | StringName | string, vector: Vector2) => void>;
-    public readonly profile_changed: Signal<(role: GDString | StringName | string) => void>;
+    public readonly pose_changed: Signal;
+    public readonly pose_lost_tracking: Signal;
+    public readonly button_pressed: Signal;
+    public readonly button_released: Signal;
+    public readonly input_float_changed: Signal;
+    public readonly input_vector2_changed: Signal;
+    public readonly profile_changed: Signal;
 
     public static readonly TrackerHand: {
         TRACKER_HAND_UNKNOWN: 0;

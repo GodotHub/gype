@@ -1,7 +1,6 @@
 
 import type { ENetConnection } from '@godot/classes/e_net_connection';
 import type { ENetPacketPeer } from '@godot/classes/e_net_packet_peer';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { MultiplayerPeer } from '@godot/classes/multiplayer_peer';
 
 

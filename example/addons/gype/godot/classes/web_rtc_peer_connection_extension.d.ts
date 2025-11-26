@@ -1,6 +1,4 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { WebRTCDataChannel } from '@godot/classes/web_rtc_data_channel';
 import type { WebRTCPeerConnection } from '@godot/classes/web_rtc_peer_connection';
 

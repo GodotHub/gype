@@ -1,6 +1,4 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { NodePath } from '@godot/builtins/node_path';
 import type { VisualInstance3D } from '@godot/classes/visual_instance3d';
 
 

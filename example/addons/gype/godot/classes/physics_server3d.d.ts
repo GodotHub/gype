@@ -1,15 +1,10 @@
 
-import type { AABB } from '@godot/builtins/aabb';
-import type { Callable } from '@godot/builtins/callable';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { PhysicsDirectBodyState3D } from '@godot/classes/physics_direct_body_state3d';
 import type { PhysicsDirectSpaceState3D } from '@godot/classes/physics_direct_space_state3d';
 import type { PhysicsServer3DRenderingServerHandler } from '@godot/classes/physics_server3d_rendering_server_handler';
 import type { PhysicsTestMotionParameters3D } from '@godot/classes/physics_test_motion_parameters3d';
 import type { PhysicsTestMotionResult3D } from '@godot/classes/physics_test_motion_result3d';
-import type { RID } from '@godot/builtins/rid';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class PhysicsServer3D extends GodotObject {

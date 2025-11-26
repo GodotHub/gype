@@ -1,5 +1,4 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { OpenXRActionSet } from '@godot/classes/open_xr_action_set';
 import type { OpenXRHapticBase } from '@godot/classes/open_xr_haptic_base';
 import type { OpenXRIPBindingModifier } from '@godot/classes/open_xrip_binding_modifier';

@@ -1,5 +1,4 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { Image } from '@godot/classes/image';
 import type { Resource } from '@godot/classes/resource';

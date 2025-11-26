@@ -1,5 +1,4 @@
 
-import type { Vector2i } from '@godot/builtins/vector2i';
 import type { Viewport } from '@godot/classes/viewport';
 
 

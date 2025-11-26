@@ -1,5 +1,4 @@
 
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { VisualShaderNodeParameter } from '@godot/classes/visual_shader_node_parameter';
 
 

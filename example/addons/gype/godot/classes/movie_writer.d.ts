@@ -1,8 +1,6 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { Image } from '@godot/classes/image';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class MovieWriter extends GodotObject {

@@ -1,10 +1,7 @@
 
-import type { RID } from '@godot/builtins/rid';
 import type { RefCounted } from '@godot/classes/ref_counted';
 import type { Resource } from '@godot/classes/resource';
 import type { Shape3D } from '@godot/classes/shape3d';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class PhysicsShapeQueryParameters3D extends RefCounted {

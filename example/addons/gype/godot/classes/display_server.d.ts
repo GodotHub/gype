@@ -1,22 +1,8 @@
 
-import type { Callable } from '@godot/builtins/callable';
-import type { Color } from '@godot/builtins/color';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { Image } from '@godot/classes/image';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Rect2i } from '@godot/builtins/rect2i';
 import type { Resource } from '@godot/classes/resource';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
-import type { Vector3i } from '@godot/builtins/vector3i';
 
 
 export declare class DisplayServer extends GodotObject {

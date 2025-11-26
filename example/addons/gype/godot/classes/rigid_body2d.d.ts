@@ -3,9 +3,6 @@ import type { Node } from '@godot/classes/node';
 import type { PhysicsBody2D } from '@godot/classes/physics_body2d';
 import type { PhysicsDirectBodyState2D } from '@godot/classes/physics_direct_body_state2d';
 import type { PhysicsMaterial } from '@godot/classes/physics_material';
-import type { RID } from '@godot/builtins/rid';
-import type { Signal } from '@godot/builtins/signal';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class RigidBody2D extends PhysicsBody2D {
@@ -118,11 +115,11 @@ export declare class RigidBody2D extends PhysicsBody2D {
     public get_colliding_bodies(): Array<any>;
 
     
-    public readonly body_shape_entered: Signal<(bodyRid: RID, body: Node, bodyShapeIndex: number, localShapeIndex: number) => void>;
-    public readonly body_shape_exited: Signal<(bodyRid: RID, body: Node, bodyShapeIndex: number, localShapeIndex: number) => void>;
-    public readonly body_entered: Signal<(body: Node) => void>;
-    public readonly body_exited: Signal<(body: Node) => void>;
-    public readonly sleeping_state_changed: Signal<() => void>;
+    public readonly body_shape_entered: Signal;
+    public readonly body_shape_exited: Signal;
+    public readonly body_entered: Signal;
+    public readonly body_exited: Signal;
+    public readonly sleeping_state_changed: Signal;
 
     public static readonly FreezeMode: {
         FREEZE_MODE_STATIC: 0;

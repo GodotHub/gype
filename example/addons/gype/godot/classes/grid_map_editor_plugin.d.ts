@@ -1,9 +1,6 @@
 
-import type { AABB } from '@godot/builtins/aabb';
 import type { EditorPlugin } from '@godot/classes/editor_plugin';
-import type { GDArray } from '@godot/builtins/gd_array';
 import type { GridMap } from '@godot/classes/grid_map';
-import type { Vector3i } from '@godot/builtins/vector3i';
 
 
 export declare class GridMapEditorPlugin extends EditorPlugin {

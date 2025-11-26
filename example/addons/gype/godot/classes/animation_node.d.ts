@@ -1,11 +1,5 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { NodePath } from '@godot/builtins/node_path';
 import type { Resource } from '@godot/classes/resource';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class AnimationNode extends Resource {
@@ -42,9 +36,9 @@ export declare class AnimationNode extends Resource {
     public get_parameter(name: GDString | StringName | string): any;
 
     
-    public readonly tree_changed: Signal<() => void>;
-    public readonly animation_node_renamed: Signal<(objectId: number, oldName: GDString | StringName | string, newName: GDString | StringName | string) => void>;
-    public readonly animation_node_removed: Signal<(objectId: number, name: GDString | StringName | string) => void>;
+    public readonly tree_changed: Signal;
+    public readonly animation_node_renamed: Signal;
+    public readonly animation_node_removed: Signal;
 
     public static readonly FilterAction: {
         FILTER_IGNORE: 0;

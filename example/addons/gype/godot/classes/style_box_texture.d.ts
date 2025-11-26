@@ -1,6 +1,4 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { Rect2 } from '@godot/builtins/rect2';
 import type { StyleBox } from '@godot/classes/style_box';
 import type { Texture2D } from '@godot/classes/texture2d';
 

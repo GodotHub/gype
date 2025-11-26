@@ -1,13 +1,6 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { GDArray } from '@godot/builtins/gd_array';
 import type { Node2D } from '@godot/classes/node2d';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { PackedColorArray } from '@godot/builtins/packed_color_array';
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class Polygon2D extends Node2D {

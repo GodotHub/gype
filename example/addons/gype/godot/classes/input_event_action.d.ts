@@ -1,7 +1,5 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { InputEvent } from '@godot/classes/input_event';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class InputEventAction extends InputEvent {

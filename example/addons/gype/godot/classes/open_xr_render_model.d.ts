@@ -1,8 +1,5 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node3D } from '@godot/classes/node3d';
-import type { RID } from '@godot/builtins/rid';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class OpenXRRenderModel extends Node3D {
@@ -15,7 +12,7 @@ export declare class OpenXRRenderModel extends Node3D {
     public set_render_model(renderModel: RID): void;
 
     
-    public readonly render_model_top_level_path_changed: Signal<() => void>;
+    public readonly render_model_top_level_path_changed: Signal;
 
 }
 

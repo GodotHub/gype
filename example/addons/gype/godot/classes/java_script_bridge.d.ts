@@ -1,10 +1,6 @@
 
-import type { Callable } from '@godot/builtins/callable';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { JavaScriptObject } from '@godot/classes/java_script_object';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class JavaScriptBridge extends GodotObject {
@@ -22,7 +18,7 @@ export declare class JavaScriptBridge extends GodotObject {
     public force_fs_sync(): void;
 
     
-    public readonly pwa_update_available: Signal<() => void>;
+    public readonly pwa_update_available: Signal;
 
 }
 

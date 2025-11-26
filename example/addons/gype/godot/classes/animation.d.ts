@@ -1,14 +1,5 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { Quaternion } from '@godot/builtins/quaternion';
 import type { Resource } from '@godot/classes/resource';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class Animation extends Resource {

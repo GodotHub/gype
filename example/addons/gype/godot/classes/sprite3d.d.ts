@@ -1,9 +1,6 @@
 
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Signal } from '@godot/builtins/signal';
 import type { SpriteBase3D } from '@godot/classes/sprite_base3d';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class Sprite3D extends SpriteBase3D {
@@ -39,8 +36,8 @@ export declare class Sprite3D extends SpriteBase3D {
     public get_hframes(): number;
 
     
-    public readonly frame_changed: Signal<() => void>;
-    public readonly texture_changed: Signal<() => void>;
+    public readonly frame_changed: Signal;
+    public readonly texture_changed: Signal;
 
 }
 

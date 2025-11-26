@@ -1,10 +1,7 @@
 
 import type { AudioStream } from '@godot/classes/audio_stream';
 import type { AudioStreamPlayback } from '@godot/classes/audio_stream_playback';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node } from '@godot/classes/node';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class AudioStreamPlayer extends Node {
@@ -62,7 +59,7 @@ export declare class AudioStreamPlayer extends Node {
     public get_playback_type(): number;
 
     
-    public readonly finished: Signal<() => void>;
+    public readonly finished: Signal;
 
     public static readonly MixTarget: {
         MIX_TARGET_STEREO: 0;

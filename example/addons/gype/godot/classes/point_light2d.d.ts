@@ -1,7 +1,6 @@
 
 import type { Light2D } from '@godot/classes/light2d';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class PointLight2D extends Light2D {

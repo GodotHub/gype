@@ -4,11 +4,6 @@ import type { CameraAttributesPractical } from '@godot/classes/camera_attributes
 import type { Compositor } from '@godot/classes/compositor';
 import type { Environment } from '@godot/classes/environment';
 import type { Node3D } from '@godot/classes/node3d';
-import type { Projection } from '@godot/builtins/projection';
-import type { RID } from '@godot/builtins/rid';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class Camera3D extends Node3D {

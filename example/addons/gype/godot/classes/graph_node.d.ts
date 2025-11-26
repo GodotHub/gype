@@ -1,12 +1,7 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GraphElement } from '@godot/classes/graph_element';
 import type { HBoxContainer } from '@godot/classes/h_box_container';
-import type { Signal } from '@godot/builtins/signal';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class GraphNode extends GraphElement {
@@ -59,8 +54,8 @@ export declare class GraphNode extends GraphElement {
     public get_output_port_slot(portIdx: number): number;
 
     
-    public readonly slot_updated: Signal<(slotIndex: number) => void>;
-    public readonly slot_sizes_changed: Signal<() => void>;
+    public readonly slot_updated: Signal;
+    public readonly slot_sizes_changed: Signal;
 
 }
 

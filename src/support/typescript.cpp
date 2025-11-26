@@ -398,7 +398,6 @@ void TypeScript::compile(bool force) const {
 		exit_code = OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json" });
 	}
 	ERR_FAIL_COND_EDMSG(exit_code == -1, "error executing tsc.");
-	
 }
 
 void TypeScript::_set_source_code(const String &p_code) {

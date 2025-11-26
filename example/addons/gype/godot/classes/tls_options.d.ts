@@ -1,6 +1,5 @@
 
 import type { CryptoKey } from '@godot/classes/crypto_key';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { RefCounted } from '@godot/classes/ref_counted';
 import type { X509Certificate } from '@godot/classes/x509_certificate';
 

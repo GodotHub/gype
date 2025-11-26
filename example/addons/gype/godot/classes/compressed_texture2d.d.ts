@@ -1,5 +1,4 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Texture2D } from '@godot/classes/texture2d';
 
 

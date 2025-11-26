@@ -1,6 +1,5 @@
 
 import type { InputEventMouse } from '@godot/classes/input_event_mouse';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class InputEventMouseMotion extends InputEventMouse {

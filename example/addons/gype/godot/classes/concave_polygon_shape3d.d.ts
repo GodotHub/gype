@@ -1,5 +1,4 @@
 
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
 import type { Shape3D } from '@godot/classes/shape3d';
 
 

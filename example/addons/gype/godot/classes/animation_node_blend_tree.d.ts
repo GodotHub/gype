@@ -1,10 +1,6 @@
 
 import type { AnimationNode } from '@godot/classes/animation_node';
 import type { AnimationRootNode } from '@godot/classes/animation_root_node';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class AnimationNodeBlendTree extends AnimationRootNode {
@@ -26,7 +22,7 @@ export declare class AnimationNodeBlendTree extends AnimationRootNode {
     public get_graph_offset(): Vector2;
 
     
-    public readonly node_changed: Signal<(nodeName: GDString | StringName | string) => void>;
+    public readonly node_changed: Signal;
 
 }
 

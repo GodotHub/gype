@@ -1,9 +1,5 @@
 
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2i } from '@godot/builtins/rect2i';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class XRVRS extends GodotObject {

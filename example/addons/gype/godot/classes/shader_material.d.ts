@@ -1,8 +1,6 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Material } from '@godot/classes/material';
 import type { Shader } from '@godot/classes/shader';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class ShaderMaterial extends Material {

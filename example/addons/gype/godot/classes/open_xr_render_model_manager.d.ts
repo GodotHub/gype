@@ -1,8 +1,6 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node3D } from '@godot/classes/node3d';
 import type { OpenXRRenderModel } from '@godot/classes/open_xr_render_model';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class OpenXRRenderModelManager extends Node3D {
@@ -18,8 +16,8 @@ export declare class OpenXRRenderModelManager extends Node3D {
     public set_make_local_to_pose(makeLocalToPose: GDString | StringName | string): void;
 
     
-    public readonly render_model_added: Signal<(renderModel: OpenXRRenderModel) => void>;
-    public readonly render_model_removed: Signal<(renderModel: OpenXRRenderModel) => void>;
+    public readonly render_model_added: Signal;
+    public readonly render_model_removed: Signal;
 
     public static readonly RenderModelTracker: {
         RENDER_MODEL_TRACKER_ANY: 0;

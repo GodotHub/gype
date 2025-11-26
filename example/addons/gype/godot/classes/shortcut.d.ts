@@ -1,6 +1,4 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { InputEvent } from '@godot/classes/input_event';
 import type { Resource } from '@godot/classes/resource';
 

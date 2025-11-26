@@ -1,7 +1,6 @@
 
 import type { AcceptDialog } from '@godot/classes/accept_dialog';
 import type { Button } from '@godot/classes/button';
-import type { GDString } from '@godot/builtins/gd_string';
 
 
 export declare class ConfirmationDialog extends AcceptDialog {

@@ -1,9 +1,6 @@
 
 import type { EditorFileSystemDirectory } from '@godot/classes/editor_file_system_directory';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node } from '@godot/classes/node';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class EditorFileSystem extends Node {
@@ -20,12 +17,12 @@ export declare class EditorFileSystem extends Node {
     public reimport_files(files: PackedStringArray): void;
 
     
-    public readonly filesystem_changed: Signal<() => void>;
-    public readonly script_classes_updated: Signal<() => void>;
-    public readonly sources_changed: Signal<(exist: boolean) => void>;
-    public readonly resources_reimporting: Signal<(resources: PackedStringArray) => void>;
-    public readonly resources_reimported: Signal<(resources: PackedStringArray) => void>;
-    public readonly resources_reload: Signal<(resources: PackedStringArray) => void>;
+    public readonly filesystem_changed: Signal;
+    public readonly script_classes_updated: Signal;
+    public readonly sources_changed: Signal;
+    public readonly resources_reimporting: Signal;
+    public readonly resources_reimported: Signal;
+    public readonly resources_reload: Signal;
 
 }
 

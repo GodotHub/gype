@@ -2,8 +2,6 @@
 import type { BaseMaterial3D } from '@godot/classes/base_material3d';
 import type { CSGPrimitive3D } from '@godot/classes/csg_primitive3d';
 import type { Material } from '@godot/classes/material';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
 
 
 export declare class CSGPolygon3D extends CSGPrimitive3D {

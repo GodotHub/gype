@@ -1,8 +1,5 @@
 
 import type { AudioStream } from '@godot/classes/audio_stream';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
 
 
 export declare class AudioStreamWAV extends AudioStream {

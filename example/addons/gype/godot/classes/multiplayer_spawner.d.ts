@@ -1,9 +1,5 @@
 
-import type { Callable } from '@godot/builtins/callable';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node } from '@godot/classes/node';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class MultiplayerSpawner extends Node {
@@ -28,8 +24,8 @@ export declare class MultiplayerSpawner extends Node {
     public set_spawn_function(spawnFunction: Callable | Function): void;
 
     
-    public readonly despawned: Signal<(node: Node) => void>;
-    public readonly spawned: Signal<(node: Node) => void>;
+    public readonly despawned: Signal;
+    public readonly spawned: Signal;
 
 }
 

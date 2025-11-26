@@ -1,10 +1,6 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node3D } from '@godot/classes/node3d';
-import type { Quaternion } from '@godot/builtins/quaternion';
 import type { Skeleton3D } from '@godot/classes/skeleton3d';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class SpringBoneCollision3D extends Node3D {

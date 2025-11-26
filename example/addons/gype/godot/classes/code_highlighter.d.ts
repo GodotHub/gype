@@ -1,7 +1,4 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { SyntaxHighlighter } from '@godot/classes/syntax_highlighter';
 
 

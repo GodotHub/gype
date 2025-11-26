@@ -1,5 +1,4 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { SkeletonModifier3D } from '@godot/classes/skeleton_modifier3d';
 
 

@@ -1,6 +1,5 @@
 
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class SceneTreeTimer extends RefCounted {
@@ -12,7 +11,7 @@ export declare class SceneTreeTimer extends RefCounted {
     public get_time_left(): number;
 
     
-    public readonly timeout: Signal<() => void>;
+    public readonly timeout: Signal;
 
 }
 

@@ -1,6 +1,5 @@
 
 import type { Shape2D } from '@godot/classes/shape2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class SegmentShape2D extends Shape2D {

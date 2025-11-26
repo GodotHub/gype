@@ -1,10 +1,5 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class Geometry2D extends GodotObject {

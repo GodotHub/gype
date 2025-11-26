@@ -1,5 +1,4 @@
 
-import type { PackedFloat64Array } from '@godot/builtins/packed_float64_array';
 import type { Resource } from '@godot/classes/resource';
 
 

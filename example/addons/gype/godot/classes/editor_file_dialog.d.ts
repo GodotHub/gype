@@ -1,11 +1,7 @@
 
 import type { ConfirmationDialog } from '@godot/classes/confirmation_dialog';
 import type { Control } from '@godot/classes/control';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { LineEdit } from '@godot/classes/line_edit';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { Signal } from '@godot/builtins/signal';
 import type { VBoxContainer } from '@godot/classes/v_box_container';
 
 
@@ -72,10 +68,10 @@ export declare class EditorFileDialog extends ConfirmationDialog {
     public invalidate(): void;
 
     
-    public readonly file_selected: Signal<(path: GDString | StringName | string) => void>;
-    public readonly files_selected: Signal<(paths: PackedStringArray) => void>;
-    public readonly dir_selected: Signal<(dir: GDString | StringName | string) => void>;
-    public readonly filename_filter_changed: Signal<(filter: GDString | StringName | string) => void>;
+    public readonly file_selected: Signal;
+    public readonly files_selected: Signal;
+    public readonly dir_selected: Signal;
+    public readonly filename_filter_changed: Signal;
 
     public static readonly FileMode: {
         FILE_MODE_OPEN_FILE: 0;

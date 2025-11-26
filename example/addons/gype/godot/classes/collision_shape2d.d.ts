@@ -1,5 +1,4 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Node2D } from '@godot/classes/node2d';
 import type { Shape2D } from '@godot/classes/shape2d';
 

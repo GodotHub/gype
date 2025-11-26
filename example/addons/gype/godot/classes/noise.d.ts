@@ -1,8 +1,6 @@
 
 import type { Image } from '@godot/classes/image';
 import type { Resource } from '@godot/classes/resource';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class Noise extends Resource {

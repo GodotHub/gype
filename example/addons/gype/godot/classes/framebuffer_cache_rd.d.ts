@@ -1,6 +1,5 @@
 
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { RID } from '@godot/builtins/rid';
 
 
 export declare class FramebufferCacheRD extends GodotObject {

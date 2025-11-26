@@ -1,5 +1,4 @@
 
-import type { Vector4 } from '@godot/builtins/vector4';
 import type { VisualShaderNodeParameter } from '@godot/classes/visual_shader_node_parameter';
 
 

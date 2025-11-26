@@ -1,11 +1,6 @@
 
-import type { Basis } from '@godot/builtins/basis';
 import type { CollisionObject3D } from '@godot/classes/collision_object3d';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { Quaternion } from '@godot/builtins/quaternion';
 import type { Resource } from '@godot/classes/resource';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class GLTFPhysicsBody extends Resource {

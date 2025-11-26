@@ -1,14 +1,6 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Font } from '@godot/classes/font';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2 } from '@godot/builtins/rect2';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class TextParagraph extends RefCounted {

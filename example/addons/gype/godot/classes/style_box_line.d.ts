@@ -1,5 +1,4 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { StyleBox } from '@godot/classes/style_box';
 
 

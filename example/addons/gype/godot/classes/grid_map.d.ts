@@ -1,14 +1,8 @@
 
-import type { Basis } from '@godot/builtins/basis';
-import type { GDArray } from '@godot/builtins/gd_array';
 import type { MeshLibrary } from '@godot/classes/mesh_library';
 import type { Node3D } from '@godot/classes/node3d';
 import type { PhysicsMaterial } from '@godot/classes/physics_material';
-import type { RID } from '@godot/builtins/rid';
 import type { Resource } from '@godot/classes/resource';
-import type { Signal } from '@godot/builtins/signal';
-import type { Vector3 } from '@godot/builtins/vector3';
-import type { Vector3i } from '@godot/builtins/vector3i';
 
 
 export declare class GridMap extends Node3D {
@@ -87,8 +81,8 @@ export declare class GridMap extends Node3D {
     public make_baked_meshes(genLightmauv: boolean = false, lightmauvTexelSize: number = 0.1): void;
 
     
-    public readonly cell_size_changed: Signal<(cellSize: Vector3) => void>;
-    public readonly changed: Signal<() => void>;
+    public readonly cell_size_changed: Signal;
+    public readonly changed: Signal;
 
 }
 

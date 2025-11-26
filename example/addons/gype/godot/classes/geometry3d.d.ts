@@ -1,9 +1,5 @@
 
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
-import type { Plane } from '@godot/builtins/plane';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class Geometry3D extends GodotObject {

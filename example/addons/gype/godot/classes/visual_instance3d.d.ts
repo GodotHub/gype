@@ -1,7 +1,5 @@
 
-import type { AABB } from '@godot/builtins/aabb';
 import type { Node3D } from '@godot/classes/node3d';
-import type { RID } from '@godot/builtins/rid';
 
 
 export declare class VisualInstance3D extends Node3D {

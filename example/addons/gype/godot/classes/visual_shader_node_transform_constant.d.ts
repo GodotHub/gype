@@ -1,5 +1,4 @@
 
-import type { Transform3D } from '@godot/builtins/transform3d';
 import type { VisualShaderNodeConstant } from '@godot/classes/visual_shader_node_constant';
 
 

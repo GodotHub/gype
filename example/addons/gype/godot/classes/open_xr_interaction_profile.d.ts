@@ -1,6 +1,4 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { OpenXRIPBinding } from '@godot/classes/open_xrip_binding';
 import type { OpenXRIPBindingModifier } from '@godot/classes/open_xrip_binding_modifier';
 import type { Resource } from '@godot/classes/resource';

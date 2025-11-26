@@ -1,8 +1,6 @@
 
 import type { PhysicsBody3D } from '@godot/classes/physics_body3d';
 import type { PhysicsDirectBodyState3D } from '@godot/classes/physics_direct_body_state3d';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class PhysicalBone3D extends PhysicsBody3D {

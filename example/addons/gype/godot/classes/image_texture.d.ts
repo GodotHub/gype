@@ -1,7 +1,6 @@
 
 import type { Image } from '@godot/classes/image';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class ImageTexture extends Texture2D {

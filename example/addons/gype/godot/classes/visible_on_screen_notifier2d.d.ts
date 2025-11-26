@@ -1,7 +1,5 @@
 
 import type { Node2D } from '@godot/classes/node2d';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class VisibleOnScreenNotifier2D extends Node2D {
@@ -18,8 +16,8 @@ export declare class VisibleOnScreenNotifier2D extends Node2D {
     public is_on_screen(): boolean;
 
     
-    public readonly screen_entered: Signal<() => void>;
-    public readonly screen_exited: Signal<() => void>;
+    public readonly screen_entered: Signal;
+    public readonly screen_exited: Signal;
 
 }
 

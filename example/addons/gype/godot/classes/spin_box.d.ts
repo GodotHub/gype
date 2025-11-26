@@ -1,5 +1,4 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { LineEdit } from '@godot/classes/line_edit';
 import type { Range } from '@godot/classes/range';
 

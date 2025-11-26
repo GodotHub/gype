@@ -1,11 +1,7 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Image } from '@godot/classes/image';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2 } from '@godot/builtins/rect2';
 import type { Resource } from '@godot/classes/resource';
 import type { Texture } from '@godot/classes/texture';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class Texture2D extends Texture {

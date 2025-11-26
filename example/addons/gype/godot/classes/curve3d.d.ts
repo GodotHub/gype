@@ -1,9 +1,5 @@
 
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
 import type { Resource } from '@godot/classes/resource';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class Curve3D extends Resource {

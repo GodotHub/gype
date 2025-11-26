@@ -1,6 +1,5 @@
 
 import type { Range } from '@godot/classes/range';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class Slider extends Range {
@@ -28,8 +27,8 @@ export declare class Slider extends Range {
     public is_scrollable(): boolean;
 
     
-    public readonly drag_started: Signal<() => void>;
-    public readonly drag_ended: Signal<(valueChanged: boolean) => void>;
+    public readonly drag_started: Signal;
+    public readonly drag_ended: Signal;
 
     public static readonly TickPosition: {
         TICK_POSITION_BOTTOM_RIGHT: 0;

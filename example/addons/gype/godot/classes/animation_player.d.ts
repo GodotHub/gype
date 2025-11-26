@@ -1,10 +1,5 @@
 
 import type { AnimationMixer } from '@godot/classes/animation_mixer';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class AnimationPlayer extends AnimationMixer {
@@ -89,8 +84,8 @@ export declare class AnimationPlayer extends AnimationMixer {
     public get_root(): NodePath;
 
     
-    public readonly current_animation_changed: Signal<(name: GDString | StringName | string) => void>;
-    public readonly animation_changed: Signal<(oldName: GDString | StringName | string, newName: GDString | StringName | string) => void>;
+    public readonly current_animation_changed: Signal;
+    public readonly animation_changed: Signal;
 
     public static readonly AnimationProcessCallback: {
         ANIMATION_PROCESS_PHYSICS: 0;

@@ -1,7 +1,5 @@
 
 import type { Container } from '@godot/classes/container';
-import type { Signal } from '@godot/builtins/signal';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class GraphElement extends Container {
@@ -29,14 +27,14 @@ export declare class GraphElement extends Container {
     public get_position_offset(): Vector2;
 
     
-    public readonly node_selected: Signal<() => void>;
-    public readonly node_deselected: Signal<() => void>;
-    public readonly raise_request: Signal<() => void>;
-    public readonly delete_request: Signal<() => void>;
-    public readonly resize_request: Signal<(newSize: Vector2) => void>;
-    public readonly resize_end: Signal<(newSize: Vector2) => void>;
-    public readonly dragged: Signal<(_from: Vector2, to: Vector2) => void>;
-    public readonly position_offset_changed: Signal<() => void>;
+    public readonly node_selected: Signal;
+    public readonly node_deselected: Signal;
+    public readonly raise_request: Signal;
+    public readonly delete_request: Signal;
+    public readonly resize_request: Signal;
+    public readonly resize_end: Signal;
+    public readonly dragged: Signal;
+    public readonly position_offset_changed: Signal;
 
 }
 

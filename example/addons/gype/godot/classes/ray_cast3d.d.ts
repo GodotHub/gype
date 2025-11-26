@@ -1,10 +1,7 @@
 
 import type { CollisionObject3D } from '@godot/classes/collision_object3d';
-import type { Color } from '@godot/builtins/color';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { Node3D } from '@godot/classes/node3d';
-import type { RID } from '@godot/builtins/rid';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class RayCast3D extends Node3D {

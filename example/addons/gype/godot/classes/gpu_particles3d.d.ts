@@ -1,16 +1,10 @@
 
-import type { AABB } from '@godot/builtins/aabb';
-import type { Color } from '@godot/builtins/color';
 import type { GeometryInstance3D } from '@godot/classes/geometry_instance3d';
 import type { Material } from '@godot/classes/material';
 import type { Mesh } from '@godot/classes/mesh';
 import type { Node } from '@godot/classes/node';
-import type { NodePath } from '@godot/builtins/node_path';
 import type { ParticleProcessMaterial } from '@godot/classes/particle_process_material';
-import type { Signal } from '@godot/builtins/signal';
 import type { Skin } from '@godot/classes/skin';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class GPUParticles3D extends GeometryInstance3D {
@@ -137,7 +131,7 @@ export declare class GPUParticles3D extends GeometryInstance3D {
     public request_particles_process(processTime: number): void;
 
     
-    public readonly finished: Signal<() => void>;
+    public readonly finished: Signal;
 
     public static readonly DrawOrder: {
         DRAW_ORDER_INDEX: 0;

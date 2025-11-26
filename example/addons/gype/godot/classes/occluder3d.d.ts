@@ -1,6 +1,4 @@
 
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
 import type { Resource } from '@godot/classes/resource';
 
 

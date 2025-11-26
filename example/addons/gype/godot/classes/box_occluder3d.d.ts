@@ -1,6 +1,5 @@
 
 import type { Occluder3D } from '@godot/classes/occluder3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class BoxOccluder3D extends Occluder3D {

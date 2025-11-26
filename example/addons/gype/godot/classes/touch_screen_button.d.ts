@@ -1,10 +1,7 @@
 
 import type { BitMap } from '@godot/classes/bit_map';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node2D } from '@godot/classes/node2d';
 import type { Shape2D } from '@godot/classes/shape2d';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 import type { Texture2D } from '@godot/classes/texture2d';
 
 
@@ -50,8 +47,8 @@ export declare class TouchScreenButton extends Node2D {
     public is_pressed(): boolean;
 
     
-    public readonly pressed: Signal<() => void>;
-    public readonly released: Signal<() => void>;
+    public readonly pressed: Signal;
+    public readonly released: Signal;
 
     public static readonly VisibilityMode: {
         VISIBILITY_ALWAYS: 0;

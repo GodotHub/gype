@@ -1,6 +1,5 @@
 
 import type { Occluder3D } from '@godot/classes/occluder3d';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
 
 
 export declare class PolygonOccluder3D extends Occluder3D {

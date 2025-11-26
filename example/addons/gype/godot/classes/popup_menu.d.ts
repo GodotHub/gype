@@ -1,10 +1,7 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { InputEvent } from '@godot/classes/input_event';
 import type { Popup } from '@godot/classes/popup';
 import type { Shortcut } from '@godot/classes/shortcut';
-import type { Signal } from '@godot/builtins/signal';
 import type { Texture2D } from '@godot/classes/texture2d';
 
 
@@ -118,10 +115,10 @@ export declare class PopupMenu extends Popup {
     public get_system_menu(): number;
 
     
-    public readonly id_pressed: Signal<(id: number) => void>;
-    public readonly id_focused: Signal<(id: number) => void>;
-    public readonly index_pressed: Signal<(index: number) => void>;
-    public readonly menu_changed: Signal<() => void>;
+    public readonly id_pressed: Signal;
+    public readonly id_focused: Signal;
+    public readonly index_pressed: Signal;
+    public readonly menu_changed: Signal;
 
 }
 

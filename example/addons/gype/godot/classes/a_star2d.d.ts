@@ -1,8 +1,5 @@
 
-import type { PackedInt64Array } from '@godot/builtins/packed_int64_array';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class AStar2D extends RefCounted {

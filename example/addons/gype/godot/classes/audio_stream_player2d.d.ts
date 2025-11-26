@@ -1,10 +1,7 @@
 
 import type { AudioStream } from '@godot/classes/audio_stream';
 import type { AudioStreamPlayback } from '@godot/classes/audio_stream_playback';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node2D } from '@godot/classes/node2d';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class AudioStreamPlayer2D extends Node2D {
@@ -74,7 +71,7 @@ export declare class AudioStreamPlayer2D extends Node2D {
     public get_playback_type(): number;
 
     
-    public readonly finished: Signal<() => void>;
+    public readonly finished: Signal;
 
 }
 

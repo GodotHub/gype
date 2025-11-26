@@ -1,14 +1,7 @@
 
 import type { Animation } from '@godot/classes/animation';
 import type { AnimationLibrary } from '@godot/classes/animation_library';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node } from '@godot/classes/node';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { Quaternion } from '@godot/builtins/quaternion';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class AnimationMixer extends Node {
@@ -77,13 +70,13 @@ export declare class AnimationMixer extends Node {
     public find_animation_library(animation: Animation): StringName;
 
     
-    public readonly animation_list_changed: Signal<() => void>;
-    public readonly animation_libraries_updated: Signal<() => void>;
-    public readonly animation_finished: Signal<(animName: GDString | StringName | string) => void>;
-    public readonly animation_started: Signal<(animName: GDString | StringName | string) => void>;
-    public readonly caches_cleared: Signal<() => void>;
-    public readonly mixer_applied: Signal<() => void>;
-    public readonly mixer_updated: Signal<() => void>;
+    public readonly animation_list_changed: Signal;
+    public readonly animation_libraries_updated: Signal;
+    public readonly animation_finished: Signal;
+    public readonly animation_started: Signal;
+    public readonly caches_cleared: Signal;
+    public readonly mixer_applied: Signal;
+    public readonly mixer_updated: Signal;
 
     public static readonly AnimationCallbackModeProcess: {
         ANIMATION_CALLBACK_MODE_PROCESS_PHYSICS: 0;

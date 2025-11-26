@@ -3,7 +3,6 @@ import type { CameraAttributes } from '@godot/classes/camera_attributes';
 import type { CameraAttributesPractical } from '@godot/classes/camera_attributes_practical';
 import type { Environment } from '@godot/classes/environment';
 import type { PhysicsDirectSpaceState3D } from '@godot/classes/physics_direct_space_state3d';
-import type { RID } from '@godot/builtins/rid';
 import type { Resource } from '@godot/classes/resource';
 
 

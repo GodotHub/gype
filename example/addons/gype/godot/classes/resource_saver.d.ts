@@ -1,7 +1,5 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { Resource } from '@godot/classes/resource';
 import type { ResourceFormatSaver } from '@godot/classes/resource_format_saver';
 

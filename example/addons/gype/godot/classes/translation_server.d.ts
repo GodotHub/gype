@@ -1,8 +1,5 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { StringName } from '@godot/builtins/string_name';
 import type { Translation } from '@godot/classes/translation';
 import type { TranslationDomain } from '@godot/classes/translation_domain';
 

@@ -3,11 +3,7 @@ import type { GodotObject } from '@godot/classes/godot_object';
 import type { InputEvent } from '@godot/classes/input_event';
 import type { Node } from '@godot/classes/node';
 import type { Node2D } from '@godot/classes/node2d';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { RID } from '@godot/builtins/rid';
 import type { Shape2D } from '@godot/classes/shape2d';
-import type { Signal } from '@godot/builtins/signal';
-import type { Transform2D } from '@godot/builtins/transform2d';
 import type { Viewport } from '@godot/classes/viewport';
 
 
@@ -65,11 +61,11 @@ export declare class CollisionObject2D extends Node2D {
     public shape_find_owner(shapeIndex: number): number;
 
     
-    public readonly input_event: Signal<(viewport: Node, event: InputEvent, shapeIdx: number) => void>;
-    public readonly mouse_entered: Signal<() => void>;
-    public readonly mouse_exited: Signal<() => void>;
-    public readonly mouse_shape_entered: Signal<(shapeIdx: number) => void>;
-    public readonly mouse_shape_exited: Signal<(shapeIdx: number) => void>;
+    public readonly input_event: Signal;
+    public readonly mouse_entered: Signal;
+    public readonly mouse_exited: Signal;
+    public readonly mouse_shape_entered: Signal;
+    public readonly mouse_shape_exited: Signal;
 
     public static readonly DisableMode: {
         DISABLE_MODE_REMOVE: 0;

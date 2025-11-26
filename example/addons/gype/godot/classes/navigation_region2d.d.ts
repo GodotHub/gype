@@ -1,9 +1,6 @@
 
 import type { NavigationPolygon } from '@godot/classes/navigation_polygon';
 import type { Node2D } from '@godot/classes/node2d';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class NavigationRegion2D extends Node2D {
@@ -44,8 +41,8 @@ export declare class NavigationRegion2D extends Node2D {
     public get_bounds(): Rect2;
 
     
-    public readonly navigation_polygon_changed: Signal<() => void>;
-    public readonly bake_finished: Signal<() => void>;
+    public readonly navigation_polygon_changed: Signal;
+    public readonly bake_finished: Signal;
 
 }
 

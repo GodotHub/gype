@@ -1,7 +1,5 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector3 } from '@godot/builtins/vector3';
 import type { VisualInstance3D } from '@godot/classes/visual_instance3d';
 
 

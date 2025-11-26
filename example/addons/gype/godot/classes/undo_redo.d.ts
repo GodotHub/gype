@@ -1,9 +1,5 @@
 
-import type { Callable } from '@godot/builtins/callable';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class UndoRedo extends GodotObject {
@@ -36,7 +32,7 @@ export declare class UndoRedo extends GodotObject {
     public undo(): boolean;
 
     
-    public readonly version_changed: Signal<() => void>;
+    public readonly version_changed: Signal;
 
     public static readonly MergeMode: {
         MERGE_DISABLE: 0;

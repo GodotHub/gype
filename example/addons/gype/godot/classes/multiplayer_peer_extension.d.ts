@@ -1,6 +1,5 @@
 
 import type { MultiplayerPeer } from '@godot/classes/multiplayer_peer';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
 
 
 export declare class MultiplayerPeerExtension extends MultiplayerPeer {

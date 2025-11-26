@@ -1,7 +1,5 @@
 
 import type { Control } from '@godot/classes/control';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Signal } from '@godot/builtins/signal';
 import type { Texture2D } from '@godot/classes/texture2d';
 
 
@@ -40,7 +38,7 @@ export declare class NinePatchRect extends Control {
     public get_v_axis_stretch_mode(): number;
 
     
-    public readonly texture_changed: Signal<() => void>;
+    public readonly texture_changed: Signal;
 
     public static readonly AxisStretchMode: {
         AXIS_STRETCH_MODE_STRETCH: 0;

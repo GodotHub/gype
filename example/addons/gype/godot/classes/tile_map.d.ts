@@ -1,15 +1,8 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node2D } from '@godot/classes/node2d';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2i } from '@godot/builtins/rect2i';
-import type { Signal } from '@godot/builtins/signal';
 import type { TileData } from '@godot/classes/tile_data';
 import type { TileMapPattern } from '@godot/classes/tile_map_pattern';
 import type { TileSet } from '@godot/classes/tile_set';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class TileMap extends Node2D {
@@ -90,7 +83,7 @@ export declare class TileMap extends Node2D {
     public get_neighbor_cell(coords: Vector2i, neighbor: number): Vector2i;
 
     
-    public readonly changed: Signal<() => void>;
+    public readonly changed: Signal;
 
     public static readonly VisibilityMode: {
         VISIBILITY_MODE_DEFAULT: 0;

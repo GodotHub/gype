@@ -1,10 +1,7 @@
 
 import type { Button } from '@godot/classes/button';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Label } from '@godot/classes/label';
 import type { LineEdit } from '@godot/classes/line_edit';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 import type { Window } from '@godot/classes/window';
 
 
@@ -39,9 +36,9 @@ export declare class AcceptDialog extends Window {
     public get_ok_button_text(): GDString;
 
     
-    public readonly confirmed: Signal<() => void>;
-    public readonly canceled: Signal<() => void>;
-    public readonly custom_action: Signal<(action: GDString | StringName | string) => void>;
+    public readonly confirmed: Signal;
+    public readonly canceled: Signal;
+    public readonly custom_action: Signal;
 
 }
 

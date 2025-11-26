@@ -1,15 +1,9 @@
 
 import type { CanvasItemMaterial } from '@godot/classes/canvas_item_material';
-import type { Color } from '@godot/builtins/color';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { Material } from '@godot/classes/material';
 import type { NavigationPolygon } from '@godot/classes/navigation_polygon';
 import type { OccluderPolygon2D } from '@godot/classes/occluder_polygon2d';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { Signal } from '@godot/builtins/signal';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class TileData extends GodotObject {
@@ -93,7 +87,7 @@ export declare class TileData extends GodotObject {
     public get_custom_data_by_layer_id(layerId: number): any;
 
     
-    public readonly changed: Signal<() => void>;
+    public readonly changed: Signal;
 
 }
 

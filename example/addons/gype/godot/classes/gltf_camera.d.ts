@@ -1,6 +1,5 @@
 
 import type { Camera3D } from '@godot/classes/camera3d';
-import type { Dictionary } from '@godot/builtins/dictionary';
 import type { Resource } from '@godot/classes/resource';
 
 

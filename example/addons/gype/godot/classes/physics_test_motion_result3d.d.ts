@@ -1,8 +1,6 @@
 
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { RID } from '@godot/builtins/rid';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class PhysicsTestMotionResult3D extends RefCounted {

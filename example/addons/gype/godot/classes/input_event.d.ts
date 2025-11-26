@@ -1,9 +1,5 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Resource } from '@godot/classes/resource';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class InputEvent extends Resource {

@@ -1,10 +1,6 @@
 
 import type { Control } from '@godot/classes/control';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Signal } from '@godot/builtins/signal';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class TabBar extends Control {
@@ -96,14 +92,14 @@ export declare class TabBar extends Control {
     public clear_tabs(): void;
 
     
-    public readonly tab_selected: Signal<(tab: number) => void>;
-    public readonly tab_changed: Signal<(tab: number) => void>;
-    public readonly tab_clicked: Signal<(tab: number) => void>;
-    public readonly tab_rmb_clicked: Signal<(tab: number) => void>;
-    public readonly tab_close_pressed: Signal<(tab: number) => void>;
-    public readonly tab_button_pressed: Signal<(tab: number) => void>;
-    public readonly tab_hovered: Signal<(tab: number) => void>;
-    public readonly active_tab_rearranged: Signal<(idxTo: number) => void>;
+    public readonly tab_selected: Signal;
+    public readonly tab_changed: Signal;
+    public readonly tab_clicked: Signal;
+    public readonly tab_rmb_clicked: Signal;
+    public readonly tab_close_pressed: Signal;
+    public readonly tab_button_pressed: Signal;
+    public readonly tab_hovered: Signal;
+    public readonly active_tab_rearranged: Signal;
 
     public static readonly AlignmentMode: {
         ALIGNMENT_LEFT: 0;

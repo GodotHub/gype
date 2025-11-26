@@ -1,11 +1,6 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Resource } from '@godot/classes/resource';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class SkeletonProfile extends Resource {
@@ -50,7 +45,7 @@ export declare class SkeletonProfile extends Resource {
     public set_required(boneIdx: number, required: boolean): void;
 
     
-    public readonly profile_updated: Signal<() => void>;
+    public readonly profile_updated: Signal;
 
     public static readonly TailDirection: {
         TAIL_DIRECTION_AVERAGE_CHILDREN: 0;

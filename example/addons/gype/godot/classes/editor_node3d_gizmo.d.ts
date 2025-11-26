@@ -1,19 +1,13 @@
 
 import type { Camera3D } from '@godot/classes/camera3d';
-import type { Color } from '@godot/builtins/color';
 import type { EditorNode3DGizmoPlugin } from '@godot/classes/editor_node3d_gizmo_plugin';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Material } from '@godot/classes/material';
 import type { Mesh } from '@godot/classes/mesh';
 import type { Node } from '@godot/classes/node';
 import type { Node3D } from '@godot/classes/node3d';
 import type { Node3DGizmo } from '@godot/classes/node3d_gizmo';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
 import type { SkinReference } from '@godot/classes/skin_reference';
-import type { Transform3D } from '@godot/builtins/transform3d';
 import type { TriangleMesh } from '@godot/classes/triangle_mesh';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class EditorNode3DGizmo extends Node3DGizmo {

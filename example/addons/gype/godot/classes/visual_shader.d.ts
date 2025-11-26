@@ -1,9 +1,5 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
 import type { Shader } from '@godot/classes/shader';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Vector2 } from '@godot/builtins/vector2';
 import type { VisualShaderNode } from '@godot/classes/visual_shader_node';
 
 

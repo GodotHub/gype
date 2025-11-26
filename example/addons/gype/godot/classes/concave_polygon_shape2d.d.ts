@@ -1,5 +1,4 @@
 
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
 import type { Shape2D } from '@godot/classes/shape2d';
 
 

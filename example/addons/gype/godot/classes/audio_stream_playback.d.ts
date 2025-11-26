@@ -1,9 +1,6 @@
 
 import type { AudioSamplePlayback } from '@godot/classes/audio_sample_playback';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class AudioStreamPlayback extends RefCounted {

@@ -1,11 +1,7 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { MultiplayerAPI } from '@godot/classes/multiplayer_api';
 import type { MultiplayerPeer } from '@godot/classes/multiplayer_peer';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class MultiplayerAPIExtension extends MultiplayerAPI {

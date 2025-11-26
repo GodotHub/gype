@@ -1,10 +1,7 @@
 
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { Rect2i } from '@godot/builtins/rect2i';
 import type { Texture2D } from '@godot/classes/texture2d';
 import type { TileData } from '@godot/classes/tile_data';
 import type { TileSetSource } from '@godot/classes/tile_set_source';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class TileSetAtlasSource extends TileSetSource {

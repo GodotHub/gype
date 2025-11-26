@@ -1,10 +1,7 @@
 
 import type { AudioSample } from '@godot/classes/audio_sample';
 import type { AudioStreamPlayback } from '@godot/classes/audio_stream_playback';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Resource } from '@godot/classes/resource';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class AudioStream extends Resource {
@@ -28,7 +25,7 @@ export declare class AudioStream extends Resource {
     public is_meta_stream(): boolean;
 
     
-    public readonly parameter_list_changed: Signal<() => void>;
+    public readonly parameter_list_changed: Signal;
 
 }
 

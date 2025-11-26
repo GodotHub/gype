@@ -1,11 +1,7 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { ImporterMesh } from '@godot/classes/importer_mesh';
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
 import type { Resource } from '@godot/classes/resource';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class GLTFMesh extends Resource {

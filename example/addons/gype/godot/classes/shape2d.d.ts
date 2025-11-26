@@ -1,11 +1,5 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2 } from '@godot/builtins/rect2';
 import type { Resource } from '@godot/classes/resource';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class Shape2D extends Resource {

@@ -1,8 +1,5 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node3D } from '@godot/classes/node3d';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 import type { XRPose } from '@godot/classes/xr_pose';
 
 
@@ -27,7 +24,7 @@ export declare class XRNode3D extends Node3D {
     public trigger_haptic_pulse(actionName: GDString | StringName | string, frequency: number, amplitude: number, durationSec: number, delaySec: number): void;
 
     
-    public readonly tracking_changed: Signal<(tracking: boolean) => void>;
+    public readonly tracking_changed: Signal;
 
 }
 

@@ -1,9 +1,6 @@
 
 import type { GDExtension } from '@godot/classes/gd_extension';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class GDExtensionManager extends GodotObject {
@@ -17,9 +14,9 @@ export declare class GDExtensionManager extends GodotObject {
     public get_extension(path: GDString | StringName | string): GDExtension;
 
     
-    public readonly extensions_reloaded: Signal<() => void>;
-    public readonly extension_loaded: Signal<(extension: GDExtension) => void>;
-    public readonly extension_unloading: Signal<(extension: GDExtension) => void>;
+    public readonly extensions_reloaded: Signal;
+    public readonly extension_loaded: Signal;
+    public readonly extension_unloading: Signal;
 
     public static readonly LoadStatus: {
         LOAD_STATUS_OK: 0;

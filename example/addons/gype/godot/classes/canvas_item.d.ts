@@ -1,24 +1,14 @@
 
 import type { CanvasItemMaterial } from '@godot/classes/canvas_item_material';
 import type { CanvasLayer } from '@godot/classes/canvas_layer';
-import type { Color } from '@godot/builtins/color';
 import type { Font } from '@godot/classes/font';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { InputEvent } from '@godot/classes/input_event';
 import type { Material } from '@godot/classes/material';
 import type { Mesh } from '@godot/classes/mesh';
 import type { MultiMesh } from '@godot/classes/multi_mesh';
 import type { Node } from '@godot/classes/node';
-import type { PackedColorArray } from '@godot/builtins/packed_color_array';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 import type { StyleBox } from '@godot/classes/style_box';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 import type { World2D } from '@godot/classes/world2d';
 
 
@@ -147,10 +137,10 @@ export declare class CanvasItem extends Node {
     public get_clip_children_mode(): number;
 
     
-    public readonly draw: Signal<() => void>;
-    public readonly visibility_changed: Signal<() => void>;
-    public readonly hidden: Signal<() => void>;
-    public readonly item_rect_changed: Signal<() => void>;
+    public readonly draw: Signal;
+    public readonly visibility_changed: Signal;
+    public readonly hidden: Signal;
+    public readonly item_rect_changed: Signal;
 
     public static readonly TextureFilter: {
         TEXTURE_FILTER_PARENT_NODE: 0;

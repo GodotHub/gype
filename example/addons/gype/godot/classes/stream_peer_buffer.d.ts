@@ -1,5 +1,4 @@
 
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
 import type { StreamPeer } from '@godot/classes/stream_peer';
 
 

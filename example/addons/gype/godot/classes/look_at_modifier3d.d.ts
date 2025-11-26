@@ -1,8 +1,5 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
-import type { NodePath } from '@godot/builtins/node_path';
 import type { SkeletonModifier3D } from '@godot/classes/skeleton_modifier3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class LookAtModifier3D extends SkeletonModifier3D {

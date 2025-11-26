@@ -2,8 +2,6 @@
 import type { CollisionObject2D } from '@godot/classes/collision_object2d';
 import type { KinematicCollision2D } from '@godot/classes/kinematic_collision2d';
 import type { Node } from '@godot/classes/node';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class PhysicsBody2D extends CollisionObject2D {

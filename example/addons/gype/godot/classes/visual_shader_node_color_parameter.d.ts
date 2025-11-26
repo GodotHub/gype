@@ -1,5 +1,4 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { VisualShaderNodeParameter } from '@godot/classes/visual_shader_node_parameter';
 
 

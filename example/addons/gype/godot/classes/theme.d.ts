@@ -1,10 +1,6 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Font } from '@godot/classes/font';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { Resource } from '@godot/classes/resource';
-import type { StringName } from '@godot/builtins/string_name';
 import type { StyleBox } from '@godot/classes/style_box';
 import type { Texture2D } from '@godot/classes/texture2d';
 

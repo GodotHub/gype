@@ -1,8 +1,4 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { RefCounted } from '@godot/classes/ref_counted';
 
 

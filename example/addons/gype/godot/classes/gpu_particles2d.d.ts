@@ -1,15 +1,9 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Material } from '@godot/classes/material';
 import type { Node } from '@godot/classes/node';
 import type { Node2D } from '@godot/classes/node2d';
-import type { NodePath } from '@godot/builtins/node_path';
 import type { ParticleProcessMaterial } from '@godot/classes/particle_process_material';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Signal } from '@godot/builtins/signal';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class GPUParticles2D extends Node2D {
@@ -126,7 +120,7 @@ export declare class GPUParticles2D extends Node2D {
     public get_seed(): number;
 
     
-    public readonly finished: Signal<() => void>;
+    public readonly finished: Signal;
 
     public static readonly DrawOrder: {
         DRAW_ORDER_INDEX: 0;

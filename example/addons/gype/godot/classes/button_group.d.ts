@@ -1,7 +1,6 @@
 
 import type { BaseButton } from '@godot/classes/base_button';
 import type { Resource } from '@godot/classes/resource';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class ButtonGroup extends Resource {
@@ -15,7 +14,7 @@ export declare class ButtonGroup extends Resource {
     public is_allow_unpress(): boolean;
 
     
-    public readonly pressed: Signal<(button: BaseButton) => void>;
+    public readonly pressed: Signal;
 
 }
 

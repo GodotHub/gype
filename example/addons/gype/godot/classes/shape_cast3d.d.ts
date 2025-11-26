@@ -1,13 +1,9 @@
 
 import type { CollisionObject3D } from '@godot/classes/collision_object3d';
-import type { Color } from '@godot/builtins/color';
-import type { GDArray } from '@godot/builtins/gd_array';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { Node3D } from '@godot/classes/node3d';
-import type { RID } from '@godot/builtins/rid';
 import type { Resource } from '@godot/classes/resource';
 import type { Shape3D } from '@godot/classes/shape3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class ShapeCast3D extends Node3D {

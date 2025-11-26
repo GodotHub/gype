@@ -1,13 +1,6 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { OpenXRExtensionWrapper } from '@godot/classes/open_xr_extension_wrapper';
-import type { PackedInt64Array } from '@godot/builtins/packed_int64_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2i } from '@godot/builtins/rect2i';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class OpenXRAPIExtension extends RefCounted {

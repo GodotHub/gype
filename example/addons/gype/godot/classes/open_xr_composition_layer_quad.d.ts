@@ -1,6 +1,5 @@
 
 import type { OpenXRCompositionLayer } from '@godot/classes/open_xr_composition_layer';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class OpenXRCompositionLayerQuad extends OpenXRCompositionLayer {

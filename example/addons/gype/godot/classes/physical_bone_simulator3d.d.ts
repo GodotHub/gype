@@ -1,5 +1,4 @@
 
-import type { RID } from '@godot/builtins/rid';
 import type { SkeletonModifier3D } from '@godot/classes/skeleton_modifier3d';
 
 

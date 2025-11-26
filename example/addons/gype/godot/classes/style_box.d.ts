@@ -1,9 +1,6 @@
 
 import type { CanvasItem } from '@godot/classes/canvas_item';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2 } from '@godot/builtins/rect2';
 import type { Resource } from '@godot/classes/resource';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class StyleBox extends Resource {

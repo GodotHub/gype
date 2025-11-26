@@ -1,7 +1,5 @@
 
-import type { NodePath } from '@godot/builtins/node_path';
 import type { SkeletonModification2D } from '@godot/classes/skeleton_modification2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class SkeletonModification2DFABRIK extends SkeletonModification2D {

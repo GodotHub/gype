@@ -1,14 +1,8 @@
 
 import type { Node2D } from '@godot/classes/node2d';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2i } from '@godot/builtins/rect2i';
-import type { Signal } from '@godot/builtins/signal';
 import type { TileData } from '@godot/classes/tile_data';
 import type { TileMapPattern } from '@godot/classes/tile_map_pattern';
 import type { TileSet } from '@godot/classes/tile_set';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class TileMapLayer extends Node2D {
@@ -100,7 +94,7 @@ export declare class TileMapLayer extends Node2D {
     public get_navigation_visibility_mode(): number;
 
     
-    public readonly changed: Signal<() => void>;
+    public readonly changed: Signal;
 
     public static readonly DebugVisibilityMode: {
         DEBUG_VISIBILITY_MODE_DEFAULT: 0;

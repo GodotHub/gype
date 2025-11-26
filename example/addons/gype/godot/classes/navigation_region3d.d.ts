@@ -1,9 +1,6 @@
 
-import type { AABB } from '@godot/builtins/aabb';
 import type { NavigationMesh } from '@godot/classes/navigation_mesh';
 import type { Node3D } from '@godot/classes/node3d';
-import type { RID } from '@godot/builtins/rid';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class NavigationRegion3D extends Node3D {
@@ -44,8 +41,8 @@ export declare class NavigationRegion3D extends Node3D {
     public get_bounds(): AABB;
 
     
-    public readonly navigation_mesh_changed: Signal<() => void>;
-    public readonly bake_finished: Signal<() => void>;
+    public readonly navigation_mesh_changed: Signal;
+    public readonly bake_finished: Signal;
 
 }
 

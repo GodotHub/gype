@@ -1,5 +1,4 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { StreamPeer } from '@godot/classes/stream_peer';
 
 

@@ -1,9 +1,5 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { RID } from '@godot/builtins/rid';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class DPITexture extends Texture2D {

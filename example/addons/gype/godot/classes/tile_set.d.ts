@@ -1,12 +1,8 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { PhysicsMaterial } from '@godot/classes/physics_material';
 import type { Resource } from '@godot/classes/resource';
 import type { TileMapPattern } from '@godot/classes/tile_map_pattern';
 import type { TileSetSource } from '@godot/classes/tile_set_source';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class TileSet extends Resource {

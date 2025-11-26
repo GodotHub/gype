@@ -1,5 +1,4 @@
 
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
 import type { Resource } from '@godot/classes/resource';
 import type { Texture2D } from '@godot/classes/texture2d';
 

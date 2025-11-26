@@ -1,15 +1,10 @@
 
 import type { Camera3D } from '@godot/classes/camera3d';
-import type { Color } from '@godot/builtins/color';
 import type { EditorNode3DGizmo } from '@godot/classes/editor_node3d_gizmo';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node3D } from '@godot/classes/node3d';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
 import type { Resource } from '@godot/classes/resource';
 import type { StandardMaterial3D } from '@godot/classes/standard_material3d';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class EditorNode3DGizmoPlugin extends Resource {

@@ -1,7 +1,6 @@
 
 import type { Container } from '@godot/classes/container';
 import type { Control } from '@godot/classes/control';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class SplitContainer extends Container {
@@ -51,9 +50,9 @@ export declare class SplitContainer extends Container {
     public is_touch_dragger_enabled(): boolean;
 
     
-    public readonly dragged: Signal<(offset: number) => void>;
-    public readonly drag_started: Signal<() => void>;
-    public readonly drag_ended: Signal<() => void>;
+    public readonly dragged: Signal;
+    public readonly drag_started: Signal;
+    public readonly drag_ended: Signal;
 
     public static readonly DraggerVisibility: {
         DRAGGER_VISIBLE: 0;

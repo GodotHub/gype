@@ -1,7 +1,6 @@
 
 import type { FoldableContainer } from '@godot/classes/foldable_container';
 import type { Resource } from '@godot/classes/resource';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class FoldableGroup extends Resource {
@@ -15,7 +14,7 @@ export declare class FoldableGroup extends Resource {
     public is_allow_folding_all(): boolean;
 
     
-    public readonly expanded: Signal<(container: FoldableContainer) => void>;
+    public readonly expanded: Signal;
 
 }
 

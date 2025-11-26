@@ -1,7 +1,6 @@
 
 import type { Gradient } from '@godot/classes/gradient';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class GradientTexture2D extends Texture2D {

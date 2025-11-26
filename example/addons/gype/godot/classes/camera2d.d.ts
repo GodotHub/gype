@@ -1,7 +1,6 @@
 
 import type { Node } from '@godot/classes/node';
 import type { Node2D } from '@godot/classes/node2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 import type { Viewport } from '@godot/classes/viewport';
 
 

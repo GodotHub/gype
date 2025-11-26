@@ -1,7 +1,6 @@
 
 import type { ArrayMesh } from '@godot/classes/array_mesh';
 import type { ConcavePolygonShape3D } from '@godot/classes/concave_polygon_shape3d';
-import type { GDArray } from '@godot/builtins/gd_array';
 import type { GeometryInstance3D } from '@godot/classes/geometry_instance3d';
 
 

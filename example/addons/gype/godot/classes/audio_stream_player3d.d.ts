@@ -1,10 +1,7 @@
 
 import type { AudioStream } from '@godot/classes/audio_stream';
 import type { AudioStreamPlayback } from '@godot/classes/audio_stream_playback';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node3D } from '@godot/classes/node3d';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class AudioStreamPlayer3D extends Node3D {
@@ -106,7 +103,7 @@ export declare class AudioStreamPlayer3D extends Node3D {
     public get_playback_type(): number;
 
     
-    public readonly finished: Signal<() => void>;
+    public readonly finished: Signal;
 
     public static readonly AttenuationModel: {
         ATTENUATION_INVERSE_DISTANCE: 0;

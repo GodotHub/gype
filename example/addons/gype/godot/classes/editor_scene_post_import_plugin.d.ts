@@ -1,9 +1,7 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node } from '@godot/classes/node';
 import type { RefCounted } from '@godot/classes/ref_counted';
 import type { Resource } from '@godot/classes/resource';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class EditorScenePostImportPlugin extends RefCounted {

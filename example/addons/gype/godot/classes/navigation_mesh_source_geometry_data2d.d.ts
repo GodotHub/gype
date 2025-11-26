@@ -1,7 +1,4 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { Rect2 } from '@godot/builtins/rect2';
 import type { Resource } from '@godot/classes/resource';
 
 

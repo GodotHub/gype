@@ -1,5 +1,4 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { RefCounted } from '@godot/classes/ref_counted';
 import type { StreamPeerTCP } from '@godot/classes/stream_peer_tcp';
 

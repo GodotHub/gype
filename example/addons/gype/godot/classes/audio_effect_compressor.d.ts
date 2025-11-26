@@ -1,7 +1,5 @@
 
 import type { AudioEffect } from '@godot/classes/audio_effect';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class AudioEffectCompressor extends AudioEffect {

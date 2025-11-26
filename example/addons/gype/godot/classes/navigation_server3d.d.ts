@@ -1,17 +1,10 @@
 
-import type { AABB } from '@godot/builtins/aabb';
-import type { Callable } from '@godot/builtins/callable';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { NavigationMesh } from '@godot/classes/navigation_mesh';
 import type { NavigationMeshSourceGeometryData3D } from '@godot/classes/navigation_mesh_source_geometry_data3d';
 import type { NavigationPathQueryParameters3D } from '@godot/classes/navigation_path_query_parameters3d';
 import type { NavigationPathQueryResult3D } from '@godot/classes/navigation_path_query_result3d';
 import type { Node } from '@godot/classes/node';
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Signal } from '@godot/builtins/signal';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class NavigationServer3D extends GodotObject {
@@ -173,9 +166,9 @@ export declare class NavigationServer3D extends GodotObject {
     public get_process_info(processInfo: number): number;
 
     
-    public readonly map_changed: Signal<(map: RID) => void>;
-    public readonly navigation_debug_changed: Signal<() => void>;
-    public readonly avoidance_debug_changed: Signal<() => void>;
+    public readonly map_changed: Signal;
+    public readonly navigation_debug_changed: Signal;
+    public readonly avoidance_debug_changed: Signal;
 
     public static readonly ProcessInfo: {
         INFO_ACTIVE_MAPS: 0;

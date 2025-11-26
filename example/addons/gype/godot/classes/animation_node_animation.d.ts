@@ -1,7 +1,5 @@
 
 import type { AnimationRootNode } from '@godot/classes/animation_root_node';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class AnimationNodeAnimation extends AnimationRootNode {

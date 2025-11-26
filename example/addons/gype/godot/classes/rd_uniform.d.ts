@@ -1,5 +1,4 @@
 
-import type { RID } from '@godot/builtins/rid';
 import type { RefCounted } from '@godot/classes/ref_counted';
 
 

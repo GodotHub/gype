@@ -1,8 +1,5 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 
 
 export declare class IP extends GodotObject {

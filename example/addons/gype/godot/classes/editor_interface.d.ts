@@ -1,5 +1,4 @@
 
-import type { Callable } from '@godot/builtins/callable';
 import type { Control } from '@godot/classes/control';
 import type { EditorCommandPalette } from '@godot/classes/editor_command_palette';
 import type { EditorFileSystem } from '@godot/classes/editor_file_system';
@@ -11,20 +10,14 @@ import type { EditorSettings } from '@godot/classes/editor_settings';
 import type { EditorToaster } from '@godot/classes/editor_toaster';
 import type { EditorUndoRedoManager } from '@godot/classes/editor_undo_redo_manager';
 import type { FileSystemDock } from '@godot/classes/file_system_dock';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { Node } from '@godot/classes/node';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { Rect2i } from '@godot/builtins/rect2i';
 import type { Resource } from '@godot/classes/resource';
 import type { Script } from '@godot/classes/script';
 import type { ScriptEditor } from '@godot/classes/script_editor';
-import type { StringName } from '@godot/builtins/string_name';
 import type { SubViewport } from '@godot/classes/sub_viewport';
 import type { Theme } from '@godot/classes/theme';
 import type { VBoxContainer } from '@godot/classes/v_box_container';
-import type { Vector2i } from '@godot/builtins/vector2i';
 import type { Window } from '@godot/classes/window';
 
 

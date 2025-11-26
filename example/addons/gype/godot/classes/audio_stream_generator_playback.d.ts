@@ -1,7 +1,5 @@
 
 import type { AudioStreamPlaybackResampled } from '@godot/classes/audio_stream_playback_resampled';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class AudioStreamGeneratorPlayback extends AudioStreamPlaybackResampled {

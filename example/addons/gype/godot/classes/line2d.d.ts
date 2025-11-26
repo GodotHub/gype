@@ -1,11 +1,8 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Curve } from '@godot/classes/curve';
 import type { Gradient } from '@godot/classes/gradient';
 import type { Node2D } from '@godot/classes/node2d';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class Line2D extends Node2D {

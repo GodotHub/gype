@@ -1,17 +1,10 @@
 
-import type { Callable } from '@godot/builtins/callable';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { NavigationMeshSourceGeometryData2D } from '@godot/classes/navigation_mesh_source_geometry_data2d';
 import type { NavigationPathQueryParameters2D } from '@godot/classes/navigation_path_query_parameters2d';
 import type { NavigationPathQueryResult2D } from '@godot/classes/navigation_path_query_result2d';
 import type { NavigationPolygon } from '@godot/classes/navigation_polygon';
 import type { Node } from '@godot/classes/node';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Signal } from '@godot/builtins/signal';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class NavigationServer2D extends GodotObject {
@@ -156,9 +149,9 @@ export declare class NavigationServer2D extends GodotObject {
     public get_process_info(processInfo: number): number;
 
     
-    public readonly map_changed: Signal<(map: RID) => void>;
-    public readonly navigation_debug_changed: Signal<() => void>;
-    public readonly avoidance_debug_changed: Signal<() => void>;
+    public readonly map_changed: Signal;
+    public readonly navigation_debug_changed: Signal;
+    public readonly avoidance_debug_changed: Signal;
 
     public static readonly ProcessInfo: {
         INFO_ACTIVE_MAPS: 0;

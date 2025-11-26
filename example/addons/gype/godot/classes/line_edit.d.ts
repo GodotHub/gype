@@ -1,9 +1,6 @@
 
 import type { Control } from '@godot/classes/control';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { PopupMenu } from '@godot/classes/popup_menu';
-import type { Signal } from '@godot/builtins/signal';
 import type { Texture2D } from '@godot/classes/texture2d';
 
 
@@ -173,10 +170,10 @@ export declare class LineEdit extends Control {
     public is_select_all_on_focus(): boolean;
 
     
-    public readonly text_changed: Signal<(newText: GDString | StringName | string) => void>;
-    public readonly text_change_rejected: Signal<(rejectedSubstring: GDString | StringName | string) => void>;
-    public readonly text_submitted: Signal<(newText: GDString | StringName | string) => void>;
-    public readonly editing_toggled: Signal<(toggledOn: boolean) => void>;
+    public readonly text_changed: Signal;
+    public readonly text_change_rejected: Signal;
+    public readonly text_submitted: Signal;
+    public readonly editing_toggled: Signal;
 
     public static readonly MenuItems: {
         MENU_CUT: 0;

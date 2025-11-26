@@ -1,6 +1,5 @@
 
 import type { Range } from '@godot/classes/range';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class ScrollBar extends Range {
@@ -12,7 +11,7 @@ export declare class ScrollBar extends Range {
     public get_custom_step(): number;
 
     
-    public readonly scrolling: Signal<() => void>;
+    public readonly scrolling: Signal;
 
 }
 

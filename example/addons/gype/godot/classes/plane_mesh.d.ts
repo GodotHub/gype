@@ -1,7 +1,5 @@
 
 import type { PrimitiveMesh } from '@godot/classes/primitive_mesh';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class PlaneMesh extends PrimitiveMesh {

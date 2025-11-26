@@ -1,9 +1,6 @@
 
-import type { Callable } from '@godot/builtins/callable';
 import type { Node } from '@godot/classes/node';
-import type { NodePath } from '@godot/builtins/node_path';
 import type { SceneReplicationConfig } from '@godot/classes/scene_replication_config';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class MultiplayerSynchronizer extends Node {
@@ -40,9 +37,9 @@ export declare class MultiplayerSynchronizer extends Node {
     public get_visibility_for(peer: number): boolean;
 
     
-    public readonly synchronized: Signal<() => void>;
-    public readonly delta_synchronized: Signal<() => void>;
-    public readonly visibility_changed: Signal<(forPeer: number) => void>;
+    public readonly synchronized: Signal;
+    public readonly delta_synchronized: Signal;
+    public readonly visibility_changed: Signal;
 
     public static readonly VisibilityUpdateMode: {
         VISIBILITY_PROCESS_IDLE: 0;

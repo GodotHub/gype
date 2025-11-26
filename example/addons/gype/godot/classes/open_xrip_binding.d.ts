@@ -1,9 +1,6 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { OpenXRAction } from '@godot/classes/open_xr_action';
 import type { OpenXRActionBindingModifier } from '@godot/classes/open_xr_action_binding_modifier';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { Resource } from '@godot/classes/resource';
 
 

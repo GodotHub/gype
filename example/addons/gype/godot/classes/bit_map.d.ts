@@ -1,9 +1,6 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
 import type { Image } from '@godot/classes/image';
-import type { Rect2i } from '@godot/builtins/rect2i';
 import type { Resource } from '@godot/classes/resource';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class BitMap extends Resource {

@@ -1,5 +1,4 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { Node } from '@godot/classes/node';
 import type { RefCounted } from '@godot/classes/ref_counted';

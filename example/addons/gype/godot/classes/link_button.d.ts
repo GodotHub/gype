@@ -1,7 +1,5 @@
 
 import type { BaseButton } from '@godot/classes/base_button';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 
 
 export declare class LinkButton extends BaseButton {

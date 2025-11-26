@@ -1,13 +1,9 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { CurveTexture } from '@godot/classes/curve_texture';
 import type { CurveXYZTexture } from '@godot/classes/curve_xyz_texture';
 import type { GradientTexture1D } from '@godot/classes/gradient_texture1_d';
 import type { Material } from '@godot/classes/material';
-import type { Signal } from '@godot/builtins/signal';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class ParticleProcessMaterial extends Material {
@@ -337,7 +333,7 @@ export declare class ParticleProcessMaterial extends Material {
     public get_collision_bounce(): number;
 
     
-    public readonly emission_shape_changed: Signal<() => void>;
+    public readonly emission_shape_changed: Signal;
 
     public static readonly Parameter: {
         PARAM_INITIAL_LINEAR_VELOCITY: 0;

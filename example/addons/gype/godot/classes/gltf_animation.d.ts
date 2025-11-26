@@ -1,7 +1,5 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Resource } from '@godot/classes/resource';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class GLTFAnimation extends Resource {

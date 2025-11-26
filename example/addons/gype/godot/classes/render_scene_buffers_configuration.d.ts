@@ -1,7 +1,5 @@
 
-import type { RID } from '@godot/builtins/rid';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class RenderSceneBuffersConfiguration extends RefCounted {

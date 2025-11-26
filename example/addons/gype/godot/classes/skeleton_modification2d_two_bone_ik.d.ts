@@ -1,5 +1,4 @@
 
-import type { NodePath } from '@godot/builtins/node_path';
 import type { SkeletonModification2D } from '@godot/classes/skeleton_modification2d';
 
 

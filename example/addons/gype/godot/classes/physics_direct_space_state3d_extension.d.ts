@@ -1,8 +1,5 @@
 
 import type { PhysicsDirectSpaceState3D } from '@godot/classes/physics_direct_space_state3d';
-import type { RID } from '@godot/builtins/rid';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class PhysicsDirectSpaceState3DExtension extends PhysicsDirectSpaceState3D {

@@ -1,7 +1,5 @@
 
 import type { Node2D } from '@godot/classes/node2d';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { RID } from '@godot/builtins/rid';
 
 
 export declare class Joint2D extends Node2D {

@@ -1,11 +1,6 @@
 
-import type { Callable } from '@godot/builtins/callable';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { RID } from '@godot/builtins/rid';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class NativeMenu extends GodotObject {

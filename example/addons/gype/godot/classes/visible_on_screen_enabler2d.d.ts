@@ -1,5 +1,4 @@
 
-import type { NodePath } from '@godot/builtins/node_path';
 import type { VisibleOnScreenNotifier2D } from '@godot/classes/visible_on_screen_notifier2d';
 
 

@@ -1,6 +1,4 @@
 
-import type { Quaternion } from '@godot/builtins/quaternion';
-import type { Vector4 } from '@godot/builtins/vector4';
 import type { VisualShaderNodeConstant } from '@godot/classes/visual_shader_node_constant';
 
 

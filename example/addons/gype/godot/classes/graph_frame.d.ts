@@ -1,9 +1,6 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GraphElement } from '@godot/classes/graph_element';
 import type { HBoxContainer } from '@godot/classes/h_box_container';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class GraphFrame extends GraphElement {
@@ -36,7 +33,7 @@ export declare class GraphFrame extends GraphElement {
     public get_tint_color(): Color;
 
     
-    public readonly autoshrink_changed: Signal<() => void>;
+    public readonly autoshrink_changed: Signal;
 
 }
 

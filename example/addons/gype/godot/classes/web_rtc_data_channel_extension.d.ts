@@ -1,5 +1,4 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { WebRTCDataChannel } from '@godot/classes/web_rtc_data_channel';
 
 

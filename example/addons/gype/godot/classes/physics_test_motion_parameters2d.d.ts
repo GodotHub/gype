@@ -1,8 +1,5 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class PhysicsTestMotionParameters2D extends RefCounted {

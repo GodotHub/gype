@@ -1,8 +1,5 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Resource } from '@godot/classes/resource';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class AnimationNodeStateMachinePlayback extends Resource {
@@ -20,8 +17,8 @@ export declare class AnimationNodeStateMachinePlayback extends Resource {
     public get_travel_path(): Array<any>;
 
     
-    public readonly state_started: Signal<(state: GDString | StringName | string) => void>;
-    public readonly state_finished: Signal<(state: GDString | StringName | string) => void>;
+    public readonly state_started: Signal;
+    public readonly state_finished: Signal;
 
 }
 

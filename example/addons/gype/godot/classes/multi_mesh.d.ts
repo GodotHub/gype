@@ -1,14 +1,6 @@
 
-import type { AABB } from '@godot/builtins/aabb';
-import type { Color } from '@godot/builtins/color';
 import type { Mesh } from '@godot/classes/mesh';
-import type { PackedColorArray } from '@godot/builtins/packed_color_array';
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
 import type { Resource } from '@godot/classes/resource';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Transform3D } from '@godot/builtins/transform3d';
 
 
 export declare class MultiMesh extends Resource {

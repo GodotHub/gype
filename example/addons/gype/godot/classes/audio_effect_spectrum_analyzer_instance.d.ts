@@ -1,6 +1,5 @@
 
 import type { AudioEffectInstance } from '@godot/classes/audio_effect_instance';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class AudioEffectSpectrumAnalyzerInstance extends AudioEffectInstance {

@@ -1,10 +1,6 @@
 
 import type { Node2D } from '@godot/classes/node2d';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Signal } from '@godot/builtins/signal';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class Sprite2D extends Node2D {
@@ -62,8 +58,8 @@ export declare class Sprite2D extends Node2D {
     public get_rect(): Rect2;
 
     
-    public readonly frame_changed: Signal<() => void>;
-    public readonly texture_changed: Signal<() => void>;
+    public readonly frame_changed: Signal;
+    public readonly texture_changed: Signal;
 
 }
 

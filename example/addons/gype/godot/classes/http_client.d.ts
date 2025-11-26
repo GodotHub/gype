@@ -1,8 +1,4 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { RefCounted } from '@godot/classes/ref_counted';
 import type { StreamPeer } from '@godot/classes/stream_peer';
 import type { TLSOptions } from '@godot/classes/tls_options';

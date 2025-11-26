@@ -1,5 +1,4 @@
 
-import type { RID } from '@godot/builtins/rid';
 import type { Resource } from '@godot/classes/resource';
 
 

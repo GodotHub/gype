@@ -1,6 +1,5 @@
 
 import type { Node3D } from '@godot/classes/node3d';
-import type { Signal } from '@godot/builtins/signal';
 import type { Skeleton3D } from '@godot/classes/skeleton3d';
 
 
@@ -22,7 +21,7 @@ export declare class SkeletonModifier3D extends Node3D {
     public get_influence(): number;
 
     
-    public readonly modification_processed: Signal<() => void>;
+    public readonly modification_processed: Signal;
 
     public static readonly BoneAxis: {
         BONE_AXIS_PLUS_X: 0;

@@ -1,11 +1,6 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { NodePath } from '@godot/builtins/node_path';
 import type { PackedScene } from '@godot/classes/packed_scene';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class SceneState extends RefCounted {

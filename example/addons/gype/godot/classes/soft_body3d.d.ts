@@ -1,9 +1,6 @@
 
 import type { MeshInstance3D } from '@godot/classes/mesh_instance3d';
 import type { Node } from '@godot/classes/node';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { RID } from '@godot/builtins/rid';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class SoftBody3D extends MeshInstance3D {

@@ -1,8 +1,5 @@
 
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
 import type { Resource } from '@godot/classes/resource';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class Curve2D extends Resource {

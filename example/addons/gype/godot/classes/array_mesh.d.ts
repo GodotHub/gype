@@ -1,12 +1,5 @@
 
-import type { AABB } from '@godot/builtins/aabb';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Mesh } from '@godot/classes/mesh';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Transform3D } from '@godot/builtins/transform3d';
 
 
 export declare class ArrayMesh extends Mesh {

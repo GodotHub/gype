@@ -1,10 +1,6 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Material } from '@godot/classes/material';
 import type { Mesh } from '@godot/classes/mesh';
-import type { Plane } from '@godot/builtins/plane';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class ImmediateMesh extends Mesh {

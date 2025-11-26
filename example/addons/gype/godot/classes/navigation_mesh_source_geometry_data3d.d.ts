@@ -1,12 +1,6 @@
 
-import type { AABB } from '@godot/builtins/aabb';
-import type { GDArray } from '@godot/builtins/gd_array';
 import type { Mesh } from '@godot/classes/mesh';
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
 import type { Resource } from '@godot/classes/resource';
-import type { Transform3D } from '@godot/builtins/transform3d';
 
 
 export declare class NavigationMeshSourceGeometryData3D extends Resource {

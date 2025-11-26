@@ -1,16 +1,9 @@
 
-import type { AABB } from '@godot/builtins/aabb';
 import type { ConcavePolygonShape3D } from '@godot/classes/concave_polygon_shape3d';
 import type { ConvexPolygonShape3D } from '@godot/classes/convex_polygon_shape3d';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Material } from '@godot/classes/material';
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
 import type { Resource } from '@godot/classes/resource';
-import type { StringName } from '@godot/builtins/string_name';
 import type { TriangleMesh } from '@godot/classes/triangle_mesh';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class Mesh extends Resource {

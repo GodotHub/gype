@@ -1,11 +1,5 @@
 
-import type { Callable } from '@godot/builtins/callable';
-import type { Color } from '@godot/builtins/color';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
-import type { PackedColorArray } from '@godot/builtins/packed_color_array';
-import type { PackedInt64Array } from '@godot/builtins/packed_int64_array';
 import type { RDPipelineColorBlendState } from '@godot/classes/rd_pipeline_color_blend_state';
 import type { RDPipelineDepthStencilState } from '@godot/classes/rd_pipeline_depth_stencil_state';
 import type { RDPipelineMultisampleState } from '@godot/classes/rd_pipeline_multisample_state';
@@ -15,10 +9,6 @@ import type { RDShaderSPIRV } from '@godot/classes/rd_shader_spirv';
 import type { RDShaderSource } from '@godot/classes/rd_shader_source';
 import type { RDTextureFormat } from '@godot/classes/rd_texture_format';
 import type { RDTextureView } from '@godot/classes/rd_texture_view';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Vector2i } from '@godot/builtins/vector2i';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class RenderingDevice extends GodotObject {

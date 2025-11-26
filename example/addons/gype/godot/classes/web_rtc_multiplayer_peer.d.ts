@@ -1,6 +1,4 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDArray } from '@godot/builtins/gd_array';
 import type { MultiplayerPeer } from '@godot/classes/multiplayer_peer';
 import type { WebRTCPeerConnection } from '@godot/classes/web_rtc_peer_connection';
 

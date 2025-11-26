@@ -1,9 +1,5 @@
 
 import type { AnimationRootNode } from '@godot/classes/animation_root_node';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { Signal } from '@godot/builtins/signal';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class AnimationNodeBlendSpace2D extends AnimationRootNode {
@@ -56,7 +52,7 @@ export declare class AnimationNodeBlendSpace2D extends AnimationRootNode {
     public is_using_sync(): boolean;
 
     
-    public readonly triangles_updated: Signal<() => void>;
+    public readonly triangles_updated: Signal;
 
     public static readonly BlendMode: {
         BLEND_MODE_INTERPOLATED: 0;

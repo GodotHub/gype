@@ -1,7 +1,4 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { PackedColorArray } from '@godot/builtins/packed_color_array';
-import type { Signal } from '@godot/builtins/signal';
 import type { VBoxContainer } from '@godot/classes/v_box_container';
 
 
@@ -64,9 +61,9 @@ export declare class ColorPicker extends VBoxContainer {
     public get_picker_shape(): number;
 
     
-    public readonly color_changed: Signal<(color: Color) => void>;
-    public readonly preset_added: Signal<(color: Color) => void>;
-    public readonly preset_removed: Signal<(color: Color) => void>;
+    public readonly color_changed: Signal;
+    public readonly preset_added: Signal;
+    public readonly preset_removed: Signal;
 
     public static readonly ColorModeType: {
         MODE_RGB: 0;

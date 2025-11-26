@@ -1,6 +1,5 @@
 
 import type { GLTFState } from '@godot/classes/gltf_state';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
 import type { Resource } from '@godot/classes/resource';
 
 

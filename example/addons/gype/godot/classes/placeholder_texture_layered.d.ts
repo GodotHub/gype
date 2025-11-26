@@ -1,6 +1,5 @@
 
 import type { TextureLayered } from '@godot/classes/texture_layered';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class PlaceholderTextureLayered extends TextureLayered {

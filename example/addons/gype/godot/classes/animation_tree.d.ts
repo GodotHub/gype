@@ -1,8 +1,6 @@
 
 import type { AnimationMixer } from '@godot/classes/animation_mixer';
 import type { AnimationRootNode } from '@godot/classes/animation_root_node';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class AnimationTree extends AnimationMixer {
@@ -24,7 +22,7 @@ export declare class AnimationTree extends AnimationMixer {
     public get_process_callback(): number;
 
     
-    public readonly animation_player_changed: Signal<() => void>;
+    public readonly animation_player_changed: Signal;
 
     public static readonly AnimationProcessCallback: {
         ANIMATION_PROCESS_PHYSICS: 0;

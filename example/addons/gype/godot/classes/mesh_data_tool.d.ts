@@ -1,13 +1,7 @@
 
 import type { ArrayMesh } from '@godot/classes/array_mesh';
-import type { Color } from '@godot/builtins/color';
 import type { Material } from '@godot/classes/material';
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { Plane } from '@godot/builtins/plane';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class MeshDataTool extends RefCounted {

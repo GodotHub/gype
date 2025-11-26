@@ -1,7 +1,4 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
 import type { VisualShaderNodeResizableBase } from '@godot/classes/visual_shader_node_resizable_base';
 
 

@@ -1,6 +1,4 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node } from '@godot/classes/node';
 import type { PackedScene } from '@godot/classes/packed_scene';
 

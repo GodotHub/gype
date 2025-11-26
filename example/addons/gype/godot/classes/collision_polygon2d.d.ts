@@ -1,6 +1,5 @@
 
 import type { Node2D } from '@godot/classes/node2d';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
 
 
 export declare class CollisionPolygon2D extends Node2D {

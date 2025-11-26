@@ -1,8 +1,6 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { RDShaderSPIRV } from '@godot/classes/rd_shader_spirv';
 import type { Resource } from '@godot/classes/resource';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class RDShaderFile extends Resource {

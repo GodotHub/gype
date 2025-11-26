@@ -1,7 +1,5 @@
 
 import type { Node2D } from '@godot/classes/node2d';
-import type { RID } from '@godot/builtins/rid';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class NavigationLink2D extends Node2D {

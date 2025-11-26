@@ -1,5 +1,4 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { VisualShaderNodeResizableBase } from '@godot/classes/visual_shader_node_resizable_base';
 
 

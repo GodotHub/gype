@@ -1,6 +1,5 @@
 
 import type { Node3D } from '@godot/classes/node3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class VehicleWheel3D extends Node3D {

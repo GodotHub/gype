@@ -1,7 +1,6 @@
 
 import type { Font } from '@godot/classes/font';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { Signal } from '@godot/builtins/signal';
 import type { StyleBox } from '@godot/classes/style_box';
 import type { Texture2D } from '@godot/classes/texture2d';
 import type { Theme } from '@godot/classes/theme';
@@ -34,7 +33,7 @@ export declare class ThemeDB extends GodotObject {
     public get_fallback_stylebox(): StyleBox;
 
     
-    public readonly fallback_changed: Signal<() => void>;
+    public readonly fallback_changed: Signal;
 
 }
 

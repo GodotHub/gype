@@ -1,6 +1,4 @@
 
-import type { Plane } from '@godot/builtins/plane';
-import type { Vector3 } from '@godot/builtins/vector3';
 import type { XRNode3D } from '@godot/classes/xr_node3d';
 
 

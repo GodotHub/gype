@@ -1,31 +1,7 @@
 
-import type { AABB } from '@godot/builtins/aabb';
-import type { Basis } from '@godot/builtins/basis';
-import type { Callable } from '@godot/builtins/callable';
-import type { Color } from '@godot/builtins/color';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { Image } from '@godot/classes/image';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
-import type { PackedColorArray } from '@godot/builtins/packed_color_array';
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { PackedInt64Array } from '@godot/builtins/packed_int64_array';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2 } from '@godot/builtins/rect2';
 import type { RenderingDevice } from '@godot/classes/rendering_device';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
-import type { Vector3 } from '@godot/builtins/vector3';
-import type { Vector3i } from '@godot/builtins/vector3i';
 
 
 export declare class RenderingServer extends GodotObject {
@@ -555,8 +531,8 @@ export declare class RenderingServer extends GodotObject {
     public has_feature(feature: number): boolean;
 
     
-    public readonly frame_pre_draw: Signal<() => void>;
-    public readonly frame_post_draw: Signal<() => void>;
+    public readonly frame_pre_draw: Signal;
+    public readonly frame_post_draw: Signal;
 
     public static readonly TextureType: {
         TEXTURE_TYPE_2D: 0;

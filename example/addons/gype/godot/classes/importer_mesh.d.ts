@@ -1,12 +1,7 @@
 
 import type { ArrayMesh } from '@godot/classes/array_mesh';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Material } from '@godot/classes/material';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
 import type { Resource } from '@godot/classes/resource';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class ImporterMesh extends Resource {

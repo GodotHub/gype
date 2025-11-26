@@ -1,9 +1,6 @@
 
 import type { Font } from '@godot/classes/font';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { PrimitiveMesh } from '@godot/classes/primitive_mesh';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class TextMesh extends PrimitiveMesh {

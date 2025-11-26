@@ -1,13 +1,9 @@
 
-import type { Callable } from '@godot/builtins/callable';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { PhysicsDirectBodyState2D } from '@godot/classes/physics_direct_body_state2d';
 import type { PhysicsDirectSpaceState2D } from '@godot/classes/physics_direct_space_state2d';
 import type { PhysicsTestMotionParameters2D } from '@godot/classes/physics_test_motion_parameters2d';
 import type { PhysicsTestMotionResult2D } from '@godot/classes/physics_test_motion_result2d';
-import type { RID } from '@godot/builtins/rid';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class PhysicsServer2D extends GodotObject {

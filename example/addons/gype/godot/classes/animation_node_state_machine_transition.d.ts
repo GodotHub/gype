@@ -1,9 +1,6 @@
 
 import type { Curve } from '@godot/classes/curve';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Resource } from '@godot/classes/resource';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class AnimationNodeStateMachineTransition extends Resource {
@@ -47,7 +44,7 @@ export declare class AnimationNodeStateMachineTransition extends Resource {
     public get_advance_expression(): GDString;
 
     
-    public readonly advance_condition_changed: Signal<() => void>;
+    public readonly advance_condition_changed: Signal;
 
     public static readonly SwitchMode: {
         SWITCH_MODE_IMMEDIATE: 0;

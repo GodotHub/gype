@@ -1,7 +1,6 @@
 
 import type { KinematicCollision2D } from '@godot/classes/kinematic_collision2d';
 import type { PhysicsBody2D } from '@godot/classes/physics_body2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class CharacterBody2D extends PhysicsBody2D {

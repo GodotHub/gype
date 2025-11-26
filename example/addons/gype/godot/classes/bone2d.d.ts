@@ -1,6 +1,5 @@
 
 import type { Node2D } from '@godot/classes/node2d';
-import type { Transform2D } from '@godot/builtins/transform2d';
 
 
 export declare class Bone2D extends Node2D {

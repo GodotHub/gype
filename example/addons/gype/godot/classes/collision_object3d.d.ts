@@ -4,12 +4,7 @@ import type { GodotObject } from '@godot/classes/godot_object';
 import type { InputEvent } from '@godot/classes/input_event';
 import type { Node } from '@godot/classes/node';
 import type { Node3D } from '@godot/classes/node3d';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { RID } from '@godot/builtins/rid';
 import type { Shape3D } from '@godot/classes/shape3d';
-import type { Signal } from '@godot/builtins/signal';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class CollisionObject3D extends Node3D {
@@ -64,9 +59,9 @@ export declare class CollisionObject3D extends Node3D {
     public shape_find_owner(shapeIndex: number): number;
 
     
-    public readonly input_event: Signal<(camera: Node, event: InputEvent, eventPosition: Vector3, normal: Vector3, shapeIdx: number) => void>;
-    public readonly mouse_entered: Signal<() => void>;
-    public readonly mouse_exited: Signal<() => void>;
+    public readonly input_event: Signal;
+    public readonly mouse_entered: Signal;
+    public readonly mouse_exited: Signal;
 
     public static readonly DisableMode: {
         DISABLE_MODE_REMOVE: 0;

@@ -1,14 +1,11 @@
 
 import type { ArrayMesh } from '@godot/classes/array_mesh';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GeometryInstance3D } from '@godot/classes/geometry_instance3d';
 import type { Material } from '@godot/classes/material';
 import type { Mesh } from '@godot/classes/mesh';
 import type { MeshConvexDecompositionSettings } from '@godot/classes/mesh_convex_decomposition_settings';
-import type { NodePath } from '@godot/builtins/node_path';
 import type { Skin } from '@godot/classes/skin';
 import type { SkinReference } from '@godot/classes/skin_reference';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class MeshInstance3D extends GeometryInstance3D {

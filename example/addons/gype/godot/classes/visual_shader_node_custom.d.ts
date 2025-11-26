@@ -1,6 +1,4 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { VisualShaderNode } from '@godot/classes/visual_shader_node';
 
 

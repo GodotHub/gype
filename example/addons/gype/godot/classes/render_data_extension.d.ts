@@ -1,5 +1,4 @@
 
-import type { RID } from '@godot/builtins/rid';
 import type { RenderData } from '@godot/classes/render_data';
 import type { RenderSceneBuffers } from '@godot/classes/render_scene_buffers';
 import type { RenderSceneData } from '@godot/classes/render_scene_data';

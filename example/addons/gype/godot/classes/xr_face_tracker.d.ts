@@ -1,5 +1,4 @@
 
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
 import type { XRTracker } from '@godot/classes/xr_tracker';
 
 

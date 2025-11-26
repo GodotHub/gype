@@ -1,12 +1,8 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Mesh } from '@godot/classes/mesh';
 import type { NavigationMesh } from '@godot/classes/navigation_mesh';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
 import type { Resource } from '@godot/classes/resource';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Transform3D } from '@godot/builtins/transform3d';
 
 
 export declare class MeshLibrary extends Resource {

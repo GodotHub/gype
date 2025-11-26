@@ -1,12 +1,7 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { MultiplayerPeer } from '@godot/classes/multiplayer_peer';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class MultiplayerAPI extends RefCounted {
@@ -30,11 +25,11 @@ export declare class MultiplayerAPI extends RefCounted {
     public static create_default_interface(): MultiplayerAPI;
 
     
-    public readonly peer_connected: Signal<(id: number) => void>;
-    public readonly peer_disconnected: Signal<(id: number) => void>;
-    public readonly connected_to_server: Signal<() => void>;
-    public readonly connection_failed: Signal<() => void>;
-    public readonly server_disconnected: Signal<() => void>;
+    public readonly peer_connected: Signal;
+    public readonly peer_disconnected: Signal;
+    public readonly connected_to_server: Signal;
+    public readonly connection_failed: Signal;
+    public readonly server_disconnected: Signal;
 
     public static readonly RPCMode: {
         RPC_MODE_DISABLED: 0;

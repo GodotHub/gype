@@ -1,10 +1,8 @@
 
 import type { Button } from '@godot/classes/button';
-import type { Callable } from '@godot/builtins/callable';
 import type { Camera3D } from '@godot/classes/camera3d';
 import type { ConfigFile } from '@godot/classes/config_file';
 import type { Control } from '@godot/classes/control';
-import type { Dictionary } from '@godot/builtins/dictionary';
 import type { EditorContextMenuPlugin } from '@godot/classes/editor_context_menu_plugin';
 import type { EditorDebuggerPlugin } from '@godot/classes/editor_debugger_plugin';
 import type { EditorExportPlatform } from '@godot/classes/editor_export_platform';
@@ -18,17 +16,14 @@ import type { EditorSceneFormatImporter } from '@godot/classes/editor_scene_form
 import type { EditorScenePostImportPlugin } from '@godot/classes/editor_scene_post_import_plugin';
 import type { EditorTranslationParserPlugin } from '@godot/classes/editor_translation_parser_plugin';
 import type { EditorUndoRedoManager } from '@godot/classes/editor_undo_redo_manager';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { InputEvent } from '@godot/classes/input_event';
 import type { Node } from '@godot/classes/node';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { PopupMenu } from '@godot/classes/popup_menu';
 import type { Resource } from '@godot/classes/resource';
 import type { Script } from '@godot/classes/script';
 import type { ScriptCreateDialog } from '@godot/classes/script_create_dialog';
 import type { Shortcut } from '@godot/classes/shortcut';
-import type { Signal } from '@godot/builtins/signal';
 import type { Texture2D } from '@godot/classes/texture2d';
 
 
@@ -110,12 +105,12 @@ export declare class EditorPlugin extends Node {
     public get_plugin_version(): GDString;
 
     
-    public readonly scene_changed: Signal<(sceneRoot: Node) => void>;
-    public readonly scene_closed: Signal<(filepath: GDString | StringName | string) => void>;
-    public readonly main_screen_changed: Signal<(screenName: GDString | StringName | string) => void>;
-    public readonly resource_saved: Signal<(resource: Resource) => void>;
-    public readonly scene_saved: Signal<(filepath: GDString | StringName | string) => void>;
-    public readonly project_settings_changed: Signal<() => void>;
+    public readonly scene_changed: Signal;
+    public readonly scene_closed: Signal;
+    public readonly main_screen_changed: Signal;
+    public readonly resource_saved: Signal;
+    public readonly scene_saved: Signal;
+    public readonly project_settings_changed: Signal;
 
     public static readonly CustomControlContainer: {
         CONTAINER_TOOLBAR: 0;

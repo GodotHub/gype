@@ -1,20 +1,6 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Image } from '@godot/classes/image';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2 } from '@godot/builtins/rect2';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class TextServer extends RefCounted {

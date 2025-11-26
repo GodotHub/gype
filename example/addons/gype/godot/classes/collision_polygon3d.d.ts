@@ -1,7 +1,5 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Node3D } from '@godot/classes/node3d';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
 
 
 export declare class CollisionPolygon3D extends Node3D {

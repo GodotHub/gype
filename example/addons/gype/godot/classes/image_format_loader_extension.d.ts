@@ -2,7 +2,6 @@
 import type { FileAccess } from '@godot/classes/file_access';
 import type { Image } from '@godot/classes/image';
 import type { ImageFormatLoader } from '@godot/classes/image_format_loader';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 
 
 export declare class ImageFormatLoaderExtension extends ImageFormatLoader {

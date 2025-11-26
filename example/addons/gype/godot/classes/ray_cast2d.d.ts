@@ -2,8 +2,6 @@
 import type { CollisionObject2D } from '@godot/classes/collision_object2d';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { Node2D } from '@godot/classes/node2d';
-import type { RID } from '@godot/builtins/rid';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class RayCast2D extends Node2D {

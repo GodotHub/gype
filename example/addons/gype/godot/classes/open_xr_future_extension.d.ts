@@ -1,5 +1,4 @@
 
-import type { Callable } from '@godot/builtins/callable';
 import type { OpenXRExtensionWrapper } from '@godot/classes/open_xr_extension_wrapper';
 import type { OpenXRFutureResult } from '@godot/classes/open_xr_future_result';
 

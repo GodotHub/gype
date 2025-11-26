@@ -1,8 +1,6 @@
 
 import type { CanvasItem } from '@godot/classes/canvas_item';
 import type { Node } from '@godot/classes/node';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class Node2D extends CanvasItem {

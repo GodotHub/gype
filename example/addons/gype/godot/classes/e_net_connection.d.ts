@@ -1,8 +1,5 @@
 
 import type { ENetPacketPeer } from '@godot/classes/e_net_packet_peer';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
 import type { RefCounted } from '@godot/classes/ref_counted';
 import type { TLSOptions } from '@godot/classes/tls_options';
 

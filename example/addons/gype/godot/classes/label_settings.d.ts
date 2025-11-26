@@ -1,8 +1,6 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Font } from '@godot/classes/font';
 import type { Resource } from '@godot/classes/resource';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class LabelSettings extends Resource {

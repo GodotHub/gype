@@ -1,7 +1,5 @@
 
 import type { EditorDebuggerSession } from '@godot/classes/editor_debugger_session';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { RefCounted } from '@godot/classes/ref_counted';
 import type { Script } from '@godot/classes/script';
 

@@ -1,8 +1,6 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Curve3D } from '@godot/classes/curve3d';
 import type { Node3D } from '@godot/classes/node3d';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class Path3D extends Node3D {
@@ -18,8 +16,8 @@ export declare class Path3D extends Node3D {
     public get_debug_custom_color(): Color;
 
     
-    public readonly curve_changed: Signal<() => void>;
-    public readonly debug_color_changed: Signal<() => void>;
+    public readonly curve_changed: Signal;
+    public readonly debug_color_changed: Signal;
 
 }
 

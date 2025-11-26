@@ -1,6 +1,5 @@
 
 import type { Node } from '@godot/classes/node';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class Timer extends Node {
@@ -38,7 +37,7 @@ export declare class Timer extends Node {
     public get_timer_process_callback(): number;
 
     
-    public readonly timeout: Signal<() => void>;
+    public readonly timeout: Signal;
 
     public static readonly TimerProcessCallback: {
         TIMER_PROCESS_PHYSICS: 0;

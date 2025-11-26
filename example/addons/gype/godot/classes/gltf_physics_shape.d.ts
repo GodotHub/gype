@@ -1,11 +1,8 @@
 
 import type { CollisionShape3D } from '@godot/classes/collision_shape3d';
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { ImporterMesh } from '@godot/classes/importer_mesh';
 import type { Resource } from '@godot/classes/resource';
 import type { Shape3D } from '@godot/classes/shape3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class GLTFPhysicsShape extends Resource {

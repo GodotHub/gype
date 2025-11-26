@@ -1,6 +1,5 @@
 
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class OpenXRFutureResult extends RefCounted {
@@ -13,7 +12,7 @@ export declare class OpenXRFutureResult extends RefCounted {
     public get_result_value(): any;
 
     
-    public readonly completed: Signal<(result: OpenXRFutureResult) => void>;
+    public readonly completed: Signal;
 
     public static readonly ResultStatus: {
         RESULT_RUNNING: 0;

@@ -4,15 +4,9 @@ import type { AudioListener3D } from '@godot/classes/audio_listener3d';
 import type { Camera2D } from '@godot/classes/camera2d';
 import type { Camera3D } from '@godot/classes/camera3d';
 import type { Control } from '@godot/classes/control';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { InputEvent } from '@godot/classes/input_event';
 import type { Node } from '@godot/classes/node';
-import type { RID } from '@godot/builtins/rid';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Signal } from '@godot/builtins/signal';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 import type { ViewportTexture } from '@godot/classes/viewport_texture';
 import type { World2D } from '@godot/classes/world2d';
 import type { World3D } from '@godot/classes/world3d';
@@ -249,8 +243,8 @@ export declare class Viewport extends Node {
     public get_vrs_texture(): Texture2D;
 
     
-    public readonly size_changed: Signal<() => void>;
-    public readonly gui_focus_changed: Signal<(node: Control) => void>;
+    public readonly size_changed: Signal;
+    public readonly gui_focus_changed: Signal;
 
     public static readonly PositionalShadowAtlasQuadrantSubdiv: {
         SHADOW_ATLAS_QUADRANT_SUBDIV_DISABLED: 0;

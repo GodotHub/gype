@@ -11,7 +11,7 @@
 
 {# 依赖导入 #}
 {% for dep in dependency %}
-    {% if dep != class_name %}
+    {% if dep != class_name and dep not in builtin_classes | map(attribute="name") %}
 import type { {{ dep }} } from '{{ get_import_path(dep) }}';
     {% endif %}
 {% endfor %}
@@ -44,8 +44,8 @@ export declare class {{ class_name }}{% if inherits %} extends {{ inherits }}{% 
     {%- endfor %}
 
     {# 方法 (Methods) #}
-    {% for class_name == 'Node' and method in cls.methods %}
-        {% if method.name == "get_node" %}
+    {% for method in cls.methods %}
+        {% if class_name == 'Node' and method.name == "get_node" %}
     public get_node<T extends Node>(path: NodePath | GDString | string): T;
         {% else %}
     public{{ ' static' if method.is_static }} {{ method.name }}({{ connect_args(method.arguments) + process_vararg(method.is_vararg, method.arguments) }}){{- set_return(method.return_value if 'return_value' in method else None) -}};
@@ -57,7 +57,7 @@ export declare class {{ class_name }}{% if inherits %} extends {{ inherits }}{% 
     
     {# ----- Signals ----- #}
     {% for signal in cls.signals %}
-    public readonly {{  signal.name }}: Signal<({{ connect_args(signal.arguments) }}) => void>;
+    public readonly {{  signal.name }}: Signal;
     {% endfor %}
     {% endif %}
 

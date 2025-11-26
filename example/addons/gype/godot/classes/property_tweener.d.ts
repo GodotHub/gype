@@ -1,5 +1,4 @@
 
-import type { Callable } from '@godot/builtins/callable';
 import type { Tweener } from '@godot/classes/tweener';
 
 

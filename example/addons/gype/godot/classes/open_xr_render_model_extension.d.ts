@@ -1,11 +1,6 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node3D } from '@godot/classes/node3d';
 import type { OpenXRExtensionWrapper } from '@godot/classes/open_xr_extension_wrapper';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Signal } from '@godot/builtins/signal';
-import type { Transform3D } from '@godot/builtins/transform3d';
 
 
 export declare class OpenXRRenderModelExtension extends OpenXRExtensionWrapper {
@@ -26,9 +21,9 @@ export declare class OpenXRRenderModelExtension extends OpenXRExtensionWrapper {
     public render_model_get_animatable_node_transform(renderModel: RID, index: number): Transform3D;
 
     
-    public readonly render_model_added: Signal<(renderModel: RID) => void>;
-    public readonly render_model_removed: Signal<(renderModel: RID) => void>;
-    public readonly render_model_top_level_path_changed: Signal<(renderModel: RID) => void>;
+    public readonly render_model_added: Signal;
+    public readonly render_model_removed: Signal;
+    public readonly render_model_top_level_path_changed: Signal;
 
 }
 

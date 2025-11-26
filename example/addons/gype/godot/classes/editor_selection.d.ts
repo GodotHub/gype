@@ -1,7 +1,6 @@
 
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { Node } from '@godot/classes/node';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class EditorSelection extends GodotObject {
@@ -15,7 +14,7 @@ export declare class EditorSelection extends GodotObject {
     public get_transformable_selected_nodes(): Array<any>;
 
     
-    public readonly selection_changed: Signal<() => void>;
+    public readonly selection_changed: Signal;
 
 }
 

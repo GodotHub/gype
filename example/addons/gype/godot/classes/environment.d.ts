@@ -1,10 +1,8 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { Resource } from '@godot/classes/resource';
 import type { Sky } from '@godot/classes/sky';
 import type { Texture } from '@godot/classes/texture';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class Environment extends Resource {

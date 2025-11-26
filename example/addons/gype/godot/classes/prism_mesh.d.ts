@@ -1,6 +1,5 @@
 
 import type { PrimitiveMesh } from '@godot/classes/primitive_mesh';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class PrismMesh extends PrimitiveMesh {

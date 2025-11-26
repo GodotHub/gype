@@ -1,14 +1,5 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
-import type { Projection } from '@godot/builtins/projection';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class XRInterface extends RefCounted {
@@ -52,7 +43,7 @@ export declare class XRInterface extends RefCounted {
     public get_environment_blend_mode(): number;
 
     
-    public readonly play_area_changed: Signal<(mode: number) => void>;
+    public readonly play_area_changed: Signal;
 
     public static readonly Capabilities: {
         XR_NONE: 0;

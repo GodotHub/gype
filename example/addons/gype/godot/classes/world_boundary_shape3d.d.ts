@@ -1,5 +1,4 @@
 
-import type { Plane } from '@godot/builtins/plane';
 import type { Shape3D } from '@godot/classes/shape3d';
 
 

@@ -1,5 +1,4 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { InputEventWithModifiers } from '@godot/classes/input_event_with_modifiers';
 
 

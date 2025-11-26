@@ -1,9 +1,6 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { OpenXRAPIExtension } from '@godot/classes/open_xrapi_extension';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { RID } from '@godot/builtins/rid';
 
 
 export declare class OpenXRExtensionWrapper extends GodotObject {

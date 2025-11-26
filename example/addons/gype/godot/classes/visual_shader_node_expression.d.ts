@@ -1,5 +1,4 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { VisualShaderNodeGroupBase } from '@godot/classes/visual_shader_node_group_base';
 
 

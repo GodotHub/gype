@@ -1,5 +1,4 @@
 
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { RefCounted } from '@godot/classes/ref_counted';
 
 

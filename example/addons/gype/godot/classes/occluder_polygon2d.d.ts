@@ -1,5 +1,4 @@
 
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
 import type { Resource } from '@godot/classes/resource';
 
 

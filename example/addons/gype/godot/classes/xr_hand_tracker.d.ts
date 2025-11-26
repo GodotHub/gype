@@ -1,6 +1,4 @@
 
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 import type { XRPositionalTracker } from '@godot/classes/xr_positional_tracker';
 
 

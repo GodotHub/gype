@@ -1,5 +1,4 @@
 
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
 import type { RefCounted } from '@godot/classes/ref_counted';
 
 

@@ -1,10 +1,7 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { HBoxContainer } from '@godot/classes/h_box_container';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { Resource } from '@godot/classes/resource';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class EditorResourcePicker extends HBoxContainer {
@@ -32,8 +29,8 @@ export declare class EditorResourcePicker extends HBoxContainer {
     public is_editable(): boolean;
 
     
-    public readonly resource_selected: Signal<(resource: Resource, inspect: boolean) => void>;
-    public readonly resource_changed: Signal<(resource: Resource) => void>;
+    public readonly resource_selected: Signal;
+    public readonly resource_changed: Signal;
 
 }
 

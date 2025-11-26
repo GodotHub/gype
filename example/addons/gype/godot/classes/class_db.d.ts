@@ -1,9 +1,5 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class ClassDB extends GodotObject {

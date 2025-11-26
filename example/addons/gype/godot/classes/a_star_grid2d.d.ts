@@ -1,9 +1,5 @@
 
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { Rect2i } from '@godot/builtins/rect2i';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Vector2 } from '@godot/builtins/vector2';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class AStarGrid2D extends RefCounted {

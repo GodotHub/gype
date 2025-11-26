@@ -1,6 +1,5 @@
 
 import type { AnimationRootNode } from '@godot/classes/animation_root_node';
-import type { GDString } from '@godot/builtins/gd_string';
 
 
 export declare class AnimationNodeBlendSpace1D extends AnimationRootNode {

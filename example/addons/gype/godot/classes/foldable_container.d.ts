@@ -2,8 +2,6 @@
 import type { Container } from '@godot/classes/container';
 import type { Control } from '@godot/classes/control';
 import type { FoldableGroup } from '@godot/classes/foldable_group';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { Signal } from '@godot/builtins/signal';
 
 
 export declare class FoldableContainer extends Container {
@@ -47,7 +45,7 @@ export declare class FoldableContainer extends Container {
     public remove_title_bar_control(control: Control): void;
 
     
-    public readonly folding_changed: Signal<(isFolded: boolean) => void>;
+    public readonly folding_changed: Signal;
 
     public static readonly TitlePosition: {
         POSITION_TOP: 0;

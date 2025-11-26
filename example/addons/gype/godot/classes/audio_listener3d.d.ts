@@ -1,6 +1,5 @@
 
 import type { Node3D } from '@godot/classes/node3d';
-import type { Transform3D } from '@godot/builtins/transform3d';
 
 
 export declare class AudioListener3D extends Node3D {

@@ -1,11 +1,5 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { GodotObject } from '@godot/classes/godot_object';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 import type { XRInterface } from '@godot/classes/xr_interface';
 import type { XRTracker } from '@godot/classes/xr_tracker';
 
@@ -45,12 +39,12 @@ export declare class XRServer extends GodotObject {
     public set_primary_interface(_interface: XRInterface): void;
 
     
-    public readonly reference_frame_changed: Signal<() => void>;
-    public readonly interface_added: Signal<(interfaceName: GDString | StringName | string) => void>;
-    public readonly interface_removed: Signal<(interfaceName: GDString | StringName | string) => void>;
-    public readonly tracker_added: Signal<(trackerName: GDString | StringName | string, _type: number) => void>;
-    public readonly tracker_updated: Signal<(trackerName: GDString | StringName | string, _type: number) => void>;
-    public readonly tracker_removed: Signal<(trackerName: GDString | StringName | string, _type: number) => void>;
+    public readonly reference_frame_changed: Signal;
+    public readonly interface_added: Signal;
+    public readonly interface_removed: Signal;
+    public readonly tracker_added: Signal;
+    public readonly tracker_updated: Signal;
+    public readonly tracker_removed: Signal;
 
     public static readonly TrackerType: {
         TRACKER_HEAD: 1;

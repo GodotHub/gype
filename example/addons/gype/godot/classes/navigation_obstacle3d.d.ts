@@ -1,8 +1,5 @@
 
 import type { Node3D } from '@godot/classes/node3d';
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class NavigationObstacle3D extends Node3D {

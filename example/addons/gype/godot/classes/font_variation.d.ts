@@ -1,7 +1,5 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
 import type { Font } from '@godot/classes/font';
-import type { Transform2D } from '@godot/builtins/transform2d';
 
 
 export declare class FontVariation extends Font {

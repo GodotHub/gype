@@ -1,7 +1,4 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { PackedColorArray } from '@godot/builtins/packed_color_array';
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
 import type { Resource } from '@godot/classes/resource';
 
 

@@ -1,7 +1,5 @@
 
 import type { AudioStreamOggVorbis } from '@godot/classes/audio_stream_ogg_vorbis';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
 import type { ResourceImporter } from '@godot/classes/resource_importer';
 
 

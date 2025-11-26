@@ -1,6 +1,5 @@
 
 import type { Joint2D } from '@godot/classes/joint2d';
-import type { NodePath } from '@godot/builtins/node_path';
 import type { RigidBody2D } from '@godot/classes/rigid_body2d';
 
 

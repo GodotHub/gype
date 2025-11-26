@@ -1,10 +1,5 @@
 
-import type { AABB } from '@godot/builtins/aabb';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
 import type { Resource } from '@godot/classes/resource';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class VoxelGIData extends Resource {

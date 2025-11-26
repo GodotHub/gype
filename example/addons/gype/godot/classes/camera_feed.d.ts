@@ -1,11 +1,6 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Image } from '@godot/classes/image';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Signal } from '@godot/builtins/signal';
-import type { Transform2D } from '@godot/builtins/transform2d';
 
 
 export declare class CameraFeed extends RefCounted {
@@ -37,8 +32,8 @@ export declare class CameraFeed extends RefCounted {
     public set_format(index: number, parameters: Dictionary): boolean;
 
     
-    public readonly frame_changed: Signal<() => void>;
-    public readonly format_changed: Signal<() => void>;
+    public readonly frame_changed: Signal;
+    public readonly format_changed: Signal;
 
     public static readonly FeedDataType: {
         FEED_NOIMAGE: 0;

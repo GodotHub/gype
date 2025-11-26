@@ -1,7 +1,5 @@
 
 import type { Resource } from '@godot/classes/resource';
-import type { Signal } from '@godot/builtins/signal';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class Curve extends Resource {
@@ -53,8 +51,8 @@ export declare class Curve extends Resource {
     public set_bake_resolution(resolution: number): void;
 
     
-    public readonly range_changed: Signal<() => void>;
-    public readonly domain_changed: Signal<() => void>;
+    public readonly range_changed: Signal;
+    public readonly domain_changed: Signal;
 
     public static readonly TangentMode: {
         TANGENT_FREE: 0;

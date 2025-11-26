@@ -1,5 +1,4 @@
 
-import type { Color } from '@godot/builtins/color';
 import type { RefCounted } from '@godot/classes/ref_counted';
 
 

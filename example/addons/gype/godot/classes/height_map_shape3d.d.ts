@@ -1,6 +1,5 @@
 
 import type { Image } from '@godot/classes/image';
-import type { PackedFloat32Array } from '@godot/builtins/packed_float32_array';
 import type { Shape3D } from '@godot/classes/shape3d';
 
 

@@ -1,8 +1,5 @@
 
 import type { Control } from '@godot/classes/control';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
 import type { Texture2D } from '@godot/classes/texture2d';
 import type { VideoStream } from '@godot/classes/video_stream';
 
@@ -66,7 +63,7 @@ export declare class VideoStreamPlayer extends Control {
     public get_video_texture(): Texture2D;
 
     
-    public readonly finished: Signal<() => void>;
+    public readonly finished: Signal;
 
 }
 

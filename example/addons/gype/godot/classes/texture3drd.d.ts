@@ -1,5 +1,4 @@
 
-import type { RID } from '@godot/builtins/rid';
 import type { Texture3D } from '@godot/classes/texture3d';
 
 

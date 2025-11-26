@@ -1,6 +1,5 @@
 
 import type { PhysicsDirectSpaceState2D } from '@godot/classes/physics_direct_space_state2d';
-import type { RID } from '@godot/builtins/rid';
 import type { Resource } from '@godot/classes/resource';
 
 

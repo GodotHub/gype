@@ -1,6 +1,5 @@
 
 import type { Font } from '@godot/classes/font';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 
 
 export declare class SystemFont extends Font {

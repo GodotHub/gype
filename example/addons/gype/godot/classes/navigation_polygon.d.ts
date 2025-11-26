@@ -1,13 +1,6 @@
 
-import type { GDArray } from '@godot/builtins/gd_array';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { NavigationMesh } from '@godot/classes/navigation_mesh';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { Rect2 } from '@godot/builtins/rect2';
 import type { Resource } from '@godot/classes/resource';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class NavigationPolygon extends Resource {

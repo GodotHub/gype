@@ -1,8 +1,5 @@
 
 import type { AudioStream } from '@godot/classes/audio_stream';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedInt32Array } from '@godot/builtins/packed_int32_array';
-import type { StringName } from '@godot/builtins/string_name';
 
 
 export declare class AudioStreamInteractive extends AudioStream {

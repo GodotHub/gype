@@ -1,8 +1,5 @@
 
-import type { Dictionary } from '@godot/builtins/dictionary';
-import type { PackedVector3Array } from '@godot/builtins/packed_vector3_array';
 import type { RefCounted } from '@godot/classes/ref_counted';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class TriangleMesh extends RefCounted {

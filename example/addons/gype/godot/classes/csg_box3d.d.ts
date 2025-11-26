@@ -2,7 +2,6 @@
 import type { BaseMaterial3D } from '@godot/classes/base_material3d';
 import type { CSGPrimitive3D } from '@godot/classes/csg_primitive3d';
 import type { Material } from '@godot/classes/material';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class CSGBox3D extends CSGPrimitive3D {

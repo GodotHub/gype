@@ -1,12 +1,6 @@
 
-import type { Color } from '@godot/builtins/color';
-import type { Dictionary } from '@godot/builtins/dictionary';
 import type { NavigationPathQueryResult2D } from '@godot/classes/navigation_path_query_result2d';
 import type { Node } from '@godot/classes/node';
-import type { PackedVector2Array } from '@godot/builtins/packed_vector2_array';
-import type { RID } from '@godot/builtins/rid';
-import type { Signal } from '@godot/builtins/signal';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class NavigationAgent2D extends Node {
@@ -154,12 +148,12 @@ export declare class NavigationAgent2D extends Node {
     public get_debug_path_custom_line_width(): number;
 
     
-    public readonly path_changed: Signal<() => void>;
-    public readonly target_reached: Signal<() => void>;
-    public readonly waypoint_reached: Signal<(details: Dictionary) => void>;
-    public readonly link_reached: Signal<(details: Dictionary) => void>;
-    public readonly navigation_finished: Signal<() => void>;
-    public readonly velocity_computed: Signal<(safeVelocity: Vector2) => void>;
+    public readonly path_changed: Signal;
+    public readonly target_reached: Signal;
+    public readonly waypoint_reached: Signal;
+    public readonly link_reached: Signal;
+    public readonly navigation_finished: Signal;
+    public readonly velocity_computed: Signal;
 
 }
 

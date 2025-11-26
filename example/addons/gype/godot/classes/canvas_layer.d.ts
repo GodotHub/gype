@@ -1,9 +1,5 @@
 
 import type { Node } from '@godot/classes/node';
-import type { RID } from '@godot/builtins/rid';
-import type { Signal } from '@godot/builtins/signal';
-import type { Transform2D } from '@godot/builtins/transform2d';
-import type { Vector2 } from '@godot/builtins/vector2';
 import type { Viewport } from '@godot/classes/viewport';
 
 
@@ -52,7 +48,7 @@ export declare class CanvasLayer extends Node {
     public get_canvas(): RID;
 
     
-    public readonly visibility_changed: Signal<() => void>;
+    public readonly visibility_changed: Signal;
 
 }
 

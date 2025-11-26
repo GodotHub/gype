@@ -1,10 +1,6 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node2D } from '@godot/classes/node2d';
-import type { Signal } from '@godot/builtins/signal';
 import type { SpriteFrames } from '@godot/classes/sprite_frames';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class AnimatedSprite2D extends Node2D {
@@ -59,11 +55,11 @@ export declare class AnimatedSprite2D extends Node2D {
     public get_playing_speed(): number;
 
     
-    public readonly sprite_frames_changed: Signal<() => void>;
-    public readonly animation_changed: Signal<() => void>;
-    public readonly frame_changed: Signal<() => void>;
-    public readonly animation_looped: Signal<() => void>;
-    public readonly animation_finished: Signal<() => void>;
+    public readonly sprite_frames_changed: Signal;
+    public readonly animation_changed: Signal;
+    public readonly frame_changed: Signal;
+    public readonly animation_looped: Signal;
+    public readonly animation_finished: Signal;
 
 }
 

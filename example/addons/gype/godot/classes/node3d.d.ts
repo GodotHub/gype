@@ -1,12 +1,6 @@
 
-import type { Basis } from '@godot/builtins/basis';
 import type { Node } from '@godot/classes/node';
 import type { Node3DGizmo } from '@godot/classes/node3d_gizmo';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { Quaternion } from '@godot/builtins/quaternion';
-import type { Signal } from '@godot/builtins/signal';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 import type { World3D } from '@godot/classes/world3d';
 
 
@@ -120,7 +114,7 @@ export declare class Node3D extends Node {
     public to_global(localPoint: Vector3): Vector3;
 
     
-    public readonly visibility_changed: Signal<() => void>;
+    public readonly visibility_changed: Signal;
 
     public static readonly RotationEditMode: {
         ROTATION_EDIT_MODE_EULER: 0;

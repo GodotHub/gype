@@ -1,6 +1,5 @@
 
 import type { Node2D } from '@godot/classes/node2d';
-import type { Rect2 } from '@godot/builtins/rect2';
 
 
 export declare class BackBufferCopy extends Node2D {

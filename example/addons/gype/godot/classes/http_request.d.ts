@@ -1,9 +1,5 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node } from '@godot/classes/node';
-import type { PackedByteArray } from '@godot/builtins/packed_byte_array';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
-import type { Signal } from '@godot/builtins/signal';
 import type { TLSOptions } from '@godot/classes/tls_options';
 
 
@@ -49,7 +45,7 @@ export declare class HTTPRequest extends Node {
     public set_https_proxy(host: GDString | StringName | string, port: number): void;
 
     
-    public readonly request_completed: Signal<(result: number, responseCode: number, headers: PackedStringArray, body: PackedByteArray) => void>;
+    public readonly request_completed: Signal;
 
     public static readonly Result: {
         RESULT_SUCCESS: 0;

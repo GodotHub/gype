@@ -1,7 +1,5 @@
 
-import type { Callable } from '@godot/builtins/callable';
 import type { ConfirmationDialog } from '@godot/classes/confirmation_dialog';
-import type { GDString } from '@godot/builtins/gd_string';
 
 
 export declare class EditorCommandPalette extends ConfirmationDialog {

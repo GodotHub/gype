@@ -1,5 +1,4 @@
 
-import type { Callable } from '@godot/builtins/callable';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { NavigationMesh } from '@godot/classes/navigation_mesh';
 import type { NavigationMeshSourceGeometryData3D } from '@godot/classes/navigation_mesh_source_geometry_data3d';

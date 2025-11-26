@@ -1,12 +1,7 @@
 
 import type { CollisionObject2D } from '@godot/classes/collision_object2d';
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node } from '@godot/classes/node';
 import type { Node2D } from '@godot/classes/node2d';
-import type { RID } from '@godot/builtins/rid';
-import type { Signal } from '@godot/builtins/signal';
-import type { StringName } from '@godot/builtins/string_name';
-import type { Vector2 } from '@godot/builtins/vector2';
 
 
 export declare class Area2D extends CollisionObject2D {
@@ -80,14 +75,14 @@ export declare class Area2D extends CollisionObject2D {
     public is_overriding_audio_bus(): boolean;
 
     
-    public readonly body_shape_entered: Signal<(bodyRid: RID, body: Node2D, bodyShapeIndex: number, localShapeIndex: number) => void>;
-    public readonly body_shape_exited: Signal<(bodyRid: RID, body: Node2D, bodyShapeIndex: number, localShapeIndex: number) => void>;
-    public readonly body_entered: Signal<(body: Node2D) => void>;
-    public readonly body_exited: Signal<(body: Node2D) => void>;
-    public readonly area_shape_entered: Signal<(areaRid: RID, area: Area2D, areaShapeIndex: number, localShapeIndex: number) => void>;
-    public readonly area_shape_exited: Signal<(areaRid: RID, area: Area2D, areaShapeIndex: number, localShapeIndex: number) => void>;
-    public readonly area_entered: Signal<(area: Area2D) => void>;
-    public readonly area_exited: Signal<(area: Area2D) => void>;
+    public readonly body_shape_entered: Signal;
+    public readonly body_shape_exited: Signal;
+    public readonly body_entered: Signal;
+    public readonly body_exited: Signal;
+    public readonly area_shape_entered: Signal;
+    public readonly area_shape_exited: Signal;
+    public readonly area_entered: Signal;
+    public readonly area_exited: Signal;
 
     public static readonly SpaceOverride: {
         SPACE_OVERRIDE_DISABLED: 0;

@@ -1,5 +1,4 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { PacketPeer } from '@godot/classes/packet_peer';
 import type { PacketPeerUDP } from '@godot/classes/packet_peer_udp';
 import type { TLSOptions } from '@godot/classes/tls_options';

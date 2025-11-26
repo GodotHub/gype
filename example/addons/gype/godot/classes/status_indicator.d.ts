@@ -1,11 +1,6 @@
 
-import type { GDString } from '@godot/builtins/gd_string';
 import type { Node } from '@godot/classes/node';
-import type { NodePath } from '@godot/builtins/node_path';
-import type { Rect2 } from '@godot/builtins/rect2';
-import type { Signal } from '@godot/builtins/signal';
 import type { Texture2D } from '@godot/classes/texture2d';
-import type { Vector2i } from '@godot/builtins/vector2i';
 
 
 export declare class StatusIndicator extends Node {
@@ -30,7 +25,7 @@ export declare class StatusIndicator extends Node {
     public get_rect(): Rect2;
 
     
-    public readonly pressed: Signal<(mouseButton: number, mousePosition: Vector2i) => void>;
+    public readonly pressed: Signal;
 
 }
 

@@ -1,7 +1,6 @@
 
 import type { ImporterMesh } from '@godot/classes/importer_mesh';
 import type { Node3D } from '@godot/classes/node3d';
-import type { NodePath } from '@godot/builtins/node_path';
 import type { Skin } from '@godot/classes/skin';
 
 

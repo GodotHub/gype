@@ -1,7 +1,4 @@
 
-import type { Callable } from '@godot/builtins/callable';
-import type { GDString } from '@godot/builtins/gd_string';
-import type { PackedStringArray } from '@godot/builtins/packed_string_array';
 import type { PopupMenu } from '@godot/classes/popup_menu';
 import type { RefCounted } from '@godot/classes/ref_counted';
 import type { Shortcut } from '@godot/classes/shortcut';

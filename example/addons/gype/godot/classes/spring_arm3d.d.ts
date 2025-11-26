@@ -1,6 +1,5 @@
 
 import type { Node3D } from '@godot/classes/node3d';
-import type { RID } from '@godot/builtins/rid';
 import type { Shape3D } from '@godot/classes/shape3d';
 
 

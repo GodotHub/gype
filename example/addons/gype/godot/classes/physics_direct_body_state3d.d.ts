@@ -1,10 +1,6 @@
 
-import type { Basis } from '@godot/builtins/basis';
 import type { GodotObject } from '@godot/classes/godot_object';
 import type { PhysicsDirectSpaceState3D } from '@godot/classes/physics_direct_space_state3d';
-import type { RID } from '@godot/builtins/rid';
-import type { Transform3D } from '@godot/builtins/transform3d';
-import type { Vector3 } from '@godot/builtins/vector3';
 
 
 export declare class PhysicsDirectBodyState3D extends GodotObject {

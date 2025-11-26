@@ -391,16 +391,14 @@ void TypeScript::analyze() const {
 void TypeScript::compile(bool force) const {
 	analyze();
 	ERR_FAIL_COND_EDMSG(!FileAccess::file_exists("res://tsconfig.json"), "tsconfig.json file does not exist.");
-	if (dirty) {
-		int exit_code = 0;
-		if (force) {
-			exit_code = OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json", "--force" });
-		} else {
-			exit_code = OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json" });
-		}
-		ERR_FAIL_COND_EDMSG(exit_code == -1, "error executing tsc.");
-		dirty = false;
+	int exit_code = 0;
+	if (force) {
+		exit_code = OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json", "--force" });
+	} else {
+		exit_code = OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json" });
 	}
+	ERR_FAIL_COND_EDMSG(exit_code == -1, "error executing tsc.");
+	
 }
 
 void TypeScript::_set_source_code(const String &p_code) {

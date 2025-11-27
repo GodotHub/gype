@@ -3,6 +3,8 @@
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/resource_uid.hpp>
+#include <godot_cpp/classes/reg_ex.hpp>
+#include <godot_cpp/classes/reg_ex_match.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace godot;
@@ -52,7 +54,36 @@ int64_t TypeScriptLoader::_get_resource_uid(const String &p_path) const {
 }
 
 PackedStringArray TypeScriptLoader::_get_dependencies(const String &p_path, bool p_add_types) const {
-	return PackedStringArray();
+	PackedStringArray dependencies;
+
+	// 1. 读取文件内容
+	String source_code = FileAccess::get_file_as_string(p_path);
+	if (source_code.is_empty()) {
+		// 文件不存在或为空，没有依赖
+		return dependencies;
+	}
+
+	Ref<RegEx> regex = RegEx::create_from_string(R"xxx(import.*?from\s*["'](@res/[^"']+)["'])xxx");
+
+	Array results = regex->search_all(source_code);
+
+	for (int i = 0; i < results.size(); i++) {
+		Ref<RegExMatch> match = results[i];
+		if (match.is_valid() && match->get_group_count() > 0) {
+			String path_from_import = match->get_string(1);
+			String path_from_load = match->get_string(2);
+
+			String final_path = !path_from_import.is_empty() ? path_from_import : path_from_load;
+
+			if (!final_path.is_empty()) {
+				final_path = final_path.replace("@res/", "res://");
+				UtilityFunctions::print(final_path);
+				dependencies.append(final_path);
+			}
+		}
+	}
+
+	return dependencies;
 }
 
 Error TypeScriptLoader::_rename_dependencies(const String &p_path, const Dictionary &p_renames) const {

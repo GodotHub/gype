@@ -235,52 +235,93 @@ void TypeScript::analyze() const {
 	TSTree *tree = ts_parser_parse_string(parser, NULL, c_code, origin_string.length());
 
 	const std::string query_string = R"xxx(
-	(export_statement
-	  (
-	    [
-	      (decorator
-	        (identifier) @decorator.class
-	        (#match? @decorator.class "^(GodotClass)$")
-	      )
+	(import_statement
+	  source: (string) @import.path
+	)?
 
-	      (decorator
-	        (identifier) @decorator.name
-	        (#not-match? @decorator.name "^(GodotClass)$")
-	      ) @decorator.other
-	    ]
-	  )+
+	(export_statement
+	  (decorator (identifier) @decorator.name
+  		(#match? @decorator.name "^(GodotClass)$")
+	  )
+	  (decorator (identifier) @decorator.other
+  		(#not-match? @decorator.other "^(GodotClass)$")
+	  )?
+	  
+	  (abstract_class_declaration
+  		name: (type_identifier) @class.name
+	    (class_heritage 
+	      (extends_clause
+      		value: (identifier) @base.name
+	      )
+	    )
+	    body: (class_body
+	      (public_field_definition
+      		decorator: (decorator
+	          (call_expression
+	            function: (identifier) @decorator.member
+	            arguments: (arguments) @decorator.arguments
+	          )
+	        )?
+	        name: (property_identifier) @prop.name
+	        type: (type_annotation
+	          (type_identifier)? @prop.type
+	          (predefined_type)? @prop.type
+	        )?
+	        value: (_)? @prop.value
+	      )?
+	      (method_definition
+	        name: (property_identifier) @method.name
+	        parameters: (formal_parameters) @method.parameter
+	      )?
+	      (abstract_method_signature
+	        name: (property_identifier) @method.name
+	        parameters: (formal_parameters) @method.parameter
+	      )?
+	    )
+	  )? @class.body
+	)?
+
+	(export_statement
+	  (decorator (identifier) @decorator.name
+  		(#match? @decorator.name "^(GodotClass)$")
+	  )
+	  (decorator (identifier) @decorator.other
+  		(#not-match? @decorator.other "^(GodotClass)$")
+	  )?
 	  
 	  (class_declaration
-	    name: (type_identifier) @class.name
-	    (class_heritage (extends_clause (identifier) @base.name))?
-
-	    body: (class_body
-	      [
-	        (public_field_definition
-	          (decorator
-	            [
-	              (identifier) @decorator.member
-	              (call_expression
-	                (identifier) @decorator.member
-	                (arguments) @decorator.arguments
-	              )
-	            ]
-	          )+
-	          name: (property_identifier) @prop.name
-	          type: (type_annotation)? @prop.type
-	          value: (_)? @prop.value
-	        ) @member.property
-
-	        (method_definition
-	          (accessibility_modifier)? @method.accessibility
-	          "static"? @method.static
-	          name: (property_identifier) @method.name
-	          parameters: (formal_parameters) @method.parameters
-	        ) @member.method
-	      ]
+  		name: (type_identifier) @class.name
+	    (class_heritage 
+	      (extends_clause
+      		value: (identifier) @base.name
+	      )
 	    )
-	  ) @class.body
-	)
+	    body: (class_body
+	      (public_field_definition
+      		decorator: (decorator
+	          (call_expression
+	            function: (identifier) @decorator.member
+	            arguments: (arguments) @decorator.arguments
+	          )
+	        )?
+	        name: (property_identifier) @prop.name
+	        type: (type_annotation
+	          (type_identifier)? @prop.type
+	          (predefined_type)? @prop.type
+	        )?
+	        value: (_)? @prop.value
+	      )?
+	      (method_definition
+	        name: (property_identifier) @method.name
+	        parameters: (formal_parameters) @method.parameter
+	      )?
+	      (abstract_method_signature
+	        name: (property_identifier) @method.name
+	        parameters: (formal_parameters) @method.parameter
+	      )?
+	    )
+	  )? @class.body
+	)?
 	)xxx";
 
 	uint32_t error_offset;

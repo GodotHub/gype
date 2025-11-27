@@ -13,7 +13,7 @@ declare global {
         merge(dictionary: Dictionary, overwrite: boolean = false): void;
         merged(dictionary: Dictionary, overwrite: boolean = false): Dictionary;
         has(key: any): boolean;
-        has_all(keys: GDArray): boolean;
+        has_all(keys: GDArray | Array): boolean;
         find_key(value: any): any;
         erase(key: any): boolean;
         hash(): number;

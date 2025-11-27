@@ -6,7 +6,7 @@ declare global {
         constructor(object: GodotObject, method: Function): Callable;    
 
         create(variant: any, method: GDString | StringName | string): Callable;
-        callv(arguments: GDArray): any;
+        callv(arguments: GDArray | Array): any;
         is_null(): boolean;
         is_custom(): boolean;
         is_standard(): boolean;
@@ -19,7 +19,7 @@ declare global {
         get_bound_arguments(): GDArray;
         get_unbound_arguments_count(): number;
         hash(): number;
-        bindv(arguments: GDArray): Callable;
+        bindv(arguments: GDArray | Array): Callable;
         unbind(argcount: number): Callable;
         call(...args: any[]): any;
         call_deferred(...args: any[]): void;

@@ -116,7 +116,7 @@ export declare class RichTextLabel extends Control {
     public clear(): void;
     public set_structured_text_bidi_override(parser: number): void;
     public get_structured_text_bidi_override(): number;
-    public set_structured_text_bidi_override_options(args: GDArray): void;
+    public set_structured_text_bidi_override_options(args: GDArray | Array): void;
     public get_structured_text_bidi_override_options(): GDArray;
     public set_text_direction(direction: number): void;
     public get_text_direction(): number;
@@ -201,7 +201,7 @@ export declare class RichTextLabel extends Control {
     public get_line_offset(line: number): number;
     public get_paragraph_offset(paragraph: number): number;
     public parse_expressions_for_values(expressions: PackedStringArray): Dictionary;
-    public set_effects(effects: GDArray): void;
+    public set_effects(effects: GDArray | Array): void;
     public get_effects(): GDArray;
     public install_effect(effect: any): void;
     public reload_effects(): void;

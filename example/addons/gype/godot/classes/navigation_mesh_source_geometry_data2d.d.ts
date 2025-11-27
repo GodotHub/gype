@@ -24,7 +24,7 @@ export declare class NavigationMeshSourceGeometryData2D extends Resource {
     public merge(otherGeometry: NavigationMeshSourceGeometryData2D): void;
     public add_projected_obstruction(vertices: PackedVector2Array, carve: boolean): void;
     public clear_projected_obstructions(): void;
-    public set_projected_obstructions(projectedObstructions: GDArray): void;
+    public set_projected_obstructions(projectedObstructions: GDArray | Array): void;
     public get_projected_obstructions(): GDArray;
     public get_bounds(): Rect2;
 

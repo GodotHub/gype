@@ -39,7 +39,7 @@ export declare class TreeItem extends GodotObject {
     public get_text_overrun_behavior(column: number): number;
     public set_structured_text_bidi_override(column: number, parser: number): void;
     public get_structured_text_bidi_override(column: number): number;
-    public set_structured_text_bidi_override_options(column: number, args: GDArray): void;
+    public set_structured_text_bidi_override_options(column: number, args: GDArray | Array): void;
     public get_structured_text_bidi_override_options(column: number): GDArray;
     public set_language(column: number, language: GDString | StringName | string): void;
     public get_language(column: number): GDString;

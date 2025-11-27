@@ -6,7 +6,7 @@ export declare class Performance extends GodotObject {
 
 
     public get_monitor(monitor: number): number;
-    public add_custom_monitor(id: GDString | StringName | string, callable: Callable | Function, arguments: GDArray = []): void;
+    public add_custom_monitor(id: GDString | StringName | string, callable: Callable | Function, arguments: GDArray | Array = []): void;
     public remove_custom_monitor(id: GDString | StringName | string): void;
     public has_custom_monitor(id: GDString | StringName | string): boolean;
     public get_custom_monitor(id: GDString | StringName | string): any;

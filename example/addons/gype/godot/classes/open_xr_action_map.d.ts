@@ -11,14 +11,14 @@ export declare class OpenXRActionMap extends Resource {
     public action_sets: GDArray;    
     /**     * The raw type is 'OpenXRInteractionProfile'     */
     public interaction_profiles: GDArray;
-    public set_action_sets(actionSets: GDArray): void;
+    public set_action_sets(actionSets: GDArray | Array): void;
     public get_action_sets(): GDArray;
     public get_action_set_count(): number;
     public find_action_set(name: GDString | StringName | string): OpenXRActionSet;
     public get_action_set(idx: number): OpenXRActionSet;
     public add_action_set(actionSet: OpenXRActionSet): void;
     public remove_action_set(actionSet: OpenXRActionSet): void;
-    public set_interaction_profiles(interactionProfiles: GDArray): void;
+    public set_interaction_profiles(interactionProfiles: GDArray | Array): void;
     public get_interaction_profiles(): GDArray;
     public get_interaction_profile_count(): number;
     public find_interaction_profile(name: GDString | StringName | string): OpenXRInteractionProfile;

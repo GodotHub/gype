@@ -20,7 +20,7 @@ export declare class VisualShaderNode extends Resource {
     public get_input_port_default_value(port: number): any;
     public remove_input_port_default_value(port: number): void;
     public clear_default_input_values(): void;
-    public set_default_input_values(values: GDArray): void;
+    public set_default_input_values(values: GDArray | Array): void;
     public get_default_input_values(): GDArray;
     public set_frame(frame: number): void;
     public get_frame(): number;

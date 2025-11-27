@@ -21,7 +21,7 @@ export declare class OpenXRIPBinding extends Resource {
     public get_binding_path(): GDString;
     public get_binding_modifier_count(): number;
     public get_binding_modifier(index: number): OpenXRActionBindingModifier;
-    public set_binding_modifiers(bindingModifiers: GDArray): void;
+    public set_binding_modifiers(bindingModifiers: GDArray | Array): void;
     public get_binding_modifiers(): GDArray;
     public set_paths(paths: PackedStringArray): void;
     public get_paths(): PackedStringArray;

@@ -55,7 +55,7 @@ export declare class RenderingServer extends GodotObject {
     public mesh_surface_get_format_skin_stride(format: number, vertexCount: number): number;
     public mesh_surface_get_format_index_stride(format: number, vertexCount: number): number;
     public mesh_add_surface(mesh: RID, surface: Dictionary): void;
-    public mesh_add_surface_from_arrays(mesh: RID, primitive: number, arrays: GDArray, blendShapes: GDArray = [], lods: Dictionary = {}, compressFormat: number = 0): void;
+    public mesh_add_surface_from_arrays(mesh: RID, primitive: number, arrays: GDArray | Array, blendShapes: GDArray | Array = [], lods: Dictionary = {}, compressFormat: number = 0): void;
     public mesh_get_blend_shape_count(mesh: RID): number;
     public mesh_set_blend_shape_mode(mesh: RID, mode: number): void;
     public mesh_get_blend_shape_mode(mesh: RID): number;

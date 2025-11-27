@@ -53,7 +53,7 @@ export declare class ScriptLanguageExtension extends ScriptLanguage {
     public _debug_parse_stack_level_expression(level: number, expression: GDString | StringName | string, maxSubitems: number, maxDepth: number): GDString;
     public _debug_get_current_stack_info(): Array<any>;
     public _reload_all_scripts(): void;
-    public _reload_scripts(scripts: GDArray, softReload: boolean): void;
+    public _reload_scripts(scripts: GDArray | Array, softReload: boolean): void;
     public _reload_tool_script(script: Script, softReload: boolean): void;
     public _get_recognized_extensions(): PackedStringArray;
     public _get_public_functions(): Array<any>;

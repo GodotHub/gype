@@ -20,12 +20,12 @@ export declare class NavigationMeshSourceGeometryData3D extends Resource {
     public clear(): void;
     public has_data(): boolean;
     public add_mesh(mesh: Mesh, xform: Transform3D): void;
-    public add_mesh_array(meshArray: GDArray, xform: Transform3D): void;
+    public add_mesh_array(meshArray: GDArray | Array, xform: Transform3D): void;
     public add_faces(faces: PackedVector3Array, xform: Transform3D): void;
     public merge(otherGeometry: NavigationMeshSourceGeometryData3D): void;
     public add_projected_obstruction(vertices: PackedVector3Array, elevation: number, height: number, carve: boolean): void;
     public clear_projected_obstructions(): void;
-    public set_projected_obstructions(projectedObstructions: GDArray): void;
+    public set_projected_obstructions(projectedObstructions: GDArray | Array): void;
     public get_projected_obstructions(): GDArray;
     public get_bounds(): AABB;
 

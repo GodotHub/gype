@@ -1,8 +1,8 @@
 declare global {
     export class GDArray {
         constructor(): GDArray;
-        constructor(_from: GDArray): GDArray;
-        constructor(base: GDArray, _type: number, className: GDString | StringName | string, script: any): GDArray;
+        constructor(_from: GDArray | Array): GDArray;
+        constructor(base: GDArray | Array, _type: number, className: GDString | StringName | string, script: any): GDArray;
         constructor(_from: PackedByteArray): GDArray;
         constructor(_from: PackedInt32Array): GDArray;
         constructor(_from: PackedInt64Array): GDArray;
@@ -19,13 +19,13 @@ declare global {
         is_empty(): boolean;
         clear(): void;
         hash(): number;
-        assign(array: GDArray): void;
+        assign(array: GDArray | Array): void;
         get(index: number): any;
         set(index: number, value: any): void;
         push_back(value: any): void;
         push_front(value: any): void;
         append(value: any): void;
-        append_array(array: GDArray): void;
+        append_array(array: GDArray | Array): void;
         resize(size: number): number;
         insert(position: number, value: any): number;
         remove_at(position: number): void;
@@ -60,7 +60,7 @@ declare global {
         max(): any;
         min(): any;
         is_typed(): boolean;
-        is_same_typed(array: GDArray): boolean;
+        is_same_typed(array: GDArray | Array): boolean;
         get_typed_builtin(): number;
         get_typed_class_name(): StringName;
         get_typed_script(): any;

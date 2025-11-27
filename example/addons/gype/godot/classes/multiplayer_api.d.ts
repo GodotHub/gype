@@ -16,7 +16,7 @@ export declare class MultiplayerAPI extends RefCounted {
     public is_server(): boolean;
     public get_remote_sender_id(): number;
     public poll(): number;
-    public rpc(peer: number, object: GodotObject, method: GDString | StringName | string, arguments: GDArray = []): number;
+    public rpc(peer: number, object: GodotObject, method: GDString | StringName | string, arguments: GDArray | Array = []): number;
     public object_configuration_add(object: GodotObject, configuration: any): number;
     public object_configuration_remove(object: GodotObject, configuration: any): number;
     public get_peers(): PackedInt32Array;

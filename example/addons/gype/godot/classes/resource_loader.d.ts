@@ -8,7 +8,7 @@ export declare class ResourceLoader extends GodotObject {
 
 
     public load_threaded_request(path: GDString | StringName | string, typeHint: GDString | StringName | string = "", useSubThreads: boolean = false, cacheMode: number = 1): number;
-    public load_threaded_get_status(path: GDString | StringName | string, progress: GDArray = []): number;
+    public load_threaded_get_status(path: GDString | StringName | string, progress: GDArray | Array = []): number;
     public load_threaded_get(path: GDString | StringName | string): Resource;
     public load(path: GDString | StringName | string, typeHint: GDString | StringName | string = "", cacheMode: number = 1): Resource;
     public get_recognized_extensions_for_type(_type: GDString | StringName | string): PackedStringArray;

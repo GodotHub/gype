@@ -6,9 +6,9 @@ import type { WebRTCPeerConnection } from '@godot/classes/web_rtc_peer_connectio
 export declare class WebRTCMultiplayerPeer extends MultiplayerPeer {
 
 
-    public create_server(channelsConfig: GDArray = []): number;
-    public create_client(peerId: number, channelsConfig: GDArray = []): number;
-    public create_mesh(peerId: number, channelsConfig: GDArray = []): number;
+    public create_server(channelsConfig: GDArray | Array = []): number;
+    public create_client(peerId: number, channelsConfig: GDArray | Array = []): number;
+    public create_mesh(peerId: number, channelsConfig: GDArray | Array = []): number;
     public add_peer(peer: WebRTCPeerConnection, peerId: number, unreliableLifetime: number = 1): number;
     public remove_peer(peerId: number): void;
     public has_peer(peerId: number): boolean;

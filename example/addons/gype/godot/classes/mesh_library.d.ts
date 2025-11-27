@@ -16,7 +16,7 @@ export declare class MeshLibrary extends Resource {
     public set_item_navigation_mesh(id: number, navigationMesh: NavigationMesh): void;
     public set_item_navigation_mesh_transform(id: number, navigationMesh: Transform3D): void;
     public set_item_navigation_layers(id: number, navigationLayers: number): void;
-    public set_item_shapes(id: number, shapes: GDArray): void;
+    public set_item_shapes(id: number, shapes: GDArray | Array): void;
     public set_item_preview(id: number, texture: Texture2D): void;
     public get_item_name(id: number): GDString;
     public get_item_mesh(id: number): Mesh;

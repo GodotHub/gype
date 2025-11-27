@@ -17,7 +17,7 @@ export declare class OpenXRActionSet extends Resource {
     public set_priority(priority: number): void;
     public get_priority(): number;
     public get_action_count(): number;
-    public set_actions(actions: GDArray): void;
+    public set_actions(actions: GDArray | Array): void;
     public get_actions(): GDArray;
     public add_action(action: OpenXRAction): void;
     public remove_action(action: OpenXRAction): void;

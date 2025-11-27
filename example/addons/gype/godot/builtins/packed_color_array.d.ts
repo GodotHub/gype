@@ -2,7 +2,7 @@ declare global {
     export class PackedColorArray {
         constructor(): PackedColorArray;
         constructor(_from: PackedColorArray): PackedColorArray;
-        constructor(_from: GDArray): PackedColorArray;
+        constructor(_from: GDArray | Array): PackedColorArray;
     
 
         get(index: number): Color;

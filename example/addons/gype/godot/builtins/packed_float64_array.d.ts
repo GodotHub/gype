@@ -2,7 +2,7 @@ declare global {
     export class PackedFloat64Array {
         constructor(): PackedFloat64Array;
         constructor(_from: PackedFloat64Array): PackedFloat64Array;
-        constructor(_from: GDArray): PackedFloat64Array;
+        constructor(_from: GDArray | Array): PackedFloat64Array;
     
 
         get(index: number): number;

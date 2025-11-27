@@ -154,7 +154,7 @@ export declare class TextServerExtension extends TextServer {
     public _shaped_text_set_direction(shaped: RID, direction: number): void;
     public _shaped_text_get_direction(shaped: RID): number;
     public _shaped_text_get_inferred_direction(shaped: RID): number;
-    public _shaped_text_set_bidi_override(shaped: RID, override: GDArray): void;
+    public _shaped_text_set_bidi_override(shaped: RID, override: GDArray | Array): void;
     public _shaped_text_set_custom_punctuation(shaped: RID, punct: GDString | StringName | string): void;
     public _shaped_text_get_custom_punctuation(shaped: RID): GDString;
     public _shaped_text_set_custom_ellipsis(shaped: RID, char: number): void;
@@ -242,7 +242,7 @@ export declare class TextServerExtension extends TextServer {
     public _string_to_upper(_string: GDString | StringName | string, language: GDString | StringName | string): GDString;
     public _string_to_lower(_string: GDString | StringName | string, language: GDString | StringName | string): GDString;
     public _string_to_title(_string: GDString | StringName | string, language: GDString | StringName | string): GDString;
-    public _parse_structured_text(parserType: number, args: GDArray, text: GDString | StringName | string): Array<any>;
+    public _parse_structured_text(parserType: number, args: GDArray | Array, text: GDString | StringName | string): Array<any>;
     public _cleanup(): void;
 
 

@@ -31,7 +31,7 @@ export declare class LinkButton extends BaseButton {
     public get_underline_mode(): number;
     public set_structured_text_bidi_override(parser: number): void;
     public get_structured_text_bidi_override(): number;
-    public set_structured_text_bidi_override_options(args: GDArray): void;
+    public set_structured_text_bidi_override_options(args: GDArray | Array): void;
     public get_structured_text_bidi_override_options(): GDArray;
 
 

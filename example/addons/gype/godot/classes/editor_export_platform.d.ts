@@ -28,7 +28,7 @@ export declare class EditorExportPlatform extends RefCounted {
     public get_message_category(index: number): GDString;
     public get_message_text(index: number): GDString;
     public get_worst_message_type(): number;
-    public ssh_run_on_remote(host: GDString | StringName | string, port: GDString | StringName | string, sshArg: PackedStringArray, cmdArgs: GDString | StringName | string, output: GDArray = [], portFwd: number = -1): number;
+    public ssh_run_on_remote(host: GDString | StringName | string, port: GDString | StringName | string, sshArg: PackedStringArray, cmdArgs: GDString | StringName | string, output: GDArray | Array = [], portFwd: number = -1): number;
     public ssh_run_on_remote_no_wait(host: GDString | StringName | string, port: GDString | StringName | string, sshArgs: PackedStringArray, cmdArgs: GDString | StringName | string, portFwd: number = -1): number;
     public ssh_push_to_remote(host: GDString | StringName | string, port: GDString | StringName | string, scargs: PackedStringArray, srcFile: GDString | StringName | string, dstFile: GDString | StringName | string): number;
     public get_internal_export_files(preset: EditorExportPreset, debug: boolean): Dictionary;

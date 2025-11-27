@@ -89,7 +89,7 @@ export declare class Label3D extends GeometryInstance3D {
     public get_language(): GDString;
     public set_structured_text_bidi_override(parser: number): void;
     public get_structured_text_bidi_override(): number;
-    public set_structured_text_bidi_override_options(args: GDArray): void;
+    public set_structured_text_bidi_override_options(args: GDArray | Array): void;
     public get_structured_text_bidi_override_options(): GDArray;
     public set_uppercase(enable: boolean): void;
     public is_uppercase(): boolean;

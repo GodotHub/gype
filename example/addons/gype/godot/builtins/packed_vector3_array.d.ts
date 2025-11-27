@@ -2,7 +2,7 @@ declare global {
     export class PackedVector3Array {
         constructor(): PackedVector3Array;
         constructor(_from: PackedVector3Array): PackedVector3Array;
-        constructor(_from: GDArray): PackedVector3Array;
+        constructor(_from: GDArray | Array): PackedVector3Array;
     
 
         get(index: number): Vector3;

@@ -12,7 +12,7 @@ export declare class MultiplayerAPIExtension extends MultiplayerAPI {
     public _get_multiplayer_peer(): MultiplayerPeer;
     public _get_unique_id(): number;
     public _get_peer_ids(): PackedInt32Array;
-    public _rpc(peer: number, object: GodotObject, method: GDString | StringName | string, args: GDArray): number;
+    public _rpc(peer: number, object: GodotObject, method: GDString | StringName | string, args: GDArray | Array): number;
     public _get_remote_sender_id(): number;
     public _object_configuration_add(object: GodotObject, configuration: any): number;
     public _object_configuration_remove(object: GodotObject, configuration: any): number;

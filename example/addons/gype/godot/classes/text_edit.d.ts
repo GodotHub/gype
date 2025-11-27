@@ -121,7 +121,7 @@ export declare class TextEdit extends Control {
     public get_language(): GDString;
     public set_structured_text_bidi_override(parser: number): void;
     public get_structured_text_bidi_override(): number;
-    public set_structured_text_bidi_override_options(args: GDArray): void;
+    public set_structured_text_bidi_override_options(args: GDArray | Array): void;
     public get_structured_text_bidi_override_options(): GDArray;
     public set_tab_size(size: number): void;
     public get_tab_size(): number;

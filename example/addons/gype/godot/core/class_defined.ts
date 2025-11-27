@@ -1,11 +1,11 @@
-import {GodotObject} from "@godot/classes/godot_object";
-import {RefCounted} from "@godot/classes/ref_counted";
+import { GodotObject } from "@godot/classes/godot_object";
+import { RefCounted } from "@godot/classes/ref_counted";
 
 const _GodotClass = Symbol("_GodotClass");
 const _Tool = Symbol("_Tool");
 const _Export = Symbol("_Export");
 
-type GodotConstructor = new () => GodotObject;
+type GodotConstructor = abstract new () => GodotObject;
 
 export function GodotClass<T extends GodotConstructor>(
   target: T,
@@ -30,8 +30,7 @@ export function GodotTool<T extends GodotConstructor>(
 }
 
 export function GodotExport(type: number) {
-  return function(value: undefined, context: ClassFieldDecoratorContext) {
-  }
+  return function (value: undefined, context: ClassFieldDecoratorContext) {};
 }
 
 interface SignalArgument {
@@ -39,7 +38,10 @@ interface SignalArgument {
   type: number;
 }
 
-type SignalDecorator = <T extends GodotObject>(value: undefined, context: ClassFieldDecoratorContext<T, Signal>) => void;
+type SignalDecorator = <T extends GodotObject>(
+  value: undefined,
+  context: ClassFieldDecoratorContext<T, Signal>
+) => void;
 
 export function GodotSignal(...args: SignalArgument[]): SignalDecorator;
 export function GodotSignal<T extends GodotObject>(
@@ -47,9 +49,7 @@ export function GodotSignal<T extends GodotObject>(
   context: ClassFieldDecoratorContext<T, Signal>
 ): void;
 
-export function GodotSignal(
-  ...args: any[]
-): SignalDecorator | void {
+export function GodotSignal(...args: any[]): SignalDecorator | void {
   const decoratorLogic = (
     context: ClassFieldDecoratorContext<any, Signal>,
     signalArgs: SignalArgument[]
@@ -75,16 +75,19 @@ export function GodotSignal(
     args.length === 2 &&
     args[0] === undefined &&
     args[1] &&
-    typeof args[1] === 'object' &&
-    'kind' in args[1] &&
-    args[1].kind === 'field';
+    typeof args[1] === "object" &&
+    "kind" in args[1] &&
+    args[1].kind === "field";
 
   if (isDirectUsage) {
     const context = args[1] as ClassFieldDecoratorContext<any, Signal>;
     decoratorLogic(context, []);
   } else {
     const signalArgs = args as SignalArgument[];
-    return (value: undefined, context: ClassFieldDecoratorContext<any, Signal>) => {
+    return (
+      value: undefined,
+      context: ClassFieldDecoratorContext<any, Signal>
+    ) => {
       decoratorLogic(context, signalArgs);
     };
   }

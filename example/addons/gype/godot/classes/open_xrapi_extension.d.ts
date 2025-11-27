@@ -10,7 +10,7 @@ export declare class OpenXRAPIExtension extends RefCounted {
     public get_system_id(): number;
     public get_session(): number;
     public transform_from_pose(pose: any): Transform3D;
-    public xr_result(result: number, format: GDString | StringName | string, args: GDArray): boolean;
+    public xr_result(result: number, format: GDString | StringName | string, args: GDArray | Array): boolean;
     public static openxr_is_enabled(checkRunInEditor: boolean): boolean;
     public get_instance_proc_addr(name: GDString | StringName | string): number;
     public get_error_string(result: number): GDString;

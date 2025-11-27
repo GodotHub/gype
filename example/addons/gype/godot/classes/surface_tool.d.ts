@@ -36,7 +36,7 @@ export declare class SurfaceTool extends RefCounted {
     public get_primitive_type(): number;
     public clear(): void;
     public create_from(existing: Mesh, surface: number): void;
-    public create_from_arrays(arrays: GDArray, primitiveType: number = 3): void;
+    public create_from_arrays(arrays: GDArray | Array, primitiveType: number = 3): void;
     public create_from_blend_shape(existing: Mesh, surface: number, blendShape: GDString | StringName | string): void;
     public append_from(existing: Mesh, surface: number, transform: Transform3D): void;
     public commit(existing: ArrayMesh = null, flags: number = 0): ArrayMesh;

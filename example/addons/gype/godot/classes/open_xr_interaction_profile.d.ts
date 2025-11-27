@@ -17,11 +17,11 @@ export declare class OpenXRInteractionProfile extends Resource {
     public get_interaction_profile_path(): GDString;
     public get_binding_count(): number;
     public get_binding(index: number): OpenXRIPBinding;
-    public set_bindings(bindings: GDArray): void;
+    public set_bindings(bindings: GDArray | Array): void;
     public get_bindings(): GDArray;
     public get_binding_modifier_count(): number;
     public get_binding_modifier(index: number): OpenXRIPBindingModifier;
-    public set_binding_modifiers(bindingModifiers: GDArray): void;
+    public set_binding_modifiers(bindingModifiers: GDArray | Array): void;
     public get_binding_modifiers(): GDArray;
 
 

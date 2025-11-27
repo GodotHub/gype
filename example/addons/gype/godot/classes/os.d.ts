@@ -36,7 +36,7 @@ export declare class OS extends GodotObject {
     public get_stdin_type(): number;
     public get_stdout_type(): number;
     public get_stderr_type(): number;
-    public execute(path: GDString | StringName | string, arguments: PackedStringArray, output: GDArray = [], readStderr: boolean = false, openConsole: boolean = false): number;
+    public execute(path: GDString | StringName | string, arguments: PackedStringArray, output: GDArray | Array = [], readStderr: boolean = false, openConsole: boolean = false): number;
     public execute_with_pipe(path: GDString | StringName | string, arguments: PackedStringArray, blocking: boolean = true): Dictionary;
     public create_process(path: GDString | StringName | string, arguments: PackedStringArray, openConsole: boolean = false): number;
     public create_instance(arguments: PackedStringArray): number;

@@ -34,7 +34,7 @@ export declare class TextLine extends RefCounted {
     public get_preserve_invalid(): boolean;
     public set_preserve_control(enabled: boolean): void;
     public get_preserve_control(): boolean;
-    public set_bidi_override(override: GDArray): void;
+    public set_bidi_override(override: GDArray | Array): void;
     public add_string(text: GDString | StringName | string, font: Font, fontSize: number, language: GDString | StringName | string = "", meta: any = null): boolean;
     public add_object(key: any, size: Vector2, inlineAlign: number = 5, length: number = 1, baseline: number = 0.0): boolean;
     public resize_object(key: any, size: Vector2, inlineAlign: number = 5, baseline: number = 0.0): boolean;

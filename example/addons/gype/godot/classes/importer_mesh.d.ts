@@ -12,7 +12,7 @@ export declare class ImporterMesh extends Resource {
     public get_blend_shape_name(blendShapeIdx: number): GDString;
     public set_blend_shape_mode(mode: number): void;
     public get_blend_shape_mode(): number;
-    public add_surface(primitive: number, arrays: GDArray, blendShapes: Array<any> = Array[Array]([]), lods: Dictionary = {}, material: Material = null, name: GDString | StringName | string = "", flags: number = 0): void;
+    public add_surface(primitive: number, arrays: GDArray | Array, blendShapes: Array<any> = Array[Array]([]), lods: Dictionary = {}, material: Material = null, name: GDString | StringName | string = "", flags: number = 0): void;
     public get_surface_count(): number;
     public get_surface_primitive_type(surfaceIdx: number): number;
     public get_surface_name(surfaceIdx: number): GDString;
@@ -25,7 +25,7 @@ export declare class ImporterMesh extends Resource {
     public get_surface_format(surfaceIdx: number): number;
     public set_surface_name(surfaceIdx: number, name: GDString | StringName | string): void;
     public set_surface_material(surfaceIdx: number, material: Material): void;
-    public generate_lods(normalMergeAngle: number, normalSplitAngle: number, boneTransformArray: GDArray): void;
+    public generate_lods(normalMergeAngle: number, normalSplitAngle: number, boneTransformArray: GDArray | Array): void;
     public get_mesh(baseMesh: ArrayMesh = null): ArrayMesh;
     public clear(): void;
     public set_lightmap_size_hint(size: Vector2i): void;

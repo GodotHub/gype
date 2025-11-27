@@ -44,7 +44,7 @@ export declare class Polygon2D extends Node2D {
     public get_uv(): PackedVector2Array;
     public set_color(color: Color): void;
     public get_color(): Color;
-    public set_polygons(polygons: GDArray): void;
+    public set_polygons(polygons: GDArray | Array): void;
     public get_polygons(): GDArray;
     public set_vertex_colors(vertexColors: PackedColorArray): void;
     public get_vertex_colors(): PackedColorArray;

@@ -44,7 +44,7 @@ export declare class TextParagraph extends RefCounted {
     public get_preserve_invalid(): boolean;
     public set_preserve_control(enabled: boolean): void;
     public get_preserve_control(): boolean;
-    public set_bidi_override(override: GDArray): void;
+    public set_bidi_override(override: GDArray | Array): void;
     public set_dropcap(text: GDString | StringName | string, font: Font, fontSize: number, dropcamargins: Rect2 = Rect2(0, 0, 0, 0), language: GDString | StringName | string = ""): boolean;
     public clear_dropcap(): void;
     public add_string(text: GDString | StringName | string, font: Font, fontSize: number, language: GDString | StringName | string = "", meta: any = null): boolean;

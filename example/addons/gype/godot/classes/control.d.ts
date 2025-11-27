@@ -115,7 +115,7 @@ export declare class Control extends CanvasItem {
     /**     * The raw type is 'String'     */
     public theme_type_variation: StringName;
     public _has_point(point: Vector2): boolean;
-    public _structured_text_parser(args: GDArray, text: GDString | StringName | string): Array<any>;
+    public _structured_text_parser(args: GDArray | Array, text: GDString | StringName | string): Array<any>;
     public _get_minimum_size(): Vector2;
     public _get_tooltip(atPosition: Vector2): GDString;
     public _get_drag_data(atPosition: Vector2): any;

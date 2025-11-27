@@ -8,7 +8,7 @@ export declare class Shortcut extends Resource {
     
     /**     * The raw type is 'typedarray::24/17:InputEvent'     */
     public events: GDArray;
-    public set_events(events: GDArray): void;
+    public set_events(events: GDArray | Array): void;
     public get_events(): GDArray;
     public has_valid_event(): boolean;
     public matches_event(event: InputEvent): boolean;

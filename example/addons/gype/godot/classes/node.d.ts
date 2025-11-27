@@ -92,7 +92,7 @@ export declare class Node extends GodotObject {
     public set_scene_file_path(sceneFilePath: GDString | StringName | string): void;
     public get_scene_file_path(): GDString;
     public propagate_notification(what: number): void;
-    public propagate_call(method: GDString | StringName | string, args: GDArray = [], parentFirst: boolean = false): void;
+    public propagate_call(method: GDString | StringName | string, args: GDArray | Array = [], parentFirst: boolean = false): void;
     public set_physics_process(enable: boolean): void;
     public get_physics_process_delta_time(): number;
     public is_physics_processing(): boolean;

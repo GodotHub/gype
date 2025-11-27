@@ -224,8 +224,8 @@ void TypeScriptInstance::free_property_list_func(const GDExtensionPropertyInfo *
 	for (uint32_t i = 0; i < p_properties.size(); ++i) {
 		memdelete(p_properties.get(i));
 	}
-	properties.clear();
 	p_properties.clear();
+	properties.clear();
 }
 
 // GDExtensionBool JavaScriptInstance::property_can_revert(GDExtensionConstStringNamePtr p_name) {

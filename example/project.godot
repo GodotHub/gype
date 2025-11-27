@@ -11,6 +11,14 @@ config_version=5
 [application]
 
 config/name="ts-example"
-run/main_scene="uid://cuy1wvbx50pgr"
+run/main_scene="uid://btrtrb4260ojn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+EventLoopSingleton="*res://addons/gype/event_loop.gd"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gype/plugin.cfg")

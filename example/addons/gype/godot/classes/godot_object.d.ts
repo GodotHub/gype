@@ -24,14 +24,14 @@ export declare class GodotObject {
     public get_meta(name: GDString | StringName | string, _default: any = null): any;
     public has_meta(name: GDString | StringName | string): boolean;
     public get_meta_list(): Array<any>;
-    public add_user_signal(signal: GDString | StringName | string, arguments: GDArray = []): void;
+    public add_user_signal(signal: GDString | StringName | string, arguments: GDArray | Array = []): void;
     public has_user_signal(signal: GDString | StringName | string): boolean;
     public remove_user_signal(signal: GDString | StringName | string): void;
     public emit_signal(signal: GDString | StringName | string, ...args: any[]): number;
     public call(method: GDString | StringName | string, ...args: any[]): any;
     public call_deferred(method: GDString | StringName | string, ...args: any[]): any;
     public set_deferred(property: GDString | StringName | string, value: any): void;
-    public callv(method: GDString | StringName | string, argArray: GDArray): any;
+    public callv(method: GDString | StringName | string, argArray: GDArray | Array): any;
     public has_method(method: GDString | StringName | string): boolean;
     public get_method_argument_count(method: GDString | StringName | string): number;
     public has_signal(signal: GDString | StringName | string): boolean;

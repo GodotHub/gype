@@ -18,7 +18,7 @@ export declare class ArrayMesh extends Mesh {
     public clear_blend_shapes(): void;
     public set_blend_shape_mode(mode: number): void;
     public get_blend_shape_mode(): number;
-    public add_surface_from_arrays(primitive: number, arrays: GDArray, blendShapes: Array<any> = [], lods: Dictionary = {}, flags: number = 0): void;
+    public add_surface_from_arrays(primitive: number, arrays: GDArray | Array, blendShapes: Array<any> = [], lods: Dictionary = {}, flags: number = 0): void;
     public clear_surfaces(): void;
     public surface_remove(surfIdx: number): void;
     public surface_update_vertex_region(surfIdx: number, offset: number, data: PackedByteArray): void;

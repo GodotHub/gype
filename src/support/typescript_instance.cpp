@@ -208,18 +208,24 @@ GDExtensionBool TypeScriptInstance::get(GDExtensionConstStringNamePtr p_name, GD
 
 const GDExtensionPropertyInfo *TypeScriptInstance::get_property_list(uint32_t *r_count) {
 	BINDING_VALID_V(gd_binding, nullptr);
-	HashMap<StringName, PropertyInfo>::Iterator it = script->properties.begin();
-	while (it != script->properties.end()) {
-		const PropertyInfo &prop_info = it->value;
-		properties.push_back(prop_info._to_gdextension());
+	TypedArray<Dictionary> script_properties = script->get_script_property_list();
+	auto it = script_properties.begin();
+	while (it != script_properties.end()) {
+		PropertyInfo *p_prop = memnew(PropertyInfo(PropertyInfo::from_dict(*it)));
+		p_properties.push_back(p_prop);
+		properties.push_back(p_prop->_to_gdextension());
 		++it;
 	}
-	*r_count = script->properties.size();
+	*r_count = properties.size();
 	return properties.data();
 }
 
 void TypeScriptInstance::free_property_list_func(const GDExtensionPropertyInfo *p_list, uint32_t p_count) {
+	for (uint32_t i = 0; i < p_properties.size(); ++i) {
+		memdelete(p_properties.get(i));
+	}
 	properties.clear();
+	p_properties.clear();
 }
 
 // GDExtensionBool JavaScriptInstance::property_can_revert(GDExtensionConstStringNamePtr p_name) {
@@ -234,27 +240,29 @@ void TypeScriptInstance::free_property_list_func(const GDExtensionPropertyInfo *
 
 const GDExtensionMethodInfo *TypeScriptInstance::get_method_list_func(uint32_t *r_count) {
 	BINDING_VALID_V(gd_binding, nullptr);
-	HashMap<StringName, MethodInfo>::Iterator it = script->methods.begin();
-	while (it != script->methods.end()) {
-		const MethodInfo &method_info = it->value;
-		std::vector<GDExtensionPropertyInfo> arguemnts;
-		auto arguemnts_it = method_info.arguments.begin();
-		while (arguemnts_it != method_info.arguments.end()) {
-			arguemnts.push_back(arguemnts_it->_to_gdextension());
+	TypedArray<Dictionary> script_methods = script->get_script_method_list();
+	auto it = script_methods.begin();
+	while (it != script_methods.end()) {
+		MethodInfo *method_info = memnew(MethodInfo(MethodInfo::from_dict(*it)));
+		p_methods.push_back(method_info);
+		std::vector<GDExtensionPropertyInfo> arguments;
+		LocalVector<PropertyInfo>::Iterator arguments_it = method_info->arguments.begin();
+		while (arguments_it != method_info->arguments.end()) {
+			arguments.push_back(arguments_it->_to_gdextension());
 		}
 		std::vector<GDExtensionVariantPtr> default_arguments;
-		auto default_it = method_info.default_arguments.begin();
-		while (default_it != method_info.default_arguments.end()) {
+		auto default_it = method_info->default_arguments.begin();
+		while (default_it != method_info->default_arguments.end()) {
 			default_arguments.push_back(default_it->_native_ptr());
 		}
 		methods.push_back({
-			.name = method_info.name._native_ptr(),
-			.return_value = method_info.return_val._to_gdextension(),
-			.flags = method_info.flags,
-			.id = method_info.id,
-			.argument_count = method_info.arguments.size(),
-			.arguments = arguemnts.data(),
-			.default_argument_count = method_info.default_arguments.size(),
+			.name = method_info->name._native_ptr(),
+			.return_value = method_info->return_val._to_gdextension(),
+			.flags = method_info->flags,
+			.id = method_info->id,
+			.argument_count = method_info->arguments.size(),
+			.arguments = arguments.data(),
+			.default_argument_count = method_info->default_arguments.size(),
 			.default_arguments = default_arguments.data(),
 		});
 		++it;
@@ -264,6 +272,10 @@ const GDExtensionMethodInfo *TypeScriptInstance::get_method_list_func(uint32_t *
 }
 
 void TypeScriptInstance::free_method_list_func(const GDExtensionMethodInfo *p_list, uint32_t p_count) {
+	for (uint32_t i = 0; i < p_methods.size(); ++i) {
+		memdelete(p_methods.get(i));
+	}
+	p_methods.clear();
 	methods.clear();
 }
 

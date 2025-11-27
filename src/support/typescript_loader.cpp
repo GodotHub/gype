@@ -56,10 +56,8 @@ int64_t TypeScriptLoader::_get_resource_uid(const String &p_path) const {
 PackedStringArray TypeScriptLoader::_get_dependencies(const String &p_path, bool p_add_types) const {
 	PackedStringArray dependencies;
 
-	// 1. 读取文件内容
 	String source_code = FileAccess::get_file_as_string(p_path);
 	if (source_code.is_empty()) {
-		// 文件不存在或为空，没有依赖
 		return dependencies;
 	}
 
@@ -76,13 +74,11 @@ PackedStringArray TypeScriptLoader::_get_dependencies(const String &p_path, bool
 			String final_path = !path_from_import.is_empty() ? path_from_import : path_from_load;
 
 			if (!final_path.is_empty()) {
-				final_path = final_path.replace("@res/", "res://");
-				UtilityFunctions::print(final_path);
+				final_path = final_path.replace("@res/", "res://") + ".ts";
 				dependencies.append(final_path);
 			}
 		}
 	}
-
 	return dependencies;
 }
 
@@ -101,7 +97,7 @@ PackedStringArray TypeScriptLoader::_get_classes_used(const String &p_path) cons
 Variant TypeScriptLoader::_load(const String &p_path, const String &p_original_path, bool p_use_sub_threads, int32_t p_cache_mode) const {
 	String source_code = FileAccess::get_file_as_string(p_original_path);
 	Ref<TypeScript> script = memnew(TypeScript);
-	script->source_code = source_code;
+	script->set_source_code(source_code);
 	TypeScriptLanguage::get_singleton()->scripts.insert(script);
 	return script;
 }

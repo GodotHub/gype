@@ -27,6 +27,7 @@ class TypeScriptLanguage : public ScriptLanguageExtension {
 	HashMap<StringName, String> global_class_to_path;
 
 	friend class TypeScriptLoader;
+	friend class TypeScript;
 
 public:
 	static TypeScriptLanguage *get_singleton();

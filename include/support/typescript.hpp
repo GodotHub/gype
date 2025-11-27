@@ -33,12 +33,13 @@ class TypeScript : public ScriptExtension {
 
 	String source_code;
 	String dist_source_code;
-	TypeScript *baseScript;
+	mutable TypeScript *base_script;
 	mutable String global_class_name;
 	mutable String base_class_name;
 	mutable bool is_tool = false;
 	mutable bool dirty = true;
-    mutable bool is_valid = false; 
+    mutable bool is_valid = false;
+	mutable HashMap<StringName, StringName> dependencies;
 	mutable HashMap<StringName, MethodInfo> methods;
 	mutable HashMap<StringName, MethodInfo> static_methods;
 	mutable HashMap<StringName, PropertyInfo> properties;

@@ -39,10 +39,12 @@ bool TypeScript::_can_instantiate() const {
 Ref<Script> TypeScript::_get_base_script() const {
 	this->analyze();
 	if (!base_class_name.is_empty() && !ClassDB::class_exists(base_class_name)) {
-		// 如果基类不是内置类，那么它应该是另一个脚本。
-		// 我们需要从 TypeScriptLanguage 的全局类注册表中查找它。
-		String base_path = TypeScriptLanguage::get_singleton()->get_path_for_global_class(base_class_name);
-		if (!base_path.is_empty()) {
+		// String base_path = TypeScriptLanguage::get_singleton()->global_class_to_path[base_class_name];
+		// if (!base_path.is_empty()) {
+		// 	return ResourceLoader::get_singleton()->load(base_path);
+		// }
+		if (dependencies.has(base_class_name)) {
+			StringName base_path = dependencies[base_class_name];
 			return ResourceLoader::get_singleton()->load(base_path);
 		}
 	}
@@ -236,6 +238,13 @@ void TypeScript::analyze() const {
 
 	const std::string query_string = R"xxx(
 	(import_statement
+	  (import_clause
+	    (named_imports
+	      (import_specifier
+	       name: (identifier) @import.name
+	      )
+	    )
+	  )
 	  source: (string) @import.path
 	)?
 
@@ -271,11 +280,11 @@ void TypeScript::analyze() const {
 	      )?
 	      (method_definition
 	        name: (property_identifier) @method.name
-	        parameters: (formal_parameters) @method.parameter
+	        parameters: (formal_parameters) @method.paramter
 	      )?
 	      (abstract_method_signature
 	        name: (property_identifier) @method.name
-	        parameters: (formal_parameters) @method.parameter
+	        parameters: (formal_parameters) @method.paramter
 	      )?
 	    )
 	  )? @class.body
@@ -313,11 +322,11 @@ void TypeScript::analyze() const {
 	      )?
 	      (method_definition
 	        name: (property_identifier) @method.name
-	        parameters: (formal_parameters) @method.parameter
+	        parameters: (formal_parameters) @method.paramter
 	      )?
 	      (abstract_method_signature
 	        name: (property_identifier) @method.name
-	        parameters: (formal_parameters) @method.parameter
+	        parameters: (formal_parameters) @method.paramter
 	      )?
 	    )
 	  )? @class.body
@@ -418,6 +427,14 @@ void TypeScript::analyze() const {
 					methods[method_name] = mi;
 				}
 			}
+		} else if (captures.has("import.name")) {
+			String import_path = captures["import.path"];
+			String import_name = captures["import.name"];
+			import_path = import_path.remove_char('"').remove_char('\'');
+			if (import_path.begins_with("@res")) {
+				import_path = import_path.replace("@res/", "res://") + ".ts";
+				dependencies[import_name] = import_path;
+			}
 		}
 	}
 
@@ -482,24 +499,50 @@ String TypeScript::_get_class_icon_path() const {
 
 bool TypeScript::_has_method(const StringName &p_method) const {
 	this->analyze();
-	return methods.has(p_method) || ClassDB::class_has_method(base_class_name, p_method, true);
+	Ref<TypeScript> base = get_base_script();
+	if (methods.has(p_method) || ClassDB::class_has_method(base_class_name, p_method, true)) {
+		return true;
+	} else if (!base.is_null()) {
+		return base->_has_method(p_method);
+	} else {
+		return false;
+	}
 }
 
 bool TypeScript::_has_static_method(const StringName &p_method) const {
 	this->analyze();
-	return static_methods.has(p_method);
+	Ref<TypeScript> base = get_base_script();
+	if (static_methods.has(p_method)) {
+		return true;
+	} else if (!base.is_null()) {
+		return base->_has_static_method(p_method);
+	} else {
+		return false;
+	}
 }
 
 Variant TypeScript::_get_script_method_argument_count(const StringName &p_method) const {
-	return methods[p_method].arguments.size();
+	this->analyze();
+	Ref<TypeScript> base = get_base_script();
+	if (methods.has(p_method)) {
+		return methods[p_method].arguments.size();
+	} else if (!base.is_null()) {
+		return base->_get_method_info(p_method);
+	} else {
+		return Variant();
+	}
 }
 
 Dictionary TypeScript::_get_method_info(const StringName &p_method) const {
 	this->analyze();
+	Ref<TypeScript> base = get_base_script();
 	if (methods.has(p_method)) {
 		return methods[p_method];
+	} else if (!base.is_null()) {
+		return base->_get_method_info(p_method);
+	} else {
+		return Dictionary();
 	}
-	return {};
 }
 
 bool TypeScript::_is_tool() const {
@@ -521,12 +564,23 @@ ScriptLanguage *TypeScript::_get_language() const {
 
 bool TypeScript::_has_script_signal(const StringName &p_signal) const {
 	this->analyze();
-	return signals.has(p_signal);
+	Ref<TypeScript> base = get_base_script();
+	if (signals.has(p_signal)) {
+		return true;
+	} else if (!base.is_null()) {
+		return base->_has_script_signal(p_signal);
+	} else {
+		return false;
+	}
 }
 
 TypedArray<Dictionary> TypeScript::_get_script_signal_list() const {
 	this->analyze();
 	TypedArray<Dictionary> list;
+	Ref<TypeScript> base = get_base_script();
+	if (!base.is_null()) {
+		list.append_array(base->get_script_signal_list());
+	}
 	for (const KeyValue<StringName, MethodInfo> &E : signals) {
 		list.push_back(Dictionary(E.value));
 	}
@@ -548,6 +602,10 @@ void TypeScript::_update_exports() {
 TypedArray<Dictionary> TypeScript::_get_script_method_list() const {
 	this->analyze();
 	TypedArray<Dictionary> list;
+	Ref<TypeScript> base = get_base_script();
+	if (!base.is_null()) {
+		list.append_array(base->_get_script_method_list());
+	}
 	for (const KeyValue<StringName, MethodInfo> &E : methods) {
 		list.push_back(Dictionary(E.value));
 	}
@@ -557,6 +615,10 @@ TypedArray<Dictionary> TypeScript::_get_script_method_list() const {
 TypedArray<Dictionary> TypeScript::_get_script_property_list() const {
 	this->analyze();
 	TypedArray<Dictionary> list;
+	Ref<TypeScript> base = get_base_script();
+	if (!base.is_null()) {
+		list.append_array(base->_get_script_property_list());
+	}
 	for (const KeyValue<StringName, PropertyInfo> &E : properties) {
 		list.push_back(Dictionary(E.value));
 	}
@@ -574,6 +636,10 @@ Dictionary TypeScript::_get_constants() const {
 TypedArray<StringName> TypeScript::_get_members() const {
 	this->analyze();
 	TypedArray<StringName> members;
+	Ref<TypeScript> base = get_base_script();
+	if (!base.is_null()) {
+		members.append_array(base->_get_members());
+	}
 	for (const KeyValue<StringName, PropertyInfo> &E : properties) {
 		members.push_back(E.key);
 	}

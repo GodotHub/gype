@@ -22,7 +22,7 @@ class TypeScriptLanguage : public ScriptLanguageExtension {
 
 	static TypeScriptLanguage *singleton;
 
-	HashSet<Ref<TypeScript>> scripts;
+	TypedArray<Ref<TypeScript>> scripts;
 	TypedArray<Dictionary> templates;
 	HashMap<StringName, String> global_class_to_path;
 
@@ -91,7 +91,7 @@ public:
 	void _frame();
 	bool _handles_global_class_type(const String &p_type) const;
 	Dictionary _get_global_class_name(const String &p_path) const;
-	static TypedArray<TypeScript> get_scripts();
+	static TypedArray<Ref<TypeScript>> get_scripts();
 	String get_path_for_global_class(const StringName &p_class_name) const;
 
 	~TypeScriptLanguage();

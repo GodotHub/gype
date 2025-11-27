@@ -39,10 +39,6 @@ bool TypeScript::_can_instantiate() const {
 Ref<Script> TypeScript::_get_base_script() const {
 	this->analyze();
 	if (!base_class_name.is_empty() && !ClassDB::class_exists(base_class_name)) {
-		// String base_path = TypeScriptLanguage::get_singleton()->global_class_to_path[base_class_name];
-		// if (!base_path.is_empty()) {
-		// 	return ResourceLoader::get_singleton()->load(base_path);
-		// }
 		if (dependencies.has(base_class_name)) {
 			StringName base_path = dependencies[base_class_name];
 			return ResourceLoader::get_singleton()->load(base_path);
@@ -80,7 +76,7 @@ StringName TypeScript::_get_instance_base_type() const {
 }
 
 void *TypeScript::_instance_create(Object *p_for_object) const {
-	TypeScriptInstance *instance = memnew(TypeScriptInstance(p_for_object, const_cast<TypeScript *>(this), false));
+	TypeScriptInstance *instance = memnew(TypeScriptInstance(p_for_object, Ref<TypeScript>(this), false));
 	return internal::gdextension_interface_script_instance_create3(&InstanceInfo, instance);
 }
 
@@ -499,10 +495,10 @@ String TypeScript::_get_class_icon_path() const {
 
 bool TypeScript::_has_method(const StringName &p_method) const {
 	this->analyze();
-	Ref<TypeScript> base = get_base_script();
+	Ref<TypeScript>base = get_base_script();
 	if (methods.has(p_method) || ClassDB::class_has_method(base_class_name, p_method, true)) {
 		return true;
-	} else if (!base.is_null()) {
+	} else if (base.is_valid()) {
 		return base->_has_method(p_method);
 	} else {
 		return false;
@@ -511,10 +507,10 @@ bool TypeScript::_has_method(const StringName &p_method) const {
 
 bool TypeScript::_has_static_method(const StringName &p_method) const {
 	this->analyze();
-	Ref<TypeScript> base = get_base_script();
+	Ref<TypeScript>base = get_base_script();
 	if (static_methods.has(p_method)) {
 		return true;
-	} else if (!base.is_null()) {
+	} else if (base.is_valid()) {
 		return base->_has_static_method(p_method);
 	} else {
 		return false;
@@ -523,10 +519,10 @@ bool TypeScript::_has_static_method(const StringName &p_method) const {
 
 Variant TypeScript::_get_script_method_argument_count(const StringName &p_method) const {
 	this->analyze();
-	Ref<TypeScript> base = get_base_script();
+	Ref<TypeScript>base = get_base_script();
 	if (methods.has(p_method)) {
 		return methods[p_method].arguments.size();
-	} else if (!base.is_null()) {
+	} else if (base.is_valid()) {
 		return base->_get_method_info(p_method);
 	} else {
 		return Variant();
@@ -535,10 +531,10 @@ Variant TypeScript::_get_script_method_argument_count(const StringName &p_method
 
 Dictionary TypeScript::_get_method_info(const StringName &p_method) const {
 	this->analyze();
-	Ref<TypeScript> base = get_base_script();
+	Ref<TypeScript>base = get_base_script();
 	if (methods.has(p_method)) {
 		return methods[p_method];
-	} else if (!base.is_null()) {
+	} else if (base.is_valid()) {
 		return base->_get_method_info(p_method);
 	} else {
 		return Dictionary();
@@ -564,10 +560,10 @@ ScriptLanguage *TypeScript::_get_language() const {
 
 bool TypeScript::_has_script_signal(const StringName &p_signal) const {
 	this->analyze();
-	Ref<TypeScript> base = get_base_script();
+	Ref<TypeScript>base = get_base_script();
 	if (signals.has(p_signal)) {
 		return true;
-	} else if (!base.is_null()) {
+	} else if (base.is_valid()) {
 		return base->_has_script_signal(p_signal);
 	} else {
 		return false;
@@ -577,8 +573,8 @@ bool TypeScript::_has_script_signal(const StringName &p_signal) const {
 TypedArray<Dictionary> TypeScript::_get_script_signal_list() const {
 	this->analyze();
 	TypedArray<Dictionary> list;
-	Ref<TypeScript> base = get_base_script();
-	if (!base.is_null()) {
+	Ref<TypeScript>base = get_base_script();
+	if (base.is_valid()) {
 		list.append_array(base->get_script_signal_list());
 	}
 	for (const KeyValue<StringName, MethodInfo> &E : signals) {
@@ -602,8 +598,8 @@ void TypeScript::_update_exports() {
 TypedArray<Dictionary> TypeScript::_get_script_method_list() const {
 	this->analyze();
 	TypedArray<Dictionary> list;
-	Ref<TypeScript> base = get_base_script();
-	if (!base.is_null()) {
+	Ref<TypeScript>base = get_base_script();
+	if (base.is_valid()) {
 		list.append_array(base->_get_script_method_list());
 	}
 	for (const KeyValue<StringName, MethodInfo> &E : methods) {
@@ -615,8 +611,8 @@ TypedArray<Dictionary> TypeScript::_get_script_method_list() const {
 TypedArray<Dictionary> TypeScript::_get_script_property_list() const {
 	this->analyze();
 	TypedArray<Dictionary> list;
-	Ref<TypeScript> base = get_base_script();
-	if (!base.is_null()) {
+	Ref<TypeScript>base = get_base_script();
+	if (base.is_valid()) {
 		list.append_array(base->_get_script_property_list());
 	}
 	for (const KeyValue<StringName, PropertyInfo> &E : properties) {
@@ -636,8 +632,8 @@ Dictionary TypeScript::_get_constants() const {
 TypedArray<StringName> TypeScript::_get_members() const {
 	this->analyze();
 	TypedArray<StringName> members;
-	Ref<TypeScript> base = get_base_script();
-	if (!base.is_null()) {
+	Ref<TypeScript>base = get_base_script();
+	if (base.is_valid()) {
 		members.append_array(base->_get_members());
 	}
 	for (const KeyValue<StringName, PropertyInfo> &E : properties) {

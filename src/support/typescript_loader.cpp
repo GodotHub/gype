@@ -30,7 +30,7 @@ PackedStringArray TypeScriptLoader::_get_recognized_extensions() const {
 }
 
 bool TypeScriptLoader::_recognize_path(const String &p_path, const StringName &p_type) const {
-	return p_path.ends_with(".js") || p_path.ends_with(".ts");
+	return p_path.ends_with(".js") || (!p_path.ends_with(".d.ts") && p_path.ends_with(".ts"));
 }
 
 bool TypeScriptLoader::_handles_type(const StringName &p_type) const {
@@ -38,7 +38,7 @@ bool TypeScriptLoader::_handles_type(const StringName &p_type) const {
 }
 
 String TypeScriptLoader::_get_resource_type(const String &p_path) const {
-	if (p_path.ends_with(".js") || p_path.ends_with(".ts")) {
+	if (p_path.ends_with(".js") ||  (!p_path.ends_with(".d.ts") && p_path.ends_with(".ts"))) {
 		return "Script";
 	} else {
 		return "";
@@ -96,9 +96,10 @@ PackedStringArray TypeScriptLoader::_get_classes_used(const String &p_path) cons
 
 Variant TypeScriptLoader::_load(const String &p_path, const String &p_original_path, bool p_use_sub_threads, int32_t p_cache_mode) const {
 	String source_code = FileAccess::get_file_as_string(p_original_path);
-	Ref<TypeScript> script = memnew(TypeScript);
+	Ref<TypeScript> script;
+	script.instantiate();
 	script->set_source_code(source_code);
-	TypeScriptLanguage::get_singleton()->scripts.insert(script);
+	TypeScriptLanguage::get_singleton()->scripts.push_back(script);
 	return script;
 }
 

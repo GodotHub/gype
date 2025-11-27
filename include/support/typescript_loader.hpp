@@ -14,7 +14,7 @@ class Object;
 class TypeScriptLoader : public ResourceFormatLoader {
 	GDCLASS(TypeScriptLoader, ResourceFormatLoader)
 	static TypeScriptLoader *singleton;
-	HashMap<const String, TypeScript *> scripts;
+	mutable HashMap<String, Ref<TypeScript>> scripts;
 
 public:
 	static TypeScriptLoader *get_singleton();

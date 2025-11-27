@@ -9,6 +9,7 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/variant/variant.hpp>
 #include <vector>
+#include <godot_cpp/classes/ref.hpp>
 #include <godot_cpp/core/object.hpp>
 
 namespace godot {
@@ -21,7 +22,7 @@ class TypeScriptInstance {
 	Object *gd_binding = nullptr;
 	JSValue js_binding;
 	Object *p_godot_object = nullptr;
-	TypeScript *script = nullptr;
+	Ref<TypeScript> script = nullptr;
 	JSValue module;
 	List<PropertyInfo *> p_properties;
 	std::vector<GDExtensionPropertyInfo> properties;
@@ -58,7 +59,7 @@ public:
 
 	Object *get_binding();
 
-	TypeScriptInstance(Object *p_godot_object, TypeScript *script, bool is_placeholder);
+	TypeScriptInstance(Object *p_godot_object, Ref<TypeScript> script, bool is_placeholder);
 	~TypeScriptInstance();
 };
 } // namespace godot

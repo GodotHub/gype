@@ -37,7 +37,6 @@ String TypeScriptLanguage::_get_extension() const {
 }
 
 void TypeScriptLanguage::_finish() {
-	
 }
 
 PackedStringArray TypeScriptLanguage::_get_reserved_words() const {
@@ -114,8 +113,9 @@ String TypeScriptLanguage::_validate_path(const String &p_path) const {
 }
 
 Object *TypeScriptLanguage::_create_script() const {
-	TypeScript *script = memnew(TypeScript);
-	return script;
+	Ref<TypeScript> script;
+	script.instantiate();
+	return script.ptr();
 }
 
 bool TypeScriptLanguage::_has_named_classes() const {
@@ -161,8 +161,8 @@ ScriptLanguage::ScriptNameCasing TypeScriptLanguage::_preferred_file_name_casing
 Dictionary TypeScriptLanguage::_complete_code(const String &p_code, const String &p_path, Object *p_owner) const {
 	Dictionary ret;
 	ret["result"] = PackedStringArray();
-	ret["force"] = false; 
-	ret["call_hint"] = ""; 
+	ret["force"] = false;
+	ret["call_hint"] = "";
 	return ret;
 }
 
@@ -237,7 +237,7 @@ TypedArray<Dictionary> TypeScriptLanguage::_debug_get_current_stack_info() {
 }
 
 void TypeScriptLanguage::_reload_all_scripts() {
-	for (const Ref<TypeScript> &script : scripts) {
+	for (Ref<TypeScript> script : scripts) {
 		if (script.is_valid()) {
 			script->compile();
 		}
@@ -246,7 +246,7 @@ void TypeScriptLanguage::_reload_all_scripts() {
 
 void TypeScriptLanguage::_reload_scripts(const Array &p_scripts, bool p_soft_reload) {
 	for (int i = 0; i < p_scripts.size(); ++i) {
-		static_cast<TypeScript *>(p_scripts[i].operator Object*())->compile();
+		static_cast<TypeScript *>(p_scripts[i].operator Object *())->compile();
 	}
 }
 
@@ -302,11 +302,11 @@ Dictionary TypeScriptLanguage::_get_global_class_name(const String &p_path) cons
 	return dict;
 }
 
-TypedArray<TypeScript> godot::TypeScriptLanguage::get_scripts() {
-	TypedArray<TypeScript> r_arr;
-	HashSet<Ref<TypeScript>>::Iterator it = TypeScriptLanguage::get_singleton()->scripts.begin();
-	while (it) {
-		r_arr.append(it->ptr());
+TypedArray<Ref<TypeScript>> TypeScriptLanguage::get_scripts() {
+	TypedArray<Ref<TypeScript>> r_arr;
+	auto it = get_singleton()->scripts.begin();
+	while (it != get_singleton()->scripts.end()) {
+		r_arr.append(*it);
 		++it;
 	}
 	return r_arr;

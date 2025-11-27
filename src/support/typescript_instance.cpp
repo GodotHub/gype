@@ -31,9 +31,8 @@ const char *TypeScriptInstance::class_symbol_mask = "_GodotClass";
 	ERR_FAIL_NULL(binding);     \
 	ERR_FAIL_COND(JS_IsUndefined(js_binding));
 
-TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, TypeScript *script, bool is_placeholder) {
+TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, Ref<TypeScript> script, bool is_placeholder) {
 	script->compile();
-
 	this->script = script;
 	this->p_godot_object = p_godot_object;
 	gd_binding = internal::get_object_instance_binding(p_godot_object->_owner);
@@ -365,7 +364,7 @@ GDExtensionObjectPtr TypeScriptInstance::get_owner() {
 }
 
 GDExtensionObjectPtr TypeScriptInstance::get_script() {
-	return script;
+	return script->_owner;
 }
 
 GDExtensionBool TypeScriptInstance::is_placeholder() {

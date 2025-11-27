@@ -33,7 +33,7 @@ class TypeScript : public ScriptExtension {
 
 	String source_code;
 	String dist_source_code;
-	mutable TypeScript *base_script;
+	mutable Ref<TypeScript> base_script;
 	mutable String global_class_name;
 	mutable String base_class_name;
 	mutable bool is_tool = false;

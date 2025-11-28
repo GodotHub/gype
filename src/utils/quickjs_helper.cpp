@@ -407,21 +407,17 @@ godot::Variant jsvalue_to_variant(JSValue val) {
 			ERR_FAIL_COND_V(JS_ToInt64(js_context(), &i, val), godot::Variant());
 			return i;
 		}
-		break;
 		case JS_TAG_FLOAT64: {
 			double d;
 			ERR_FAIL_COND_V(JS_ToFloat64(js_context(), &d, val), godot::Variant());
 			return d;
 		}
-		break;
 		case JS_TAG_BOOL: {
 			return static_cast<bool>(JS_ToBool(js_context(), val));
 		}
-		break;
 		case JS_TAG_STRING: {
-			return JS_ToCString(js_context(), val);
+			return String::utf8(JS_ToCString(js_context(), val));
 		}
-		break;
 		case JS_TAG_OBJECT: {
 			if (JS_IsFunction(js_context(), val)) {
 				return create_custom_javascript_callable(val);
@@ -429,7 +425,6 @@ godot::Variant jsvalue_to_variant(JSValue val) {
 				return js_obj_to_variant(val);
 			}
 		}
-		break;
 		case JS_TAG_UNDEFINED:
 		case JS_TAG_NULL:
 		case JS_TAG_UNINITIALIZED:

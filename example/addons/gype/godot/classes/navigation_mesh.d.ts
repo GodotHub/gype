@@ -9,7 +9,7 @@ export declare class NavigationMesh extends Resource {
     /**     * The raw type is 'PackedVector3Array'     */
     public vertices: PackedVector3Array;    
     /**     * The raw type is 'Array'     */
-    public polygons: GDArray;    
+    public polygons: GDArray | Array;    
     /**     * The raw type is 'int'     */
     public sample_partition_type: number;    
     /**     * The raw type is 'int'     */
@@ -19,7 +19,7 @@ export declare class NavigationMesh extends Resource {
     /**     * The raw type is 'int'     */
     public geometry_source_geometry_mode: number;    
     /**     * The raw type is 'String'     */
-    public geometry_source_group_name: StringName;    
+    public geometry_source_group_name: GDString | StringName | string;    
     /**     * The raw type is 'float'     */
     public cell_size: number;    
     /**     * The raw type is 'float'     */

@@ -30,7 +30,7 @@ export declare class VideoStreamPlayer extends Control {
     /**     * The raw type is 'float'     */
     public stream_position: number;    
     /**     * The raw type is 'StringName'     */
-    public bus: StringName;
+    public bus: GDString | StringName | string;
     public set_stream(stream: VideoStream): void;
     public get_stream(): VideoStream;
     public play(): void;

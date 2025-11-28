@@ -8,7 +8,7 @@ export declare class LookAtModifier3D extends SkeletonModifier3D {
     /**     * The raw type is 'NodePath'     */
     public target_node: NodePath;    
     /**     * The raw type is 'String'     */
-    public bone_name: GDString;    
+    public bone_name: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public bone: number;    
     /**     * The raw type is 'int'     */
@@ -20,7 +20,7 @@ export declare class LookAtModifier3D extends SkeletonModifier3D {
     /**     * The raw type is 'int'     */
     public origin_from: number;    
     /**     * The raw type is 'String'     */
-    public origin_bone_name: GDString;    
+    public origin_bone_name: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public origin_bone: number;    
     /**     * The raw type is 'NodePath'     */

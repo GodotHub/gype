@@ -6,7 +6,7 @@ export declare class VisualShaderNodeParameter extends VisualShaderNode {
 
     
     /**     * The raw type is 'StringName'     */
-    public parameter_name: GDString;    
+    public parameter_name: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public qualifier: number;
     public set_parameter_name(name: GDString | StringName | string): void;

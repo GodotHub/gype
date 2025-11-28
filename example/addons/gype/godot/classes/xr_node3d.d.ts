@@ -7,9 +7,9 @@ export declare class XRNode3D extends Node3D {
 
     
     /**     * The raw type is 'String'     */
-    public tracker: StringName;    
+    public tracker: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public pose: StringName;    
+    public pose: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public show_when_tracked: boolean;
     public set_tracker(trackerName: GDString | StringName | string): void;

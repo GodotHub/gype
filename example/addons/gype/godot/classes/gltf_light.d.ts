@@ -11,7 +11,7 @@ export declare class GLTFLight extends Resource {
     /**     * The raw type is 'float'     */
     public intensity: number;    
     /**     * The raw type is 'String'     */
-    public light_type: GDString;    
+    public light_type: GDString | StringName | string;    
     /**     * The raw type is 'float'     */
     public range: number;    
     /**     * The raw type is 'float'     */

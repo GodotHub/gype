@@ -11,7 +11,7 @@ export declare class NavigationMeshSourceGeometryData3D extends Resource {
     /**     * The raw type is 'PackedInt32Array'     */
     public indices: PackedInt32Array;    
     /**     * The raw type is 'Array'     */
-    public projected_obstructions: GDArray;
+    public projected_obstructions: GDArray | Array;
     public set_vertices(vertices: PackedFloat32Array): void;
     public get_vertices(): PackedFloat32Array;
     public set_indices(indices: PackedInt32Array): void;

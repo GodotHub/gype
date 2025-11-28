@@ -8,9 +8,9 @@ export declare class VisualShaderNode extends Resource {
     /**     * The raw type is 'int'     */
     public output_port_for_preview: number;    
     /**     * The raw type is 'Array'     */
-    public default_input_values: GDArray;    
+    public default_input_values: GDArray | Array;    
     /**     * The raw type is 'Array'     */
-    public expanded_output_ports: GDArray;    
+    public expanded_output_ports: GDArray | Array;    
     /**     * The raw type is 'int'     */
     public linked_parent_graph_frame: number;
     public get_default_input_port(_type: number): number;

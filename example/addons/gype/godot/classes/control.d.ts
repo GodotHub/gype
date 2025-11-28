@@ -67,7 +67,7 @@ export declare class Control extends CanvasItem {
     /**     * The raw type is 'bool'     */
     public auto_translate: boolean;    
     /**     * The raw type is 'String'     */
-    public tooltip_text: GDString;    
+    public tooltip_text: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public tooltip_auto_translate_mode: number;    
     /**     * The raw type is 'NodePath'     */
@@ -97,9 +97,9 @@ export declare class Control extends CanvasItem {
     /**     * The raw type is 'Object'     */
     public shortcut_context: Node;    
     /**     * The raw type is 'String'     */
-    public accessibility_name: GDString;    
+    public accessibility_name: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public accessibility_description: GDString;    
+    public accessibility_description: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public accessibility_live: number;    
     /**     * The raw type is 'typedarray::NodePath'     */
@@ -113,7 +113,7 @@ export declare class Control extends CanvasItem {
     /**     * The raw type is 'Theme'     */
     public theme: Theme;    
     /**     * The raw type is 'String'     */
-    public theme_type_variation: StringName;
+    public theme_type_variation: GDString | StringName | string;
     public _has_point(point: Vector2): boolean;
     public _structured_text_parser(args: GDArray | Array, text: GDString | StringName | string): Array<any>;
     public _get_minimum_size(): Vector2;

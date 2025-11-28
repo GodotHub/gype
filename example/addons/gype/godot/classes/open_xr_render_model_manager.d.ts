@@ -9,7 +9,7 @@ export declare class OpenXRRenderModelManager extends Node3D {
     /**     * The raw type is 'int'     */
     public tracker: number;    
     /**     * The raw type is 'String'     */
-    public make_local_to_pose: GDString;
+    public make_local_to_pose: GDString | StringName | string;
     public get_tracker(): number;
     public set_tracker(tracker: number): void;
     public get_make_local_to_pose(): GDString;

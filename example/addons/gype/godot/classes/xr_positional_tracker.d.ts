@@ -7,7 +7,7 @@ export declare class XRPositionalTracker extends XRTracker {
 
     
     /**     * The raw type is 'String'     */
-    public profile: GDString;    
+    public profile: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public hand: number;
     public get_tracker_profile(): GDString;

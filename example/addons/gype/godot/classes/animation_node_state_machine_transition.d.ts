@@ -21,9 +21,9 @@ export declare class AnimationNodeStateMachineTransition extends Resource {
     /**     * The raw type is 'int'     */
     public advance_mode: number;    
     /**     * The raw type is 'StringName'     */
-    public advance_condition: StringName;    
+    public advance_condition: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public advance_expression: GDString;
+    public advance_expression: GDString | StringName | string;
     public set_switch_mode(mode: number): void;
     public get_switch_mode(): number;
     public set_advance_mode(mode: number): void;

@@ -7,7 +7,7 @@ export declare class Script extends Resource {
 
     
     /**     * The raw type is 'String'     */
-    public source_code: GDString;
+    public source_code: GDString | StringName | string;
     public can_instantiate(): boolean;
     public instance_has(baseObject: GodotObject): boolean;
     public has_source_code(): boolean;

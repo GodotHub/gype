@@ -6,7 +6,7 @@ export declare class ModifierBoneTarget3D extends SkeletonModifier3D {
 
     
     /**     * The raw type is 'String'     */
-    public bone_name: GDString;    
+    public bone_name: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public bone: number;
     public set_bone_name(boneName: GDString | StringName | string): void;

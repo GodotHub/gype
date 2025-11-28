@@ -8,7 +8,7 @@ export declare class AnimationNode extends Resource {
     /**     * The raw type is 'bool'     */
     public filter_enabled: boolean;    
     /**     * The raw type is 'Array'     */
-    public filters: GDArray;
+    public filters: GDArray | Array;
     public _get_child_nodes(): Dictionary;
     public _get_parameter_list(): GDArray;
     public _get_child_by_name(name: GDString | StringName | string): AnimationNode;

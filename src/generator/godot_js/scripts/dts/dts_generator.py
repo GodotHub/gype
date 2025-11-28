@@ -57,6 +57,13 @@ def ts_get_class_name(original_name: str) -> str:
         return 'GDArray'
     return original_name
 
+def ts_get_class_union_type(original_name):
+    type = ts_set_type(original_name)
+    if type == 'GDString' or type == 'StringName':
+        return 'GDString | StringName | string'
+    if type == 'GDArray':
+        return 'GDArray | Array'
+    return type
 
 TS_RESERVED_WORDS = {
     'break', 'case', 'catch', 'class', 'const', 'continue', 'debugger',
@@ -304,7 +311,8 @@ def main():
             jinja_env=env,
             dependency=dependencies,
             singletons=singletons,
-            builtin_classes = ts_builtin_classes
+            builtin_classes = ts_builtin_classes,
+            get_class_union_type = ts_get_class_union_type
         )
 
     print("\nGenerating .d.ts for built-in types...")
@@ -316,7 +324,8 @@ def main():
             output_dir=output_builtins_dir,
             file_name_format=f'{camel_to_snake(b_cls["name"])}.d.ts',
             jinja_env=env,
-            dependency=dependencies
+            dependency=dependencies,
+            get_class_union_type = ts_get_class_union_type
         )
 
     print("\nGenerating globals.d.ts for UtilityFunctions...")

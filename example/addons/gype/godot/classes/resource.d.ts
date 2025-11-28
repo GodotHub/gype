@@ -9,11 +9,11 @@ export declare class Resource extends RefCounted {
     /**     * The raw type is 'bool'     */
     public resource_local_to_scene: boolean;    
     /**     * The raw type is 'String'     */
-    public resource_path: GDString;    
+    public resource_path: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public resource_name: GDString;    
+    public resource_name: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public resource_scene_unique_id: GDString;
+    public resource_scene_unique_id: GDString | StringName | string;
     public _setup_local_to_scene(): void;
     public _get_rid(): RID;
     public _reset_state(): void;

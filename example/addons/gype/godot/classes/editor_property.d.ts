@@ -9,7 +9,7 @@ export declare class EditorProperty extends Container {
 
     
     /**     * The raw type is 'String'     */
-    public label: GDString;    
+    public label: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public read_only: boolean;    
     /**     * The raw type is 'bool'     */

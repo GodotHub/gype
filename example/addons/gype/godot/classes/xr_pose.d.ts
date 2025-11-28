@@ -8,7 +8,7 @@ export declare class XRPose extends RefCounted {
     /**     * The raw type is 'bool'     */
     public has_tracking_data: boolean;    
     /**     * The raw type is 'String'     */
-    public name: StringName;    
+    public name: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
     public transform: Transform3D;    
     /**     * The raw type is 'String'     */

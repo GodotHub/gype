@@ -13,9 +13,9 @@ export declare class SpinBox extends Range {
     /**     * The raw type is 'bool'     */
     public update_on_text_changed: boolean;    
     /**     * The raw type is 'String'     */
-    public prefix: GDString;    
+    public prefix: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public suffix: GDString;    
+    public suffix: GDString | StringName | string;    
     /**     * The raw type is 'float'     */
     public custom_arrow_step: number;    
     /**     * The raw type is 'bool'     */

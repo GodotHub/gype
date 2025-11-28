@@ -8,11 +8,11 @@ export declare class OpenXRInteractionProfile extends Resource {
 
     
     /**     * The raw type is 'String'     */
-    public interaction_profile_path: GDString;    
+    public interaction_profile_path: GDString | StringName | string;    
     /**     * The raw type is 'OpenXRIPBinding'     */
-    public bindings: GDArray;    
+    public bindings: GDArray | Array;    
     /**     * The raw type is 'OpenXRIPBindingModifier'     */
-    public binding_modifiers: GDArray;
+    public binding_modifiers: GDArray | Array;
     public set_interaction_profile_path(interactionProfilePath: GDString | StringName | string): void;
     public get_interaction_profile_path(): GDString;
     public get_binding_count(): number;

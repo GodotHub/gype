@@ -7,7 +7,7 @@ export declare class GLTFNode extends Resource {
 
     
     /**     * The raw type is 'String'     */
-    public original_name: GDString;    
+    public original_name: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public parent: number;    
     /**     * The raw type is 'int'     */

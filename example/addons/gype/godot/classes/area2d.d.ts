@@ -36,7 +36,7 @@ export declare class Area2D extends CollisionObject2D {
     /**     * The raw type is 'bool'     */
     public audio_bus_override: boolean;    
     /**     * The raw type is 'StringName'     */
-    public audio_bus_name: StringName;
+    public audio_bus_name: GDString | StringName | string;
     public set_gravity_space_override_mode(spaceOverrideMode: number): void;
     public get_gravity_space_override_mode(): number;
     public set_gravity_is_point(enable: boolean): void;

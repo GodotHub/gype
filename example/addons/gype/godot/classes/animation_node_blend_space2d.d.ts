@@ -16,9 +16,9 @@ export declare class AnimationNodeBlendSpace2D extends AnimationRootNode {
     /**     * The raw type is 'Vector2'     */
     public snap: Vector2;    
     /**     * The raw type is 'String'     */
-    public x_label: GDString;    
+    public x_label: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public y_label: GDString;    
+    public y_label: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public blend_mode: number;    
     /**     * The raw type is 'bool'     */

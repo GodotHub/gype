@@ -33,9 +33,9 @@ export declare class Polygon2D extends Node2D {
     /**     * The raw type is 'PackedColorArray'     */
     public vertex_colors: PackedColorArray;    
     /**     * The raw type is 'Array'     */
-    public polygons: GDArray;    
+    public polygons: GDArray | Array;    
     /**     * The raw type is 'Array'     */
-    public bones: GDArray;    
+    public bones: GDArray | Array;    
     /**     * The raw type is 'int'     */
     public internal_vertex_count: number;
     public set_polygon(polygon: PackedVector2Array): void;

@@ -40,7 +40,7 @@ export declare class {{ class_name }}{% if inherits %} extends {{ inherits }}{% 
      * The raw type is '{{ prop.type }}'
         {%- endif %}
      */
-    public {{ prop.name }}: {{ set_type(get_property_type(prop, cls)) }};
+    public {{ prop.name }}: {{ get_class_union_type(get_property_type(prop, cls)) }};
     {%- endfor %}
 
     {# 方法 (Methods) #}

@@ -6,15 +6,15 @@ export declare class UPNPDevice extends RefCounted {
 
     
     /**     * The raw type is 'String'     */
-    public description_url: GDString;    
+    public description_url: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public service_type: GDString;    
+    public service_type: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public igd_control_url: GDString;    
+    public igd_control_url: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public igd_service_type: GDString;    
+    public igd_service_type: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public igd_our_addr: GDString;    
+    public igd_our_addr: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public igd_status: number;
     public is_valid_gateway(): boolean;

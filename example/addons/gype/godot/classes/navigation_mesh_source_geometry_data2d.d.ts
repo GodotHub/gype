@@ -10,7 +10,7 @@ export declare class NavigationMeshSourceGeometryData2D extends Resource {
     /**     * The raw type is 'Array'     */
     public obstruction_outlines: Array<any>;    
     /**     * The raw type is 'Array'     */
-    public projected_obstructions: GDArray;
+    public projected_obstructions: GDArray | Array;
     public clear(): void;
     public has_data(): boolean;
     public set_traversable_outlines(traversableOutlines: Array<any>): void;

@@ -13,13 +13,13 @@ export declare class LightmapGIData extends Resource {
     /**     * The raw type is 'bool'     */
     public uses_spherical_harmonics: boolean;    
     /**     * The raw type is 'Array'     */
-    public user_data: GDArray;    
+    public user_data: GDArray | Array;    
     /**     * The raw type is 'Dictionary'     */
     public probe_data: Dictionary;    
     /**     * The raw type is 'TextureLayered'     */
     public light_texture: TextureLayered;    
     /**     * The raw type is 'Array'     */
-    public light_textures: GDArray;
+    public light_textures: GDArray | Array;
     public set_lightmap_textures(lightTextures: Array<any>): void;
     public get_lightmap_textures(): Array<any>;
     public set_shadowmask_textures(shadowmaskTextures: Array<any>): void;

@@ -6,7 +6,7 @@ export declare class ShaderInclude extends Resource {
 
     
     /**     * The raw type is 'String'     */
-    public code: GDString;
+    public code: GDString | StringName | string;
     public set_code(code: GDString | StringName | string): void;
     public get_code(): GDString;
 

@@ -9,9 +9,9 @@ export declare class AnimatedSprite2D extends Node2D {
     /**     * The raw type is 'SpriteFrames'     */
     public sprite_frames: SpriteFrames;    
     /**     * The raw type is 'StringName'     */
-    public animation: StringName;    
+    public animation: GDString | StringName | string;    
     /**     * The raw type is 'StringName'     */
-    public autoplay: GDString;    
+    public autoplay: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public frame: number;    
     /**     * The raw type is 'float'     */

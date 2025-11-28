@@ -6,11 +6,11 @@ export declare class AnimationPlayer extends AnimationMixer {
 
     
     /**     * The raw type is 'StringName'     */
-    public current_animation: GDString;    
+    public current_animation: GDString | StringName | string;    
     /**     * The raw type is 'StringName'     */
-    public assigned_animation: GDString;    
+    public assigned_animation: GDString | StringName | string;    
     /**     * The raw type is 'StringName'     */
-    public autoplay: GDString;    
+    public autoplay: GDString | StringName | string;    
     /**     * The raw type is 'float'     */
     public current_animation_length: number;    
     /**     * The raw type is 'float'     */

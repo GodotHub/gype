@@ -7,7 +7,7 @@ export declare class RDShaderFile extends Resource {
 
     
     /**     * The raw type is 'String'     */
-    public base_error: GDString;
+    public base_error: GDString | StringName | string;
     public set_bytecode(bytecode: RDShaderSPIRV, version: GDString | StringName | string = ""): void;
     public get_spirv(version: GDString | StringName | string = ""): RDShaderSPIRV;
     public get_version_list(): Array<any>;

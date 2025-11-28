@@ -8,7 +8,7 @@ export declare class VisualShaderNodeCustom extends VisualShaderNode {
     /**     * The raw type is 'bool'     */
     public initialized: boolean;    
     /**     * The raw type is 'String'     */
-    public properties: GDString;
+    public properties: GDString | StringName | string;
     public _get_name(): GDString;
     public _get_description(): GDString;
     public _get_category(): GDString;

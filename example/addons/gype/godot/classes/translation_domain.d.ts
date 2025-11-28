@@ -23,9 +23,9 @@ export declare class TranslationDomain extends RefCounted {
     /**     * The raw type is 'float'     */
     public pseudolocalization_expansion_ratio: number;    
     /**     * The raw type is 'String'     */
-    public pseudolocalization_prefix: GDString;    
+    public pseudolocalization_prefix: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public pseudolocalization_suffix: GDString;
+    public pseudolocalization_suffix: GDString | StringName | string;
     public get_translation_object(locale: GDString | StringName | string): Translation;
     public add_translation(translation: Translation): void;
     public remove_translation(translation: Translation): void;

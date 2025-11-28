@@ -8,9 +8,9 @@ export declare class LineEdit extends Control {
 
     
     /**     * The raw type is 'String'     */
-    public text: GDString;    
+    public text: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public placeholder_text: GDString;    
+    public placeholder_text: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public alignment: number;    
     /**     * The raw type is 'int'     */
@@ -66,15 +66,15 @@ export declare class LineEdit extends Control {
     /**     * The raw type is 'bool'     */
     public secret: boolean;    
     /**     * The raw type is 'String'     */
-    public secret_character: GDString;    
+    public secret_character: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public text_direction: number;    
     /**     * The raw type is 'String'     */
-    public language: GDString;    
+    public language: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public structured_text_bidi_override: number;    
     /**     * The raw type is 'Array'     */
-    public structured_text_bidi_override_options: GDArray;
+    public structured_text_bidi_override_options: GDArray | Array;
     public has_ime_text(): boolean;
     public cancel_ime(): void;
     public apply_ime(): void;

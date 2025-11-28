@@ -15,11 +15,11 @@ export declare class EditorFileDialog extends ConfirmationDialog {
     /**     * The raw type is 'int'     */
     public file_mode: number;    
     /**     * The raw type is 'String'     */
-    public current_dir: GDString;    
+    public current_dir: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public current_file: GDString;    
+    public current_file: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public current_path: GDString;    
+    public current_path: GDString | StringName | string;    
     /**     * The raw type is 'PackedStringArray'     */
     public filters: PackedStringArray;    
     /**     * The raw type is 'int'     */

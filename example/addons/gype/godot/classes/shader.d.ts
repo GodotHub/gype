@@ -7,7 +7,7 @@ export declare class Shader extends Resource {
 
     
     /**     * The raw type is 'String'     */
-    public code: GDString;
+    public code: GDString | StringName | string;
     public get_mode(): number;
     public set_code(code: GDString | StringName | string): void;
     public get_code(): GDString;

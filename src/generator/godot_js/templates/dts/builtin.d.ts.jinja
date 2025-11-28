@@ -26,7 +26,7 @@ declare global {
     
         {# INSTANCE PROPERTIES (from cls.members) #}
         {% for member in cls.members %}
-        {{ member.name }}: {{ set_type(member.type) }};
+        {{ member.name }}: {{ get_class_union_type(member.type) }};
         {% endfor %}
 
         {# INSTANCE METHODS (from cls.methods) #}

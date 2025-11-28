@@ -9,9 +9,9 @@ export declare class AcceptDialog extends Window {
 
     
     /**     * The raw type is 'String'     */
-    public ok_button_text: GDString;    
+    public ok_button_text: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public dialog_text: GDString;    
+    public dialog_text: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public dialog_hide_on_ok: boolean;    
     /**     * The raw type is 'bool'     */

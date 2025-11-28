@@ -6,11 +6,11 @@ export declare class RegExMatch extends RefCounted {
 
     
     /**     * The raw type is 'String'     */
-    public subject: GDString;    
+    public subject: GDString | StringName | string;    
     /**     * The raw type is 'Dictionary'     */
     public names: Dictionary;    
     /**     * The raw type is 'Array'     */
-    public strings: GDArray;
+    public strings: GDArray | Array;
     public get_subject(): GDString;
     public get_group_count(): number;
     public get_names(): Dictionary;

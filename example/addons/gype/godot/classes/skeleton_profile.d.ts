@@ -7,9 +7,9 @@ export declare class SkeletonProfile extends Resource {
 
     
     /**     * The raw type is 'StringName'     */
-    public root_bone: StringName;    
+    public root_bone: GDString | StringName | string;    
     /**     * The raw type is 'StringName'     */
-    public scale_base_bone: StringName;    
+    public scale_base_bone: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public group_size: number;    
     /**     * The raw type is 'int'     */

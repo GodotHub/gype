@@ -12,11 +12,11 @@ export declare class Node extends GodotObject {
 
     
     /**     * The raw type is 'StringName'     */
-    public name: StringName;    
+    public name: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public unique_name_in_owner: boolean;    
     /**     * The raw type is 'String'     */
-    public scene_file_path: GDString;    
+    public scene_file_path: GDString | StringName | string;    
     /**     * The raw type is 'Node'     */
     public owner: Node;    
     /**     * The raw type is 'MultiplayerAPI'     */
@@ -38,7 +38,7 @@ export declare class Node extends GodotObject {
     /**     * The raw type is 'int'     */
     public auto_translate_mode: number;    
     /**     * The raw type is 'String'     */
-    public editor_description: GDString;
+    public editor_description: GDString | StringName | string;
     public _process(delta: number): void;
     public _physics_process(delta: number): void;
     public _enter_tree(): void;

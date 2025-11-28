@@ -9,9 +9,9 @@ export declare class NavigationPolygon extends Resource {
     /**     * The raw type is 'PackedVector2Array'     */
     public vertices: PackedVector2Array;    
     /**     * The raw type is 'Array'     */
-    public polygons: GDArray;    
+    public polygons: GDArray | Array;    
     /**     * The raw type is 'Array'     */
-    public outlines: GDArray;    
+    public outlines: GDArray | Array;    
     /**     * The raw type is 'int'     */
     public sample_partition_type: number;    
     /**     * The raw type is 'int'     */
@@ -21,7 +21,7 @@ export declare class NavigationPolygon extends Resource {
     /**     * The raw type is 'int'     */
     public source_geometry_mode: number;    
     /**     * The raw type is 'String'     */
-    public source_geometry_group_name: StringName;    
+    public source_geometry_group_name: GDString | StringName | string;    
     /**     * The raw type is 'float'     */
     public cell_size: number;    
     /**     * The raw type is 'float'     */

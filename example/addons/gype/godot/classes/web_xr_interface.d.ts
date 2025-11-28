@@ -7,19 +7,19 @@ export declare class WebXRInterface extends XRInterface {
 
     
     /**     * The raw type is 'String'     */
-    public session_mode: GDString;    
+    public session_mode: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public required_features: GDString;    
+    public required_features: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public optional_features: GDString;    
+    public optional_features: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public requested_reference_space_types: GDString;    
+    public requested_reference_space_types: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public reference_space_type: GDString;    
+    public reference_space_type: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public enabled_features: GDString;    
+    public enabled_features: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public visibility_state: GDString;
+    public visibility_state: GDString | StringName | string;
     public is_session_supported(sessionMode: GDString | StringName | string): void;
     public set_session_mode(sessionMode: GDString | StringName | string): void;
     public get_session_mode(): GDString;

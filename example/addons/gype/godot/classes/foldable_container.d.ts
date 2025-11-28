@@ -10,7 +10,7 @@ export declare class FoldableContainer extends Container {
     /**     * The raw type is 'bool'     */
     public folded: boolean;    
     /**     * The raw type is 'String'     */
-    public title: GDString;    
+    public title: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public title_alignment: number;    
     /**     * The raw type is 'int'     */
@@ -22,7 +22,7 @@ export declare class FoldableContainer extends Container {
     /**     * The raw type is 'int'     */
     public title_text_direction: number;    
     /**     * The raw type is 'String'     */
-    public language: GDString;
+    public language: GDString | StringName | string;
     public fold(): void;
     public expand(): void;
     public set_folded(folded: boolean): void;

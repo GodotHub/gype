@@ -7,7 +7,7 @@ export declare class UPNP extends RefCounted {
 
     
     /**     * The raw type is 'String'     */
-    public discover_multicast_if: GDString;    
+    public discover_multicast_if: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public discover_local_port: number;    
     /**     * The raw type is 'bool'     */

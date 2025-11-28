@@ -7,9 +7,9 @@ export declare class SkeletonIK3D extends SkeletonModifier3D {
 
     
     /**     * The raw type is 'StringName'     */
-    public root_bone: StringName;    
+    public root_bone: GDString | StringName | string;    
     /**     * The raw type is 'StringName'     */
-    public tip_bone: StringName;    
+    public tip_bone: GDString | StringName | string;    
     /**     * The raw type is 'Transform3D'     */
     public target: Transform3D;    
     /**     * The raw type is 'bool'     */

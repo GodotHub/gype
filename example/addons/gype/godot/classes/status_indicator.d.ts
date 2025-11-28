@@ -7,7 +7,7 @@ export declare class StatusIndicator extends Node {
 
     
     /**     * The raw type is 'String'     */
-    public tooltip: GDString;    
+    public tooltip: GDString | StringName | string;    
     /**     * The raw type is 'Texture2D'     */
     public icon: Texture2D;    
     /**     * The raw type is 'NodePath'     */

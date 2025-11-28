@@ -34,7 +34,7 @@ export declare class AudioStreamPlayer3D extends Node3D {
     /**     * The raw type is 'float'     */
     public panning_strength: number;    
     /**     * The raw type is 'StringName'     */
-    public bus: StringName;    
+    public bus: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public area_mask: number;    
     /**     * The raw type is 'int'     */

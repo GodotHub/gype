@@ -16,15 +16,15 @@ export declare class RDShaderSPIRV extends Resource {
     /**     * The raw type is 'PackedByteArray'     */
     public bytecode_compute: PackedByteArray;    
     /**     * The raw type is 'String'     */
-    public compile_error_vertex: GDString;    
+    public compile_error_vertex: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public compile_error_fragment: GDString;    
+    public compile_error_fragment: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public compile_error_tesselation_control: GDString;    
+    public compile_error_tesselation_control: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public compile_error_tesselation_evaluation: GDString;    
+    public compile_error_tesselation_evaluation: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public compile_error_compute: GDString;
+    public compile_error_compute: GDString | StringName | string;
     public set_stage_bytecode(stage: number, bytecode: PackedByteArray): void;
     public get_stage_bytecode(stage: number): PackedByteArray;
     public set_stage_compile_error(stage: number, compileError: GDString | StringName | string): void;

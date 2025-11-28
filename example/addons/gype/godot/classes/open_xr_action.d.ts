@@ -6,7 +6,7 @@ export declare class OpenXRAction extends Resource {
 
     
     /**     * The raw type is 'String'     */
-    public localized_name: GDString;    
+    public localized_name: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public action_type: number;    
     /**     * The raw type is 'PackedStringArray'     */

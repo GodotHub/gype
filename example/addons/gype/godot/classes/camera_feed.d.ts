@@ -11,7 +11,7 @@ export declare class CameraFeed extends RefCounted {
     /**     * The raw type is 'Transform2D'     */
     public feed_transform: Transform2D;    
     /**     * The raw type is 'Array'     */
-    public formats: GDArray;
+    public formats: GDArray | Array;
     public _activate_feed(): boolean;
     public _deactivate_feed(): void;
     public get_id(): number;

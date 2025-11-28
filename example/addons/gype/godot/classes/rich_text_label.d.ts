@@ -13,7 +13,7 @@ export declare class RichTextLabel extends Control {
     /**     * The raw type is 'bool'     */
     public bbcode_enabled: boolean;    
     /**     * The raw type is 'String'     */
-    public text: GDString;    
+    public text: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public fit_content: boolean;    
     /**     * The raw type is 'bool'     */
@@ -41,7 +41,7 @@ export declare class RichTextLabel extends Control {
     /**     * The raw type is 'PackedFloat32Array'     */
     public tab_stops: PackedFloat32Array;    
     /**     * The raw type is 'typedarray::24/17:RichTextEffect'     */
-    public custom_effects: GDArray;    
+    public custom_effects: GDArray | Array;    
     /**     * The raw type is 'bool'     */
     public meta_underlined: boolean;    
     /**     * The raw type is 'bool'     */
@@ -65,11 +65,11 @@ export declare class RichTextLabel extends Control {
     /**     * The raw type is 'int'     */
     public text_direction: number;    
     /**     * The raw type is 'String'     */
-    public language: GDString;    
+    public language: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public structured_text_bidi_override: number;    
     /**     * The raw type is 'Array'     */
-    public structured_text_bidi_override_options: GDArray;
+    public structured_text_bidi_override_options: GDArray | Array;
     public get_parsed_text(): GDString;
     public add_text(text: GDString | StringName | string): void;
     public set_text(text: GDString | StringName | string): void;

@@ -6,7 +6,7 @@ export declare class GLTFAnimation extends Resource {
 
     
     /**     * The raw type is 'String'     */
-    public original_name: GDString;    
+    public original_name: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public loop: boolean;
     public get_original_name(): GDString;

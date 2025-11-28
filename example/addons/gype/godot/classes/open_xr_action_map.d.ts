@@ -8,9 +8,9 @@ export declare class OpenXRActionMap extends Resource {
 
     
     /**     * The raw type is 'OpenXRActionSet'     */
-    public action_sets: GDArray;    
+    public action_sets: GDArray | Array;    
     /**     * The raw type is 'OpenXRInteractionProfile'     */
-    public interaction_profiles: GDArray;
+    public interaction_profiles: GDArray | Array;
     public set_action_sets(actionSets: GDArray | Array): void;
     public get_action_sets(): GDArray;
     public get_action_set_count(): number;

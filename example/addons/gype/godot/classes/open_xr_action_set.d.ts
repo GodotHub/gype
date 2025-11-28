@@ -7,11 +7,11 @@ export declare class OpenXRActionSet extends Resource {
 
     
     /**     * The raw type is 'String'     */
-    public localized_name: GDString;    
+    public localized_name: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public priority: number;    
     /**     * The raw type is 'OpenXRAction'     */
-    public actions: GDArray;
+    public actions: GDArray | Array;
     public set_localized_name(localizedName: GDString | StringName | string): void;
     public get_localized_name(): GDString;
     public set_priority(priority: number): void;

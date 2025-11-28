@@ -42,7 +42,7 @@ export declare class Label3D extends GeometryInstance3D {
     /**     * The raw type is 'Color'     */
     public outline_modulate: Color;    
     /**     * The raw type is 'String'     */
-    public text: GDString;    
+    public text: GDString | StringName | string;    
     /**     * The raw type is 'Font'     */
     public font: Font;    
     /**     * The raw type is 'int'     */
@@ -68,11 +68,11 @@ export declare class Label3D extends GeometryInstance3D {
     /**     * The raw type is 'int'     */
     public text_direction: number;    
     /**     * The raw type is 'String'     */
-    public language: GDString;    
+    public language: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public structured_text_bidi_override: number;    
     /**     * The raw type is 'Array'     */
-    public structured_text_bidi_override_options: GDArray;
+    public structured_text_bidi_override_options: GDArray | Array;
     public set_horizontal_alignment(alignment: number): void;
     public get_horizontal_alignment(): number;
     public set_vertical_alignment(alignment: number): void;

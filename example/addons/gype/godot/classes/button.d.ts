@@ -7,7 +7,7 @@ export declare class Button extends BaseButton {
 
     
     /**     * The raw type is 'String'     */
-    public text: GDString;    
+    public text: GDString | StringName | string;    
     /**     * The raw type is 'Texture2D'     */
     public icon: Texture2D;    
     /**     * The raw type is 'bool'     */
@@ -31,7 +31,7 @@ export declare class Button extends BaseButton {
     /**     * The raw type is 'int'     */
     public text_direction: number;    
     /**     * The raw type is 'String'     */
-    public language: GDString;
+    public language: GDString | StringName | string;
     public set_text(text: GDString | StringName | string): void;
     public get_text(): GDString;
     public set_text_overrun_behavior(overrunBehavior: number): void;

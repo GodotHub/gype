@@ -26,7 +26,7 @@ export declare class AudioStreamPlayer extends Node {
     /**     * The raw type is 'int'     */
     public max_polyphony: number;    
     /**     * The raw type is 'StringName'     */
-    public bus: StringName;    
+    public bus: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public playback_type: number;
     public set_stream(stream: AudioStream): void;

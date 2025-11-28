@@ -7,7 +7,7 @@ export declare class VideoStream extends Resource {
 
     
     /**     * The raw type is 'String'     */
-    public file: GDString;
+    public file: GDString | StringName | string;
     public _instantiate_playback(): VideoStreamPlayback;
     public set_file(file: GDString | StringName | string): void;
     public get_file(): GDString;

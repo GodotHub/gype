@@ -23,7 +23,7 @@ export declare class TouchScreenButton extends Node2D {
     /**     * The raw type is 'bool'     */
     public passby_press: boolean;    
     /**     * The raw type is 'StringName'     */
-    public action: GDString;    
+    public action: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public visibility_mode: number;
     public set_texture_normal(texture: Texture2D): void;

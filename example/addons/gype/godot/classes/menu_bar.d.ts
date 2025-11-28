@@ -17,7 +17,7 @@ export declare class MenuBar extends Control {
     /**     * The raw type is 'int'     */
     public text_direction: number;    
     /**     * The raw type is 'String'     */
-    public language: GDString;
+    public language: GDString | StringName | string;
     public set_switch_on_hover(enable: boolean): void;
     public is_switch_on_hover(): boolean;
     public set_disable_shortcuts(disabled: boolean): void;

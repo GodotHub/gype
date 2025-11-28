@@ -14,7 +14,7 @@ export declare class Window extends Viewport {
     /**     * The raw type is 'int'     */
     public mode: number;    
     /**     * The raw type is 'String'     */
-    public title: GDString;    
+    public title: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public initial_position: number;    
     /**     * The raw type is 'Vector2i'     */
@@ -82,13 +82,13 @@ export declare class Window extends Viewport {
     /**     * The raw type is 'bool'     */
     public auto_translate: boolean;    
     /**     * The raw type is 'String'     */
-    public accessibility_name: GDString;    
+    public accessibility_name: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public accessibility_description: GDString;    
+    public accessibility_description: GDString | StringName | string;    
     /**     * The raw type is 'Theme'     */
     public theme: Theme;    
     /**     * The raw type is 'String'     */
-    public theme_type_variation: StringName;
+    public theme_type_variation: GDString | StringName | string;
     public _get_contents_minimum_size(): Vector2;
     public set_title(title: GDString | StringName | string): void;
     public get_title(): GDString;

@@ -7,7 +7,7 @@ export declare class GLTFPhysicsBody extends Resource {
 
     
     /**     * The raw type is 'String'     */
-    public body_type: GDString;    
+    public body_type: GDString | StringName | string;    
     /**     * The raw type is 'float'     */
     public mass: number;    
     /**     * The raw type is 'Vector3'     */

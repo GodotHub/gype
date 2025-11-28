@@ -7,7 +7,7 @@ export declare class HTTPRequest extends Node {
 
     
     /**     * The raw type is 'String'     */
-    public download_file: GDString;    
+    public download_file: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public download_chunk_size: number;    
     /**     * The raw type is 'bool'     */

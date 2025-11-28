@@ -9,7 +9,7 @@ export declare class GLTFPhysicsShape extends Resource {
 
     
     /**     * The raw type is 'String'     */
-    public shape_type: GDString;    
+    public shape_type: GDString | StringName | string;    
     /**     * The raw type is 'Vector3'     */
     public size: Vector3;    
     /**     * The raw type is 'float'     */

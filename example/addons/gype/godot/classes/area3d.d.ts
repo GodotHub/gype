@@ -42,11 +42,11 @@ export declare class Area3D extends CollisionObject3D {
     /**     * The raw type is 'bool'     */
     public audio_bus_override: boolean;    
     /**     * The raw type is 'StringName'     */
-    public audio_bus_name: StringName;    
+    public audio_bus_name: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public reverb_bus_enabled: boolean;    
     /**     * The raw type is 'StringName'     */
-    public reverb_bus_name: StringName;    
+    public reverb_bus_name: GDString | StringName | string;    
     /**     * The raw type is 'float'     */
     public reverb_bus_amount: number;    
     /**     * The raw type is 'float'     */

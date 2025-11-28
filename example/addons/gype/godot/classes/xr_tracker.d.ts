@@ -8,9 +8,9 @@ export declare class XRTracker extends RefCounted {
     /**     * The raw type is 'int'     */
     public type: number;    
     /**     * The raw type is 'String'     */
-    public name: StringName;    
+    public name: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public description: GDString;
+    public description: GDString | StringName | string;
     public get_tracker_type(): number;
     public set_tracker_type(_type: number): void;
     public get_tracker_name(): StringName;

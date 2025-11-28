@@ -6,7 +6,7 @@ export declare class InputEventAction extends InputEvent {
 
     
     /**     * The raw type is 'StringName'     */
-    public action: StringName;    
+    public action: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public pressed: boolean;    
     /**     * The raw type is 'float'     */

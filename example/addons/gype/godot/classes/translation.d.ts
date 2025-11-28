@@ -8,7 +8,7 @@ export declare class Translation extends Resource {
     /**     * The raw type is 'Dictionary'     */
     public messages: Dictionary;    
     /**     * The raw type is 'String'     */
-    public locale: GDString;
+    public locale: GDString | StringName | string;
     public _get_plural_message(srcMessage: GDString | StringName | string, srcPluralMessage: GDString | StringName | string, n: number, context: GDString | StringName | string): StringName;
     public _get_message(srcMessage: GDString | StringName | string, context: GDString | StringName | string): StringName;
     public set_locale(locale: GDString | StringName | string): void;

@@ -11,9 +11,9 @@ export declare class TextEdit extends Control {
 
     
     /**     * The raw type is 'String'     */
-    public text: GDString;    
+    public text: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public placeholder_text: GDString;    
+    public placeholder_text: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public editable: boolean;    
     /**     * The raw type is 'bool'     */
@@ -83,7 +83,7 @@ export declare class TextEdit extends Control {
     /**     * The raw type is 'bool'     */
     public use_custom_word_separators: boolean;    
     /**     * The raw type is 'String'     */
-    public custom_word_separators: GDString;    
+    public custom_word_separators: GDString | StringName | string;    
     /**     * The raw type is 'SyntaxHighlighter'     */
     public syntax_highlighter: SyntaxHighlighter;    
     /**     * The raw type is 'bool'     */
@@ -99,11 +99,11 @@ export declare class TextEdit extends Control {
     /**     * The raw type is 'int'     */
     public text_direction: number;    
     /**     * The raw type is 'String'     */
-    public language: GDString;    
+    public language: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public structured_text_bidi_override: number;    
     /**     * The raw type is 'Array'     */
-    public structured_text_bidi_override_options: GDArray;
+    public structured_text_bidi_override_options: GDArray | Array;
     public _handle_unicode_input(unicodeChar: number, caretIndex: number): void;
     public _backspace(caretIndex: number): void;
     public _cut(caretIndex: number): void;

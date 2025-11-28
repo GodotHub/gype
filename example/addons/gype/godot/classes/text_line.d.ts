@@ -23,7 +23,7 @@ export declare class TextLine extends RefCounted {
     /**     * The raw type is 'int'     */
     public text_overrun_behavior: number;    
     /**     * The raw type is 'String'     */
-    public ellipsis_char: GDString;
+    public ellipsis_char: GDString | StringName | string;
     public clear(): void;
     public set_direction(direction: number): void;
     public get_direction(): number;

@@ -6,7 +6,7 @@ export declare class XRFaceModifier3D extends Node3D {
 
     
     /**     * The raw type is 'String'     */
-    public face_tracker: StringName;    
+    public face_tracker: GDString | StringName | string;    
     /**     * The raw type is 'NodePath'     */
     public target: NodePath;
     public set_face_tracker(trackerName: GDString | StringName | string): void;

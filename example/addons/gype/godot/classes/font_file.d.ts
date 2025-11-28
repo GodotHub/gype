@@ -15,9 +15,9 @@ export declare class FontFile extends Font {
     /**     * The raw type is 'int'     */
     public antialiasing: number;    
     /**     * The raw type is 'String'     */
-    public font_name: GDString;    
+    public font_name: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public style_name: GDString;    
+    public style_name: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public font_style: number;    
     /**     * The raw type is 'int'     */

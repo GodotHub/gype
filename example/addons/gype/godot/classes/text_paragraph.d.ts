@@ -9,7 +9,7 @@ export declare class TextParagraph extends RefCounted {
     /**     * The raw type is 'int'     */
     public direction: number;    
     /**     * The raw type is 'String'     */
-    public custom_punctuation: GDString;    
+    public custom_punctuation: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public orientation: number;    
     /**     * The raw type is 'bool'     */
@@ -25,7 +25,7 @@ export declare class TextParagraph extends RefCounted {
     /**     * The raw type is 'int'     */
     public text_overrun_behavior: number;    
     /**     * The raw type is 'String'     */
-    public ellipsis_char: GDString;    
+    public ellipsis_char: GDString | StringName | string;    
     /**     * The raw type is 'float'     */
     public width: number;    
     /**     * The raw type is 'int'     */

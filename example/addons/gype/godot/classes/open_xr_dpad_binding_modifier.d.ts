@@ -10,7 +10,7 @@ export declare class OpenXRDpadBindingModifier extends OpenXRIPBindingModifier {
     /**     * The raw type is 'OpenXRActionSet'     */
     public action_set: OpenXRActionSet;    
     /**     * The raw type is 'String'     */
-    public input_path: GDString;    
+    public input_path: GDString | StringName | string;    
     /**     * The raw type is 'float'     */
     public threshold: number;    
     /**     * The raw type is 'float'     */

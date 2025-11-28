@@ -6,7 +6,7 @@ export declare class XRHandModifier3D extends SkeletonModifier3D {
 
     
     /**     * The raw type is 'String'     */
-    public hand_tracker: StringName;    
+    public hand_tracker: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public bone_update: number;
     public set_hand_tracker(trackerName: GDString | StringName | string): void;

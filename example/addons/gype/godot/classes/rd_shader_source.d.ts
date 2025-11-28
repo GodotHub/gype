@@ -6,15 +6,15 @@ export declare class RDShaderSource extends RefCounted {
 
     
     /**     * The raw type is 'String'     */
-    public source_vertex: GDString;    
+    public source_vertex: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public source_fragment: GDString;    
+    public source_fragment: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public source_tesselation_control: GDString;    
+    public source_tesselation_control: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public source_tesselation_evaluation: GDString;    
+    public source_tesselation_evaluation: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public source_compute: GDString;    
+    public source_compute: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public language: number;
     public set_stage_source(stage: number, source: GDString | StringName | string): void;

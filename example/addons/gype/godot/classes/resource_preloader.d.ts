@@ -7,7 +7,7 @@ export declare class ResourcePreloader extends Node {
 
     
     /**     * The raw type is 'Array'     */
-    public resources: GDArray;
+    public resources: GDArray | Array;
     public add_resource(name: GDString | StringName | string, resource: Resource): void;
     public remove_resource(name: GDString | StringName | string): void;
     public rename_resource(name: GDString | StringName | string, newname: GDString | StringName | string): void;

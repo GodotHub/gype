@@ -6,7 +6,7 @@ export declare class AnimationNodeAnimation extends AnimationRootNode {
 
     
     /**     * The raw type is 'StringName'     */
-    public animation: StringName;    
+    public animation: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public play_mode: number;    
     /**     * The raw type is 'bool'     */

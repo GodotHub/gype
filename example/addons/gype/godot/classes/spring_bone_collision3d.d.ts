@@ -7,7 +7,7 @@ export declare class SpringBoneCollision3D extends Node3D {
 
     
     /**     * The raw type is 'StringName'     */
-    public bone_name: GDString;    
+    public bone_name: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public bone: number;    
     /**     * The raw type is 'Vector3'     */

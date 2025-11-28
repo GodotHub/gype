@@ -12,9 +12,9 @@ export declare class AudioServer extends GodotObject {
     /**     * The raw type is 'int'     */
     public bus_count: number;    
     /**     * The raw type is 'String'     */
-    public output_device: GDString;    
+    public output_device: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public input_device: GDString;    
+    public input_device: GDString | StringName | string;    
     /**     * The raw type is 'float'     */
     public playback_speed_scale: number;
     public set_bus_count(amount: number): void;

@@ -8,7 +8,7 @@ export declare class EditorResourcePicker extends HBoxContainer {
 
     
     /**     * The raw type is 'String'     */
-    public base_type: GDString;    
+    public base_type: GDString | StringName | string;    
     /**     * The raw type is 'Resource'     */
     public edited_resource: Resource;    
     /**     * The raw type is 'bool'     */

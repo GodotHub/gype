@@ -10,9 +10,9 @@ export declare class OpenXRIPBinding extends Resource {
     /**     * The raw type is 'OpenXRAction'     */
     public action: OpenXRAction;    
     /**     * The raw type is 'String'     */
-    public binding_path: GDString;    
+    public binding_path: GDString | StringName | string;    
     /**     * The raw type is 'OpenXRActionBindingModifier'     */
-    public binding_modifiers: GDArray;    
+    public binding_modifiers: GDArray | Array;    
     /**     * The raw type is 'PackedStringArray'     */
     public paths: PackedStringArray;
     public set_action(action: OpenXRAction): void;

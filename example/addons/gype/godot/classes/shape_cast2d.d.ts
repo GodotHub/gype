@@ -23,7 +23,7 @@ export declare class ShapeCast2D extends Node2D {
     /**     * The raw type is 'int'     */
     public collision_mask: number;    
     /**     * The raw type is 'Array'     */
-    public collision_result: GDArray;    
+    public collision_result: GDArray | Array;    
     /**     * The raw type is 'bool'     */
     public collide_with_areas: boolean;    
     /**     * The raw type is 'bool'     */

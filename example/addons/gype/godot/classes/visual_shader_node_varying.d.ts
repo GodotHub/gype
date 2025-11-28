@@ -6,7 +6,7 @@ export declare class VisualShaderNodeVarying extends VisualShaderNode {
 
     
     /**     * The raw type is 'StringName'     */
-    public varying_name: GDString;    
+    public varying_name: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public varying_type: number;
     public set_varying_name(name: GDString | StringName | string): void;

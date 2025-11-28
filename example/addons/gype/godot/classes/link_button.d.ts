@@ -6,19 +6,19 @@ export declare class LinkButton extends BaseButton {
 
     
     /**     * The raw type is 'String'     */
-    public text: GDString;    
+    public text: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public underline: number;    
     /**     * The raw type is 'String'     */
-    public uri: GDString;    
+    public uri: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public text_direction: number;    
     /**     * The raw type is 'String'     */
-    public language: GDString;    
+    public language: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public structured_text_bidi_override: number;    
     /**     * The raw type is 'Array'     */
-    public structured_text_bidi_override_options: GDArray;
+    public structured_text_bidi_override_options: GDArray | Array;
     public set_text(text: GDString | StringName | string): void;
     public get_text(): GDString;
     public set_text_direction(direction: number): void;

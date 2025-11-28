@@ -15,7 +15,7 @@ export declare class GLTFState extends Resource {
     /**     * The raw type is 'int'     */
     public minor_version: number;    
     /**     * The raw type is 'String'     */
-    public copyright: GDString;    
+    public copyright: GDString | StringName | string;    
     /**     * The raw type is 'PackedByteArray'     */
     public glb_data: PackedByteArray;    
     /**     * The raw type is 'bool'     */
@@ -33,11 +33,11 @@ export declare class GLTFState extends Resource {
     /**     * The raw type is 'Array'     */
     public materials: Array<any>;    
     /**     * The raw type is 'String'     */
-    public scene_name: GDString;    
+    public scene_name: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public base_path: GDString;    
+    public base_path: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public filename: GDString;    
+    public filename: GDString | StringName | string;    
     /**     * The raw type is 'PackedInt32Array'     */
     public root_nodes: PackedInt32Array;    
     /**     * The raw type is 'Array'     */

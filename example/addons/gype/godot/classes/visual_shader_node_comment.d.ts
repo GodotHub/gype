@@ -6,7 +6,7 @@ export declare class VisualShaderNodeComment extends VisualShaderNodeFrame {
 
     
     /**     * The raw type is 'String'     */
-    public description: GDString;
+    public description: GDString | StringName | string;
     public set_description(description: GDString | StringName | string): void;
     public get_description(): GDString;
 

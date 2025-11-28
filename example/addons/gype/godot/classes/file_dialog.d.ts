@@ -16,11 +16,11 @@ export declare class FileDialog extends ConfirmationDialog {
     /**     * The raw type is 'int'     */
     public access: number;    
     /**     * The raw type is 'String'     */
-    public root_subfolder: GDString;    
+    public root_subfolder: GDString | StringName | string;    
     /**     * The raw type is 'PackedStringArray'     */
     public filters: PackedStringArray;    
     /**     * The raw type is 'String'     */
-    public filename_filter: GDString;    
+    public filename_filter: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public show_hidden_files: boolean;    
     /**     * The raw type is 'bool'     */
@@ -42,11 +42,11 @@ export declare class FileDialog extends ConfirmationDialog {
     /**     * The raw type is 'bool'     */
     public layout_toggle_enabled: boolean;    
     /**     * The raw type is 'String'     */
-    public current_dir: GDString;    
+    public current_dir: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public current_file: GDString;    
+    public current_file: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public current_path: GDString;
+    public current_path: GDString | StringName | string;
     public clear_filters(): void;
     public add_filter(filter: GDString | StringName | string, description: GDString | StringName | string = ""): void;
     public set_filters(filters: PackedStringArray): void;

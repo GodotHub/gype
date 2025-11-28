@@ -6,7 +6,7 @@ export declare class XRBodyModifier3D extends SkeletonModifier3D {
 
     
     /**     * The raw type is 'String'     */
-    public body_tracker: StringName;    
+    public body_tracker: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public body_update: number;    
     /**     * The raw type is 'int'     */

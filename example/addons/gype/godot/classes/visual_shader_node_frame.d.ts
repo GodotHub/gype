@@ -6,7 +6,7 @@ export declare class VisualShaderNodeFrame extends VisualShaderNodeResizableBase
 
     
     /**     * The raw type is 'String'     */
-    public title: GDString;    
+    public title: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public tint_color_enabled: boolean;    
     /**     * The raw type is 'Color'     */

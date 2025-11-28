@@ -6,7 +6,7 @@ export declare class VisualShaderNodeExpression extends VisualShaderNodeGroupBas
 
     
     /**     * The raw type is 'String'     */
-    public expression: GDString;
+    public expression: GDString | StringName | string;
     public set_expression(expression: GDString | StringName | string): void;
     public get_expression(): GDString;
 

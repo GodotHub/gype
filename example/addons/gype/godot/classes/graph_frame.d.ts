@@ -7,7 +7,7 @@ export declare class GraphFrame extends GraphElement {
 
     
     /**     * The raw type is 'String'     */
-    public title: GDString;    
+    public title: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public autoshrink_enabled: boolean;    
     /**     * The raw type is 'int'     */

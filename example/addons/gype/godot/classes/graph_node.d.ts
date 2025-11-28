@@ -8,7 +8,7 @@ export declare class GraphNode extends GraphElement {
 
     
     /**     * The raw type is 'String'     */
-    public title: GDString;    
+    public title: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public ignore_invalid_connection_type: boolean;    
     /**     * The raw type is 'int'     */

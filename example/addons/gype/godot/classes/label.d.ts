@@ -7,7 +7,7 @@ export declare class Label extends Control {
 
     
     /**     * The raw type is 'String'     */
-    public text: GDString;    
+    public text: GDString | StringName | string;    
     /**     * The raw type is 'LabelSettings'     */
     public label_settings: LabelSettings;    
     /**     * The raw type is 'int'     */
@@ -21,13 +21,13 @@ export declare class Label extends Control {
     /**     * The raw type is 'int'     */
     public justification_flags: number;    
     /**     * The raw type is 'String'     */
-    public paragraph_separator: GDString;    
+    public paragraph_separator: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public clip_text: boolean;    
     /**     * The raw type is 'int'     */
     public text_overrun_behavior: number;    
     /**     * The raw type is 'String'     */
-    public ellipsis_char: GDString;    
+    public ellipsis_char: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public uppercase: boolean;    
     /**     * The raw type is 'PackedFloat32Array'     */
@@ -45,11 +45,11 @@ export declare class Label extends Control {
     /**     * The raw type is 'int'     */
     public text_direction: number;    
     /**     * The raw type is 'String'     */
-    public language: GDString;    
+    public language: GDString | StringName | string;    
     /**     * The raw type is 'int'     */
     public structured_text_bidi_override: number;    
     /**     * The raw type is 'Array'     */
-    public structured_text_bidi_override_options: GDArray;
+    public structured_text_bidi_override_options: GDArray | Array;
     public set_horizontal_alignment(alignment: number): void;
     public get_horizontal_alignment(): number;
     public set_vertical_alignment(alignment: number): void;

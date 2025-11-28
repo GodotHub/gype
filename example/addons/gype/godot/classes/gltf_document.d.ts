@@ -10,11 +10,11 @@ export declare class GLTFDocument extends Resource {
 
     
     /**     * The raw type is 'String'     */
-    public image_format: GDString;    
+    public image_format: GDString | StringName | string;    
     /**     * The raw type is 'float'     */
     public lossy_quality: number;    
     /**     * The raw type is 'String'     */
-    public fallback_image_format: GDString;    
+    public fallback_image_format: GDString | StringName | string;    
     /**     * The raw type is 'float'     */
     public fallback_image_quality: number;    
     /**     * The raw type is 'int'     */

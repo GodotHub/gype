@@ -6,9 +6,9 @@ export declare class EditorSpinSlider extends Range {
 
     
     /**     * The raw type is 'String'     */
-    public label: GDString;    
+    public label: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public suffix: GDString;    
+    public suffix: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public read_only: boolean;    
     /**     * The raw type is 'bool'     */

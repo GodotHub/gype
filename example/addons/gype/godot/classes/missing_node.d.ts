@@ -6,9 +6,9 @@ export declare class MissingNode extends Node {
 
     
     /**     * The raw type is 'String'     */
-    public original_class: GDString;    
+    public original_class: GDString | StringName | string;    
     /**     * The raw type is 'String'     */
-    public original_scene: GDString;    
+    public original_scene: GDString | StringName | string;    
     /**     * The raw type is 'bool'     */
     public recording_properties: boolean;
     public set_original_class(name: GDString | StringName | string): void;

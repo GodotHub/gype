@@ -8,7 +8,7 @@ export declare class GLTFMesh extends Resource {
 
     
     /**     * The raw type is 'String'     */
-    public original_name: GDString;    
+    public original_name: GDString | StringName | string;    
     /**     * The raw type is 'Object'     */
     public mesh: ImporterMesh;    
     /**     * The raw type is 'PackedFloat32Array'     */

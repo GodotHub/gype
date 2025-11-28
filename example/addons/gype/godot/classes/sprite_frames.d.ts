@@ -7,7 +7,7 @@ export declare class SpriteFrames extends Resource {
 
     
     /**     * The raw type is 'Array'     */
-    public animations: GDArray;
+    public animations: GDArray | Array;
     public add_animation(anim: GDString | StringName | string): void;
     public has_animation(anim: GDString | StringName | string): boolean;
     public duplicate_animation(animFrom: GDString | StringName | string, animTo: GDString | StringName | string): void;

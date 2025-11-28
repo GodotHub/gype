@@ -18,7 +18,7 @@ export declare class AudioEffectCompressor extends AudioEffect {
     /**     * The raw type is 'float'     */
     public mix: number;    
     /**     * The raw type is 'StringName'     */
-    public sidechain: StringName;
+    public sidechain: GDString | StringName | string;
     public set_threshold(threshold: number): void;
     public get_threshold(): number;
     public set_ratio(ratio: number): void;

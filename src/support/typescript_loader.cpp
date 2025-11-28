@@ -98,7 +98,7 @@ Variant TypeScriptLoader::_load(const String &p_path, const String &p_original_p
 	String source_code = FileAccess::get_file_as_string(p_original_path);
 	Ref<TypeScript> script;
 	script.instantiate();
-	script->set_source_code(source_code);
+	script->_set_source_code(source_code);
 	TypeScriptLanguage::get_singleton()->scripts.push_back(script);
 	return script;
 }

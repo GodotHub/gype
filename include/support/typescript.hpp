@@ -1,6 +1,8 @@
 #ifndef __TYPESCRIPT_H__
 #define __TYPESCRIPT_H__
 
+#include <unordered_set>
+
 #include "support/typescript_instance.hpp"
 #include "support/typescript_language.hpp"
 #include "support/typescript_loader.hpp"
@@ -10,6 +12,7 @@
 #include <godot_cpp/classes/script_extension.hpp>
 #include <godot_cpp/templates/hash_map.hpp>
 #include <godot_cpp/templates/hash_set.hpp>
+#include <unordered_set>
 
 namespace godot {
 
@@ -47,7 +50,8 @@ class TypeScript : public ScriptExtension {
 	mutable HashMap<StringName, MethodInfo> signals;
 
 	HashSet<uint64_t> instances;
-
+	mutable std::unordered_set<TypeScriptInstance *> script_instances;
+	
 public:
 	static const char *dist_path;
 	static const char *class_symbol_mask;
@@ -109,6 +113,8 @@ private:
 	String get_dist_source_code() const;
 	void compile(bool force = false) const;
 	void analyze() const;
+	void compile_modules() const;
+	bool compile_modules_internal(Ref<TypeScript> script, HashSet<Ref<TypeScript>> &processed) const;
 };
 
 } // namespace godot

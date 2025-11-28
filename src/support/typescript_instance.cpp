@@ -32,9 +32,16 @@ const char *TypeScriptInstance::class_symbol_mask = "_GodotClass";
 	ERR_FAIL_COND(JS_IsUndefined(js_binding));
 
 TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, Ref<TypeScript> script, bool is_placeholder) {
-	script->compile();
 	this->script = script;
 	this->p_godot_object = p_godot_object;
+	this->compile_module();
+}
+
+godot::TypeScriptInstance::~TypeScriptInstance() {
+	JS_FreeValue(js_context(), js_binding);
+}
+
+void TypeScriptInstance::compile_module() {
 	gd_binding = internal::get_object_instance_binding(p_godot_object->_owner);
 	String code = script->get_dist_source_code();
 	std::string code_str = std::string(code.utf8().get_data());
@@ -143,10 +150,6 @@ TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, Ref<TypeScript> s
 	} else {
 		script->instances.insert(gd_binding->get_instance_id());
 	}
-}
-
-godot::TypeScriptInstance::~TypeScriptInstance() {
-	JS_FreeValue(js_context(), js_binding);
 }
 
 JSModuleDef *godot::TypeScriptInstance::get_module(const char *path) {

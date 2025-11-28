@@ -59,6 +59,8 @@ public:
 
 	Object *get_binding();
 
+	void compile_module();
+
 	TypeScriptInstance(Object *p_godot_object, Ref<TypeScript> script, bool is_placeholder);
 	~TypeScriptInstance();
 };

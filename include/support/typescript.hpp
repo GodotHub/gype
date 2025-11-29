@@ -48,6 +48,7 @@ class TypeScript : public ScriptExtension {
 	mutable HashMap<StringName, PropertyInfo> properties;
 	mutable HashMap<StringName, Variant> default_value;
 	mutable HashMap<StringName, MethodInfo> signals;
+	mutable HashSet<Object *> godot_objects;
 
 	HashSet<uint64_t> instances;
 	mutable std::unordered_set<TypeScriptInstance *> script_instances;
@@ -98,6 +99,7 @@ public:
 	TypedArray<StringName> _get_members() const;
 	bool _is_placeholder_fallback_enabled() const;
 	Variant _get_rpc_config() const;
+	static void compile(bool force = false);
 
 	TypeScript() :
 		parser(ts_parser_new()),
@@ -113,9 +115,8 @@ protected:
 private:
 	void remove_dist();
 	String get_dist_source_code() const;
-	void compile(bool force = false) const;
 	void analyze() const;
-	void compile_modules() const;
+	void compile_module();
 };
 
 } // namespace godot

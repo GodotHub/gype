@@ -241,19 +241,22 @@ TypedArray<Dictionary> TypeScriptLanguage::_debug_get_current_stack_info() {
 void TypeScriptLanguage::_reload_all_scripts() {
 	for (Ref<TypeScript> script : scripts) {
 		if (script.is_valid()) {
-			script->compile();
+			script->analyze();
 		}
 	}
+	TypeScript::compile();
 }
 
 void TypeScriptLanguage::_reload_scripts(const Array &p_scripts, bool p_soft_reload) {
 	for (int i = 0; i < p_scripts.size(); ++i) {
-		static_cast<TypeScript *>(p_scripts[i].operator Object *())->compile();
+		static_cast<TypeScript *>(p_scripts[i].operator Object *())->analyze();
 	}
+	TypeScript::compile();
 }
 
 void TypeScriptLanguage::_reload_tool_script(const Ref<Script> &p_script, bool p_soft_reload) {
-	static_cast<TypeScript *>(p_script.ptr())->compile();
+	static_cast<TypeScript *>(p_script.ptr())->analyze();
+	TypeScript::compile();
 }
 
 PackedStringArray TypeScriptLanguage::_get_recognized_extensions() const {
@@ -310,11 +313,13 @@ HashSet<Ref<TypeScript>> TypeScriptLanguage::get_scripts() {
 
 void TypeScriptLanguage::compile_scripts() {
 	int exit_code = OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json" });
-	// OS::get_singleton()->delay_msec(1000);
+	OS::get_singleton()->delay_msec(100);
 	HashSet<Ref<TypeScript>> scripts = get_scripts();
 	auto it  = scripts.begin();
 	while (it != get_scripts().end()) {
-		(*it)->compile_modules();
+		if (!(*it)->get_path().ends_with(".d.ts")) {
+			(*it)->compile_module();
+		}
 		++it;
 	}
 }

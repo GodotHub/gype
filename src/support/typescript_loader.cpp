@@ -30,7 +30,7 @@ PackedStringArray TypeScriptLoader::_get_recognized_extensions() const {
 }
 
 bool TypeScriptLoader::_recognize_path(const String &p_path, const StringName &p_type) const {
-	return p_path.ends_with(".js") ||p_path.ends_with(".ts");
+	return p_path.ends_with(".js") || p_path.ends_with(".ts");
 }
 
 bool TypeScriptLoader::_handles_type(const StringName &p_type) const {

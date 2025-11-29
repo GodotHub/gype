@@ -79,6 +79,7 @@ StringName TypeScript::_get_instance_base_type() const {
 void *TypeScript::_instance_create(Object *p_for_object) const {
 	TypeScriptInstance *instance = memnew(TypeScriptInstance(p_for_object, Ref<TypeScript>(this), false));
 	this->script_instances.insert(instance);
+	this->godot_objects.insert(p_for_object);
 	return internal::gdextension_interface_script_instance_create3(&InstanceInfo, instance);
 }
 
@@ -444,8 +445,7 @@ void TypeScript::analyze() const {
 	dirty = false;
 }
 
-void TypeScript::compile(bool force) const {
-	analyze();
+void TypeScript::compile(bool force) {
 	ERR_FAIL_COND_EDMSG(!FileAccess::file_exists("res://tsconfig.json"), "tsconfig.json file does not exist.");
 	int exit_code = 0;
 	if (force) {
@@ -456,7 +456,8 @@ void TypeScript::compile(bool force) const {
 	ERR_FAIL_COND_EDMSG(exit_code == -1, "error executing tsc.");
 }
 
-void TypeScript::compile_modules() const {
+void TypeScript::compile_module() {
+	this->reload();
 	auto it = script_instances.begin();
 	while (it != script_instances.end()) {
 		(*it)->compile_module();

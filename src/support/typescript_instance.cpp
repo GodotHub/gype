@@ -39,7 +39,28 @@ godot::TypeScriptInstance::~TypeScriptInstance() {
 	JS_FreeValue(js_context(), js_binding);
 }
 
+HashMap<StringName, Variant> TypeScriptInstance::get_exported_values(JSValue this_obj) {
+	HashMap<StringName, Variant> values;
+	if (!JS_IsUndefined(this_obj)) {
+		TypedArray<Dictionary> props = script->get_script_property_list();
+		for (Dictionary prop : props) {
+			PropertyInfo info = PropertyInfo::from_dict(prop);
+			String prop_name = info.name;
+			Variant prop_value = jsvalue_to_variant(JS_GetPropertyStr(js_context(), this_obj, prop_name.utf8()));
+			values[prop_name] = prop_value;
+		}
+	}
+	return values;
+}
+
+void TypeScriptInstance::replace_exported_values(JSValue this_obj, HashMap<StringName, Variant> exported_values) {
+	for (KeyValue<StringName, Variant> prop : exported_values) {
+		JS_SetPropertyStr(js_context(), this_obj, String(prop.key).utf8(), variant_to_jsvalue(prop.value));
+	}
+}
+
 void TypeScriptInstance::compile_module() {
+	HashMap<StringName, Variant> exported_values = get_exported_values(js_binding);
 	if (!JS_IsUndefined(js_binding)) {
 		JS_FreeValue(js_context(), js_binding);
 	}
@@ -147,6 +168,7 @@ void TypeScriptInstance::compile_module() {
 	if (!instance_created) {
 		ERR_FAIL_MSG("Could not find a matching class to instantiate in the module.");
 	} else {
+		replace_exported_values(js_binding, exported_values);
 		script->instances.insert(gd_binding->get_instance_id());
 	}
 }

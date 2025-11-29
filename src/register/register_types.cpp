@@ -20,7 +20,7 @@
 using namespace godot;
 
 static void init_quickjs() {
-	JS_SetModuleLoaderFunc(js_runtime(), NULL, module_loader, NULL);
+	JS_SetModuleLoaderFunc(js_runtime(), module_normalize, module_loader, NULL);
 	register_builtin_classes();
 	register_classes();
 	register_utility_functions();

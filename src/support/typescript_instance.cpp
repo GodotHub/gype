@@ -1,10 +1,8 @@
 #include "support/typescript_instance.hpp"
 #include "support/typescript.hpp"
-#include "utils/event_loop.hpp"
 #include "utils/quickjs_helper.hpp"
 #include "utils/str_helper.hpp"
 #include "utils/variant_helper.hpp"
-#include <godot_cpp/classes/class_db_singleton.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/core/error_macros.hpp>
@@ -12,7 +10,6 @@
 #include <godot_cpp/templates/list.hpp>
 #include <godot_cpp/variant/string_name.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
-#include <godot_cpp/variant/variant_size.hpp>
 #include <memory>
 #include <vector>
 
@@ -34,6 +31,7 @@ const char *TypeScriptInstance::class_symbol_mask = "_GodotClass";
 TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, Ref<TypeScript> script, bool is_placeholder) {
 	this->script = script;
 	this->p_godot_object = p_godot_object;
+	this->script->compile();
 	this->compile_module();
 }
 
@@ -42,10 +40,13 @@ godot::TypeScriptInstance::~TypeScriptInstance() {
 }
 
 void TypeScriptInstance::compile_module() {
+	if (!JS_IsUndefined(js_binding)) {
+		JS_FreeValue(js_context(), js_binding);
+	}
 	gd_binding = internal::get_object_instance_binding(p_godot_object->_owner);
 	String code = script->get_dist_source_code();
-	std::string code_str = std::string(code.utf8().get_data());
-	JSValue module = JS_Eval(js_context(), code_str.c_str(), code_str.size(), "<eval>", JS_EVAL_TYPE_MODULE | JS_EVAL_FLAG_COMPILE_ONLY);
+	code = add_cache_buster_to_code_gd(code, UtilityFunctions::str(UtilityFunctions::randi()));
+	JSValue module = JS_Eval(js_context(), code.utf8(), code.length(), "<eval>", JS_EVAL_TYPE_MODULE | JS_EVAL_FLAG_COMPILE_ONLY);
 
 	// 检查 module 是否异常，如果是，则提前返回，避免后续操作
 	if (is_exception(js_context(), module)) {
@@ -61,7 +62,6 @@ void TypeScriptInstance::compile_module() {
 		JS_FreeValue(js_context(), module_eval);
 		// JS_FreeValue(js_context(), module); // 别忘了释放 module
 		ERR_FAIL_MSG("Failed to evaluate JS module.");
-		return;
 	}
 
 	JSValue ns = JS_GetModuleNamespace(js_context(), md);
@@ -70,7 +70,6 @@ void TypeScriptInstance::compile_module() {
 		JS_FreeValue(js_context(), module_eval);
 		// JS_FreeValue(js_context(), module);
 		ERR_FAIL_MSG("Failed to get module namespace.");
-		return;
 	}
 
 	JSPropertyEnum *props = nullptr; // 初始化为 nullptr
@@ -185,14 +184,22 @@ JSValue TypeScriptInstance::find_ns_property(JSModuleDef *md, const char *name) 
 
 GDExtensionBool TypeScriptInstance::set(GDExtensionConstStringNamePtr p_name, GDExtensionConstVariantPtr p_variant) {
 	BINDING_VALID_V(gd_binding, false);
-	const char *name = to_chars(*reinterpret_cast<const StringName *>(p_name));
+	const StringName *gdname = reinterpret_cast<const StringName *>(p_name);
+	const char *name = to_chars(*gdname);
+	if (gdname->begins_with("_")) {
+		name = to_chars(gdname->substr(1));
+	}
 	const Variant *varg = reinterpret_cast<const Variant *>(p_variant);
 	return JS_SetPropertyStr(js_context(), js_binding, name, VariantAdapter(*varg)) > 0;
 }
 
 GDExtensionBool TypeScriptInstance::get(GDExtensionConstStringNamePtr p_name, GDExtensionVariantPtr r_ret) {
 	BINDING_VALID_V(gd_binding, false);
-	const char *name = to_chars(*reinterpret_cast<const StringName *>(p_name));
+	const StringName *gdname = reinterpret_cast<const StringName *>(p_name);
+	const char *name = to_chars(*gdname);
+	if (gdname->begins_with("_")) {
+		name = to_chars(gdname->substr(1));
+	}
 	JSAtom name_atom = JS_NewAtom(js_context(), name);
 	if (JS_HasProperty(js_context(), js_binding, name_atom) > 0) {
 		JSValue js_ret = JS_GetPropertyStr(js_context(), js_binding, name);

@@ -30,7 +30,6 @@ Error TypeScriptSaver::_save(const Ref<Resource> &p_resource, const String &p_pa
 		file->store_string(source_code);
 	}
 	file->close();
-	script->compile();
 	return Error::OK;
 }
 

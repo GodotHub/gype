@@ -5,6 +5,7 @@
 #include "support/instance_info.hpp"
 #include "support/typescript_instance.hpp"
 #include "support/typescript_language.hpp"
+
 #include <godot_cpp/classes/dir_access.hpp>
 #include <godot_cpp/classes/editor_interface.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -453,33 +454,14 @@ void TypeScript::compile(bool force) const {
 		exit_code = OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json" });
 	}
 	ERR_FAIL_COND_EDMSG(exit_code == -1, "error executing tsc.");
-	compile_modules();
 }
 
 void TypeScript::compile_modules() const {
-	HashSet<Ref<TypeScript>> processed;
-	TypedArray<Ref<TypeScript>> scripts = TypeScriptLanguage::get_scripts();
-	auto it = scripts.begin();
-	while (it != scripts.end()) {
-		TypeScript *script = static_cast<TypeScript *>(it->operator Object *());
-		bool _ = compile_modules_internal(script, processed);
+	auto it = script_instances.begin();
+	while (it != script_instances.end()) {
+		(*it)->compile_module();
 		++it;
 	}
-}
-
-bool TypeScript::compile_modules_internal(Ref<TypeScript> script, HashSet<Ref<TypeScript>> &processed) const {
-	if (script->_get_base_script().is_null()) {
-		return script == this;
-	}
-	if (compile_modules_internal(script->_get_base_script(), processed)) {
-		auto it = script_instances.begin();
-		while (it != script_instances.end()) {
-			(*it)->compile_module();
-			++it;
-		}
-		return true;
-	}
-	return false;
 }
 
 void TypeScript::_set_source_code(const String &p_code) {
@@ -509,7 +491,8 @@ void TypeScript::remove_dist_internal(const String &path) {
 }
 
 Error TypeScript::_reload(bool p_keep_state) {
-	_set_source_code(source_code);
+	String content = FileAccess::get_file_as_string(get_path());
+	_set_source_code(content);
 	return OK;
 }
 

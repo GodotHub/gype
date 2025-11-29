@@ -19,4 +19,5 @@ extern inline godot::HashSet<godot::String> *registered_classes() {
 }
 
 JSModuleDef *module_loader(JSContext *ctx, const char *module_name, void *opaque);
+char *module_normalize(JSContext *ctx, const char *module_base_name, const char *module_name, void *opaque);
 #endif // __MODULE_LOADER_H__

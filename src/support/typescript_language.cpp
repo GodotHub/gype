@@ -5,10 +5,12 @@
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/script_editor.hpp>
 #include <godot_cpp/variant/callable_method_pointer.hpp>
+#include <godot_cpp/classes/os.hpp>
 
 using namespace godot;
 
 TypeScriptLanguage *TypeScriptLanguage::singleton;
+HashSet<Ref<TypeScript>> TypeScriptLanguage::scripts;
 
 TypeScriptLanguage *TypeScriptLanguage::get_singleton() {
 	if (singleton) {
@@ -302,18 +304,19 @@ Dictionary TypeScriptLanguage::_get_global_class_name(const String &p_path) cons
 	return dict;
 }
 
-TypedArray<Ref<TypeScript>> TypeScriptLanguage::get_scripts() {
-	TypedArray<Ref<TypeScript>> r_arr;
-	auto it = get_singleton()->scripts.begin();
-	while (it != get_singleton()->scripts.end()) {
-		r_arr.append(*it);
-		++it;
-	}
-	return r_arr;
+HashSet<Ref<TypeScript>> TypeScriptLanguage::get_scripts() {
+	return scripts;
 }
 
-String godot::TypeScriptLanguage::get_path_for_global_class(const StringName &p_class_name) const {
-	return global_class_to_path.has(p_class_name) ? global_class_to_path[p_class_name] : String();
+void TypeScriptLanguage::compile_scripts() {
+	int exit_code = OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json" });
+	// OS::get_singleton()->delay_msec(1000);
+	HashSet<Ref<TypeScript>> scripts = get_scripts();
+	auto it  = scripts.begin();
+	while (it != get_scripts().end()) {
+		(*it)->compile_modules();
+		++it;
+	}
 }
 
 TypeScriptLanguage::~TypeScriptLanguage() {

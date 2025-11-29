@@ -99,7 +99,7 @@ Variant TypeScriptLoader::_load(const String &p_path, const String &p_original_p
 	Ref<TypeScript> script;
 	script.instantiate();
 	script->_set_source_code(source_code);
-	TypeScriptLanguage::get_singleton()->scripts.push_back(script);
+	TypeScriptLanguage::scripts.insert(script);
 	return script;
 }
 

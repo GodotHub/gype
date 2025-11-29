@@ -20,10 +20,9 @@ class TypeScriptInstance;
 
 class TypeScriptInstance {
 	Object *gd_binding = nullptr;
-	JSValue js_binding;
+	JSValue js_binding = JS_UNDEFINED;
 	Object *p_godot_object = nullptr;
 	Ref<TypeScript> script = nullptr;
-	JSValue module;
 	List<PropertyInfo *> p_properties;
 	std::vector<GDExtensionPropertyInfo> properties;
 	List<MethodInfo *> p_methods;

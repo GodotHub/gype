@@ -52,6 +52,9 @@ class TypeScript : public ScriptExtension {
 	HashSet<uint64_t> instances;
 	mutable std::unordered_set<TypeScriptInstance *> script_instances;
 	
+private:
+	void remove_dist_internal(const String &path);
+	
 public:
 	static const char *dist_path;
 	static const char *class_symbol_mask;
@@ -109,12 +112,10 @@ protected:
 
 private:
 	void remove_dist();
-	void remove_dist_internal(const String &path);
 	String get_dist_source_code() const;
 	void compile(bool force = false) const;
 	void analyze() const;
 	void compile_modules() const;
-	bool compile_modules_internal(Ref<TypeScript> script, HashSet<Ref<TypeScript>> &processed) const;
 };
 
 } // namespace godot

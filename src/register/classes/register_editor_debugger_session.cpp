@@ -103,43 +103,39 @@ static const JSCFunctionListEntry editor_debugger_session_class_proto_funcs[] = 
 
 static JSValue editor_debugger_session_class_get_started_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	EditorDebuggerSession *opaque = static_cast<EditorDebuggerSession *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "started_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "started"));
-		JS_DefinePropertyValueStr(ctx, this_val, "started_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "started");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue editor_debugger_session_class_get_stopped_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	EditorDebuggerSession *opaque = static_cast<EditorDebuggerSession *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "stopped_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "stopped"));
-		JS_DefinePropertyValueStr(ctx, this_val, "stopped_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "stopped");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue editor_debugger_session_class_get_breaked_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	EditorDebuggerSession *opaque = static_cast<EditorDebuggerSession *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "breaked_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "breaked"));
-		JS_DefinePropertyValueStr(ctx, this_val, "breaked_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "breaked");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue editor_debugger_session_class_get_continued_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	EditorDebuggerSession *opaque = static_cast<EditorDebuggerSession *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "continued_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "continued"));
-		JS_DefinePropertyValueStr(ctx, this_val, "continued_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "continued");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 
 

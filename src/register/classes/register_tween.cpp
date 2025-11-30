@@ -200,33 +200,30 @@ static const JSCFunctionListEntry tween_class_static_funcs[] = {
 
 static JSValue tween_class_get_step_finished_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	Tween *opaque = static_cast<Tween *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "step_finished_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "step_finished"));
-		JS_DefinePropertyValueStr(ctx, this_val, "step_finished_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "step_finished");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue tween_class_get_loop_finished_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	Tween *opaque = static_cast<Tween *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "loop_finished_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "loop_finished"));
-		JS_DefinePropertyValueStr(ctx, this_val, "loop_finished_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "loop_finished");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue tween_class_get_finished_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	Tween *opaque = static_cast<Tween *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "finished_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "finished"));
-		JS_DefinePropertyValueStr(ctx, this_val, "finished_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "finished");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 
 

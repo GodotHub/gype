@@ -83,93 +83,84 @@ static const JSCFunctionListEntry editor_inspector_class_static_funcs[] = {
 
 static JSValue editor_inspector_class_get_property_selected_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	EditorInspector *opaque = static_cast<EditorInspector *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "property_selected_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "property_selected"));
-		JS_DefinePropertyValueStr(ctx, this_val, "property_selected_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "property_selected");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue editor_inspector_class_get_property_keyed_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	EditorInspector *opaque = static_cast<EditorInspector *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "property_keyed_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "property_keyed"));
-		JS_DefinePropertyValueStr(ctx, this_val, "property_keyed_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "property_keyed");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue editor_inspector_class_get_property_deleted_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	EditorInspector *opaque = static_cast<EditorInspector *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "property_deleted_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "property_deleted"));
-		JS_DefinePropertyValueStr(ctx, this_val, "property_deleted_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "property_deleted");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue editor_inspector_class_get_resource_selected_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	EditorInspector *opaque = static_cast<EditorInspector *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "resource_selected_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "resource_selected"));
-		JS_DefinePropertyValueStr(ctx, this_val, "resource_selected_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "resource_selected");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue editor_inspector_class_get_object_id_selected_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	EditorInspector *opaque = static_cast<EditorInspector *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "object_id_selected_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "object_id_selected"));
-		JS_DefinePropertyValueStr(ctx, this_val, "object_id_selected_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "object_id_selected");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue editor_inspector_class_get_property_edited_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	EditorInspector *opaque = static_cast<EditorInspector *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "property_edited_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "property_edited"));
-		JS_DefinePropertyValueStr(ctx, this_val, "property_edited_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "property_edited");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue editor_inspector_class_get_property_toggled_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	EditorInspector *opaque = static_cast<EditorInspector *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "property_toggled_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "property_toggled"));
-		JS_DefinePropertyValueStr(ctx, this_val, "property_toggled_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "property_toggled");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue editor_inspector_class_get_edited_object_changed_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	EditorInspector *opaque = static_cast<EditorInspector *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "edited_object_changed_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "edited_object_changed"));
-		JS_DefinePropertyValueStr(ctx, this_val, "edited_object_changed_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "edited_object_changed");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue editor_inspector_class_get_restart_requested_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	EditorInspector *opaque = static_cast<EditorInspector *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "restart_requested_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "restart_requested"));
-		JS_DefinePropertyValueStr(ctx, this_val, "restart_requested_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "restart_requested");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 
 

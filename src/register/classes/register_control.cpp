@@ -1105,93 +1105,84 @@ static const JSCFunctionListEntry control_class_proto_funcs[] = {
 
 static JSValue control_class_get_resized_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	Control *opaque = static_cast<Control *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "resized_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "resized"));
-		JS_DefinePropertyValueStr(ctx, this_val, "resized_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "resized");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue control_class_get_gui_input_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	Control *opaque = static_cast<Control *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "gui_input_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "gui_input"));
-		JS_DefinePropertyValueStr(ctx, this_val, "gui_input_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "gui_input");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue control_class_get_mouse_entered_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	Control *opaque = static_cast<Control *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "mouse_entered_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "mouse_entered"));
-		JS_DefinePropertyValueStr(ctx, this_val, "mouse_entered_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "mouse_entered");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue control_class_get_mouse_exited_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	Control *opaque = static_cast<Control *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "mouse_exited_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "mouse_exited"));
-		JS_DefinePropertyValueStr(ctx, this_val, "mouse_exited_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "mouse_exited");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue control_class_get_focus_entered_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	Control *opaque = static_cast<Control *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "focus_entered_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "focus_entered"));
-		JS_DefinePropertyValueStr(ctx, this_val, "focus_entered_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "focus_entered");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue control_class_get_focus_exited_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	Control *opaque = static_cast<Control *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "focus_exited_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "focus_exited"));
-		JS_DefinePropertyValueStr(ctx, this_val, "focus_exited_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "focus_exited");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue control_class_get_size_flags_changed_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	Control *opaque = static_cast<Control *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "size_flags_changed_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "size_flags_changed"));
-		JS_DefinePropertyValueStr(ctx, this_val, "size_flags_changed_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "size_flags_changed");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue control_class_get_minimum_size_changed_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	Control *opaque = static_cast<Control *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "minimum_size_changed_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "minimum_size_changed"));
-		JS_DefinePropertyValueStr(ctx, this_val, "minimum_size_changed_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "minimum_size_changed");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 static JSValue control_class_get_theme_changed_signal(JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv) {
 	CHECK_INSTANCE_VALID_V(this_val);
-	Control *opaque = static_cast<Control *>(reinterpret_cast<VariantAdapter *>(JS_GetOpaque(this_val, JS_GetClassID(this_val)))->get().operator Object*());
-	JSValue js_signal = JS_GetPropertyStr(ctx, this_val, "theme_changed_signal");
-	if (JS_IsUndefined(js_signal)) {
-		js_signal = VariantAdapter(Signal(opaque, "theme_changed"));
-		JS_DefinePropertyValueStr(ctx, this_val, "theme_changed_signal", js_signal, JS_PROP_HAS_VALUE);
-	}
-	return js_signal;
+	JSValue global = JS_GetGlobalObject(ctx);
+	JSValue signal_ctor = JS_GetPropertyStr(ctx, global, "Signal");
+	JSValue signal_name = JS_NewString(ctx, "theme_changed");
+	JSValue args[] = { this_val, signal_name };
+	JS_FreeValue(ctx, global);
+	return JS_CallConstructor(ctx, signal_ctor, 2, args);
 }
 
 

@@ -46,8 +46,10 @@ HashMap<StringName, Variant> TypeScriptInstance::get_exported_values(JSValue thi
 		for (Dictionary prop : props) {
 			PropertyInfo info = PropertyInfo::from_dict(prop);
 			String prop_name = info.name;
-			Variant prop_value = jsvalue_to_variant(JS_GetPropertyStr(js_context(), this_obj, prop_name.utf8()));
+			JSValue jsvalue = JS_GetPropertyStr(js_context(), this_obj, prop_name.utf8());
+			Variant prop_value = jsvalue_to_variant(jsvalue);
 			values[prop_name] = prop_value;
+			JS_FreeValue(js_context(), jsvalue);
 		}
 	}
 	return values;
@@ -72,7 +74,7 @@ void TypeScriptInstance::compile_module() {
 	// 检查 module 是否异常，如果是，则提前返回，避免后续操作
 	if (is_exception(js_context(), module)) {
 		// 在返回前，需要释放 module（即使它是异常值也需要释放）
-		JS_FreeValue(js_context(), module);
+		// JS_FreeValue(js_context(), module);
 		ERR_FAIL_MSG("Failed to compile JS module.");
 		return;
 	}

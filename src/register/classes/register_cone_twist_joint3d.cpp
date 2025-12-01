@@ -70,6 +70,7 @@ static JSValue cone_twist_joint3d_class_set_swing_span(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ConeTwistJoint3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -86,6 +87,7 @@ static JSValue cone_twist_joint3d_class_set_twist_span(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ConeTwistJoint3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -102,6 +104,7 @@ static JSValue cone_twist_joint3d_class_set_bias(JSContext *ctx, JSValueConst th
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ConeTwistJoint3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -118,6 +121,7 @@ static JSValue cone_twist_joint3d_class_set_softness(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ConeTwistJoint3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -134,6 +138,7 @@ static JSValue cone_twist_joint3d_class_set_relaxation(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ConeTwistJoint3D::set_param, ctx, this_val, argc, vec_arg.data());

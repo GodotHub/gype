@@ -86,6 +86,7 @@ static JSValue directional_light3d_class_set_directional_shadow_split_1(JSContex
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&DirectionalLight3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -102,6 +103,7 @@ static JSValue directional_light3d_class_set_directional_shadow_split_2(JSContex
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&DirectionalLight3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -118,6 +120,7 @@ static JSValue directional_light3d_class_set_directional_shadow_split_3(JSContex
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&DirectionalLight3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -134,6 +137,7 @@ static JSValue directional_light3d_class_set_directional_shadow_fade_start(JSCon
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&DirectionalLight3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -150,6 +154,7 @@ static JSValue directional_light3d_class_set_directional_shadow_max_distance(JSC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&DirectionalLight3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -166,6 +171,7 @@ static JSValue directional_light3d_class_set_directional_shadow_pancake_size(JSC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&DirectionalLight3D::set_param, ctx, this_val, argc, vec_arg.data());

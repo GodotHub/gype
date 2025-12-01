@@ -129,6 +129,7 @@ static JSValue nine_patch_rect_class_set_patch_margin_left(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&NinePatchRect::set_patch_margin, ctx, this_val, argc, vec_arg.data());
@@ -145,6 +146,7 @@ static JSValue nine_patch_rect_class_set_patch_margin_top(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&NinePatchRect::set_patch_margin, ctx, this_val, argc, vec_arg.data());
@@ -161,6 +163,7 @@ static JSValue nine_patch_rect_class_set_patch_margin_right(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&NinePatchRect::set_patch_margin, ctx, this_val, argc, vec_arg.data());
@@ -177,6 +180,7 @@ static JSValue nine_patch_rect_class_set_patch_margin_bottom(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&NinePatchRect::set_patch_margin, ctx, this_val, argc, vec_arg.data());

@@ -280,17 +280,6 @@ JSValue variant_to_jsvalue(const Variant &val) {
 				return JS_UNDEFINED;
 			}
 			return downcast(js_context(), obj);
-			VariantAdapter *adapter = memnew(VariantAdapter(val));
-			const char *class_name = to_chars(obj->get_class());
-			char code[1024];
-			if (strcmp(class_name, "Object") == 0) {
-				class_name = "GodotObject";
-			}
-			sprintf(code, "import { %s } from \"@godot/classes/%s\";", class_name, camelToSnake(class_name).c_str());
-			JS_Eval(js_context(), code, strlen(code), "<eval>", JS_EVAL_TYPE_MODULE);
-			JSValue wrapper = JS_NewObjectClass(js_context(), classes[class_name]);
-			JS_SetOpaque(wrapper, adapter);
-			return wrapper;
 		}
 		default: {
 			return JS_UNDEFINED;

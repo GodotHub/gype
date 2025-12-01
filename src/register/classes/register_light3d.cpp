@@ -205,6 +205,7 @@ static JSValue light3d_class_set_light_intensity_lumens(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -221,6 +222,7 @@ static JSValue light3d_class_set_light_intensity_lux(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -237,6 +239,7 @@ static JSValue light3d_class_set_light_energy(JSContext *ctx, JSValueConst this_
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -253,6 +256,7 @@ static JSValue light3d_class_set_light_indirect_energy(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -269,6 +273,7 @@ static JSValue light3d_class_set_light_volumetric_fog_energy(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -285,6 +290,7 @@ static JSValue light3d_class_set_light_size(JSContext *ctx, JSValueConst this_va
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -301,6 +307,7 @@ static JSValue light3d_class_set_light_angular_distance(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -317,6 +324,7 @@ static JSValue light3d_class_set_light_specular(JSContext *ctx, JSValueConst thi
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -333,6 +341,7 @@ static JSValue light3d_class_set_shadow_bias(JSContext *ctx, JSValueConst this_v
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -349,6 +358,7 @@ static JSValue light3d_class_set_shadow_normal_bias(JSContext *ctx, JSValueConst
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -365,6 +375,7 @@ static JSValue light3d_class_set_shadow_transmittance_bias(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -381,6 +392,7 @@ static JSValue light3d_class_set_shadow_opacity(JSContext *ctx, JSValueConst thi
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -397,6 +409,7 @@ static JSValue light3d_class_set_shadow_blur(JSContext *ctx, JSValueConst this_v
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Light3D::set_param, ctx, this_val, argc, vec_arg.data());

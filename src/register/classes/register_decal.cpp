@@ -195,6 +195,7 @@ static JSValue decal_class_set_texture_albedo(JSContext *ctx, JSValueConst this_
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Decal::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -211,6 +212,7 @@ static JSValue decal_class_set_texture_normal(JSContext *ctx, JSValueConst this_
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Decal::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -227,6 +229,7 @@ static JSValue decal_class_set_texture_orm(JSContext *ctx, JSValueConst this_val
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Decal::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -243,6 +246,7 @@ static JSValue decal_class_set_texture_emission(JSContext *ctx, JSValueConst thi
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Decal::set_texture, ctx, this_val, argc, vec_arg.data());

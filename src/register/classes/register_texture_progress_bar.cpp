@@ -257,6 +257,7 @@ static JSValue texture_progress_bar_class_set_stretch_margin_left(JSContext *ctx
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&TextureProgressBar::set_stretch_margin, ctx, this_val, argc, vec_arg.data());
@@ -273,6 +274,7 @@ static JSValue texture_progress_bar_class_set_stretch_margin_top(JSContext *ctx,
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&TextureProgressBar::set_stretch_margin, ctx, this_val, argc, vec_arg.data());
@@ -289,6 +291,7 @@ static JSValue texture_progress_bar_class_set_stretch_margin_right(JSContext *ct
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&TextureProgressBar::set_stretch_margin, ctx, this_val, argc, vec_arg.data());
@@ -305,6 +308,7 @@ static JSValue texture_progress_bar_class_set_stretch_margin_bottom(JSContext *c
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&TextureProgressBar::set_stretch_margin, ctx, this_val, argc, vec_arg.data());

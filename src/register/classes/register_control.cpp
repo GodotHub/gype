@@ -813,6 +813,7 @@ static JSValue control_class_set_offset_left(JSContext *ctx, JSValueConst this_v
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Control::set_offset, ctx, this_val, argc, vec_arg.data());
@@ -829,6 +830,7 @@ static JSValue control_class_set_offset_top(JSContext *ctx, JSValueConst this_va
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Control::set_offset, ctx, this_val, argc, vec_arg.data());
@@ -845,6 +847,7 @@ static JSValue control_class_set_offset_right(JSContext *ctx, JSValueConst this_
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Control::set_offset, ctx, this_val, argc, vec_arg.data());
@@ -861,6 +864,7 @@ static JSValue control_class_set_offset_bottom(JSContext *ctx, JSValueConst this
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Control::set_offset, ctx, this_val, argc, vec_arg.data());
@@ -877,6 +881,7 @@ static JSValue control_class_set_focus_neighbor_left(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Control::set_focus_neighbor, ctx, this_val, argc, vec_arg.data());
@@ -893,6 +898,7 @@ static JSValue control_class_set_focus_neighbor_top(JSContext *ctx, JSValueConst
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Control::set_focus_neighbor, ctx, this_val, argc, vec_arg.data());
@@ -909,6 +915,7 @@ static JSValue control_class_set_focus_neighbor_right(JSContext *ctx, JSValueCon
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Control::set_focus_neighbor, ctx, this_val, argc, vec_arg.data());
@@ -925,6 +932,7 @@ static JSValue control_class_set_focus_neighbor_bottom(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Control::set_focus_neighbor, ctx, this_val, argc, vec_arg.data());

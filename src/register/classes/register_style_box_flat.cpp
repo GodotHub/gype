@@ -283,6 +283,7 @@ static JSValue style_box_flat_class_set_border_width_left(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxFlat::set_border_width, ctx, this_val, argc, vec_arg.data());
@@ -299,6 +300,7 @@ static JSValue style_box_flat_class_set_border_width_top(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxFlat::set_border_width, ctx, this_val, argc, vec_arg.data());
@@ -315,6 +317,7 @@ static JSValue style_box_flat_class_set_border_width_right(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxFlat::set_border_width, ctx, this_val, argc, vec_arg.data());
@@ -331,6 +334,7 @@ static JSValue style_box_flat_class_set_border_width_bottom(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxFlat::set_border_width, ctx, this_val, argc, vec_arg.data());
@@ -347,6 +351,7 @@ static JSValue style_box_flat_class_set_corner_radius_top_left(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxFlat::set_corner_radius, ctx, this_val, argc, vec_arg.data());
@@ -363,6 +368,7 @@ static JSValue style_box_flat_class_set_corner_radius_top_right(JSContext *ctx, 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxFlat::set_corner_radius, ctx, this_val, argc, vec_arg.data());
@@ -379,6 +385,7 @@ static JSValue style_box_flat_class_set_corner_radius_bottom_right(JSContext *ct
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxFlat::set_corner_radius, ctx, this_val, argc, vec_arg.data());
@@ -395,6 +402,7 @@ static JSValue style_box_flat_class_set_corner_radius_bottom_left(JSContext *ctx
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxFlat::set_corner_radius, ctx, this_val, argc, vec_arg.data());
@@ -411,6 +419,7 @@ static JSValue style_box_flat_class_set_expand_margin_left(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxFlat::set_expand_margin, ctx, this_val, argc, vec_arg.data());
@@ -427,6 +436,7 @@ static JSValue style_box_flat_class_set_expand_margin_top(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxFlat::set_expand_margin, ctx, this_val, argc, vec_arg.data());
@@ -443,6 +453,7 @@ static JSValue style_box_flat_class_set_expand_margin_right(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxFlat::set_expand_margin, ctx, this_val, argc, vec_arg.data());
@@ -459,6 +470,7 @@ static JSValue style_box_flat_class_set_expand_margin_bottom(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxFlat::set_expand_margin, ctx, this_val, argc, vec_arg.data());

@@ -96,6 +96,7 @@ static JSValue physics_body3d_class_set_axis_lock_linear_x(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&PhysicsBody3D::set_axis_lock, ctx, this_val, argc, vec_arg.data());
@@ -112,6 +113,7 @@ static JSValue physics_body3d_class_set_axis_lock_linear_y(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&PhysicsBody3D::set_axis_lock, ctx, this_val, argc, vec_arg.data());
@@ -128,6 +130,7 @@ static JSValue physics_body3d_class_set_axis_lock_linear_z(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&PhysicsBody3D::set_axis_lock, ctx, this_val, argc, vec_arg.data());
@@ -144,6 +147,7 @@ static JSValue physics_body3d_class_set_axis_lock_angular_x(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&PhysicsBody3D::set_axis_lock, ctx, this_val, argc, vec_arg.data());
@@ -160,6 +164,7 @@ static JSValue physics_body3d_class_set_axis_lock_angular_y(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&PhysicsBody3D::set_axis_lock, ctx, this_val, argc, vec_arg.data());
@@ -176,6 +181,7 @@ static JSValue physics_body3d_class_set_axis_lock_angular_z(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&PhysicsBody3D::set_axis_lock, ctx, this_val, argc, vec_arg.data());

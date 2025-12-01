@@ -62,6 +62,7 @@ static JSValue spot_light3d_class_set_spot_range(JSContext *ctx, JSValueConst th
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&SpotLight3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -78,6 +79,7 @@ static JSValue spot_light3d_class_set_spot_attenuation(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&SpotLight3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -94,6 +96,7 @@ static JSValue spot_light3d_class_set_spot_angle(JSContext *ctx, JSValueConst th
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&SpotLight3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -110,6 +113,7 @@ static JSValue spot_light3d_class_set_spot_angle_attenuation(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&SpotLight3D::set_param, ctx, this_val, argc, vec_arg.data());

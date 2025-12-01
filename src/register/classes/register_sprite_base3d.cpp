@@ -235,6 +235,7 @@ static JSValue sprite_base3d_class_set_transparent(JSContext *ctx, JSValueConst 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&SpriteBase3D::set_draw_flag, ctx, this_val, argc, vec_arg.data());
@@ -251,6 +252,7 @@ static JSValue sprite_base3d_class_set_shaded(JSContext *ctx, JSValueConst this_
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&SpriteBase3D::set_draw_flag, ctx, this_val, argc, vec_arg.data());
@@ -267,6 +269,7 @@ static JSValue sprite_base3d_class_set_double_sided(JSContext *ctx, JSValueConst
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&SpriteBase3D::set_draw_flag, ctx, this_val, argc, vec_arg.data());
@@ -283,6 +286,7 @@ static JSValue sprite_base3d_class_set_no_depth_test(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&SpriteBase3D::set_draw_flag, ctx, this_val, argc, vec_arg.data());
@@ -299,6 +303,7 @@ static JSValue sprite_base3d_class_set_fixed_size(JSContext *ctx, JSValueConst t
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&SpriteBase3D::set_draw_flag, ctx, this_val, argc, vec_arg.data());

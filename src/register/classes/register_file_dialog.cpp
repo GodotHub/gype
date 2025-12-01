@@ -255,6 +255,7 @@ static JSValue file_dialog_class_set_hidden_files_toggle_enabled(JSContext *ctx,
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&FileDialog::set_customization_flag_enabled, ctx, this_val, argc, vec_arg.data());
@@ -271,6 +272,7 @@ static JSValue file_dialog_class_set_file_filter_toggle_enabled(JSContext *ctx, 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&FileDialog::set_customization_flag_enabled, ctx, this_val, argc, vec_arg.data());
@@ -287,6 +289,7 @@ static JSValue file_dialog_class_set_file_sort_options_enabled(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&FileDialog::set_customization_flag_enabled, ctx, this_val, argc, vec_arg.data());
@@ -303,6 +306,7 @@ static JSValue file_dialog_class_set_folder_creation_enabled(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&FileDialog::set_customization_flag_enabled, ctx, this_val, argc, vec_arg.data());
@@ -319,6 +323,7 @@ static JSValue file_dialog_class_set_favorites_enabled(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&FileDialog::set_customization_flag_enabled, ctx, this_val, argc, vec_arg.data());
@@ -335,6 +340,7 @@ static JSValue file_dialog_class_set_recent_list_enabled(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&FileDialog::set_customization_flag_enabled, ctx, this_val, argc, vec_arg.data());
@@ -351,6 +357,7 @@ static JSValue file_dialog_class_set_layout_toggle_enabled(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&FileDialog::set_customization_flag_enabled, ctx, this_val, argc, vec_arg.data());

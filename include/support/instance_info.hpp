@@ -22,7 +22,7 @@ GDExtensionBool refcount_decremented_func(GDExtensionScriptInstanceDataPtr p_ins
 GDExtensionObjectPtr get_owner_func(GDExtensionScriptInstanceDataPtr p_instance);
 GDExtensionObjectPtr get_script_func(GDExtensionScriptInstanceDataPtr p_instance);
 GDExtensionBool is_placeholder_func(GDExtensionScriptInstanceDataPtr p_instance);
-GDExtensionBool set_callback_func(GDExtensionScriptInstanceDataPtr p_instance, GDExtensionConstStringNamePtr p_name, GDExtensionConstVariantPtr p_value);
+GDExtensionBool set_fallback_func(GDExtensionScriptInstanceDataPtr p_instance, GDExtensionConstStringNamePtr p_name, GDExtensionConstVariantPtr p_value);
 GDExtensionScriptLanguagePtr get_language_func(GDExtensionScriptInstanceDataPtr p_instance);
 void free_func(GDExtensionScriptInstanceDataPtr p_instance);
 
@@ -49,7 +49,7 @@ static const GDExtensionScriptInstanceInfo3 InstanceInfo{
 	refcount_decremented_func,
 	get_script_func,
 	nullptr,
-	set_callback_func,
+	nullptr,
 	nullptr,
 	get_language_func,
 	free_func

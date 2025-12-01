@@ -109,6 +109,7 @@ static JSValue audio_stream_playlist_class_set_stream_0(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -125,6 +126,7 @@ static JSValue audio_stream_playlist_class_set_stream_1(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -141,6 +143,7 @@ static JSValue audio_stream_playlist_class_set_stream_2(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -157,6 +160,7 @@ static JSValue audio_stream_playlist_class_set_stream_3(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -173,6 +177,7 @@ static JSValue audio_stream_playlist_class_set_stream_4(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -189,6 +194,7 @@ static JSValue audio_stream_playlist_class_set_stream_5(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -205,6 +211,7 @@ static JSValue audio_stream_playlist_class_set_stream_6(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -221,6 +228,7 @@ static JSValue audio_stream_playlist_class_set_stream_7(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -237,6 +245,7 @@ static JSValue audio_stream_playlist_class_set_stream_8(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -253,6 +262,7 @@ static JSValue audio_stream_playlist_class_set_stream_9(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -269,6 +279,7 @@ static JSValue audio_stream_playlist_class_set_stream_10(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -285,6 +296,7 @@ static JSValue audio_stream_playlist_class_set_stream_11(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -301,6 +313,7 @@ static JSValue audio_stream_playlist_class_set_stream_12(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -317,6 +330,7 @@ static JSValue audio_stream_playlist_class_set_stream_13(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -333,6 +347,7 @@ static JSValue audio_stream_playlist_class_set_stream_14(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -349,6 +364,7 @@ static JSValue audio_stream_playlist_class_set_stream_15(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -365,6 +381,7 @@ static JSValue audio_stream_playlist_class_set_stream_16(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -381,6 +398,7 @@ static JSValue audio_stream_playlist_class_set_stream_17(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -397,6 +415,7 @@ static JSValue audio_stream_playlist_class_set_stream_18(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -413,6 +432,7 @@ static JSValue audio_stream_playlist_class_set_stream_19(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -429,6 +449,7 @@ static JSValue audio_stream_playlist_class_set_stream_20(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -445,6 +466,7 @@ static JSValue audio_stream_playlist_class_set_stream_21(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -461,6 +483,7 @@ static JSValue audio_stream_playlist_class_set_stream_22(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -477,6 +500,7 @@ static JSValue audio_stream_playlist_class_set_stream_23(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -493,6 +517,7 @@ static JSValue audio_stream_playlist_class_set_stream_24(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -509,6 +534,7 @@ static JSValue audio_stream_playlist_class_set_stream_25(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -525,6 +551,7 @@ static JSValue audio_stream_playlist_class_set_stream_26(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -541,6 +568,7 @@ static JSValue audio_stream_playlist_class_set_stream_27(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -557,6 +585,7 @@ static JSValue audio_stream_playlist_class_set_stream_28(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -573,6 +602,7 @@ static JSValue audio_stream_playlist_class_set_stream_29(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -589,6 +619,7 @@ static JSValue audio_stream_playlist_class_set_stream_30(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -605,6 +636,7 @@ static JSValue audio_stream_playlist_class_set_stream_31(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -621,6 +653,7 @@ static JSValue audio_stream_playlist_class_set_stream_32(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -637,6 +670,7 @@ static JSValue audio_stream_playlist_class_set_stream_33(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -653,6 +687,7 @@ static JSValue audio_stream_playlist_class_set_stream_34(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -669,6 +704,7 @@ static JSValue audio_stream_playlist_class_set_stream_35(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -685,6 +721,7 @@ static JSValue audio_stream_playlist_class_set_stream_36(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -701,6 +738,7 @@ static JSValue audio_stream_playlist_class_set_stream_37(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -717,6 +755,7 @@ static JSValue audio_stream_playlist_class_set_stream_38(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -733,6 +772,7 @@ static JSValue audio_stream_playlist_class_set_stream_39(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -749,6 +789,7 @@ static JSValue audio_stream_playlist_class_set_stream_40(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -765,6 +806,7 @@ static JSValue audio_stream_playlist_class_set_stream_41(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -781,6 +823,7 @@ static JSValue audio_stream_playlist_class_set_stream_42(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -797,6 +840,7 @@ static JSValue audio_stream_playlist_class_set_stream_43(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -813,6 +857,7 @@ static JSValue audio_stream_playlist_class_set_stream_44(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -829,6 +874,7 @@ static JSValue audio_stream_playlist_class_set_stream_45(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -845,6 +891,7 @@ static JSValue audio_stream_playlist_class_set_stream_46(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -861,6 +908,7 @@ static JSValue audio_stream_playlist_class_set_stream_47(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -877,6 +925,7 @@ static JSValue audio_stream_playlist_class_set_stream_48(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -893,6 +942,7 @@ static JSValue audio_stream_playlist_class_set_stream_49(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -909,6 +959,7 @@ static JSValue audio_stream_playlist_class_set_stream_50(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -925,6 +976,7 @@ static JSValue audio_stream_playlist_class_set_stream_51(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -941,6 +993,7 @@ static JSValue audio_stream_playlist_class_set_stream_52(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -957,6 +1010,7 @@ static JSValue audio_stream_playlist_class_set_stream_53(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -973,6 +1027,7 @@ static JSValue audio_stream_playlist_class_set_stream_54(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -989,6 +1044,7 @@ static JSValue audio_stream_playlist_class_set_stream_55(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -1005,6 +1061,7 @@ static JSValue audio_stream_playlist_class_set_stream_56(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -1021,6 +1078,7 @@ static JSValue audio_stream_playlist_class_set_stream_57(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -1037,6 +1095,7 @@ static JSValue audio_stream_playlist_class_set_stream_58(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -1053,6 +1112,7 @@ static JSValue audio_stream_playlist_class_set_stream_59(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -1069,6 +1129,7 @@ static JSValue audio_stream_playlist_class_set_stream_60(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -1085,6 +1146,7 @@ static JSValue audio_stream_playlist_class_set_stream_61(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -1101,6 +1163,7 @@ static JSValue audio_stream_playlist_class_set_stream_62(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());
@@ -1117,6 +1180,7 @@ static JSValue audio_stream_playlist_class_set_stream_63(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&AudioStreamPlaylist::set_list_stream, ctx, this_val, argc, vec_arg.data());

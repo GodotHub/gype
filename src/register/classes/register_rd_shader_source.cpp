@@ -81,6 +81,7 @@ static JSValue rd_shader_source_class_set_source_vertex(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&RDShaderSource::set_stage_source, ctx, this_val, argc, vec_arg.data());
@@ -97,6 +98,7 @@ static JSValue rd_shader_source_class_set_source_fragment(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&RDShaderSource::set_stage_source, ctx, this_val, argc, vec_arg.data());
@@ -113,6 +115,7 @@ static JSValue rd_shader_source_class_set_source_tesselation_control(JSContext *
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&RDShaderSource::set_stage_source, ctx, this_val, argc, vec_arg.data());
@@ -129,6 +132,7 @@ static JSValue rd_shader_source_class_set_source_tesselation_evaluation(JSContex
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&RDShaderSource::set_stage_source, ctx, this_val, argc, vec_arg.data());
@@ -145,6 +149,7 @@ static JSValue rd_shader_source_class_set_source_compute(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&RDShaderSource::set_stage_source, ctx, this_val, argc, vec_arg.data());

@@ -487,6 +487,7 @@ static JSValue cpu_particles2d_class_set_particle_flag_align_y(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_particle_flag, ctx, this_val, argc, vec_arg.data());
@@ -503,6 +504,7 @@ static JSValue cpu_particles2d_class_set_initial_velocity_min(JSContext *ctx, JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -519,6 +521,7 @@ static JSValue cpu_particles2d_class_set_initial_velocity_max(JSContext *ctx, JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -535,6 +538,7 @@ static JSValue cpu_particles2d_class_set_angular_velocity_min(JSContext *ctx, JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -551,6 +555,7 @@ static JSValue cpu_particles2d_class_set_angular_velocity_max(JSContext *ctx, JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -567,6 +572,7 @@ static JSValue cpu_particles2d_class_set_angular_velocity_curve(JSContext *ctx, 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_curve, ctx, this_val, argc, vec_arg.data());
@@ -583,6 +589,7 @@ static JSValue cpu_particles2d_class_set_orbit_velocity_min(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -599,6 +606,7 @@ static JSValue cpu_particles2d_class_set_orbit_velocity_max(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -615,6 +623,7 @@ static JSValue cpu_particles2d_class_set_orbit_velocity_curve(JSContext *ctx, JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_curve, ctx, this_val, argc, vec_arg.data());
@@ -631,6 +640,7 @@ static JSValue cpu_particles2d_class_set_linear_accel_min(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -647,6 +657,7 @@ static JSValue cpu_particles2d_class_set_linear_accel_max(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -663,6 +674,7 @@ static JSValue cpu_particles2d_class_set_linear_accel_curve(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_curve, ctx, this_val, argc, vec_arg.data());
@@ -679,6 +691,7 @@ static JSValue cpu_particles2d_class_set_radial_accel_min(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -695,6 +708,7 @@ static JSValue cpu_particles2d_class_set_radial_accel_max(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -711,6 +725,7 @@ static JSValue cpu_particles2d_class_set_radial_accel_curve(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_curve, ctx, this_val, argc, vec_arg.data());
@@ -727,6 +742,7 @@ static JSValue cpu_particles2d_class_set_tangential_accel_min(JSContext *ctx, JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -743,6 +759,7 @@ static JSValue cpu_particles2d_class_set_tangential_accel_max(JSContext *ctx, JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -759,6 +776,7 @@ static JSValue cpu_particles2d_class_set_tangential_accel_curve(JSContext *ctx, 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_curve, ctx, this_val, argc, vec_arg.data());
@@ -775,6 +793,7 @@ static JSValue cpu_particles2d_class_set_damping_min(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -791,6 +810,7 @@ static JSValue cpu_particles2d_class_set_damping_max(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -807,6 +827,7 @@ static JSValue cpu_particles2d_class_set_damping_curve(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_curve, ctx, this_val, argc, vec_arg.data());
@@ -823,6 +844,7 @@ static JSValue cpu_particles2d_class_set_angle_min(JSContext *ctx, JSValueConst 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -839,6 +861,7 @@ static JSValue cpu_particles2d_class_set_angle_max(JSContext *ctx, JSValueConst 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -855,6 +878,7 @@ static JSValue cpu_particles2d_class_set_angle_curve(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_curve, ctx, this_val, argc, vec_arg.data());
@@ -871,6 +895,7 @@ static JSValue cpu_particles2d_class_set_scale_amount_min(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -887,6 +912,7 @@ static JSValue cpu_particles2d_class_set_scale_amount_max(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -903,6 +929,7 @@ static JSValue cpu_particles2d_class_set_scale_amount_curve(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_curve, ctx, this_val, argc, vec_arg.data());
@@ -919,6 +946,7 @@ static JSValue cpu_particles2d_class_set_hue_variation_min(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -935,6 +963,7 @@ static JSValue cpu_particles2d_class_set_hue_variation_max(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -951,6 +980,7 @@ static JSValue cpu_particles2d_class_set_hue_variation_curve(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_curve, ctx, this_val, argc, vec_arg.data());
@@ -967,6 +997,7 @@ static JSValue cpu_particles2d_class_set_anim_speed_min(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -983,6 +1014,7 @@ static JSValue cpu_particles2d_class_set_anim_speed_max(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -999,6 +1031,7 @@ static JSValue cpu_particles2d_class_set_anim_speed_curve(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_curve, ctx, this_val, argc, vec_arg.data());
@@ -1015,6 +1048,7 @@ static JSValue cpu_particles2d_class_set_anim_offset_min(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -1031,6 +1065,7 @@ static JSValue cpu_particles2d_class_set_anim_offset_max(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -1047,6 +1082,7 @@ static JSValue cpu_particles2d_class_set_anim_offset_curve(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&CPUParticles2D::set_param_curve, ctx, this_val, argc, vec_arg.data());

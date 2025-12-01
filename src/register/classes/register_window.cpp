@@ -677,6 +677,7 @@ static JSValue window_class_set_unresizable(JSContext *ctx, JSValueConst this_va
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -693,6 +694,7 @@ static JSValue window_class_set_borderless(JSContext *ctx, JSValueConst this_val
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -709,6 +711,7 @@ static JSValue window_class_set_always_on_top(JSContext *ctx, JSValueConst this_
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -725,6 +728,7 @@ static JSValue window_class_set_transparent(JSContext *ctx, JSValueConst this_va
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -741,6 +745,7 @@ static JSValue window_class_set_unfocusable(JSContext *ctx, JSValueConst this_va
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -757,6 +762,7 @@ static JSValue window_class_set_popup_window(JSContext *ctx, JSValueConst this_v
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -773,6 +779,7 @@ static JSValue window_class_set_extend_to_title(JSContext *ctx, JSValueConst thi
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -789,6 +796,7 @@ static JSValue window_class_set_mouse_passthrough(JSContext *ctx, JSValueConst t
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -805,6 +813,7 @@ static JSValue window_class_set_sharp_corners(JSContext *ctx, JSValueConst this_
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -821,6 +830,7 @@ static JSValue window_class_set_exclude_from_capture(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -837,6 +847,7 @@ static JSValue window_class_set_popup_wm_hint(JSContext *ctx, JSValueConst this_
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -853,6 +864,7 @@ static JSValue window_class_set_minimize_disabled(JSContext *ctx, JSValueConst t
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -869,6 +881,7 @@ static JSValue window_class_set_maximize_disabled(JSContext *ctx, JSValueConst t
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Window::set_flag, ctx, this_val, argc, vec_arg.data());

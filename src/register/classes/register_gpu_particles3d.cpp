@@ -320,6 +320,7 @@ static JSValue gpu_particles3d_class_set_draw_pass_1(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&GPUParticles3D::set_draw_pass_mesh, ctx, this_val, argc, vec_arg.data());
@@ -336,6 +337,7 @@ static JSValue gpu_particles3d_class_set_draw_pass_2(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&GPUParticles3D::set_draw_pass_mesh, ctx, this_val, argc, vec_arg.data());
@@ -352,6 +354,7 @@ static JSValue gpu_particles3d_class_set_draw_pass_3(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&GPUParticles3D::set_draw_pass_mesh, ctx, this_val, argc, vec_arg.data());
@@ -368,6 +371,7 @@ static JSValue gpu_particles3d_class_set_draw_pass_4(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&GPUParticles3D::set_draw_pass_mesh, ctx, this_val, argc, vec_arg.data());

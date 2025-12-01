@@ -615,6 +615,7 @@ static JSValue particle_process_material_class_set_particle_flag_align_y(JSConte
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_particle_flag, ctx, this_val, argc, vec_arg.data());
@@ -631,6 +632,7 @@ static JSValue particle_process_material_class_set_particle_flag_rotate_y(JSCont
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_particle_flag, ctx, this_val, argc, vec_arg.data());
@@ -647,6 +649,7 @@ static JSValue particle_process_material_class_set_particle_flag_disable_z(JSCon
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_particle_flag, ctx, this_val, argc, vec_arg.data());
@@ -663,6 +666,7 @@ static JSValue particle_process_material_class_set_particle_flag_damping_as_fric
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_particle_flag, ctx, this_val, argc, vec_arg.data());
@@ -679,6 +683,7 @@ static JSValue particle_process_material_class_set_angle(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -695,6 +700,7 @@ static JSValue particle_process_material_class_set_angle_min(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -711,6 +717,7 @@ static JSValue particle_process_material_class_set_angle_max(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -727,6 +734,7 @@ static JSValue particle_process_material_class_set_angle_curve(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
@@ -743,6 +751,7 @@ static JSValue particle_process_material_class_set_initial_velocity(JSContext *c
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -759,6 +768,7 @@ static JSValue particle_process_material_class_set_initial_velocity_min(JSContex
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -775,6 +785,7 @@ static JSValue particle_process_material_class_set_initial_velocity_max(JSContex
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -791,6 +802,7 @@ static JSValue particle_process_material_class_set_angular_velocity(JSContext *c
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -807,6 +819,7 @@ static JSValue particle_process_material_class_set_angular_velocity_min(JSContex
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -823,6 +836,7 @@ static JSValue particle_process_material_class_set_angular_velocity_max(JSContex
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -839,6 +853,7 @@ static JSValue particle_process_material_class_set_angular_velocity_curve(JSCont
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
@@ -855,6 +870,7 @@ static JSValue particle_process_material_class_set_directional_velocity(JSContex
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -871,6 +887,7 @@ static JSValue particle_process_material_class_set_directional_velocity_min(JSCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -887,6 +904,7 @@ static JSValue particle_process_material_class_set_directional_velocity_max(JSCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -903,6 +921,7 @@ static JSValue particle_process_material_class_set_directional_velocity_curve(JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
@@ -919,6 +938,7 @@ static JSValue particle_process_material_class_set_orbit_velocity(JSContext *ctx
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -935,6 +955,7 @@ static JSValue particle_process_material_class_set_orbit_velocity_min(JSContext 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -951,6 +972,7 @@ static JSValue particle_process_material_class_set_orbit_velocity_max(JSContext 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -967,6 +989,7 @@ static JSValue particle_process_material_class_set_orbit_velocity_curve(JSContex
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
@@ -983,6 +1006,7 @@ static JSValue particle_process_material_class_set_radial_velocity(JSContext *ct
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -999,6 +1023,7 @@ static JSValue particle_process_material_class_set_radial_velocity_min(JSContext
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -1015,6 +1040,7 @@ static JSValue particle_process_material_class_set_radial_velocity_max(JSContext
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -1031,6 +1057,7 @@ static JSValue particle_process_material_class_set_radial_velocity_curve(JSConte
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
@@ -1047,6 +1074,7 @@ static JSValue particle_process_material_class_set_linear_accel(JSContext *ctx, 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -1063,6 +1091,7 @@ static JSValue particle_process_material_class_set_linear_accel_min(JSContext *c
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -1079,6 +1108,7 @@ static JSValue particle_process_material_class_set_linear_accel_max(JSContext *c
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -1095,6 +1125,7 @@ static JSValue particle_process_material_class_set_linear_accel_curve(JSContext 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
@@ -1111,6 +1142,7 @@ static JSValue particle_process_material_class_set_radial_accel(JSContext *ctx, 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -1127,6 +1159,7 @@ static JSValue particle_process_material_class_set_radial_accel_min(JSContext *c
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -1143,6 +1176,7 @@ static JSValue particle_process_material_class_set_radial_accel_max(JSContext *c
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -1159,6 +1193,7 @@ static JSValue particle_process_material_class_set_radial_accel_curve(JSContext 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
@@ -1175,6 +1210,7 @@ static JSValue particle_process_material_class_set_tangential_accel(JSContext *c
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -1191,6 +1227,7 @@ static JSValue particle_process_material_class_set_tangential_accel_min(JSContex
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -1207,6 +1244,7 @@ static JSValue particle_process_material_class_set_tangential_accel_max(JSContex
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -1223,6 +1261,7 @@ static JSValue particle_process_material_class_set_tangential_accel_curve(JSCont
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
@@ -1239,6 +1278,7 @@ static JSValue particle_process_material_class_set_damping(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -1255,6 +1295,7 @@ static JSValue particle_process_material_class_set_damping_min(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -1271,6 +1312,7 @@ static JSValue particle_process_material_class_set_damping_max(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -1287,6 +1329,7 @@ static JSValue particle_process_material_class_set_damping_curve(JSContext *ctx,
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
@@ -1303,6 +1346,7 @@ static JSValue particle_process_material_class_set_scale(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -1319,6 +1363,7 @@ static JSValue particle_process_material_class_set_scale_min(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -1335,6 +1380,7 @@ static JSValue particle_process_material_class_set_scale_max(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -1351,6 +1397,7 @@ static JSValue particle_process_material_class_set_scale_curve(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
@@ -1367,6 +1414,7 @@ static JSValue particle_process_material_class_set_scale_over_velocity(JSContext
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -1383,6 +1431,7 @@ static JSValue particle_process_material_class_set_scale_over_velocity_min(JSCon
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -1399,6 +1448,7 @@ static JSValue particle_process_material_class_set_scale_over_velocity_max(JSCon
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -1415,6 +1465,7 @@ static JSValue particle_process_material_class_set_scale_over_velocity_curve(JSC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
@@ -1431,6 +1482,7 @@ static JSValue particle_process_material_class_set_hue_variation(JSContext *ctx,
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -1447,6 +1499,7 @@ static JSValue particle_process_material_class_set_hue_variation_min(JSContext *
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -1463,6 +1516,7 @@ static JSValue particle_process_material_class_set_hue_variation_max(JSContext *
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -1479,6 +1533,7 @@ static JSValue particle_process_material_class_set_hue_variation_curve(JSContext
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
@@ -1495,6 +1550,7 @@ static JSValue particle_process_material_class_set_anim_speed(JSContext *ctx, JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -1511,6 +1567,7 @@ static JSValue particle_process_material_class_set_anim_speed_min(JSContext *ctx
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -1527,6 +1584,7 @@ static JSValue particle_process_material_class_set_anim_speed_max(JSContext *ctx
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -1543,6 +1601,7 @@ static JSValue particle_process_material_class_set_anim_speed_curve(JSContext *c
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
@@ -1559,6 +1618,7 @@ static JSValue particle_process_material_class_set_anim_offset(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -1575,6 +1635,7 @@ static JSValue particle_process_material_class_set_anim_offset_min(JSContext *ct
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -1591,6 +1652,7 @@ static JSValue particle_process_material_class_set_anim_offset_max(JSContext *ct
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -1607,6 +1669,7 @@ static JSValue particle_process_material_class_set_anim_offset_curve(JSContext *
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());
@@ -1623,6 +1686,7 @@ static JSValue particle_process_material_class_set_turbulence_influence(JSContex
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -1639,6 +1703,7 @@ static JSValue particle_process_material_class_set_turbulence_influence_min(JSCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -1655,6 +1720,7 @@ static JSValue particle_process_material_class_set_turbulence_influence_max(JSCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -1671,6 +1737,7 @@ static JSValue particle_process_material_class_set_turbulence_initial_displaceme
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param, ctx, this_val, argc, vec_arg.data());
@@ -1687,6 +1754,7 @@ static JSValue particle_process_material_class_set_turbulence_initial_displaceme
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_min, ctx, this_val, argc, vec_arg.data());
@@ -1703,6 +1771,7 @@ static JSValue particle_process_material_class_set_turbulence_initial_displaceme
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_max, ctx, this_val, argc, vec_arg.data());
@@ -1719,6 +1788,7 @@ static JSValue particle_process_material_class_set_turbulence_influence_over_lif
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&ParticleProcessMaterial::set_param_texture, ctx, this_val, argc, vec_arg.data());

@@ -213,8 +213,15 @@ GDExtensionBool TypeScriptInstance::set(GDExtensionConstStringNamePtr p_name, GD
 	if (gdname->begins_with("_")) {
 		name = to_chars(gdname->substr(1));
 	}
+	JSAtom name_atom = JS_NewAtom(js_context(), name);
 	const Variant *varg = reinterpret_cast<const Variant *>(p_variant);
-	return JS_SetPropertyStr(js_context(), js_binding, name, VariantAdapter(*varg)) > 0;
+	if (JS_HasProperty(js_context(), js_binding, name_atom)) {
+		JS_FreeAtom(js_context(), name_atom);
+		return JS_SetPropertyStr(js_context(), js_binding, name, VariantAdapter(*varg)) > 0;
+	} else {
+		JS_FreeAtom(js_context(), name_atom);
+		return false;
+	}
 }
 
 GDExtensionBool TypeScriptInstance::get(GDExtensionConstStringNamePtr p_name, GDExtensionVariantPtr r_ret) {
@@ -226,17 +233,18 @@ GDExtensionBool TypeScriptInstance::get(GDExtensionConstStringNamePtr p_name, GD
 	}
 	JSAtom name_atom = JS_NewAtom(js_context(), name);
 	if (JS_HasProperty(js_context(), js_binding, name_atom) > 0) {
+		JS_FreeAtom(js_context(), name_atom);
 		JSValue js_ret = JS_GetPropertyStr(js_context(), js_binding, name);
 		if (JS_IsUndefined(js_ret)) {
 			return false;
 		}
 		Variant ret = VariantAdapter(js_ret).get();
 		internal::gdextension_interface_variant_new_copy(r_ret, ret._native_ptr());
-		JS_FreeAtom(js_context(), name_atom);
 		return true;
+	} else {
+		JS_FreeAtom(js_context(), name_atom);
+		return false;
 	}
-	JS_FreeAtom(js_context(), name_atom);
-	return false;
 }
 
 const GDExtensionPropertyInfo *TypeScriptInstance::get_property_list(uint32_t *r_count) {

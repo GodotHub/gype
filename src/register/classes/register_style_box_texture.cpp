@@ -174,6 +174,7 @@ static JSValue style_box_texture_class_set_texture_margin_left(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxTexture::set_texture_margin, ctx, this_val, argc, vec_arg.data());
@@ -190,6 +191,7 @@ static JSValue style_box_texture_class_set_texture_margin_top(JSContext *ctx, JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxTexture::set_texture_margin, ctx, this_val, argc, vec_arg.data());
@@ -206,6 +208,7 @@ static JSValue style_box_texture_class_set_texture_margin_right(JSContext *ctx, 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxTexture::set_texture_margin, ctx, this_val, argc, vec_arg.data());
@@ -222,6 +225,7 @@ static JSValue style_box_texture_class_set_texture_margin_bottom(JSContext *ctx,
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxTexture::set_texture_margin, ctx, this_val, argc, vec_arg.data());
@@ -238,6 +242,7 @@ static JSValue style_box_texture_class_set_expand_margin_left(JSContext *ctx, JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxTexture::set_expand_margin, ctx, this_val, argc, vec_arg.data());
@@ -254,6 +259,7 @@ static JSValue style_box_texture_class_set_expand_margin_top(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxTexture::set_expand_margin, ctx, this_val, argc, vec_arg.data());
@@ -270,6 +276,7 @@ static JSValue style_box_texture_class_set_expand_margin_right(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxTexture::set_expand_margin, ctx, this_val, argc, vec_arg.data());
@@ -286,6 +293,7 @@ static JSValue style_box_texture_class_set_expand_margin_bottom(JSContext *ctx, 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&StyleBoxTexture::set_expand_margin, ctx, this_val, argc, vec_arg.data());

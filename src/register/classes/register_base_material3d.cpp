@@ -844,6 +844,7 @@ static JSValue base_material3d_class_set_no_depth_test(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -860,6 +861,7 @@ static JSValue base_material3d_class_set_disable_ambient_light(JSContext *ctx, J
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -876,6 +878,7 @@ static JSValue base_material3d_class_set_disable_fog(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -892,6 +895,7 @@ static JSValue base_material3d_class_set_disable_specular_occlusion(JSContext *c
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -908,6 +912,7 @@ static JSValue base_material3d_class_set_vertex_color_use_as_albedo(JSContext *c
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -924,6 +929,7 @@ static JSValue base_material3d_class_set_vertex_color_is_srgb(JSContext *ctx, JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -940,6 +946,7 @@ static JSValue base_material3d_class_set_albedo_texture(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -956,6 +963,7 @@ static JSValue base_material3d_class_set_albedo_texture_force_srgb(JSContext *ct
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -972,6 +980,7 @@ static JSValue base_material3d_class_set_albedo_texture_msdf(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -988,6 +997,7 @@ static JSValue base_material3d_class_set_orm_texture(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1004,6 +1014,7 @@ static JSValue base_material3d_class_set_metallic_texture(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1020,6 +1031,7 @@ static JSValue base_material3d_class_set_roughness_texture(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1036,6 +1048,7 @@ static JSValue base_material3d_class_set_emission_enabled(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
@@ -1052,6 +1065,7 @@ static JSValue base_material3d_class_set_emission_on_uv2(JSContext *ctx, JSValue
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1068,6 +1082,7 @@ static JSValue base_material3d_class_set_emission_texture(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1084,6 +1099,7 @@ static JSValue base_material3d_class_set_normal_enabled(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
@@ -1100,6 +1116,7 @@ static JSValue base_material3d_class_set_normal_texture(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1116,6 +1133,7 @@ static JSValue base_material3d_class_set_bent_normal_enabled(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
@@ -1132,6 +1150,7 @@ static JSValue base_material3d_class_set_bent_normal_texture(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1148,6 +1167,7 @@ static JSValue base_material3d_class_set_rim_enabled(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
@@ -1164,6 +1184,7 @@ static JSValue base_material3d_class_set_rim_texture(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1180,6 +1201,7 @@ static JSValue base_material3d_class_set_clearcoat_enabled(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
@@ -1196,6 +1218,7 @@ static JSValue base_material3d_class_set_clearcoat_texture(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1212,6 +1235,7 @@ static JSValue base_material3d_class_set_anisotropy_enabled(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
@@ -1228,6 +1252,7 @@ static JSValue base_material3d_class_set_anisotropy_flowmap(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1244,6 +1269,7 @@ static JSValue base_material3d_class_set_ao_enabled(JSContext *ctx, JSValueConst
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
@@ -1260,6 +1286,7 @@ static JSValue base_material3d_class_set_ao_texture(JSContext *ctx, JSValueConst
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1276,6 +1303,7 @@ static JSValue base_material3d_class_set_ao_on_uv2(JSContext *ctx, JSValueConst 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1292,6 +1320,7 @@ static JSValue base_material3d_class_set_heightmap_enabled(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
@@ -1308,6 +1337,7 @@ static JSValue base_material3d_class_set_heightmap_texture(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1324,6 +1354,7 @@ static JSValue base_material3d_class_set_heightmap_flip_texture(JSContext *ctx, 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1340,6 +1371,7 @@ static JSValue base_material3d_class_set_subsurf_scatter_enabled(JSContext *ctx,
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
@@ -1356,6 +1388,7 @@ static JSValue base_material3d_class_set_subsurf_scatter_skin_mode(JSContext *ct
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1372,6 +1405,7 @@ static JSValue base_material3d_class_set_subsurf_scatter_texture(JSContext *ctx,
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1388,6 +1422,7 @@ static JSValue base_material3d_class_set_subsurf_scatter_transmittance_enabled(J
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
@@ -1404,6 +1439,7 @@ static JSValue base_material3d_class_set_subsurf_scatter_transmittance_texture(J
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1420,6 +1456,7 @@ static JSValue base_material3d_class_set_backlight_enabled(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
@@ -1436,6 +1473,7 @@ static JSValue base_material3d_class_set_backlight_texture(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1452,6 +1490,7 @@ static JSValue base_material3d_class_set_refraction_enabled(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
@@ -1468,6 +1507,7 @@ static JSValue base_material3d_class_set_refraction_texture(JSContext *ctx, JSVa
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1484,6 +1524,7 @@ static JSValue base_material3d_class_set_detail_enabled(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_feature, ctx, this_val, argc, vec_arg.data());
@@ -1500,6 +1541,7 @@ static JSValue base_material3d_class_set_detail_mask(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1516,6 +1558,7 @@ static JSValue base_material3d_class_set_detail_albedo(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1532,6 +1575,7 @@ static JSValue base_material3d_class_set_detail_normal(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_texture, ctx, this_val, argc, vec_arg.data());
@@ -1548,6 +1592,7 @@ static JSValue base_material3d_class_set_uv1_triplanar(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1564,6 +1609,7 @@ static JSValue base_material3d_class_set_uv1_world_triplanar(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1580,6 +1626,7 @@ static JSValue base_material3d_class_set_uv2_triplanar(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1596,6 +1643,7 @@ static JSValue base_material3d_class_set_uv2_world_triplanar(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1612,6 +1660,7 @@ static JSValue base_material3d_class_set_texture_repeat(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1628,6 +1677,7 @@ static JSValue base_material3d_class_set_disable_receive_shadows(JSContext *ctx,
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1644,6 +1694,7 @@ static JSValue base_material3d_class_set_shadow_to_opacity(JSContext *ctx, JSVal
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1660,6 +1711,7 @@ static JSValue base_material3d_class_set_billboard_keep_scale(JSContext *ctx, JS
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1676,6 +1728,7 @@ static JSValue base_material3d_class_set_fixed_size(JSContext *ctx, JSValueConst
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1692,6 +1745,7 @@ static JSValue base_material3d_class_set_use_point_size(JSContext *ctx, JSValueC
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1708,6 +1762,7 @@ static JSValue base_material3d_class_set_use_particle_trails(JSContext *ctx, JSV
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1724,6 +1779,7 @@ static JSValue base_material3d_class_set_use_z_clip_scale(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());
@@ -1740,6 +1796,7 @@ static JSValue base_material3d_class_set_use_fov_override(JSContext *ctx, JSValu
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&BaseMaterial3D::set_flag, ctx, this_val, argc, vec_arg.data());

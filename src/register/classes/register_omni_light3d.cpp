@@ -70,6 +70,7 @@ static JSValue omni_light3d_class_set_omni_range(JSContext *ctx, JSValueConst th
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&OmniLight3D::set_param, ctx, this_val, argc, vec_arg.data());
@@ -86,6 +87,7 @@ static JSValue omni_light3d_class_set_omni_attenuation(JSContext *ctx, JSValueCo
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&OmniLight3D::set_param, ctx, this_val, argc, vec_arg.data());

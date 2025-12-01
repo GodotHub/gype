@@ -12,7 +12,6 @@
 
 using namespace godot;
 
-// ... (Your type traits are fine, no changes needed here) ...
 template <typename T>
 struct is_const_ref : std::false_type {
 };
@@ -99,7 +98,10 @@ std::enable_if_t<is_const_ref_v<T>, const_ref_extract_type_t<T> *>
 convert(JSContext *ctx, JSValueConst v) {
 	JSClassID class_id = 0;
 	auto *adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(v, &class_id));
-	return static_cast<const_ref_extract_type_t<T> *>(adapter->get().operator Object *());
+	if (adapter == nullptr)
+		return nullptr;
+	else
+		return static_cast<const_ref_extract_type_t<T> *>(adapter->get().operator Object *());
 }
 
 template <typename T>
@@ -107,7 +109,10 @@ std::enable_if_t<is_ref_v<T>, ref_extract_type_t<T> *>
 convert(JSContext *ctx, JSValueConst v) {
 	JSClassID class_id = 0;
 	auto *adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(v, &class_id));
-	return static_cast<ref_extract_type_t<T> *>(adapter->get().operator Object *());
+	if (adapter == nullptr)
+		return nullptr;
+	else
+		return static_cast<ref_extract_type_t<T> *>(adapter->get().operator Object *());
 }
 
 template <typename T>
@@ -129,7 +134,10 @@ std::enable_if_t<std::is_pointer_v<T> && std::is_base_of_v<Object, std::remove_p
 convert(JSContext *ctx, JSValueConst v) {
 	JSClassID class_id = 0;
 	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(v, &class_id));
-	return static_cast<T>(adapter->get().operator Object *());
+	if (adapter == nullptr)
+		return nullptr;
+	else
+		return static_cast<T>(adapter->get().operator Object *());
 }
 
 template <typename T>
@@ -137,7 +145,10 @@ std::enable_if_t<std::is_base_of_v<Object, T>, T *>
 convert(JSContext *ctx, JSValueConst v) {
 	JSClassID class_id = 0;
 	VariantAdapter *adapter = static_cast<VariantAdapter *>(JS_GetAnyOpaque(v, &class_id));
-	return static_cast<T *>(adapter->get().operator godot::Object *());
+	if (adapter == nullptr)
+		return nullptr;
+	else
+		return static_cast<T *>(adapter->get().operator godot::Object *());
 }
 
 template <typename T>
@@ -202,7 +213,6 @@ JSValue call_builtin_method_no_ret(void (T::*Func)(P...), JSContext *ctx, JSValu
 	return call_builtin_method_no_ret_impl(Func, ctx, this_val, argc, argv, std::make_index_sequence<sizeof...(P)>());
 }
 
-// NO CHANGE: const methods are fine with copies
 template <typename T, typename... P, std::size_t... Is>
 JSValue call_builtin_const_method_no_ret_impl(void (T::*Func)(P...) const, JSContext *ctx, JSValueConst this_val, int argc, JSValueConst *argv, std::index_sequence<Is...>) {
 	if constexpr (std::is_base_of_v<Object, T>) {

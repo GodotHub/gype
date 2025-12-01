@@ -308,6 +308,7 @@ static JSValue camera2d_class_set_limit_left(JSContext *ctx, JSValueConst this_v
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Camera2D::set_limit, ctx, this_val, argc, vec_arg.data());
@@ -324,6 +325,7 @@ static JSValue camera2d_class_set_limit_top(JSContext *ctx, JSValueConst this_va
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Camera2D::set_limit, ctx, this_val, argc, vec_arg.data());
@@ -340,6 +342,7 @@ static JSValue camera2d_class_set_limit_right(JSContext *ctx, JSValueConst this_
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Camera2D::set_limit, ctx, this_val, argc, vec_arg.data());
@@ -356,6 +359,7 @@ static JSValue camera2d_class_set_limit_bottom(JSContext *ctx, JSValueConst this
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Camera2D::set_limit, ctx, this_val, argc, vec_arg.data());
@@ -372,6 +376,7 @@ static JSValue camera2d_class_set_drag_left_margin(JSContext *ctx, JSValueConst 
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Camera2D::set_drag_margin, ctx, this_val, argc, vec_arg.data());
@@ -388,6 +393,7 @@ static JSValue camera2d_class_set_drag_top_margin(JSContext *ctx, JSValueConst t
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Camera2D::set_drag_margin, ctx, this_val, argc, vec_arg.data());
@@ -404,6 +410,7 @@ static JSValue camera2d_class_set_drag_right_margin(JSContext *ctx, JSValueConst
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Camera2D::set_drag_margin, ctx, this_val, argc, vec_arg.data());
@@ -420,6 +427,7 @@ static JSValue camera2d_class_set_drag_bottom_margin(JSContext *ctx, JSValueCons
 	CHECK_INSTANCE_VALID_V(this_val);
 	JSValue index = JS_NewInt64(ctx, magic);
 	std::vector<JSValueConst> vec_arg;
+	vec_arg.push_back(index);
 	vec_arg.reserve(argc + 1);
 	vec_arg.insert(vec_arg.end(), argv, argv + argc);
 	call_builtin_method_no_ret(&Camera2D::set_drag_margin, ctx, this_val, argc, vec_arg.data());

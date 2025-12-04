@@ -82,6 +82,11 @@ GDExtensionObjectPtr get_owner_func(GDExtensionScriptInstanceDataPtr p_instance)
 	return instance->get_binding()->_owner;
 }
 
+void get_property_state_func(GDExtensionScriptInstanceDataPtr p_instance, GDExtensionScriptInstancePropertyStateAdd p_add_func, void *p_userdata) {
+	TypeScriptInstance *instance = reinterpret_cast<TypeScriptInstance *>(p_instance);
+	return instance->get_property_state(p_add_func, p_userdata);
+}
+
 GDExtensionObjectPtr get_script_func(GDExtensionScriptInstanceDataPtr p_instance) {
 	TypeScriptInstance *instance = reinterpret_cast<TypeScriptInstance *>(p_instance);
 	return instance->get_script();

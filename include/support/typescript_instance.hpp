@@ -27,11 +27,10 @@ class TypeScriptInstance {
 	std::vector<GDExtensionPropertyInfo> properties;
 	List<MethodInfo *> p_methods;
 	std::vector<GDExtensionMethodInfo> methods;
+	bool is_placeholder_mode;
+	Dictionary placeholder_storage;
 
 private:
-	JSModuleDef *get_module(const char *path);
-	JSValue find_ns_property(JSModuleDef *md, const char *name);
-
 	HashMap<StringName, Variant> get_exported_values(JSValue this_obj);
 	void replace_exported_values(JSValue this_obj,HashMap<StringName, Variant> exported_values);
 
@@ -54,6 +53,7 @@ public:
 	GDExtensionBool has_method(GDExtensionConstStringNamePtr p_name);
 	GDExtensionInt get_method_argument_count(GDExtensionConstStringNamePtr p_name, GDExtensionBool *r_is_valid);
 	GDExtensionObjectPtr get_owner();
+	void get_property_state(GDExtensionScriptInstancePropertyStateAdd p_add_func, void *p_userdata);
 	GDExtensionObjectPtr get_script();
 	GDExtensionBool is_placeholder();
 	GDExtensionBool set_callback(GDExtensionConstStringNamePtr p_name, GDExtensionConstVariantPtr p_value);

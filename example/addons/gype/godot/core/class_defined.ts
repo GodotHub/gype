@@ -5,7 +5,7 @@ const _GodotClass = Symbol("_GodotClass");
 const _Tool = Symbol("_Tool");
 const _Export = Symbol("_Export");
 
-type GodotConstructor = abstract new () => GodotObject;
+type GodotConstructor = new () => GodotObject;
 
 export function GodotClass<T extends GodotConstructor>(
   target: T,
@@ -29,9 +29,11 @@ export function GodotTool<T extends GodotConstructor>(
   (target as any)[_Tool] = true;
 }
 
-export function GodotExport(type: number) {
-  return function (value: undefined, context: ClassFieldDecoratorContext) {};
-}
+
+export function GodotExport(
+  target: any,
+  context: ClassFieldDecoratorContext<any>
+): void{}
 
 interface SignalArgument {
   name: string;

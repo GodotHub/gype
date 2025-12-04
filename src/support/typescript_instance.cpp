@@ -19,24 +19,26 @@ static void notification_bind(JSValue instance, JSValue prototype, int32_t p_wha
 
 const char *TypeScriptInstance::class_symbol_mask = "_GodotClass";
 
-#define BINDING_VALID_V(binding, ret) \
-	gd_binding = get_binding();       \
-	ERR_FAIL_NULL_V(binding, ret);    \
+#define BINDING_VALID_V(ret)		        \
+	ERR_FAIL_NULL_V(get_binding(), ret);    \
 	ERR_FAIL_COND_V(JS_IsUndefined(js_binding), ret);
-#define BINDING_VALID(binding)  \
-	gd_binding = get_binding(); \
-	ERR_FAIL_NULL(binding);     \
+#define BINDING_VALID		          \
+	ERR_FAIL_NULL(get_binding());     \
 	ERR_FAIL_COND(JS_IsUndefined(js_binding));
 
 TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, Ref<TypeScript> script, bool is_placeholder) {
+	this->is_placeholder_mode = is_placeholder;
 	this->script = script;
 	this->p_godot_object = p_godot_object;
-	this->script->compile();
-	this->compile_module();
+	this->script->analyze();
+	if (!is_placeholder_mode) {
+		this->script->compile();
+		this->compile_module();
+	}
 }
 
 godot::TypeScriptInstance::~TypeScriptInstance() {
-	JS_FreeValue(js_context(), js_binding);
+	// JS_FreeValue(js_context(), js_binding);
 }
 
 HashMap<StringName, Variant> TypeScriptInstance::get_exported_values(JSValue this_obj) {
@@ -71,12 +73,8 @@ void TypeScriptInstance::compile_module() {
 	code = add_cache_buster_to_code_gd(code, UtilityFunctions::str(UtilityFunctions::randi()));
 	JSValue module = JS_Eval(js_context(), code.utf8(), code.length(), "<eval>", JS_EVAL_TYPE_MODULE | JS_EVAL_FLAG_COMPILE_ONLY);
 
-	// 检查 module 是否异常，如果是，则提前返回，避免后续操作
 	if (is_exception(js_context(), module)) {
-		// 在返回前，需要释放 module（即使它是异常值也需要释放）
-		// JS_FreeValue(js_context(), module);
 		ERR_FAIL_MSG("Failed to compile JS module.");
-		return;
 	}
 
 	JSModuleDef *md = (JSModuleDef *)JS_VALUE_GET_PTR(module);
@@ -112,49 +110,16 @@ void TypeScriptInstance::compile_module() {
 		const char *prop_name = JS_AtomToCString(js_context(), class_atom);
 		JSValue js_prop = JS_GetPropertyStr(js_context(), ns, prop_name);
 
-		if (!is_exception(js_context(), js_prop) && JS_IsObject(js_prop)) {
-			// 注意：clazz 只是 js_prop 的别名，不需要单独管理它的生命周期
-			JSValue clazz = js_prop;
-			JSPropertyEnum *class_props = nullptr; // 初始化为 nullptr
-			uint32_t class_len;
-			if (JS_GetOwnPropertyNames(js_context(), &class_props, &class_len, clazz, JS_GPN_SYMBOL_MASK) < 0) {
-				// 错误处理：释放当前循环中获取的资源
-				JS_FreeValue(js_context(), js_prop);
-				JS_FreeAtom(js_context(), class_atom);
-				// 继续下一个循环，或者决定是否要终止整个过程
-				continue;
+		if (strcmp(prop_name, "default") == 0) {
+			VariantAdapter *adapter = memnew(VariantAdapter(gd_binding));
+			JSValue constroctor_arg = *adapter;
+			js_binding = JS_CallConstructor(js_context(), js_prop, 1, &constroctor_arg);
+			memdelete(adapter); // adapter 仅用于传参，之后立即删除
+
+			if (!is_exception(js_context(), js_binding)) {
+				instance_created = true; // 成功创建
+				break;
 			}
-
-			for (uint32_t j = 0; j < class_len; j++) {
-				JSAtom symbol = class_props[j].atom;
-				const char *symbol_name = JS_AtomToCString(js_context(), symbol);
-				if (strcmp(class_symbol_mask, symbol_name) == 0) {
-					VariantAdapter *adapter = memnew(VariantAdapter(gd_binding));
-					JSValue constroctor_arg = *adapter;
-					js_binding = JS_CallConstructor(js_context(), clazz, 1, &constroctor_arg);
-					memdelete(adapter); // adapter 仅用于传参，之后立即删除
-
-					if (!is_exception(js_context(), js_binding)) {
-						instance_created = true; // 成功创建
-					}
-				}
-				JS_FreeAtom(js_context(), symbol);
-				// 如果已经创建，可以跳出内层循环
-				if (instance_created) {
-					break;
-				}
-			}
-			// 修复点 2：释放 JS_GetOwnPropertyNames 分配的 class_props 数组
-			js_free(js_context(), class_props);
-		}
-
-		// 修复点 3：确保 js_prop 和 class_atom 在每次循环结束时都被释放
-		JS_FreeAtom(js_context(), class_atom);
-		JS_FreeValue(js_context(), js_prop);
-
-		// 修复点 4：如果实例已创建，跳出外层循环
-		if (instance_created) {
-			break;
 		}
 	}
 
@@ -175,80 +140,80 @@ void TypeScriptInstance::compile_module() {
 	}
 }
 
-JSModuleDef *godot::TypeScriptInstance::get_module(const char *path) {
-	char *code = new char[512];
-	sprintf(code, "import * as md from \"%s\";", path);
-	JSValue js_module = JS_Eval(js_context(), code, strlen(code), "<input>", JS_EVAL_FLAG_COMPILE_ONLY | JS_EVAL_TYPE_MODULE);
-	JSModuleDef *md = (JSModuleDef *)JS_VALUE_GET_PTR(js_module);
-	js_module = JS_EvalFunction(js_context(), js_module);
-	return is_exception(js_context(), js_module) ? nullptr : md;
-}
-
-JSValue TypeScriptInstance::find_ns_property(JSModuleDef *md, const char *name) {
-	JSValue ns = JS_GetModuleNamespace(js_context(), md);
-	return JS_GetPropertyStr(js_context(), ns, name);
-}
-
-#define SET_JS_PROPERTY_WITH_MSG(prop_name, var)                        \
-	if (JS_SetPropertyStr(ctx, js_instance, prop_name, var) <= 0) {     \
-		qjs::print_exception(ctx);                                      \
-		ERR_FAIL_V_EDMSG(false, "Error setting js_instance property."); \
-	}                                                                   \
-	return true;
-
-#define SETTER_JS_PROPERTY_WITH_MSG(js_setter, var)                                                                                      \
-	JSValue _var = var;                                                                                                                  \
-	ERR_FAIL_COND_V_EDMSG(JS_IsException(JS_Call(ctx, js_setter, js_instance, 1, &_var)), false, "Error setting js_instance property."); \
-	return true;
-
-#define SETTER_GD_PROPERTY_WITH_MSG(gd_setter, var)                                                                                      \
-	JSValue _var = var;                                                                                                                  \
-	ERR_FAIL_COND_V_EDMSG(JS_IsException(JS_Call(ctx, gd_setter, js_instance, 1, &_var)), false, "Error setting js_instance property."); \
-	return true;
-
 GDExtensionBool TypeScriptInstance::set(GDExtensionConstStringNamePtr p_name, GDExtensionConstVariantPtr p_variant) {
-	BINDING_VALID_V(gd_binding, false);
-	const StringName *gdname = reinterpret_cast<const StringName *>(p_name);
-	const char *name = to_chars(*gdname);
-	if (gdname->begins_with("_")) {
-		name = to_chars(gdname->substr(1));
-	}
-	JSAtom name_atom = JS_NewAtom(js_context(), name);
-	const Variant *varg = reinterpret_cast<const Variant *>(p_variant);
-	if (JS_HasProperty(js_context(), js_binding, name_atom)) {
-		JS_FreeAtom(js_context(), name_atom);
-		return JS_SetPropertyStr(js_context(), js_binding, name, VariantAdapter(*varg)) > 0;
-	} else {
-		JS_FreeAtom(js_context(), name_atom);
+	if (is_placeholder_mode) {
+		StringName name = *reinterpret_cast<const StringName *>(p_name);
+		const Variant *val = reinterpret_cast<const Variant *>(p_variant);
+		UtilityFunctions::print(name);
+		// 检查属性是否有效（可选，看需求）
+		if (script->godot_class_data) {
+			for (const auto &prop_info : script->godot_class_data->properties) {
+				if (name == prop_info.key) {
+					placeholder_storage[name] = *val;
+					return true;
+				}
+			}
+		}
 		return false;
+	} else {
+		BINDING_VALID_V(false);
+		const StringName *gdname = reinterpret_cast<const StringName *>(p_name);
+		const char *name = to_chars(*gdname);
+		if (gdname->begins_with("_")) {
+			name = to_chars(gdname->substr(1));
+		}
+		JSAtom name_atom = JS_NewAtom(js_context(), name);
+		const Variant *varg = reinterpret_cast<const Variant *>(p_variant);
+		if (JS_HasProperty(js_context(), js_binding, name_atom)) {
+			JS_FreeAtom(js_context(), name_atom);
+			return JS_SetPropertyStr(js_context(), js_binding, name, VariantAdapter(*varg)) > 0;
+		} else {
+			JS_FreeAtom(js_context(), name_atom);
+			return false;
+		}
 	}
 }
 
 GDExtensionBool TypeScriptInstance::get(GDExtensionConstStringNamePtr p_name, GDExtensionVariantPtr r_ret) {
-	BINDING_VALID_V(gd_binding, false);
-	const StringName *gdname = reinterpret_cast<const StringName *>(p_name);
-	const char *name = to_chars(*gdname);
-	if (gdname->begins_with("_")) {
-		name = to_chars(gdname->substr(1));
-	}
-	JSAtom name_atom = JS_NewAtom(js_context(), name);
-	if (JS_HasProperty(js_context(), js_binding, name_atom) > 0) {
-		JS_FreeAtom(js_context(), name_atom);
-		JSValue js_ret = JS_GetPropertyStr(js_context(), js_binding, name);
-		if (JS_IsUndefined(js_ret)) {
+	if (is_placeholder_mode) {
+		StringName name = *reinterpret_cast<const StringName *>(p_name);
+		Variant *ret = reinterpret_cast<Variant *>(r_ret);
+		if (placeholder_storage.has(name)) {
+			*ret = placeholder_storage[name];
+			return true;
+		}
+		// 如果字典里没有，尝试获取脚本默认值
+		Variant def_val = script->get_property_default_value(name);
+		if (def_val.get_type() != Variant::NIL) {
+			*ret = def_val;
+			return true;
+		}
+		return false;
+	} else {
+		BINDING_VALID_V(false);
+		const StringName *gdname = reinterpret_cast<const StringName *>(p_name);
+		const char *name = to_chars(*gdname);
+		if (gdname->begins_with("_")) {
+			name = to_chars(gdname->substr(1));
+		}
+		JSAtom name_atom = JS_NewAtom(js_context(), name);
+		if (JS_HasProperty(js_context(), js_binding, name_atom) > 0) {
+			JS_FreeAtom(js_context(), name_atom);
+			JSValue js_ret = JS_GetPropertyStr(js_context(), js_binding, name);
+			if (JS_IsUndefined(js_ret)) {
+				return false;
+			}
+			Variant ret = VariantAdapter(js_ret).get();
+			internal::gdextension_interface_variant_new_copy(r_ret, ret._native_ptr());
+			return true;
+		} else {
+			JS_FreeAtom(js_context(), name_atom);
 			return false;
 		}
-		Variant ret = VariantAdapter(js_ret).get();
-		internal::gdextension_interface_variant_new_copy(r_ret, ret._native_ptr());
-		return true;
-	} else {
-		JS_FreeAtom(js_context(), name_atom);
-		return false;
 	}
 }
 
 const GDExtensionPropertyInfo *TypeScriptInstance::get_property_list(uint32_t *r_count) {
-	BINDING_VALID_V(gd_binding, nullptr);
 	TypedArray<Dictionary> script_properties = script->get_script_property_list();
 	auto it = script_properties.begin();
 	while (it != script_properties.end()) {
@@ -260,6 +225,7 @@ const GDExtensionPropertyInfo *TypeScriptInstance::get_property_list(uint32_t *r
 	*r_count = properties.size();
 	return properties.data();
 }
+
 
 void TypeScriptInstance::free_property_list_func(const GDExtensionPropertyInfo *p_list, uint32_t p_count) {
 	for (uint32_t i = 0; i < p_properties.size(); ++i) {
@@ -280,7 +246,6 @@ void TypeScriptInstance::free_property_list_func(const GDExtensionPropertyInfo *
 // }
 
 const GDExtensionMethodInfo *TypeScriptInstance::get_method_list_func(uint32_t *r_count) {
-	BINDING_VALID_V(gd_binding, nullptr);
 	TypedArray<Dictionary> script_methods = script->get_script_method_list();
 	auto it = script_methods.begin();
 	while (it != script_methods.end()) {
@@ -308,7 +273,7 @@ const GDExtensionMethodInfo *TypeScriptInstance::get_method_list_func(uint32_t *
 		});
 		++it;
 	}
-	*r_count = script->methods.size();
+	*r_count = script_methods.size();
 	return methods.data();
 }
 
@@ -321,26 +286,27 @@ void TypeScriptInstance::free_method_list_func(const GDExtensionMethodInfo *p_li
 }
 
 GDExtensionBool TypeScriptInstance::has_method(GDExtensionConstStringNamePtr p_name) {
-	BINDING_VALID_V(gd_binding, false);
 	StringName method = *reinterpret_cast<const StringName *>(p_name);
 	return script->_has_method(method);
 }
 
 GDExtensionInt TypeScriptInstance::get_method_argument_count(GDExtensionConstStringNamePtr p_name, GDExtensionBool *r_is_valid) {
-	BINDING_VALID_V(gd_binding, 0);
 	const char *name = to_chars(*reinterpret_cast<const StringName *>(p_name));
 	*r_is_valid = script->_has_method(name);
 	return script->_get_script_method_argument_count(name);
 }
 
 void TypeScriptInstance::call(GDExtensionConstStringNamePtr p_method, const GDExtensionConstVariantPtr *p_args, GDExtensionInt p_argument_count, GDExtensionVariantPtr r_return, GDExtensionCallError *r_error) {
-	BINDING_VALID(gd_binding);
+	if (is_placeholder_mode)
+		return;
+	BINDING_VALID
+	(gd_binding);
 	JSValue js_instance = js_binding;
 	JSValue prototype = JS_GetPrototype(js_context(), js_instance);
 	const char *method = to_chars(*reinterpret_cast<const StringName *>(p_method));
 	JSAtom atom = JS_NewAtom(js_context(), method);
 
-	if (!script->is_tool && Engine::get_singleton()->is_editor_hint()) {
+	if (!script->is_tool() && Engine::get_singleton()->is_editor_hint()) {
 		r_error->error = GDExtensionCallErrorType::GDEXTENSION_CALL_ERROR_INVALID_METHOD;
 		return;
 	}
@@ -370,9 +336,11 @@ void TypeScriptInstance::call(GDExtensionConstStringNamePtr p_method, const GDEx
 }
 
 void TypeScriptInstance::notification(int32_t p_what, GDExtensionBool p_reversed) {
-	BINDING_VALID(gd_binding);
+	if (is_placeholder_mode)
+		return;
+	BINDING_VALID
 	JSAtom atom = JS_NewAtom(js_context(), "_notification");
-	if (script->is_tool || !Engine::get_singleton()->is_editor_hint()) {
+	if (script->is_tool() || !Engine::get_singleton()->is_editor_hint()) {
 		JSValue js_instance = js_binding;
 		if (JS_HasProperty(js_context(), js_instance, atom)) {
 			notification_bind(js_instance, JS_GetPrototype(js_context(), js_instance), p_what, p_reversed);
@@ -381,7 +349,10 @@ void TypeScriptInstance::notification(int32_t p_what, GDExtensionBool p_reversed
 }
 
 void TypeScriptInstance::to_string(GDExtensionBool *r_is_valid, GDExtensionStringPtr r_out) {
-	BINDING_VALID(gd_binding);
+	if (is_placeholder_mode)
+		return;
+	BINDING_VALID
+	(gd_binding);
 	JSValue js_instance = js_binding;
 	static JSAtom to_string_atom = JS_NewAtom(js_context(), "toString");
 	JSValue ret = JS_Invoke(js_context(), js_instance, to_string_atom, 0, NULL);
@@ -391,12 +362,12 @@ void TypeScriptInstance::to_string(GDExtensionBool *r_is_valid, GDExtensionStrin
 }
 
 void TypeScriptInstance::refcount_incremented() {
-	BINDING_VALID(gd_binding);
+	BINDING_VALID;
 	JS_DupValue(js_context(), js_binding);
 }
 
 GDExtensionBool TypeScriptInstance::refcount_decremented() {
-	BINDING_VALID_V(gd_binding, false);
+	BINDING_VALID_V(false);
 	JS_FreeValue(js_context(), js_binding);
 	return !JS_IsLiveObject(js_runtime(), js_binding);
 }
@@ -405,12 +376,19 @@ GDExtensionObjectPtr TypeScriptInstance::get_owner() {
 	return p_godot_object->_owner;
 }
 
+void TypeScriptInstance::get_property_state(GDExtensionScriptInstancePropertyStateAdd p_add_func, void *p_userdata) {
+	for (StringName prop_name : placeholder_storage.keys()) {
+		Variant variant = placeholder_storage[prop_name];
+		p_add_func(prop_name._native_ptr(), variant._native_ptr(), p_userdata);
+	}
+}
+
 GDExtensionObjectPtr TypeScriptInstance::get_script() {
 	return script->_owner;
 }
 
 GDExtensionBool TypeScriptInstance::is_placeholder() {
-	return false;
+	return is_placeholder_mode;
 }
 
 GDExtensionBool TypeScriptInstance::set_callback(GDExtensionConstStringNamePtr p_name, GDExtensionConstVariantPtr p_value) {

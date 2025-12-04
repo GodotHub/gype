@@ -21,6 +21,7 @@ class TypeScript;
 class Variant;
 class Object;
 class ScriptExtension;
+struct ClassData;
 
 class TypeScript : public ScriptExtension {
 	GDCLASS(TypeScript, ScriptExtension)
@@ -34,29 +35,26 @@ class TypeScript : public ScriptExtension {
 	TSParser *parser;
 	const TSLanguage *lang;
 
-	String source_code;
-	String dist_source_code;
-	mutable Ref<TypeScript> base_script;
-	mutable String global_class_name;
-	mutable String base_class_name;
-	mutable bool is_tool = false;
+	String source_code = "";
+	String dist_source_code = "";
+	mutable Ref<TypeScript> base_script = nullptr;
+	mutable HashSet<TypeScript *> interface_scripts;
 	mutable bool dirty = true;
     mutable bool is_valid = false;
 	mutable HashMap<StringName, StringName> dependencies;
-	mutable HashMap<StringName, MethodInfo> methods;
-	mutable HashMap<StringName, MethodInfo> static_methods;
-	mutable HashMap<StringName, PropertyInfo> properties;
-	mutable HashMap<StringName, Variant> default_value;
-	mutable HashMap<StringName, MethodInfo> signals;
-	mutable HashSet<Object *> godot_objects;
+	mutable HashMap<StringName, ClassData> class_data;
+	mutable ClassData *godot_class_data = nullptr;
 
 	HashSet<uint64_t> instances;
-	mutable std::unordered_set<TypeScriptInstance *> script_instances;
+	mutable HashSet<TypeScriptInstance *> script_instances;
+	mutable HashSet<GDExtensionScriptInstancePtr> script_placeholders;
+	
 	
 private:
 	void remove_dist_internal(const String &path);
 	
 public:
+	
 	static const char *dist_path;
 	static const char *class_symbol_mask;
 	static const char *signal_symbol_mask;
@@ -99,6 +97,7 @@ public:
 	TypedArray<StringName> _get_members() const;
 	bool _is_placeholder_fallback_enabled() const;
 	Variant _get_rpc_config() const;
+	
 	static void compile(bool force = false);
 
 	TypeScript() :
@@ -117,6 +116,19 @@ private:
 	String get_dist_source_code() const;
 	void analyze() const;
 	void compile_module();
+};
+
+struct ClassData {
+	bool is_tool = false;
+	bool is_abstract = false;
+	String class_name = "";
+	String base_class_name = "";
+	HashSet<StringName> interfaces;
+	HashMap<StringName, MethodInfo> methods;
+	HashMap<StringName, MethodInfo> static_methods;
+	HashMap<StringName, PropertyInfo> properties;
+	HashMap<StringName, Variant> default_value;
+	HashMap<StringName, MethodInfo> signals;
 };
 
 } // namespace godot

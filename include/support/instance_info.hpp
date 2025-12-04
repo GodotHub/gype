@@ -8,6 +8,7 @@ GDExtensionBool set_func(GDExtensionScriptInstanceDataPtr p_instance, GDExtensio
 GDExtensionBool get_func(GDExtensionScriptInstanceDataPtr p_instance, GDExtensionConstStringNamePtr p_name, GDExtensionVariantPtr r_ret);
 const GDExtensionPropertyInfo *get_property_list_func(GDExtensionScriptInstanceDataPtr p_instance, uint32_t *r_count);
 void free_property_list_func(GDExtensionScriptInstanceDataPtr p_instance, const GDExtensionPropertyInfo *p_list, uint32_t p_count);
+void get_property_state_func(GDExtensionScriptInstanceDataPtr p_instance, GDExtensionScriptInstancePropertyStateAdd p_add_func, void *p_userdata);
 // GDExtensionBool property_can_revert_func(GDExtensionScriptInstanceDataPtr p_instance, GDExtensionConstStringNamePtr p_name);
 // GDExtensionBool property_get_revert_func(GDExtensionScriptInstanceDataPtr p_instance, GDExtensionConstStringNamePtr p_name, GDExtensionVariantPtr r_ret);
 const GDExtensionMethodInfo *get_method_list_func(GDExtensionScriptInstanceDataPtr p_instance, uint32_t *r_count);
@@ -35,7 +36,7 @@ static const GDExtensionScriptInstanceInfo3 InstanceInfo{
 	nullptr,
 	nullptr,
 	get_owner_func,
-	nullptr,
+	get_property_state_func,
 	get_method_list_func,
 	free_method_list_func,
 	nullptr,
@@ -48,7 +49,7 @@ static const GDExtensionScriptInstanceInfo3 InstanceInfo{
 	refcount_incremented_func,
 	refcount_decremented_func,
 	get_script_func,
-	nullptr,
+	is_placeholder_func,
 	nullptr,
 	nullptr,
 	get_language_func,

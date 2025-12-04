@@ -31,25 +31,30 @@ bool TypeScript::_editor_can_reload_from_file() {
 }
 
 void TypeScript::_placeholder_erased(void *p_placeholder) {
+	if (p_placeholder) {
+		script_placeholders.erase(p_placeholder);
+	}
 }
 
 bool TypeScript::_can_instantiate() const {
-	return get_dist_source_code() != "";
+	return godot_class_data;
 }
 
 Ref<Script> TypeScript::_get_base_script() const {
 	this->analyze();
-	if (!base_class_name.is_empty() && !ClassDB::class_exists(base_class_name)) {
-		if (dependencies.has(base_class_name)) {
-			StringName base_path = dependencies[base_class_name];
-			return ResourceLoader::get_singleton()->load(base_path);
-		}
-	}
-	return nullptr; // 基类是内置类或未找到
+	// if (!godot_class_data->base_class_name.is_empty() && !ClassDB::class_exists(godot_class_data->base_class_name)) {
+	// 	if (dependencies.has(godot_class_data->base_class_name)) {
+	// 		StringName base_path = dependencies[godot_class_data->base_class_name];
+	// 		return ResourceLoader::get_singleton()->load(base_path);
+	// 	}
+	// }
+	// return nullptr; // 基类是内置类或未找到
+	return base_script;
 }
 
 StringName TypeScript::_get_global_name() const {
-	return global_class_name;
+	if (!godot_class_data) return "";
+	return godot_class_data->class_name;
 }
 
 bool TypeScript::_inherits_script(const Ref<Script> &p_script) const {
@@ -73,18 +78,22 @@ bool TypeScript::_inherits_script(const Ref<Script> &p_script) const {
 
 StringName TypeScript::_get_instance_base_type() const {
 	this->analyze();
-	return base_class_name;
+	if (!godot_class_data) return "";
+	return godot_class_data->base_class_name;
 }
 
 void *TypeScript::_instance_create(Object *p_for_object) const {
 	TypeScriptInstance *instance = memnew(TypeScriptInstance(p_for_object, Ref<TypeScript>(this), false));
 	this->script_instances.insert(instance);
-	this->godot_objects.insert(p_for_object);
 	return internal::gdextension_interface_script_instance_create3(&InstanceInfo, instance);
 }
 
 void *TypeScript::_placeholder_instance_create(Object *p_for_object) const {
-	return NULL;
+	// GDExtensionScriptInstancePtr instance = internal::gdextension_interface_placeholder_script_instance_create(TypeScriptLanguage::get_singleton()->_owner, this->_owner, p_for_object->_owner);
+	// script_placeholders.insert(instance);
+	// return instance;
+	TypeScriptInstance *instance = memnew(TypeScriptInstance(p_for_object, Ref<TypeScript>(this), true));
+	return internal::gdextension_interface_script_instance_create3(&InstanceInfo, instance);
 }
 
 bool TypeScript::_instance_has(Object *p_object) const {
@@ -108,88 +117,91 @@ String TypeScript::get_dist_source_code() const {
 	return "";
 }
 
-static Variant::Type type_by_name(const StringName &name) {
-	StringName _name = name.remove_char('(').remove_char(')');
-	if (_name == StringName("Variant.Type.NIL")) {
-		return Variant::Type::NIL;
-	} else if (_name == StringName("Variant.Type.BOOL")) {
-		return Variant::Type::BOOL;
-	} else if (_name == StringName("Variant.Type.INT")) {
-		return Variant::Type::INT;
-	} else if (_name == StringName("Variant.Type.FLOAT")) {
-		return Variant::Type::FLOAT;
-	} else if (_name == StringName("Variant.Type.STRING")) {
+static Variant::Type type_by_name(const StringName &prop_type, const StringName &prop_value) {
+	if (prop_type == StringName("number")) {
+		if (prop_value.is_empty()) {
+			return Variant::Type::INT;
+		} else {
+			if (prop_value.contains(".")) {
+				return Variant::Type::FLOAT;
+			} else {
+				return Variant::Type::INT;
+			}
+		}
+	} else if (prop_type == StringName("string") || prop_type == StringName("GDString")) {
 		return Variant::Type::STRING;
-	} else if (_name == StringName("Variant.Type.VECTOR2")) {
-		return Variant::Type::VECTOR2;
-	} else if (_name == StringName("Variant.Type.VECTOR2I")) {
-		return Variant::Type::VECTOR2I;
-	} else if (_name == StringName("Variant.Type.RECT2")) {
-		return Variant::Type::RECT2;
-	} else if (_name == StringName("Variant.Type.RECT2I")) {
-		return Variant::Type::RECT2I;
-	} else if (_name == StringName("Variant.Type.VECTOR3")) {
-		return Variant::Type::VECTOR3;
-	} else if (_name == StringName("Variant.Type.VECTOR3I")) {
-		return Variant::Type::VECTOR3I;
-	} else if (_name == StringName("Variant.Type.TRANSFORM2D")) {
-		return Variant::Type::TRANSFORM2D;
-	} else if (_name == StringName("Variant.Type.VECTOR4")) {
-		return Variant::Type::VECTOR4;
-	} else if (_name == StringName("Variant.Type.VECTOR4I")) {
-		return Variant::Type::VECTOR4I;
-	} else if (_name == StringName("Variant.Type.PLANE")) {
-		return Variant::Type::PLANE;
-	} else if (_name == StringName("Variant.Type.QUATERNION")) {
-		return Variant::Type::QUATERNION;
-	} else if (_name == StringName("Variant.Type.AABB")) {
-		return Variant::Type::AABB;
-	} else if (_name == StringName("Variant.Type.BASIS")) {
-		return Variant::Type::BASIS;
-	} else if (_name == StringName("Variant.Type.TRANSFORM3D")) {
-		return Variant::Type::TRANSFORM3D;
-	} else if (_name == StringName("Variant.Type.PROJECTION")) {
-		return Variant::Type::PROJECTION;
-	} else if (_name == StringName("Variant.Type.COLOR")) {
-		return Variant::Type::COLOR;
-	} else if (_name == StringName("Variant.Type.STRING_NAME")) {
+	} else if (prop_type == StringName("StringName")) {
 		return Variant::Type::STRING_NAME;
-	} else if (_name == StringName("Variant.Type.NODE_PATH")) {
-		return Variant::Type::NODE_PATH;
-	} else if (_name == StringName("Variant.Type.RID")) {
-		return Variant::Type::RID;
-	} else if (_name == StringName("Variant.Type.OBJECT")) {
-		return Variant::Type::OBJECT;
-	} else if (_name == StringName("Variant.Type.CALLABLE")) {
-		return Variant::Type::CALLABLE;
-	} else if (_name == StringName("Variant.Type.SIGNAL")) {
-		return Variant::Type::SIGNAL;
-	} else if (_name == StringName("Variant.Type.DICTIONARY")) {
-		return Variant::Type::DICTIONARY;
-	} else if (_name == StringName("Variant.Type.ARRAY")) {
+	} else if (prop_type == StringName("Array") ||
+		(prop_type.contains(StringName("Array")) && prop_type.contains("<") && prop_type.contains(">")) ||
+		prop_type == StringName("GDArray")) {
 		return Variant::Type::ARRAY;
-	} else if (_name == StringName("Variant.Type.PACKED_BYTE_ARRAY")) {
+	} else if (prop_type == StringName("boolean")) {
+		return Variant::Type::BOOL;
+	} else if (prop_type == StringName("Vector2")) {
+		return Variant::Type::VECTOR2;
+	} else if (prop_type == StringName("Vector2i")) {
+		return Variant::Type::VECTOR2I;
+	} else if (prop_type == StringName("Vector3")) {
+		return Variant::Type::VECTOR3;
+	} else if (prop_type == StringName("Vector3i")) {
+		return Variant::Type::VECTOR3I;
+	} else if (prop_type == StringName("Vector4")) {
+		return Variant::Type::VECTOR4;
+	} else if (prop_type == StringName("Vector4i")) {
+		return Variant::Type::VECTOR4I;
+	} else if (prop_type == StringName("Rect2")) {
+		return Variant::Type::RECT2;
+	} else if (prop_type == StringName("Rect2i")) {
+		return Variant::Type::RECT2I;
+	} else if (prop_type == StringName("Color")) {
+		return Variant::Type::COLOR;
+	} else if (prop_type == StringName("Transform2D")) {
+		return Variant::Type::TRANSFORM2D;
+	} else if (prop_type == StringName("Transform3D")) {
+		return Variant::Type::TRANSFORM3D;
+	} else if (prop_type == StringName("Plane")) {
+		return Variant::Type::PLANE;
+	} else if (prop_type == StringName("Quaternion")) {
+		return Variant::Type::QUATERNION;
+	} else if (prop_type == StringName("AABB")) {
+		return Variant::Type::AABB;
+	} else if (prop_type == StringName("Basis")) {
+		return Variant::Type::BASIS;
+	} else if (prop_type == StringName("Projection")) {
+		return Variant::Type::PROJECTION;
+	} else if (prop_type == StringName("Dictionary")) {
+		return Variant::Type::DICTIONARY;
+	} else if (prop_type == StringName("NodePath")) {
+		return Variant::Type::NODE_PATH;
+	} else if (prop_type == StringName("RID")) {
+		return Variant::Type::RID;
+	} else if (prop_type == StringName("GodotObject")) {
+		return Variant::Type::OBJECT;
+	} else if (prop_type == StringName("Callable")) {
+		return Variant::Type::CALLABLE;
+	} else if (prop_type == StringName("Signal")) {
+		return Variant::Type::SIGNAL;
+	} else if (prop_type == StringName("PackedByteArray")) {
 		return Variant::Type::PACKED_BYTE_ARRAY;
-	} else if (_name == StringName("Variant.Type.PACKED_INT32_ARRAY")) {
+	} else if (prop_type == StringName("PackedInt32Array")) {
 		return Variant::Type::PACKED_INT32_ARRAY;
-	} else if (_name == StringName("Variant.Type.PACKED_INT64_ARRAY")) {
+	} else if (prop_type == StringName("PackedInt64Array")) {
 		return Variant::Type::PACKED_INT64_ARRAY;
-	} else if (_name == StringName("Variant.Type.PACKED_FLOAT32_ARRAY")) {
+	} else if (prop_type == StringName("PackedFloat32Array")) {
 		return Variant::Type::PACKED_FLOAT32_ARRAY;
-	} else if (_name == StringName("Variant.Type.PACKED_FLOAT64_ARRAY")) {
+	} else if (prop_type == StringName("PackedFloat64Array")) {
 		return Variant::Type::PACKED_FLOAT64_ARRAY;
-	} else if (_name == StringName("Variant.Type.PACKED_STRING_ARRAY")) {
+	} else if (prop_type == StringName("PackedStringArray")) {
 		return Variant::Type::PACKED_STRING_ARRAY;
-	} else if (_name == StringName("Variant.Type.PACKED_VECTOR2_ARRAY")) {
+	} else if (prop_type == StringName("PackedVector2Array")) {
 		return Variant::Type::PACKED_VECTOR2_ARRAY;
-	} else if (_name == StringName("Variant.Type.PACKED_VECTOR3_ARRAY")) {
+	} else if (prop_type == StringName("PackedVector3Array")) {
 		return Variant::Type::PACKED_VECTOR3_ARRAY;
-	} else if (_name == StringName("Variant.Type.PACKED_COLOR_ARRAY")) {
+	} else if (prop_type == StringName("PackedColorArray")) {
 		return Variant::Type::PACKED_COLOR_ARRAY;
-	} else if (_name == StringName("Variant.Type.PACKED_VECTOR4_ARRAY")) {
-		return Variant::Type::PACKED_VECTOR4_ARRAY;
 	} else {
-		return Variant::Type::VARIANT_MAX;
+		return Variant::Type::NIL;
 	}
 }
 
@@ -209,14 +221,11 @@ void TypeScript::analyze() const {
 		return;
 	}
 
-	default_value.clear();
-	methods.clear();
-	static_methods.clear();
-	properties.clear();
-	signals.clear();
-	base_class_name = "Object";
-	global_class_name = "";
-	is_tool = false;
+	class_data.clear();
+	godot_class_data = nullptr;
+	dependencies.clear();
+	base_script = Ref<TypeScript>();
+	interface_scripts.clear();
 
 	String path = get_path();
 	if (path.is_empty() || path.begins_with(dist_path)) {
@@ -238,38 +247,27 @@ void TypeScript::analyze() const {
 	const std::string query_string = R"xxx(
 	(import_statement
 	  (import_clause
+        (identifier)? @import.name
 	    (named_imports
 	      (import_specifier
 	       name: (identifier) @import.name
 	      )
-	    )
+	    )?
 	  )
 	  source: (string) @import.path
 	)?
-
-	(export_statement
-	  (decorator (identifier) @decorator.name
-  		(#match? @decorator.name "^(GodotClass)$")
-	  )
-	  (decorator (identifier) @decorator.other
-  		(#not-match? @decorator.other "^(GodotClass)$")
-	  )?
-	  
-	  (abstract_class_declaration
-  		name: (type_identifier) @class.name
+	(export_statement ("default") @export.default
+	  declaration: (abstract_class_declaration
+		name: (type_identifier) @class.name
 	    (class_heritage 
 	      (extends_clause
-      		value: (identifier) @base.name
+  			value: (identifier) @base.name
 	      )
-	    )
+	      (implements_clause (type_identifier) @interface.name)?
+	    ) @class.abstract
 	    body: (class_body
 	      (public_field_definition
-      		decorator: (decorator
-	          (call_expression
-	            function: (identifier) @decorator.member
-	            arguments: (arguments) @decorator.arguments
-	          )
-	        )?
+  			decorator: (decorator (identifier) @decorator.member)?
 	        name: (property_identifier) @prop.name
 	        type: (type_annotation
 	          (type_identifier)? @prop.type
@@ -279,39 +277,31 @@ void TypeScript::analyze() const {
 	      )?
 	      (method_definition
 	        name: (property_identifier) @method.name
-	        parameters: (formal_parameters) @method.paramter
+	        parameters: (formal_parameters) @method.parameter
 	      )?
 	      (abstract_method_signature
 	        name: (property_identifier) @method.name
-	        parameters: (formal_parameters) @method.paramter
+	        parameters: (formal_parameters) @method.parameter
 	      )?
 	    )
 	  )? @class.body
 	)?
-
-	(export_statement
-	  (decorator (identifier) @decorator.name
-  		(#match? @decorator.name "^(GodotClass)$")
-	  )
+	(export_statement ("default") @export.default
 	  (decorator (identifier) @decorator.other
-  		(#not-match? @decorator.other "^(GodotClass)$")
+		(#not-match? @decorator.other "^(GodotClass)$")
 	  )?
 	  
 	  (class_declaration
-  		name: (type_identifier) @class.name
+		name: (type_identifier) @class.name
 	    (class_heritage 
 	      (extends_clause
-      		value: (identifier) @base.name
+  			value: (identifier) @base.name
 	      )
+	      (implements_clause (type_identifier) @interface.name)?
 	    )
 	    body: (class_body
 	      (public_field_definition
-      		decorator: (decorator
-	          (call_expression
-	            function: (identifier) @decorator.member
-	            arguments: (arguments) @decorator.arguments
-	          )
-	        )?
+  			decorator: (decorator (identifier) @decorator.member)?
 	        name: (property_identifier) @prop.name
 	        type: (type_annotation
 	          (type_identifier)? @prop.type
@@ -321,14 +311,32 @@ void TypeScript::analyze() const {
 	      )?
 	      (method_definition
 	        name: (property_identifier) @method.name
-	        parameters: (formal_parameters) @method.paramter
+	        parameters: (formal_parameters) @method.parameter
 	      )?
 	      (abstract_method_signature
 	        name: (property_identifier) @method.name
-	        parameters: (formal_parameters) @method.paramter
+	        parameters: (formal_parameters) @method.parameter
 	      )?
 	    )
 	  )? @class.body
+	)?
+	(export_statement
+	  declaration: (interface_declaration
+	    name: (type_identifier) @class.name
+	    (extends_type_clause
+	      type: (type_identifier) @base.name
+	    )
+  		body: (interface_body
+	      (property_signature 
+      		name: (property_identifier) @prop.name
+	        type: (type_annotation) @prop.type
+	      )?
+	      (method_signature
+	        name: (property_identifier) @method.name
+	        parameters: (formal_parameters) @method.parameter
+	      )?
+	    ) @class.body
+	  )
 	)?
 	)xxx";
 
@@ -366,51 +374,72 @@ void TypeScript::analyze() const {
 			captures[capture_name] = content;
 		}
 
-		// --- 现在，基于收集到的 captures 来处理这个 match ---
+		if (captures.has("import.name")) {
+			String import_path = captures["import.path"];
+			String import_name = captures["import.name"];
+			import_path = import_path.remove_char('"').remove_char('\'');
+			if (import_path.begins_with("@res")) {
+				import_path = import_path.replace("@res/", "res://") + ".ts";
+				dependencies[import_name] = import_path;
+			}
+		}
 
-		// 1. 处理全局信息 (这些信息可能在多个 match 中重复出现，直接覆盖即可)
+		StringName class_name;
 		if (captures.has("class.name")) {
-			global_class_name = captures["class.name"];
+			class_name = captures["class.name"];
+		} else {
+			continue;
+		}
+
+		if (!this->class_data.has(class_name)) {
+			ClassData class_data;
+			class_data.class_name = class_name;
+			this->class_data[class_name] = class_data;
+		}
+		ClassData &current_class_data = this->class_data[class_name];
+
+		if (captures.has("export.default")) {
+			godot_class_data = &current_class_data;
+		}
+
+		if (captures.has("class.abstract")) {
+			current_class_data.is_abstract = true;
 		}
 		if (captures.has("base.name")) {
-			base_class_name = captures["base.name"];
+			current_class_data.base_class_name = captures["base.name"];
+		}
+		if (captures.has("interface.name")) {
+			current_class_data.interfaces.insert(captures["interface.name"]);
 		}
 		if (captures.has("decorator.other") && captures["decorator.other"].contains(tool_symbol_mask)) {
-			is_tool = true;
+			current_class_data.is_tool = true;
 		}
-
-		// 2. 判断 match 的类型并处理 (一个 match 只会是其中一种)
 		if (captures.has("prop.name")) {
 			// 这是一个属性成员的匹配
 			String prop_name = captures["prop.name"];
 			if (captures.has("decorator.member")) {
 				String decorator_name = captures["decorator.member"];
-
 				if (decorator_name == export_symbol_mask) {
 					PropertyInfo pi;
 					pi.name = prop_name;
-					pi.class_name = global_class_name;
-					pi.type = type_by_name(captures["decorator.arguments"]);
+					pi.class_name = class_name;
 					pi.usage = PROPERTY_USAGE_DEFAULT;
-					properties[prop_name] = pi;
 					if (captures.has("prop.value")) {
-						default_value[prop_name] = execute_expression(captures["prop.value"]);
+						pi.type = type_by_name(captures["prop.type"], captures["prop.value"]);
+						current_class_data.default_value[prop_name] = execute_expression(captures["prop.value"]);
+					} else {
+						pi.type = type_by_name(captures["prop.type"], "");
 					}
+					current_class_data.properties[prop_name] = pi;
 				} else if (decorator_name == signal_symbol_mask) {
 					MethodInfo mi;
 					mi.name = prop_name;
 					// TODO: 解析信号的参数
-					signals[prop_name] = mi;
-				} else {
-					PropertyInfo pi;
-					pi.name = prop_name;
-					pi.class_name = global_class_name;
-					pi.type = type_by_name(captures["decorator.arguments"]);
-					pi.usage = PROPERTY_USAGE_NONE;
-					properties[prop_name] = pi;
+					current_class_data.signals[prop_name] = mi;
 				}
 			}
-		} else if (captures.has("method.name")) {
+		}
+		if (captures.has("method.name")) {
 			// 这是一个方法成员的匹配
 			StringName method_name = captures["method.name"];
 
@@ -421,22 +450,26 @@ void TypeScript::analyze() const {
 
 				if (captures.has("method.static")) {
 					// 存在 "method.static" 捕获，说明是静态方法
-					static_methods[method_name] = mi;
+					current_class_data.static_methods[method_name] = mi;
 				} else {
-					methods[method_name] = mi;
+					current_class_data.methods[method_name] = mi;
 				}
-			}
-		} else if (captures.has("import.name")) {
-			String import_path = captures["import.path"];
-			String import_name = captures["import.name"];
-			import_path = import_path.remove_char('"').remove_char('\'');
-			if (import_path.begins_with("@res")) {
-				import_path = import_path.replace("@res/", "res://") + ".ts";
-				dependencies[import_name] = import_path;
 			}
 		}
 	}
-
+	for (auto &kv : this->class_data) {
+		ClassData &class_data = kv.value;
+		for (auto &interface : class_data.interfaces) {
+			String import_path = dependencies[interface];
+			Ref<TypeScript> script = ResourceLoader::get_singleton()->load(import_path);
+			interface_scripts.insert(script.ptr());
+		}
+		if (class_data.base_class_name != "" && dependencies.has(class_data.base_class_name)) {
+			String import_path = dependencies[class_data.base_class_name];
+			Ref<TypeScript> script = ResourceLoader::get_singleton()->load(import_path);
+			base_script = script;
+		}
+	}
 	ts_query_cursor_delete(cursor);
 	ts_query_delete(query);
 	ts_tree_delete(tree);
@@ -507,8 +540,9 @@ String TypeScript::_get_class_icon_path() const {
 
 bool TypeScript::_has_method(const StringName &p_method) const {
 	this->analyze();
+	if (!godot_class_data) return false;
 	Ref<TypeScript> base = get_base_script();
-	if (methods.has(p_method) || ClassDB::class_has_method(base_class_name, p_method, true)) {
+	if (godot_class_data->methods.has(p_method) || ClassDB::class_has_method(godot_class_data->base_class_name, p_method, true)) {
 		return true;
 	} else if (base.is_valid()) {
 		return base->_has_method(p_method);
@@ -519,8 +553,9 @@ bool TypeScript::_has_method(const StringName &p_method) const {
 
 bool TypeScript::_has_static_method(const StringName &p_method) const {
 	this->analyze();
+	if (!godot_class_data) return false;
 	Ref<TypeScript> base = get_base_script();
-	if (static_methods.has(p_method)) {
+	if (godot_class_data->static_methods.has(p_method)) {
 		return true;
 	} else if (base.is_valid()) {
 		return base->_has_static_method(p_method);
@@ -531,9 +566,10 @@ bool TypeScript::_has_static_method(const StringName &p_method) const {
 
 Variant TypeScript::_get_script_method_argument_count(const StringName &p_method) const {
 	this->analyze();
+	if (!godot_class_data) return -1;
 	Ref<TypeScript> base = get_base_script();
-	if (methods.has(p_method)) {
-		return methods[p_method].arguments.size();
+	if (godot_class_data->methods.has(p_method)) {
+		return godot_class_data->methods[p_method].arguments.size();
 	} else if (base.is_valid()) {
 		return base->_get_method_info(p_method);
 	} else {
@@ -543,9 +579,10 @@ Variant TypeScript::_get_script_method_argument_count(const StringName &p_method
 
 Dictionary TypeScript::_get_method_info(const StringName &p_method) const {
 	this->analyze();
+	if (!godot_class_data) return Dictionary();
 	Ref<TypeScript> base = get_base_script();
-	if (methods.has(p_method)) {
-		return methods[p_method];
+	if (godot_class_data->methods.has(p_method)) {
+		return godot_class_data->methods[p_method];
 	} else if (base.is_valid()) {
 		return base->_get_method_info(p_method);
 	} else {
@@ -555,7 +592,8 @@ Dictionary TypeScript::_get_method_info(const StringName &p_method) const {
 
 bool TypeScript::_is_tool() const {
 	this->analyze();
-	return is_tool;
+	if (!godot_class_data) return false;
+	return godot_class_data->is_tool;
 }
 
 bool TypeScript::_is_valid() const {
@@ -563,7 +601,8 @@ bool TypeScript::_is_valid() const {
 }
 
 bool TypeScript::_is_abstract() const {
-	return false;
+	if (!godot_class_data) return false;
+	return godot_class_data->is_abstract;
 }
 
 ScriptLanguage *TypeScript::_get_language() const {
@@ -572,8 +611,9 @@ ScriptLanguage *TypeScript::_get_language() const {
 
 bool TypeScript::_has_script_signal(const StringName &p_signal) const {
 	this->analyze();
+	if (godot_class_data == nullptr) return false;
 	Ref<TypeScript> base = get_base_script();
-	if (signals.has(p_signal)) {
+	if (godot_class_data->signals.has(p_signal)) {
 		return true;
 	} else if (base.is_valid()) {
 		return base->_has_script_signal(p_signal);
@@ -584,23 +624,26 @@ bool TypeScript::_has_script_signal(const StringName &p_signal) const {
 
 TypedArray<Dictionary> TypeScript::_get_script_signal_list() const {
 	this->analyze();
+	if (godot_class_data == nullptr) return Array();
 	TypedArray<Dictionary> list;
 	Ref<TypeScript> base = get_base_script();
 	if (base.is_valid()) {
 		list.append_array(base->get_script_signal_list());
 	}
-	for (const KeyValue<StringName, MethodInfo> &E : signals) {
+	for (const KeyValue<StringName, MethodInfo> &E : godot_class_data->signals) {
 		list.push_back(Dictionary(E.value));
 	}
 	return list;
 }
 
 bool TypeScript::_has_property_default_value(const StringName &p_property) const {
-	return default_value.has(p_property);
+	if (godot_class_data == nullptr) return false;
+	return godot_class_data->default_value.has(p_property);
 }
 
 Variant TypeScript::_get_property_default_value(const StringName &p_property) const {
-	return default_value[p_property];
+	if (godot_class_data == nullptr) return Variant();
+	return godot_class_data->default_value[p_property];
 }
 
 void TypeScript::_update_exports() {
@@ -609,12 +652,13 @@ void TypeScript::_update_exports() {
 
 TypedArray<Dictionary> TypeScript::_get_script_method_list() const {
 	this->analyze();
+	if (godot_class_data == nullptr) return Array();
 	TypedArray<Dictionary> list;
 	Ref<TypeScript> base = get_base_script();
 	if (base.is_valid()) {
 		list.append_array(base->_get_script_method_list());
 	}
-	for (const KeyValue<StringName, MethodInfo> &E : methods) {
+	for (const KeyValue<StringName, MethodInfo> &E : godot_class_data->methods) {
 		list.push_back(Dictionary(E.value));
 	}
 	return list;
@@ -622,12 +666,13 @@ TypedArray<Dictionary> TypeScript::_get_script_method_list() const {
 
 TypedArray<Dictionary> TypeScript::_get_script_property_list() const {
 	this->analyze();
+	if (godot_class_data == nullptr) return Array();
 	TypedArray<Dictionary> list;
 	Ref<TypeScript> base = get_base_script();
 	if (base.is_valid()) {
 		list.append_array(base->_get_script_property_list());
 	}
-	for (const KeyValue<StringName, PropertyInfo> &E : properties) {
+	for (const KeyValue<StringName, PropertyInfo> &E : godot_class_data->properties) {
 		list.push_back(Dictionary(E.value));
 	}
 	return list;
@@ -643,22 +688,23 @@ Dictionary TypeScript::_get_constants() const {
 
 TypedArray<StringName> TypeScript::_get_members() const {
 	this->analyze();
+	if (godot_class_data == nullptr) return Array();
 	TypedArray<StringName> members;
 	Ref<TypeScript> base = get_base_script();
 	if (base.is_valid()) {
 		members.append_array(base->_get_members());
 	}
-	for (const KeyValue<StringName, PropertyInfo> &E : properties) {
+	for (const KeyValue<StringName, PropertyInfo> &E : godot_class_data->properties) {
 		members.push_back(E.key);
 	}
-	for (const KeyValue<StringName, MethodInfo> &E : methods) {
+	for (const KeyValue<StringName, MethodInfo> &E : godot_class_data->methods) {
 		members.push_back(E.key);
 	}
 	return members;
 }
 
 bool TypeScript::_is_placeholder_fallback_enabled() const {
-	return false;
+	return true;
 }
 
 Variant TypeScript::_get_rpc_config() const {

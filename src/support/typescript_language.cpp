@@ -10,7 +10,7 @@
 using namespace godot;
 
 TypeScriptLanguage *TypeScriptLanguage::singleton;
-HashSet<Ref<TypeScript>> TypeScriptLanguage::scripts;
+HashSet<TypeScript *> TypeScriptLanguage::scripts;
 
 TypeScriptLanguage *TypeScriptLanguage::get_singleton() {
 	if (singleton) {
@@ -307,14 +307,14 @@ Dictionary TypeScriptLanguage::_get_global_class_name(const String &p_path) cons
 	return dict;
 }
 
-HashSet<Ref<TypeScript>> TypeScriptLanguage::get_scripts() {
+HashSet<TypeScript *> TypeScriptLanguage::get_scripts() {
 	return scripts;
 }
 
 void TypeScriptLanguage::compile_scripts() {
 	int exit_code = OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json" });
 	OS::get_singleton()->delay_msec(100);
-	HashSet<Ref<TypeScript>> scripts = get_scripts();
+	HashSet<TypeScript *> scripts = get_scripts();
 	auto it  = scripts.begin();
 	while (it != get_scripts().end()) {
 		if (!(*it)->get_path().ends_with(".d.ts")) {

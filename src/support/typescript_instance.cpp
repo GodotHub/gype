@@ -144,7 +144,6 @@ GDExtensionBool TypeScriptInstance::set(GDExtensionConstStringNamePtr p_name, GD
 	if (is_placeholder_mode) {
 		StringName name = *reinterpret_cast<const StringName *>(p_name);
 		const Variant *val = reinterpret_cast<const Variant *>(p_variant);
-		UtilityFunctions::print(name);
 		// 检查属性是否有效（可选，看需求）
 		if (script->godot_class_data) {
 			for (const auto &prop_info : script->godot_class_data->properties) {

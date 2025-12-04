@@ -47,7 +47,7 @@ class TypeScript : public ScriptExtension {
 
 	HashSet<uint64_t> instances;
 	mutable HashSet<TypeScriptInstance *> script_instances;
-	mutable HashSet<GDExtensionScriptInstancePtr> script_placeholders;
+	mutable HashSet<TypeScriptInstance *> script_placeholders;
 	
 	
 private:

@@ -736,5 +736,11 @@ Variant TypeScript::_get_rpc_config() const {
 	return Variant();
 }
 
+StringName TypeScript::_get_doc_class_name() const {
+	this->analyze();
+	if (!godot_class_data) return "";
+	return godot_class_data->class_name;
+}
+
 godot::TypeScript::~TypeScript() {
 }

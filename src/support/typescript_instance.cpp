@@ -38,7 +38,7 @@ TypeScriptInstance::TypeScriptInstance(Object *p_godot_object, Ref<TypeScript> s
 }
 
 godot::TypeScriptInstance::~TypeScriptInstance() {
-	// JS_FreeValue(js_context(), js_binding);
+	JS_FreeValue(js_context(), js_binding);
 }
 
 HashMap<StringName, Variant> TypeScriptInstance::get_exported_values(JSValue this_obj) {

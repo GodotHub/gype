@@ -97,6 +97,7 @@ public:
 	TypedArray<StringName> _get_members() const;
 	bool _is_placeholder_fallback_enabled() const;
 	Variant _get_rpc_config() const;
+	StringName _get_doc_class_name() const;
 	
 	static void compile(bool force = false);
 

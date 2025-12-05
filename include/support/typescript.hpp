@@ -37,8 +37,8 @@ class TypeScript : public ScriptExtension {
 
 	String source_code = "";
 	String dist_source_code = "";
-	mutable Ref<TypeScript> base_script = nullptr;
-	mutable HashSet<TypeScript *> interface_scripts;
+	mutable TypeScript *base_script = nullptr;
+	mutable HashSet<Ref<TypeScript>> interface_scripts;
 	mutable bool dirty = true;
     mutable bool is_valid = false;
 	mutable HashMap<StringName, StringName> dependencies;

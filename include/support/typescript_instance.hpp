@@ -22,7 +22,7 @@ class TypeScriptInstance {
 	Object *gd_binding = nullptr;
 	JSValue js_binding = JS_UNDEFINED;
 	Object *p_godot_object = nullptr;
-	Ref<TypeScript> script = nullptr;
+	TypeScript *script = nullptr;
 	List<PropertyInfo *> p_properties;
 	std::vector<GDExtensionPropertyInfo> properties;
 	List<MethodInfo *> p_methods;
@@ -63,7 +63,7 @@ public:
 
 	void compile_module();
 
-	TypeScriptInstance(Object *p_godot_object, Ref<TypeScript> script, bool is_placeholder);
+	TypeScriptInstance(Object *p_godot_object, TypeScript *script, bool is_placeholder);
 	~TypeScriptInstance();
 };
 } // namespace godot

@@ -6,6 +6,7 @@
 #include "support/typescript_instance.hpp"
 #include "support/typescript_language.hpp"
 
+#include <format>
 #include <godot_cpp/classes/dir_access.hpp>
 #include <godot_cpp/classes/editor_interface.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -15,7 +16,6 @@
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/script_editor.hpp>
 #include <godot_cpp/variant/variant.hpp>
-#include <format>
 
 using namespace godot;
 
@@ -24,7 +24,6 @@ const char *TypeScript::signal_symbol_mask = "GodotSignal";
 const char *TypeScript::export_symbol_mask = "GodotExport";
 const char *TypeScript::tool_symbol_mask = "GodotTool";
 const char *TypeScript::dist_path = "res://addons/gype/dist/";
-
 
 bool TypeScript::_editor_can_reload_from_file() {
 	return true;
@@ -48,8 +47,9 @@ Ref<Script> TypeScript::_get_base_script() const {
 
 StringName TypeScript::_get_global_name() const {
 	this->analyze();
-	if (!godot_class_data)
+	if (!godot_class_data) {
 		return "";
+	}
 	return godot_class_data->class_name;
 }
 
@@ -75,19 +75,20 @@ bool TypeScript::_inherits_script(const Ref<Script> &p_script) const {
 
 StringName TypeScript::_get_instance_base_type() const {
 	this->analyze();
-	if (!godot_class_data)
+	if (!godot_class_data) {
 		return "";
+	}
 	return godot_class_data->base_class_name;
 }
 
 void *TypeScript::_instance_create(Object *p_for_object) const {
-	TypeScriptInstance *instance = memnew(TypeScriptInstance(p_for_object, Ref<TypeScript>(this), false));
+	TypeScriptInstance *instance = memnew(TypeScriptInstance(p_for_object, const_cast<TypeScript *>(this), false));
 	this->script_instances.insert(instance);
 	return internal::gdextension_interface_script_instance_create3(&InstanceInfo, instance);
 }
 
 void *TypeScript::_placeholder_instance_create(Object *p_for_object) const {
-	TypeScriptInstance *instance = memnew(TypeScriptInstance(p_for_object, Ref<TypeScript>(this), true));
+	TypeScriptInstance *instance = memnew(TypeScriptInstance(p_for_object, const_cast<TypeScript *>(this), true));
 	script_placeholders.insert(instance);
 	return internal::gdextension_interface_script_instance_create3(&InstanceInfo, instance);
 }
@@ -129,8 +130,8 @@ static Variant::Type type_by_name(const StringName &prop_type, const StringName 
 	} else if (prop_type == StringName("StringName")) {
 		return Variant::Type::STRING_NAME;
 	} else if (prop_type == StringName("Array") ||
-		(prop_type.contains(StringName("Array")) && prop_type.contains("<") && prop_type.contains(">")) ||
-		prop_type == StringName("GDArray")) {
+			(prop_type.contains(StringName("Array")) && prop_type.contains("<") && prop_type.contains(">")) ||
+			prop_type == StringName("GDArray")) {
 		return Variant::Type::ARRAY;
 	} else if (prop_type == StringName("boolean")) {
 		return Variant::Type::BOOL;
@@ -220,7 +221,7 @@ void TypeScript::analyze() const {
 	class_data.clear();
 	godot_class_data = nullptr;
 	dependencies.clear();
-	base_script = Ref<TypeScript>();
+	base_script = nullptr;
 	interface_scripts.clear();
 
 	String path = get_path();
@@ -384,15 +385,6 @@ void TypeScript::analyze() const {
 				dependencies[import_name] = import_path;
 			}
 		}
-		if (captures.has("import.default")) {
-			String import_path = captures["import.path"];
-			String import_name = captures["import.default"];
-			import_path = import_path.remove_char('"').remove_char('\'');
-			if (import_path.begins_with("@res")) {
-				import_path = import_path.replace("@res/", "res://") + ".ts";
-				dependencies[import_name] = import_path;
-			}
-		}
 
 		StringName class_name;
 		if (captures.has("class.name")) {
@@ -477,7 +469,7 @@ void TypeScript::analyze() const {
 		if (class_data.base_class_name != "" && dependencies.has(class_data.base_class_name)) {
 			String import_path = dependencies[class_data.base_class_name];
 			Ref<TypeScript> script = ResourceLoader::get_singleton()->load(import_path);
-			base_script = script;
+			base_script = script.ptr();
 		}
 	}
 	ts_query_cursor_delete(cursor);
@@ -550,8 +542,9 @@ String TypeScript::_get_class_icon_path() const {
 
 bool TypeScript::_has_method(const StringName &p_method) const {
 	this->analyze();
-	if (!godot_class_data)
+	if (!godot_class_data) {
 		return false;
+	}
 	Ref<TypeScript> base = get_base_script();
 	if (godot_class_data->methods.has(p_method) || ClassDB::class_has_method(godot_class_data->base_class_name, p_method, true)) {
 		return true;
@@ -564,8 +557,9 @@ bool TypeScript::_has_method(const StringName &p_method) const {
 
 bool TypeScript::_has_static_method(const StringName &p_method) const {
 	this->analyze();
-	if (!godot_class_data)
+	if (!godot_class_data) {
 		return false;
+	}
 	Ref<TypeScript> base = get_base_script();
 	if (godot_class_data->static_methods.has(p_method)) {
 		return true;
@@ -578,8 +572,9 @@ bool TypeScript::_has_static_method(const StringName &p_method) const {
 
 Variant TypeScript::_get_script_method_argument_count(const StringName &p_method) const {
 	this->analyze();
-	if (!godot_class_data)
+	if (!godot_class_data) {
 		return -1;
+	}
 	Ref<TypeScript> base = get_base_script();
 	if (godot_class_data->methods.has(p_method)) {
 		return godot_class_data->methods[p_method].arguments.size();
@@ -592,8 +587,9 @@ Variant TypeScript::_get_script_method_argument_count(const StringName &p_method
 
 Dictionary TypeScript::_get_method_info(const StringName &p_method) const {
 	this->analyze();
-	if (!godot_class_data)
+	if (!godot_class_data) {
 		return Dictionary();
+	}
 	Ref<TypeScript> base = get_base_script();
 	if (godot_class_data->methods.has(p_method)) {
 		return godot_class_data->methods[p_method];
@@ -606,8 +602,9 @@ Dictionary TypeScript::_get_method_info(const StringName &p_method) const {
 
 bool TypeScript::_is_tool() const {
 	this->analyze();
-	if (!godot_class_data)
+	if (!godot_class_data) {
 		return false;
+	}
 	return godot_class_data->is_tool;
 }
 
@@ -618,8 +615,9 @@ bool TypeScript::_is_valid() const {
 
 bool TypeScript::_is_abstract() const {
 	this->analyze();
-	if (!godot_class_data)
+	if (!godot_class_data) {
 		return false;
+	}
 	return godot_class_data->is_abstract;
 }
 
@@ -629,8 +627,9 @@ ScriptLanguage *TypeScript::_get_language() const {
 
 bool TypeScript::_has_script_signal(const StringName &p_signal) const {
 	this->analyze();
-	if (godot_class_data == nullptr)
+	if (godot_class_data == nullptr) {
 		return false;
+	}
 	Ref<TypeScript> base = get_base_script();
 	if (godot_class_data->signals.has(p_signal)) {
 		return true;
@@ -643,8 +642,9 @@ bool TypeScript::_has_script_signal(const StringName &p_signal) const {
 
 TypedArray<Dictionary> TypeScript::_get_script_signal_list() const {
 	this->analyze();
-	if (godot_class_data == nullptr)
+	if (godot_class_data == nullptr) {
 		return Array();
+	}
 	TypedArray<Dictionary> list;
 	Ref<TypeScript> base = get_base_script();
 	if (base.is_valid()) {
@@ -657,14 +657,16 @@ TypedArray<Dictionary> TypeScript::_get_script_signal_list() const {
 }
 
 bool TypeScript::_has_property_default_value(const StringName &p_property) const {
-	if (godot_class_data == nullptr)
+	if (godot_class_data == nullptr) {
 		return false;
+	}
 	return godot_class_data->default_value.has(p_property);
 }
 
 Variant TypeScript::_get_property_default_value(const StringName &p_property) const {
-	if (godot_class_data == nullptr)
+	if (godot_class_data == nullptr) {
 		return Variant();
+	}
 	return godot_class_data->default_value[p_property];
 }
 
@@ -674,8 +676,9 @@ void TypeScript::_update_exports() {
 
 TypedArray<Dictionary> TypeScript::_get_script_method_list() const {
 	this->analyze();
-	if (godot_class_data == nullptr)
+	if (godot_class_data == nullptr) {
 		return Array();
+	}
 	TypedArray<Dictionary> list;
 	Ref<TypeScript> base = get_base_script();
 	if (base.is_valid()) {
@@ -689,8 +692,9 @@ TypedArray<Dictionary> TypeScript::_get_script_method_list() const {
 
 TypedArray<Dictionary> TypeScript::_get_script_property_list() const {
 	this->analyze();
-	if (godot_class_data == nullptr)
+	if (godot_class_data == nullptr) {
 		return Array();
+	}
 	TypedArray<Dictionary> list;
 	Ref<TypeScript> base = get_base_script();
 	if (base.is_valid()) {
@@ -712,8 +716,9 @@ Dictionary TypeScript::_get_constants() const {
 
 TypedArray<StringName> TypeScript::_get_members() const {
 	this->analyze();
-	if (godot_class_data == nullptr)
+	if (godot_class_data == nullptr) {
 		return Array();
+	}
 	TypedArray<StringName> members;
 	Ref<TypeScript> base = get_base_script();
 	if (base.is_valid()) {
@@ -738,7 +743,9 @@ Variant TypeScript::_get_rpc_config() const {
 
 StringName TypeScript::_get_doc_class_name() const {
 	this->analyze();
-	if (!godot_class_data) return "";
+	if (!godot_class_data) {
+		return "";
+	}
 	return godot_class_data->class_name;
 }
 

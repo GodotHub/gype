@@ -10,7 +10,7 @@
 using namespace godot;
 
 TypeScriptLanguage *TypeScriptLanguage::singleton;
-HashSet<TypeScript *> TypeScriptLanguage::scripts;
+HashSet<Ref<TypeScript>> TypeScriptLanguage::scripts;
 
 TypeScriptLanguage *TypeScriptLanguage::get_singleton() {
 	if (singleton) {
@@ -71,8 +71,7 @@ PackedStringArray TypeScriptLanguage::_get_string_delimiters() const {
 }
 
 Ref<Script> TypeScriptLanguage::_make_template(const String &p_template, const String &p_class_name, const String &p_base_class_name) const {
-	Ref<TypeScript> script;
-	script.instantiate();
+	TypeScript *script = memnew(TypeScript);
 	const char *class_name = to_chars(p_class_name);
 	const char *base_class_name = to_chars(p_base_class_name);
 	char *code = new char[1024];
@@ -115,9 +114,8 @@ String TypeScriptLanguage::_validate_path(const String &p_path) const {
 }
 
 Object *TypeScriptLanguage::_create_script() const {
-	Ref<TypeScript> script;
-	script.instantiate();
-	return script.ptr();
+	TypeScript *script = memnew(TypeScript);
+	return script;
 }
 
 bool TypeScriptLanguage::_has_named_classes() const {
@@ -239,7 +237,7 @@ TypedArray<Dictionary> TypeScriptLanguage::_debug_get_current_stack_info() {
 }
 
 void TypeScriptLanguage::_reload_all_scripts() {
-	for (Ref<TypeScript> script : scripts) {
+	for (auto script : scripts) {
 		if (script.is_valid()) {
 			script->analyze();
 		}
@@ -307,17 +305,15 @@ Dictionary TypeScriptLanguage::_get_global_class_name(const String &p_path) cons
 	return dict;
 }
 
-HashSet<TypeScript *> TypeScriptLanguage::get_scripts() {
+HashSet<Ref<TypeScript>> TypeScriptLanguage::get_scripts() {
 	return scripts;
 }
 
 void TypeScriptLanguage::compile_scripts() {
 	int exit_code = OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json" });
-	OS::get_singleton()->delay_msec(100);
-	HashSet<TypeScript *> scripts = get_scripts();
 	auto it  = scripts.begin();
-	while (it != get_scripts().end()) {
-		if (!(*it)->get_path().ends_with(".d.ts")) {
+	while (it != scripts.end()) {
+		if (it->is_valid() && !(*it)->get_path().ends_with(".d.ts")) {
 			(*it)->compile_module();
 		}
 		++it;

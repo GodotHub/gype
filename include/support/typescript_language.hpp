@@ -21,7 +21,7 @@ class TypeScriptLanguage : public ScriptLanguageExtension {
 	GDCLASS(TypeScriptLanguage, ScriptLanguageExtension)
 
 	static TypeScriptLanguage *singleton;
-	static HashSet<TypeScript *> scripts;
+	static HashSet<Ref<TypeScript>> scripts;
 	
 	TypedArray<Dictionary> templates;
 	HashMap<StringName, String> global_class_to_path;
@@ -91,7 +91,7 @@ public:
 	void _frame();
 	bool _handles_global_class_type(const String &p_type) const;
 	Dictionary _get_global_class_name(const String &p_path) const;
-	static HashSet<TypeScript *> get_scripts();
+	static HashSet<Ref<TypeScript>> get_scripts();
 	static void compile_scripts();
 
 	~TypeScriptLanguage();

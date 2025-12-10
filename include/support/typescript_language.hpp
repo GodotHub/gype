@@ -26,6 +26,8 @@ class TypeScriptLanguage : public ScriptLanguageExtension {
 	TypedArray<Dictionary> templates;
 	HashMap<StringName, String> global_class_to_path;
 
+	int tsc_process = -1;
+
 	friend class TypeScriptLoader;
 	friend class TypeScript;
 

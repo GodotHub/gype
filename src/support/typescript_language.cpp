@@ -28,6 +28,7 @@ String TypeScriptLanguage::_get_name() const {
 }
 
 void TypeScriptLanguage::_init() {
+	tsc_process = OS::get_singleton()->create_process("cmd.exe", { "/c", "tsc", "--watch", "tsconfig.json" });
 }
 
 String TypeScriptLanguage::_get_type() const {
@@ -39,6 +40,7 @@ String TypeScriptLanguage::_get_extension() const {
 }
 
 void TypeScriptLanguage::_finish() {
+	OS::get_singleton()->kill(tsc_process);
 }
 
 PackedStringArray TypeScriptLanguage::_get_reserved_words() const {

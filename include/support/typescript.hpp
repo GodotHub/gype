@@ -12,7 +12,9 @@
 #include <godot_cpp/classes/script_extension.hpp>
 #include <godot_cpp/templates/hash_map.hpp>
 #include <godot_cpp/templates/hash_set.hpp>
+#include <godot_cpp/classes/os.hpp>
 #include <unordered_set>
+#include <variant>
 
 namespace godot {
 
@@ -22,6 +24,11 @@ class Variant;
 class Object;
 class ScriptExtension;
 struct ClassData;
+struct CaptureData;
+struct EnumParseResult;
+struct TypeParseResult;
+struct PropertyParseResult;
+enum TSNodeType;
 
 class TypeScript : public ScriptExtension {
 	GDCLASS(TypeScript, ScriptExtension)
@@ -34,25 +41,109 @@ class TypeScript : public ScriptExtension {
 
 	TSParser *parser;
 	const TSLanguage *lang;
+	int tsc_process = 0;
 
 	String source_code = "";
 	String dist_source_code = "";
 	mutable TypeScript *base_script = nullptr;
+	mutable StringName base_script_path = "";
 	mutable HashSet<Ref<TypeScript>> interface_scripts;
 	mutable bool dirty = true;
     mutable bool is_valid = false;
-	mutable HashMap<StringName, StringName> dependencies;
-	mutable HashMap<StringName, ClassData> class_data;
 	mutable ClassData *godot_class_data = nullptr;
 
 	HashSet<uint64_t> instances;
 	mutable HashSet<TypeScriptInstance *> script_instances;
 	mutable HashSet<TypeScriptInstance *> script_placeholders;
-	
-	
+	const char *query_type = R"xxx(
+	(type_alias_declaration
+	  name: (type_identifier) @type.name
+	  value: (_) @type.body
+	)
+	)xxx";
+	const char *query_type_body = R"xxx(
+	(union_type
+	  [
+  		(literal_type (_) @type.value)
+	    (type_identifier) @type.value
+	  ]
+	)
+	)xxx";
+	const char *query_property_type = R"xxx(
+	[
+	  (enum_declaration
+		  name: (identifier) @enum.name
+		  body: (enum_body) @enum.body
+	  )
+	  (type_alias_declaration
+	    name: (type_identifier) @type.name
+	    value: (_) @type.body
+	  )
+	]
+	)xxx";
+	const char *query_enum_body = R"xxx(
+	(property_identifier) @enum.member
+
+    (enum_assignment
+      name: (property_identifier) @enum.member
+      value: (_) @enum.value
+    )
+	)xxx";
+	const char *query_import_type = R"xxx(
+    (import_statement
+ 	  (import_clause
+ 	    (identifier)? @import.default
+ 	    (named_imports
+ 	      (import_specifier
+ 	       name: (identifier) @import.name
+ 	      )
+ 	    )?
+ 	  )
+ 	  source: (string) @import.path
+ 	)?
+	)xxx";
+	const char *query_default_class = R"xxx(
+	(export_statement ("default") @export.default
+	  (decorator (identifier) @decorator.other
+	    (#not-match? @decorator.other "^(GodotClass)$")
+	  )?
+	  (class_declaration
+	    name: (type_identifier) @class.name
+	    (class_heritage
+	      (extends_clause
+	        value: (identifier) @base.name
+	      )
+	      (implements_clause (type_identifier) @interface.name)?
+	    )
+	    body: (class_body
+	      (public_field_definition
+	        decorator: (decorator (identifier) @decorator.member)?
+	        name: (property_identifier) @prop.name
+	        type: (type_annotation
+	          (type_identifier)? @prop.type
+	          (predefined_type)? @prop.type
+	        )?
+	        value: (_)? @prop.value
+	      )?
+	      (method_definition
+	        name: (property_identifier) @method.name
+	        parameters: (formal_parameters) @method.parameter
+	      )?
+	      (abstract_method_signature
+	        name: (property_identifier) @method.name
+	        parameters: (formal_parameters) @method.parameter
+	      )?
+	    )
+	  ) @class.body
+	)
+	)xxx";
+
 private:
 	void remove_dist_internal(const String &path);
-	
+	PropertyParseResult analyze_recursive(const StringName &type_name, String path = "") const;
+	bool analyze_internal(const String &path) const;
+	EnumParseResult parse_enum_members(TSNode p_enum_declaration_node, const char *p_source_code) const;
+	TypeParseResult parse_type_members(TSNode p_type_declaration_node, const char *p_source_code) const;
 public:
 	
 	static const char *dist_path;
@@ -99,7 +190,7 @@ public:
 	Variant _get_rpc_config() const;
 	StringName _get_doc_class_name() const;
 	
-	static void compile(bool force = false);
+	static void compile();
 
 	TypeScript() :
 		parser(ts_parser_new()),
@@ -107,7 +198,7 @@ public:
 	{
 		ts_parser_set_language(parser, lang);
 	}
-	~TypeScript();
+	~TypeScript() {};
 
 protected:
 	static void _bind_methods() {}
@@ -124,12 +215,45 @@ struct ClassData {
 	bool is_abstract = false;
 	String class_name = "";
 	String base_class_name = "";
+	Dictionary constants;
 	HashSet<StringName> interfaces;
 	HashMap<StringName, MethodInfo> methods;
 	HashMap<StringName, MethodInfo> static_methods;
 	HashMap<StringName, PropertyInfo> properties;
+	HashMap<StringName, EnumParseResult> enum_properties;
+	HashMap<StringName, TypeParseResult> type_properties;
 	HashMap<StringName, Variant> default_value;
 	HashMap<StringName, MethodInfo> signals;
+};
+
+struct CaptureData {
+	String text;
+	String code;
+	TSNode node;
+};
+
+enum TSNodeType {
+	NONE,
+	ENUM,
+	TYPE,
+	INTERFACE
+};
+
+struct EnumParseResult {
+	String hint_string;
+	Array constants;
+};
+
+struct TypeParseResult : EnumParseResult {
+};
+
+struct InterfaceParseResult {
+	
+};
+
+struct PropertyParseResult {
+	TSNodeType type;
+	std::variant<EnumParseResult, TypeParseResult> parse_ret;
 };
 
 } // namespace godot

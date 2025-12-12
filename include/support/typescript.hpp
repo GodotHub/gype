@@ -92,50 +92,114 @@ class TypeScript : public ScriptExtension {
 	const char *query_import_type = R"xxx(
     (import_statement
  	  (import_clause
- 	    (identifier)? @import.default
- 	    (named_imports
- 	      (import_specifier
- 	       name: (identifier) @import.name
- 	      )
- 	    )?
+        [
+ 	      (identifier) @import.default
+ 	      (named_imports
+ 	      (import_specifier 
+			name: (identifier) @import.name))
+        ]
  	  )
  	  source: (string) @import.path
- 	)?
+ 	)
 	)xxx";
-	const char *query_default_class = R"xxx(
-	(export_statement ("default") @export.default
-	  (decorator (identifier) @decorator.other
-	    (#not-match? @decorator.other "^(GodotClass)$")
-	  )?
-	  (class_declaration
-	    name: (type_identifier) @class.name
-	    (class_heritage
-	      (extends_clause
-	        value: (identifier) @base.name
-	      )
-	      (implements_clause (type_identifier) @interface.name)?
-	    )
-	    body: (class_body
-	      (public_field_definition
-	        decorator: (decorator (identifier) @decorator.member)?
-	        name: (property_identifier) @prop.name
-	        type: (type_annotation
-	          (type_identifier)? @prop.type
-	          (predefined_type)? @prop.type
+	const char * query_default_class = R"xxx(
+	[
+	  (export_statement
+	    ("default") @export.default
+	    (decorator (identifier) @decorator.other)?
+	    [
+	      (class_declaration
+	        name: (type_identifier) @class.name
+	        (class_heritage
+	          (extends_clause value: (identifier) @base.name)
+	          (implements_clause (type_identifier) @interface.name)?
 	        )?
-	        value: (_)? @prop.value
-	      )?
-	      (method_definition
-	        name: (property_identifier) @method.name
-	        parameters: (formal_parameters) @method.parameter
-	      )?
-	      (abstract_method_signature
-	        name: (property_identifier) @method.name
-	        parameters: (formal_parameters) @method.parameter
-	      )?
-	    )
-	  ) @class.body
-	)
+	        body: (class_body
+	          [
+	            (public_field_definition
+	              decorator: (decorator (identifier) @decorator.member)?
+	              name: (property_identifier) @prop.name
+	              type: (type_annotation
+	                [
+	                  (type_identifier)
+	                  (predefined_type)
+	                ] @prop.type
+	              )?
+	              value: (_) @prop.value
+	            ) @prop.body
+
+	            (method_definition
+	              name: (property_identifier) @method.name
+	              parameters: (formal_parameters) @method.parameter
+	              return_type: (type_annotation
+	                [
+	                  (type_identifier)
+	                  (predefined_type)
+	                ] @method.return_type
+	              )?
+	            ) @method.body
+
+	            (abstract_method_signature
+	              name: (property_identifier) @method.name
+	              parameters: (formal_parameters) @method.parameter
+	              return_type: (type_annotation
+	                [
+	                  (type_identifier)
+	                  (predefined_type)
+	                ] @method.return_type
+	              )?
+	            ) @method.body @method.is_abstract
+	          ]
+	        )
+	      )
+	      (abstract_class_declaration
+	        ("abstract") @class.is_abstract
+	        name: (type_identifier) @class.name
+	        (class_heritage
+	          (extends_clause value: (identifier) @base.name)
+	          (implements_clause (type_identifier) @interface.name)?
+	        )?
+	        body: (class_body
+	          [
+	            (public_field_definition
+	              decorator: (decorator (identifier) @decorator.member)?
+	              name: (property_identifier) @prop.name
+	              type: (type_annotation
+	                [
+	                  (type_identifier)
+	                  (predefined_type)
+	                ] @prop.type
+	              )?
+	              value: (_) @prop.value
+	            ) @prop.body
+
+	            (method_definition
+	              name: (property_identifier) @method.name
+	              parameters: (formal_parameters) @method.parameter
+	              return_type: (type_annotation
+	                [
+	                  (type_identifier)
+	                  (predefined_type)
+	                ] @method.return_type
+	              )?
+	            ) @method.body
+
+	            (abstract_method_signature
+	              name: (property_identifier) @method.name
+	              parameters: (formal_parameters) @method.parameter
+	              return_type: (type_annotation
+	                [
+	                  (type_identifier)
+	                  (predefined_type)
+	                ] @method.return_type
+	              )?
+	            ) @method.body @method.is_abstract
+	          ]
+	        )
+	      )
+	    ] @class.body
+	  )
+	]
 	)xxx";
 
 private:

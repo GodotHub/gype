@@ -73,7 +73,7 @@ bool TypeScript::_inherits_script(const Ref<Script> &p_script) const {
 		return true;
 	}
 
-	Ref<Script> current_base = _get_base_script();
+	Ref<Script> current_base = get_base_script();
 	while (current_base.is_valid()) {
 		if (current_base == p_script) {
 			return true;
@@ -484,17 +484,16 @@ bool TypeScript::analyze_internal(const String &path) const {
 
 	TSTree *tree = ts_parser_parse_string(parser, NULL, p_code, strlen(p_code));
 
-	uint32_t error_offset;
-	TSQueryError error;
-	static const TSQuery *query = ts_query_new(lang, query_default_class, strlen(query_default_class), &error_offset, &error);
-	if (!query) {
-		ERR_PRINT("Tree-sitter query failed to compile.");
-		ts_tree_delete(tree);
-		return false;
-	}
-
 	HashMap<StringName, String> dependencies;
 	{
+		uint32_t error_offset;
+		TSQueryError error;
+		static const TSQuery *query = ts_query_new(lang, query_import_type, strlen(query_import_type), &error_offset, &error);
+		if (!query) {
+			ERR_PRINT("Tree-sitter query failed to compile.");
+			ts_tree_delete(tree);
+			return false;
+		}
 		TSQueryCursor *cursor = ts_query_cursor_new();
 		ts_query_cursor_exec(cursor, query, ts_tree_root_node(tree));
 		TSQueryMatch match;
@@ -523,79 +522,156 @@ bool TypeScript::analyze_internal(const String &path) const {
 			}
 		}
 	}
-
-	TSQueryCursor *cursor = ts_query_cursor_new();
-	ts_query_cursor_exec(cursor, query, ts_tree_root_node(tree));
-	TSQueryMatch match;
-
-	while (ts_query_cursor_next_match(cursor, &match)) {
-		HashMap<String, CaptureData> captures;
-		for (uint32_t i = 0; i < match.capture_count; i++) {
-			TSQueryCapture capture = match.captures[i];
-			uint32_t capture_id = capture.index;
-			uint32_t capture_name_length;
-			String capture_name = ts_query_capture_name_for_id(query, capture_id, &capture_name_length);
-			captures[capture_name] = { get_node_text(p_code, capture.node), "", capture.node };
+	{
+		uint32_t error_offset;
+		TSQueryError error;
+		static const TSQuery *query = ts_query_new(lang, query_default_class, strlen(query_default_class), &error_offset, &error);
+		if (!query) {
+			ERR_PRINT("Tree-sitter query failed to compile.");
+			ts_tree_delete(tree);
+			return false;
 		}
 
-		StringName class_name;
-		if (captures.has("class.name")) {
-			class_name = captures["class.name"].text;
-			matched = true;
-			if (!godot_class_data) {
-				godot_class_data = new ClassData();
-				godot_class_data->class_name = class_name;
+		TSQueryCursor *cursor = ts_query_cursor_new();
+		ts_query_cursor_exec(cursor, query, ts_tree_root_node(tree));
+		TSQueryMatch match;
+
+		while (ts_query_cursor_next_match(cursor, &match)) {
+			HashMap<String, CaptureData> captures;
+			for (uint32_t i = 0; i < match.capture_count; i++) {
+				TSQueryCapture capture = match.captures[i];
+				uint32_t capture_id = capture.index;
+				uint32_t capture_name_length;
+				String capture_name = ts_query_capture_name_for_id(query, capture_id, &capture_name_length);
+				captures[capture_name] = { get_node_text(p_code, capture.node), "", capture.node };
 			}
-		} else {
-			continue;
-		}
 
-		if (captures.has("base.name")) {
-			godot_class_data->base_class_name = captures["base.name"].text;
-			base_script_path = dependencies[godot_class_data->base_class_name];
-		}
+			StringName class_name;
+			if (captures.has("class.name")) {
+				class_name = captures["class.name"].text;
+				matched = true;
+				if (!godot_class_data) {
+					godot_class_data = new ClassData();
+					godot_class_data->class_name = class_name;
+				}
+			} else {
+				continue;
+			}
 
-		if (captures.has("prop.name")) {
-			// 这是一个属性成员的匹配
-			String prop_name = captures["prop.name"].text;
-			if (captures.has("decorator.member")) {
-				String decorator_name = captures["decorator.member"].text;
-				if (decorator_name == export_symbol_mask) {
-					PropertyInfo pi;
-					pi.name = prop_name;
-					pi.class_name = class_name;
-					pi.hint = PROPERTY_HINT_NONE;
-					pi.usage = PROPERTY_USAGE_DEFAULT;
-					Variant::Type type = captures.has("prop.value") ? type_by_name(captures["prop.type"].text, captures["prop.value"].text) : type_by_name(captures["prop.type"].text);
-					if (type == Variant::Type::NIL) {
-						PropertyParseResult property_parse_result = analyze_recursive(captures["prop.type"].text);
-						switch (property_parse_result.type) {
-							case ENUM: {
-								pi.type = Variant::Type::INT;
-								pi.hint = PROPERTY_HINT_ENUM;
-								EnumParseResult parse_ret = std::get<EnumParseResult>(property_parse_result.parse_ret);
-								pi.hint_string = parse_ret.hint_string;
-								godot_class_data->enum_properties[prop_name] = parse_ret;
-							} break;
-							case TYPE: {
-								pi.type = Variant::Type::INT;
-								pi.hint = PROPERTY_HINT_ENUM;
-								TypeParseResult parse_ret = std::get<TypeParseResult>(property_parse_result.parse_ret);
-								pi.hint_string = parse_ret.hint_string;
-								godot_class_data->type_properties[prop_name] = parse_ret;
-							} break;
-							case NONE:
-							default: {
-							} break;
+			if (captures.has("base.name")) {
+				godot_class_data->base_class_name = captures["base.name"].text;
+				base_script_path = dependencies[godot_class_data->base_class_name];
+			}
+			if (captures.has("class.is_abstract")) {
+				godot_class_data->is_abstract = true;
+			}
+
+			if (captures.has("prop.name")) {
+				// 这是一个属性成员的匹配
+				String prop_name = captures["prop.name"].text;
+				if (captures.has("decorator.member")) {
+					String decorator_name = captures["decorator.member"].text;
+					if (decorator_name == export_symbol_mask) {
+						PropertyInfo pi;
+						pi.name = prop_name;
+						pi.class_name = class_name;
+						pi.hint = PROPERTY_HINT_NONE;
+						pi.usage = PROPERTY_USAGE_DEFAULT;
+						pi.type = captures.has("prop.value") ? type_by_name(captures["prop.type"].text, captures["prop.value"].text) : type_by_name(captures["prop.type"].text);
+						if (pi.type == Variant::Type::NIL) {
+							PropertyParseResult property_parse_result = analyze_recursive(captures["prop.type"].text);
+							switch (property_parse_result.type) {
+								case ENUM: {
+									pi.type = Variant::Type::INT;
+									pi.hint = PROPERTY_HINT_ENUM;
+									EnumParseResult parse_ret = std::get<EnumParseResult>(property_parse_result.parse_ret);
+									pi.hint_string = parse_ret.hint_string;
+									godot_class_data->enum_properties[prop_name] = parse_ret;
+								} break;
+								case TYPE: {
+									pi.type = Variant::Type::INT;
+									pi.hint = PROPERTY_HINT_ENUM;
+									TypeParseResult parse_ret = std::get<TypeParseResult>(property_parse_result.parse_ret);
+									pi.hint_string = parse_ret.hint_string;
+									godot_class_data->type_properties[prop_name] = parse_ret;
+								} break;
+								case NONE:
+								default: {
+								} break;
+							}
+						} else {
+							if (captures.has("prop.value")) {
+								godot_class_data->default_value[prop_name] = execute_expression(captures["prop.value"].text);
+							}
+						}
+						godot_class_data->properties[prop_name] = pi;
+					} else if (decorator_name == signal_symbol_mask) {
+						MethodInfo mi;
+						mi.name = prop_name;
+						godot_class_data->signals[prop_name] = mi;
+					}
+				}
+			}
+			
+			if (captures.has("method.body")) { // 使用新的 @method.body 捕获来识别方法
+				MethodInfo mi;
+				mi.name = captures["method.name"].text;
+				mi.flags = METHOD_FLAG_NORMAL; // 默认为普通方法
+
+				// 检查是否是抽象方法
+				if (captures.has("method.is_abstract")) {
+					mi.flags |= METHOD_FLAG_VIRTUAL;
+				}
+
+				// 1. 解析返回值
+				if (captures.has("method.return_type")) {
+					String return_type_str = captures["method.return_type"].text;
+					// 假设 type_by_name 能处理 "void" 并返回 Variant::NIL
+					mi.return_val.type = type_by_name(return_type_str);
+					mi.return_val.name = ""; // 返回值没有名字
+				} else {
+					// 如果没有指定返回类型，默认为 void
+					mi.return_val.type = Variant::NIL;
+				}
+
+				// 2. 解析参数
+				if (captures.has("method.parameter")) {
+					TSNode params_node = captures["method.parameter"].node;
+					// 遍历 (formal_parameters) 的命名子节点，跳过 '(' ')' ',' 等符号
+					uint32_t param_count = ts_node_named_child_count(params_node);
+
+					for (uint32_t i = 0; i < param_count; i++) {
+						TSNode param_node = ts_node_named_child(params_node, i);
+						const char *param_node_type = ts_node_type(param_node);
+
+						// 我们只关心 required_parameter 和 optional_parameter
+						if (strcmp(param_node_type, "required_parameter") == 0 || strcmp(param_node_type, "optional_parameter") == 0) {
+							PropertyInfo arg_pi;
+							arg_pi.class_name = godot_class_data->class_name;
+
+							TSNode name_node = ts_node_child_by_field_name(param_node, "pattern", 7); // "pattern"
+							if (!ts_node_is_null(name_node)) {
+								arg_pi.name = get_node_text(p_code, name_node);
+							}
+
+							// 获取参数类型 (type -> type_annotation -> [predefined_type | type_identifier])
+							TSNode type_annotation_node = ts_node_child_by_field_name(param_node, "type", 4); // "type"
+							if (!ts_node_is_null(type_annotation_node)) {
+								TSNode type_node = ts_node_named_child(type_annotation_node, 0);
+								if (!ts_node_is_null(type_node)) {
+									String type_str = get_node_text(p_code, type_node);
+									arg_pi.type = type_by_name(type_str);
+								}
+							} else {
+								// 如果没有类型注解，可以默认为 Variant 或 NIL
+								arg_pi.type = Variant::NIL; // 或者 Variant::VARIANT
+							}
+
+							mi.arguments.push_back(arg_pi);
 						}
 					}
-					godot_class_data->properties[prop_name] = pi;
-				} else if (decorator_name == signal_symbol_mask) {
-					MethodInfo mi;
-					mi.name = prop_name;
-					// TODO: 解析信号的参数
-					godot_class_data->signals[prop_name] = mi;
 				}
+				godot_class_data->methods[mi.name] = mi;
 			}
 		}
 	}
@@ -961,7 +1037,7 @@ bool TypeScript::_has_method(const StringName &p_method) const {
 	if (!godot_class_data) {
 		return false;
 	}
-	Ref<TypeScript> base = get_base_script();
+	Ref<TypeScript> base = _get_base_script();
 	if (godot_class_data->methods.has(p_method) || ClassDB::class_has_method(godot_class_data->base_class_name, p_method, true)) {
 		return true;
 	} else if (base.is_valid()) {
@@ -976,7 +1052,7 @@ bool TypeScript::_has_static_method(const StringName &p_method) const {
 	if (!godot_class_data) {
 		return false;
 	}
-	Ref<TypeScript> base = get_base_script();
+	Ref<TypeScript> base = _get_base_script();
 	if (godot_class_data->static_methods.has(p_method)) {
 		return true;
 	} else if (base.is_valid()) {
@@ -991,7 +1067,7 @@ Variant TypeScript::_get_script_method_argument_count(const StringName &p_method
 	if (!godot_class_data) {
 		return -1;
 	}
-	Ref<TypeScript> base = get_base_script();
+	Ref<TypeScript> base = _get_base_script();
 	if (godot_class_data->methods.has(p_method)) {
 		return godot_class_data->methods[p_method].arguments.size();
 	} else if (base.is_valid()) {
@@ -1006,7 +1082,7 @@ Dictionary TypeScript::_get_method_info(const StringName &p_method) const {
 	if (!godot_class_data) {
 		return Dictionary();
 	}
-	Ref<TypeScript> base = get_base_script();
+	Ref<TypeScript> base = _get_base_script();
 	if (godot_class_data->methods.has(p_method)) {
 		return godot_class_data->methods[p_method];
 	} else if (base.is_valid()) {
@@ -1046,7 +1122,7 @@ bool TypeScript::_has_script_signal(const StringName &p_signal) const {
 	if (godot_class_data == nullptr) {
 		return false;
 	}
-	Ref<TypeScript> base = get_base_script();
+	Ref<TypeScript> base = _get_base_script();
 	if (godot_class_data->signals.has(p_signal)) {
 		return true;
 	} else if (base.is_valid()) {
@@ -1062,7 +1138,7 @@ TypedArray<Dictionary> TypeScript::_get_script_signal_list() const {
 		return Array();
 	}
 	TypedArray<Dictionary> list;
-	Ref<TypeScript> base = get_base_script();
+	Ref<TypeScript> base = _get_base_script();
 	if (base.is_valid()) {
 		list.append_array(base->get_script_signal_list());
 	}
@@ -1073,17 +1149,27 @@ TypedArray<Dictionary> TypeScript::_get_script_signal_list() const {
 }
 
 bool TypeScript::_has_property_default_value(const StringName &p_property) const {
-	if (godot_class_data == nullptr) {
-		return false;
+	this->analyze();
+	if (godot_class_data->default_value.has(p_property)) {
+		return true;
+	} else {
+		Ref<TypeScript> base = _get_base_script();
+		return base.is_valid() && base->_has_property_default_value(p_property);
 	}
-	return godot_class_data->default_value.has(p_property);
 }
 
 Variant TypeScript::_get_property_default_value(const StringName &p_property) const {
-	if (godot_class_data == nullptr) {
-		return Variant();
+	this->analyze();
+	if (godot_class_data->default_value.has(p_property)) {
+		return godot_class_data->default_value[p_property];
+	} else {
+		Ref<TypeScript> base = _get_base_script();
+		if (base.is_valid()) {
+			return base->_get_property_default_value(p_property);
+		} else {
+			return Variant();
+		}
 	}
-	return godot_class_data->default_value[p_property];
 }
 
 void TypeScript::_update_exports() {
@@ -1096,7 +1182,7 @@ TypedArray<Dictionary> TypeScript::_get_script_method_list() const {
 		return Array();
 	}
 	TypedArray<Dictionary> list;
-	Ref<TypeScript> base = get_base_script();
+	Ref<TypeScript> base = _get_base_script();
 	if (base.is_valid()) {
 		list.append_array(base->_get_script_method_list());
 	}
@@ -1112,7 +1198,7 @@ TypedArray<Dictionary> TypeScript::_get_script_property_list() const {
 		return Array();
 	}
 	TypedArray<Dictionary> list;
-	Ref<TypeScript> base = get_base_script();
+	Ref<TypeScript> base = _get_base_script();
 	if (base.is_valid()) {
 		list.append_array(base->_get_script_property_list());
 	}
@@ -1136,7 +1222,7 @@ TypedArray<StringName> TypeScript::_get_members() const {
 		return Array();
 	}
 	TypedArray<StringName> members;
-	Ref<TypeScript> base = get_base_script();
+	Ref<TypeScript> base = _get_base_script();
 	if (base.is_valid()) {
 		members.append_array(base->_get_members());
 	}

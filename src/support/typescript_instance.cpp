@@ -265,17 +265,20 @@ const GDExtensionMethodInfo *TypeScriptInstance::get_method_list_func(uint32_t *
 	TypedArray<Dictionary> script_methods = script->get_script_method_list();
 	auto it = script_methods.begin();
 	while (it != script_methods.end()) {
-		MethodInfo *method_info = memnew(MethodInfo(MethodInfo::from_dict(*it)));
+		MethodInfo mi = MethodInfo(*it);
+		MethodInfo *method_info = memnew(MethodInfo(mi));
 		p_methods.push_back(method_info);
 		std::vector<GDExtensionPropertyInfo> arguments;
 		LocalVector<PropertyInfo>::Iterator arguments_it = method_info->arguments.begin();
 		while (arguments_it != method_info->arguments.end()) {
 			arguments.push_back(arguments_it->_to_gdextension());
+			++arguments_it;
 		}
 		std::vector<GDExtensionVariantPtr> default_arguments;
 		auto default_it = method_info->default_arguments.begin();
 		while (default_it != method_info->default_arguments.end()) {
 			default_arguments.push_back(default_it->_native_ptr());
+			++default_it;
 		}
 		methods.push_back({
 				.name = method_info->name._native_ptr(),

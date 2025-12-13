@@ -72,8 +72,8 @@ export declare class AudioServer extends GodotObject {
     public register_stream_as_sample(stream: AudioStream): void;
 
     
-    public readonly bus_layout_changed: Signal;
-    public readonly bus_renamed: Signal;
+    public readonly bus_layout_changed: Signal<() => void>;
+    public readonly bus_renamed: Signal<(busIndex: number, oldName: GDString | StringName | string, newName: GDString | StringName | string) => void>;
 
     public static readonly SpeakerMode: {
         SPEAKER_MODE_STEREO: 0;

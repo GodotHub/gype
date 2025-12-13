@@ -243,8 +243,8 @@ export declare class Viewport extends Node {
     public get_vrs_texture(): Texture2D;
 
     
-    public readonly size_changed: Signal;
-    public readonly gui_focus_changed: Signal;
+    public readonly size_changed: Signal<() => void>;
+    public readonly gui_focus_changed: Signal<(node: Control) => void>;
 
     public static readonly PositionalShadowAtlasQuadrantSubdiv: {
         SHADOW_ATLAS_QUADRANT_SUBDIV_DISABLED: 0;

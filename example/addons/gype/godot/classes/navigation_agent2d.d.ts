@@ -148,12 +148,12 @@ export declare class NavigationAgent2D extends Node {
     public get_debug_path_custom_line_width(): number;
 
     
-    public readonly path_changed: Signal;
-    public readonly target_reached: Signal;
-    public readonly waypoint_reached: Signal;
-    public readonly link_reached: Signal;
-    public readonly navigation_finished: Signal;
-    public readonly velocity_computed: Signal;
+    public readonly path_changed: Signal<() => void>;
+    public readonly target_reached: Signal<() => void>;
+    public readonly waypoint_reached: Signal<(details: Dictionary) => void>;
+    public readonly link_reached: Signal<(details: Dictionary) => void>;
+    public readonly navigation_finished: Signal<() => void>;
+    public readonly velocity_computed: Signal<(safeVelocity: Vector2) => void>;
 
 }
 

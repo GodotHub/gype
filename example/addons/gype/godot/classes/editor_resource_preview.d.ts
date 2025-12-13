@@ -15,7 +15,7 @@ export declare class EditorResourcePreview extends Node {
     public check_for_invalidation(path: GDString | StringName | string): void;
 
     
-    public readonly preview_invalidated: Signal;
+    public readonly preview_invalidated: Signal<(path: GDString | StringName | string) => void>;
 
 }
 

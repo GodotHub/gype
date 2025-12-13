@@ -23,7 +23,7 @@ export declare class EditorSettings extends Resource {
     public mark_setting_changed(setting: GDString | StringName | string): void;
 
     
-    public readonly settings_changed: Signal;
+    public readonly settings_changed: Signal<() => void>;
 
 }
 

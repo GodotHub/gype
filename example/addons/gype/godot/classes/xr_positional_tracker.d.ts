@@ -22,13 +22,13 @@ export declare class XRPositionalTracker extends XRTracker {
     public set_input(name: GDString | StringName | string, value: any): void;
 
     
-    public readonly pose_changed: Signal;
-    public readonly pose_lost_tracking: Signal;
-    public readonly button_pressed: Signal;
-    public readonly button_released: Signal;
-    public readonly input_float_changed: Signal;
-    public readonly input_vector2_changed: Signal;
-    public readonly profile_changed: Signal;
+    public readonly pose_changed: Signal<(pose: XRPose) => void>;
+    public readonly pose_lost_tracking: Signal<(pose: XRPose) => void>;
+    public readonly button_pressed: Signal<(name: GDString | StringName | string) => void>;
+    public readonly button_released: Signal<(name: GDString | StringName | string) => void>;
+    public readonly input_float_changed: Signal<(name: GDString | StringName | string, value: number) => void>;
+    public readonly input_vector2_changed: Signal<(name: GDString | StringName | string, vector: Vector2) => void>;
+    public readonly profile_changed: Signal<(role: GDString | StringName | string) => void>;
 
     public static readonly TrackerHand: {
         TRACKER_HAND_UNKNOWN: 0;

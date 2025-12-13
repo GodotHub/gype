@@ -19,7 +19,7 @@ export declare class MenuButton extends Button {
     public get_item_count(): number;
 
     
-    public readonly about_to_popup: Signal;
+    public readonly about_to_popup: Signal<() => void>;
 
 }
 

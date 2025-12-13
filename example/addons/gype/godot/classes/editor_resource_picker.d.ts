@@ -29,8 +29,8 @@ export declare class EditorResourcePicker extends HBoxContainer {
     public is_editable(): boolean;
 
     
-    public readonly resource_selected: Signal;
-    public readonly resource_changed: Signal;
+    public readonly resource_selected: Signal<(resource: Resource, inspect: boolean) => void>;
+    public readonly resource_changed: Signal<(resource: Resource) => void>;
 
 }
 

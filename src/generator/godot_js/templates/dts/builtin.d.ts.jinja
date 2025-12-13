@@ -1,16 +1,6 @@
-{#-
-    模板：builtin.d.ts.jinja
-    用于生成 Godot 内置类型的 TypeScript 声明。
-
-    此模板采用 "声明合并" 模式：
-    1. `export interface`: 定义类型的“形状”，允许使用对象字面量 (e.g., { x: 0, y: 0 })。
-       它包含实例属性 (members) 和实例方法 (methods)。
-    2. `export declare const`: 定义与类型同名的构造函数和静态成员 (e.g., new Vector2(), Vector2.ZERO)。
-       它包含构造函数 (constructors) 和静态常量 (constants)。
--#}
 {% set class_name = get_class_name(cls.name) %}
 declare global {
-    export class {{ class_name }} {
+    export class {{ class_name }}{% if class_name == "Signal" %}<T extends (...args: any[]) => void>{% endif %} {
         {# CONSTRUCTORS (from cls.constructors) #}
         {% for ctr in cls.constructors %}
         constructor({{ connect_args(ctr.arguments) }}): {{ class_name }};

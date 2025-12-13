@@ -40,19 +40,19 @@ export declare class WebXRInterface extends XRInterface {
     public get_available_display_refresh_rates(): GDArray;
 
     
-    public readonly session_supported: Signal;
-    public readonly session_started: Signal;
-    public readonly session_ended: Signal;
-    public readonly session_failed: Signal;
-    public readonly selectstart: Signal;
-    public readonly select: Signal;
-    public readonly selectend: Signal;
-    public readonly squeezestart: Signal;
-    public readonly squeeze: Signal;
-    public readonly squeezeend: Signal;
-    public readonly visibility_state_changed: Signal;
-    public readonly reference_space_reset: Signal;
-    public readonly display_refresh_rate_changed: Signal;
+    public readonly session_supported: Signal<(sessionMode: GDString | StringName | string, supported: boolean) => void>;
+    public readonly session_started: Signal<() => void>;
+    public readonly session_ended: Signal<() => void>;
+    public readonly session_failed: Signal<(message: GDString | StringName | string) => void>;
+    public readonly selectstart: Signal<(inputSourceId: number) => void>;
+    public readonly select: Signal<(inputSourceId: number) => void>;
+    public readonly selectend: Signal<(inputSourceId: number) => void>;
+    public readonly squeezestart: Signal<(inputSourceId: number) => void>;
+    public readonly squeeze: Signal<(inputSourceId: number) => void>;
+    public readonly squeezeend: Signal<(inputSourceId: number) => void>;
+    public readonly visibility_state_changed: Signal<() => void>;
+    public readonly reference_space_reset: Signal<() => void>;
+    public readonly display_refresh_rate_changed: Signal<() => void>;
 
     public static readonly TargetRayMode: {
         TARGET_RAY_MODE_UNKNOWN: 0;

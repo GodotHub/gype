@@ -25,11 +25,11 @@ export declare class MultiplayerAPI extends RefCounted {
     public static create_default_interface(): MultiplayerAPI;
 
     
-    public readonly peer_connected: Signal;
-    public readonly peer_disconnected: Signal;
-    public readonly connected_to_server: Signal;
-    public readonly connection_failed: Signal;
-    public readonly server_disconnected: Signal;
+    public readonly peer_connected: Signal<(id: number) => void>;
+    public readonly peer_disconnected: Signal<(id: number) => void>;
+    public readonly connected_to_server: Signal<() => void>;
+    public readonly connection_failed: Signal<() => void>;
+    public readonly server_disconnected: Signal<() => void>;
 
     public static readonly RPCMode: {
         RPC_MODE_DISABLED: 0;

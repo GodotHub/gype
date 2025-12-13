@@ -58,8 +58,8 @@ export declare class Sprite2D extends Node2D {
     public get_rect(): Rect2;
 
     
-    public readonly frame_changed: Signal;
-    public readonly texture_changed: Signal;
+    public readonly frame_changed: Signal<() => void>;
+    public readonly texture_changed: Signal<() => void>;
 
 }
 

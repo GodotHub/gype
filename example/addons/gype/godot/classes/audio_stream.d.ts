@@ -25,7 +25,7 @@ export declare class AudioStream extends Resource {
     public is_meta_stream(): boolean;
 
     
-    public readonly parameter_list_changed: Signal;
+    public readonly parameter_list_changed: Signal<() => void>;
 
 }
 

@@ -61,11 +61,11 @@ export declare class CollisionObject2D extends Node2D {
     public shape_find_owner(shapeIndex: number): number;
 
     
-    public readonly input_event: Signal;
-    public readonly mouse_entered: Signal;
-    public readonly mouse_exited: Signal;
-    public readonly mouse_shape_entered: Signal;
-    public readonly mouse_shape_exited: Signal;
+    public readonly input_event: Signal<(viewport: Node, event: InputEvent, shapeIdx: number) => void>;
+    public readonly mouse_entered: Signal<() => void>;
+    public readonly mouse_exited: Signal<() => void>;
+    public readonly mouse_shape_entered: Signal<(shapeIdx: number) => void>;
+    public readonly mouse_shape_exited: Signal<(shapeIdx: number) => void>;
 
     public static readonly DisableMode: {
         DISABLE_MODE_REMOVE: 0;

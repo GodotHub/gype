@@ -38,7 +38,7 @@ export declare class NinePatchRect extends Control {
     public get_v_axis_stretch_mode(): number;
 
     
-    public readonly texture_changed: Signal;
+    public readonly texture_changed: Signal<() => void>;
 
     public static readonly AxisStretchMode: {
         AXIS_STRETCH_MODE_STRETCH: 0;

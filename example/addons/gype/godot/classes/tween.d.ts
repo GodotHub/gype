@@ -40,9 +40,9 @@ export declare class Tween extends RefCounted {
     public static interpolate_value(initialValue: any, deltaValue: any, elapsedTime: number, duration: number, transType: number, easeType: number): any;
 
     
-    public readonly step_finished: Signal;
-    public readonly loop_finished: Signal;
-    public readonly finished: Signal;
+    public readonly step_finished: Signal<(idx: number) => void>;
+    public readonly loop_finished: Signal<(loocount: number) => void>;
+    public readonly finished: Signal<() => void>;
 
     public static readonly TweenProcessMode: {
         TWEEN_PROCESS_PHYSICS: 0;

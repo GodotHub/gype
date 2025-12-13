@@ -59,7 +59,7 @@ export declare class AudioStreamPlayer extends Node {
     public get_playback_type(): number;
 
     
-    public readonly finished: Signal;
+    public readonly finished: Signal<() => void>;
 
     public static readonly MixTarget: {
         MIX_TARGET_STEREO: 0;

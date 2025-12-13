@@ -173,7 +173,7 @@ GDExtensionBool TypeScriptInstance::set(GDExtensionConstStringNamePtr p_name, GD
 				variant = parse_result.constants[variant.operator int()];
 			} else if (script->godot_class_data->type_properties.has(name)) {
 				TypeParseResult parse_result = script->godot_class_data->type_properties[name];
-				variant = parse_result.constants[variant.operator int()];
+				variant = variant.operator int();
 			}
 		}
 		JSAtom name_atom = JS_NewAtom(js_context(), char_name);

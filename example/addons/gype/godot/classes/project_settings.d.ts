@@ -26,7 +26,7 @@ export declare class ProjectSettings extends GodotObject {
     public save_custom(file: GDString | StringName | string): number;
 
     
-    public readonly settings_changed: Signal;
+    public readonly settings_changed: Signal<() => void>;
 
 }
 

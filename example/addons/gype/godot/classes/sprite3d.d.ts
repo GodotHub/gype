@@ -36,8 +36,8 @@ export declare class Sprite3D extends SpriteBase3D {
     public get_hframes(): number;
 
     
-    public readonly frame_changed: Signal;
-    public readonly texture_changed: Signal;
+    public readonly frame_changed: Signal<() => void>;
+    public readonly texture_changed: Signal<() => void>;
 
 }
 

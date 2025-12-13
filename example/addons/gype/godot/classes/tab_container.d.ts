@@ -83,13 +83,13 @@ export declare class TabContainer extends Container {
     public get_deselect_enabled(): boolean;
 
     
-    public readonly active_tab_rearranged: Signal;
-    public readonly tab_changed: Signal;
-    public readonly tab_clicked: Signal;
-    public readonly tab_hovered: Signal;
-    public readonly tab_selected: Signal;
-    public readonly tab_button_pressed: Signal;
-    public readonly pre_popup_pressed: Signal;
+    public readonly active_tab_rearranged: Signal<(idxTo: number) => void>;
+    public readonly tab_changed: Signal<(tab: number) => void>;
+    public readonly tab_clicked: Signal<(tab: number) => void>;
+    public readonly tab_hovered: Signal<(tab: number) => void>;
+    public readonly tab_selected: Signal<(tab: number) => void>;
+    public readonly tab_button_pressed: Signal<(tab: number) => void>;
+    public readonly pre_popup_pressed: Signal<() => void>;
 
     public static readonly TabPosition: {
         POSITION_TOP: 0;

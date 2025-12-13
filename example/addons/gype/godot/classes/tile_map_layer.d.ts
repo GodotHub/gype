@@ -94,7 +94,7 @@ export declare class TileMapLayer extends Node2D {
     public get_navigation_visibility_mode(): number;
 
     
-    public readonly changed: Signal;
+    public readonly changed: Signal<() => void>;
 
     public static readonly DebugVisibilityMode: {
         DEBUG_VISIBILITY_MODE_DEFAULT: 0;

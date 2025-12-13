@@ -29,75 +29,31 @@ export function GodotTool<T extends GodotConstructor>(
   (target as any)[_Tool] = true;
 }
 
-
 export function GodotExport(
   target: any,
   context: ClassFieldDecoratorContext<any>
-): void{}
+): void {}
 
-interface SignalArgument {
-  name: string;
-  type: number;
-}
-
-type SignalDecorator = <T extends GodotObject>(
+export function GodotSignal<T extends (...args: any[]) => any>(
   value: undefined,
-  context: ClassFieldDecoratorContext<T, Signal>
-) => void;
-
-export function GodotSignal(...args: SignalArgument[]): SignalDecorator;
-export function GodotSignal<T extends GodotObject>(
-  value: undefined,
-  context: ClassFieldDecoratorContext<T, Signal>
-): void;
-
-export function GodotSignal(...args: any[]): SignalDecorator | void {
-  const decoratorLogic = (
-    context: ClassFieldDecoratorContext<any, Signal>,
-    signalArgs: SignalArgument[]
-  ): void => {
-    const propertyKey = context.name as string;
-
-    context.addInitializer(function (this: GodotObject) {
-      // const godotArgs = signalArgs.flatMap(arg => [arg.name, arg.type]);
-      this.add_user_signal(propertyKey, signalArgs);
-      const signalValue = new Signal(this, propertyKey);
-
-      Object.defineProperty(this, propertyKey, {
-        value: signalValue,
-        writable: false,
-        configurable: false,
-        enumerable: false,
-      });
-    });
-  };
-
-  // --- 调用方式判断 ---
-  const isDirectUsage =
-    args.length === 2 &&
-    args[0] === undefined &&
-    args[1] &&
-    typeof args[1] === "object" &&
-    "kind" in args[1] &&
-    args[1].kind === "field";
-
-  if (isDirectUsage) {
-    const context = args[1] as ClassFieldDecoratorContext<any, Signal>;
-    decoratorLogic(context, []);
-  } else {
-    const signalArgs = args as SignalArgument[];
-    return (
-      value: undefined,
-      context: ClassFieldDecoratorContext<any, Signal>
-    ) => {
-      decoratorLogic(context, signalArgs);
-    };
+  context: ClassFieldDecoratorContext<any, Signal<T>>
+) {
+  if (context.kind !== "field") {
+    throw new Error(
+      "GodotSignal decorator can only be applied to class fields."
+    );
   }
+  context.addInitializer(function () {
+    if (!(this as GodotObject).has_user_signal(String(context.name))) {
+      (this as GodotObject).add_user_signal(String(context.name));
+    }
+    (this as any)[context.name] = new Signal<T>(this, String(context.name));
+  });
 }
 
 const _resolvers = new Set();
 
-export function to_promise(signal: Signal): Promise<void> {
+export function to_promise(signal: Signal<any>): Promise<void> {
   return new Promise((resolve, reject): void => {
     const resolver = new Resolver(resolve);
     signal.connect(resolver.callback, 4);

@@ -41,7 +41,6 @@ class TypeScript : public ScriptExtension {
 
 	TSParser *parser;
 	const TSLanguage *lang;
-	int tsc_process = 0;
 
 	String source_code = "";
 	String dist_source_code = "";
@@ -115,41 +114,48 @@ class TypeScript : public ScriptExtension {
 	          (implements_clause (type_identifier) @interface.name)?
 	        )?
 	        body: (class_body
-	          [
-	            (public_field_definition
-	              decorator: (decorator (identifier) @decorator.member)?
-	              name: (property_identifier) @prop.name
-	              type: (type_annotation
-	                [
-	                  (type_identifier)
-	                  (predefined_type)
-	                ] @prop.type
-	              )?
-	              value: (_) @prop.value
-	            ) @prop.body
+	          (public_field_definition
+	            decorator: (decorator (identifier) @decorator.member)?
+	            name: (property_identifier) @prop.name
+	            type: (type_annotation
+	              [
+	                (type_identifier)
+	                (predefined_type)
+	                (generic_type
+	                  name: (type_identifier)
+	                  type_arguments: (type_arguments
+	                    (function_type
+	                      parameters: (formal_parameters)
+	                      return_type: (predefined_type)
+	                    )
+	                  )
+	                )
+	              ] @prop.type
+	            )
+	            value: (_)? @prop.value
+	          )? @prop.body
 
-	            (method_definition
-	              name: (property_identifier) @method.name
-	              parameters: (formal_parameters) @method.parameter
-	              return_type: (type_annotation
-	                [
-	                  (type_identifier)
-	                  (predefined_type)
-	                ] @method.return_type
-	              )?
-	            ) @method.body
+	          (method_definition
+	            name: (property_identifier) @method.name
+	            parameters: (formal_parameters) @method.parameter
+	            return_type: (type_annotation
+	              [
+	                (type_identifier)
+	                (predefined_type)
+	              ] @method.return_type
+	            )
+	          )? @method.body
 
-	            (abstract_method_signature
-	              name: (property_identifier) @method.name
-	              parameters: (formal_parameters) @method.parameter
-	              return_type: (type_annotation
-	                [
-	                  (type_identifier)
-	                  (predefined_type)
-	                ] @method.return_type
-	              )?
-	            ) @method.body @method.is_abstract
-	          ]
+	          (abstract_method_signature
+	            name: (property_identifier) @method.name
+	            parameters: (formal_parameters) @method.parameter
+	            return_type: (type_annotation
+	              [
+	                (type_identifier)
+	                (predefined_type)
+	              ] @method.return_type
+	            )
+	          )? @method.body @method.is_abstract
 	        )
 	      )
 	      (abstract_class_declaration
@@ -160,41 +166,48 @@ class TypeScript : public ScriptExtension {
 	          (implements_clause (type_identifier) @interface.name)?
 	        )?
 	        body: (class_body
-	          [
-	            (public_field_definition
-	              decorator: (decorator (identifier) @decorator.member)?
-	              name: (property_identifier) @prop.name
-	              type: (type_annotation
-	                [
-	                  (type_identifier)
-	                  (predefined_type)
-	                ] @prop.type
-	              )?
-	              value: (_) @prop.value
-	            ) @prop.body
+	          (public_field_definition
+	            decorator: (decorator (identifier) @decorator.member)?
+	            name: (property_identifier) @prop.name
+	            type: (type_annotation
+	              [
+	                (type_identifier)
+	                (predefined_type)
+	                (generic_type
+	                  name: (type_identifier)
+	                  type_arguments: (type_arguments
+	                    (function_type
+	                      parameters: (formal_parameters)
+	                      return_type: (predefined_type)
+	                    )
+	                  )
+	                )
+	              ] @prop.type
+	            )
+	            value: (_)? @prop.value
+	          )? @prop.body
 
-	            (method_definition
-	              name: (property_identifier) @method.name
-	              parameters: (formal_parameters) @method.parameter
-	              return_type: (type_annotation
-	                [
-	                  (type_identifier)
-	                  (predefined_type)
-	                ] @method.return_type
-	              )?
-	            ) @method.body
+	          (method_definition
+	            name: (property_identifier) @method.name
+	            parameters: (formal_parameters) @method.parameter
+	            return_type: (type_annotation
+	              [
+	                (type_identifier)
+	                (predefined_type)
+	              ] @method.return_type
+	            )
+	          )? @method.body
 
-	            (abstract_method_signature
-	              name: (property_identifier) @method.name
-	              parameters: (formal_parameters) @method.parameter
-	              return_type: (type_annotation
-	                [
-	                  (type_identifier)
-	                  (predefined_type)
-	                ] @method.return_type
-	              )?
-	            ) @method.body @method.is_abstract
-	          ]
+	          (abstract_method_signature
+	            name: (property_identifier) @method.name
+	            parameters: (formal_parameters) @method.parameter
+	            return_type: (type_annotation
+	              [
+	                (type_identifier)
+	                (predefined_type)
+	              ] @method.return_type
+	            )
+	          )? @method.body @method.is_abstract
 	        )
 	      )
 	    ] @class.body
@@ -309,6 +322,7 @@ struct EnumParseResult {
 };
 
 struct TypeParseResult : EnumParseResult {
+	
 };
 
 struct InterfaceParseResult {

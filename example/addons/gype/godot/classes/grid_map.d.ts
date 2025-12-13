@@ -81,8 +81,8 @@ export declare class GridMap extends Node3D {
     public make_baked_meshes(genLightmauv: boolean = false, lightmauvTexelSize: number = 0.1): void;
 
     
-    public readonly cell_size_changed: Signal;
-    public readonly changed: Signal;
+    public readonly cell_size_changed: Signal<(cellSize: Vector3) => void>;
+    public readonly changed: Signal<() => void>;
 
 }
 

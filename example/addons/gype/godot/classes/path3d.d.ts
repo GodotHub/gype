@@ -16,8 +16,8 @@ export declare class Path3D extends Node3D {
     public get_debug_custom_color(): Color;
 
     
-    public readonly curve_changed: Signal;
-    public readonly debug_color_changed: Signal;
+    public readonly curve_changed: Signal<() => void>;
+    public readonly debug_color_changed: Signal<() => void>;
 
 }
 

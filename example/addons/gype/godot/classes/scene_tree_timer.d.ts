@@ -11,7 +11,7 @@ export declare class SceneTreeTimer extends RefCounted {
     public get_time_left(): number;
 
     
-    public readonly timeout: Signal;
+    public readonly timeout: Signal<() => void>;
 
 }
 

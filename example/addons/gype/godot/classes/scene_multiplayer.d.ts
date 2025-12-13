@@ -45,9 +45,9 @@ export declare class SceneMultiplayer extends MultiplayerAPI {
     public set_max_delta_packet_size(size: number): void;
 
     
-    public readonly peer_authenticating: Signal;
-    public readonly peer_authentication_failed: Signal;
-    public readonly peer_packet: Signal;
+    public readonly peer_authenticating: Signal<(id: number) => void>;
+    public readonly peer_authentication_failed: Signal<(id: number) => void>;
+    public readonly peer_packet: Signal<(id: number, packet: PackedByteArray) => void>;
 
 }
 

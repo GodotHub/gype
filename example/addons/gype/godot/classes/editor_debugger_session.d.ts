@@ -16,10 +16,10 @@ export declare class EditorDebuggerSession extends RefCounted {
     public set_breakpoint(path: GDString | StringName | string, line: number, enabled: boolean): void;
 
     
-    public readonly started: Signal;
-    public readonly stopped: Signal;
-    public readonly breaked: Signal;
-    public readonly continued: Signal;
+    public readonly started: Signal<() => void>;
+    public readonly stopped: Signal<() => void>;
+    public readonly breaked: Signal<(canDebug: boolean) => void>;
+    public readonly continued: Signal<() => void>;
 
 }
 

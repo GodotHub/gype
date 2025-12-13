@@ -24,8 +24,8 @@ export declare class MultiplayerSpawner extends Node {
     public set_spawn_function(spawnFunction: Callable | Function): void;
 
     
-    public readonly despawned: Signal;
-    public readonly spawned: Signal;
+    public readonly despawned: Signal<(node: Node) => void>;
+    public readonly spawned: Signal<(node: Node) => void>;
 
 }
 

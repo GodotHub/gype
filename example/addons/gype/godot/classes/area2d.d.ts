@@ -75,14 +75,14 @@ export declare class Area2D extends CollisionObject2D {
     public is_overriding_audio_bus(): boolean;
 
     
-    public readonly body_shape_entered: Signal;
-    public readonly body_shape_exited: Signal;
-    public readonly body_entered: Signal;
-    public readonly body_exited: Signal;
-    public readonly area_shape_entered: Signal;
-    public readonly area_shape_exited: Signal;
-    public readonly area_entered: Signal;
-    public readonly area_exited: Signal;
+    public readonly body_shape_entered: Signal<(bodyRid: RID, body: Node2D, bodyShapeIndex: number, localShapeIndex: number) => void>;
+    public readonly body_shape_exited: Signal<(bodyRid: RID, body: Node2D, bodyShapeIndex: number, localShapeIndex: number) => void>;
+    public readonly body_entered: Signal<(body: Node2D) => void>;
+    public readonly body_exited: Signal<(body: Node2D) => void>;
+    public readonly area_shape_entered: Signal<(areaRid: RID, area: Area2D, areaShapeIndex: number, localShapeIndex: number) => void>;
+    public readonly area_shape_exited: Signal<(areaRid: RID, area: Area2D, areaShapeIndex: number, localShapeIndex: number) => void>;
+    public readonly area_entered: Signal<(area: Area2D) => void>;
+    public readonly area_exited: Signal<(area: Area2D) => void>;
 
     public static readonly SpaceOverride: {
         SPACE_OVERRIDE_DISABLED: 0;

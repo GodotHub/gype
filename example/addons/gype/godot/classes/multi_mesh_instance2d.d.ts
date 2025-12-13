@@ -17,7 +17,7 @@ export declare class MultiMeshInstance2D extends Node2D {
     public get_texture(): Texture2D;
 
     
-    public readonly texture_changed: Signal;
+    public readonly texture_changed: Signal<() => void>;
 
 }
 

@@ -55,8 +55,8 @@ export declare class GodotObject {
     public cancel_free(): void;
 
     
-    public readonly script_changed: Signal;
-    public readonly property_list_changed: Signal;
+    public readonly script_changed: Signal<() => void>;
+    public readonly property_list_changed: Signal<() => void>;
 
     public static readonly ConnectFlags: {
         CONNECT_DEFERRED: 1;

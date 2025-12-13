@@ -164,11 +164,11 @@ export declare class CodeEdit extends TextEdit {
     public duplicate_lines(): void;
 
     
-    public readonly breakpoint_toggled: Signal;
-    public readonly code_completion_requested: Signal;
-    public readonly symbol_lookup: Signal;
-    public readonly symbol_validate: Signal;
-    public readonly symbol_hovered: Signal;
+    public readonly breakpoint_toggled: Signal<(line: number) => void>;
+    public readonly code_completion_requested: Signal<() => void>;
+    public readonly symbol_lookup: Signal<(_symbol: GDString | StringName | string, line: number, column: number) => void>;
+    public readonly symbol_validate: Signal<(_symbol: GDString | StringName | string) => void>;
+    public readonly symbol_hovered: Signal<(_symbol: GDString | StringName | string, line: number, column: number) => void>;
 
     public static readonly CodeCompletionKind: {
         KIND_CLASS: 0;

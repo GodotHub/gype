@@ -32,8 +32,8 @@ export declare class CameraFeed extends RefCounted {
     public set_format(index: number, parameters: Dictionary): boolean;
 
     
-    public readonly frame_changed: Signal;
-    public readonly format_changed: Signal;
+    public readonly frame_changed: Signal<() => void>;
+    public readonly format_changed: Signal<() => void>;
 
     public static readonly FeedDataType: {
         FEED_NOIMAGE: 0;

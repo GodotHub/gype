@@ -30,8 +30,8 @@ export declare class MultiplayerPeer extends PacketPeer {
     public is_server_relay_supported(): boolean;
 
     
-    public readonly peer_connected: Signal;
-    public readonly peer_disconnected: Signal;
+    public readonly peer_connected: Signal<(id: number) => void>;
+    public readonly peer_disconnected: Signal<(id: number) => void>;
 
     public static readonly ConnectionStatus: {
         CONNECTION_DISCONNECTED: 0;

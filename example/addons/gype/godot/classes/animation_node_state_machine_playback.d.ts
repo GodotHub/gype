@@ -17,8 +17,8 @@ export declare class AnimationNodeStateMachinePlayback extends Resource {
     public get_travel_path(): Array<any>;
 
     
-    public readonly state_started: Signal;
-    public readonly state_finished: Signal;
+    public readonly state_started: Signal<(state: GDString | StringName | string) => void>;
+    public readonly state_finished: Signal<(state: GDString | StringName | string) => void>;
 
 }
 

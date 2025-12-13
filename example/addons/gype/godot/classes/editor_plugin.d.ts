@@ -105,12 +105,12 @@ export declare class EditorPlugin extends Node {
     public get_plugin_version(): GDString;
 
     
-    public readonly scene_changed: Signal;
-    public readonly scene_closed: Signal;
-    public readonly main_screen_changed: Signal;
-    public readonly resource_saved: Signal;
-    public readonly scene_saved: Signal;
-    public readonly project_settings_changed: Signal;
+    public readonly scene_changed: Signal<(sceneRoot: Node) => void>;
+    public readonly scene_closed: Signal<(filepath: GDString | StringName | string) => void>;
+    public readonly main_screen_changed: Signal<(screenName: GDString | StringName | string) => void>;
+    public readonly resource_saved: Signal<(resource: Resource) => void>;
+    public readonly scene_saved: Signal<(filepath: GDString | StringName | string) => void>;
+    public readonly project_settings_changed: Signal<() => void>;
 
     public static readonly CustomControlContainer: {
         CONTAINER_TOOLBAR: 0;

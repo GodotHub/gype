@@ -116,11 +116,11 @@ export declare class RigidBody3D extends PhysicsBody3D {
     public get_colliding_bodies(): Array<any>;
 
     
-    public readonly body_shape_entered: Signal;
-    public readonly body_shape_exited: Signal;
-    public readonly body_entered: Signal;
-    public readonly body_exited: Signal;
-    public readonly sleeping_state_changed: Signal;
+    public readonly body_shape_entered: Signal<(bodyRid: RID, body: Node, bodyShapeIndex: number, localShapeIndex: number) => void>;
+    public readonly body_shape_exited: Signal<(bodyRid: RID, body: Node, bodyShapeIndex: number, localShapeIndex: number) => void>;
+    public readonly body_entered: Signal<(body: Node) => void>;
+    public readonly body_exited: Signal<(body: Node) => void>;
+    public readonly sleeping_state_changed: Signal<() => void>;
 
     public static readonly FreezeMode: {
         FREEZE_MODE_STATIC: 0;

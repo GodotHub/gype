@@ -31,11 +31,11 @@ export declare class EditorSpinSlider extends Range {
     public is_editing_integer(): boolean;
 
     
-    public readonly grabbed: Signal;
-    public readonly ungrabbed: Signal;
-    public readonly updown_pressed: Signal;
-    public readonly value_focus_entered: Signal;
-    public readonly value_focus_exited: Signal;
+    public readonly grabbed: Signal<() => void>;
+    public readonly ungrabbed: Signal<() => void>;
+    public readonly updown_pressed: Signal<() => void>;
+    public readonly value_focus_entered: Signal<() => void>;
+    public readonly value_focus_exited: Signal<() => void>;
 
 }
 

@@ -131,7 +131,7 @@ export declare class GPUParticles3D extends GeometryInstance3D {
     public request_particles_process(processTime: number): void;
 
     
-    public readonly finished: Signal;
+    public readonly finished: Signal<() => void>;
 
     public static readonly DrawOrder: {
         DRAW_ORDER_INDEX: 0;

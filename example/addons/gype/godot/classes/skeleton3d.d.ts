@@ -73,12 +73,12 @@ export declare class Skeleton3D extends Node3D {
     public physical_bones_remove_collision_exception(exception: RID): void;
 
     
-    public readonly rest_updated: Signal;
-    public readonly pose_updated: Signal;
-    public readonly skeleton_updated: Signal;
-    public readonly bone_enabled_changed: Signal;
-    public readonly bone_list_changed: Signal;
-    public readonly show_rest_only_changed: Signal;
+    public readonly rest_updated: Signal<() => void>;
+    public readonly pose_updated: Signal<() => void>;
+    public readonly skeleton_updated: Signal<() => void>;
+    public readonly bone_enabled_changed: Signal<(boneIdx: number) => void>;
+    public readonly bone_list_changed: Signal<() => void>;
+    public readonly show_rest_only_changed: Signal<() => void>;
 
     public static readonly ModifierCallbackModeProcess: {
         MODIFIER_CALLBACK_MODE_PROCESS_PHYSICS: 0;

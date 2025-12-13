@@ -53,8 +53,8 @@ export declare class OptionButton extends Button {
     public set_disable_shortcuts(disabled: boolean): void;
 
     
-    public readonly item_selected: Signal;
-    public readonly item_focused: Signal;
+    public readonly item_selected: Signal<(index: number) => void>;
+    public readonly item_focused: Signal<(index: number) => void>;
 
 }
 

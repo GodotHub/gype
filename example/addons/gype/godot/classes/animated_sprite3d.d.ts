@@ -39,11 +39,11 @@ export declare class AnimatedSprite3D extends SpriteBase3D {
     public get_playing_speed(): number;
 
     
-    public readonly sprite_frames_changed: Signal;
-    public readonly animation_changed: Signal;
-    public readonly frame_changed: Signal;
-    public readonly animation_looped: Signal;
-    public readonly animation_finished: Signal;
+    public readonly sprite_frames_changed: Signal<() => void>;
+    public readonly animation_changed: Signal<() => void>;
+    public readonly frame_changed: Signal<() => void>;
+    public readonly animation_looped: Signal<() => void>;
+    public readonly animation_finished: Signal<() => void>;
 
 }
 

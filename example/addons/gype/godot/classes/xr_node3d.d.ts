@@ -24,7 +24,7 @@ export declare class XRNode3D extends Node3D {
     public trigger_haptic_pulse(actionName: GDString | StringName | string, frequency: number, amplitude: number, durationSec: number, delaySec: number): void;
 
     
-    public readonly tracking_changed: Signal;
+    public readonly tracking_changed: Signal<(tracking: boolean) => void>;
 
 }
 

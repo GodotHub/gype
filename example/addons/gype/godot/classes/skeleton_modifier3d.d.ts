@@ -21,7 +21,7 @@ export declare class SkeletonModifier3D extends Node3D {
     public get_influence(): number;
 
     
-    public readonly modification_processed: Signal;
+    public readonly modification_processed: Signal<() => void>;
 
     public static readonly BoneAxis: {
         BONE_AXIS_PLUS_X: 0;

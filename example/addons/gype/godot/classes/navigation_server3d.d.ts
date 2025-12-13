@@ -166,9 +166,9 @@ export declare class NavigationServer3D extends GodotObject {
     public get_process_info(processInfo: number): number;
 
     
-    public readonly map_changed: Signal;
-    public readonly navigation_debug_changed: Signal;
-    public readonly avoidance_debug_changed: Signal;
+    public readonly map_changed: Signal<(map: RID) => void>;
+    public readonly navigation_debug_changed: Signal<() => void>;
+    public readonly avoidance_debug_changed: Signal<() => void>;
 
     public static readonly ProcessInfo: {
         INFO_ACTIVE_MAPS: 0;

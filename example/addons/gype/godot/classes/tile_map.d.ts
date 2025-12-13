@@ -83,7 +83,7 @@ export declare class TileMap extends Node2D {
     public get_neighbor_cell(coords: Vector2i, neighbor: number): Vector2i;
 
     
-    public readonly changed: Signal;
+    public readonly changed: Signal<() => void>;
 
     public static readonly VisibilityMode: {
         VISIBILITY_MODE_DEFAULT: 0;

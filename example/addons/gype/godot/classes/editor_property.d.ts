@@ -71,19 +71,19 @@ export declare class EditorProperty extends Container {
     public emit_changed(property: GDString | StringName | string, value: any, field: GDString | StringName | string = "", changing: boolean = false): void;
 
     
-    public readonly property_changed: Signal;
-    public readonly multiple_properties_changed: Signal;
-    public readonly property_keyed: Signal;
-    public readonly property_deleted: Signal;
-    public readonly property_keyed_with_value: Signal;
-    public readonly property_checked: Signal;
-    public readonly property_overridden: Signal;
-    public readonly property_favorited: Signal;
-    public readonly property_pinned: Signal;
-    public readonly property_can_revert_changed: Signal;
-    public readonly resource_selected: Signal;
-    public readonly object_id_selected: Signal;
-    public readonly selected: Signal;
+    public readonly property_changed: Signal<(property: GDString | StringName | string, value: any, field: GDString | StringName | string, changing: boolean) => void>;
+    public readonly multiple_properties_changed: Signal<(properties: PackedStringArray, value: GDArray | Array) => void>;
+    public readonly property_keyed: Signal<(property: GDString | StringName | string) => void>;
+    public readonly property_deleted: Signal<(property: GDString | StringName | string) => void>;
+    public readonly property_keyed_with_value: Signal<(property: GDString | StringName | string, value: any) => void>;
+    public readonly property_checked: Signal<(property: GDString | StringName | string, checked: boolean) => void>;
+    public readonly property_overridden: Signal<() => void>;
+    public readonly property_favorited: Signal<(property: GDString | StringName | string, favorited: boolean) => void>;
+    public readonly property_pinned: Signal<(property: GDString | StringName | string, pinned: boolean) => void>;
+    public readonly property_can_revert_changed: Signal<(property: GDString | StringName | string, canRevert: boolean) => void>;
+    public readonly resource_selected: Signal<(path: GDString | StringName | string, resource: Resource) => void>;
+    public readonly object_id_selected: Signal<(property: GDString | StringName | string, id: number) => void>;
+    public readonly selected: Signal<(path: GDString | StringName | string, focusableIdx: number) => void>;
 
 }
 

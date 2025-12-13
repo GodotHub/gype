@@ -103,7 +103,7 @@ export declare class AudioStreamPlayer3D extends Node3D {
     public get_playback_type(): number;
 
     
-    public readonly finished: Signal;
+    public readonly finished: Signal<() => void>;
 
     public static readonly AttenuationModel: {
         ATTENUATION_INVERSE_DISTANCE: 0;

@@ -87,7 +87,7 @@ export declare class TileData extends GodotObject {
     public get_custom_data_by_layer_id(layerId: number): any;
 
     
-    public readonly changed: Signal;
+    public readonly changed: Signal<() => void>;
 
 }
 

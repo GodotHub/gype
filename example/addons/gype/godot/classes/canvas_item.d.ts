@@ -137,10 +137,10 @@ export declare class CanvasItem extends Node {
     public get_clip_children_mode(): number;
 
     
-    public readonly draw: Signal;
-    public readonly visibility_changed: Signal;
-    public readonly hidden: Signal;
-    public readonly item_rect_changed: Signal;
+    public readonly draw: Signal<() => void>;
+    public readonly visibility_changed: Signal<() => void>;
+    public readonly hidden: Signal<() => void>;
+    public readonly item_rect_changed: Signal<() => void>;
 
     public static readonly TextureFilter: {
         TEXTURE_FILTER_PARENT_NODE: 0;

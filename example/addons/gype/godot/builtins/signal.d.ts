@@ -1,5 +1,5 @@
 declare global {
-    export class Signal {
+    export class Signal<T extends (...args: any[]) => void> {
         constructor(): Signal;
         constructor(_from: Signal): Signal;
         constructor(object: GodotObject, signal: GDString | StringName | string): Signal;

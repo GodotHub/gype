@@ -84,8 +84,8 @@ export declare class AnimationPlayer extends AnimationMixer {
     public get_root(): NodePath;
 
     
-    public readonly current_animation_changed: Signal;
-    public readonly animation_changed: Signal;
+    public readonly current_animation_changed: Signal<(name: GDString | StringName | string) => void>;
+    public readonly animation_changed: Signal<(oldName: GDString | StringName | string, newName: GDString | StringName | string) => void>;
 
     public static readonly AnimationProcessCallback: {
         ANIMATION_PROCESS_PHYSICS: 0;

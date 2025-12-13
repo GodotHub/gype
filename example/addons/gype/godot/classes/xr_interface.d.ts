@@ -43,7 +43,7 @@ export declare class XRInterface extends RefCounted {
     public get_environment_blend_mode(): number;
 
     
-    public readonly play_area_changed: Signal;
+    public readonly play_area_changed: Signal<(mode: number) => void>;
 
     public static readonly Capabilities: {
         XR_NONE: 0;

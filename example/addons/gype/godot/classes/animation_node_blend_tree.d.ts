@@ -22,7 +22,7 @@ export declare class AnimationNodeBlendTree extends AnimationRootNode {
     public get_graph_offset(): Vector2;
 
     
-    public readonly node_changed: Signal;
+    public readonly node_changed: Signal<(nodeName: GDString | StringName | string) => void>;
 
 }
 

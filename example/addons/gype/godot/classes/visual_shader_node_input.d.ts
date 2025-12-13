@@ -12,7 +12,7 @@ export declare class VisualShaderNodeInput extends VisualShaderNode {
     public get_input_real_name(): GDString;
 
     
-    public readonly input_type_changed: Signal;
+    public readonly input_type_changed: Signal<() => void>;
 
 }
 

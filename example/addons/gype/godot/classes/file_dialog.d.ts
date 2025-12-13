@@ -92,10 +92,10 @@ export declare class FileDialog extends ConfirmationDialog {
     public invalidate(): void;
 
     
-    public readonly file_selected: Signal;
-    public readonly files_selected: Signal;
-    public readonly dir_selected: Signal;
-    public readonly filename_filter_changed: Signal;
+    public readonly file_selected: Signal<(path: GDString | StringName | string) => void>;
+    public readonly files_selected: Signal<(paths: PackedStringArray) => void>;
+    public readonly dir_selected: Signal<(dir: GDString | StringName | string) => void>;
+    public readonly filename_filter_changed: Signal<(filter: GDString | StringName | string) => void>;
 
     public static readonly FileMode: {
         FILE_MODE_OPEN_FILE: 0;

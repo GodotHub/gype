@@ -36,9 +36,9 @@ export declare class AcceptDialog extends Window {
     public get_ok_button_text(): GDString;
 
     
-    public readonly confirmed: Signal;
-    public readonly canceled: Signal;
-    public readonly custom_action: Signal;
+    public readonly confirmed: Signal<() => void>;
+    public readonly canceled: Signal<() => void>;
+    public readonly custom_action: Signal<(action: GDString | StringName | string) => void>;
 
 }
 

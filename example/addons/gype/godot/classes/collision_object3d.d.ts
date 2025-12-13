@@ -59,9 +59,9 @@ export declare class CollisionObject3D extends Node3D {
     public shape_find_owner(shapeIndex: number): number;
 
     
-    public readonly input_event: Signal;
-    public readonly mouse_entered: Signal;
-    public readonly mouse_exited: Signal;
+    public readonly input_event: Signal<(camera: Node, event: InputEvent, eventPosition: Vector3, normal: Vector3, shapeIdx: number) => void>;
+    public readonly mouse_entered: Signal<() => void>;
+    public readonly mouse_exited: Signal<() => void>;
 
     public static readonly DisableMode: {
         DISABLE_MODE_REMOVE: 0;

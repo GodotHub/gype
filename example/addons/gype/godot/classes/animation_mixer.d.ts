@@ -70,13 +70,13 @@ export declare class AnimationMixer extends Node {
     public find_animation_library(animation: Animation): StringName;
 
     
-    public readonly animation_list_changed: Signal;
-    public readonly animation_libraries_updated: Signal;
-    public readonly animation_finished: Signal;
-    public readonly animation_started: Signal;
-    public readonly caches_cleared: Signal;
-    public readonly mixer_applied: Signal;
-    public readonly mixer_updated: Signal;
+    public readonly animation_list_changed: Signal<() => void>;
+    public readonly animation_libraries_updated: Signal<() => void>;
+    public readonly animation_finished: Signal<(animName: GDString | StringName | string) => void>;
+    public readonly animation_started: Signal<(animName: GDString | StringName | string) => void>;
+    public readonly caches_cleared: Signal<() => void>;
+    public readonly mixer_applied: Signal<() => void>;
+    public readonly mixer_updated: Signal<() => void>;
 
     public static readonly AnimationCallbackModeProcess: {
         ANIMATION_CALLBACK_MODE_PROCESS_PHYSICS: 0;

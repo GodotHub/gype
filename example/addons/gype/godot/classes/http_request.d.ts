@@ -45,7 +45,7 @@ export declare class HTTPRequest extends Node {
     public set_https_proxy(host: GDString | StringName | string, port: number): void;
 
     
-    public readonly request_completed: Signal;
+    public readonly request_completed: Signal<(result: number, responseCode: number, headers: PackedStringArray, body: PackedByteArray) => void>;
 
     public static readonly Result: {
         RESULT_SUCCESS: 0;

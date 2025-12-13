@@ -103,14 +103,14 @@ export declare class Area3D extends CollisionObject3D {
     public get_reverb_uniformity(): number;
 
     
-    public readonly body_shape_entered: Signal;
-    public readonly body_shape_exited: Signal;
-    public readonly body_entered: Signal;
-    public readonly body_exited: Signal;
-    public readonly area_shape_entered: Signal;
-    public readonly area_shape_exited: Signal;
-    public readonly area_entered: Signal;
-    public readonly area_exited: Signal;
+    public readonly body_shape_entered: Signal<(bodyRid: RID, body: Node3D, bodyShapeIndex: number, localShapeIndex: number) => void>;
+    public readonly body_shape_exited: Signal<(bodyRid: RID, body: Node3D, bodyShapeIndex: number, localShapeIndex: number) => void>;
+    public readonly body_entered: Signal<(body: Node3D) => void>;
+    public readonly body_exited: Signal<(body: Node3D) => void>;
+    public readonly area_shape_entered: Signal<(areaRid: RID, area: Area3D, areaShapeIndex: number, localShapeIndex: number) => void>;
+    public readonly area_shape_exited: Signal<(areaRid: RID, area: Area3D, areaShapeIndex: number, localShapeIndex: number) => void>;
+    public readonly area_entered: Signal<(area: Area3D) => void>;
+    public readonly area_exited: Signal<(area: Area3D) => void>;
 
     public static readonly SpaceOverride: {
         SPACE_OVERRIDE_DISABLED: 0;

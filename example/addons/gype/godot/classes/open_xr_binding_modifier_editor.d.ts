@@ -12,7 +12,7 @@ export declare class OpenXRBindingModifierEditor extends PanelContainer {
     public setup(actionMap: OpenXRActionMap, bindingModifier: OpenXRBindingModifier): void;
 
     
-    public readonly binding_modifier_removed: Signal;
+    public readonly binding_modifier_removed: Signal<(bindingModifierEditor: GodotObject) => void>;
 
 }
 

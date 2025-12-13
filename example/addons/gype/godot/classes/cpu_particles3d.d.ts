@@ -255,7 +255,7 @@ export declare class CPUParticles3D extends GeometryInstance3D {
     public convert_from_particles(particles: Node): void;
 
     
-    public readonly finished: Signal;
+    public readonly finished: Signal<() => void>;
 
     public static readonly DrawOrder: {
         DRAW_ORDER_INDEX: 0;

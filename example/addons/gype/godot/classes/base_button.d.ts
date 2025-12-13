@@ -54,10 +54,10 @@ export declare class BaseButton extends Control {
     public get_button_group(): ButtonGroup;
 
     
-    public readonly pressed: Signal;
-    public readonly button_up: Signal;
-    public readonly button_down: Signal;
-    public readonly toggled: Signal;
+    public readonly pressed: Signal<() => void>;
+    public readonly button_up: Signal<() => void>;
+    public readonly button_down: Signal<() => void>;
+    public readonly toggled: Signal<(toggledOn: boolean) => void>;
 
     public static readonly DrawMode: {
         DRAW_NORMAL: 0;

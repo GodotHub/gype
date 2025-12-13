@@ -12,11 +12,11 @@ export declare class XRController3D extends XRNode3D {
     public get_tracker_hand(): number;
 
     
-    public readonly button_pressed: Signal;
-    public readonly button_released: Signal;
-    public readonly input_float_changed: Signal;
-    public readonly input_vector2_changed: Signal;
-    public readonly profile_changed: Signal;
+    public readonly button_pressed: Signal<(name: GDString | StringName | string) => void>;
+    public readonly button_released: Signal<(name: GDString | StringName | string) => void>;
+    public readonly input_float_changed: Signal<(name: GDString | StringName | string, value: number) => void>;
+    public readonly input_vector2_changed: Signal<(name: GDString | StringName | string, value: Vector2) => void>;
+    public readonly profile_changed: Signal<(role: GDString | StringName | string) => void>;
 
 }
 

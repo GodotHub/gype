@@ -218,20 +218,20 @@ export declare class Window extends Viewport {
     public popup_exclusive_centered_clamped(fromNode: Node, minsize: Vector2i = Vector2i(0, 0), fallbackRatio: number = 0.75): void;
 
     
-    public readonly window_input: Signal;
-    public readonly files_dropped: Signal;
-    public readonly mouse_entered: Signal;
-    public readonly mouse_exited: Signal;
-    public readonly focus_entered: Signal;
-    public readonly focus_exited: Signal;
-    public readonly close_requested: Signal;
-    public readonly go_back_requested: Signal;
-    public readonly visibility_changed: Signal;
-    public readonly about_to_popup: Signal;
-    public readonly theme_changed: Signal;
-    public readonly dpi_changed: Signal;
-    public readonly titlebar_changed: Signal;
-    public readonly title_changed: Signal;
+    public readonly window_input: Signal<(event: InputEvent) => void>;
+    public readonly files_dropped: Signal<(files: PackedStringArray) => void>;
+    public readonly mouse_entered: Signal<() => void>;
+    public readonly mouse_exited: Signal<() => void>;
+    public readonly focus_entered: Signal<() => void>;
+    public readonly focus_exited: Signal<() => void>;
+    public readonly close_requested: Signal<() => void>;
+    public readonly go_back_requested: Signal<() => void>;
+    public readonly visibility_changed: Signal<() => void>;
+    public readonly about_to_popup: Signal<() => void>;
+    public readonly theme_changed: Signal<() => void>;
+    public readonly dpi_changed: Signal<() => void>;
+    public readonly titlebar_changed: Signal<() => void>;
+    public readonly title_changed: Signal<() => void>;
 
     public static readonly Mode: {
         MODE_WINDOWED: 0;

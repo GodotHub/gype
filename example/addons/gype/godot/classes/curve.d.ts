@@ -51,8 +51,8 @@ export declare class Curve extends Resource {
     public set_bake_resolution(resolution: number): void;
 
     
-    public readonly range_changed: Signal;
-    public readonly domain_changed: Signal;
+    public readonly range_changed: Signal<() => void>;
+    public readonly domain_changed: Signal<() => void>;
 
     public static readonly TangentMode: {
         TANGENT_FREE: 0;

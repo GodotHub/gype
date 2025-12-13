@@ -160,12 +160,12 @@ export declare class NavigationAgent3D extends Node {
     public get_debug_path_custom_point_size(): number;
 
     
-    public readonly path_changed: Signal;
-    public readonly target_reached: Signal;
-    public readonly waypoint_reached: Signal;
-    public readonly link_reached: Signal;
-    public readonly navigation_finished: Signal;
-    public readonly velocity_computed: Signal;
+    public readonly path_changed: Signal<() => void>;
+    public readonly target_reached: Signal<() => void>;
+    public readonly waypoint_reached: Signal<(details: Dictionary) => void>;
+    public readonly link_reached: Signal<(details: Dictionary) => void>;
+    public readonly navigation_finished: Signal<() => void>;
+    public readonly velocity_computed: Signal<(safeVelocity: Vector3) => void>;
 
 }
 

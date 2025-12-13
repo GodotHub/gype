@@ -140,25 +140,25 @@ export declare class GraphEdit extends Control {
     public set_selected(node: Node): void;
 
     
-    public readonly connection_request: Signal;
-    public readonly disconnection_request: Signal;
-    public readonly connection_to_empty: Signal;
-    public readonly connection_from_empty: Signal;
-    public readonly connection_drag_started: Signal;
-    public readonly connection_drag_ended: Signal;
-    public readonly copy_nodes_request: Signal;
-    public readonly cut_nodes_request: Signal;
-    public readonly paste_nodes_request: Signal;
-    public readonly duplicate_nodes_request: Signal;
-    public readonly delete_nodes_request: Signal;
-    public readonly node_selected: Signal;
-    public readonly node_deselected: Signal;
-    public readonly frame_rect_changed: Signal;
-    public readonly popup_request: Signal;
-    public readonly begin_node_move: Signal;
-    public readonly end_node_move: Signal;
-    public readonly graph_elements_linked_to_frame_request: Signal;
-    public readonly scroll_offset_changed: Signal;
+    public readonly connection_request: Signal<(fromNode: GDString | StringName | string, fromPort: number, toNode: GDString | StringName | string, toPort: number) => void>;
+    public readonly disconnection_request: Signal<(fromNode: GDString | StringName | string, fromPort: number, toNode: GDString | StringName | string, toPort: number) => void>;
+    public readonly connection_to_empty: Signal<(fromNode: GDString | StringName | string, fromPort: number, releasePosition: Vector2) => void>;
+    public readonly connection_from_empty: Signal<(toNode: GDString | StringName | string, toPort: number, releasePosition: Vector2) => void>;
+    public readonly connection_drag_started: Signal<(fromNode: GDString | StringName | string, fromPort: number, isOutput: boolean) => void>;
+    public readonly connection_drag_ended: Signal<() => void>;
+    public readonly copy_nodes_request: Signal<() => void>;
+    public readonly cut_nodes_request: Signal<() => void>;
+    public readonly paste_nodes_request: Signal<() => void>;
+    public readonly duplicate_nodes_request: Signal<() => void>;
+    public readonly delete_nodes_request: Signal<(nodes: Array<any>) => void>;
+    public readonly node_selected: Signal<(node: Node) => void>;
+    public readonly node_deselected: Signal<(node: Node) => void>;
+    public readonly frame_rect_changed: Signal<(frame: GraphFrame, newRect: Rect2) => void>;
+    public readonly popup_request: Signal<(atPosition: Vector2) => void>;
+    public readonly begin_node_move: Signal<() => void>;
+    public readonly end_node_move: Signal<() => void>;
+    public readonly graph_elements_linked_to_frame_request: Signal<(elements: GDArray | Array, frame: GDString | StringName | string) => void>;
+    public readonly scroll_offset_changed: Signal<(offset: Vector2) => void>;
 
     public static readonly PanningScheme: {
         SCROLL_ZOOMS: 0;

@@ -12,7 +12,7 @@ export declare class OpenXRFutureResult extends RefCounted {
     public get_result_value(): any;
 
     
-    public readonly completed: Signal;
+    public readonly completed: Signal<(result: OpenXRFutureResult) => void>;
 
     public static readonly ResultStatus: {
         RESULT_RUNNING: 0;

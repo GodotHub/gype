@@ -39,12 +39,12 @@ export declare class XRServer extends GodotObject {
     public set_primary_interface(_interface: XRInterface): void;
 
     
-    public readonly reference_frame_changed: Signal;
-    public readonly interface_added: Signal;
-    public readonly interface_removed: Signal;
-    public readonly tracker_added: Signal;
-    public readonly tracker_updated: Signal;
-    public readonly tracker_removed: Signal;
+    public readonly reference_frame_changed: Signal<() => void>;
+    public readonly interface_added: Signal<(interfaceName: GDString | StringName | string) => void>;
+    public readonly interface_removed: Signal<(interfaceName: GDString | StringName | string) => void>;
+    public readonly tracker_added: Signal<(trackerName: GDString | StringName | string, _type: number) => void>;
+    public readonly tracker_updated: Signal<(trackerName: GDString | StringName | string, _type: number) => void>;
+    public readonly tracker_removed: Signal<(trackerName: GDString | StringName | string, _type: number) => void>;
 
     public static readonly TrackerType: {
         TRACKER_HEAD: 1;

@@ -49,8 +49,8 @@ export declare class ScrollContainer extends Container {
     public get_draw_focus_border(): boolean;
 
     
-    public readonly scroll_started: Signal;
-    public readonly scroll_ended: Signal;
+    public readonly scroll_started: Signal<() => void>;
+    public readonly scroll_ended: Signal<() => void>;
 
     public static readonly ScrollMode: {
         SCROLL_MODE_DISABLED: 0;

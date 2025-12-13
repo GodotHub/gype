@@ -114,7 +114,7 @@ export declare class Node3D extends Node {
     public to_global(localPoint: Vector3): Vector3;
 
     
-    public readonly visibility_changed: Signal;
+    public readonly visibility_changed: Signal<() => void>;
 
     public static readonly RotationEditMode: {
         ROTATION_EDIT_MODE_EULER: 0;

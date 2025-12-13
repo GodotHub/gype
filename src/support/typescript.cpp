@@ -440,7 +440,6 @@ PropertyParseResult TypeScript::analyze_recursive(const StringName &type_name, S
 		TSQueryMatch match;
 
 		while (ts_query_cursor_next_match(cursor, &match)) {
-			// 使用 Vector 来存储可能存在的多个同名捕获
 			HashMap<String, Vector<TSNode>> captures;
 			for (uint32_t i = 0; i < match.capture_count; i++) {
 				TSQueryCapture capture = match.captures[i];
@@ -606,13 +605,45 @@ bool TypeScript::analyze_internal(const String &path) const {
 						}
 						godot_class_data->properties[prop_name] = pi;
 					} else if (decorator_name == signal_symbol_mask) {
-						MethodInfo mi;
-						mi.name = prop_name;
-						godot_class_data->signals[prop_name] = mi;
+						TSNode prop_type_node = captures["prop.type"].node;
+						if (String("generic_type") == ts_node_grammar_type(prop_type_node)) {
+							TSNode name_node = ts_node_child_by_field_name(prop_type_node, "name", 4);
+							if (get_node_text(p_code, name_node) == "Signal") {
+								MethodInfo mi;
+								PropertyInfo return_value;
+								LocalVector<PropertyInfo> arguments;
+								return_value.type = Variant::Type::NIL;
+								mi.name = prop_name;
+								mi.return_val = return_value;
+
+								TSNode type_arguments_node = ts_node_child_by_field_name(prop_type_node, "type_arguments", 14);
+								TSNode function_type_node = ts_node_named_child(type_arguments_node, 0);
+								TSNode parameters_node = ts_node_child_by_field_name(function_type_node, "parameters", 10);
+								if (ts_node_named_child_count(parameters_node) > 0) {
+									for (uint32_t i = 0; i < ts_node_named_child_count(parameters_node); ++i) {
+										TSNode param_node = ts_node_named_child(parameters_node, i);
+										TSNode param_name_node = ts_node_child_by_field_name(param_node, "pattern", 7);
+										TSNode param_type_annotation_node = ts_node_child_by_field_name(param_node, "type", 4);
+										TSNode param_type_node = ts_node_named_child(param_type_annotation_node, 0);
+										TSNode param_value_node = ts_node_child_by_field_name(param_node, "value", 5);
+										PropertyInfo pi;
+										pi.name = get_node_text(p_code, param_name_node);
+										if (ts_node_is_null(param_value_node)) {
+											pi.type = type_by_name(get_node_text(p_code, param_type_node));
+										} else {
+											pi.type = type_by_name(get_node_text(p_code, param_type_node), get_node_text(p_code, param_value_node));
+										}
+										arguments.push_back(pi);
+									}
+									mi.arguments = arguments;
+								}
+								godot_class_data->signals[prop_name] = mi;
+							}
+						}
 					}
 				}
 			}
-			
+
 			if (captures.has("method.body")) { // 使用新的 @method.body 捕获来识别方法
 				MethodInfo mi;
 				mi.name = captures["method.name"].text;
@@ -663,8 +694,7 @@ bool TypeScript::analyze_internal(const String &path) const {
 									arg_pi.type = type_by_name(type_str);
 								}
 							} else {
-								// 如果没有类型注解，可以默认为 Variant 或 NIL
-								arg_pi.type = Variant::NIL; // 或者 Variant::VARIANT
+								arg_pi.type = Variant::NIL;
 							}
 
 							mi.arguments.push_back(arg_pi);
@@ -702,280 +732,6 @@ void TypeScript::analyze() const {
 		dirty = false;
 	}
 }
-
-// void TypeScript::analyze() const {
-//     if (!dirty) {
-//         return;
-//     }
-//
-//     class_data.clear();
-//     godot_class_data = nullptr;
-//     dependencies.clear();
-//     base_script = nullptr;
-//     interface_scripts.clear();
-
-//
-//     String path = get_path();
-//     if (path.is_empty() || path.begins_with(dist_path)) {
-//         is_valid = false;
-//         return;
-//     }
-//
-//     String code = _get_source_code();
-//     if (code.is_empty()) {
-//         is_valid = false;
-//         return;
-//     }
-//
-//     std::string origin_string(code.utf8());
-//     const char *c_code = origin_string.c_str();
-//
-//     TSTree *tree = ts_parser_parse_string(parser, NULL, c_code, origin_string.length());
-//
-//     const std::string query_string = R"xxx(
-//     (import_statement
-// 	  (import_clause
-// 	    (identifier)? @import.default
-// 	    (named_imports
-// 	      (import_specifier
-// 	       name: (identifier) @import.name
-// 	      )
-// 	    )?
-// 	  )
-// 	  source: (string) @import.path
-// 	)?
-// 	(export_statement ("default") @export.default
-// 	  declaration: (abstract_class_declaration
-// 		name: (type_identifier) @class.name
-// 	    (class_heritage
-// 	      (extends_clause
-// 			value: (identifier) @base.name
-// 	      )
-// 	      (implements_clause (type_identifier) @interface.name)?
-// 	    ) @class.abstract
-// 	    body: (class_body
-// 	      (public_field_definition
-// 			decorator: (decorator (identifier) @decorator.member)?
-// 	        name: (property_identifier) @prop.name
-// 	        type: (type_annotation
-// 	          (type_identifier)? @prop.type
-// 	          (predefined_type)? @prop.type
-// 	        )?
-// 	        value: (_)? @prop.value
-// 	      )?
-// 	      (method_definition
-// 	        name: (property_identifier) @method.name
-// 	        parameters: (formal_parameters) @method.parameter
-// 	      )?
-// 	      (abstract_method_signature
-// 	        name: (property_identifier) @method.name
-// 	        parameters: (formal_parameters) @method.parameter
-// 	      )?
-// 	    )
-// 	  )? @class.body
-// 	)?
-// 	(export_statement ("default") @export.default
-// 	  (decorator (identifier) @decorator.other
-// 		(#not-match? @decorator.other "^(GodotClass)$")
-// 	  )?
-//
-// 	  (class_declaration
-// 		name: (type_identifier) @class.name
-// 	    (class_heritage
-// 	      (extends_clause
-// 			value: (identifier) @base.name
-// 	      )
-// 	      (implements_clause (type_identifier) @interface.name)?
-// 	    )
-// 	    body: (class_body
-// 	      (public_field_definition
-// 			decorator: (decorator (identifier) @decorator.member)?
-// 	        name: (property_identifier) @prop.name
-// 	        type: (type_annotation
-// 	          (type_identifier)? @prop.type
-// 	          (predefined_type)? @prop.type
-// 	        )?
-// 	        value: (_)? @prop.value
-// 	      )?
-// 	      (method_definition
-// 	        name: (property_identifier) @method.name
-// 	        parameters: (formal_parameters) @method.parameter
-// 	      )?
-// 	      (abstract_method_signature
-// 	        name: (property_identifier) @method.name
-// 	        parameters: (formal_parameters) @method.parameter
-// 	      )?
-// 	    )
-// 	  )? @class.body
-// 	)?
-// 	(export_statement
-// 	  declaration: (interface_declaration
-// 	    name: (type_identifier) @class.name
-// 	    (extends_type_clause
-// 	      type: (type_identifier) @base.name
-// 	    )
-// 		body: (interface_body
-// 	      (property_signature
-//   			name: (property_identifier) @prop.name
-// 	        type: (type_annotation) @prop.type
-// 	      )?
-// 	      (method_signature
-// 	        name: (property_identifier) @method.name
-// 	        parameters: (formal_parameters) @method.parameter
-// 	      )?
-// 	    ) @class.body
-// 	  )
-// 	)?
-// 	(export_statement
-// 	  declaration: (enum_declaration
-// 	    name: (identifier) @enum.name
-// 	    body: (enum_body) @enum.body
-// 	  )
-// 	)?
-//
-// 	(export_statement
-// 	  declaration: (type_alias_declaration
-// 	    name: (type_identifier) @type.name
-// 	    value: (_) @type.value
-// 	  )
-// 	)?
-//
-// 	(export_statement
-// 	  declaration: (lexical_declaration
-// 	    (variable_declarator
-// 	      name: (identifier) @var.name
-// 	      type: (type_annotation)? @var.type
-// 	      value: (_)? @var.value
-// 	    )
-// 	  )
-// 	)?
-//     )xxx";
-//
-//     uint32_t error_offset;
-//     TSQueryError error;
-//     TSQuery *query = ts_query_new(lang, query_string.c_str(), strlen(query_string.c_str()), &error_offset, &error);
-//
-//     if (!query) {
-//         ERR_PRINT("Tree-sitter query failed to compile.");
-//         ts_tree_delete(tree);
-//         return;
-//     }
-//
-//     TSQueryCursor *cursor = ts_query_cursor_new();
-//     ts_query_cursor_exec(cursor, query, ts_tree_root_node(tree));
-//     TSQueryMatch match;
-//
-//     auto get_node_text = [&](TSNode node) -> String {
-//         uint32_t start = ts_node_start_byte(node);
-//         uint32_t end = ts_node_end_byte(node);
-//         return String::utf8(c_code + start, end - start);
-//     };
-//
-//     HashMap<String, String> enum_hint_strings;
-//
-//     struct CaptureData {
-//         String text;
-//         TSNode node;
-//     };
-//
-//     // 创建一个容器，用来延迟处理类的捕获
-//     HashMap<String, ClassData> deferred_classes;
-//
-//     // 循环处理每一个匹配
-//     while (ts_query_cursor_next_match(cursor, &match)) {
-//         HashMap<String, CaptureData> captures;
-//
-//         for (uint32_t i = 0; i < match.capture_count; i++) {
-//             TSQueryCapture capture = match.captures[i];
-//             uint32_t capture_id = capture.index;
-//             uint32_t capture_name_length;
-//             String capture_name = ts_query_capture_name_for_id(query, capture_id, &capture_name_length);
-//             captures[capture_name] = { get_node_text(capture.node), capture.node };
-//         }
-//
-//         // --- Import 处理 ---
-//         if (captures.has("import.name") || captures.has("import.default")) {
-//             String import_name;
-//             if (captures.has("import.name")) {
-//                 import_name = captures["import.name"].text;
-//             } else {
-//                 import_name = captures["import.default"].text;
-//             }
-//             String import_path = captures["import.path"].text;
-//             import_path = import_path.remove_char('"').remove_char('\'');
-//             if (import_path.begins_with("@res")) {
-//                 import_path = import_path.replace("@res/", "res://") + ".ts";
-//                 dependencies[import_name] = import_path;
-//             }
-//         }
-//
-//         bool is_class = captures.has("class.name");
-//         bool is_enum = captures.has("enum.name");
-//
-//         // --- Class Name 处理 ---
-//         StringName entity_name;
-//         if (is_class) {
-//             entity_name = captures["class.name"].text;
-//             // 将类名延迟处理，暂时不立即处理它
-//             deferred_classes[entity_name] = ClassData();
-//         } else if (is_enum) {
-//             if (godot_class_data) {
-//                 entity_name = godot_class_data->class_name;
-//             } else {
-//                 continue;
-//             }
-//         } else {
-//             continue;
-//         }
-//
-//         // --- 其他属性、方法、接口处理 ---
-//         if (captures.has("prop.name")) {
-//             String prop_name = captures["prop.name"].text;
-//             // 处理属性逻辑
-//             if (captures.has("decorator.member")) {
-//                 String decorator_name = captures["decorator.member"].text;
-//                 if (decorator_name == export_symbol_mask) {
-//                     PropertyInfo pi;
-//                     pi.name = prop_name;
-//                     pi.class_name = entity_name;
-//                     pi.usage = PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_SCRIPT_VARIABLE;
-//
-//                     // 其他处理逻辑...
-//                     deferred_classes[entity_name].properties[prop_name] = pi;
-//                 }
-//             }
-//         }
-//
-//         // 处理方法
-//         if (captures.has("method.name")) {
-//             StringName method_name = captures["method.name"].text;
-//             MethodInfo mi;
-//             mi.name = method_name;
-//             // 其他方法处理逻辑...
-//             deferred_classes[entity_name].methods[method_name] = mi;
-//         }
-//
-//         // 其他处理逻辑...
-//     }
-//
-//     // 延迟执行类的处理
-//     for (auto &kv : deferred_classes) {
-//         StringName entity_name = kv.key;
-//         ClassData &current_class_data = kv.value;
-//
-//         // 完成类相关的操作
-//         if (!this->class_data.has(entity_name)) {
-//             this->class_data[entity_name] = current_class_data;
-//         }
-//     }
-//
-//     ts_query_cursor_delete(cursor);
-//     ts_query_delete(query);
-//     ts_tree_delete(tree);
-//
-//     is_valid = true;
-//     dirty = false;
-// }
 
 void TypeScript::compile() {
 	ERR_FAIL_COND_EDMSG(!FileAccess::file_exists("res://tsconfig.json"), "tsconfig.json file does not exist.");
@@ -1125,10 +881,8 @@ bool TypeScript::_has_script_signal(const StringName &p_signal) const {
 	Ref<TypeScript> base = _get_base_script();
 	if (godot_class_data->signals.has(p_signal)) {
 		return true;
-	} else if (base.is_valid()) {
-		return base->_has_script_signal(p_signal);
 	} else {
-		return false;
+		return base.is_valid() && base->_has_script_signal(p_signal);
 	}
 }
 

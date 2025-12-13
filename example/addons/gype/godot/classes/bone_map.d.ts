@@ -15,8 +15,8 @@ export declare class BoneMap extends Resource {
     public find_profile_bone_name(skeletonBoneName: GDString | StringName | string): StringName;
 
     
-    public readonly bone_map_updated: Signal;
-    public readonly profile_updated: Signal;
+    public readonly bone_map_updated: Signal<() => void>;
+    public readonly profile_updated: Signal<() => void>;
 
 }
 

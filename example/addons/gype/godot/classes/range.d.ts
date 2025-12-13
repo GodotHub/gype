@@ -52,8 +52,8 @@ export declare class Range extends Control {
     public unshare(): void;
 
     
-    public readonly value_changed: Signal;
-    public readonly changed: Signal;
+    public readonly value_changed: Signal<(value: number) => void>;
+    public readonly changed: Signal<() => void>;
 
 }
 

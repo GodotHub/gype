@@ -17,7 +17,7 @@ export declare class Skeleton2D extends Node2D {
     public get_bone_local_pose_override(boneIdx: number): Transform2D;
 
     
-    public readonly bone_setup_changed: Signal;
+    public readonly bone_setup_changed: Signal<() => void>;
 
 }
 

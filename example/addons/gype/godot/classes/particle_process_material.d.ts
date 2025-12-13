@@ -333,7 +333,7 @@ export declare class ParticleProcessMaterial extends Material {
     public get_collision_bounce(): number;
 
     
-    public readonly emission_shape_changed: Signal;
+    public readonly emission_shape_changed: Signal<() => void>;
 
     public static readonly Parameter: {
         PARAM_INITIAL_LINEAR_VELOCITY: 0;

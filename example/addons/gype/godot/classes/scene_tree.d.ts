@@ -82,15 +82,15 @@ export declare class SceneTree extends MainLoop {
     public is_multiplayer_poll_enabled(): boolean;
 
     
-    public readonly tree_changed: Signal;
-    public readonly scene_changed: Signal;
-    public readonly tree_process_mode_changed: Signal;
-    public readonly node_added: Signal;
-    public readonly node_removed: Signal;
-    public readonly node_renamed: Signal;
-    public readonly node_configuration_warning_changed: Signal;
-    public readonly process_frame: Signal;
-    public readonly physics_frame: Signal;
+    public readonly tree_changed: Signal<() => void>;
+    public readonly scene_changed: Signal<() => void>;
+    public readonly tree_process_mode_changed: Signal<() => void>;
+    public readonly node_added: Signal<(node: Node) => void>;
+    public readonly node_removed: Signal<(node: Node) => void>;
+    public readonly node_renamed: Signal<(node: Node) => void>;
+    public readonly node_configuration_warning_changed: Signal<(node: Node) => void>;
+    public readonly process_frame: Signal<() => void>;
+    public readonly physics_frame: Signal<() => void>;
 
     public static readonly GroupCallFlags: {
         GROUP_CALL_DEFAULT: 0;

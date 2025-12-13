@@ -20,9 +20,9 @@ export declare class WebRTCPeerConnection extends RefCounted {
     public get_signaling_state(): number;
 
     
-    public readonly session_description_created: Signal;
-    public readonly ice_candidate_created: Signal;
-    public readonly data_channel_received: Signal;
+    public readonly session_description_created: Signal<(_type: GDString | StringName | string, sdp: GDString | StringName | string) => void>;
+    public readonly ice_candidate_created: Signal<(media: GDString | StringName | string, index: number, name: GDString | StringName | string) => void>;
+    public readonly data_channel_received: Signal<(channel: WebRTCDataChannel) => void>;
 
     public static readonly ConnectionState: {
         STATE_NEW: 0;

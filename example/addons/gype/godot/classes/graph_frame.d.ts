@@ -33,7 +33,7 @@ export declare class GraphFrame extends GraphElement {
     public get_tint_color(): Color;
 
     
-    public readonly autoshrink_changed: Signal;
+    public readonly autoshrink_changed: Signal<() => void>;
 
 }
 

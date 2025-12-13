@@ -36,9 +36,9 @@ export declare class AnimationNode extends Resource {
     public get_parameter(name: GDString | StringName | string): any;
 
     
-    public readonly tree_changed: Signal;
-    public readonly animation_node_renamed: Signal;
-    public readonly animation_node_removed: Signal;
+    public readonly tree_changed: Signal<() => void>;
+    public readonly animation_node_renamed: Signal<(objectId: number, oldName: GDString | StringName | string, newName: GDString | StringName | string) => void>;
+    public readonly animation_node_removed: Signal<(objectId: number, name: GDString | StringName | string) => void>;
 
     public static readonly FilterAction: {
         FILTER_IGNORE: 0;

@@ -16,8 +16,8 @@ export declare class OpenXRRenderModelManager extends Node3D {
     public set_make_local_to_pose(makeLocalToPose: GDString | StringName | string): void;
 
     
-    public readonly render_model_added: Signal;
-    public readonly render_model_removed: Signal;
+    public readonly render_model_added: Signal<(renderModel: OpenXRRenderModel) => void>;
+    public readonly render_model_removed: Signal<(renderModel: OpenXRRenderModel) => void>;
 
     public static readonly RenderModelTracker: {
         RENDER_MODEL_TRACKER_ANY: 0;

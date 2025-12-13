@@ -18,7 +18,7 @@ export declare class JavaScriptBridge extends GodotObject {
     public force_fs_sync(): void;
 
     
-    public readonly pwa_update_available: Signal;
+    public readonly pwa_update_available: Signal<() => void>;
 
 }
 

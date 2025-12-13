@@ -41,8 +41,8 @@ export declare class NavigationRegion2D extends Node2D {
     public get_bounds(): Rect2;
 
     
-    public readonly navigation_polygon_changed: Signal;
-    public readonly bake_finished: Signal;
+    public readonly navigation_polygon_changed: Signal<() => void>;
+    public readonly bake_finished: Signal<() => void>;
 
 }
 

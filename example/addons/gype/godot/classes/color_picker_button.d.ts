@@ -23,9 +23,9 @@ export declare class ColorPickerButton extends Button {
     public is_editing_intensity(): boolean;
 
     
-    public readonly color_changed: Signal;
-    public readonly popup_closed: Signal;
-    public readonly picker_created: Signal;
+    public readonly color_changed: Signal<(color: Color) => void>;
+    public readonly popup_closed: Signal<() => void>;
+    public readonly picker_created: Signal<() => void>;
 
 }
 

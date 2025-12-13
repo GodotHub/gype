@@ -120,7 +120,7 @@ export declare class GPUParticles2D extends Node2D {
     public get_seed(): number;
 
     
-    public readonly finished: Signal;
+    public readonly finished: Signal<() => void>;
 
     public static readonly DrawOrder: {
         DRAW_ORDER_INDEX: 0;

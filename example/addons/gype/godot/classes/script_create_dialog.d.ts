@@ -9,7 +9,7 @@ export declare class ScriptCreateDialog extends ConfirmationDialog {
     public config(inherits: GDString | StringName | string, path: GDString | StringName | string, builtInEnabled: boolean = true, loadEnabled: boolean = true): void;
 
     
-    public readonly script_created: Signal;
+    public readonly script_created: Signal<(script: Script) => void>;
 
 }
 

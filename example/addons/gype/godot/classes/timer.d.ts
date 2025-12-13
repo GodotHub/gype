@@ -37,7 +37,7 @@ export declare class Timer extends Node {
     public get_timer_process_callback(): number;
 
     
-    public readonly timeout: Signal;
+    public readonly timeout: Signal<() => void>;
 
     public static readonly TimerProcessCallback: {
         TIMER_PROCESS_PHYSICS: 0;

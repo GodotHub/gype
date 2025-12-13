@@ -21,9 +21,9 @@ export declare class OpenXRRenderModelExtension extends OpenXRExtensionWrapper {
     public render_model_get_animatable_node_transform(renderModel: RID, index: number): Transform3D;
 
     
-    public readonly render_model_added: Signal;
-    public readonly render_model_removed: Signal;
-    public readonly render_model_top_level_path_changed: Signal;
+    public readonly render_model_added: Signal<(renderModel: RID) => void>;
+    public readonly render_model_removed: Signal<(renderModel: RID) => void>;
+    public readonly render_model_top_level_path_changed: Signal<(renderModel: RID) => void>;
 
 }
 

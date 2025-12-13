@@ -17,9 +17,9 @@ export declare class CameraServer extends GodotObject {
     public remove_feed(feed: CameraFeed): void;
 
     
-    public readonly camera_feed_added: Signal;
-    public readonly camera_feed_removed: Signal;
-    public readonly camera_feeds_updated: Signal;
+    public readonly camera_feed_added: Signal<(id: number) => void>;
+    public readonly camera_feed_removed: Signal<(id: number) => void>;
+    public readonly camera_feeds_updated: Signal<() => void>;
 
     public static readonly FeedImage: {
         FEED_RGBA_IMAGE: 0;

@@ -22,8 +22,8 @@ export declare class ScriptEditor extends PanelContainer {
     public clear_docs_from_script(script: Script): void;
 
     
-    public readonly editor_script_changed: Signal;
-    public readonly script_close: Signal;
+    public readonly editor_script_changed: Signal<(script: Script) => void>;
+    public readonly script_close: Signal<(script: Script) => void>;
 
 }
 

@@ -25,7 +25,7 @@ export declare class StatusIndicator extends Node {
     public get_rect(): Rect2;
 
     
-    public readonly pressed: Signal;
+    public readonly pressed: Signal<(mouseButton: number, mousePosition: Vector2i) => void>;
 
 }
 

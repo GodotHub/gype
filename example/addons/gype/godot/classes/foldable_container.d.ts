@@ -45,7 +45,7 @@ export declare class FoldableContainer extends Container {
     public remove_title_bar_control(control: Control): void;
 
     
-    public readonly folding_changed: Signal;
+    public readonly folding_changed: Signal<(isFolded: boolean) => void>;
 
     public static readonly TitlePosition: {
         POSITION_TOP: 0;

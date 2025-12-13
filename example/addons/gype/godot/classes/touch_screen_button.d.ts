@@ -47,8 +47,8 @@ export declare class TouchScreenButton extends Node2D {
     public is_pressed(): boolean;
 
     
-    public readonly pressed: Signal;
-    public readonly released: Signal;
+    public readonly pressed: Signal<() => void>;
+    public readonly released: Signal<() => void>;
 
     public static readonly VisibilityMode: {
         VISIBILITY_ALWAYS: 0;

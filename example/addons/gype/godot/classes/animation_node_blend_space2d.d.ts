@@ -52,7 +52,7 @@ export declare class AnimationNodeBlendSpace2D extends AnimationRootNode {
     public is_using_sync(): boolean;
 
     
-    public readonly triangles_updated: Signal;
+    public readonly triangles_updated: Signal<() => void>;
 
     public static readonly BlendMode: {
         BLEND_MODE_INTERPOLATED: 0;

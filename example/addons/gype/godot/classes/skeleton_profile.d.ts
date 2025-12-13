@@ -45,7 +45,7 @@ export declare class SkeletonProfile extends Resource {
     public set_required(boneIdx: number, required: boolean): void;
 
     
-    public readonly profile_updated: Signal;
+    public readonly profile_updated: Signal<() => void>;
 
     public static readonly TailDirection: {
         TAIL_DIRECTION_AVERAGE_CHILDREN: 0;

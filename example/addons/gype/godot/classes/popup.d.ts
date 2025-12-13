@@ -7,7 +7,7 @@ export declare class Popup extends Window {
 
 
     
-    public readonly popup_hide: Signal;
+    public readonly popup_hide: Signal<() => void>;
 
 }
 

@@ -21,8 +21,8 @@ export declare class EditorUndoRedoManager extends GodotObject {
     public clear_history(id: number = -99, increaseVersion: boolean = true): void;
 
     
-    public readonly history_changed: Signal;
-    public readonly version_changed: Signal;
+    public readonly history_changed: Signal<() => void>;
+    public readonly version_changed: Signal<() => void>;
 
     public static readonly SpecialHistory: {
         GLOBAL_HISTORY: 0;

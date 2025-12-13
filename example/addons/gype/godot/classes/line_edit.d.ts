@@ -170,10 +170,10 @@ export declare class LineEdit extends Control {
     public is_select_all_on_focus(): boolean;
 
     
-    public readonly text_changed: Signal;
-    public readonly text_change_rejected: Signal;
-    public readonly text_submitted: Signal;
-    public readonly editing_toggled: Signal;
+    public readonly text_changed: Signal<(newText: GDString | StringName | string) => void>;
+    public readonly text_change_rejected: Signal<(rejectedSubstring: GDString | StringName | string) => void>;
+    public readonly text_submitted: Signal<(newText: GDString | StringName | string) => void>;
+    public readonly editing_toggled: Signal<(toggledOn: boolean) => void>;
 
     public static readonly MenuItems: {
         MENU_CUT: 0;

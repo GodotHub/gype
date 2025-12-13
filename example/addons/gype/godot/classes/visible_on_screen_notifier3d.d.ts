@@ -11,8 +11,8 @@ export declare class VisibleOnScreenNotifier3D extends VisualInstance3D {
     public is_on_screen(): boolean;
 
     
-    public readonly screen_entered: Signal;
-    public readonly screen_exited: Signal;
+    public readonly screen_entered: Signal<() => void>;
+    public readonly screen_exited: Signal<() => void>;
 
 }
 

@@ -63,7 +63,7 @@ export declare class VideoStreamPlayer extends Control {
     public get_video_texture(): Texture2D;
 
     
-    public readonly finished: Signal;
+    public readonly finished: Signal<() => void>;
 
 }
 

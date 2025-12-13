@@ -32,7 +32,7 @@ export declare class UndoRedo extends GodotObject {
     public undo(): boolean;
 
     
-    public readonly version_changed: Signal;
+    public readonly version_changed: Signal<() => void>;
 
     public static readonly MergeMode: {
         MERGE_DISABLE: 0;

@@ -33,7 +33,7 @@ export declare class ThemeDB extends GodotObject {
     public get_fallback_stylebox(): StyleBox;
 
     
-    public readonly fallback_changed: Signal;
+    public readonly fallback_changed: Signal<() => void>;
 
 }
 

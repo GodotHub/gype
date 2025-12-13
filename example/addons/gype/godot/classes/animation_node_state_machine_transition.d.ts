@@ -44,7 +44,7 @@ export declare class AnimationNodeStateMachineTransition extends Resource {
     public get_advance_expression(): GDString;
 
     
-    public readonly advance_condition_changed: Signal;
+    public readonly advance_condition_changed: Signal<() => void>;
 
     public static readonly SwitchMode: {
         SWITCH_MODE_IMMEDIATE: 0;

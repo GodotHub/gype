@@ -61,9 +61,9 @@ export declare class ColorPicker extends VBoxContainer {
     public get_picker_shape(): number;
 
     
-    public readonly color_changed: Signal;
-    public readonly preset_added: Signal;
-    public readonly preset_removed: Signal;
+    public readonly color_changed: Signal<(color: Color) => void>;
+    public readonly preset_added: Signal<(color: Color) => void>;
+    public readonly preset_removed: Signal<(color: Color) => void>;
 
     public static readonly ColorModeType: {
         MODE_RGB: 0;

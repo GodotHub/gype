@@ -14,7 +14,7 @@ export declare class EditorSelection extends GodotObject {
     public get_transformable_selected_nodes(): Array<any>;
 
     
-    public readonly selection_changed: Signal;
+    public readonly selection_changed: Signal<() => void>;
 
 }
 

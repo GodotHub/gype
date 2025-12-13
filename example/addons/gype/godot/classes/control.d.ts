@@ -279,15 +279,15 @@ export declare class Control extends CanvasItem {
     public is_localizing_numeral_system(): boolean;
 
     
-    public readonly resized: Signal;
-    public readonly gui_input: Signal;
-    public readonly mouse_entered: Signal;
-    public readonly mouse_exited: Signal;
-    public readonly focus_entered: Signal;
-    public readonly focus_exited: Signal;
-    public readonly size_flags_changed: Signal;
-    public readonly minimum_size_changed: Signal;
-    public readonly theme_changed: Signal;
+    public readonly resized: Signal<() => void>;
+    public readonly gui_input: Signal<(event: InputEvent) => void>;
+    public readonly mouse_entered: Signal<() => void>;
+    public readonly mouse_exited: Signal<() => void>;
+    public readonly focus_entered: Signal<() => void>;
+    public readonly focus_exited: Signal<() => void>;
+    public readonly size_flags_changed: Signal<() => void>;
+    public readonly minimum_size_changed: Signal<() => void>;
+    public readonly theme_changed: Signal<() => void>;
 
     public static readonly FocusMode: {
         FOCUS_NONE: 0;

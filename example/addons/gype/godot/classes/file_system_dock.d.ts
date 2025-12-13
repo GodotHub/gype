@@ -12,15 +12,15 @@ export declare class FileSystemDock extends VBoxContainer {
     public remove_resource_tooltip_plugin(plugin: EditorResourceTooltipPlugin): void;
 
     
-    public readonly inherit: Signal;
-    public readonly instantiate: Signal;
-    public readonly resource_removed: Signal;
-    public readonly file_removed: Signal;
-    public readonly folder_removed: Signal;
-    public readonly files_moved: Signal;
-    public readonly folder_moved: Signal;
-    public readonly folder_color_changed: Signal;
-    public readonly display_mode_changed: Signal;
+    public readonly inherit: Signal<(file: GDString | StringName | string) => void>;
+    public readonly instantiate: Signal<(files: PackedStringArray) => void>;
+    public readonly resource_removed: Signal<(resource: Resource) => void>;
+    public readonly file_removed: Signal<(file: GDString | StringName | string) => void>;
+    public readonly folder_removed: Signal<(folder: GDString | StringName | string) => void>;
+    public readonly files_moved: Signal<(oldFile: GDString | StringName | string, newFile: GDString | StringName | string) => void>;
+    public readonly folder_moved: Signal<(oldFolder: GDString | StringName | string, newFolder: GDString | StringName | string) => void>;
+    public readonly folder_color_changed: Signal<() => void>;
+    public readonly display_mode_changed: Signal<() => void>;
 
 }
 

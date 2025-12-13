@@ -174,17 +174,17 @@ export declare class Node extends GodotObject {
     public notify_thread_safe(what: number): void;
 
     
-    public readonly ready: Signal;
-    public readonly renamed: Signal;
-    public readonly tree_entered: Signal;
-    public readonly tree_exiting: Signal;
-    public readonly tree_exited: Signal;
-    public readonly child_entered_tree: Signal;
-    public readonly child_exiting_tree: Signal;
-    public readonly child_order_changed: Signal;
-    public readonly replacing_by: Signal;
-    public readonly editor_description_changed: Signal;
-    public readonly editor_state_changed: Signal;
+    public readonly ready: Signal<() => void>;
+    public readonly renamed: Signal<() => void>;
+    public readonly tree_entered: Signal<() => void>;
+    public readonly tree_exiting: Signal<() => void>;
+    public readonly tree_exited: Signal<() => void>;
+    public readonly child_entered_tree: Signal<(node: Node) => void>;
+    public readonly child_exiting_tree: Signal<(node: Node) => void>;
+    public readonly child_order_changed: Signal<() => void>;
+    public readonly replacing_by: Signal<(node: Node) => void>;
+    public readonly editor_description_changed: Signal<(node: Node) => void>;
+    public readonly editor_state_changed: Signal<() => void>;
 
     public static readonly ProcessMode: {
         PROCESS_MODE_INHERIT: 0;

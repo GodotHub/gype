@@ -41,8 +41,8 @@ export declare class NavigationRegion3D extends Node3D {
     public get_bounds(): AABB;
 
     
-    public readonly navigation_mesh_changed: Signal;
-    public readonly bake_finished: Signal;
+    public readonly navigation_mesh_changed: Signal<() => void>;
+    public readonly bake_finished: Signal<() => void>;
 
 }
 

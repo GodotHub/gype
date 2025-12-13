@@ -7,7 +7,7 @@ export declare class Tweener extends RefCounted {
 
 
     
-    public readonly finished: Signal;
+    public readonly finished: Signal<() => void>;
 
 }
 

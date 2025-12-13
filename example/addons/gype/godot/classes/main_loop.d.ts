@@ -11,7 +11,7 @@ export declare class MainLoop extends GodotObject {
     public _finalize(): void;
 
     
-    public readonly on_request_permissions_result: Signal;
+    public readonly on_request_permissions_result: Signal<(permission: GDString | StringName | string, granted: boolean) => void>;
 
 }
 

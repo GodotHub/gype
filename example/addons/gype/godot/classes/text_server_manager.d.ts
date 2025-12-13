@@ -16,8 +16,8 @@ export declare class TextServerManager extends GodotObject {
     public get_primary_interface(): TextServer;
 
     
-    public readonly interface_added: Signal;
-    public readonly interface_removed: Signal;
+    public readonly interface_added: Signal<(interfaceName: GDString | StringName | string) => void>;
+    public readonly interface_removed: Signal<(interfaceName: GDString | StringName | string) => void>;
 
 }
 

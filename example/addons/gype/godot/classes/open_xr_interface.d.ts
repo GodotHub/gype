@@ -51,17 +51,17 @@ export declare class OpenXRInterface extends XRInterface {
     public set_gpu_level(level: number): void;
 
     
-    public readonly session_begun: Signal;
-    public readonly session_stopping: Signal;
-    public readonly session_synchronized: Signal;
-    public readonly session_focussed: Signal;
-    public readonly session_visible: Signal;
-    public readonly session_loss_pending: Signal;
-    public readonly instance_exiting: Signal;
-    public readonly pose_recentered: Signal;
-    public readonly refresh_rate_changed: Signal;
-    public readonly cpu_level_changed: Signal;
-    public readonly gpu_level_changed: Signal;
+    public readonly session_begun: Signal<() => void>;
+    public readonly session_stopping: Signal<() => void>;
+    public readonly session_synchronized: Signal<() => void>;
+    public readonly session_focussed: Signal<() => void>;
+    public readonly session_visible: Signal<() => void>;
+    public readonly session_loss_pending: Signal<() => void>;
+    public readonly instance_exiting: Signal<() => void>;
+    public readonly pose_recentered: Signal<() => void>;
+    public readonly refresh_rate_changed: Signal<(refreshRate: number) => void>;
+    public readonly cpu_level_changed: Signal<(subDomain: number, fromLevel: number, toLevel: number) => void>;
+    public readonly gpu_level_changed: Signal<(subDomain: number, fromLevel: number, toLevel: number) => void>;
 
     public static readonly SessionState: {
         SESSION_STATE_UNKNOWN: 0;

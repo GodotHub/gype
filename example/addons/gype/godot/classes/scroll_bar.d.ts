@@ -11,7 +11,7 @@ export declare class ScrollBar extends Range {
     public get_custom_step(): number;
 
     
-    public readonly scrolling: Signal;
+    public readonly scrolling: Signal<() => void>;
 
 }
 

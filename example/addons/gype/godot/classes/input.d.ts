@@ -73,7 +73,7 @@ export declare class Input extends GodotObject {
     public is_emulating_touch_from_mouse(): boolean;
 
     
-    public readonly joy_connection_changed: Signal;
+    public readonly joy_connection_changed: Signal<(device: number, connected: boolean) => void>;
 
     public static readonly MouseMode: {
         MOUSE_MODE_VISIBLE: 0;

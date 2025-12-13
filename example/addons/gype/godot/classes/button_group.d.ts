@@ -14,7 +14,7 @@ export declare class ButtonGroup extends Resource {
     public is_allow_unpress(): boolean;
 
     
-    public readonly pressed: Signal;
+    public readonly pressed: Signal<(button: BaseButton) => void>;
 
 }
 

@@ -15,10 +15,10 @@ export declare class AnimationLibrary extends Resource {
     public get_animation_list_size(): number;
 
     
-    public readonly animation_added: Signal;
-    public readonly animation_removed: Signal;
-    public readonly animation_renamed: Signal;
-    public readonly animation_changed: Signal;
+    public readonly animation_added: Signal<(name: GDString | StringName | string) => void>;
+    public readonly animation_removed: Signal<(name: GDString | StringName | string) => void>;
+    public readonly animation_renamed: Signal<(name: GDString | StringName | string, toName: GDString | StringName | string) => void>;
+    public readonly animation_changed: Signal<(name: GDString | StringName | string) => void>;
 
 }
 

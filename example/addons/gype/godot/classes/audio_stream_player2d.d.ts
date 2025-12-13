@@ -71,7 +71,7 @@ export declare class AudioStreamPlayer2D extends Node2D {
     public get_playback_type(): number;
 
     
-    public readonly finished: Signal;
+    public readonly finished: Signal<() => void>;
 
 }
 

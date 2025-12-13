@@ -54,8 +54,8 @@ export declare class GraphNode extends GraphElement {
     public get_output_port_slot(portIdx: number): number;
 
     
-    public readonly slot_updated: Signal;
-    public readonly slot_sizes_changed: Signal;
+    public readonly slot_updated: Signal<(slotIndex: number) => void>;
+    public readonly slot_sizes_changed: Signal<() => void>;
 
 }
 

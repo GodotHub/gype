@@ -115,10 +115,10 @@ export declare class PopupMenu extends Popup {
     public get_system_menu(): number;
 
     
-    public readonly id_pressed: Signal;
-    public readonly id_focused: Signal;
-    public readonly index_pressed: Signal;
-    public readonly menu_changed: Signal;
+    public readonly id_pressed: Signal<(id: number) => void>;
+    public readonly id_focused: Signal<(id: number) => void>;
+    public readonly index_pressed: Signal<(index: number) => void>;
+    public readonly menu_changed: Signal<() => void>;
 
 }
 

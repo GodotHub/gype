@@ -122,11 +122,11 @@ export declare class ItemList extends Control {
     public force_update_list_size(): void;
 
     
-    public readonly item_selected: Signal;
-    public readonly empty_clicked: Signal;
-    public readonly item_clicked: Signal;
-    public readonly multi_selected: Signal;
-    public readonly item_activated: Signal;
+    public readonly item_selected: Signal<(index: number) => void>;
+    public readonly empty_clicked: Signal<(atPosition: Vector2, mouseButtonIndex: number) => void>;
+    public readonly item_clicked: Signal<(index: number, atPosition: Vector2, mouseButtonIndex: number) => void>;
+    public readonly multi_selected: Signal<(index: number, selected: boolean) => void>;
+    public readonly item_activated: Signal<(index: number) => void>;
 
     public static readonly IconMode: {
         ICON_MODE_TOP: 0;

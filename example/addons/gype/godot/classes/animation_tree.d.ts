@@ -22,7 +22,7 @@ export declare class AnimationTree extends AnimationMixer {
     public get_process_callback(): number;
 
     
-    public readonly animation_player_changed: Signal;
+    public readonly animation_player_changed: Signal<() => void>;
 
     public static readonly AnimationProcessCallback: {
         ANIMATION_PROCESS_PHYSICS: 0;

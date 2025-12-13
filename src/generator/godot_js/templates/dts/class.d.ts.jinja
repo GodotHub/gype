@@ -57,7 +57,7 @@ export declare class {{ class_name }}{% if inherits %} extends {{ inherits }}{% 
     
     {# ----- Signals ----- #}
     {% for signal in cls.signals %}
-    public readonly {{  signal.name }}: Signal;
+    public readonly {{  signal.name }}: Signal<({{ connect_args(signal.arguments) }}) => void>;
     {% endfor %}
     {% endif %}
 

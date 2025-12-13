@@ -41,8 +41,8 @@ export declare class Resource extends RefCounted {
     public duplicate_deep(deesubresourcesMode: number = 1): Resource;
 
     
-    public readonly changed: Signal;
-    public readonly setup_local_to_scene_requested: Signal;
+    public readonly changed: Signal<() => void>;
+    public readonly setup_local_to_scene_requested: Signal<() => void>;
 
     public static readonly DeepDuplicateMode: {
         DEEP_DUPLICATE_NONE: 0;

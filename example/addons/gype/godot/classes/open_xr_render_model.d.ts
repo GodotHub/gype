@@ -12,7 +12,7 @@ export declare class OpenXRRenderModel extends Node3D {
     public set_render_model(renderModel: RID): void;
 
     
-    public readonly render_model_top_level_path_changed: Signal;
+    public readonly render_model_top_level_path_changed: Signal<() => void>;
 
 }
 

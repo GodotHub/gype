@@ -531,8 +531,8 @@ export declare class RenderingServer extends GodotObject {
     public has_feature(feature: number): boolean;
 
     
-    public readonly frame_pre_draw: Signal;
-    public readonly frame_post_draw: Signal;
+    public readonly frame_pre_draw: Signal<() => void>;
+    public readonly frame_post_draw: Signal<() => void>;
 
     public static readonly TextureType: {
         TEXTURE_TYPE_2D: 0;

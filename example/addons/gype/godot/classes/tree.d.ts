@@ -97,21 +97,21 @@ export declare class Tree extends Control {
     public is_auto_tooltip_enabled(): boolean;
 
     
-    public readonly item_selected: Signal;
-    public readonly cell_selected: Signal;
-    public readonly multi_selected: Signal;
-    public readonly item_mouse_selected: Signal;
-    public readonly empty_clicked: Signal;
-    public readonly item_edited: Signal;
-    public readonly custom_item_clicked: Signal;
-    public readonly item_icon_double_clicked: Signal;
-    public readonly item_collapsed: Signal;
-    public readonly check_propagated_to_item: Signal;
-    public readonly button_clicked: Signal;
-    public readonly custom_popup_edited: Signal;
-    public readonly item_activated: Signal;
-    public readonly column_title_clicked: Signal;
-    public readonly nothing_selected: Signal;
+    public readonly item_selected: Signal<() => void>;
+    public readonly cell_selected: Signal<() => void>;
+    public readonly multi_selected: Signal<(item: TreeItem, column: number, selected: boolean) => void>;
+    public readonly item_mouse_selected: Signal<(mousePosition: Vector2, mouseButtonIndex: number) => void>;
+    public readonly empty_clicked: Signal<(clickPosition: Vector2, mouseButtonIndex: number) => void>;
+    public readonly item_edited: Signal<() => void>;
+    public readonly custom_item_clicked: Signal<(mouseButtonIndex: number) => void>;
+    public readonly item_icon_double_clicked: Signal<() => void>;
+    public readonly item_collapsed: Signal<(item: TreeItem) => void>;
+    public readonly check_propagated_to_item: Signal<(item: TreeItem, column: number) => void>;
+    public readonly button_clicked: Signal<(item: TreeItem, column: number, id: number, mouseButtonIndex: number) => void>;
+    public readonly custom_popup_edited: Signal<(arrowClicked: boolean) => void>;
+    public readonly item_activated: Signal<() => void>;
+    public readonly column_title_clicked: Signal<(column: number, mouseButtonIndex: number) => void>;
+    public readonly nothing_selected: Signal<() => void>;
 
     public static readonly SelectMode: {
         SELECT_SINGLE: 0;

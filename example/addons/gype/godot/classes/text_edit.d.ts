@@ -360,13 +360,13 @@ export declare class TextEdit extends Control {
     public get_selection_column(caretIndex: number = 0): number;
 
     
-    public readonly text_set: Signal;
-    public readonly text_changed: Signal;
-    public readonly lines_edited_from: Signal;
-    public readonly caret_changed: Signal;
-    public readonly gutter_clicked: Signal;
-    public readonly gutter_added: Signal;
-    public readonly gutter_removed: Signal;
+    public readonly text_set: Signal<() => void>;
+    public readonly text_changed: Signal<() => void>;
+    public readonly lines_edited_from: Signal<(fromLine: number, toLine: number) => void>;
+    public readonly caret_changed: Signal<() => void>;
+    public readonly gutter_clicked: Signal<(line: number, gutter: number) => void>;
+    public readonly gutter_added: Signal<() => void>;
+    public readonly gutter_removed: Signal<() => void>;
 
     public static readonly MenuItems: {
         MENU_CUT: 0;

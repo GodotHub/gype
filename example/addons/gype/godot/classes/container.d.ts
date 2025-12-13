@@ -11,8 +11,8 @@ export declare class Container extends Control {
     public fit_child_in_rect(child: Control, rect: Rect2): void;
 
     
-    public readonly pre_sort_children: Signal;
-    public readonly sort_children: Signal;
+    public readonly pre_sort_children: Signal<() => void>;
+    public readonly sort_children: Signal<() => void>;
 
 }
 

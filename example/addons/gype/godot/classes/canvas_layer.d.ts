@@ -48,7 +48,7 @@ export declare class CanvasLayer extends Node {
     public get_canvas(): RID;
 
     
-    public readonly visibility_changed: Signal;
+    public readonly visibility_changed: Signal<() => void>;
 
 }
 

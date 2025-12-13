@@ -14,7 +14,7 @@ export declare class FoldableGroup extends Resource {
     public is_allow_folding_all(): boolean;
 
     
-    public readonly expanded: Signal;
+    public readonly expanded: Signal<(container: FoldableContainer) => void>;
 
 }
 

@@ -210,10 +210,10 @@ export declare class RichTextLabel extends Control {
     public menu_option(option: number): void;
 
     
-    public readonly meta_clicked: Signal;
-    public readonly meta_hover_started: Signal;
-    public readonly meta_hover_ended: Signal;
-    public readonly finished: Signal;
+    public readonly meta_clicked: Signal<(meta: any) => void>;
+    public readonly meta_hover_started: Signal<(meta: any) => void>;
+    public readonly meta_hover_ended: Signal<(meta: any) => void>;
+    public readonly finished: Signal<() => void>;
 
     public static readonly ListType: {
         LIST_NUMBERS: 0;

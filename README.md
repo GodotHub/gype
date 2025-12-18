@@ -1,4 +1,5 @@
-快速开始```typescript
+快速开始
+```typescript
 import { Node2D } from "@godot/classes/node2d";
 
 export default class HelloWorld extends Node2D {

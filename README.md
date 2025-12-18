@@ -76,10 +76,11 @@ this.position = playerPosition;
 // 正确导入
 import { Sprite2D } from "@godot/classes/sprite2d";
 import { CharacterBody2D } from "@godot/classes/character_body_2d";
-``````
+```
 #### 3. 全局 GD 单例
 Godot 的所有全局函数（如 print, load, randi 等）都被统一封装在 GD 这个全局单例对象中。这提供了清晰的命名空间，避免了全局污染。
 
+```typescript
 // 加载资源
 const myScene = GD.load<PackedScene>("res://my_scene.tscn");
 
@@ -88,6 +89,7 @@ const roll = GD.randi_range(1, 6);
 
 // 打印调试信息
 GD.print(`You rolled a ${roll}`);
+```
 ### 5. 接下来做什么？
 探索示例: 查看项目中的 example 目录，那里包含了更多功能和用法的实际案例，是学习的最佳资源。
 查阅类型定义: 利用 VSCode 等编辑器的智能提示（IntelliSense）功能，可以轻松探索所有可用的类和函数。

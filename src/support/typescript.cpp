@@ -1004,3 +1004,19 @@ StringName TypeScript::_get_doc_class_name() const {
 	}
 	return godot_class_data->class_name;
 }
+
+PropertyParseResult TypeScript::get_property_parse_result(StringName prop_name) const {
+	if (godot_class_data) {
+		if (godot_class_data->enum_properties.has(prop_name)) {
+			return { ENUM, godot_class_data->enum_properties[prop_name] };
+		} else if (godot_class_data->type_properties.has(prop_name)) {
+			return { TYPE, godot_class_data->type_properties[prop_name] };
+		} else {
+			Ref<TypeScript> base_script = _get_base_script();
+			if (base_script.is_valid()) {
+				return base_script->get_property_parse_result(prop_name);
+			}
+		}
+	}
+	return { NONE };
+}

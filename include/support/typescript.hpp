@@ -266,6 +266,7 @@ public:
 	bool _is_placeholder_fallback_enabled() const;
 	Variant _get_rpc_config() const;
 	StringName _get_doc_class_name() const;
+	PropertyParseResult get_property_parse_result(StringName prop_name) const;
 	
 	static void compile();
 

@@ -162,18 +162,24 @@ GDExtensionBool TypeScriptInstance::set(GDExtensionConstStringNamePtr p_name, GD
 		const String _name = name.substr(1);
 		const char *char_name;
 		if (name.begins_with("_")) {
-			char_name = _name.utf8();
+			char_name = to_chars(_name);
 		} else {
-			char_name = name.utf8();
+			char_name = to_chars(name);
 		}
 		Variant variant = *reinterpret_cast<const Variant *>(p_variant);
 		if (Engine::get_singleton()->is_editor_hint()) {
-			if (script->godot_class_data->enum_properties.has(name)) {
-				EnumParseResult parse_result = script->godot_class_data->enum_properties[name];
-				variant = parse_result.constants[variant.operator int()];
-			} else if (script->godot_class_data->type_properties.has(name)) {
-				TypeParseResult parse_result = script->godot_class_data->type_properties[name];
-				variant = variant.operator int();
+			PropertyParseResult parse_result = script->get_property_parse_result(name);
+			switch (parse_result.type) {
+				case TSNodeType::ENUM: {
+					EnumParseResult enum_parse_result = std::get<EnumParseResult>(parse_result.parse_ret);
+					variant = enum_parse_result.constants[variant.operator int()];
+				} break;
+				case TSNodeType::TYPE: {
+					TypeParseResult type_parse_result = std::get<TypeParseResult>(parse_result.parse_ret);
+					variant = variant.operator int();
+				} break;
+				default: {
+				} break;
 			}
 		}
 		JSAtom name_atom = JS_NewAtom(js_context(), char_name);
@@ -204,14 +210,13 @@ GDExtensionBool TypeScriptInstance::get(GDExtensionConstStringNamePtr p_name, GD
 		return false;
 	} else {
 		BINDING_VALID_V(false);
-		const StringName *gdname = reinterpret_cast<const StringName *>(p_name);
-		const String _name = gdname->substr(1);
-		const String name = *gdname;
+		const String name = *reinterpret_cast<const StringName *>(p_name);
+		const String _name = name.substr(1);
 		const char *char_name;
-		if (gdname->begins_with("_")) {
-			char_name = _name.utf8();
+		if (name.begins_with("_")) {
+			char_name = to_chars(_name);
 		} else {
-			char_name = name.utf8();
+			char_name = to_chars(name);
 		}
 		JSAtom name_atom = JS_NewAtom(js_context(), char_name);
 		if (JS_HasProperty(js_context(), js_binding, name_atom) > 0) {

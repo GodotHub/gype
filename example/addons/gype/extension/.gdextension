@@ -1,8 +1,0 @@
-[configuration]
-entry_symbol="gype_library_init"
-compatibility_minimum="4.5"
-
-[libraries]
-
-windows.debug.x86_64 = "res://addons/gype/extension/gype_debug.dll"
-windows.release.x86_64 = "res://addons/gype/extension/gype_release.dll"

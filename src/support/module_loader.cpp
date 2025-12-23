@@ -21,7 +21,7 @@ char *module_normalize(JSContext *ctx,
 		gd_module_name = gd_module_name + "?v=" + std::to_string(UtilityFunctions::randi()).c_str();
 		module_name = to_chars(gd_module_name);
 	}
-	return _strdup(module_name);
+	return strdup(module_name);
 }
 
 JSModuleDef *script_loader(JSContext *ctx, const char *module_name) {

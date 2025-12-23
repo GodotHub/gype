@@ -18,7 +18,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 EventLoopSingleton="*res://addons/gype/event_loop.gd"
-TestSingleton="*res://script/test_singleton.ts"
 
 [editor_plugins]
 

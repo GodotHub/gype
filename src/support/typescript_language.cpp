@@ -129,16 +129,15 @@ Ref<Script> TypeScriptLanguage::_make_template(const String &p_template, const S
 	const char *class_name = to_chars(p_class_name);
 	const char *base_class_name = to_chars(p_base_class_name);
 	char *code = new char[1024];
-	sprintf(code, R"xxx(import { %s } from "@godot/classes/%s";
-import { GodotClass } from "@godot/core/class_defined";
+	sprintf(code, R"xxx(
+import { %s } from "@godot/classes/%s";
 
-@GodotClass
-export class %s extends %s {
-	public _ready(): void {
+export default class %s extends %s {
+	public override _ready(): void {
 
 	}
 
-	public _process(delta: number): void {
+	public override _process(delta: number): void {
 
 	}
 }

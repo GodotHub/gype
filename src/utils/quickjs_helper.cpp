@@ -216,8 +216,10 @@ JSValue variant_to_jsvalue(const Variant &val) {
 			return JS_NewBool(js_context(), val);
 		case Variant::Type::STRING:
 		case Variant::Type::STRING_NAME:
-		case Variant::Type::NODE_PATH:
-			return JS_NewString(js_context(), String(val).utf8());
+		case Variant::Type::NODE_PATH: {
+		    const char *content = to_chars(String(val));
+			return JS_NewString(js_context(), content);
+		}
 		case Variant::Type::VECTOR2:
 		case Variant::Type::VECTOR2I:
 		case Variant::Type::VECTOR3:
@@ -430,7 +432,7 @@ JSValue downcast(JSContext *ctx, Object *obj) {
 	String js_class_name = gd_class_name == "Object" ? "GodotObject" : gd_class_name;
 	String snake_class_name = js_class_name.to_snake_case();
 	JSValue global = JS_GetGlobalObject(ctx);
-	const char *char_gd_class_name = gd_class_name.utf8();
+	const char *char_gd_class_name = to_chars(gd_class_name);
 	JSValue ctor = ctor_list[char_gd_class_name];
 	VariantAdapter *p_adapter = memnew(VariantAdapter(obj, false));
 	JSClassID class_id = classes[js_class_name];

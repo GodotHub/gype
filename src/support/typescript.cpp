@@ -522,8 +522,8 @@ bool TypeScript::analyze_internal(const String &path) const {
 		}
 	}
 	{
-		uint32_t error_offset;
-		TSQueryError error;
+		uint32_t error_offset = 0;
+		TSQueryError error = TSQueryErrorNone;
 		static const TSQuery *query = ts_query_new(lang, query_default_class, strlen(query_default_class), &error_offset, &error);
 		if (!query) {
 			ERR_PRINT("Tree-sitter query failed to compile.");

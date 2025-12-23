@@ -71,6 +71,7 @@ void register_packed_color_array();
 void register_proxy_packed_color_array();
 void register_packed_vector4_array();
 void register_proxy_packed_vector4_array();
+void register_global_enums();
 
 // Main function to orchestrate the registration of all built-in classes
 void register_builtin_classes();

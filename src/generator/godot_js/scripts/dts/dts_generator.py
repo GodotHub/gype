@@ -11,7 +11,8 @@ from utils.generation_utils import (
     generate_files_from_template,
     generate_main_registration_file,
     sort_classes_by_inheritance,
-    camel_to_snake
+    camel_to_snake,
+    generate_global_enum
 )
 
 
@@ -276,6 +277,8 @@ def main():
         if b_cls['name'] not in BUILTIN_TYPES_TO_SKIP
     ]
 
+    global_enums = api_data.get('global_enums', [])
+
     ts_builtin_classes = []
     for b_cls in all_builtin_classes:
         b_cls_copy = b_cls.copy()
@@ -337,7 +340,14 @@ def main():
         context_key='utility_functions',  # 确保上下文键正确
         utility_functions=utility_functions  # 传递两次以防万一
     )
-
+    
+    generate_global_enum(
+        enums=global_enums,
+        template_path='global_enums.d.ts.jinja',
+        filename="global_enums.d.ts",
+        output_dir=output_root_dir / "builtins",
+        jinja_env=env
+    )
     # --- [BUG FIX 4: 移除重复的调用] ---
     # 下面的代码块是多余的，并且错误地覆盖了 globals.d.ts。
     # print("\nGenerating main index.d.ts...")

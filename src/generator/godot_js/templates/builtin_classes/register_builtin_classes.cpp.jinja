@@ -11,5 +11,6 @@ void register_builtin_classes() {
     {% if cls['name'] != 'String' and cls['name'] != 'NodePath' and cls['name'] != 'StringName' %}
 	register_proxy_{{ camel_to_snake(cls.name) }}();
 	{% endif %}
+	register_global_enums();
 {% endfor %}
 }

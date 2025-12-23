@@ -199,3 +199,22 @@ def generate_vararg_helpers(
         print(f"  - Generation complete. ({generated_count} files created)")
     else:
         print("  - No items with vararg methods found. Nothing to generate.")
+
+
+def generate_global_enum(enums,
+                         template_path: str,
+                         filename,
+                         output_dir: Path,
+                         jinja_env: Environment,
+                         **extra_context: Any):
+    print(f"\n--- Generating global enums files using template '{template_path}' ---")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    template = jinja_env.get_template(template_path)
+    context = {
+        'enums': enums,
+        **extra_context
+    }
+    output_content = template.render(context)
+    output_path = output_dir / filename
+    output_path.write_text(output_content, encoding='utf-8', newline='\n')
+    print("  - Generation complete.")

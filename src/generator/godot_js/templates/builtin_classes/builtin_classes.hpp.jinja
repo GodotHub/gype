@@ -12,6 +12,7 @@ void register_variant();
 void register_{{ camel_to_snake(cls.name) }}();
 void register_proxy_{{ camel_to_snake(cls.name) }}();
 {% endfor %}
+void register_global_constants();
 
 // Main function to orchestrate the registration of all built-in classes
 void register_builtin_classes();

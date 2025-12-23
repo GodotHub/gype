@@ -1,0 +1,15 @@
+#include "register/builtin_classes/register_builtin_classes.hpp"
+#include "utils/env.hpp"
+#include <quickjs.h>
+
+void register_global_enums() {
+	JSValue global = JS_GetGlobalObject(js_context());
+{% for enum in enums %}
+	{% set enum_name = enum["name"] | replace(".", "_") %}
+	JSValue {{enum_name}} = JS_NewObject(js_context());
+	{% for value in enum["values"] %}
+	JS_SetPropertyStr(js_context(), {{enum_name}}, "{{ value.name }}", JS_NewInt64(js_context(), {{value.value}}));
+	{% endfor %}
+	JS_SetPropertyStr(js_context(), global, "{{enum.name}}", {{enum_name}});
+{% endfor %}
+}

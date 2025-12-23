@@ -67,4 +67,5 @@ void register_builtin_classes() {
 	register_proxy_packed_color_array();
 	register_packed_vector4_array();
 	register_proxy_packed_vector4_array();
+	register_global_enums();
 }

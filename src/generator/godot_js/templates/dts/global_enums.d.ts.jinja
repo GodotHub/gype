@@ -1,0 +1,13 @@
+declare global {
+  {% for enum in enums %}
+  {% if not "Variant." in enum["name"] %}
+  {{ enum["name"] }} = {
+        {% for value in enum["values"] %}
+    {{value["name"]}}: {{value["value"]}},
+        {% endfor %}
+  }
+  {% endif %}
+  {% endfor %}
+}
+
+export {}

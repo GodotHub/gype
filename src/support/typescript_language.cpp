@@ -28,8 +28,60 @@ String TypeScriptLanguage::_get_name() const {
 }
 
 void TypeScriptLanguage::_init() {
-	tsc_process = OS::get_singleton()->create_process("cmd.exe", { "/c", "tsc", "--watch", "tsconfig.json" });
+	godot::OS *os = godot::OS::get_singleton();
+	godot::PackedStringArray check_args;
+	godot::Array output; // Used to capture command output (version, etc.)
+	int exit_code = -1;
+
+	// 1. Check if tsc exists
+#if defined(_WIN32)
+	// Windows: Try to get version using cmd /c
+	check_args.push_back("/c");
+	check_args.push_back("tsc --version");
+	exit_code = os->execute("cmd.exe", check_args, output);
+
+#elif defined(__APPLE__) || defined(__linux__)
+	// macOS / Linux: Run tsc --version using sh -c
+	check_args.push_back("-c");
+	// Note: If PATH is not configured correctly, this might return non-zero (e.g., 127 command not found)
+	check_args.push_back("tsc --version"); 
+	exit_code = os->execute("/bin/sh", check_args, output);
+#endif
+
+	// 2. Handle the result
+	if (exit_code != 0) {
+		// --- tsc not detected ---
+    
+		godot::String error_msg = "TypeScript (tsc) environment not detected!\n"
+								  "Please ensure Node.js is installed and run: npm install -g typescript";
+    
+		// Method A: Output to Godot console (red error)
+		godot::UtilityFunctions::printerr(error_msg);
+    
+		// Method B: System alert popup (Recommended for visibility)
+		os->alert(error_msg, "Environment Configuration Error");
+
+	} else {
+		godot::UtilityFunctions::print("TypeScript environment check passed. Starting watch process...");
+    
+		godot::PackedStringArray run_args;
+    
+#if defined(_WIN32)
+		run_args.push_back("/c");
+		// 修正：去掉 "tsconfig.json"，tsc 会自动在当前目录寻找配置文件
+		// 如果非要指定，必须写成 "tsc --watch -p tsconfig.json"
+		run_args.push_back("tsc --watch"); 
+		tsc_process = os->create_process("cmd.exe", run_args);
+        
+#elif defined(__APPLE__) || defined(__linux__)
+		run_args.push_back("-c");
+		// 修正：同上，直接运行 tsc --watch 即可
+		run_args.push_back("tsc --watch");
+		tsc_process = os->create_process("/bin/sh", run_args);
+#endif
+	}
 }
+
 
 String TypeScriptLanguage::_get_type() const {
 	return "TypeScript";
@@ -77,16 +129,15 @@ Ref<Script> TypeScriptLanguage::_make_template(const String &p_template, const S
 	const char *class_name = to_chars(p_class_name);
 	const char *base_class_name = to_chars(p_base_class_name);
 	char *code = new char[1024];
-	sprintf(code, R"xxx(import { %s } from "@godot/classes/%s";
-import { GodotClass } from "@godot/core/class_defined";
+	sprintf(code, R"xxx(
+import { %s } from "@godot/classes/%s";
 
-@GodotClass
-export class %s extends %s {
-	public _ready(): void {
+export default class %s extends %s {
+	public override _ready(): void {
 
 	}
 
-	public _process(delta: number): void {
+	public override _process(delta: number): void {
 
 	}
 }

@@ -50,3 +50,4 @@ example/addons/extension/*.dll
 .vs
 .idea
 bin
+*.dylib

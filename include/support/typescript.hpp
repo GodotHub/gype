@@ -28,7 +28,7 @@ struct CaptureData;
 struct EnumParseResult;
 struct TypeParseResult;
 struct PropertyParseResult;
-enum TSNodeType;
+enum TSNodeType : int;
 
 class TypeScript : public ScriptExtension {
 	GDCLASS(TypeScript, ScriptExtension)
@@ -310,7 +310,7 @@ struct CaptureData {
 	TSNode node;
 };
 
-enum TSNodeType {
+enum TSNodeType : int{
 	NONE,
 	ENUM,
 	TYPE,

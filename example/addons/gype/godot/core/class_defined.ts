@@ -1,22 +1,10 @@
 import { GodotObject } from "@godot/classes/godot_object";
 import { RefCounted } from "@godot/classes/ref_counted";
 
-const _GodotClass = Symbol("_GodotClass");
 const _Tool = Symbol("_Tool");
 const _Export = Symbol("_Export");
 
 type GodotConstructor = new () => GodotObject;
-
-export function GodotClass<T extends GodotConstructor>(
-  target: T,
-  context: ClassDecoratorContext<T>
-): void {
-  if (context.kind !== "class") {
-    throw new Error("GodotClass decorator can only be applied to classes.");
-  }
-
-  (target as any)[_GodotClass] = true;
-}
 
 export function GodotTool<T extends GodotConstructor>(
   target: T,

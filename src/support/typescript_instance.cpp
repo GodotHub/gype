@@ -48,7 +48,8 @@ HashMap<StringName, Variant> TypeScriptInstance::get_exported_values(JSValue thi
 		for (Dictionary prop : props) {
 			PropertyInfo info = PropertyInfo::from_dict(prop);
 			String prop_name = info.name;
-			JSValue jsvalue = JS_GetPropertyStr(js_context(), this_obj, prop_name.utf8());
+			const char *char_prop_name = to_chars(prop_name);
+			JSValue jsvalue = JS_GetPropertyStr(js_context(), this_obj, char_prop_name);
 			Variant prop_value = jsvalue_to_variant(jsvalue);
 			values[prop_name] = prop_value;
 			JS_FreeValue(js_context(), jsvalue);
@@ -59,7 +60,9 @@ HashMap<StringName, Variant> TypeScriptInstance::get_exported_values(JSValue thi
 
 void TypeScriptInstance::replace_exported_values(JSValue this_obj, HashMap<StringName, Variant> exported_values) {
 	for (KeyValue<StringName, Variant> prop : exported_values) {
-		JS_SetPropertyStr(js_context(), this_obj, String(prop.key).utf8(), variant_to_jsvalue(prop.value));
+	    String prop_name = String(prop.key);
+	    const char *char_prop = to_chars(prop_name);
+		JS_SetPropertyStr(js_context(), this_obj, char_prop, variant_to_jsvalue(prop.value));
 	}
 }
 

@@ -381,7 +381,7 @@ PropertyParseResult TypeScript::analyze_recursive(const StringName &type_name, S
 
 	Ref<TypeScript> script = ResourceLoader::get_singleton()->load(path);
 	String code = script->_get_source_code();
-	const char *p_code = code.utf8();
+	const char *p_code = to_chars(code);
 
 	TSTree *tree = ts_parser_parse_string(parser, NULL, p_code, strlen(p_code));
 

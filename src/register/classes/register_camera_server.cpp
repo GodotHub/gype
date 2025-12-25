@@ -91,7 +91,7 @@ static int js_camera_server_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_CameraServer", ctor);
+	JS_SetPropertyStr(ctx, global, "CameraServer", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

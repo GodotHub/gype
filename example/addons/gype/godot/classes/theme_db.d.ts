@@ -6,7 +6,7 @@ import type { Texture2D } from '@godot/classes/texture2d';
 import type { Theme } from '@godot/classes/theme';
 
 
-export declare class ThemeDB extends GodotObject {
+export declare class _ThemeDB extends GodotObject {
 
     
     /**     * The raw type is 'float'     */
@@ -37,9 +37,6 @@ export declare class ThemeDB extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of ThemeDB.
- * This is a global variable, available from anywhere.
- */
-export const ThemeDB: ThemeDB;
+declare global {
+    const ThemeDB: _ThemeDB
+}

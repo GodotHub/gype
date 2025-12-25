@@ -120,7 +120,7 @@ static int js_resource_loader_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_ResourceLoader", ctor);
+	JS_SetPropertyStr(ctx, global, "ResourceLoader", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

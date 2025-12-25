@@ -349,7 +349,7 @@ static int js_native_menu_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_NativeMenu", ctor);
+	JS_SetPropertyStr(ctx, global, "NativeMenu", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

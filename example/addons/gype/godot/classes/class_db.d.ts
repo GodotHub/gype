@@ -2,7 +2,7 @@
 import type { GodotObject } from '@godot/classes/godot_object';
 
 
-export declare class ClassDB extends GodotObject {
+export declare class _ClassDB extends GodotObject {
 
 
     public get_class_list(): PackedStringArray;
@@ -46,9 +46,6 @@ export declare class ClassDB extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of ClassDB.
- * This is a global variable, available from anywhere.
- */
-export const ClassDB: ClassDB;
+declare global {
+    const ClassDB: _ClassDB
+}

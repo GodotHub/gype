@@ -298,7 +298,7 @@ static int js_audio_server_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_AudioServer", ctor);
+	JS_SetPropertyStr(ctx, global, "AudioServer", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

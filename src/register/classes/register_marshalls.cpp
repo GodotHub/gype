@@ -83,7 +83,7 @@ static int js_marshalls_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_Marshalls", ctor);
+	JS_SetPropertyStr(ctx, global, "Marshalls", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

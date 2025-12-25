@@ -155,7 +155,7 @@ static int js_geometry2d_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_Geometry2D", ctor);
+	JS_SetPropertyStr(ctx, global, "Geometry2D", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

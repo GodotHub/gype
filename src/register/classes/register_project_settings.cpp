@@ -143,7 +143,7 @@ static int js_project_settings_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_ProjectSettings", ctor);
+	JS_SetPropertyStr(ctx, global, "ProjectSettings", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

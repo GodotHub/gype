@@ -7,7 +7,7 @@ import type { PhysicsTestMotionParameters3D } from '@godot/classes/physics_test_
 import type { PhysicsTestMotionResult3D } from '@godot/classes/physics_test_motion_result3d';
 
 
-export declare class PhysicsServer3D extends GodotObject {
+export declare class _PhysicsServer3D extends GodotObject {
 
 
     public world_boundary_shape_create(): RID;
@@ -375,9 +375,6 @@ export declare class PhysicsServer3D extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of PhysicsServer3D.
- * This is a global variable, available from anywhere.
- */
-export const PhysicsServer3D: PhysicsServer3D;
+declare global {
+    const PhysicsServer3D: _PhysicsServer3D
+}

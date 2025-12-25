@@ -2,7 +2,7 @@
 import type { GodotObject } from '@godot/classes/godot_object';
 
 
-export declare class Geometry3D extends GodotObject {
+export declare class _Geometry3D extends GodotObject {
 
 
     public compute_convex_mesh_points(planes: Array<any>): PackedVector3Array;
@@ -24,9 +24,6 @@ export declare class Geometry3D extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of Geometry3D.
- * This is a global variable, available from anywhere.
- */
-export const Geometry3D: Geometry3D;
+declare global {
+    const Geometry3D: _Geometry3D
+}

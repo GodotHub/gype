@@ -2,7 +2,7 @@
 import type { GodotObject } from '@godot/classes/godot_object';
 
 
-export declare class WorkerThreadPool extends GodotObject {
+export declare class _WorkerThreadPool extends GodotObject {
 
 
     public add_task(action: Callable | Function, highPriority: boolean = false, description: GDString | StringName | string = ""): number;
@@ -18,9 +18,6 @@ export declare class WorkerThreadPool extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of WorkerThreadPool.
- * This is a global variable, available from anywhere.
- */
-export const WorkerThreadPool: WorkerThreadPool;
+declare global {
+    const WorkerThreadPool: _WorkerThreadPool
+}

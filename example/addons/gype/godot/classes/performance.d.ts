@@ -2,7 +2,7 @@
 import type { GodotObject } from '@godot/classes/godot_object';
 
 
-export declare class Performance extends GodotObject {
+export declare class _Performance extends GodotObject {
 
 
     public get_monitor(monitor: number): number;
@@ -78,9 +78,6 @@ export declare class Performance extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of Performance.
- * This is a global variable, available from anywhere.
- */
-export const Performance: Performance;
+declare global {
+    const Performance: _Performance
+}

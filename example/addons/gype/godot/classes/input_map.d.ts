@@ -3,7 +3,7 @@ import type { GodotObject } from '@godot/classes/godot_object';
 import type { InputEvent } from '@godot/classes/input_event';
 
 
-export declare class InputMap extends GodotObject {
+export declare class _InputMap extends GodotObject {
 
 
     public has_action(action: GDString | StringName | string): boolean;
@@ -24,9 +24,6 @@ export declare class InputMap extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of InputMap.
- * This is a global variable, available from anywhere.
- */
-export const InputMap: InputMap;
+declare global {
+    const InputMap: _InputMap
+}

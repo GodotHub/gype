@@ -7,7 +7,7 @@ import type { NavigationPathQueryResult3D } from '@godot/classes/navigation_path
 import type { Node } from '@godot/classes/node';
 
 
-export declare class NavigationServer3D extends GodotObject {
+export declare class _NavigationServer3D extends GodotObject {
 
 
     public get_maps(): Array<any>;
@@ -184,9 +184,6 @@ export declare class NavigationServer3D extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of NavigationServer3D.
- * This is a global variable, available from anywhere.
- */
-export const NavigationServer3D: NavigationServer3D;
+declare global {
+    const NavigationServer3D: _NavigationServer3D
+}

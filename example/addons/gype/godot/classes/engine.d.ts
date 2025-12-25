@@ -4,7 +4,7 @@ import type { MainLoop } from '@godot/classes/main_loop';
 import type { ScriptLanguage } from '@godot/classes/script_language';
 
 
-export declare class Engine extends GodotObject {
+export declare class _Engine extends GodotObject {
 
     
     /**     * The raw type is 'bool'     */
@@ -66,9 +66,6 @@ export declare class Engine extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of Engine.
- * This is a global variable, available from anywhere.
- */
-export const Engine: Engine;
+declare global {
+    const Engine: _Engine
+}

@@ -2,7 +2,7 @@
 import type { GodotObject } from '@godot/classes/godot_object';
 
 
-export declare class IP extends GodotObject {
+export declare class _IP extends GodotObject {
 
 
     public resolve_hostname(host: GDString | StringName | string, itype: number = 3): GDString;
@@ -31,9 +31,6 @@ export declare class IP extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of IP.
- * This is a global variable, available from anywhere.
- */
-export const IP: IP;
+declare global {
+    const IP: _IP
+}

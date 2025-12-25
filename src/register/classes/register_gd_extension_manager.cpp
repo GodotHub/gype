@@ -84,7 +84,7 @@ static int js_gd_extension_manager_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_GDExtensionManager", ctor);
+	JS_SetPropertyStr(ctx, global, "GDExtensionManager", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

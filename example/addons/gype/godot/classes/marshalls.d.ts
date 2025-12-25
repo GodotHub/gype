@@ -2,7 +2,7 @@
 import type { GodotObject } from '@godot/classes/godot_object';
 
 
-export declare class Marshalls extends GodotObject {
+export declare class _Marshalls extends GodotObject {
 
 
     public variant_to_base64(variant: any, fullObjects: boolean = false): GDString;
@@ -15,9 +15,6 @@ export declare class Marshalls extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of Marshalls.
- * This is a global variable, available from anywhere.
- */
-export const Marshalls: Marshalls;
+declare global {
+    const Marshalls: _Marshalls
+}

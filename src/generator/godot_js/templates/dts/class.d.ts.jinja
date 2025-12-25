@@ -8,6 +8,11 @@
 {% endif %}
 {% set inherits = get_class_name(cls.inherits) if cls.inherits else None -%}
 {% set is_singleton = cls.name in singletons | map(attribute='name') | list %}
+{% if is_singleton %}
+    {% set declare_class = "_" + cls.name %}
+{% else %}
+    {% set declare_class = cls.name %}
+{% endif %}
 
 {# 依赖导入 #}
 {% for dep in dependency %}
@@ -25,7 +30,7 @@ import type { {{ dep }} } from '{{ get_import_path(dep) }}';
 } #}
 
 {# 导出类声明 #}
-export declare class {{ class_name }}{% if inherits %} extends {{ inherits }}{% endif %} {
+export declare class {{ declare_class }}{% if inherits %} extends {{ inherits }}{% endif %} {
 
     {# 属性 (Properties) #}
     {%- for prop in cls.properties %}
@@ -73,10 +78,7 @@ export declare class {{ class_name }}{% if inherits %} extends {{ inherits }}{% 
 
 {# 如果是单例，则导出其实例 #}
 {% if is_singleton %}
-
-/**
- * A singleton instance of {{ class_name }}.
- * This is a global variable, available from anywhere.
- */
-export const {{ class_name }}: {{ class_name }};
+declare global {
+    const {{cls.name}}: {{declare_class}}
+}
 {% endif %}

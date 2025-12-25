@@ -1279,7 +1279,7 @@ static int js_display_server_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_DisplayServer", ctor);
+	JS_SetPropertyStr(ctx, global, "DisplayServer", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

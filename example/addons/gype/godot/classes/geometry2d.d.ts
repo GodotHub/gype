@@ -2,7 +2,7 @@
 import type { GodotObject } from '@godot/classes/godot_object';
 
 
-export declare class Geometry2D extends GodotObject {
+export declare class _Geometry2D extends GodotObject {
 
 
     public is_point_in_circle(point: Vector2, circlePosition: Vector2, circleRadius: number): boolean;
@@ -51,9 +51,6 @@ export declare class Geometry2D extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of Geometry2D.
- * This is a global variable, available from anywhere.
- */
-export const Geometry2D: Geometry2D;
+declare global {
+    const Geometry2D: _Geometry2D
+}

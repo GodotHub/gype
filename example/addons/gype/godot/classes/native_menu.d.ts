@@ -3,7 +3,7 @@ import type { GodotObject } from '@godot/classes/godot_object';
 import type { Texture2D } from '@godot/classes/texture2d';
 
 
-export declare class NativeMenu extends GodotObject {
+export declare class _NativeMenu extends GodotObject {
 
 
     public has_feature(feature: number): boolean;
@@ -91,9 +91,6 @@ export declare class NativeMenu extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of NativeMenu.
- * This is a global variable, available from anywhere.
- */
-export const NativeMenu: NativeMenu;
+declare global {
+    const NativeMenu: _NativeMenu
+}

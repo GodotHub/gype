@@ -69,7 +69,7 @@ static int js_physics_server2d_manager_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_PhysicsServer2DManager", ctor);
+	JS_SetPropertyStr(ctx, global, "PhysicsServer2DManager", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

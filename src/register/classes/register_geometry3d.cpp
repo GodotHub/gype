@@ -119,7 +119,7 @@ static int js_geometry3d_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_Geometry3D", ctor);
+	JS_SetPropertyStr(ctx, global, "Geometry3D", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

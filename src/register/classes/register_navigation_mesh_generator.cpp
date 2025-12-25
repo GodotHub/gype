@@ -82,7 +82,7 @@ static int js_navigation_mesh_generator_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_NavigationMeshGenerator", ctor);
+	JS_SetPropertyStr(ctx, global, "NavigationMeshGenerator", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

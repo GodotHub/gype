@@ -172,7 +172,7 @@ static int js_translation_server_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_TranslationServer", ctor);
+	JS_SetPropertyStr(ctx, global, "TranslationServer", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

@@ -4,7 +4,7 @@ import type { InputEvent } from '@godot/classes/input_event';
 import type { Resource } from '@godot/classes/resource';
 
 
-export declare class Input extends GodotObject {
+export declare class _Input extends GodotObject {
 
     
     /**     * The raw type is 'int'     */
@@ -104,9 +104,6 @@ export declare class Input extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of Input.
- * This is a global variable, available from anywhere.
- */
-export const Input: Input;
+declare global {
+    const Input: _Input
+}

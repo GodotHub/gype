@@ -5,7 +5,7 @@ import type { NavigationMeshSourceGeometryData3D } from '@godot/classes/navigati
 import type { Node } from '@godot/classes/node';
 
 
-export declare class NavigationMeshGenerator extends GodotObject {
+export declare class _NavigationMeshGenerator extends GodotObject {
 
 
     public bake(navigationMesh: NavigationMesh, rootNode: Node): void;
@@ -16,9 +16,6 @@ export declare class NavigationMeshGenerator extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of NavigationMeshGenerator.
- * This is a global variable, available from anywhere.
- */
-export const NavigationMeshGenerator: NavigationMeshGenerator;
+declare global {
+    const NavigationMeshGenerator: _NavigationMeshGenerator
+}

@@ -4,7 +4,7 @@ import type { JavaClass } from '@godot/classes/java_class';
 import type { JavaObject } from '@godot/classes/java_object';
 
 
-export declare class JavaClassWrapper extends GodotObject {
+export declare class _JavaClassWrapper extends GodotObject {
 
 
     public wrap(name: GDString | StringName | string): JavaClass;
@@ -13,9 +13,6 @@ export declare class JavaClassWrapper extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of JavaClassWrapper.
- * This is a global variable, available from anywhere.
- */
-export const JavaClassWrapper: JavaClassWrapper;
+declare global {
+    const JavaClassWrapper: _JavaClassWrapper
+}

@@ -3,7 +3,7 @@ import type { GodotObject } from '@godot/classes/godot_object';
 import type { JavaScriptObject } from '@godot/classes/java_script_object';
 
 
-export declare class JavaScriptBridge extends GodotObject {
+export declare class _JavaScriptBridge extends GodotObject {
 
 
     public eval(code: GDString | StringName | string, useGlobalExecutionContext: boolean = false): any;
@@ -22,9 +22,6 @@ export declare class JavaScriptBridge extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of JavaScriptBridge.
- * This is a global variable, available from anywhere.
- */
-export const JavaScriptBridge: JavaScriptBridge;
+declare global {
+    const JavaScriptBridge: _JavaScriptBridge
+}

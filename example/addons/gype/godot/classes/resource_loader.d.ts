@@ -4,7 +4,7 @@ import type { Resource } from '@godot/classes/resource';
 import type { ResourceFormatLoader } from '@godot/classes/resource_format_loader';
 
 
-export declare class ResourceLoader extends GodotObject {
+export declare class _ResourceLoader extends GodotObject {
 
 
     public load_threaded_request(path: GDString | StringName | string, typeHint: GDString | StringName | string = "", useSubThreads: boolean = false, cacheMode: number = 1): number;
@@ -38,9 +38,6 @@ export declare class ResourceLoader extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of ResourceLoader.
- * This is a global variable, available from anywhere.
- */
-export const ResourceLoader: ResourceLoader;
+declare global {
+    const ResourceLoader: _ResourceLoader
+}

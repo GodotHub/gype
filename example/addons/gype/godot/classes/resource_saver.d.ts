@@ -4,7 +4,7 @@ import type { Resource } from '@godot/classes/resource';
 import type { ResourceFormatSaver } from '@godot/classes/resource_format_saver';
 
 
-export declare class ResourceSaver extends GodotObject {
+export declare class _ResourceSaver extends GodotObject {
 
 
     public save(resource: Resource, path: GDString | StringName | string = "", flags: number = 0): number;
@@ -27,9 +27,6 @@ export declare class ResourceSaver extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of ResourceSaver.
- * This is a global variable, available from anywhere.
- */
-export const ResourceSaver: ResourceSaver;
+declare global {
+    const ResourceSaver: _ResourceSaver
+}

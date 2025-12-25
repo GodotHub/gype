@@ -3,7 +3,7 @@ import type { GDExtension } from '@godot/classes/gd_extension';
 import type { GodotObject } from '@godot/classes/godot_object';
 
 
-export declare class GDExtensionManager extends GodotObject {
+export declare class _GDExtensionManager extends GodotObject {
 
 
     public load_extension(path: GDString | StringName | string): number;
@@ -27,9 +27,6 @@ export declare class GDExtensionManager extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of GDExtensionManager.
- * This is a global variable, available from anywhere.
- */
-export const GDExtensionManager: GDExtensionManager;
+declare global {
+    const GDExtensionManager: _GDExtensionManager
+}

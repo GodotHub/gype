@@ -180,7 +180,7 @@ static int js_class_db_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_ClassDB", ctor);
+	JS_SetPropertyStr(ctx, global, "ClassDB", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

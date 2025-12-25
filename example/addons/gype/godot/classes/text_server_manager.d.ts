@@ -3,7 +3,7 @@ import type { GodotObject } from '@godot/classes/godot_object';
 import type { TextServer } from '@godot/classes/text_server';
 
 
-export declare class TextServerManager extends GodotObject {
+export declare class _TextServerManager extends GodotObject {
 
 
     public add_interface(_interface: TextServer): void;
@@ -21,9 +21,6 @@ export declare class TextServerManager extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of TextServerManager.
- * This is a global variable, available from anywhere.
- */
-export const TextServerManager: TextServerManager;
+declare global {
+    const TextServerManager: _TextServerManager
+}

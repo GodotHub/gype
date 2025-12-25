@@ -116,7 +116,7 @@ static int js_theme_db_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_ThemeDB", ctor);
+	JS_SetPropertyStr(ctx, global, "ThemeDB", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

@@ -7,7 +7,7 @@ import type { NavigationPolygon } from '@godot/classes/navigation_polygon';
 import type { Node } from '@godot/classes/node';
 
 
-export declare class NavigationServer2D extends GodotObject {
+export declare class _NavigationServer2D extends GodotObject {
 
 
     public get_maps(): Array<any>;
@@ -167,9 +167,6 @@ export declare class NavigationServer2D extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of NavigationServer2D.
- * This is a global variable, available from anywhere.
- */
-export const NavigationServer2D: NavigationServer2D;
+declare global {
+    const NavigationServer2D: _NavigationServer2D
+}

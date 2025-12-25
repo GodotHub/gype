@@ -3,7 +3,7 @@ import type { GodotObject } from '@godot/classes/godot_object';
 import type { Logger } from '@godot/classes/logger';
 
 
-export declare class OS extends GodotObject {
+export declare class _OS extends GodotObject {
 
     
     /**     * The raw type is 'bool'     */
@@ -122,9 +122,6 @@ export declare class OS extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of OS.
- * This is a global variable, available from anywhere.
- */
-export const OS: OS;
+declare global {
+    const OS: _OS
+}

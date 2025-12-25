@@ -6,7 +6,7 @@ import type { AudioStream } from '@godot/classes/audio_stream';
 import type { GodotObject } from '@godot/classes/godot_object';
 
 
-export declare class AudioServer extends GodotObject {
+export declare class _AudioServer extends GodotObject {
 
     
     /**     * The raw type is 'int'     */
@@ -89,9 +89,6 @@ export declare class AudioServer extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of AudioServer.
- * This is a global variable, available from anywhere.
- */
-export const AudioServer: AudioServer;
+declare global {
+    const AudioServer: _AudioServer
+}

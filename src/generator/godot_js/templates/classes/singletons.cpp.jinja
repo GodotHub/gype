@@ -144,7 +144,7 @@ static int js_{{snake_name}}_class_init(JSContext *ctx) {
 	{% endif %}
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_{{clazz_name}}", ctor);
+	JS_SetPropertyStr(ctx, global, "{{clazz_name}}", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

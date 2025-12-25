@@ -4,7 +4,7 @@ import type { Image } from '@godot/classes/image';
 import type { RenderingDevice } from '@godot/classes/rendering_device';
 
 
-export declare class RenderingServer extends GodotObject {
+export declare class _RenderingServer extends GodotObject {
 
     
     /**     * The raw type is 'bool'     */
@@ -1176,9 +1176,6 @@ export declare class RenderingServer extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of RenderingServer.
- * This is a global variable, available from anywhere.
- */
-export const RenderingServer: RenderingServer;
+declare global {
+    const RenderingServer: _RenderingServer
+}

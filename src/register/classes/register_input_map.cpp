@@ -123,7 +123,7 @@ static int js_input_map_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_InputMap", ctor);
+	JS_SetPropertyStr(ctx, global, "InputMap", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

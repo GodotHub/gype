@@ -671,7 +671,7 @@ static int js_navigation_server2d_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_NavigationServer2D", ctor);
+	JS_SetPropertyStr(ctx, global, "NavigationServer2D", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

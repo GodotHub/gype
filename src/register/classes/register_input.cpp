@@ -305,7 +305,7 @@ static int js_input_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_Input", ctor);
+	JS_SetPropertyStr(ctx, global, "Input", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

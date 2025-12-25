@@ -103,7 +103,7 @@ static int js_java_script_bridge_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_JavaScriptBridge", ctor);
+	JS_SetPropertyStr(ctx, global, "JavaScriptBridge", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

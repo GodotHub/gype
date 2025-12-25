@@ -4,7 +4,7 @@ import type { XRInterface } from '@godot/classes/xr_interface';
 import type { XRTracker } from '@godot/classes/xr_tracker';
 
 
-export declare class XRServer extends GodotObject {
+export declare class _XRServer extends GodotObject {
 
     
     /**     * The raw type is 'float'     */
@@ -65,9 +65,6 @@ export declare class XRServer extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of XRServer.
- * This is a global variable, available from anywhere.
- */
-export const XRServer: XRServer;
+declare global {
+    const XRServer: _XRServer
+}

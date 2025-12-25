@@ -746,7 +746,7 @@ static int js_navigation_server3d_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_NavigationServer3D", ctor);
+	JS_SetPropertyStr(ctx, global, "NavigationServer3D", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

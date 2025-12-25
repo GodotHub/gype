@@ -4,7 +4,7 @@ import type { GodotObject } from '@godot/classes/godot_object';
 import type { ScriptLanguage } from '@godot/classes/script_language';
 
 
-export declare class EngineDebugger extends GodotObject {
+export declare class _EngineDebugger extends GodotObject {
 
 
     public is_active(): boolean;
@@ -34,9 +34,6 @@ export declare class EngineDebugger extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of EngineDebugger.
- * This is a global variable, available from anywhere.
- */
-export const EngineDebugger: EngineDebugger;
+declare global {
+    const EngineDebugger: _EngineDebugger
+}

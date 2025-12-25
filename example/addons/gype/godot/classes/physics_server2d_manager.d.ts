@@ -2,7 +2,7 @@
 import type { GodotObject } from '@godot/classes/godot_object';
 
 
-export declare class PhysicsServer2DManager extends GodotObject {
+export declare class _PhysicsServer2DManager extends GodotObject {
 
 
     public register_server(name: GDString | StringName | string, createCallback: Callable | Function): void;
@@ -11,9 +11,6 @@ export declare class PhysicsServer2DManager extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of PhysicsServer2DManager.
- * This is a global variable, available from anywhere.
- */
-export const PhysicsServer2DManager: PhysicsServer2DManager;
+declare global {
+    const PhysicsServer2DManager: _PhysicsServer2DManager
+}

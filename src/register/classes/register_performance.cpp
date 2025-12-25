@@ -89,7 +89,7 @@ static int js_performance_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_Performance", ctor);
+	JS_SetPropertyStr(ctx, global, "Performance", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

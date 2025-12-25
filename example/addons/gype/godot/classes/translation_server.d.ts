@@ -4,7 +4,7 @@ import type { Translation } from '@godot/classes/translation';
 import type { TranslationDomain } from '@godot/classes/translation_domain';
 
 
-export declare class TranslationServer extends GodotObject {
+export declare class _TranslationServer extends GodotObject {
 
     
     /**     * The raw type is 'bool'     */
@@ -39,9 +39,6 @@ export declare class TranslationServer extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of TranslationServer.
- * This is a global variable, available from anywhere.
- */
-export const TranslationServer: TranslationServer;
+declare global {
+    const TranslationServer: _TranslationServer
+}

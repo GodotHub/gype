@@ -96,7 +96,7 @@ static int js_worker_thread_pool_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_WorkerThreadPool", ctor);
+	JS_SetPropertyStr(ctx, global, "WorkerThreadPool", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

@@ -3,7 +3,7 @@ import type { CameraFeed } from '@godot/classes/camera_feed';
 import type { GodotObject } from '@godot/classes/godot_object';
 
 
-export declare class CameraServer extends GodotObject {
+export declare class _CameraServer extends GodotObject {
 
     
     /**     * The raw type is 'bool'     */
@@ -29,9 +29,6 @@ export declare class CameraServer extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of CameraServer.
- * This is a global variable, available from anywhere.
- */
-export const CameraServer: CameraServer;
+declare global {
+    const CameraServer: _CameraServer
+}

@@ -2,7 +2,7 @@
 import type { GodotObject } from '@godot/classes/godot_object';
 
 
-export declare class Time extends GodotObject {
+export declare class _Time extends GodotObject {
 
 
     public get_datetime_dict_from_unix_time(unixTimeVal: number): Dictionary;
@@ -53,9 +53,6 @@ export declare class Time extends GodotObject {
     };
 }
 
-
-/**
- * A singleton instance of Time.
- * This is a global variable, available from anywhere.
- */
-export const Time: Time;
+declare global {
+    const Time: _Time
+}

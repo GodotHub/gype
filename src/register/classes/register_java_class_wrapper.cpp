@@ -69,7 +69,7 @@ static int js_java_class_wrapper_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_JavaClassWrapper", ctor);
+	JS_SetPropertyStr(ctx, global, "JavaClassWrapper", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

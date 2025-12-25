@@ -2,7 +2,7 @@
 import type { GodotObject } from '@godot/classes/godot_object';
 
 
-export declare class ProjectSettings extends GodotObject {
+export declare class _ProjectSettings extends GodotObject {
 
 
     public has_setting(name: GDString | StringName | string): boolean;
@@ -30,9 +30,6 @@ export declare class ProjectSettings extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of ProjectSettings.
- * This is a global variable, available from anywhere.
- */
-export const ProjectSettings: ProjectSettings;
+declare global {
+    const ProjectSettings: _ProjectSettings
+}

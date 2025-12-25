@@ -113,7 +113,7 @@ static int js_resource_uid_class_init(JSContext *ctx) {
 	JS_SetPropertyFunctionList(ctx, ctor, resource_uid_class_static_funcs, _countof(resource_uid_class_static_funcs));
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_ResourceUID", ctor);
+	JS_SetPropertyStr(ctx, global, "ResourceUID", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

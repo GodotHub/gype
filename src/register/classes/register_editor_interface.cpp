@@ -357,7 +357,7 @@ static int js_editor_interface_class_init(JSContext *ctx) {
 
 
 	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "_EditorInterface", ctor);
+	JS_SetPropertyStr(ctx, global, "EditorInterface", ctor);
 	JS_FreeValue(ctx, global);
 	return 0;
 }

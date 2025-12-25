@@ -2,7 +2,7 @@
 import type { GodotObject } from '@godot/classes/godot_object';
 
 
-export declare class ResourceUID extends GodotObject {
+export declare class _ResourceUID extends GodotObject {
 
 
     public id_to_text(id: number): GDString;
@@ -21,9 +21,6 @@ export declare class ResourceUID extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of ResourceUID.
- * This is a global variable, available from anywhere.
- */
-export const ResourceUID: ResourceUID;
+declare global {
+    const ResourceUID: _ResourceUID
+}

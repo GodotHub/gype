@@ -21,7 +21,7 @@ import type { VBoxContainer } from '@godot/classes/v_box_container';
 import type { Window } from '@godot/classes/window';
 
 
-export declare class EditorInterface extends GodotObject {
+export declare class _EditorInterface extends GodotObject {
 
     
     /**     * The raw type is 'bool'     */
@@ -94,9 +94,6 @@ export declare class EditorInterface extends GodotObject {
 
 }
 
-
-/**
- * A singleton instance of EditorInterface.
- * This is a global variable, available from anywhere.
- */
-export const EditorInterface: EditorInterface;
+declare global {
+    const EditorInterface: _EditorInterface
+}

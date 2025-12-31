@@ -1024,3 +1024,7 @@ PropertyParseResult TypeScript::get_property_parse_result(StringName prop_name) 
 	}
 	return { NONE };
 }
+
+TypeScript::~TypeScript() {
+	TypeScriptLanguage::scripts.erase(this);
+}

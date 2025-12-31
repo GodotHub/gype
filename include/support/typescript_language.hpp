@@ -14,6 +14,7 @@
 
 namespace godot {
 
+class TypeScript;
 class Variant;
 class Object;
 

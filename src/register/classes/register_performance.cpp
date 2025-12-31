@@ -20,7 +20,7 @@ static JSClassDef performance_class_def = {
 };
 
 static JSValue performance_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["Performance"];
+	JSClassID class_id = classes["_Performance"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -31,7 +31,8 @@ static JSValue performance_class_constructor(JSContext *ctx, JSValueConst new_ta
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, performance_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(performance_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -72,9 +73,10 @@ static const JSCFunctionListEntry performance_class_proto_funcs[] = {
 
 
 
-static int js_performance_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["Performance"];
-	classes["Performance"] = class_id;
+static int js_performance_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_Performance"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &performance_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -88,12 +90,20 @@ static int js_performance_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "Performance", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "Performance", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_performance_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_performance_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "Performance");
+	return m;
+}
+
 void register_performance() {
-	js_performance_class_init(js_context());
+	_js_init_performance_module(js_context(), "@godot/classes/performance");
 }

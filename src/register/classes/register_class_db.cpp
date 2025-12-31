@@ -21,7 +21,7 @@ static JSClassDef class_db_class_def = {
 };
 
 static JSValue class_db_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["ClassDB"];
+	JSClassID class_id = classes["_ClassDB"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -32,7 +32,8 @@ static JSValue class_db_class_constructor(JSContext *ctx, JSValueConst new_targe
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, class_db_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(class_db_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -163,9 +164,10 @@ static const JSCFunctionListEntry class_db_class_proto_funcs[] = {
 
 
 
-static int js_class_db_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["ClassDB"];
-	classes["ClassDB"] = class_id;
+static int js_class_db_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_ClassDB"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &class_db_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -179,12 +181,20 @@ static int js_class_db_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "ClassDB", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "ClassDB", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_class_db_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_class_db_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "ClassDB");
+	return m;
+}
+
 void register_class_db() {
-	js_class_db_class_init(js_context());
+	_js_init_class_db_module(js_context(), "@godot/classes/class_db");
 }

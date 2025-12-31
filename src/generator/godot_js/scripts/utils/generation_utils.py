@@ -218,3 +218,23 @@ def generate_global_enum(enums,
     output_path = output_dir / filename
     output_path.write_text(output_content, encoding='utf-8', newline='\n')
     print("  - Generation complete.")
+
+def generate_singelton(
+        singletons,
+        template_path,
+        filename,
+        output_dir,
+        jinja_env,
+        **extra_context
+):
+    print(f"\n--- Generating singleton files using template '{template_path}' ---")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    template = jinja_env.get_template(template_path)
+    context = {
+        'singletons': singletons,
+        **extra_context
+    }
+    output_content = template.render(context)
+    output_path = output_dir / filename
+    output_path.write_text(output_content, encoding='utf-8', newline='\n')
+    print("  - Generation complete.")

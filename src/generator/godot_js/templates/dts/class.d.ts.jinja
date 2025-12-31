@@ -78,7 +78,5 @@ export declare class {{ declare_class }}{% if inherits %} extends {{ inherits }}
 
 {# 如果是单例，则导出其实例 #}
 {% if is_singleton %}
-declare global {
-    const {{cls.name}}: {{declare_class}}
-}
+export const {{class_name}}: _{{class_name}};
 {% endif %}

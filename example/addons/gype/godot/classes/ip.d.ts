@@ -31,6 +31,4 @@ export declare class _IP extends GodotObject {
     };
 }
 
-declare global {
-    const IP: _IP
-}
+export const IP: _IP;

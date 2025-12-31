@@ -39,6 +39,4 @@ export declare class _TranslationServer extends GodotObject {
 
 }
 
-declare global {
-    const TranslationServer: _TranslationServer
-}
+export const TranslationServer: _TranslationServer;

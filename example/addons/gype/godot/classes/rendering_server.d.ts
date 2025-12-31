@@ -1176,6 +1176,4 @@ export declare class _RenderingServer extends GodotObject {
     };
 }
 
-declare global {
-    const RenderingServer: _RenderingServer
-}
+export const RenderingServer: _RenderingServer;

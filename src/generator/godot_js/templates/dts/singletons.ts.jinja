@@ -1,0 +1,10 @@
+{% for cls in singletons %}
+{% set class_name = cls.name -%}
+{% set snake_name = camel_to_snake(class_name) %}
+import { _{{class_name}} } from "@godot/classes/{{snake_name}}";
+{% endfor %}
+
+{% for cls in singletons %}
+{% set class_name = cls.name -%}
+export const {{class_name}} = new _{{class_name}}();
+{% endfor %}

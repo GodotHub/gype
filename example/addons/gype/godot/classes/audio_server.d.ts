@@ -89,6 +89,4 @@ export declare class _AudioServer extends GodotObject {
     };
 }
 
-declare global {
-    const AudioServer: _AudioServer
-}
+export const AudioServer: _AudioServer;

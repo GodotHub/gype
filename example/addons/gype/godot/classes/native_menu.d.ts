@@ -91,6 +91,4 @@ export declare class _NativeMenu extends GodotObject {
     };
 }
 
-declare global {
-    const NativeMenu: _NativeMenu
-}
+export const NativeMenu: _NativeMenu;

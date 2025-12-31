@@ -78,6 +78,4 @@ export declare class _Performance extends GodotObject {
     };
 }
 
-declare global {
-    const Performance: _Performance
-}
+export const Performance: _Performance;

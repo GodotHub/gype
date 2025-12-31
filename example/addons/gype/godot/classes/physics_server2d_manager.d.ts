@@ -11,6 +11,4 @@ export declare class _PhysicsServer2DManager extends GodotObject {
 
 }
 
-declare global {
-    const PhysicsServer2DManager: _PhysicsServer2DManager
-}
+export const PhysicsServer2DManager: _PhysicsServer2DManager;

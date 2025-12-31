@@ -122,6 +122,4 @@ export declare class _OS extends GodotObject {
     };
 }
 
-declare global {
-    const OS: _OS
-}
+export const OS: _OS;

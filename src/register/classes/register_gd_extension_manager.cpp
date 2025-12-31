@@ -21,7 +21,7 @@ static JSClassDef gd_extension_manager_class_def = {
 };
 
 static JSValue gd_extension_manager_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["GDExtensionManager"];
+	JSClassID class_id = classes["_GDExtensionManager"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -32,7 +32,8 @@ static JSValue gd_extension_manager_class_constructor(JSContext *ctx, JSValueCon
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, gd_extension_manager_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(gd_extension_manager_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -67,9 +68,10 @@ static const JSCFunctionListEntry gd_extension_manager_class_proto_funcs[] = {
 
 
 
-static int js_gd_extension_manager_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["GDExtensionManager"];
-	classes["GDExtensionManager"] = class_id;
+static int js_gd_extension_manager_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_GDExtensionManager"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &gd_extension_manager_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -83,12 +85,20 @@ static int js_gd_extension_manager_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "GDExtensionManager", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "GDExtensionManager", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_gd_extension_manager_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_gd_extension_manager_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "GDExtensionManager");
+	return m;
+}
+
 void register_gd_extension_manager() {
-	js_gd_extension_manager_class_init(js_context());
+	_js_init_gd_extension_manager_module(js_context(), "@godot/classes/gd_extension_manager");
 }

@@ -184,6 +184,4 @@ export declare class _NavigationServer3D extends GodotObject {
     };
 }
 
-declare global {
-    const NavigationServer3D: _NavigationServer3D
-}
+export const NavigationServer3D: _NavigationServer3D;

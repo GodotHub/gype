@@ -22,7 +22,7 @@ static JSClassDef engine_debugger_class_def = {
 };
 
 static JSValue engine_debugger_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["EngineDebugger"];
+	JSClassID class_id = classes["_EngineDebugger"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -33,7 +33,8 @@ static JSValue engine_debugger_class_constructor(JSContext *ctx, JSValueConst ne
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, engine_debugger_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(engine_debugger_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -151,9 +152,10 @@ static const JSCFunctionListEntry engine_debugger_class_proto_funcs[] = {
 
 
 
-static int js_engine_debugger_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["EngineDebugger"];
-	classes["EngineDebugger"] = class_id;
+static int js_engine_debugger_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_EngineDebugger"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &engine_debugger_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -167,12 +169,20 @@ static int js_engine_debugger_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "EngineDebugger", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "EngineDebugger", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_engine_debugger_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_engine_debugger_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "EngineDebugger");
+	return m;
+}
+
 void register_engine_debugger() {
-	js_engine_debugger_class_init(js_context());
+	_js_init_engine_debugger_module(js_context(), "@godot/classes/engine_debugger");
 }

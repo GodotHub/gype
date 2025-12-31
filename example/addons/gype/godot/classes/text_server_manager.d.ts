@@ -21,6 +21,4 @@ export declare class _TextServerManager extends GodotObject {
 
 }
 
-declare global {
-    const TextServerManager: _TextServerManager
-}
+export const TextServerManager: _TextServerManager;

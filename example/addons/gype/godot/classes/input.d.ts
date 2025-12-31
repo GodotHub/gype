@@ -104,6 +104,4 @@ export declare class _Input extends GodotObject {
     };
 }
 
-declare global {
-    const Input: _Input
-}
+export const Input: _Input;

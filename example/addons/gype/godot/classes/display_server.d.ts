@@ -543,6 +543,4 @@ export declare class _DisplayServer extends GodotObject {
     };
 }
 
-declare global {
-    const DisplayServer: _DisplayServer
-}
+export const DisplayServer: _DisplayServer;

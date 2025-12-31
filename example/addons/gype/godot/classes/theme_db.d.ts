@@ -37,6 +37,4 @@ export declare class _ThemeDB extends GodotObject {
 
 }
 
-declare global {
-    const ThemeDB: _ThemeDB
-}
+export const ThemeDB: _ThemeDB;

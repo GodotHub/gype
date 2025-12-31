@@ -20,7 +20,7 @@ static JSClassDef project_settings_class_def = {
 };
 
 static JSValue project_settings_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["ProjectSettings"];
+	JSClassID class_id = classes["_ProjectSettings"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -31,7 +31,8 @@ static JSValue project_settings_class_constructor(JSContext *ctx, JSValueConst n
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, project_settings_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(project_settings_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -126,9 +127,10 @@ static const JSCFunctionListEntry project_settings_class_proto_funcs[] = {
 
 
 
-static int js_project_settings_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["ProjectSettings"];
-	classes["ProjectSettings"] = class_id;
+static int js_project_settings_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_ProjectSettings"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &project_settings_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -142,12 +144,20 @@ static int js_project_settings_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "ProjectSettings", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "ProjectSettings", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_project_settings_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_project_settings_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "ProjectSettings");
+	return m;
+}
+
 void register_project_settings() {
-	js_project_settings_class_init(js_context());
+	_js_init_project_settings_module(js_context(), "@godot/classes/project_settings");
 }

@@ -22,7 +22,7 @@ static JSClassDef resource_loader_class_def = {
 };
 
 static JSValue resource_loader_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["ResourceLoader"];
+	JSClassID class_id = classes["_ResourceLoader"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -33,7 +33,8 @@ static JSValue resource_loader_class_constructor(JSContext *ctx, JSValueConst ne
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, resource_loader_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(resource_loader_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -103,9 +104,10 @@ static const JSCFunctionListEntry resource_loader_class_proto_funcs[] = {
 
 
 
-static int js_resource_loader_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["ResourceLoader"];
-	classes["ResourceLoader"] = class_id;
+static int js_resource_loader_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_ResourceLoader"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &resource_loader_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -119,12 +121,20 @@ static int js_resource_loader_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "ResourceLoader", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "ResourceLoader", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_resource_loader_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_resource_loader_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "ResourceLoader");
+	return m;
+}
+
 void register_resource_loader() {
-	js_resource_loader_class_init(js_context());
+	_js_init_resource_loader_module(js_context(), "@godot/classes/resource_loader");
 }

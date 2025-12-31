@@ -20,7 +20,7 @@ static JSClassDef resource_uid_class_def = {
 };
 
 static JSValue resource_uid_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["ResourceUID"];
+	JSClassID class_id = classes["_ResourceUID"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -31,7 +31,8 @@ static JSValue resource_uid_class_constructor(JSContext *ctx, JSValueConst new_t
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, resource_uid_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(resource_uid_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -95,9 +96,10 @@ static const JSCFunctionListEntry resource_uid_class_static_funcs[] = {
 
 
 
-static int js_resource_uid_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["ResourceUID"];
-	classes["ResourceUID"] = class_id;
+static int js_resource_uid_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_ResourceUID"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &resource_uid_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -112,12 +114,20 @@ static int js_resource_uid_class_init(JSContext *ctx) {
 
 	JS_SetPropertyFunctionList(ctx, ctor, resource_uid_class_static_funcs, _countof(resource_uid_class_static_funcs));
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "ResourceUID", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "ResourceUID", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_resource_uid_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_resource_uid_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "ResourceUID");
+	return m;
+}
+
 void register_resource_uid() {
-	js_resource_uid_class_init(js_context());
+	_js_init_resource_uid_module(js_context(), "@godot/classes/resource_uid");
 }

@@ -10,7 +10,7 @@
 using namespace godot;
 
 TypeScriptLanguage *TypeScriptLanguage::singleton;
-HashSet<Ref<TypeScript>> TypeScriptLanguage::scripts;
+HashSet<TypeScript *> TypeScriptLanguage::scripts;
 
 TypeScriptLanguage *TypeScriptLanguage::get_singleton() {
 	if (singleton) {
@@ -44,35 +44,34 @@ void TypeScriptLanguage::_init() {
 	// macOS / Linux: Run tsc --version using sh -c
 	check_args.push_back("-c");
 	// Note: If PATH is not configured correctly, this might return non-zero (e.g., 127 command not found)
-	check_args.push_back("tsc --version"); 
+	check_args.push_back("tsc --version");
 	exit_code = os->execute("/bin/sh", check_args, output);
 #endif
 
 	// 2. Handle the result
 	if (exit_code != 0) {
 		// --- tsc not detected ---
-    
+
 		godot::String error_msg = "TypeScript (tsc) environment not detected!\n"
-								  "Please ensure Node.js is installed and run: npm install -g typescript";
-    
+				"Please ensure Node.js is installed and run: npm install -g typescript";
+
 		// Method A: Output to Godot console (red error)
 		godot::UtilityFunctions::printerr(error_msg);
-    
+
 		// Method B: System alert popup (Recommended for visibility)
 		os->alert(error_msg, "Environment Configuration Error");
-
 	} else {
 		godot::UtilityFunctions::print("TypeScript environment check passed. Starting watch process...");
-    
+
 		godot::PackedStringArray run_args;
-    
+
 #if defined(_WIN32)
 		run_args.push_back("/c");
 		// 修正：去掉 "tsconfig.json"，tsc 会自动在当前目录寻找配置文件
 		// 如果非要指定，必须写成 "tsc --watch -p tsconfig.json"
-		run_args.push_back("tsc --watch"); 
+		run_args.push_back("tsc --watch");
 		tsc_process = os->create_process("cmd.exe", run_args);
-        
+
 #elif defined(__APPLE__) || defined(__linux__)
 		run_args.push_back("-c");
 		// 修正：同上，直接运行 tsc --watch 即可
@@ -291,9 +290,7 @@ TypedArray<Dictionary> TypeScriptLanguage::_debug_get_current_stack_info() {
 
 void TypeScriptLanguage::_reload_all_scripts() {
 	for (auto script : scripts) {
-		if (script.is_valid()) {
-			script->analyze();
-		}
+		script->analyze();
 	}
 	TypeScript::compile();
 }
@@ -358,15 +355,15 @@ Dictionary TypeScriptLanguage::_get_global_class_name(const String &p_path) cons
 	return dict;
 }
 
-HashSet<Ref<TypeScript>> TypeScriptLanguage::get_scripts() {
+HashSet<TypeScript *> TypeScriptLanguage::get_scripts() {
 	return scripts;
 }
 
 void TypeScriptLanguage::compile_scripts() {
-	int exit_code = OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json" });
-	auto it  = scripts.begin();
+	OS::get_singleton()->execute("cmd.exe", { "/c", "tsc", "--build", "tsconfig.json" });
+	auto it = scripts.begin();
 	while (it != scripts.end()) {
-		if (it->is_valid() && !(*it)->get_path().ends_with(".d.ts")) {
+		if (it && !(*it)->get_path().ends_with(".d.ts")) {
 			(*it)->compile_module();
 		}
 		++it;

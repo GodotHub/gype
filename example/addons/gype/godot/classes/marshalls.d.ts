@@ -15,6 +15,4 @@ export declare class _Marshalls extends GodotObject {
 
 }
 
-declare global {
-    const Marshalls: _Marshalls
-}
+export const Marshalls: _Marshalls;

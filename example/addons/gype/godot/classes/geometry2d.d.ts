@@ -51,6 +51,4 @@ export declare class _Geometry2D extends GodotObject {
     };
 }
 
-declare global {
-    const Geometry2D: _Geometry2D
-}
+export const Geometry2D: _Geometry2D;

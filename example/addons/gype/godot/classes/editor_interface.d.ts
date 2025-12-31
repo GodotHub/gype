@@ -94,6 +94,4 @@ export declare class _EditorInterface extends GodotObject {
 
 }
 
-declare global {
-    const EditorInterface: _EditorInterface
-}
+export const EditorInterface: _EditorInterface;

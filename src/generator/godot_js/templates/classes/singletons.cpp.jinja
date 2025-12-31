@@ -46,7 +46,7 @@ static JSClassDef {{snake_name}}_class_def = {
 };
 
 static JSValue {{snake_name}}_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["{{clazz_name}}"];
+	JSClassID class_id = classes["_{{clazz_name}}"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -61,7 +61,8 @@ static JSValue {{snake_name}}_class_constructor(JSContext *ctx, JSValueConst new
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, {{snake_name}}_class);
+	VariantAdapter *adapter = memnew(VariantAdapter({{snake_name}}_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 {% macro get_const(method) %}
@@ -120,9 +121,10 @@ static const JSCFunctionListEntry {{snake_name}}_class_static_funcs[] = {
 {% endif %}
 
 
-static int js_{{snake_name}}_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["{{ clazz_name }}"];
-	classes["{{clazz_name}}"] = class_id;
+static int js_{{snake_name}}_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_{{clazz_name}}"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &{{snake_name}}_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -143,12 +145,20 @@ static int js_{{snake_name}}_class_init(JSContext *ctx) {
 	JS_SetPropertyFunctionList(ctx, ctor, {{snake_name}}_class_static_funcs, _countof({{snake_name}}_class_static_funcs));
 	{% endif %}
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "{{clazz_name}}", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "{{ clazz_name }}", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_{{ snake_name }}_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_{{ snake_name }}_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "{{ clazz_name }}");
+	return m;
+}
+
 void register_{{ snake_name }}() {
-	js_{{snake_name}}_class_init(js_context());
+	_js_init_{{snake_name}}_module(js_context(), "@godot/classes/{{snake_name}}");
 }

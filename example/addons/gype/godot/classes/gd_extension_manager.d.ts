@@ -27,6 +27,4 @@ export declare class _GDExtensionManager extends GodotObject {
     };
 }
 
-declare global {
-    const GDExtensionManager: _GDExtensionManager
-}
+export const GDExtensionManager: _GDExtensionManager;

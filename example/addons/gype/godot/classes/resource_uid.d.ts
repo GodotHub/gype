@@ -21,6 +21,4 @@ export declare class _ResourceUID extends GodotObject {
 
 }
 
-declare global {
-    const ResourceUID: _ResourceUID
-}
+export const ResourceUID: _ResourceUID;

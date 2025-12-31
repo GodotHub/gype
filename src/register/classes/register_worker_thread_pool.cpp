@@ -20,7 +20,7 @@ static JSClassDef worker_thread_pool_class_def = {
 };
 
 static JSValue worker_thread_pool_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["WorkerThreadPool"];
+	JSClassID class_id = classes["_WorkerThreadPool"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -31,7 +31,8 @@ static JSValue worker_thread_pool_class_constructor(JSContext *ctx, JSValueConst
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, worker_thread_pool_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(worker_thread_pool_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -79,9 +80,10 @@ static const JSCFunctionListEntry worker_thread_pool_class_proto_funcs[] = {
 
 
 
-static int js_worker_thread_pool_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["WorkerThreadPool"];
-	classes["WorkerThreadPool"] = class_id;
+static int js_worker_thread_pool_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_WorkerThreadPool"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &worker_thread_pool_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -95,12 +97,20 @@ static int js_worker_thread_pool_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "WorkerThreadPool", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "WorkerThreadPool", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_worker_thread_pool_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_worker_thread_pool_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "WorkerThreadPool");
+	return m;
+}
+
 void register_worker_thread_pool() {
-	js_worker_thread_pool_class_init(js_context());
+	_js_init_worker_thread_pool_module(js_context(), "@godot/classes/worker_thread_pool");
 }

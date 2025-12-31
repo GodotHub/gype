@@ -46,6 +46,4 @@ export declare class _ClassDB extends GodotObject {
     };
 }
 
-declare global {
-    const ClassDB: _ClassDB
-}
+export const ClassDB: _ClassDB;

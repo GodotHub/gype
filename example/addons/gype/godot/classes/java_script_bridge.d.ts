@@ -22,6 +22,4 @@ export declare class _JavaScriptBridge extends GodotObject {
 
 }
 
-declare global {
-    const JavaScriptBridge: _JavaScriptBridge
-}
+export const JavaScriptBridge: _JavaScriptBridge;

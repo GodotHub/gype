@@ -13,6 +13,4 @@ export declare class _JavaClassWrapper extends GodotObject {
 
 }
 
-declare global {
-    const JavaClassWrapper: _JavaClassWrapper
-}
+export const JavaClassWrapper: _JavaClassWrapper;

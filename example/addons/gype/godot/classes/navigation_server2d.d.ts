@@ -167,6 +167,4 @@ export declare class _NavigationServer2D extends GodotObject {
     };
 }
 
-declare global {
-    const NavigationServer2D: _NavigationServer2D
-}
+export const NavigationServer2D: _NavigationServer2D;

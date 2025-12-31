@@ -24,7 +24,7 @@ static JSClassDef theme_db_class_def = {
 };
 
 static JSValue theme_db_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["ThemeDB"];
+	JSClassID class_id = classes["_ThemeDB"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -35,7 +35,8 @@ static JSValue theme_db_class_constructor(JSContext *ctx, JSValueConst new_targe
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, theme_db_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(theme_db_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -99,9 +100,10 @@ static const JSCFunctionListEntry theme_db_class_proto_funcs[] = {
 
 
 
-static int js_theme_db_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["ThemeDB"];
-	classes["ThemeDB"] = class_id;
+static int js_theme_db_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_ThemeDB"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &theme_db_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -115,12 +117,20 @@ static int js_theme_db_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "ThemeDB", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "ThemeDB", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_theme_db_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_theme_db_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "ThemeDB");
+	return m;
+}
+
 void register_theme_db() {
-	js_theme_db_class_init(js_context());
+	_js_init_theme_db_module(js_context(), "@godot/classes/theme_db");
 }

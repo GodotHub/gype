@@ -21,7 +21,7 @@ static JSClassDef camera_server_class_def = {
 };
 
 static JSValue camera_server_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["CameraServer"];
+	JSClassID class_id = classes["_CameraServer"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -32,7 +32,8 @@ static JSValue camera_server_class_constructor(JSContext *ctx, JSValueConst new_
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, camera_server_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(camera_server_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -74,9 +75,10 @@ static const JSCFunctionListEntry camera_server_class_proto_funcs[] = {
 
 
 
-static int js_camera_server_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["CameraServer"];
-	classes["CameraServer"] = class_id;
+static int js_camera_server_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_CameraServer"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &camera_server_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -90,12 +92,20 @@ static int js_camera_server_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "CameraServer", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "CameraServer", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_camera_server_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_camera_server_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "CameraServer");
+	return m;
+}
+
 void register_camera_server() {
-	js_camera_server_class_init(js_context());
+	_js_init_camera_server_module(js_context(), "@godot/classes/camera_server");
 }

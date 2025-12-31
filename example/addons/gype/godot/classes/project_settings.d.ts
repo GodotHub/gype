@@ -30,6 +30,4 @@ export declare class _ProjectSettings extends GodotObject {
 
 }
 
-declare global {
-    const ProjectSettings: _ProjectSettings
-}
+export const ProjectSettings: _ProjectSettings;

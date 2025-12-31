@@ -7,6 +7,8 @@
 #include "support/typescript_language.hpp"
 #include "utils/quickjs_helper.hpp"
 
+#include <tree.h>
+
 #include <format>
 #include <functional>
 #include <godot_cpp/classes/dir_access.hpp>
@@ -45,7 +47,7 @@ void TypeScript::_placeholder_erased(void *p_placeholder) {
 
 bool TypeScript::_can_instantiate() const {
 	this->analyze();
-	return godot_class_data;
+	return is_valid && godot_class_data;
 }
 
 Ref<Script> TypeScript::_get_base_script() const {
@@ -99,9 +101,7 @@ void *TypeScript::_instance_create(Object *p_for_object) const {
 }
 
 void *TypeScript::_placeholder_instance_create(Object *p_for_object) const {
-	TypeScriptInstance *instance = memnew(TypeScriptInstance(p_for_object, const_cast<TypeScript *>(this), true));
-	this->script_placeholders.insert(instance);
-	return internal::gdextension_interface_script_instance_create3(&InstanceInfo, instance);
+	return internal::gdextension_interface_placeholder_script_instance_create(TypeScriptLanguage::get_singleton(), const_cast<TypeScript *>(this), p_for_object->_owner);
 }
 
 bool TypeScript::_instance_has(Object *p_object) const {
@@ -482,6 +482,10 @@ bool TypeScript::analyze_internal(const String &path) const {
 	const char *p_code = to_chars(code);
 
 	TSTree *tree = ts_parser_parse_string(parser, NULL, p_code, strlen(p_code));
+
+	if (ts_node_has_error(ts_tree_root_node(tree))) {
+		return false;
+	}
 
 	HashMap<StringName, String> dependencies;
 	{
@@ -889,7 +893,7 @@ bool TypeScript::_has_script_signal(const StringName &p_signal) const {
 TypedArray<Dictionary> TypeScript::_get_script_signal_list() const {
 	this->analyze();
 	if (godot_class_data == nullptr) {
-		return Array();
+		return {};
 	}
 	TypedArray<Dictionary> list;
 	Ref<TypeScript> base = _get_base_script();
@@ -921,7 +925,7 @@ Variant TypeScript::_get_property_default_value(const StringName &p_property) co
 		if (base.is_valid()) {
 			return base->_get_property_default_value(p_property);
 		} else {
-			return Variant();
+			return {};
 		}
 	}
 }
@@ -933,7 +937,7 @@ void TypeScript::_update_exports() {
 TypedArray<Dictionary> TypeScript::_get_script_method_list() const {
 	this->analyze();
 	if (godot_class_data == nullptr) {
-		return Array();
+		return {};
 	}
 	TypedArray<Dictionary> list;
 	Ref<TypeScript> base = _get_base_script();
@@ -949,7 +953,7 @@ TypedArray<Dictionary> TypeScript::_get_script_method_list() const {
 TypedArray<Dictionary> TypeScript::_get_script_property_list() const {
 	this->analyze();
 	if (godot_class_data == nullptr) {
-		return Array();
+		return {};
 	}
 	TypedArray<Dictionary> list;
 	Ref<TypeScript> base = _get_base_script();
@@ -973,7 +977,7 @@ Dictionary TypeScript::_get_constants() const {
 TypedArray<StringName> TypeScript::_get_members() const {
 	this->analyze();
 	if (godot_class_data == nullptr) {
-		return Array();
+		return {};
 	}
 	TypedArray<StringName> members;
 	Ref<TypeScript> base = _get_base_script();

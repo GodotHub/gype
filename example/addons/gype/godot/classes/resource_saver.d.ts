@@ -27,6 +27,4 @@ export declare class _ResourceSaver extends GodotObject {
     };
 }
 
-declare global {
-    const ResourceSaver: _ResourceSaver
-}
+export const ResourceSaver: _ResourceSaver;

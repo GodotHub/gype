@@ -20,7 +20,7 @@ static JSClassDef ip_class_def = {
 };
 
 static JSValue ip_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["IP"];
+	JSClassID class_id = classes["_IP"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -31,7 +31,8 @@ static JSValue ip_class_constructor(JSContext *ctx, JSValueConst new_target, int
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, ip_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(ip_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -84,9 +85,10 @@ static const JSCFunctionListEntry ip_class_proto_funcs[] = {
 
 
 
-static int js_ip_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["IP"];
-	classes["IP"] = class_id;
+static int js_ip_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_IP"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &ip_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -100,12 +102,20 @@ static int js_ip_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "IP", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "IP", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_ip_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_ip_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "IP");
+	return m;
+}
+
 void register_ip() {
-	js_ip_class_init(js_context());
+	_js_init_ip_module(js_context(), "@godot/classes/ip");
 }

@@ -22,7 +22,7 @@ static JSClassDef input_class_def = {
 };
 
 static JSValue input_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["Input"];
+	JSClassID class_id = classes["_Input"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -33,7 +33,8 @@ static JSValue input_class_constructor(JSContext *ctx, JSValueConst new_target, 
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, input_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(input_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -288,9 +289,10 @@ static const JSCFunctionListEntry input_class_proto_funcs[] = {
 
 
 
-static int js_input_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["Input"];
-	classes["Input"] = class_id;
+static int js_input_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_Input"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &input_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -304,12 +306,20 @@ static int js_input_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "Input", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "Input", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_input_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_input_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "Input");
+	return m;
+}
+
 void register_input() {
-	js_input_class_init(js_context());
+	_js_init_input_module(js_context(), "@godot/classes/input");
 }

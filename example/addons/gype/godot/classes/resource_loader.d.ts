@@ -38,6 +38,4 @@ export declare class _ResourceLoader extends GodotObject {
     };
 }
 
-declare global {
-    const ResourceLoader: _ResourceLoader
-}
+export const ResourceLoader: _ResourceLoader;

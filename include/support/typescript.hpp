@@ -46,7 +46,6 @@ class TypeScript : public ScriptExtension {
 	String dist_source_code = "";
 	mutable TypeScript *base_script = nullptr;
 	mutable StringName base_script_path = "";
-	mutable HashSet<Ref<TypeScript>> interface_scripts;
 	mutable bool dirty = true;
     mutable bool is_valid = false;
 	mutable ClassData *godot_class_data = nullptr;

@@ -21,7 +21,7 @@ static JSClassDef text_server_manager_class_def = {
 };
 
 static JSValue text_server_manager_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["TextServerManager"];
+	JSClassID class_id = classes["_TextServerManager"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -32,7 +32,8 @@ static JSValue text_server_manager_class_constructor(JSContext *ctx, JSValueCons
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, text_server_manager_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(text_server_manager_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -78,9 +79,10 @@ static const JSCFunctionListEntry text_server_manager_class_proto_funcs[] = {
 
 
 
-static int js_text_server_manager_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["TextServerManager"];
-	classes["TextServerManager"] = class_id;
+static int js_text_server_manager_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_TextServerManager"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &text_server_manager_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -94,12 +96,20 @@ static int js_text_server_manager_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "TextServerManager", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "TextServerManager", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_text_server_manager_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_text_server_manager_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "TextServerManager");
+	return m;
+}
+
 void register_text_server_manager() {
-	js_text_server_manager_class_init(js_context());
+	_js_init_text_server_manager_module(js_context(), "@godot/classes/text_server_manager");
 }

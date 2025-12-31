@@ -65,6 +65,4 @@ export declare class _XRServer extends GodotObject {
     };
 }
 
-declare global {
-    const XRServer: _XRServer
-}
+export const XRServer: _XRServer;

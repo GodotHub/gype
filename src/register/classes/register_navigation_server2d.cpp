@@ -25,7 +25,7 @@ static JSClassDef navigation_server2d_class_def = {
 };
 
 static JSValue navigation_server2d_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["NavigationServer2D"];
+	JSClassID class_id = classes["_NavigationServer2D"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -36,7 +36,8 @@ static JSValue navigation_server2d_class_constructor(JSContext *ctx, JSValueCons
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, navigation_server2d_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(navigation_server2d_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -654,9 +655,10 @@ static const JSCFunctionListEntry navigation_server2d_class_proto_funcs[] = {
 
 
 
-static int js_navigation_server2d_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["NavigationServer2D"];
-	classes["NavigationServer2D"] = class_id;
+static int js_navigation_server2d_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_NavigationServer2D"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &navigation_server2d_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -670,12 +672,20 @@ static int js_navigation_server2d_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "NavigationServer2D", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "NavigationServer2D", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_navigation_server2d_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_navigation_server2d_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "NavigationServer2D");
+	return m;
+}
+
 void register_navigation_server2d() {
-	js_navigation_server2d_class_init(js_context());
+	_js_init_navigation_server2d_module(js_context(), "@godot/classes/navigation_server2d");
 }

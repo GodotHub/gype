@@ -66,6 +66,4 @@ export declare class _Engine extends GodotObject {
 
 }
 
-declare global {
-    const Engine: _Engine
-}
+export const Engine: _Engine;

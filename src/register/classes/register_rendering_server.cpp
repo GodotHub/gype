@@ -22,7 +22,7 @@ static JSClassDef rendering_server_class_def = {
 };
 
 static JSValue rendering_server_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["RenderingServer"];
+	JSClassID class_id = classes["_RenderingServer"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -33,7 +33,8 @@ static JSValue rendering_server_class_constructor(JSContext *ctx, JSValueConst n
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, rendering_server_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(rendering_server_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -2505,9 +2506,10 @@ static const JSCFunctionListEntry rendering_server_class_proto_funcs[] = {
 
 
 
-static int js_rendering_server_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["RenderingServer"];
-	classes["RenderingServer"] = class_id;
+static int js_rendering_server_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_RenderingServer"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &rendering_server_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -2521,12 +2523,20 @@ static int js_rendering_server_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "RenderingServer", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "RenderingServer", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_rendering_server_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_rendering_server_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "RenderingServer");
+	return m;
+}
+
 void register_rendering_server() {
-	js_rendering_server_class_init(js_context());
+	_js_init_rendering_server_module(js_context(), "@godot/classes/rendering_server");
 }

@@ -22,7 +22,7 @@ static JSClassDef java_class_wrapper_class_def = {
 };
 
 static JSValue java_class_wrapper_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["JavaClassWrapper"];
+	JSClassID class_id = classes["_JavaClassWrapper"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -33,7 +33,8 @@ static JSValue java_class_wrapper_class_constructor(JSContext *ctx, JSValueConst
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, java_class_wrapper_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(java_class_wrapper_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -52,9 +53,10 @@ static const JSCFunctionListEntry java_class_wrapper_class_proto_funcs[] = {
 
 
 
-static int js_java_class_wrapper_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["JavaClassWrapper"];
-	classes["JavaClassWrapper"] = class_id;
+static int js_java_class_wrapper_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_JavaClassWrapper"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &java_class_wrapper_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -68,12 +70,20 @@ static int js_java_class_wrapper_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "JavaClassWrapper", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "JavaClassWrapper", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_java_class_wrapper_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_java_class_wrapper_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "JavaClassWrapper");
+	return m;
+}
+
 void register_java_class_wrapper() {
-	js_java_class_wrapper_class_init(js_context());
+	_js_init_java_class_wrapper_module(js_context(), "@godot/classes/java_class_wrapper");
 }

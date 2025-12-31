@@ -24,6 +24,4 @@ export declare class _Geometry3D extends GodotObject {
 
 }
 
-declare global {
-    const Geometry3D: _Geometry3D
-}
+export const Geometry3D: _Geometry3D;

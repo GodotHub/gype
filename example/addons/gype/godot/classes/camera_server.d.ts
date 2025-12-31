@@ -29,6 +29,4 @@ export declare class _CameraServer extends GodotObject {
     };
 }
 
-declare global {
-    const CameraServer: _CameraServer
-}
+export const CameraServer: _CameraServer;

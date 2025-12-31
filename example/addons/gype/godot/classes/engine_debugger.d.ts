@@ -34,6 +34,4 @@ export declare class _EngineDebugger extends GodotObject {
 
 }
 
-declare global {
-    const EngineDebugger: _EngineDebugger
-}
+export const EngineDebugger: _EngineDebugger;

@@ -12,7 +12,8 @@ from utils.generation_utils import (
     generate_main_registration_file,
     sort_classes_by_inheritance,
     camel_to_snake,
-    generate_global_enum
+    generate_global_enum,
+    generate_singelton
 )
 
 
@@ -297,7 +298,8 @@ def main():
         'get_import_path': bound_get_import_path,
         'get_class_name': ts_get_class_name,
         'snake_to_camel': snake_to_camel,
-        'get_property_type': ts_get_property_type
+        'get_property_type': ts_get_property_type,
+        'camel_to_snake': camel_to_snake
     }
 
     env = setup_jinja_env(ts_template_dir, custom_globals=ts_helpers)
@@ -331,6 +333,7 @@ def main():
             get_class_union_type = ts_get_class_union_type
         )
 
+
     print("\nGenerating globals.d.ts for UtilityFunctions...")
     generate_main_registration_file(
         items=utility_functions,
@@ -340,7 +343,7 @@ def main():
         context_key='utility_functions',  # 确保上下文键正确
         utility_functions=utility_functions  # 传递两次以防万一
     )
-    
+
     generate_global_enum(
         enums=global_enums,
         template_path='global_enums.d.ts.jinja',
@@ -348,6 +351,15 @@ def main():
         output_dir=output_root_dir / "builtins",
         jinja_env=env
     )
+
+    # generate_singelton(
+    #     singletons=singletons,
+    #     template_path="singletons.ts.jinja",
+    #     filename="singletons.ts",
+    #     output_dir=output_root_dir / "core",
+    #     jinja_env=env
+    # )
+
     # --- [BUG FIX 4: 移除重复的调用] ---
     # 下面的代码块是多余的，并且错误地覆盖了 globals.d.ts。
     # print("\nGenerating main index.d.ts...")

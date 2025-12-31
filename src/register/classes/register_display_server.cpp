@@ -23,7 +23,7 @@ static JSClassDef display_server_class_def = {
 };
 
 static JSValue display_server_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["DisplayServer"];
+	JSClassID class_id = classes["_DisplayServer"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -34,7 +34,8 @@ static JSValue display_server_class_constructor(JSContext *ctx, JSValueConst new
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, display_server_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(display_server_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -1262,9 +1263,10 @@ static const JSCFunctionListEntry display_server_class_proto_funcs[] = {
 
 
 
-static int js_display_server_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["DisplayServer"];
-	classes["DisplayServer"] = class_id;
+static int js_display_server_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_DisplayServer"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &display_server_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -1278,12 +1280,20 @@ static int js_display_server_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "DisplayServer", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "DisplayServer", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_display_server_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_display_server_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "DisplayServer");
+	return m;
+}
+
 void register_display_server() {
-	js_display_server_class_init(js_context());
+	_js_init_display_server_module(js_context(), "@godot/classes/display_server");
 }

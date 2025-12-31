@@ -20,7 +20,7 @@ static JSClassDef geometry3d_class_def = {
 };
 
 static JSValue geometry3d_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["Geometry3D"];
+	JSClassID class_id = classes["_Geometry3D"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -31,7 +31,8 @@ static JSValue geometry3d_class_constructor(JSContext *ctx, JSValueConst new_tar
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, geometry3d_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(geometry3d_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -102,9 +103,10 @@ static const JSCFunctionListEntry geometry3d_class_proto_funcs[] = {
 
 
 
-static int js_geometry3d_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["Geometry3D"];
-	classes["Geometry3D"] = class_id;
+static int js_geometry3d_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_Geometry3D"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &geometry3d_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -118,12 +120,20 @@ static int js_geometry3d_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "Geometry3D", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "Geometry3D", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_geometry3d_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_geometry3d_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "Geometry3D");
+	return m;
+}
+
 void register_geometry3d() {
-	js_geometry3d_class_init(js_context());
+	_js_init_geometry3d_module(js_context(), "@godot/classes/geometry3d");
 }

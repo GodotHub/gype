@@ -53,6 +53,4 @@ export declare class _Time extends GodotObject {
     };
 }
 
-declare global {
-    const Time: _Time
-}
+export const Time: _Time;

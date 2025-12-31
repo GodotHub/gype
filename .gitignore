@@ -2,6 +2,7 @@
 build/
 node_modules/
 example/addons/gype/dist
+bin
 
 # Object files and temporary files
 *.o
@@ -15,6 +16,7 @@ example/addons/gype/dist
 *.os
 *.lib
 *.pdb
+*.dylib
 .idea
 .sconsign.dblite
 
@@ -46,8 +48,3 @@ example/addons/extension/*.dll
 # !src/register/classes/.keep
 # src/register/global_enum/*
 # !src/register/global_enum/.keep
-
-.vs
-.idea
-bin
-*.dylib

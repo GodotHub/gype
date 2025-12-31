@@ -16,6 +16,4 @@ export declare class _NavigationMeshGenerator extends GodotObject {
 
 }
 
-declare global {
-    const NavigationMeshGenerator: _NavigationMeshGenerator
-}
+export const NavigationMeshGenerator: _NavigationMeshGenerator;

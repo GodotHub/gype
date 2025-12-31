@@ -37,15 +37,10 @@ static void init_ts_support() {
 }
 
 void initialize_gype_types(ModuleInitializationLevel p_level) {
-	if (p_level == ModuleInitializationLevel::MODULE_INITIALIZATION_LEVEL_CORE) {
-		init_quickjs();
-	}
 	if (p_level == ModuleInitializationLevel::MODULE_INITIALIZATION_LEVEL_SCENE) {
-		GDREGISTER_CLASS(EventLoop);
+		init_quickjs();
 		init_ts_support();
-	}
-	if (p_level == ModuleInitializationLevel::MODULE_INITIALIZATION_LEVEL_EDITOR) {
-		GDREGISTER_CLASS(GypePlugin);
+		GDREGISTER_CLASS(EventLoop);
 	}
 }
 

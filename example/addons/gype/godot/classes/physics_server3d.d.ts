@@ -375,6 +375,4 @@ export declare class _PhysicsServer3D extends GodotObject {
     };
 }
 
-declare global {
-    const PhysicsServer3D: _PhysicsServer3D
-}
+export const PhysicsServer3D: _PhysicsServer3D;

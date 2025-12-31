@@ -18,6 +18,4 @@ export declare class _WorkerThreadPool extends GodotObject {
 
 }
 
-declare global {
-    const WorkerThreadPool: _WorkerThreadPool
-}
+export const WorkerThreadPool: _WorkerThreadPool;

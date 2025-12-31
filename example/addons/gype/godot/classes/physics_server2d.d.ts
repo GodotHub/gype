@@ -243,6 +243,4 @@ export declare class _PhysicsServer2D extends GodotObject {
     };
 }
 
-declare global {
-    const PhysicsServer2D: _PhysicsServer2D
-}
+export const PhysicsServer2D: _PhysicsServer2D;

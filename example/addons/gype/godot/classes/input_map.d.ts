@@ -24,6 +24,4 @@ export declare class _InputMap extends GodotObject {
 
 }
 
-declare global {
-    const InputMap: _InputMap
-}
+export const InputMap: _InputMap;

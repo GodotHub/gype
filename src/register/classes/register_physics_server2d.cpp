@@ -24,7 +24,7 @@ static JSClassDef physics_server2d_class_def = {
 };
 
 static JSValue physics_server2d_class_constructor(JSContext *ctx, JSValueConst new_target, int argc, JSValueConst *argv) {
-	JSClassID class_id = classes["PhysicsServer2D"];
+	JSClassID class_id = classes["_PhysicsServer2D"];
 	JSValue obj = JS_NewObjectClass(ctx, class_id);
 	if (JS_IsException(obj))
 		return obj;
@@ -35,7 +35,8 @@ static JSValue physics_server2d_class_constructor(JSContext *ctx, JSValueConst n
 		return JS_EXCEPTION;
 	}
 
-	JS_SetOpaque(obj, physics_server2d_class);
+	VariantAdapter *adapter = memnew(VariantAdapter(physics_server2d_class));
+	JS_SetOpaque(obj, adapter);
 	return obj;
 }
 
@@ -588,9 +589,10 @@ static const JSCFunctionListEntry physics_server2d_class_proto_funcs[] = {
 
 
 
-static int js_physics_server2d_class_init(JSContext *ctx) {
-	JSClassID class_id = classes["PhysicsServer2D"];
-	classes["PhysicsServer2D"] = class_id;
+static int js_physics_server2d_class_init(JSContext *ctx, JSModuleDef *m){
+	JSClassID class_id = 0;
+	class_id = JS_NewClassID(js_runtime(), &class_id);
+	classes["_PhysicsServer2D"] = class_id;
 	JS_NewClass(JS_GetRuntime(ctx), class_id, &physics_server2d_class_def);
 
 	JSValue proto = JS_NewObject(ctx);
@@ -604,12 +606,20 @@ static int js_physics_server2d_class_init(JSContext *ctx) {
 	JS_SetConstructor(ctx, ctor, proto);
 
 
-	JSValue global = JS_GetGlobalObject(ctx);
-	JS_SetPropertyStr(ctx, global, "PhysicsServer2D", ctor);
-	JS_FreeValue(ctx, global);
+    JSValue singleton = JS_CallConstructor(ctx, ctor, 0, {});
+	JS_SetModuleExport(ctx, m, "PhysicsServer2D", singleton);
+
 	return 0;
 }
 
+JSModuleDef *_js_init_physics_server2d_module(JSContext *ctx, const char *module_name) {
+	JSModuleDef *m = JS_NewCModule(ctx, module_name, js_physics_server2d_class_init);
+	if (!m)
+		return NULL;
+	JS_AddModuleExport(ctx, m, "PhysicsServer2D");
+	return m;
+}
+
 void register_physics_server2d() {
-	js_physics_server2d_class_init(js_context());
+	_js_init_physics_server2d_module(js_context(), "@godot/classes/physics_server2d");
 }

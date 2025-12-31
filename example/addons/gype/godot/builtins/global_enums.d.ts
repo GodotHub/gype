@@ -1,37 +1,37 @@
 declare global {
-  Side = {
+  let Side = {
     SIDE_LEFT: 0,
     SIDE_TOP: 1,
     SIDE_RIGHT: 2,
     SIDE_BOTTOM: 3,
   }
-  Corner = {
+  let Corner = {
     CORNER_TOP_LEFT: 0,
     CORNER_TOP_RIGHT: 1,
     CORNER_BOTTOM_RIGHT: 2,
     CORNER_BOTTOM_LEFT: 3,
   }
-  Orientation = {
+  let Orientation = {
     VERTICAL: 1,
     HORIZONTAL: 0,
   }
-  ClockDirection = {
+  let ClockDirection = {
     CLOCKWISE: 0,
     COUNTERCLOCKWISE: 1,
   }
-  HorizontalAlignment = {
+  let HorizontalAlignment = {
     HORIZONTAL_ALIGNMENT_LEFT: 0,
     HORIZONTAL_ALIGNMENT_CENTER: 1,
     HORIZONTAL_ALIGNMENT_RIGHT: 2,
     HORIZONTAL_ALIGNMENT_FILL: 3,
   }
-  VerticalAlignment = {
+  let VerticalAlignment = {
     VERTICAL_ALIGNMENT_TOP: 0,
     VERTICAL_ALIGNMENT_CENTER: 1,
     VERTICAL_ALIGNMENT_BOTTOM: 2,
     VERTICAL_ALIGNMENT_FILL: 3,
   }
-  InlineAlignment = {
+  let InlineAlignment = {
     INLINE_ALIGNMENT_TOP_TO: 0,
     INLINE_ALIGNMENT_CENTER_TO: 1,
     INLINE_ALIGNMENT_BASELINE_TO: 3,
@@ -46,7 +46,7 @@ declare global {
     INLINE_ALIGNMENT_IMAGE_MASK: 3,
     INLINE_ALIGNMENT_TEXT_MASK: 12,
   }
-  EulerOrder = {
+  let EulerOrder = {
     EULER_ORDER_XYZ: 0,
     EULER_ORDER_XZY: 1,
     EULER_ORDER_YXZ: 2,
@@ -54,7 +54,7 @@ declare global {
     EULER_ORDER_ZXY: 4,
     EULER_ORDER_ZYX: 5,
   }
-  Key = {
+  let Key = {
     KEY_NONE: 0,
     KEY_SPECIAL: 4194304,
     KEY_ESCAPE: 4194305,
@@ -249,7 +249,7 @@ declare global {
     KEY_YEN: 165,
     KEY_SECTION: 167,
   }
-  KeyModifierMask = {
+  let KeyModifierMask = {
     KEY_CODE_MASK: 8388607,
     KEY_MODIFIER_MASK: 2130706432,
     KEY_MASK_CMD_OR_CTRL: 16777216,
@@ -260,12 +260,12 @@ declare global {
     KEY_MASK_KPAD: 536870912,
     KEY_MASK_GROUP_SWITCH: 1073741824,
   }
-  KeyLocation = {
+  let KeyLocation = {
     KEY_LOCATION_UNSPECIFIED: 0,
     KEY_LOCATION_LEFT: 1,
     KEY_LOCATION_RIGHT: 2,
   }
-  MouseButton = {
+  let MouseButton = {
     MOUSE_BUTTON_NONE: 0,
     MOUSE_BUTTON_LEFT: 1,
     MOUSE_BUTTON_RIGHT: 2,
@@ -277,14 +277,14 @@ declare global {
     MOUSE_BUTTON_XBUTTON1: 8,
     MOUSE_BUTTON_XBUTTON2: 9,
   }
-  MouseButtonMask = {
+  let MouseButtonMask = {
     MOUSE_BUTTON_MASK_LEFT: 1,
     MOUSE_BUTTON_MASK_RIGHT: 2,
     MOUSE_BUTTON_MASK_MIDDLE: 4,
     MOUSE_BUTTON_MASK_MB_XBUTTON1: 128,
     MOUSE_BUTTON_MASK_MB_XBUTTON2: 256,
   }
-  JoyButton = {
+  let JoyButton = {
     JOY_BUTTON_INVALID: -1,
     JOY_BUTTON_A: 0,
     JOY_BUTTON_B: 1,
@@ -310,7 +310,7 @@ declare global {
     JOY_BUTTON_SDL_MAX: 21,
     JOY_BUTTON_MAX: 128,
   }
-  JoyAxis = {
+  let JoyAxis = {
     JOY_AXIS_INVALID: -1,
     JOY_AXIS_LEFT_X: 0,
     JOY_AXIS_LEFT_Y: 1,
@@ -321,7 +321,7 @@ declare global {
     JOY_AXIS_SDL_MAX: 6,
     JOY_AXIS_MAX: 10,
   }
-  MIDIMessage = {
+  let MIDIMessage = {
     MIDI_MESSAGE_NONE: 0,
     MIDI_MESSAGE_NOTE_OFF: 8,
     MIDI_MESSAGE_NOTE_ON: 9,
@@ -342,7 +342,7 @@ declare global {
     MIDI_MESSAGE_ACTIVE_SENSING: 254,
     MIDI_MESSAGE_SYSTEM_RESET: 255,
   }
-  Error = {
+  let Error = {
     OK: 0,
     FAILED: 1,
     ERR_UNAVAILABLE: 2,
@@ -393,7 +393,7 @@ declare global {
     ERR_BUG: 47,
     ERR_PRINTER_ON_FIRE: 48,
   }
-  PropertyHint = {
+  let PropertyHint = {
     PROPERTY_HINT_NONE: 0,
     PROPERTY_HINT_RANGE: 1,
     PROPERTY_HINT_ENUM: 2,
@@ -440,7 +440,7 @@ declare global {
     PROPERTY_HINT_FILE_PATH: 44,
     PROPERTY_HINT_MAX: 45,
   }
-  PropertyUsageFlags = {
+  let PropertyUsageFlags = {
     PROPERTY_USAGE_NONE: 0,
     PROPERTY_USAGE_STORAGE: 2,
     PROPERTY_USAGE_EDITOR: 4,
@@ -474,7 +474,7 @@ declare global {
     PROPERTY_USAGE_DEFAULT: 6,
     PROPERTY_USAGE_NO_EDITOR: 2,
   }
-  MethodFlags = {
+  let MethodFlags = {
     METHOD_FLAG_NORMAL: 1,
     METHOD_FLAG_EDITOR: 2,
     METHOD_FLAG_CONST: 4,

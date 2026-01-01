@@ -54,18 +54,12 @@ std::string camelToSnake(std::string input) {
 	return result;
 }
 
-const char *to_chars(const godot::String &input) {
-	std::string str = std::string(input.utf8().get_data());
-	char *chars = new char[str.size() * 4];
-	strcpy(chars, str.c_str());
-	return chars;
+std::string to_chars(const godot::String &input) {
+	return std::string(input.utf8().get_data());
 }
 
-const char *to_chars(const godot::StringName &input) {
-	std::string str = std::string(godot::String(input).utf8().get_data());
-	char *chars = new char[str.size() * 4];
-	strcpy(chars, str.c_str());
-	return chars;
+std::string to_chars(const godot::StringName &input) {
+	return std::string(godot::String(input).utf8().get_data());
 }
 
 String add_cache_buster_to_code_gd(const String& code, const String& version) {

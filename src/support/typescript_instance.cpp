@@ -48,8 +48,8 @@ HashMap<StringName, Variant> TypeScriptInstance::get_exported_values(JSValue thi
 		for (Dictionary prop : props) {
 			PropertyInfo info = PropertyInfo::from_dict(prop);
 			String prop_name = info.name;
-			const char *char_prop_name = to_chars(prop_name);
-			JSValue jsvalue = JS_GetPropertyStr(js_context(), this_obj, char_prop_name);
+			std::string std_prop_name = to_chars(prop_name);
+			JSValue jsvalue = JS_GetPropertyStr(js_context(), this_obj, std_prop_name.c_str());
 			Variant prop_value = jsvalue_to_variant(jsvalue);
 			values[prop_name] = prop_value;
 			JS_FreeValue(js_context(), jsvalue);
@@ -61,8 +61,8 @@ HashMap<StringName, Variant> TypeScriptInstance::get_exported_values(JSValue thi
 void TypeScriptInstance::replace_exported_values(JSValue this_obj, HashMap<StringName, Variant> exported_values) {
 	for (KeyValue<StringName, Variant> prop : exported_values) {
 	    String prop_name = String(prop.key);
-	    const char *char_prop = to_chars(prop_name);
-		JS_SetPropertyStr(js_context(), this_obj, char_prop, variant_to_jsvalue(prop.value));
+		std::string std_prop_name = to_chars(prop_name);
+		JS_SetPropertyStr(js_context(), this_obj, std_prop_name.c_str(), variant_to_jsvalue(prop.value));
 	}
 }
 
@@ -163,12 +163,14 @@ GDExtensionBool TypeScriptInstance::set(GDExtensionConstStringNamePtr p_name, GD
 		BINDING_VALID_V(false);
 		const String name = *reinterpret_cast<const StringName *>(p_name);
 		const String _name = name.substr(1);
+		std::string std_name;
 		const char *char_name;
 		if (name.begins_with("_")) {
-			char_name = to_chars(_name);
+			std_name = to_chars(_name);
 		} else {
-			char_name = to_chars(name);
+			std_name = to_chars(name);
 		}
+		char_name = std_name.c_str();
 		Variant variant = *reinterpret_cast<const Variant *>(p_variant);
 		if (Engine::get_singleton()->is_editor_hint()) {
 			PropertyParseResult parse_result = script->get_property_parse_result(name);
@@ -215,16 +217,16 @@ GDExtensionBool TypeScriptInstance::get(GDExtensionConstStringNamePtr p_name, GD
 		BINDING_VALID_V(false);
 		const String name = *reinterpret_cast<const StringName *>(p_name);
 		const String _name = name.substr(1);
-		const char *char_name;
+		std::string std_name;
 		if (name.begins_with("_")) {
-			char_name = to_chars(_name);
+			std_name = to_chars(_name);
 		} else {
-			char_name = to_chars(name);
+			std_name = to_chars(name);
 		}
-		JSAtom name_atom = JS_NewAtom(js_context(), char_name);
+		JSAtom name_atom = JS_NewAtom(js_context(), std_name.c_str());
 		if (JS_HasProperty(js_context(), js_binding, name_atom) > 0) {
 			JS_FreeAtom(js_context(), name_atom);
-			JSValue js_ret = JS_GetPropertyStr(js_context(), js_binding, char_name);
+			JSValue js_ret = JS_GetPropertyStr(js_context(), js_binding, std_name.c_str());
 			if (JS_IsUndefined(js_ret)) {
 				return false;
 			}
@@ -318,9 +320,9 @@ GDExtensionBool TypeScriptInstance::has_method(GDExtensionConstStringNamePtr p_n
 }
 
 GDExtensionInt TypeScriptInstance::get_method_argument_count(GDExtensionConstStringNamePtr p_name, GDExtensionBool *r_is_valid) {
-	const char *name = to_chars(*reinterpret_cast<const StringName *>(p_name));
-	*r_is_valid = script->_has_method(name);
-	return script->_get_script_method_argument_count(name);
+	std::string name = to_chars(*reinterpret_cast<const StringName *>(p_name));
+	*r_is_valid = script->_has_method(name.c_str());
+	return script->_get_script_method_argument_count(name.c_str());
 }
 
 void TypeScriptInstance::call(GDExtensionConstStringNamePtr p_method, const GDExtensionConstVariantPtr *p_args, GDExtensionInt p_argument_count, GDExtensionVariantPtr r_return, GDExtensionCallError *r_error) {
@@ -330,8 +332,8 @@ void TypeScriptInstance::call(GDExtensionConstStringNamePtr p_method, const GDEx
 	BINDING_VALID(gd_binding);
 	JSValue js_instance = js_binding;
 	JSValue prototype = JS_GetPrototype(js_context(), js_instance);
-	const char *method = to_chars(*reinterpret_cast<const StringName *>(p_method));
-	JSAtom atom = JS_NewAtom(js_context(), method);
+	std::string method = to_chars(*reinterpret_cast<const StringName *>(p_method));
+	JSAtom atom = JS_NewAtom(js_context(), method.c_str());
 
 	if (!script->is_tool() && Engine::get_singleton()->is_editor_hint()) {
 		r_error->error = GDExtensionCallErrorType::GDEXTENSION_CALL_ERROR_INVALID_METHOD;

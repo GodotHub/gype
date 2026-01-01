@@ -217,8 +217,8 @@ JSValue variant_to_jsvalue(const Variant &val) {
 		case Variant::Type::STRING:
 		case Variant::Type::STRING_NAME:
 		case Variant::Type::NODE_PATH: {
-		    const char *content = to_chars(String(val));
-			return JS_NewString(js_context(), content);
+			std::string content = to_chars(String(val));
+			return JS_NewString(js_context(), content.c_str());
 		}
 		case Variant::Type::VECTOR2:
 		case Variant::Type::VECTOR2I:
@@ -430,16 +430,24 @@ godot::Variant jsvalue_to_variant(JSValue val) {
 JSValue downcast(JSContext *ctx, Object *obj) {
 	String gd_class_name = obj->get_class();
 	String js_class_name = gd_class_name == "Object" ? "GodotObject" : gd_class_name;
+	std::string std_gd_class_name = to_chars(gd_class_name);
+	std::string std_snake_class_name = camelToSnake(std_gd_class_name);
+	std::string std_js_class_name = to_chars(js_class_name);
+
 	String snake_class_name = js_class_name.to_snake_case();
-	JSValue global = JS_GetGlobalObject(ctx);
-	const char *char_gd_class_name = to_chars(gd_class_name);
-	JSValue ctor = ctor_list[char_gd_class_name];
+	char import_code[1024];
+	sprintf(import_code, "import { %s } from \"@godot/classes/%s\";", std_js_class_name.c_str(), std_snake_class_name.c_str());
+	JSValue module = JS_Eval(ctx, import_code, strlen(import_code), "<eval>", JS_EVAL_TYPE_MODULE);
+	if (is_exception(ctx, module)) {
+		return JS_UNDEFINED;
+	}
+
+	JSValue ctor = ctor_list[std_gd_class_name.c_str()];
 	VariantAdapter *p_adapter = memnew(VariantAdapter(obj, false));
 	JSClassID class_id = classes[js_class_name];
 	JSValue ctor_arg = JS_NewObjectClass(ctx, class_id);
 	JS_SetOpaque(ctor_arg, p_adapter);
 	JSValue ret = JS_CallConstructor(ctx, ctor, 1, &ctor_arg);
-	JS_FreeValue(ctx, global);
 	JS_FreeValue(ctx, ctor_arg);
 	if (is_exception(ctx, ret))
 		return JS_UNDEFINED;

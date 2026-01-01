@@ -125,8 +125,9 @@ PackedStringArray TypeScriptLanguage::_get_string_delimiters() const {
 
 Ref<Script> TypeScriptLanguage::_make_template(const String &p_template, const String &p_class_name, const String &p_base_class_name) const {
 	TypeScript *script = memnew(TypeScript);
-	const char *class_name = to_chars(p_class_name);
-	const char *base_class_name = to_chars(p_base_class_name);
+	std::string class_name = to_chars(p_class_name);
+	std::string base_class_name = to_chars(p_base_class_name);
+	std::string snake_class_name = camelToSnake(base_class_name);
 	char *code = new char[1024];
 	sprintf(code, R"xxx(
 import { %s } from "@godot/classes/%s";
@@ -141,7 +142,7 @@ export default class %s extends %s {
 	}
 }
 	)xxx",
-			base_class_name, camelToSnake(base_class_name).c_str(), class_name, base_class_name);
+			base_class_name.c_str(), snake_class_name.c_str(), class_name.c_str(), base_class_name.c_str());
 	script->source_code = code;
 	return script;
 }

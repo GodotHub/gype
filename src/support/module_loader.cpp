@@ -17,17 +17,20 @@ char *module_normalize(JSContext *ctx,
 		const char *module_base_name,
 		const char *module_name, void *opaque) {
 	String gd_module_name = module_name;
+	std::string std_module_name = module_name;
 	if (gd_module_name.begins_with("@res") && !gd_module_name.contains("?v=")) {
 		gd_module_name = gd_module_name + "?v=" + std::to_string(UtilityFunctions::randi()).c_str();
-		module_name = to_chars(gd_module_name);
+		std_module_name = to_chars(gd_module_name);
 	}
-	return strdup(module_name);
+	return strdup(std_module_name.c_str());
 }
 
 JSModuleDef *script_loader(JSContext *ctx, const char *module_name) {
 	String gd_module_name = module_name;
+	std::string std_module_name = module_name;
 	if (gd_module_name.contains("?v=")) {
-		module_name = to_chars(gd_module_name.split("?")[0]);
+		std_module_name = to_chars(gd_module_name.split("?")[0]);
+		module_name = std_module_name.c_str();
 	}
 
 	char filepath[1024];

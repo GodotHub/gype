@@ -15,9 +15,7 @@ static void physics_test_motion_parameters2d_class_finalizer(JSRuntime *rt, JSVa
 	JSClassID class_id = classes["PhysicsTestMotionParameters2D"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-        if (opaque_ptr->can_unref){
-            static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
-        }
+        static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 		memdelete(opaque_ptr);
 	}
 }

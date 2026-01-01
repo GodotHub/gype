@@ -117,9 +117,9 @@ void TypeScriptInstance::compile_module() {
 		JSValue js_prop = JS_GetPropertyStr(js_context(), ns, prop_name);
 
 		if (strcmp(prop_name, "default") == 0) {
-			VariantAdapter *adapter = memnew(VariantAdapter(gd_binding));
-			JSValue constroctor_arg = *adapter;
-			js_binding = JS_CallConstructor(js_context(), js_prop, 1, &constroctor_arg);
+			VariantAdapter *adapter = memnew(VariantAdapter(gd_binding, false));
+			JSValue constructor_arg = *adapter;
+			js_binding = JS_CallConstructor(js_context(), js_prop, 1, &constructor_arg);
 			memdelete(adapter); // adapter 仅用于传参，之后立即删除
 
 			if (!is_exception(js_context(), js_binding)) {

@@ -16,9 +16,7 @@ static void render_scene_buffers_extension_class_finalizer(JSRuntime *rt, JSValu
 	JSClassID class_id = classes["RenderSceneBuffersExtension"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-        if (opaque_ptr->can_unref){
-            static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
-        }
+        static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 		memdelete(opaque_ptr);
 	}
 }

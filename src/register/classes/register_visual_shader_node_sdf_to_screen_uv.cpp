@@ -15,9 +15,7 @@ static void visual_shader_node_sdf_to_screen_uv_class_finalizer(JSRuntime *rt, J
 	JSClassID class_id = classes["VisualShaderNodeSDFToScreenUV"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-        if (opaque_ptr->can_unref){
-            static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
-        }
+        static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 		memdelete(opaque_ptr);
 	}
 }

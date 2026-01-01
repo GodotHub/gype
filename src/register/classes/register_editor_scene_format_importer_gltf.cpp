@@ -15,9 +15,7 @@ static void editor_scene_format_importer_gltf_class_finalizer(JSRuntime *rt, JSV
 	JSClassID class_id = classes["EditorSceneFormatImporterGLTF"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-        if (opaque_ptr->can_unref){
-            static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
-        }
+        static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 		memdelete(opaque_ptr);
 	}
 }

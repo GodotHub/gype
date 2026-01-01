@@ -15,9 +15,7 @@ static void visual_shader_node_linear_scene_depth_class_finalizer(JSRuntime *rt,
 	JSClassID class_id = classes["VisualShaderNodeLinearSceneDepth"];
 	VariantAdapter *opaque_ptr = static_cast<VariantAdapter *>(JS_GetOpaque(val, class_id));
 	if (opaque_ptr) {
-        if (opaque_ptr->can_unref){
-            static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
-        }
+        static_cast<RefCounted *>(opaque_ptr->get().operator Object *())->unreference();
 		memdelete(opaque_ptr);
 	}
 }

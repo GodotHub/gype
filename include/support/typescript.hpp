@@ -48,6 +48,7 @@ class TypeScript : public ScriptExtension {
 	mutable bool dirty = true;
 	mutable bool is_valid = false;
 	mutable ClassData *godot_class_data = nullptr;
+	mutable HashMap<StringName, String> dependencies;
 
 	HashSet<uint64_t> instances;
 	mutable HashSet<TypeScriptInstance *> script_instances;
@@ -216,7 +217,7 @@ class TypeScript : public ScriptExtension {
 private:
 	void remove_dist_internal(const String &path);
 
-	PropertyParseResult analyze_recursive(const StringName &type_name, String path = "") const;
+	PropertyParseResult analyze_recursive(const StringName &type_name, String path = "", HashSet<StringName> visited = {}) const;
 
 	bool analyze_internal(const String &path) const;
 

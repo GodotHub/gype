@@ -141,8 +141,8 @@ static Variant::Type type_by_name(const StringName &prop_type, const StringName 
 	} else if (prop_type == StringName("StringName")) {
 		return Variant::Type::STRING_NAME;
 	} else if (prop_type == StringName("Array") ||
-			(prop_type.contains(StringName("Array")) && prop_type.contains("<") && prop_type.contains(">")) ||
-			prop_type == StringName("GDArray")) {
+		(prop_type.contains(StringName("Array")) && prop_type.contains("<") && prop_type.contains(">")) ||
+		prop_type == StringName("GDArray")) {
 		return Variant::Type::ARRAY;
 	} else if (prop_type == StringName("boolean")) {
 		return Variant::Type::BOOL;
@@ -260,7 +260,7 @@ TypeParseResult TypeScript::parse_type_members(TSNode p_type_declaration_node, c
 
 			String clean_value = value_str;
 			if ((clean_value.begins_with("\"") && clean_value.ends_with("\"")) ||
-					(clean_value.begins_with("'") && clean_value.ends_with("'"))) {
+				(clean_value.begins_with("'") && clean_value.ends_with("'"))) {
 				clean_value = clean_value.substr(1, clean_value.length() - 2);
 			}
 
@@ -376,7 +376,8 @@ EnumParseResult TypeScript::parse_enum_members(TSNode p_enum_declaration_node, c
 	return result;
 }
 
-PropertyParseResult TypeScript::analyze_recursive(const StringName &type_name, String path) const {
+PropertyParseResult TypeScript::analyze_recursive(const StringName &type_name, String path, HashSet<StringName> visited) const {
+	String origin_path = path;
 	path = path == "" ? get_path() : path;
 
 	Ref<TypeScript> script = ResourceLoader::get_singleton()->load(path);
@@ -384,49 +385,20 @@ PropertyParseResult TypeScript::analyze_recursive(const StringName &type_name, S
 	std::string std_code = to_chars(code);
 	const char *p_code = std_code.c_str();
 
-	TSTree *tree = ts_parser_parse_string(parser, NULL, p_code, strlen(p_code));
-
-	HashMap<StringName, StringName> dependencies;
-	{
-		uint32_t error_offset;
-		TSQueryError error;
-		static const TSQuery *query = ts_query_new(lang, query_import_type, strlen(query_import_type), &error_offset, &error);
-		if (!query) {
-			ERR_PRINT("Tree-sitter query failed to compile.");
-			ts_tree_delete(tree);
-		} else {
-			TSQueryCursor *cursor = ts_query_cursor_new();
-			ts_query_cursor_exec(cursor, query, ts_tree_root_node(tree));
-			TSQueryMatch match;
-			while (ts_query_cursor_next_match(cursor, &match)) {
-				HashMap<String, CaptureData> captures;
-				for (uint32_t i = 0; i < match.capture_count; i++) {
-					TSQueryCapture capture = match.captures[i];
-					uint32_t capture_id = capture.index;
-					uint32_t capture_name_length;
-					String capture_name = ts_query_capture_name_for_id(query, capture_id, &capture_name_length);
-					captures[capture_name] = { get_node_text(p_code, capture.node), "", capture.node };
-				}
-				if (captures.has("import.name") || captures.has("import.default")) {
-					String import_name;
-					if (captures.has("import.name")) {
-						import_name = captures["import.name"].text;
-					} else {
-						import_name = captures["import.default"].text;
-					}
-					String import_path = captures["import.path"].text;
-					import_path = import_path.remove_char('"').remove_char('\'');
-					if (import_path.begins_with("@res")) {
-						import_path = import_path.replace("@res/", "res://") + ".ts";
-						dependencies[import_name] = import_path;
-					}
-				}
-			}
-		}
+	if (origin_path != "" && script->dirty) {
+		script->analyze();
 	}
 
+	if (visited.has(path)) {
+		return { NONE };
+	}
+	visited.insert(path);
+
+	TSTree *tree = ts_parser_parse_string(parser, NULL, p_code, strlen(p_code));
+
+	HashMap<StringName, String> dependencies = script->dependencies;
 	if (dependencies.has(type_name)) {
-		return analyze_recursive(type_name, dependencies[type_name]);
+		return analyze_recursive(type_name, dependencies[type_name], visited);
 	} else {
 		uint32_t error_offset;
 		TSQueryError error;
@@ -441,7 +413,7 @@ PropertyParseResult TypeScript::analyze_recursive(const StringName &type_name, S
 		TSQueryMatch match;
 
 		while (ts_query_cursor_next_match(cursor, &match)) {
-			HashMap<String, Vector<TSNode>> captures;
+			HashMap<String, Vector<TSNode> > captures;
 			for (uint32_t i = 0; i < match.capture_count; i++) {
 				TSQueryCapture capture = match.captures[i];
 				uint32_t capture_name_length;
@@ -489,7 +461,6 @@ bool TypeScript::analyze_internal(const String &path) const {
 		return false;
 	}
 
-	HashMap<StringName, String> dependencies;
 	{
 		uint32_t error_offset;
 		TSQueryError error;
@@ -592,17 +563,20 @@ bool TypeScript::analyze_internal(const String &path) const {
 									EnumParseResult parse_ret = std::get<EnumParseResult>(property_parse_result.parse_ret);
 									pi.hint_string = parse_ret.hint_string;
 									godot_class_data->enum_properties[prop_name] = parse_ret;
-								} break;
+								}
+								break;
 								case TYPE: {
 									pi.type = Variant::Type::INT;
 									pi.hint = PROPERTY_HINT_ENUM;
 									TypeParseResult parse_ret = std::get<TypeParseResult>(property_parse_result.parse_ret);
 									pi.hint_string = parse_ret.hint_string;
 									godot_class_data->type_properties[prop_name] = parse_ret;
-								} break;
+								}
+								break;
 								case NONE:
 								default: {
-								} break;
+								}
+									break;
 							}
 						} else {
 							if (captures.has("prop.value")) {
@@ -650,7 +624,8 @@ bool TypeScript::analyze_internal(const String &path) const {
 				}
 			}
 
-			if (captures.has("method.body")) { // 使用新的 @method.body 捕获来识别方法
+			if (captures.has("method.body")) {
+				// 使用新的 @method.body 捕获来识别方法
 				MethodInfo mi;
 				mi.name = captures["method.name"].text;
 				mi.flags = METHOD_FLAG_NORMAL; // 默认为普通方法
@@ -796,7 +771,7 @@ String TypeScript::_get_class_icon_path() const {
 
 bool TypeScript::_has_method(const StringName &p_method) const {
 	this->analyze();
-	if (!godot_class_data) {
+	if (!is_valid) {
 		return false;
 	}
 	Ref<TypeScript> base = _get_base_script();

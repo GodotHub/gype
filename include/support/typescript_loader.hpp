@@ -15,6 +15,8 @@ class TypeScriptLoader : public ResourceFormatLoader {
 	GDCLASS(TypeScriptLoader, ResourceFormatLoader)
 	static TypeScriptLoader *singleton;
 
+	mutable HashMap<StringName, Ref<TypeScript>> scripts;
+
 public:
 	static TypeScriptLoader *get_singleton();
 	PackedStringArray _get_recognized_extensions() const;

@@ -95,9 +95,13 @@ PackedStringArray TypeScriptLoader::_get_classes_used(const String &p_path) cons
 }
 
 Variant TypeScriptLoader::_load(const String &p_path, const String &p_original_path, bool p_use_sub_threads, int32_t p_cache_mode) const {
+	if (p_cache_mode == ResourceLoader::CacheMode::CACHE_MODE_REUSE && scripts.has(p_path)) {
+		return scripts.get(p_path);
+	}
 	String source_code = FileAccess::get_file_as_string(p_original_path);
 	TypeScript *script = memnew(TypeScript);
 	script->_set_source_code(source_code);
+	scripts[p_path] = Ref(script);
 	TypeScriptLanguage::scripts.insert(script);
 	return script;
 }

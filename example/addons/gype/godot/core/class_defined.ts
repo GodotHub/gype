@@ -17,10 +17,50 @@ export function GodotTool<T extends GodotConstructor>(
   (target as any)[_Tool] = true;
 }
 
+// 1. 重载签名 A：无参数直接使用 -> @GodotExport
 export function GodotExport(
-  target: any,
-  context: ClassFieldDecoratorContext<any>
-): void {}
+  target: undefined, 
+  context: ClassFieldDecoratorContext
+): void;
+
+// 2. 重载签名 B：带参数工厂模式 -> @GodotExport(1)
+export function GodotExport(
+  hint: number
+): (target: undefined, context: ClassFieldDecoratorContext) => void;
+
+// 3. 统一实现函数 (Implementation)
+export function GodotExport(arg1: any, arg2?: any) {
+  // 提取通用的业务逻辑
+  const runLogic = (ctx: ClassFieldDecoratorContext, hint?: number) => {
+    
+  };
+
+  // --- 运行时判断 ---
+  
+  // 在 Stage 3 标准中，直接使用装饰器时：
+  // arg1 是 undefined (字段初始值占位)
+  // arg2 是 context 对象 (包含 kind: 'field')
+  const isDirectUsage = 
+    arg2 && 
+    typeof arg2 === 'object' && 
+    arg2.kind === 'field';
+
+  if (isDirectUsage) {
+    // 场景 1: @GodotExport
+    // arg1 是 target(undefined), arg2 是 context
+    return runLogic(arg2);
+  } else {
+    // 场景 2: @GodotExport(1)
+    // arg1 是 hint (number)
+    const hint = arg1;
+    
+    // 返回真正的装饰器函数
+    return function (target: undefined, context: ClassFieldDecoratorContext) {
+      runLogic(context, hint);
+    };
+  }
+}
+
 
 export function GodotSignal<T extends (...args: any[]) => any>(
   value: undefined,

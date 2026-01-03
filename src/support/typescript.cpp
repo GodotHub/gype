@@ -6,9 +6,7 @@
 #include "support/typescript_instance.hpp"
 #include "support/typescript_language.hpp"
 #include "utils/quickjs_helper.hpp"
-
-#include <tree.h>
-
+#include <tree_sitter/api.h>
 #include <format>
 #include <functional>
 #include <godot_cpp/classes/dir_access.hpp>
@@ -41,7 +39,7 @@ bool TypeScript::_editor_can_reload_from_file() {
 
 void TypeScript::_placeholder_erased(void *p_placeholder) {
 	if (p_placeholder) {
-		script_placeholders.erase(static_cast<TypeScriptInstance *>(p_placeholder));
+		script_placeholders.erase(p_placeholder);
 	}
 }
 
@@ -101,7 +99,9 @@ void *TypeScript::_instance_create(Object *p_for_object) const {
 }
 
 void *TypeScript::_placeholder_instance_create(Object *p_for_object) const {
-	return internal::gdextension_interface_placeholder_script_instance_create(TypeScriptLanguage::get_singleton(), const_cast<TypeScript *>(this), p_for_object->_owner);
+	void *placeholder = internal::gdextension_interface_placeholder_script_instance_create(TypeScriptLanguage::get_singleton(), const_cast<TypeScript *>(this), p_for_object->_owner);
+	script_placeholders.insert(placeholder);
+	return placeholder;
 }
 
 bool TypeScript::_instance_has(Object *p_object) const {
@@ -554,6 +554,24 @@ bool TypeScript::analyze_internal(const String &path) const {
 						pi.hint = PROPERTY_HINT_NONE;
 						pi.usage = PROPERTY_USAGE_DEFAULT;
 						pi.type = captures.has("prop.value") ? type_by_name(captures["prop.type"].text, captures["prop.value"].text) : type_by_name(captures["prop.type"].text);
+						if (captures.has("decorator.arguments")) {
+							TSNode arg_0 = ts_node_named_child(captures["decorator.arguments"].node, 0);
+							TSNode object = ts_node_child_by_field_name(arg_0, "object", 6);
+							TSNode member = ts_node_child_by_field_name(arg_0, "property", 8);
+							if (get_node_text(p_code, object) == "PropertyHint") {
+								String member_content = get_node_text(p_code, member);
+								std::string std_member_content = to_chars(member_content);
+								JSValue global = JS_GetGlobalObject(js_context());
+								JSValue property_hint = JS_GetPropertyStr(js_context(), global, "PropertyHint");
+								JSValue js_value = JS_GetPropertyStr(js_context(), property_hint, std_member_content.c_str());
+								int64_t index = 0;
+								if (JS_ToInt64(js_context(), &index, js_value) == 0) {
+									pi.hint = static_cast<PropertyHint>(index);
+								}
+								JS_FreeValue(js_context(),js_value);
+								JS_FreeValue(js_context(), global);
+							}
+						}
 						if (pi.type == Variant::Type::NIL) {
 							PropertyParseResult property_parse_result = analyze_recursive(captures["prop.type"].text);
 							switch (property_parse_result.type) {

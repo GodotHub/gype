@@ -52,7 +52,7 @@ class TypeScript : public ScriptExtension {
 
 	HashSet<uint64_t> instances;
 	mutable HashSet<TypeScriptInstance *> script_instances;
-	mutable HashSet<TypeScriptInstance *> script_placeholders;
+	mutable HashSet<void *> script_placeholders;
 	const char *query_type = R"xxx(
 	(type_alias_declaration
 	  name: (type_identifier) @type.name
@@ -114,7 +114,17 @@ class TypeScript : public ScriptExtension {
 	        )?
 	        body: (class_body
 	          (public_field_definition
-	            decorator: (decorator (identifier) @decorator.member)?
+	            [
+                  decorator: (decorator
+                    (identifier) @decorator.member
+                  )
+                  (decorator
+                    (call_expression
+                      function: (identifier) @decorator.member
+                      arguments: (arguments) @decorator.arguments
+                    )
+                  )
+                ]?
 	            name: (property_identifier) @prop.name
 	            type: (type_annotation
 	              [
@@ -166,7 +176,17 @@ class TypeScript : public ScriptExtension {
 	        )?
 	        body: (class_body
 	          (public_field_definition
-	            decorator: (decorator (identifier) @decorator.member)?
+                [
+                  decorator: (decorator
+                    (identifier) @decorator.member
+                  )
+                  (decorator
+                    (call_expression
+                      function: (identifier) @decorator.member
+                      arguments: (arguments) @decorator.arguments
+                    )
+                  )
+                ]?
 	            name: (property_identifier) @prop.name
 	            type: (type_annotation
 	              [

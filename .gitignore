@@ -24,13 +24,6 @@ bin
 .clang-format
 .vscode/
 
-# Godot-specific files
-# godot-cpp/
-# godot-cpp/.sconsign.dblite
-# godot-cpp/__pycache__/
-# *.rsp
-# /*log*
-
 # Python virtual environment and cache files
 .venv/
 .cache/
@@ -38,13 +31,5 @@ __pycache__/
 *.pyc0
 
 # Example directory - ignore specific directories but allow specific files
-example/addons/extension/*.dll
-# example/addons/gype/godot/classes/*
-# !example/addons/gype/godot/classes/godot_object.d.ts
-# examples/*/addons
-
-# Source register directories
-# src/register/classes/*
-# !src/register/classes/.keep
-# src/register/global_enum/*
-# !src/register/global_enum/.keep
+example/addons/extension/*
+!example/addons/extension/.gdextension

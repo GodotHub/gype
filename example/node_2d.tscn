@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cuy1wvbx50pgr"]
+
+[ext_resource type="Script" path="res://test.ts" id="1_wtcfe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wtcfe"]
+
+[node name="Area2D" type="Area2D" node_paths=PackedStringArray("node")]
+audio_bus_name = "Master"
+script = ExtResource("1_wtcfe")
+node = NodePath("Sprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_wtcfe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]

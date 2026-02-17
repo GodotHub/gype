@@ -31,5 +31,5 @@ __pycache__/
 *.pyc0
 
 # Example directory - ignore specific directories but allow specific files
-example/addons/extension/*
-!example/addons/extension/.gdextension
+!example/gype/addons/extension/.gdextension
+example/addons/gype/extension/*

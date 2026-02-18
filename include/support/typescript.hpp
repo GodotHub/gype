@@ -28,6 +28,7 @@ struct CaptureData;
 struct EnumParseResult;
 struct TypeParseResult;
 struct PropertyParseResult;
+struct InterfaceParseResult;
 enum TSNodeType : int;
 
 class TypeScript : public ScriptExtension {
@@ -77,6 +78,10 @@ class TypeScript : public ScriptExtension {
 	    name: (type_identifier) @type.name
 	    value: (_) @type.body
 	  )
+      (interface_declaration
+      	name: (type_identifier) @interface.name
+        body: (interface_body) @interface.body
+      )
 	]
 	)xxx";
 	const char *query_enum_body = R"xxx(
@@ -245,6 +250,8 @@ private:
 
 	TypeParseResult parse_type_members(TSNode p_type_declaration_node, const char *p_source_code) const;
 
+	InterfaceParseResult parse_interface_members(TSNode p_interface_declaratio_node, const char *p_source_code) const;
+
 public:
 	static const char *dist_path;
 	static const char *class_symbol_mask;
@@ -389,11 +396,13 @@ struct TypeParseResult : EnumParseResult {
 };
 
 struct InterfaceParseResult {
+	String group;
+	HashMap<StringName, PropertyInfo> properties;
 };
 
 struct PropertyParseResult {
 	TSNodeType type;
-	std::variant<EnumParseResult, TypeParseResult> parse_ret;
+	std::variant<EnumParseResult, TypeParseResult, InterfaceParseResult> parse_ret;
 };
 } // namespace godot
 

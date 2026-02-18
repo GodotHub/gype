@@ -7,24 +7,32 @@ import { Sprite2D } from "@godot/classes/sprite2d";
 import { GodotExport } from "@godot/core/class_defined";
 
 export default class Player extends Area2D {
-	// Movement speed in pixels per second
-	private speed: number = 400.0;
-	private sprite2d!: Sprite2D;
+  // Movement speed in pixels per second
+  private speed: number = 400.0;
+  private sprite2d!: Sprite2D;
 
-	@GodotExport(PropertyHint.PROPERTY_HINT_NODE_TYPE)
-	public node!: Node;
+  @GodotExport
+  public struct: Struct = {
+    x: 0,
+    y: 0,
+  };
 
-	public _ready(): void {
-		this.sprite2d = this.get_node<Sprite2D>("Sprite2D");
-		GD.print("Player initialized");
-	}
+  public _ready(): void {
+    this.sprite2d = this.get_node<Sprite2D>("Sprite2D");
+    GD.print("Player initialized");
+  }
 
-	public _process(delta: number): void {
-		const inputDir: Vector2 = Input.get_vector(
-			"ui_left",
-			"ui_right",
-			"ui_up",
+  public _process(delta: number): void {
+    const inputDir: Vector2 = Input.get_vector(
+      "ui_left",
+      "ui_right",
+      "ui_up",
       "ui_down"
-		);
-	}
+    );
+  }
+}
+
+interface Struct {
+  x: number;
+  y: number;
 }

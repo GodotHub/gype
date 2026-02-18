@@ -376,6 +376,61 @@ EnumParseResult TypeScript::parse_enum_members(TSNode p_enum_declaration_node, c
 	return result;
 }
 
+InterfaceParseResult TypeScript::parse_interface_members(TSNode p_interface_declaratio_node, const char *p_source_code) const {
+	InterfaceParseResult result;
+
+	// 检查节点是否有效
+	if (ts_node_is_null(p_interface_declaratio_node)) {
+		return result;
+	}
+
+	// 获取接口名称
+	TSNode name_node = ts_node_child_by_field_name(p_interface_declaratio_node, "name", 4);
+	if (!ts_node_is_null(name_node)) {
+		String interface_name = get_node_text(p_source_code, name_node);
+
+		// 检查接口名称是否包含分组信息（类似 @export_group 的效果）
+		// 如果接口名称以 "Group_" 开头，提取分组名称
+		if (interface_name.begins_with("Group_")) {
+			result.group = interface_name.substr(6); // 移除 "Group_" 前缀
+		} else {
+			// 使用接口名称作为分组名称
+			result.group = interface_name;
+		}
+	}
+
+	// 解析接口成员
+	TSNode body_node = ts_node_child_by_field_name(p_interface_declaratio_node, "body", 4);
+	if (!ts_node_is_null(body_node)) {
+		uint32_t child_count = ts_node_named_child_count(body_node);
+		for (uint32_t i = 0; i < child_count; i++) {
+			TSNode member_node = ts_node_named_child(body_node, i);
+
+			// 检查是否是属性签名
+			if (strcmp(ts_node_type(member_node), "property_signature") == 0) {
+				TSNode prop_name_node = ts_node_child_by_field_name(member_node, "name", 4);
+				TSNode prop_type_annotation_node = ts_node_child_by_field_name(member_node, "type", 4);
+
+				if (!ts_node_is_null(prop_name_node) && !ts_node_is_null(prop_type_annotation_node)) {
+					String prop_name = get_node_text(p_source_code, prop_name_node);
+					TSNode prop_type_node = ts_node_named_child(prop_type_annotation_node, 0);
+					String prop_type_text = get_node_text(p_source_code, prop_type_node);
+
+					PropertyInfo pi;
+					pi.name = prop_name;
+					pi.type = type_by_name(prop_type_text);
+					pi.usage = PROPERTY_USAGE_DEFAULT;
+					pi.hint = PROPERTY_HINT_NONE;
+
+					result.properties[prop_name] = pi;
+				}
+			}
+		}
+	}
+
+	return result;
+}
+
 PropertyParseResult TypeScript::analyze_recursive(const StringName &type_name, String path, HashSet<StringName> visited) const {
 	String origin_path = path;
 	path = path == "" ? get_path() : path;
@@ -440,6 +495,14 @@ PropertyParseResult TypeScript::analyze_recursive(const StringName &type_name, S
 				if (type_name == type_name_text) {
 					TSNode type_declaration_node = ts_node_parent(name_node);
 					return { TYPE, parse_type_members(type_declaration_node, p_code) };
+				}
+			} else if (captures.has("interface.name")) {
+				TSNode name_node = captures["interface.name"][0];
+				String interface_name_text = get_node_text(p_code, name_node);
+
+				if (type_name == interface_name_text) {
+					TSNode interface_declaration_node = ts_node_parent(name_node);
+					return { INTERFACE, parse_interface_members(interface_declaration_node, p_code) };
 				}
 			}
 		}
@@ -568,7 +631,7 @@ bool TypeScript::analyze_internal(const String &path) const {
 								if (JS_ToInt64(js_context(), &index, js_value) == 0) {
 									pi.hint = static_cast<PropertyHint>(index);
 								}
-								JS_FreeValue(js_context(),js_value);
+								JS_FreeValue(js_context(), js_value);
 								JS_FreeValue(js_context(), global);
 							}
 						}
@@ -576,24 +639,38 @@ bool TypeScript::analyze_internal(const String &path) const {
 							PropertyParseResult property_parse_result = analyze_recursive(captures["prop.type"].text);
 							switch (property_parse_result.type) {
 								case ENUM: {
+									EnumParseResult parse_ret = std::get<EnumParseResult>(property_parse_result.parse_ret);
 									pi.type = Variant::Type::INT;
 									pi.hint = PROPERTY_HINT_ENUM;
-									EnumParseResult parse_ret = std::get<EnumParseResult>(property_parse_result.parse_ret);
 									pi.hint_string = parse_ret.hint_string;
 									godot_class_data->enum_properties[prop_name] = parse_ret;
+									break;
 								}
-								break;
 								case TYPE: {
+									TypeParseResult parse_ret = std::get<TypeParseResult>(property_parse_result.parse_ret);
 									pi.type = Variant::Type::INT;
 									pi.hint = PROPERTY_HINT_ENUM;
-									TypeParseResult parse_ret = std::get<TypeParseResult>(property_parse_result.parse_ret);
 									pi.hint_string = parse_ret.hint_string;
 									godot_class_data->type_properties[prop_name] = parse_ret;
+									break;
+								}
+								case INTERFACE: {
+									InterfaceParseResult parse_ret = std::get<InterfaceParseResult>(property_parse_result.parse_ret);
+									pi.type = Variant::Type::NIL;
+									pi.hint = PROPERTY_HINT_NONE;
+									pi.usage = PROPERTY_USAGE_GROUP;
+									pi.name = parse_ret.group;
+									pi.hint_string = parse_ret.group;
+									// 将接口中定义的属性添加到类属性中
+									for (const KeyValue<StringName, PropertyInfo> &E : parse_ret.properties) {
+										PropertyInfo new_pi = E.value;
+										new_pi.class_name = godot_class_data->class_name;
+										godot_class_data->properties[E.key] = new_pi;
+									}
 								}
 								break;
 								case NONE:
-								default: {
-								}
+								default:
 									break;
 							}
 						} else {
